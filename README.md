@@ -1,4 +1,4 @@
-### **EWR tool 0.0.3 README**
+### **EWR tool 0.0.4 README**
 
 **Purpose**
 This tool has two purposes:
@@ -9,7 +9,7 @@ This tool has two purposes:
 For issues relating to the script, a tutorial, or feedback please contact Martin Job at martin.job@mdba.gov.au or Joel Bailey at joel.bailey@mdba.gov.au
 
 **Notes on development of the tool**
-This is the version 0.03 of the EWR tool. Testing is still being undertaken.
+This is the version 0.04 of the EWR tool. Testing is still being undertaken.
 
 **Notes on development of the database**
 The Environmental Assets & Functions Database (EAFD) migration to a machine readable format is underway. This migration may impact on the intricacies of the original EWRs. The MDBA will begin hosting a series of workshops with the relevant state bodies to ensure the integrity of the EWRs is not lost in this migration.
@@ -23,6 +23,7 @@ NSW:
 - Gwydir
 - Lachlan
 - Macquarie-Castlereagh
+- Namoi
 
 Work is currently underway to migrate the EWRs in the remaining Basin catchments.
 

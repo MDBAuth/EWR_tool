@@ -3,7 +3,7 @@ import re
 import numpy as np
 from datetime import date, timedelta
 from datetime import time 
-import gauge_getter
+import gauge_getter, gauge_getter_level
 from tqdm import tqdm
 import data_inputs
 import os 
@@ -29,6 +29,9 @@ def scenario_handler(file_locations, request_list, ewr_table, model_format, bigm
             combined_data = {'flow data': data_df}
         elif model_format == 'IQQM':
             print('Yet to set up IQQM handling')
+        elif model_format == 'NSW 10,000 years':
+            data_df = unpack_nsw_data(file_locations[file])
+            combined_data = {'flow data': data_df}
         dict_of_model_runs[file] = combined_data
         
     # evaluate scenarios:
@@ -48,22 +51,51 @@ def scenario_handler(file_locations, request_list, ewr_table, model_format, bigm
     # Return yearly results, results summary
     return dict_scenario_results, std_results_table
     
-def realtime_handler(gauges_list, request_list, input_params_g, ewr_table):
+def realtime_handler(gauges_list, request_list, input_params_g, ewr_table, toleranceDict):
     '''ingests a list of gauges and user defined parameters
     pulls gauge data using relevant states API, calcualtes and analyses ewrs
     returns dictionary of raw data results and result summary'''
-    
+    # Need to determine which gauges require the level data to be pulled:
+    menindeeGauges, wpGauges = data_inputs.getLevelGauges()
+    multiGauges = data_inputs.getMultiGauges('gauges')
+    simultaneousGauges = data_inputs.getSimultaneousGauges('gauges')
+    levelGauges = []
+    flowGauges = []
+    for gauge in gauges_list:
+        if gauge in multiGauges.keys():
+            flowGauges.append(gauge)
+            flowGauges.append(multiGauges[gauge])
+        elif gauge in simultaneousGauges:
+            flowGauges.append(gauge)
+            flowGauges.append(simultaneousGauges[gauge])
+        elif gauge in menindeeGauges:
+            levelGauges.append(gauge)
+        elif gauge in wpGauges.keys(): # If a weirpool gauge, we want to get both the level and flow gauges:
+            flowGauges.append(gauge)
+            levelGauges.append(wpGauges[gauge])
+        else: # Otherwise it must be a flow gauge:
+            flowGauges.append(gauge)
     # Retrieve the gauge data using relevant Basin states API:
-    gauge_data_df = gauge_getter.gaugePull(gauges_list, 
+    flow_gauge_data_df = gauge_getter.gaugePull(flowGauges, 
                                            input_params_g['start time'], 
                                            input_params_g['end time'])
+
+    # Retrieve the level gauge data (if there are any weirpool or menindee locations tagged in the request):
+    level_gauge_data_df = gauge_getter_level.gaugePull(levelGauges, 
+                                           input_params_g['start time'], 
+                                           input_params_g['end time'])
+#     level_gauge_data_df = level_gauge_data_df.drop_duplicates()
+    # Combine the flow and level dataframes:
+    gauge_data_df = pd.concat([flow_gauge_data_df, level_gauge_data_df])
+
     # evaluate scenarios:
     dict_scenario_results = {}
     dict_scenario_results['gauge data'] = calculation_distributor(gauge_data_df, 
                                                                   'Realtime data', 
                                                                   ewr_table,
                                                                   input_params_g,
-                                                                  None
+                                                                  None,
+                                                                  toleranceDict
                                                                  )
     
     # Analyse and summarise the results:
@@ -78,20 +110,15 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
     Returns a dataframes with results of the binary ewr check'''
     
     if data_source == 'Bigmod':
-        flow_df_clean = bigmod_cleaner(input_df['flow data'])# clean model inputs
-        flow_df_subset = match_model_code_gauge(flow_df_clean,
+        flow_df_subset = match_model_code_gauge(input_df['flow data'],
                                                ewr_table,
                                                bigmod_info
                                               ) 
+        flow_df_clean = bigmod_cleaner(flow_df_subset)# clean model inputs
         dict_of_results = {}
-        for gauge_ID  in flow_df_subset:
-            calculated_col = EWR_calculator(flow_df_subset, gauge_ID, ewr_table, toleranceDict)
-            # If additional information in the gauge code, extract gauge for certain functions below:
-            if '_Level' in gauge_ID:
-                gaugeOnly = gauge_ID[:-6]
-            else:
-                gaugeOnly = gauge_ID
-            dict_of_results[gaugeOnly] = calculated_col
+        for gauge_ID  in flow_df_clean:
+            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict)
+            dict_of_results[gauge_ID] = calculated_col
 
         return dict_of_results
     
@@ -100,11 +127,6 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
         dict_of_results = {}
         for gauge_ID  in flow_df_clean:
             calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict)
-            # If additional information in the gauge code, extract gauge for certain functions below:
-            if '_Level' in gauge_ID:
-                gaugeOnly = gauge_ID[:-6]
-            else:
-                gaugeOnly = gauge_ID
             dict_of_results[gauge_ID] = calculated_col
 
         return dict_of_results
@@ -112,20 +134,29 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
     elif data_source == 'IQQM':
         print('yet to introduce this file type handling')
 
+    elif data_source == 'NSW 10,000 years':
+        flow_df_clean = nswData_cleaner(input_df['flow data'])
+        dict_of_results = {}
+        for gauge_ID in flow_df_clean:
+            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict)
+            dict_of_results[gauge_ID] = calculated_col
+        
+        return dict_of_results
+        
     elif data_source == 'Realtime data':
         gauge_df_clean, minDatesDict = realtime_cleaner(input_df, user_params) # clean gauge inputs
         dict_of_results = {}
         for gauge in gauge_df_clean:
-            calculated_col = EWR_calculator(gauge_df_clean, gauge, ewr_table)
+            calculated_col = EWR_calculator(gauge_df_clean, gauge, ewr_table, toleranceDict)
             filtered_col = filter_earlyDates(calculated_col, minDatesDict[gauge])
             dict_of_results[gauge] = filtered_col
         return dict_of_results   
 
 def filter_earlyDates(input_df, minDate):
-    input_df[(input_df.index < (int(minDate)-1))] = None
+    for planningUnit in input_df:
+        input_df[planningUnit][(input_df[planningUnit].index < (int(minDate)-1))] = None
     
     return input_df
-    
     
 #------------------------- Real time ewr functions------------------------------------------#
 
@@ -192,15 +223,33 @@ def realtime_cleaner(input_df, input_parameters):
     
     site_list = set(input_df['SITEID'])
     minDates = {}
+    
     for gauge in site_list:
         # Seperate out to one gauge per column and add this to the gauge_data_df made above:
         single_gauge_df = one_gauge_per_column(input_df, gauge)
         minDates[gauge] = get_minDate(single_gauge_df, gauge)
-        gauge_data_df = pd.concat([gauge_data_df, single_gauge_df], axis=1) 
+        gauge_data_df = pd.merge(gauge_data_df, single_gauge_df, left_index=True, right_index=True, how="outer")  # pd.concat([gauge_data_df, single_gauge_df], axis = 1)
 
+    # Drop the non unique values:
+    gauge_data_df = gauge_data_df[~gauge_data_df.index.duplicated(keep='first')]
     return gauge_data_df, minDates  
 
 #----------------------------------- Scenario testing ewr functions----------------------------------#
+def unpack_nsw_data(csv_file):
+    '''Ingesting scenario file locations with the NSW specific format for 10,000 year flow timeseries
+    returns a dictionary of flow dataframes with their associated header data'''
+    
+    df = pd.read_csv(csv_file, index_col = 'Date')
+    siteList = []
+    for location in df.columns:
+        gauge = extract_gauge_from_string(location)
+        siteList.append(gauge)
+    # Save over the top of the column headings with the new list containing only the gauges
+    df.columns = siteList
+    
+    return df
+    
+
 def unpack_bigmod_data(csv_file):
     '''Ingesting scenario file locations with bigmod format, seperates the flow data and header data
     returns a dictionary of flow dataframes with their associated header data'''
@@ -345,22 +394,38 @@ def bigmod_cleaner(input_df):
     cleaned_df['Date'] = pd.to_datetime(cleaned_df[['Year', 'Month', 'Day']], format = '%Y-%m-%d')
     cleaned_df = cleaned_df.drop(['Day', 'Month', 'Year'], axis = 1)
     cleaned_df = cleaned_df.set_index('Date')
-
+    
     return cleaned_df
 
 def source_cleaner(input_df):
     '''Ingests dataframe, removes junk columns, fixes date,
     returns formatted dataframe'''
     
-    date_start = input_df.index[0]
-    date_end = input_df.index[-1]
+    cleaned_df = input_df.copy(deep=True)
+    
+    date_start = cleaned_df.index[0]
+    date_end = cleaned_df.index[-1]
 
     date_range = pd.period_range(date_start, date_end, freq = 'D')
-    input_df['Date'] = date_range
-    input_df = input_df.set_index('Date')
-    input_df = input_df.applymap(np.int64)
+    cleaned_df['Date'] = date_range
+    cleaned_df = cleaned_df.set_index('Date')
+    
+    return cleaned_df
+  
+def nswData_cleaner(input_df):
+    '''Ingests dataframe, removes junk columns, fixes date,
+    returns formatted dataframe'''
+    
+    cleaned_df = input_df.copy(deep=True)
+    
+    date_start = cleaned_df.index[0]
+    date_end = cleaned_df.index[-1]
+
+    date_range = pd.period_range(date_start, date_end, freq = 'D')
+    cleaned_df['Date'] = date_range
+    cleaned_df = cleaned_df.set_index('Date')
  
-    return input_df    
+    return cleaned_df
     
 def get_unit_from_string(input_string):
     '''Takes in a string, returns the measurement unit found in that string'''
@@ -413,17 +478,20 @@ def match_model_code_gauge(input_df, ewr_table, bigmod_metadata):
     '''Checks if the bigmod file columns have ewrs available,
     returns a dataframe containing only the columns with ewrs available
     renames the column headers as the gauge location'''
-    
-    menindeeGauges = ['425020', '425022', '425023'] # level_ewr_gauges | Menindee lakes gauges
-    weirpoolGauges = ['414209', '4260501', '4260508', '4260506']
-    df = pd.DataFrame() # Save the okay colummns to this
-    
-    for col in input_df:
+    # get the two lists of level gauges:
+    menindeeGauges, wpGauges = data_inputs.getLevelGauges()
+    wpGauges = list(wpGauges.values()) # Gets returned as a dictionary of flow to level gauges, we just need the lavel gauges here
+    multipleGauges = data_inputs.getMultiGauges('gauges')
+    simultaneousGauges = data_inputs.getSimultaneousGauges('gauges')
+    multiGauges = list(multipleGauges.values())
+    simulGauges = list(simultaneousGauges.values())
+    df = input_df[['Year', 'Mn', 'Dy']].copy()
+
+    for col in input_df.columns[3:]:
         clean_col = col.replace(' ', '') # clean the ones with spaces
         col_split = clean_col.split('-') # split into the 3 components
         site = str(col_split[0]) # get the site code
         measurand = col_split[1] # get measurand code
-        quality = col_split[2] # get quality code
         if measurand == '1': # Check for flow measurand 
             try:
                 gauge_num = bigmod_metadata.loc[bigmod_metadata['SITEID'] == site, 'AWRC'].to_numpy()[0]
@@ -432,17 +500,21 @@ def match_model_code_gauge(input_df, ewr_table, bigmod_metadata):
                         # Check if its in either gauge column (flow or weir pool gauges)
                         if ewr_table['gauge'].str.contains(gauge_num).any(): 
                             df[gauge_num]=input_df[col]
+                    if gauge_num in multiGauges:
+                        df[gauge_num]=input_df[col]
+                    if gauge_num in simulGauges:
+                        df[gauge_num]=input_df[col]
             except IndexError:
                 continue
         elif measurand == '35': # check for level measurand
             try:
                 gauge_num = bigmod_metadata.loc[bigmod_metadata['SITEID'] == site, 'AWRC'].to_numpy()[0]
                 if gauge_num != None:
-                    if ((gauge_num in menindeeGauges) or (gauge_num in weirpoolGauges)):
+                    if ((gauge_num in menindeeGauges) or (gauge_num in wpGauges)):
                         if ewr_table['gauge'].str.contains(gauge_num).any():
-                            df[str(gauge_num + '_Level')]=input_df[col]
-                        elif ewr_table['weirpool gauge'].str.contains(gauge_num).any(): 
-                            df[str(gauge_num + '_Level')]=input_df[col]
+                            df[gauge_num]=input_df[col]
+                        elif ewr_table['weirpool gauge'].str.contains(gauge_num).any():
+                            df[str(gauge_num)]=input_df[col]
             except IndexError:
                 continue
     
@@ -452,164 +524,269 @@ def match_model_code_gauge(input_df, ewr_table, bigmod_metadata):
 
 #----------------------------- Getting EWRs from the database ----------------------#
 
-def getEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
+def getEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for standard flow ewrs******** '''
-
     ewrs = {}
     ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
     ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
-    ewrs['minThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
-    ewrs['maxThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+    ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
     ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
     ewrs['gapTolerance'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['within event gap tolerance'])[0])
+                                               (ewr_table['code'] == ewr_name)&\
+                                               (ewr_table['PlanningUnitID'] == planning_unit)
+                                              )]['within event gap tolerance'])[0])
     ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['events per year'])[0])
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
     ewrs['min event']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['min event'])[0])    
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['min event'])[0])  
+    
     return ewrs
     
-def getLowFlowEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):  
+def getLowFlowEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):  
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for low flow ewrs only******** '''
     ewrs = {}
     
     ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
     ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
-    ewrs['minThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
-    ewrs['maxThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+    ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
     ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
     # these ewrs also have a very dry caveat, save the very dry duration to a variable for later:
     try:
         veryDry_ewr_code = str(ewr_name + '_VD')
         ewrs['veryDry_duration'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == veryDry_ewr_code))]['duration'])[0]) 
+                                                       (ewr_table['code'] == veryDry_ewr_code)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['duration'])[0]) 
     except IndexError:
         ewrs['veryDry_duration'] = None
     
     return ewrs
     
-def getCtfEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
+def getCtfEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for ctf ewrs only******** '''
     ewrs = {}
     ewrs['start_month'] = 7
     ewrs['end_month'] = 6
-    ewrs['minThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
-    ewrs['maxThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+    ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+    ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
     ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit))]['duration'])[0])*toleranceDict['duration'], 0))
     # these ewrs also have a very dry caveat, save the very dry duration to a variable for later:
     try:
         veryDry_ewr_code = str(ewr_name + '_VD')
         ewrs['veryDry_duration'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == veryDry_ewr_code))]['duration'])[0]) 
+                                                       (ewr_table['code'] == veryDry_ewr_code)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['duration'])[0]) 
     except IndexError:
         ewrs['veryDry_duration'] = None
         
     return ewrs
         
-def getCumulVolEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
+def getCumulVolEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for cumulative duration ewrs only******** '''  
     ewrs = {}
     ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
     ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
-    ewrs['threshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['volume threshold'])[0])*toleranceDict['minThreshold'], 0))
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['minThresholdV']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                    (ewr_table['code'] == ewr_name)&\
+                                                    (ewr_table['PlanningUnitID'] == planning_unit)
+                                                   )]['volume threshold'])[0])*toleranceDict['minThreshold'], 0))
     ewrs['duration']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
+                                                   (ewr_table['code'] == ewr_name)&\
+                                                   (ewr_table['PlanningUnitID'] == planning_unit)
+                                                  )]['duration'])[0])*toleranceDict['duration'], 0))
     ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['events per year'])[0])
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
+    try:
+        ewrs['minThresholdF']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                    (ewr_table['code'] == ewr_name)&\
+                                                    (ewr_table['PlanningUnitID'] == planning_unit)
+                                                   )]['flow threshold min'])[0])
+    except (IndexError, ValueError) as e:
+        ewrs['minThresholdF'] = 0
+    
     return ewrs
     
-def getLakeEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):  
+def getLakeEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):  
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for ewrs measured against levels rather than flows******** '''    
-    gaugeShort = gauge_number[:-6]
     ewrs = {}
-    ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
-    ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
-    ewrs['minThreshold']=float(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                           (ewr_table['code'] == ewr_name))]['level threshold min'])[0])*toleranceDict['minThreshold']
-    ewrs['maxThreshold']=float(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                           (ewr_table['code'] == ewr_name))]['level threshold max'])[0])*toleranceDict['maxThreshold']
-    ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
-    ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                                   (ewr_table['code'] == ewr_name))]['events per year'])[0])
-    
+    ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
+    ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['minThresholdL']=float(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                               (ewr_table['code'] == ewr_name)&\
+                                               (ewr_table['PlanningUnitID'] == planning_unit)
+                                              )]['level threshold min'])[0])*toleranceDict['minThreshold']
+    ewrs['maxThresholdL']=float(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                               (ewr_table['code'] == ewr_name)&\
+                                               (ewr_table['PlanningUnitID'] == planning_unit)
+                                              )]['level threshold max'])[0])*toleranceDict['maxThreshold']
+    ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
+    ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
     try:
-        maxDrawdown = int(round(int(list(ewr_table[((ewr_table['gauge'] == gaugeShort)&\
-                                   (ewr_table['code'] == ewr_name))]['drawdown rate'])[0])*toleranceDict['drawdownTolerance'],0))
+        maxDrawdown = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                    (ewr_table['code'] == ewr_name)&\
+                                                    (ewr_table['PlanningUnitID'] == planning_unit)
+                                                   )]['drawdown rate'])[0])*toleranceDict['drawdownTolerance'],0))
         ewrs['maxDrawdown'] = maxDrawdown/100
     except ValueError:
         ewrs['maxDrawdown'] = 1000000
         
     return ewrs
 
-def getWPewrs(gauge_number, ewr_name, ewr_table, toleranceDict):
+def getWPewrs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for WP ewrs only******** '''    
     ewrs = {}
     ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
     ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
-    ewrs['minThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
-    ewrs['maxThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+    ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
     ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
-    ewrs['minThresholdL']=float(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['level threshold min'])[0])*toleranceDict['minThreshold']
-    ewrs['maxThresholdL']=float(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                       (ewr_table['code'] == ewr_name))]['level threshold max'])[0])*toleranceDict['maxThreshold']
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
+    minThresh=(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                               (ewr_table['code'] == ewr_name)&\
+                               (ewr_table['PlanningUnitID'] == planning_unit)
+                              )]['level threshold min'])[0])
+    maxThresh=(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                               (ewr_table['code'] == ewr_name)&\
+                               (ewr_table['PlanningUnitID'] == planning_unit)
+                              )]['level threshold max'])[0])
+    # Determine if its a weirpool raising or weirpool drawdown:
+    if minThresh == '?':
+        ewrs['wpType'] = 'wpDrawdown'
+        ewrs['maxThresholdL'] = float(maxThresh)*toleranceDict['maxThreshold']
+        
+    elif maxThresh == '?':
+        ewrs['wpType'] = 'wpRaising' 
+        ewrs['minThresholdL'] = float(minThresh)*toleranceDict['minThreshold']
+        
     # :getting the max drawdown in cm and converting to m
     maxDrawdown = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['drawdown rate'])[0])*toleranceDict['drawdownTolerance'],0))
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['drawdown rate'])[0])*toleranceDict['drawdownTolerance'],0))
     ewrs['maxDrawdown'] = maxDrawdown/100
     ewrs['weirpoolGauge']=str(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['weirpool gauge'])[0])
+                                              (ewr_table['code'] == ewr_name)&\
+                                              (ewr_table['PlanningUnitID'] == planning_unit)
+                                             )]['weirpool gauge'])[0])
     ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['events per year'])[0])
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
                        
     return ewrs
 
-def getComplexEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
+def getComplexEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
     '''Takes in a gauge number and the ewr.
     returns the ewr values *******Complex EWRs only******** '''
     ewrs = {}
     ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
     ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
-    ewrs['minThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
-    ewrs['maxThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+    ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
     ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
     ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['events per year'])[0])
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
     # Currently defined within the tool. We will move to have this in a seperate table ideally:
     if gauge_number == '409025':
         if ((ewr_name == 'OB2_S') or (ewr_name == 'OB2_P')):
@@ -626,12 +803,14 @@ def getComplexEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
             ewrs['gapTolerance'] = 7
     return ewrs
 
-def getNestEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
+def getNestEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
     ''' Takes in a gauge number and the ewr. 
     Returns the ewr values *******for WP ewrs only******** '''    
     ewrs = {}
     startDate = str(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['start month'])[0])
+                                    (ewr_table['code'] == ewr_name)&\
+                                    (ewr_table['PlanningUnitID'] == planning_unit)
+                                   )]['start month'])[0])
     if '.' in startDate:
         ewrs['start_day'] = int(startDate.split('.')[1]) # Get the day from the float
         ewrs['start_month'] = int(startDate.split('.')[0]) # Get the month from the float
@@ -639,28 +818,49 @@ def getNestEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
         ewrs['start_day'] = None
         ewrs['start_month'] = int(startDate)
     endDate = str(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['end month'])[0])
+                                  (ewr_table['code'] == ewr_name)&\
+                                  (ewr_table['PlanningUnitID'] == planning_unit)
+                                 )]['end month'])[0])
     if '.' in endDate:  
         ewrs['end_day'] = int(endDate.split('.')[1]) # Get the day from the float
         ewrs['end_month'] = int(endDate.split('.')[0]) # Get the month from the float
     else:
         ewrs['end_day'] = None
         ewrs['end_month'] = int(endDate)
-    ewrs['minThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
-    ewrs['maxThreshold']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
-    ewrs['minThresholdL']=float(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['level threshold min'])[0])*toleranceDict['minThreshold']
-    ewrs['maxThresholdL']=float(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                           (ewr_table['code'] == ewr_name))]['level threshold max'])[0])*toleranceDict['maxThreshold']
+    ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+    ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+    minThreshL=(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                (ewr_table['code'] == ewr_name)&\
+                                (ewr_table['PlanningUnitID'] == planning_unit)
+                               )]['level threshold min'])[0])
+    maxThreshL=(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                (ewr_table['code'] == ewr_name)&\
+                                (ewr_table['PlanningUnitID'] == planning_unit)
+                               )]['level threshold max'])[0])
+    if minThreshL != '?':
+        ewrs['minThresholdL'] = float(minThreshL)*toleranceDict['minThreshold']
+    if maxThreshL != '?':
+        ewrs['maxThresholdL'] = float(maxThreshL)*toleranceDict['maxThreshold']
+        
     ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['duration'])[0])*toleranceDict['duration'], 0))
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
     ewrs['maxDrawdown'] = (list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                               (ewr_table['code'] == ewr_name))]['drawdown rate'])[0])
+                                           (ewr_table['code'] == ewr_name)&\
+                                           (ewr_table['PlanningUnitID'] == planning_unit)
+                                          )]['drawdown rate'])[0])
     if '%' not in ewrs['maxDrawdown']:
         ewrs['weirpoolGauge']=str(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['weirpool gauge'])[0])
+                                                  (ewr_table['code'] == ewr_name)&\
+                                                  (ewr_table['PlanningUnitID'] == planning_unit)
+                                                 )]['weirpool gauge'])[0])
         ewrs['maxDrawdown'] = int(round(int(ewrs['maxDrawdown'])*toleranceDict['drawdownTolerance'],0))
     else:
         # remove the % sign, perform the tolerance transformation, return to int
@@ -682,7 +882,140 @@ def getNestEWRs(gauge_number, ewr_name, ewr_table, toleranceDict):
         ewrs['triggerMonth'] = None
         
     ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
-                                   (ewr_table['code'] == ewr_name))]['events per year'])[0])
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
+    
+    return ewrs
+
+def getMultiGaugeEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
+    ''' Takes in a gauge number and the ewr. 
+    Returns the ewr values *******for multi gauge ewrs******** '''
+    
+    ewrs = {}
+    ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
+    ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
+    ewrs['gapTolerance'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                               (ewr_table['code'] == ewr_name)&\
+                                               (ewr_table['PlanningUnitID'] == planning_unit)
+                                              )]['within event gap tolerance'])[0])
+    ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
+    # these ewrs also have a very dry caveat, save the very dry duration to a variable for later:
+    try:
+        veryDry_ewr_code = str(ewr_name + '_VD')
+        ewrs['veryDry_duration'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == veryDry_ewr_code)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['duration'])[0])
+    except IndexError:
+        ewrs['veryDry_duration'] = None    
+    
+    try:
+        ewrs['minThresholdV']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                    (ewr_table['code'] == ewr_name)&\
+                                                    (ewr_table['PlanningUnitID'] == planning_unit)
+                                                   )]['volume threshold'])[0])*toleranceDict['minThreshold'], 0))
+    
+    except (IndexError, ValueError) as e:
+        ewrs['minThresholdV'] = None
+    
+    
+    try:
+        ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+        ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == ewr_name)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+        ewrs['min event']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit))]['min event'])[0])
+    except (IndexError, ValueError) as e:
+        ewrs['minThresholdF'] = 0
+        ewrs['maxThresholdF'] = 1000000
+        ewrs['min event'] = 0
+    
+    
+    
+    
+    multiGaugeDict = data_inputs.getMultiGauges('all')
+    
+    ewrs['second gauge'] = multiGaugeDict[planning_unit][gauge_number]
+    
+    return ewrs
+
+def getSimultaneousEWRs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
+    ''' Takes in a gauge number and the ewr. 
+    Returns the ewr values *******for multi gauge ewrs******** '''
+    
+    ewrs = {}
+    ewrs['start_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                            (ewr_table['code'] == ewr_name)&\
+                                            (ewr_table['PlanningUnitID'] == planning_unit)
+                                           )]['start month'])[0])
+    ewrs['end_month']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['end month'])[0])
+    try:
+        ewrs['minThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                           (ewr_table['code'] == ewr_name)&\
+                                                           (ewr_table['PlanningUnitID'] == planning_unit)
+                                                          )]['flow threshold min'])[0])*toleranceDict['minThreshold'], 0))
+        ewrs['maxThresholdF']=int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                           (ewr_table['code'] == ewr_name)&\
+                                                           (ewr_table['PlanningUnitID'] == planning_unit)
+                                                          )]['flow threshold max'])[0])*toleranceDict['maxThreshold'], 0))
+    except ValueError:
+        ewrs['minThresholdF']=None
+        ewrs['maxThresholdF']=None
+        
+    ewrs['duration'] = int(round(int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                     (ewr_table['code'] == ewr_name)&\
+                                                     (ewr_table['PlanningUnitID'] == planning_unit)
+                                                    )]['duration'])[0])*toleranceDict['duration'], 0))
+    ewrs['gapTolerance'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                               (ewr_table['code'] == ewr_name)&\
+                                               (ewr_table['PlanningUnitID'] == planning_unit)
+                                              )]['within event gap tolerance'])[0])
+    ewrs['events per year']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                (ewr_table['code'] == ewr_name)&\
+                                                (ewr_table['PlanningUnitID'] == planning_unit)
+                                               )]['events per year'])[0])
+    ewrs['min event']=int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                          (ewr_table['code'] == ewr_name)&\
+                                          (ewr_table['PlanningUnitID'] == planning_unit)
+                                         )]['min event'])[0])
+    
+    # these ewrs also have a very dry caveat, save the very dry duration to a variable for later:
+    try:
+        veryDry_ewr_code = str(ewr_name + '_VD')
+        ewrs['veryDry_duration'] = int(list(ewr_table[((ewr_table['gauge'] == gauge_number)&\
+                                                       (ewr_table['code'] == veryDry_ewr_code)&\
+                                                       (ewr_table['PlanningUnitID'] == planning_unit)
+                                                      )]['duration'])[0])
+    except IndexError:
+        ewrs['veryDry_duration'] = None
+    
+    
+    simultaneousGaugeDict = data_inputs.getSimultaneousGauges('all')
+    
+    ewrs['second gauge'] = simultaneousGaugeDict[planning_unit][gauge_number]
     
     return ewrs
 
@@ -725,7 +1058,33 @@ def get_day_month_mask(startDay, startMonth, endDay, endMonth, input_df):
         input_df_timeslice = input_df_timeslice4.sort_index()
         
     return input_df_timeslice
+
+#------------------------------ Creating water year timeseries -------------------------------#
+
+def waterYear_daily(input_df, ewrs):
+    '''Creating a daily water year timeseries'''
+    # check if water years needs to change:
+
+    years = input_df.index.year.values
+    months = input_df.index.month.values
+
+    def appenderStandard(year, month):
+        if month < 7:
+            year = year - 1
+        return year
     
+    def appenderNonStandard(year, month):
+        if month < ewrs['start_month']:
+            year = year - 1
+        return year
+    
+    if ((ewrs['start_month'] <= 6) and (ewrs['end_month'] >= 7)):
+        waterYears = np.vectorize(appenderNonStandard)(years, months)
+    else:     
+        waterYears = np.vectorize(appenderStandard)(years, months)    
+    
+    return waterYears
+
 #----------------------------- Checking EWRs -----------------------------------#
 
 def ewrCheck(minThreshold, maxThreshold, duration, minEvent, gapTolerance, flow, eventList, 
@@ -813,46 +1172,109 @@ def levelCheck(threshold, height, maxDrawdown, deltaHeight, duration, eventList,
 
     return eventList, yearlyDict, noEventCounter, noEventList
 
-
-#------------------- Specific EWR type handing functions -----------------#
-
-def waterYear_append(input_df, ewrs):
-    '''Appends a water year column to the dataframe, returns this dataframe'''
-    # check if water years needs to change:
-    df = input_df.copy(deep=True)
-    if ((ewrs['start_month'] <= 6) and (ewrs['end_month'] >= 7)):
-        # Dynamically change the water year
-        df['water year'] = df.index.map(lambda x: x.year if x.month >= ewrs['start_month'] else x.year-1)
+def simultaneousEwrCheck(minThreshold, minThreshold2, maxThreshold, maxThreshold2, duration, duration2, minEvent, minEvent2, flow, flow2, eventList, 
+             yearlyDict, year, noEventCounter, noEventList):
+    '''Checking flow EWRs with simultaneous requirements '''
+    if ((flow >= minThreshold) and (flow <= maxThreshold) and (flow2 >= minThreshold2) and (flow2 <= maxThreshold2)):
+        eventList.append(flow)
     else:
-        df['water year'] = df.index.map(lambda x: x.year if x.month >= 7 else x.year-1)
+        if len(eventList) >= minEvent:
+            yearlyDict[year].append(eventList)
+        eventList = []
+
+    return eventList, yearlyDict, noEventCounter, noEventList
+
+def simultaneousLowFlowCheck(minThreshold, minThreshold2, maxThreshold, maxThreshold2, flow, flow2, eventList, eventList2, yearlyDict, yearlyDict2, year, noEventCounter, noEventList):
+    '''Perform a check to see if the low flow requirements have been met for both of the locations'''
+    # Check the first location:
+    if ((flow >= minThreshold) and (flow <= maxThreshold)):
+        eventList.append(flow)
+    else:
+        if len(eventList) > 0:
+            yearlyDict[year].append(eventList)
+        #-----------Days between events section---------------#
+            noEventCounter = noEventCounter - len(eventList) # count to the start of the event
+            noEventList.append(noEventCounter)
+            noEventCounter = 1 # revert the counter back to one as we are into the next phase
+        else:
+            noEventCounter = noEventCounter + 1 # gap between events grows by 1
+        #-----------End dats between events section----------#
+        eventList = []
         
-    return df
-  
-def complexEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+    # Check the second location:
+    if ((flow2 >= minThreshold2) and (flow2 <= maxThreshold2)):
+        eventList2.append(flow)
+    else:
+        if len(eventList2) > 0:
+            yearlyDict2[year].append(eventList)
+        #-----------Days between events section---------------#
+            noEventCounter = noEventCounter - len(eventList2) # count to the start of the event
+            noEventList.append(noEventCounter)
+            noEventCounter = 1 # revert the counter back to one as we are into the next phase
+        else:
+            noEventCounter = noEventCounter + 1 # gap between events grows by 1
+        #-----------End dats between events section----------#
+        eventList2 = []       
+        
+    
+    return eventList, eventList2, yearlyDict, yearlyDict2, noEventCounter, noEventList
+
+def simultaneousCtfCheck(threshold, threshold2, flow, flow2, eventList, eventList2, yearlyDict, yearlyDict2, year, noEventCounter, noEventList):
+    '''Simultaneous ctf check'''
+    # Check first location:
+    if flow <= threshold:
+        eventList.append(flow)
+    else:
+        if len(eventList) > 0:
+            yearlyDict[year].append(eventList)
+        #----------Days between events section----------#
+            noEventCounter = noEventCounter - len(eventList)
+            noEventList.append(noEventCounter)
+            noEventCounter = 1
+        else:
+            noEventCounter = noEventCounter + 1
+        #--------End dats between events section--------#
+        eventList = []
+        
+    # Check second location:
+    if flow2 <= threshold2:
+        eventList2.append(flow2)
+    else:
+        if len(eventList2) > 0:
+            yearlyDict2[year].append(eventList2)
+        #----------Days between events section----------#
+            noEventCounter = noEventCounter - len(eventList2)
+            noEventList.append(noEventCounter)
+            noEventCounter = 1
+        else:
+            noEventCounter = noEventCounter + 1
+        #--------End dats between events section--------#
+        eventList2 = []    
+    
+    return eventList, eventList2, yearlyDict, yearlyDict2, noEventCounter, noEventList
+
+#---------------------- Functions for handling and distributing the different EWR categories -----------------------#
+
+def complexEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling complex EWRs (complex EWRs are hard coded into the tool).
     returns a dataframe yearly results for each ewr within the planning unit'''
     # Get EWRs:
     ewr_dict = dict()
-    ewr_dict = getComplexEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getComplexEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
     # Slice relevant time from flow dataframe:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'], 
                                         ewr_dict['end_month'],
-                                        df)
-    # Allocate climate to flow timeseries:
-    catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
-
+                                        input_df)  
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Save relevant columns to variables to iterate through:
-    flowSeries = input_df_timeslice[gauge_ID]
-    wySeries = input_df_timeslice['water year'].to_numpy()   
+    flowSeries = input_df_timeslice[gauge_ID].values 
     waterYears = sorted(set(wySeries))
     # Check the flow timeseries against the ewr
     if calculationType == 'flowDurPostReq':
         eventDict = postDurationCalc(ewr_dict, flowSeries, wySeries, waterYears)
         statsRequest = ['number of events', 'years with events']
-        stats = resultsStats(statsRequest, eventDict, ewr_dict, PU_df, ewr, )
+        stats = resultsStats(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears)
         
     elif calculationType == 'flowDurOutsideReq':
         eventDict = outsideDurationCalc(ewr_dict, flowSeries, wySeries)
@@ -861,85 +1283,80 @@ def complexEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df,
     
     return PU_df
 
-def flowEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def flowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling standard flow type EWRs.
     returns a dataframe yearly results for each ewr within the planning unit'''
     # Get ewr details:
     ewr_dict = dict()
-    ewr_dict = getEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)  
     # Extract relevant timeslice of flows for the location:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'],
                                         ewr_dict['end_month'],
-                                        df)
-    # Allocate climate to flow timeseries:
-    catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+                                        input_df)
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Save the relevant flow timeseries columns to variables:
-    flowSeries = input_df_timeslice[gauge_ID]
-    wySeries = input_df_timeslice['water year'].to_numpy()
+    flowSeries = input_df_timeslice[gauge_ID].values
     dateSeries = input_df_timeslice.index
     waterYears = sorted(set(wySeries))
     # Check the flow timeseries against the ewr
     if calculationType == 'flow':
         if ((ewr_dict['start_month'] == 7) and (ewr_dict['end_month'] == 6)):
-            maxWindowLength = 365
-            eventDict, noneList = flowCalcAnytime(ewr_dict, flowSeries, wySeries, dateSeries, maxWindowLength)
+            eventDict, noneList = flowCalcAnytime(ewr_dict, flowSeries, wySeries, dateSeries)
             statsRequest = ['number of events', 'years with events', 'average length of events'] # , 'average time between events'
             PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
         else:
             eventDict, noneList = flowCalc(ewr_dict, flowSeries, wySeries, dateSeries)
             statsRequest = ['number of events', 'years with events', 'average length of events'] #, 'average time between events'
             PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
-    
     return PU_df 
         
-def lowFlowEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def lowFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling low flow type EWRs
     returns a dataframe yearly results for each ewr within the planning unit'''        
     # Get ewr details:
     ewr_dict = dict()
-    ewr_dict = getLowFlowEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getLowFlowEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
     # Extract relevant timeslice of flows for the location:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'], 
                                         ewr_dict['end_month'],
-                                        df)  
+                                        input_df)  
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Allocate climate to flow timeseries:
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)  
     # Save the relevant flow timeseries columns to variables:
-    wySeries = input_df_timeslice['water year'].to_numpy()
-    climateSeries = input_df_timeslice['climate'].to_numpy()
-    flowSeries = input_df_timeslice[gauge_ID]  
-    waterYears = sorted(set(wySeries))
+    flowSeries = input_df_timeslice[gauge_ID].values
+    waterYears = sorted(set(wySeries))        
+    
     # Check the flow timeseries against the ewr
     if calculationType == 'low flow':
         PU_df = lowFlowCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr, gauge_ID)
-    
+        
     return PU_df
         
-def cfFlowEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def cfFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling cease to flow type EWRs
-    returns a dataframe yearly results for each ewr within the planning unit'''          
-    # Get ewr details:
+    returns a dataframe yearly results for each ewr within the planning unit'''  
     ewr_dict = dict()
-    ewr_dict = getCtfEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getCtfEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
+    
     # Extract relevant timeslice of flows for the location:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'],
                                         ewr_dict['end_month'],
-                                        df)
+                                        input_df)   
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
+    
     # Allocate climate to flow timeseries:
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+    
+    # Put the climate on the dataseries
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)     
+    
     # Save the relevant flow timeseries columns to variables:
-    wySeries = input_df_timeslice['water year'].to_numpy()
-    climateSeries = input_df_timeslice['climate'].to_numpy()
-    flowSeries = input_df_timeslice[gauge_ID]
+    flowSeries = input_df_timeslice[gauge_ID].values
     waterYears = sorted(set(wySeries))
     # Check the flow timeseries against the ewr
     if calculationType == 'cease to flow':
@@ -947,25 +1364,20 @@ def cfFlowEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, 
     
     return PU_df    
 
-def cumulVolEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def cumulVolEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling cumulative volume type EWRs
     returns a dataframe yearly results for each ewr within the planning unit'''
     # Get ewr details:
     ewr_dict = dict()
-    ewr_dict = getCumulVolEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getCumulVolEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
     # Extract relevant timeslice of flows for the location:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'],
                                         ewr_dict['end_month'],
-                                        df)
-    # Allocate climate to flow timeseries:
-    catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+                                        input_df)
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Save the relevant flow timeseries columns to variables:
-    wySeries = input_df_timeslice['water year'].to_numpy()
-    climateSeries = input_df_timeslice['climate'].to_numpy()
-    flowSeries = input_df_timeslice[gauge_ID]
+    flowSeries = input_df_timeslice[gauge_ID].values
     dateSeries = input_df_timeslice.index
     waterYears = sorted(set(wySeries))
     # Check the flow timeseries against the ewr
@@ -981,25 +1393,20 @@ def cumulVolEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df
     
     return PU_df
 
-def lakeEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def lakeEWRhandler(calculationType, planningUnit,  gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling lake type EWRs.
     returns a dataframe yearly results for each ewr within the planning unit'''
     # Get ewr details:
     ewr_dict = dict()
-    ewr_dict = getLakeEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getLakeEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
     # Extract relevant timeslice of flows for the location:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'],
                                         ewr_dict['end_month'],
-                                        df)
-    # Allocate climate to flow timeseries:
-    gaugeOnly = gauge_ID[:-6]
-    catchment_name = data_inputs.gauge_to_catchment(gaugeOnly) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+                                        input_df) 
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Save the relevant flow timeseries columns to variables:
-    wySeries = input_df_timeslice['water year'].to_numpy()
-    heightSeries = input_df_timeslice[gauge_ID]   
+    heightSeries = input_df_timeslice[gauge_ID].values
     waterYears = sorted(set(wySeries))
     # Check the flow timeseries against the ewr
     if calculationType == 'lake level':
@@ -1009,31 +1416,30 @@ def lakeEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU
     
     return PU_df
     
-def wpEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict): 
+def wpEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict): 
     '''Handling of weirpool ewrs.
     returns a dataframe yearly results for each ewr within the planning unit'''
     ewr_dict = dict()
-    ewr_dict = getWPewrs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getWPewrs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
     # Extract relevant timeslice of flows for the location:
     input_df_timeslice = get_month_mask(ewr_dict['start_month'], 
                                         ewr_dict['end_month'],
-                                        df)
+                                        input_df)
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Allocate climate to flow timeseries:
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
     # Save the relevant flow timeseries columns to variables:
-    wySeries = input_df_timeslice['water year'].to_numpy()
-    climateSeries = input_df_timeslice['climate'].to_numpy()
-    dateSeries = input_df_timeslice.index 
-    flowSeries = input_df_timeslice[gauge_ID]
-    waterYears = sorted(set(wySeries))
+    dateSeries = input_df_timeslice.index
+    flowSeries = input_df_timeslice[gauge_ID].values
+    waterYears = sorted(set(wySeries))   
+    
     try:
-        heightSeries = input_df_timeslice[str(ewr_dict['weirpoolGauge'] + '_Level')]
-            # Check the flow timeseries against the ewr
+        heightSeries = input_df_timeslice[ewr_dict['weirpoolGauge']]
+        # Check the flow timeseries against the ewr
         if calculationType == 'weir pool':
-            eventDict = wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, climateSeries, dateSeries)
+            eventDict = wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, dateSeries)
             statsRequest = ['number of events', 'years with events']
             PU_df = resultsStats(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears)
         
@@ -1042,32 +1448,30 @@ def wpEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_d
     except KeyError:
         print('''Cannot evaluate this weirpool ewr for {} {}, due to missing data.
         Specifically, this EWR also needs data for {}'''.format(gauge_ID, ewr, ewr_dict['weirpoolGauge']))
+        
+        return PU_df
 
-def nestEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def nestEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
     '''Handling Nest type EWRs.
     returns a dataframe yearly results for each ewr within the planning unit'''
     # Get ewr details:
     ewr_dict = dict()
-    ewr_dict = getNestEWRs(gauge_ID, ewr, ewrTableExtract, toleranceDict)
-    # Append water year column to the dataframe:
-    df = waterYear_append(input_df, ewr_dict)
+    ewr_dict = getNestEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
     # Extract relevant timeslice of flows for the location:
     if ((ewr_dict['start_day'] == None) and (ewr_dict['end_day'] == None)):
         input_df_timeslice = get_month_mask(ewr_dict['start_month'],
                                             ewr_dict['end_month'],
-                                            df)
+                                            input_df)
     else:
         input_df_timeslice = get_day_month_mask(ewr_dict['start_day'],
                                             ewr_dict['start_month'],
                                             ewr_dict['end_day'],
                                             ewr_dict['end_month'],
-                                            df)
-    # Allocate climate to flow timeseries:
-    catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    input_df_timeslice = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+                                            input_df)   
+    # Append water year column to the dataframe:
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Save the relevant flow timeseries columns to variables:
-    flowSeries = input_df_timeslice[gauge_ID]
-    wySeries = input_df_timeslice['water year'].to_numpy()
+    flowSeries = input_df_timeslice[gauge_ID].values
     dateSeries = input_df_timeslice.index
     waterYears = sorted(set(wySeries))
     # Check the flow timeseries against the ewr
@@ -1083,6 +1487,108 @@ def nestEWRhandler(calculationType, gauge_ID, ewr, ewrTableExtract, input_df, PU
     
     return PU_df
 
+def multiGaugeEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+    '''Handling those EWRs that require flow at two gauges summed together'''
+    # Get EWRs
+    ewr_dict = dict()
+    ewr_dict = getMultiGaugeEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)
+    # Slice relevant time from flow dataframe:
+    input_df_timeslice = get_month_mask(ewr_dict['start_month'], 
+                                        ewr_dict['end_month'],
+                                        input_df)      
+    # Append water year column to the dataframe:
+    np.set_printoptions(threshold=np.inf)
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
+    
+    # Allocate climate to flow timeseries:
+    catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)  
+    
+    # Save relevant columns to variables to iterate through:
+    firstFlowSeries = input_df_timeslice[gauge_ID].values
+    try:
+        secondFlowSeries = input_df_timeslice[ewr_dict['second gauge']].values 
+    except KeyError: # if no flow data exists for the second gauge required, let the user know its missing and return the empty results dataframe
+        print('''Cannot evaluate this ewr for {} {}, due to missing data.
+        Specifically, this EWR also needs data for {}'''.format(gauge_ID, ewr, ewr_dict['second gauge']))
+        return PU_df
+    flowSeries = firstFlowSeries + secondFlowSeries
+    dateSeries = input_df_timeslice.index
+    waterYears = sorted(set(wySeries))
+    # Send to relevant function for checking depending on EWR characteristics:
+    if calculationType == 'flow':
+        if ((ewr_dict['start_month'] == 7) and (ewr_dict['end_month'] == 6)):
+            eventDict, noneList = flowCalcAnytime(ewr_dict, flowSeries, wySeries, dateSeries)
+            statsRequest = ['number of events', 'years with events', 'average length of events'] # , 'average time between events'
+            PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
+        else:
+            eventDict, noneList = flowCalc(ewr_dict, flowSeries, wySeries, dateSeries)
+            statsRequest = ['number of events', 'years with events', 'average length of events'] #, 'average time between events'
+            PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
+    if calculationType == 'low flow':
+        PU_df = lowFlowCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr, gauge_ID)   
+    if calculationType == 'cease to flow':
+        PU_df = cfCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr)
+    if calculationType == 'cumulative volume':
+        if ((ewr_dict['start_month'] == 7) and (ewr_dict['end_month'] == 6)):
+            eventDict, noneList = cumulVolCalcAnytime(ewr_dict, flowSeries, wySeries)
+            statsRequest = ['number of events', 'years with events']
+            PU_df = resultsStats(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears)
+        else:
+            eventDict, noneList = cumulVolCalc(ewr_dict, flowSeries, wySeries)
+            statsRequest = ['number of events', 'years with events']
+            PU_df = resultsStats(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears)  
+        
+    return PU_df
+
+def simultaneousEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, ewr_table):
+    '''For those EWRs that need to be met at two locations at the same time'''
+    # Get EWRs
+    ewr_dict = dict()
+    ewr_dict = getSimultaneousEWRs(planningUnit, gauge_ID, ewr, ewrTableExtract, toleranceDict)    
+    # extract the other other gauge from the master ewr table:
+    gauge2table = ewr_table[ewr_table['gauge'] == ewr_dict['second gauge']]
+    gauge2table = gauge2table[gauge2table['PlanningUnitID'] == planningUnit]
+    
+    ewr_dict2 = getSimultaneousEWRs(planningUnit, ewr_dict['second gauge'], ewr, gauge2table, toleranceDict)
+    # Slice relevant time from flow dataframe:
+    input_df_timeslice = get_month_mask(ewr_dict['start_month'], 
+                                        ewr_dict['end_month'],
+                                        input_df) # The date range must be the same for the simultaneous gauges. The script just uses the date range from the first
+    # Get a daily water year series
+    wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
+    waterYears = sorted(set(wySeries))
+    # Get the catchment name, and then create a series with a daily climate category for the catchment
+    catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)     
+    # Save relevant columns to variables to iterate through:
+    flowSeries = input_df_timeslice[gauge_ID].values 
+    dateSeries = input_df_timeslice.index
+    try:
+        flowSeries2 = input_df_timeslice[ewr_dict['second gauge']].values
+    except KeyError: # if no flow data exists for the second gauge required, let the user know its missing and return the empty results dataframe
+        print('''Cannot evaluate this ewr for {} {}, due to missing data.
+        Specifically, this EWR also needs data for {}'''.format(gauge_ID, ewr, ewr_dict['second gauge']))
+        return PU_df
+        
+    # Send to relevant function for checking depending on EWR characteristics. So far there have only been three categories of simultaneous ewrs, with the options below:
+    if calculationType == 'cease to flow':
+        PU_df = simultaneousCfCalc(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, climateSeries, PU_df, ewr)
+    if calculationType == 'low flow':
+        PU_df = simultaneousLowFlowCalc(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, climateSeries, PU_df, ewr, gauge_ID)
+    if calculationType == 'flow':
+        if ((ewr_dict['start_month'] == 7) and (ewr_dict['end_month'] == 6)):
+            eventDict, noneList = simultaneousFlowCalcAnytime(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, dateSeries)
+            statsRequest = ['number of events', 'years with events', 'average length of events'] #, 'average time between events'
+            PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
+        else:
+            eventDict, noneList = simultaneousFlowCalc(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, dateSeries)
+            statsRequest = ['number of events', 'years with events', 'average length of events'] #, 'average time between events'
+            PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
+    
+    return PU_df
+
+
 #------------------- Main calculation functions -----------------#    
 
 def nestCalcTrigger(ewr_dict, flowSeries, wySeries, dateSeries):
@@ -1095,18 +1601,24 @@ def nestCalcTrigger(ewr_dict, flowSeries, wySeries, dateSeries):
     noneList = []
     linesToSkip = 0
     gapToleranceTracker = 0
+    # Saving dates as nparrays to increase speed of processing:
+    days = dateSeries.day.values
+    months = dateSeries.month.values    
+
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
     # Cycle through the flow timeseries:    
     for iteration, flow in enumerate(flowSeries):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
             wyCurrent = wySeries[iteration]  
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
             # if there is is a date trigger:
-            if ((dateSeries[iteration].day == ewr_dict['triggerDay']) and \
-            (dateSeries[iteration].month == ewr_dict['triggerMonth'])):
-                if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
+            if ((int(days[iteration]) == int(ewr_dict['triggerDay'])) and (int(months[iteration]) == int(ewr_dict['triggerMonth']))):
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
                     futureSubset = flowSeries[iteration:(iteration+ewr_dict['duration'])]
                     if 'weirpoolGauge' in ewr_dict.keys():
                         eList = [] 
@@ -1114,7 +1626,7 @@ def nestCalcTrigger(ewr_dict, flowSeries, wySeries, dateSeries):
                             if i != len(futureSubset)-1:
                                 check = futureSubset[i]-futureSubset[i+1]
                                 eList.append(check)
-                        if max(eList) <= ewr_dict['maxDrawdown']:
+                        if ((max(eList) <= ewr_dict['maxDrawdown']) and (min(futureSubset) >= ewr_dict['minThresholdF']) and (max(futureSubset) <= ewr_dict['maxThresholdF'])):
                             eventDict[wyCurrent].append(eList)
                             linesToSkip = len(eList)
                     elif '%' in ewr_dict['maxDrawdown']:
@@ -1123,7 +1635,7 @@ def nestCalcTrigger(ewr_dict, flowSeries, wySeries, dateSeries):
                             if i != len(futureSubset)-1:
                                 check = ((futureSubset[i]-futureSubset[i+1])/futureSubset[i])*100
                                 eList.append(check)
-                        if max(eList) <= int(ewr_dict['maxDrawdown'][:-1]):
+                        if ((max(eList) <= int(ewr_dict['maxDrawdown'][:-1])) and (min(futureSubset) >= ewr_dict['minThresholdF']) and (max(futureSubset) <= ewr_dict['maxThresholdF'])):
                             eventDict[wyCurrent].append(futureSubset)
                             linesToSkip = ewr_dict['duration']                              
     return eventDict
@@ -1136,41 +1648,47 @@ def nestCalc(ewr_dict, flowSeries, wySeries, dateSeries):
     noneList = []
     linesToSkip = 0
     gapToleranceTracker = 0
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+
     # Cycle through the flow timeseries:    
-    for iteration, flow in enumerate(flowSeries):
+    for iteration, flow in enumerate(flowSeries[:-ewr_dict['duration']]):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
             wyCurrent = wySeries[iteration] # check for transformation    
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
-            if iteration <= (len(flowSeries) - (ewr_dict['duration'])):
-                if wySeries[iteration] == wySeries[iteration+ewr_dict['duration']-1]:
-                    if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
-                        futureSubset = flowSeries[iteration:(iteration+ewr_dict['duration'])]
-                        if 'weirpoolGauge' in ewr_dict.keys():
-                            eList = [] 
-                            for i, value in enumerate(futureSubset):
-                                if i != len(futureSubset)-1:
-                                    check = futureSubset[i]-futureSubset[i+1]
-                                    eList.append(check)
-                            if max(eList) <= ewr_dict['maxDrawdown']:
-                                eventDict[wyCurrent].append(futureSubset)
-                                linesToSkip = ewr_dict['duration']
-                        elif '%' in ewr_dict['maxDrawdown']:
-                            eList = [] 
-                            for i, value in enumerate(futureSubset):
-                                if i != len(futureSubset)-1:
-                                    check = ((futureSubset[i]-futureSubset[i+1])/futureSubset[i])*100
-                                    eList.append(check)
-                            if ((max(eList) <= int(ewr_dict['maxDrawdown'][:-1])) and\
-                                (min(futureSubset) >= ewr_dict['minThreshold']) and (max(futureSubset) <= ewr_dict['maxThreshold'])):
-                                eventDict[wyCurrent].append(futureSubset)
-                                linesToSkip = ewr_dict['duration']  
+
+            if wySeries[iteration] == wySeries[iteration+ewr_dict['duration']-1]:
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
+                    futureSubset = flowSeries[iteration:(iteration+ewr_dict['duration'])]
+                    if 'weirpoolGauge' in ewr_dict.keys():
+                        eList = []
+                        for i, value in enumerate(futureSubset):
+                            if i != len(futureSubset)-1:
+                                check = futureSubset[i]-futureSubset[i+1]
+                                eList.append(check)
+                        if ((max(eList) <= ewr_dict['maxDrawdown']) and (min(futureSubset) >= ewr_dict['minThresholdF']) and (max(futureSubset) <= ewr_dict['maxThresholdF'])):
+                            eventDict[wyCurrent].append(futureSubset)
+                            linesToSkip = ewr_dict['duration']
+                    elif '%' in ewr_dict['maxDrawdown']:
+                        eList = [] 
+                        for i, value in enumerate(futureSubset):
+                            if i != len(futureSubset)-1:
+                                check = ((futureSubset[i]-futureSubset[i+1])/futureSubset[i])*100
+                                eList.append(check)
+                        if ((max(eList) <= int(ewr_dict['maxDrawdown'][:-1])) and (min(futureSubset) >= ewr_dict['minThresholdF']) and (max(futureSubset) <= ewr_dict['maxThresholdF'])):
+                            eventDict[wyCurrent].append(futureSubset)
+                            linesToSkip = ewr_dict['duration']  
+            else:
+                continue # Not enough time to complete the event
     return eventDict
 
 
-def wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, climateSeries, dateSeries):
+def wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, dateSeries):
     '''Evaluating the weirpool type ewrs. These require information from a flow gauge,
     river level gauge and have a drawdown rate'''
     # Decalre variables:
@@ -1180,55 +1698,54 @@ def wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, climateSeries, dateSeri
     noneCounter = 0
     noneList = []
     linesToSkip = 0
-    # Determine if its a weirpool raising or weirpool drawdown:
-    if np.isnan(ewr_dict['minThresholdL']):
-        wpType = 'wpDrawdown'
-    elif np.isnan(ewr_dict['maxThresholdL']):
-        wpType = 'wpRaising'
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
     # Cycle through the flow timeseries
-    for iteration, flow in enumerate(flowSeries):
+    for iteration, flow in enumerate(flowSeries[:ewr_dict['duration']]):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:           
             wyCurrent = wySeries[iteration]
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
-            # Skip if future iteration goes beyond the end of the timeseries
-            if iteration <= (len(flowSeries) - (ewr_dict['duration'])):
-                if wySeries[iteration] == wySeries[iteration+ewr_dict['duration']-1]:
-                    if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
-                        if wpType == 'wpRaising':
-                            if heightSeries[iteration] >= ewr_dict['minThresholdL']:
-                                # Check for length of duration into the future for raising rate
-                                futureSubsetLevel = heightSeries[iteration:iteration+ewr_dict['duration']]
-                                futureSubsetFlow = flowSeries[iteration:iteration+ewr_dict['duration']]
-                                eList = [] 
-                                for i, value in enumerate(futureSubsetLevel):
-                                    if i != len(futureSubsetLevel)-1:
-                                        check = futureSubsetLevel[i]-futureSubsetLevel[i+1]
-                                        eList.append(check)
-                                # Check to see if change in level, minimum weirpool height, and flow thresholds are met over the duration:
-                                if ((max(eList) <= ewr_dict['maxDrawdown']) and (min(futureSubsetLevel) >= ewr_dict['minThresholdL']) \
-                                    and (min(futureSubsetFlow) >= ewr_dict['minThreshold']) and (max(futureSubsetFlow) <= ewr_dict['maxThreshold'])):
-                                    eventDict[wyCurrent].append(futureSubsetLevel)
-                                    linesToSkip = ewr_dict['duration']
-                        elif wpType == 'wpDrawdown':
-                            if heightSeries[iteration] <= ewr_dict['maxThresholdL']:
-                                # Check for length of duration into the future for drawdown rate
-                                futureSubsetLevel = heightSeries[iteration:iteration+ewr_dict['duration']]
-                                futureSubsetFlow = flowSeries[iteration:iteration+ewr_dict['duration']]
-                                eList = [] 
-                                for i, value in enumerate(futureSubsetLevel):
-                                    if i != len(futureSubsetLevel)-1:
-                                        check = futureSubsetLevel[i]-futureSubsetLevel[i+1]
-                                        eList.append(check)
-                                # Check to see if change in level, maximum weirpool height, and flow thresholds are met over the duration:
-                                if ((max(eList) <= ewr_dict['maxDrawdown']) and (max(futureSubsetLevel) <= ewr_dict['minThresholdL']) \
-                                    and (min(futureSubsetFlow) >= ewr_dict['minThreshold']) and (max(futureSubsetFlow) <= ewr_dict['maxThreshold'])):
-                                    eventDict[wyCurrent].append(futureSubsetLevel)
-                                    linesToSkip = ewr_dict['duration']
+            
+            if wySeries[iteration] == wySeries[iteration+ewr_dict['duration']-1]:
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
+                    if ewr_dict['wpType'] == 'wpRaising':
+                        if heightSeries[iteration] >= ewr_dict['minThresholdL']:
+                            # Check for length of duration into the future for raising rate
+                            futureSubsetLevel = heightSeries[iteration:iteration+ewr_dict['duration']]
+                            futureSubsetFlow = flowSeries[iteration:iteration+ewr_dict['duration']]
+                            eList = [] 
+                            for i, value in enumerate(futureSubsetLevel):
+                                if i != len(futureSubsetLevel)-1:
+                                    check = futureSubsetLevel[i]-futureSubsetLevel[i+1]
+                                    eList.append(check)
+                            # Check to see if change in level, minimum weirpool height, and flow thresholds are met over the duration:
+                            if ((max(eList) <= ewr_dict['maxDrawdown']) and (min(futureSubsetLevel) >= ewr_dict['minThresholdL']) \
+                                and (min(futureSubsetFlow) >= ewr_dict['minThresholdF']) and (max(futureSubsetFlow) <= ewr_dict['maxThresholdF'])):
+                                eventDict[wyCurrent].append(futureSubsetLevel)
+                                linesToSkip = ewr_dict['duration']
+                    elif ewr_dict['wpType'] == 'wpDrawdown':
+                        if heightSeries[iteration] <= ewr_dict['maxThresholdL']:
+                            # Check for length of duration into the future for drawdown rate
+                            futureSubsetLevel = heightSeries[iteration:iteration+ewr_dict['duration']]
+                            futureSubsetFlow = flowSeries[iteration:iteration+ewr_dict['duration']]
+                            eList = [] 
+                            for i, value in enumerate(futureSubsetLevel):
+                                if i != len(futureSubsetLevel)-1:
+                                    check = futureSubsetLevel[i]-futureSubsetLevel[i+1]
+                                    eList.append(check)
+                            # Check to see if change in level, maximum weirpool height, and flow thresholds are met over the duration:
+                            if ((max(eList) <= ewr_dict['maxDrawdown']) and (max(futureSubsetLevel) <= ewr_dict['maxThresholdL']) \
+                                and (min(futureSubsetFlow) >= ewr_dict['minThresholdF']) and (max(futureSubsetFlow) <= ewr_dict['maxThresholdF'])):
+                                eventDict[wyCurrent].append(futureSubsetLevel)
+                                linesToSkip = ewr_dict['duration']
             else:
-                continue
+                continue # Not enough time left to complete the EWR requirements
     return eventDict
     
 def postDurationCalc(ewr_dict, flowSeries, wySeries):
@@ -1240,16 +1757,21 @@ def postDurationCalc(ewr_dict, flowSeries, wySeries):
     linesToSkip = 0
     gapToleranceTracker = 0
     eList = []
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
     # Cycle through the flow timeseries:
     for iteration, flow in enumerate(flowSeries):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
             wyCurrent = wySeries[iteration]      
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
             # Look for first part of EWR (first threshold/duration requirement):    
-            if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
+            if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
                 eList.append(flow)
                 gapToleranceTracker = ewr_dict['gapTolerance']
                 if len(eList) >= ewr_dict['duration']:
@@ -1300,21 +1822,26 @@ def outsideDurationCalc(ewr_dict, flowSeries, wySeries):
     gapToleranceTracker, futureGapTolerance, pastGapTolerance = 0, 0, 0
     eventDict = {}
     eList = []
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
     # Cycle through the flow timeseries:
     for iteration, flow in enumerate(flowSeries):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
             wyCurrent = wySeries[iteration]        
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
             # Look for first part of EWR (first threshold/duration requirement):   
-            if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
+            if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
                 eList.append(flow)
                 gapToleranceTracker = ewr_dict['gapTolerance']
                 if len(eList) >= ewr_dict['duration']:
                     # When part 1 is achieved, look for the second part (next threshold/duration requirement)
-                    postEventList = []    
+                    postEventList = []  
                     for futureIter in flowSeries[(iteration+1):\
                                                  (iteration+1+ewr_dict['outsideEventDuration'])]:
                         if futureIter >= ewr_dict['outsideEventThreshold']:
@@ -1368,40 +1895,40 @@ def outsideDurationCalc(ewr_dict, flowSeries, wySeries):
     
     return eventDict
 
-def multiYearEvent(flow, ewr_dict, flowSeries, iteration, maxWindow, wy_type):
+def multiYearEvent(flow, ewr_dict, flowSeries, iteration, maxForward, maxBackward, wy_type):
     '''For finding when the event spanning multiple years falls and details about the event'''
-    if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
-        preEventList = []
-        postEventList = []
-        tracker = 0
-        if wy_type == 'end':
-            preEventList.append(flow) # start with this in the list
-        elif wy_type == 'start':
-            postEventList.append(flow)
-        while True:
-            tracker = tracker + 1
-            eventTrack = flowSeries[iteration - tracker]
-            if ((eventTrack < ewr_dict['minThreshold']) or (eventTrack > ewr_dict['maxThreshold'])):
-                break
-            elif tracker == 365: # only search back a year, unlikely to be activated
-                break
-            else:
-                preEventList.insert(0, eventTrack)
-        tracker = 0
-        while True:
-            tracker = tracker + 1
-            eventTrack = flowSeries[iteration + tracker]
-            if ((eventTrack < ewr_dict['minThreshold']) or (eventTrack > ewr_dict['maxThreshold'])):
-                break
-            elif tracker == 365: # only search forward a year
-                break
-            else:
-                postEventList.append(eventTrack)
-        eList = preEventList + postEventList
+    
+    preEventList = []
+    postEventList = []
+    tracker = 0
+    if wy_type == 'end':
+        preEventList.append(flow) # start with this in the list
+    elif wy_type == 'start':
+        postEventList.append(flow)
+    while True:
+        tracker = tracker + 1
+        if tracker == maxBackward: # only search back a year, unlikely to be activated
+            break
+        eventTrack = flowSeries[(iteration - tracker)]
+        if ((eventTrack < ewr_dict['minThresholdF']) or (eventTrack > ewr_dict['maxThresholdF'])):
+            break            
+        else:
+            preEventList.insert(0, eventTrack)
+    tracker = 0
+    while True:
+        tracker = tracker + 1
+        if tracker == maxForward: # only search forward a year
+            break
+        eventTrack = flowSeries[(iteration + tracker)]
+        if ((eventTrack < ewr_dict['minThresholdF']) or (eventTrack > ewr_dict['maxThresholdF'])):
+            break
+        else:
+            postEventList.append(eventTrack)
+    eList = preEventList + postEventList
         
     return eList, preEventList, postEventList
     
-def flowCalcAnytime(ewr_dict, flowSeries, wySeries, dateSeries, maxWindow):
+def flowCalcAnytime(ewr_dict, flowSeries, wySeries, dateSeries):
     '''The calculation section for flow type ewrs with no time constraints,
     these have been seperated due to their ability to cross water year boundaries'''
     # Declare variables:
@@ -1412,97 +1939,124 @@ def flowCalcAnytime(ewr_dict, flowSeries, wySeries, dateSeries, maxWindow):
     linesToSkip = 0
     gapToleranceTracker = 0
     fullEvent = []
-    # Cycle through the flow timeseries:
-    for iteration, flow in enumerate(flowSeries):
+
+    # Saving dates as nparrays to increase speed of processing:
+    days = dateSeries.month.values
+    months = dateSeries.day.values
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
+    # Hit the first iteration outside the loop
+    eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent = \
+        ewrCheck(ewr_dict['minThresholdF'],
+                 ewr_dict['maxThresholdF'],
+                 ewr_dict['duration'],
+                 ewr_dict['min event'],
+                 ewr_dict['gapTolerance'],
+                 flowSeries[0], 
+                 eList,
+                 eventDict,
+                 wySeries[0],
+                 noneCounter,
+                 noneList,
+                 gapToleranceTracker,
+                 fullEvent
+                )      
+    # Cycle through the remaining flow timeseries except the last one:
+    for iteration, flow in enumerate(flowSeries[1:-1]):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
             wyCurrent = wySeries[iteration]      
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
-            if iteration == 0:
-                eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent = \
-                    ewrCheck(ewr_dict['minThreshold'],
-                             ewr_dict['maxThreshold'],
-                             ewr_dict['duration'],
-                             ewr_dict['min event'],
-                             ewr_dict['gapTolerance'],
-                             flow, 
-                             eList,
-                             eventDict,
-                             wyCurrent,
-                             noneCounter,
-                             noneList,
-                             gapToleranceTracker,
-                             fullEvent
-                            )                
-            elif iteration == len(flowSeries)-1: # If first or last just check EWR
-                eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent = \
-                    ewrCheck(ewr_dict['minThreshold'],
-                             ewr_dict['maxThreshold'],
-                             ewr_dict['duration'],
-                             ewr_dict['min event'],
-                             ewr_dict['gapTolerance'],
-                             flow, 
-                             eList,
-                             eventDict,
-                             wyCurrent,
-                             noneCounter,
-                             noneList,
-                             gapToleranceTracker,
-                             fullEvent
-                            )
-                if len(eList) >= ewr_dict['min event']:
-                    eventDict[wyCurrent].append(eList)
+            if (months[iteration] == 6) and (days[iteration] == 30): # last day in WY
+                # Determine the max window (if the date is close to the start or end of the timeseries), otherwise leave the max window to the full year
+                if iteration > len(flowSeries) - 365:
+                    maxForwardWindow = len(flowSeries) - iteration
+                else:
+                    maxForwardWindow = 365
+                if iteration < 365:
+                    maxBackwardWindow = iteration
+                else:
+                    maxBackwardWindow = 365
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
+                    eList, preEventList, postEventList = multiYearEvent(flow, 
+                                                                        ewr_dict, 
+                                                                        flowSeries, 
+                                                                        iteration,
+                                                                        maxForwardWindow,
+                                                                        maxBackwardWindow,
+                                                                        'end'
+                                                                       )
+                    if len(eList) >= ewr_dict['min event']:
+                        if len(preEventList) >= len(postEventList):
+                            eventDict[wyCurrent].append(eList)
+                            linesToSkip = len(postEventList)
+
+                eList = [] # Reset the event list at the end of the water year  
+
+            elif (months[iteration] == 7) and (days[iteration] == 1): # start of WY
+                # Determine the max window (if the date is close to the start or end of the timeseries), otherwise leave the max window to the full year
+                if iteration > len(flowSeries) - 365:
+                    maxForwardWindow = len(flowSeries) - iteration
+                else:
+                    maxForwardWindow = 365
+                if iteration < 365:
+                    maxBackwardWindow = iteration
+                else:
+                    maxBackwardWindow = 365
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF'])):
+                    eList, preEventList, postEventList = multiYearEvent(flow, 
+                                                                        ewr_dict, 
+                                                                        flowSeries, 
+                                                                        iteration,
+                                                                        maxForwardWindow,
+                                                                        maxBackwardWindow,
+                                                                        'start'
+                                                                       )
+                    if len(eList) >= ewr_dict['min event']:
+                        if len(preEventList) < len(postEventList):
+                            eventDict[wyCurrent].append(eList)
+                            linesToSkip = len(postEventList)-1
                 eList = []
             else:
-                if (dateSeries[iteration].month == 6) and (dateSeries[iteration].day == 30): # last day in WY
-                    if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
-                        eList, preEventList, postEventList = multiYearEvent(flow, 
-                                                                            ewr_dict, 
-                                                                            flowSeries, 
-                                                                            iteration, 
-                                                                            maxWindow,
-                                                                            'end'
-                                                                           )
-                        if len(eList) >= ewr_dict['min event']:
-                            if len(preEventList) >= len(postEventList):
-                                eventDict[wyCurrent].append(eList)
-                                linesToSkip = len(postEventList)
-                    
-                    eList = [] # Reset the event list at the end of the water year  
-
-                elif (dateSeries[iteration].month == 7) and (dateSeries[iteration].day == 1): # start of WY
-                    eventDict[wyCurrent] = []
-                    if ((flow >= ewr_dict['minThreshold']) and (flow <= ewr_dict['maxThreshold'])):
-                        eList, preEventList, postEventList = multiYearEvent(flow, 
-                                                                            ewr_dict, 
-                                                                            flowSeries, 
-                                                                            iteration,
-                                                                            maxWindow,
-                                                                            'start'
-                                                                           )
-                        if len(eList) >= ewr_dict['min event']:
-                            if len(preEventList) < len(postEventList):
-                                eventDict[wyCurrent].append(eList)
-                                linesToSkip = len(postEventList)-1
-                    eList = []
-                else:
-                    eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent = \
-                    ewrCheck(ewr_dict['minThreshold'],
-                             ewr_dict['maxThreshold'],
-                             ewr_dict['duration'],
-                             ewr_dict['min event'],
-                             ewr_dict['gapTolerance'],
-                             flow, 
-                             eList,
-                             eventDict,
-                             wyCurrent,
-                             noneCounter,
-                             noneList,
-                             gapToleranceTracker,
-                             fullEvent
-                            )
+                eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent = \
+                ewrCheck(ewr_dict['minThresholdF'],
+                         ewr_dict['maxThresholdF'],
+                         ewr_dict['duration'],
+                         ewr_dict['min event'],
+                         ewr_dict['gapTolerance'],
+                         flow, 
+                         eList,
+                         eventDict,
+                         wyCurrent,
+                         noneCounter,
+                         noneList,
+                         gapToleranceTracker,
+                         fullEvent
+                        )
+    
+    # Hit the final iteration
+    eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent = \
+        ewrCheck(ewr_dict['minThresholdF'],
+                 ewr_dict['maxThresholdF'],
+                 ewr_dict['duration'],
+                 ewr_dict['min event'],
+                 ewr_dict['gapTolerance'],
+                 flowSeries[-1], 
+                 eList,
+                 eventDict,
+                 wySeries[-1],
+                 noneCounter,
+                 noneList,
+                 gapToleranceTracker,
+                 fullEvent
+                )
+    if len(eList) >= ewr_dict['min event']:
+        eventDict[wyCurrent].append(eList) 
     
     return eventDict, noneList
     
@@ -1516,20 +2070,24 @@ def flowCalc(ewr_dict, flowSeries, wySeries, dateSeries):
     linesToSkip = 0
     gapToleranceTracker = 0
     fullEvent = []
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
     # Cycle through the flow timeseries:    
-    for iteration, flow in enumerate(flowSeries):
+    for iteration, flow in enumerate(flowSeries[:-1]):
         wyCurrent = wySeries[iteration] # check for transformation    
-        if wySeries[iteration] not in eventDict.keys():
-            eventDict[wyCurrent] = []
-            eList = []
         # Check ewr completion:
         eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent =\
-                ewrCheck(ewr_dict['minThreshold'],
-                         ewr_dict['maxThreshold'],
+                ewrCheck(ewr_dict['minThresholdF'],
+                         ewr_dict['maxThresholdF'],
                          ewr_dict['duration'],
                          ewr_dict['min event'],
                          ewr_dict['gapTolerance'],
-                         flow, 
+                         flow,
                          eList,
                          eventDict,
                          wyCurrent,
@@ -1538,16 +2096,30 @@ def flowCalc(ewr_dict, flowSeries, wySeries, dateSeries):
                          gapToleranceTracker,
                          fullEvent
                         )
-        # If its not the last entry, check if this is the last day in the period:
-        if iteration != len(flowSeries)-1: 
-            # If its the last day in the period, check to see if the event meets the requirements
-            if wySeries[iteration] != wySeries[iteration+1]:
-                if len(eList) >= ewr_dict['min event']: 
-                    eventDict[wyCurrent].append(eList)
-        # If its the last day in the series, check to see if the current event passes the requirements
-        elif iteration == len(flowSeries)-1:
+        if wySeries[iteration] != wySeries[iteration+1]:
             if len(eList) >= ewr_dict['min event']: 
                 eventDict[wyCurrent].append(eList)
+            eList = [] # reset the event list at the end of the water year
+
+    # Check ewr completion for last day:
+    eList, eventDict, noneCounter, noneList, gapToleranceTracker, fullEvent =\
+            ewrCheck(ewr_dict['minThresholdF'],
+                     ewr_dict['maxThresholdF'],
+                     ewr_dict['duration'],
+                     ewr_dict['min event'],
+                     ewr_dict['gapTolerance'],
+                     flowSeries[-1], 
+                     eList,
+                     eventDict,
+                     wySeries[-1],
+                     noneCounter,
+                     noneList,
+                     gapToleranceTracker,
+                     fullEvent
+                    )
+    if len(eList) >= ewr_dict['min event']: 
+        eventDict[wyCurrent].append(eList)
+    #--- End last day check ---#
     
     return eventDict, noneList
 
@@ -1561,53 +2133,34 @@ def lowFlowCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr, gauge
     yearsWithEvents = []
     avLowFlowDays = []
     waterYears = sorted(set(wySeries))
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
     # Cycle through the flow timeseries:
-    for iteration, flow in enumerate(flowSeries): 
+    for iteration, flow in enumerate(flowSeries[:-1]): 
         wyCurrent = wySeries[iteration] # check for transformation   
-        if wySeries[iteration] not in eventDict.keys():
-            eventDict[wyCurrent] = []
-            eList = []
         # EWR check:
         eList, eventDict, noneCounter, noneList = \
-            lowFlowCheck(ewr_dict['minThreshold'],
-                         ewr_dict['maxThreshold'],
+            lowFlowCheck(ewr_dict['minThresholdF'],
+                         ewr_dict['maxThresholdF'],
                              flow,
                              eList,
                              eventDict,
                              wyCurrent,
                              noneCounter,
                              noneList
-                            )    
-        if iteration != len(flowSeries)-1:
-            if wySeries[iteration] != wySeries[iteration+1]:
-                if ((climateSeries[iteration] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
-                    ewr_duration = ewr_dict['veryDry_duration']
-                else:
-                    ewr_duration = ewr_dict['duration']
-                # If there are more elements in the final list, save them to the results dictionary:    
-                if len(eList) > 0:
-                    eventDict[wyCurrent].append(eList)
-                    noneCounter = noneCounter - len(eList)#count to start of event
-                    noneList.append(noneCounter)
-                    noneCounter = 1
-                # Check year for event, add result to the list
-                calcList = ['years with events','number of low flow days']
-                yearsWithEvents, avLowFlowDays = resultsStatsLowFlow(calcList,
-                                                                     eventDict, 
-                                                                     wyCurrent, 
-                                                                     yearsWithEvents, 
-                                                                     avLowFlowDays,
-                                                                     ewr_duration)
-        elif iteration == len(flowSeries) -1:
-            if ((climateSeries[iteration] == 'Very Dry') and \
-                (ewr_dict['veryDry_duration'] !=None)):
+                            )
+        if wySeries[iteration] != wySeries[iteration+1]:
+            if ((climateSeries[iteration] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
                 ewr_duration = ewr_dict['veryDry_duration']
             else:
                 ewr_duration = ewr_dict['duration']
-            # If there are more elements in the final list, save them to the results dictionary:  
+            # If there are more elements in the final list, save them to the results dictionary:    
             if len(eList) > 0:
                 eventDict[wyCurrent].append(eList)
-                noneCounter = noneCounter - len(eList)
+                noneCounter = noneCounter - len(eList)#count to start of event
                 noneList.append(noneCounter)
                 noneCounter = 1
             # Check year for event, add result to the list
@@ -1618,7 +2171,41 @@ def lowFlowCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr, gauge
                                                                  yearsWithEvents, 
                                                                  avLowFlowDays,
                                                                  ewr_duration)
-
+            eList = [] # Reset at the end of the water year
+            
+    #--- Check final iteration: ---#
+    eList, eventDict, noneCounter, noneList = \
+        lowFlowCheck(ewr_dict['minThresholdF'],
+                     ewr_dict['maxThresholdF'],
+                         flowSeries[-1],
+                         eList,
+                         eventDict,
+                         wySeries[-1],
+                         noneCounter,
+                         noneList
+                        )      
+    if ((climateSeries[-1] == 'Very Dry') and \
+        (ewr_dict['veryDry_duration'] !=None)):
+        ewr_duration = ewr_dict['veryDry_duration']
+    else:
+        ewr_duration = ewr_dict['duration']
+    # If there are more elements in the final list, save them to the results dictionary:  
+    if len(eList) > 0:
+        eventDict[wySeries[-1]].append(eList)
+        noneCounter = noneCounter - len(eList)
+        noneList.append(noneCounter)
+        noneCounter = 1
+    #--- End checking final iteration ---#
+    
+    # Check year for event, add result to the list
+    calcList = ['years with events','number of low flow days']
+    yearsWithEvents, avLowFlowDays = resultsStatsLowFlow(calcList,
+                                                         eventDict, 
+                                                         wySeries[-1], 
+                                                         yearsWithEvents, 
+                                                         avLowFlowDays,
+                                                         ewr_duration)
+    
     addSeries = pd.Series(yearsWithEvents)
     addSeries.index = waterYears
     
@@ -1653,45 +2240,31 @@ def cfCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr):
     avLenCtfSpells = []
     waterYears = sorted(set(wySeries))
     # Cycle through the flow timeseries:
-    for iteration, flow in enumerate(flowSeries): 
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
+    for iteration, flow in enumerate(flowSeries[:-1]): 
         wyCurrent = wySeries[iteration] # check for transformation 
-        if wySeries[iteration] not in eventDict.keys():
-            eventDict[wyCurrent] = []
-            eList = []
-        eList, eventDict, noneCounter, noneList = ctfCheck(ewr_dict['minThreshold'],
+        eList, eventDict, noneCounter, noneList = ctfCheck(ewr_dict['minThresholdF'],
                                                     flow,
                                                     eList,
                                                     eventDict,
                                                     wyCurrent,
                                                     noneCounter,
                                                     noneList)                                  
-        if iteration != len(flowSeries)-1:
-            if wySeries[iteration] != wySeries[iteration+1]:
-                if ((climateSeries[iteration] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
-                    ewr_duration = ewr_dict['veryDry_duration']
-                else:
-                    ewr_duration = ewr_dict['duration']
-                # Add in the current event list:
-                if len(eList) > 0:
-                    eventDict[wyCurrent].append(eList)
-                # Send to get evaluated:  
-                yearsWithEvents,numEvents,ctfDaysPerYear,avLenCtfSpells=resultsStatsCF(eventDict, 
-                                                                                       wyCurrent,
-                                                                                       yearsWithEvents,
-                                                                                       numEvents,
-                                                                                       ctfDaysPerYear,
-                                                                                       avLenCtfSpells,
-                                                                                       ewr_duration)
-        elif iteration == len(flowSeries)-1:
-            # If its the last element in the series:
-            if ((climateSeries[iteration] == 'Very Dry') and \
-                (ewr_dict['veryDry_duration'] !=None)):
+        if wySeries[iteration] != wySeries[iteration+1]:
+            if ((climateSeries[iteration] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
                 ewr_duration = ewr_dict['veryDry_duration']
             else:
                 ewr_duration = ewr_dict['duration']
+            # Add in the current event list:
             if len(eList) > 0:
                 eventDict[wyCurrent].append(eList)
-            # Send to get evaluated:
+            # Send to get evaluated:  
             yearsWithEvents,numEvents,ctfDaysPerYear,avLenCtfSpells=resultsStatsCF(eventDict, 
                                                                                    wyCurrent,
                                                                                    yearsWithEvents,
@@ -1699,7 +2272,33 @@ def cfCalc(ewr_dict, flowSeries, wySeries, climateSeries, PU_df, ewr):
                                                                                    ctfDaysPerYear,
                                                                                    avLenCtfSpells,
                                                                                    ewr_duration)
+            eList = []
+            
+    #--- Handling the final element in the series ---#
+    eList, eventDict, noneCounter, noneList = ctfCheck(ewr_dict['minThresholdF'],
+                                                flowSeries[-1],
+                                                eList,
+                                                eventDict,
+                                                wySeries[-1],
+                                                noneCounter,
+                                                noneList)     
     
+    if ((climateSeries[-1] == 'Very Dry') and \
+        (ewr_dict['veryDry_duration'] !=None)):
+        ewr_duration = ewr_dict['veryDry_duration']
+    else:
+        ewr_duration = ewr_dict['duration']
+    if len(eList) > 0:
+        eventDict[wySeries[-1]].append(eList)
+    # Send to get evaluated:
+    yearsWithEvents,numEvents,ctfDaysPerYear,avLenCtfSpells=resultsStatsCF(eventDict, 
+                                                                           wySeries[-1],
+                                                                           yearsWithEvents,
+                                                                           numEvents,
+                                                                           ctfDaysPerYear,
+                                                                           avLenCtfSpells,
+                                                                           ewr_duration)
+    #--- End handling the final element ---#
     addSeries = pd.Series(yearsWithEvents)
     addSeries.index = waterYears
     
@@ -1733,37 +2332,48 @@ def cumulVolCalcAnytime(ewr_dict, flowSeries, wySeries):
     linesToSkip = 0
     noneCounter = 0
     noneList = []
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+
     # Cycle through the flow timeseries:
-    for iteration, flow in enumerate(flowSeries):
+    for iteration, flow in enumerate(flowSeries[:-ewr_dict['duration']+1]):
         wyCurrent = wySeries[iteration]
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
-            if iteration < len(flowSeries)-ewr_dict['duration']:
-                subset = flowSeries[iteration:iteration+(ewr_dict['duration']+1)]
-                if sum(subset) >= ewr_dict['threshold']:
-                    # Work out the middle of the event:
-                    middleIteration = ((iteration+iteration+(ewr_dict['duration']+1))/2)
-                    middleWY = wySeries[iteration]
-                    eventDict[middleWY].append(subset)
-                    linesToSkip = len(subset)
-                    noneList.append(noneCounter)
-                    noneCounter = 0
-                else:
-                    noneCounter += 1
-            elif iteration >= len(flowSeries)-ewr_dict['threshold']:
-                # Only search to the end of the subset:
-                subset=flowSeries[iteration:(iteration+ewr_dict['duration']+1-len(flowSeries)-1-iteration)]
-                if sum(subset) >= ewr_dict['threshold']:
-                    eventDict[wyCurrent].append(subset)
-                    linesToSkip = len(subset)
-                    noneList.append(noneCounter)
-                    noneCounter = 0
-                else:
-                    noneCounter += 1
-
+            subset = flowSeries[iteration:iteration+(ewr_dict['duration']+1)] 
+            subsetSum = sum(filter(lambda x: x>=ewr_dict['minThresholdF'], subset)) #Only sum those values over a certain min flow threshold, if none exists, defaults to 0 ML/Day as the minimum
+            if subsetSum >= ewr_dict['minThresholdV']:
+                # Work out the middle of the event:
+                middleIteration = ((iteration+iteration+(ewr_dict['duration']+1))/2)
+                middleWY = wySeries[iteration]
+                eventDict[middleWY].append(subset)
+                linesToSkip = len(subset)
+                noneList.append(noneCounter)
+                noneCounter = 0
+            else:
+                noneCounter += 1
+    # then iterate over the last of the flow series
+    finalFlowSeries = flowSeries[-ewr_dict['duration']:]
+    finalWYseries = wySeries[-ewr_dict['duration']:]
+    for iteration, flow in enumerate(finalFlowSeries):
+        if linesToSkip > 0:
+            linesToSkip = linesToSkip - 1
+        else:
+            wyCurrent = finalWYseries[iteration]
+            # Only search to the end of the subset:
+            subset=finalFlowSeries[iteration:]
+            subsetSum = sum(filter(lambda x: x>=ewr_dict['minThresholdF'], subset)) # Only sum those values over a certain min flow threshold, if none exists, defaults to 0 ML/Day as the minimum
+            if subsetSum >= ewr_dict['minThresholdV']:
+                eventDict[wyCurrent].append(subset)
+                linesToSkip = len(subset)
+                noneList.append(noneCounter)
+                noneCounter = 0
+            else:
+                noneCounter += 1
     return eventDict, noneList
 
 def cumulVolCalc(ewr_dict, flowSeries, wySeries):
@@ -1774,51 +2384,63 @@ def cumulVolCalc(ewr_dict, flowSeries, wySeries):
     linesToSkip = 0
     noneList = []
     noneCounter = 0
-    # Cycle through the flow timeseries:
-    for iteration, flow in enumerate(flowSeries):
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
+    # Cycle through the flow timeseries, up until the final duration check:
+    for iteration, flow in enumerate(flowSeries[:-ewr_dict['duration']]):
         wyCurrent = wySeries[iteration]
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:
-            if wySeries[iteration] not in eventDict.keys():
-                eventDict[wyCurrent] = []
             # only subset as far as the end of the water year.
             # If we are approaching the end of the water year, start reducing the size of the subset:
-            if iteration < len(flowSeries)-ewr_dict['duration']:
-                if wySeries[iteration] != wySeries[iteration+ewr_dict['duration']]:
-                    for futureI in range(iteration, (iteration + ewr_dict['duration']), 1):
-                        if wySeries[futureI] != wySeries[futureI+1]:
-                            endOfSubset = futureI
-                            break
-                    subset = flowSeries[iteration:(iteration+endOfSubset+1)]
-                    if sum(subset) >= ewr_dict['threshold']:
-                        eventDict[wyCurrent].append(subset)
-                        linesToSkip = len(subset)
-                        noneList.append(noneCounter)
-                        noneCounter = 0
-                    else:
-                        noneCounter += 1  
-                else:
-                    subset=flowSeries[iteration:(iteration+ewr_dict['duration']+1)]
-                    if sum(subset) >= ewr_dict['threshold']:
-                        eventDict[wyCurrent].append(subset)
-                        linesToSkip = len(subset)
-                        noneList.append(noneCounter)
-                        noneCounter = 0
-                    else:
-                        noneCounter += 1                    
-                        
-            elif iteration >= len(flowSeries)-ewr_dict['duration']:
-                # Only search to the end of the subset:
-                subset=flowSeries[iteration:(iteration+ewr_dict['duration']+1-len(flowSeries)-1-iteration)]
-                if sum(subset) >= ewr_dict['threshold']:
+            if wySeries[iteration] != wySeries[iteration+ewr_dict['duration']]:
+                for futureI in range(iteration, (iteration + ewr_dict['duration']), 1):
+                    if wySeries[futureI] != wySeries[futureI+1]:
+                        endOfSubset = futureI
+                        break
+                subset = flowSeries[iteration:(endOfSubset+1)] # flowSeries[iteration:(iteration+endOfSubset+1)]
+                subsetSum = sum(filter(lambda x: x>=ewr_dict['minThresholdF'], subset)) # Only sum those values over a certain min flow threshold, if none exists, defaults to 0 ML/Day as the minimum
+                if subsetSum >= ewr_dict['minThresholdV']:
                     eventDict[wyCurrent].append(subset)
                     linesToSkip = len(subset)
                     noneList.append(noneCounter)
                     noneCounter = 0
                 else:
                     noneCounter += 1  
-                
+            else:
+                subset=flowSeries[iteration:(iteration+ewr_dict['duration']+1)]
+                subsetSum = sum(filter(lambda x: x>=ewr_dict['minThresholdF'], subset)) # Only sum those values over a certain min flow threshold, if none exists, defaults to 0 ML/Day as the minimum
+                if subsetSum >= ewr_dict['minThresholdV']:
+                    eventDict[wyCurrent].append(subset)
+                    linesToSkip = len(subset)
+                    noneList.append(noneCounter)
+                    noneCounter = 0
+                else:
+                    noneCounter += 1                    
+    
+    # then iterate over the last of the flow series
+    finalFlowSeries = flowSeries[-ewr_dict['duration']:]
+    for iteration, flow in enumerate(finalFlowSeries):
+        if linesToSkip > 0:
+            linesToSkip = linesToSkip - 1
+        else:
+            # Only search to the end of the subset:
+            subset=finalFlowSeries[iteration:]
+            subsetSum = sum(filter(lambda x: x>=ewr_dict['minThresholdF'], subset)) # Only sum those values over a certain min flow threshold, if none exists, defaults to 0 ML/Day as the minimum
+            if subsetSum >= ewr_dict['minThresholdV']:
+                eventDict[wyCurrent].append(subset)
+                linesToSkip = len(subset)
+                noneList.append(noneCounter)
+                noneCounter = 0
+            else:
+                noneCounter += 1  
+    
     return eventDict, noneList
 
 
@@ -1831,19 +2453,37 @@ def lakeLevelCalc(ewr_dict, heightSeries, wySeries):
     noneList = []
     eventDict = {}
     linesToSkip = 0
-    # Cycle through the flow timeseries:
-    for iteration, height in enumerate(heightSeries):
-        wyCurrent = wySeries[iteration] # check for transformation 
-        if wySeries[iteration] not in eventDict.keys():
-            eventDict[wyCurrent] = []   
-            eList = []
-        # Calculate the change in height from the day before to today. If first day delta = 0
-        if (iteration == 0):
-            deltaHeight = 0
-        else:
-            deltaHeight = (heightSeries[iteration-1]-heightSeries[iteration])
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
+    # Hit the first element in the series outside the loop:
+    deltaHeight = 0 # First change define as 0
+    
+    eList, eventDict, noEventCounter, noEventList = \
+    levelCheck(ewr_dict['minThresholdL'],
+    heightSeries[0], 
+    ewr_dict['maxDrawdown'],           
+    deltaHeight,           
+    ewr_dict['duration'],                            
+    eList, 
+    eventDict, 
+    wySeries[0],
+    noneCounter,
+    noneList,                      
+    )
+    
+    # Cycle through the flow timeseries (excluding first and last element):
+    for iteration, height in enumerate(heightSeries[1:-1]):
+        wyCurrent = wySeries[iteration] # check for transformation  
+        # Calculate the change in height from the day before to today:
+        deltaHeight = (heightSeries[iteration-1]-heightSeries[iteration])
+        
         eList, eventDict, noEventCounter, noEventList = \
-        levelCheck(ewr_dict['minThreshold'],
+        levelCheck(ewr_dict['minThresholdL'],
         height, 
         ewr_dict['maxDrawdown'],           
         deltaHeight,           
@@ -1854,25 +2494,534 @@ def lakeLevelCalc(ewr_dict, heightSeries, wySeries):
         noneCounter,
         noneList,                      
         )
-        if iteration != len(heightSeries)-1:
-            if wySeries[iteration] != wySeries[iteration+1]:
-                if len(eList) >= ewr_dict['duration']: 
-                    eventDict[wyCurrent].append(eList)
-        elif iteration == len(heightSeries)-1:
+        if wySeries[iteration] != wySeries[iteration+1]:
             if len(eList) >= ewr_dict['duration']: 
                 eventDict[wyCurrent].append(eList)
+            eList = [] # Reset at the end of the water year
+
+            
+    # Hit the final element in the series:
+    deltaHeight = (heightSeries[-2]-heightSeries[iteration-1])
+
+    eList, eventDict, noEventCounter, noEventList = \
+    levelCheck(ewr_dict['minThresholdL'],
+    heightSeries[-1], 
+    ewr_dict['maxDrawdown'],           
+    deltaHeight,           
+    ewr_dict['duration'],                            
+    eList, 
+    eventDict, 
+    wySeries[-1],
+    noneCounter,
+    noneList,                      
+    )
+            
+    if len(eList) >= ewr_dict['duration']: 
+        eventDict[wyCurrent].append(eList)
     
     return eventDict 
+ 
+def simultaneousMultiYearEvent(flow, flow2, ewr_dict, ewr_dict2, flowSeries, flowSeries2, iteration, maxForward, maxBackward, wy_type):
+    '''For finding when the event spanning multiple years falls and details about the event'''
+    
+    preEventList = []
+    postEventList = []
+    tracker = 0
+    if wy_type == 'end':
+        preEventList.append(flow) # start with this in the list
+    elif wy_type == 'start':
+        postEventList.append(flow)
+    while True:
+        tracker = tracker + 1
+        if tracker == maxBackward: # only search back a year, unlikely to be activated
+            break
+        eventTrack = flowSeries[(iteration - tracker)]
+        eventTrack2 = flowSeries2[(iteration - tracker)]
+        if ((eventTrack < ewr_dict['minThresholdF']) or (eventTrack > ewr_dict['maxThresholdF']) or (eventTrack2 < ewr_dict2['minThresholdF']) or (eventTrack2 > ewr_dict2['maxThresholdF'])):
+            break            
+        else:
+            preEventList.insert(0, eventTrack)
+    tracker = 0
+    while True:
+        tracker = tracker + 1
+        if tracker == maxForward: # only search forward a year
+            break
+        eventTrack = flowSeries[(iteration + tracker)]
+        eventTrack2 = flowSeries2[(iteration - tracker)]
+        if ((eventTrack < ewr_dict['minThresholdF']) or (eventTrack > ewr_dict['maxThresholdF']) or (eventTrack2 < ewr_dict2['minThresholdF']) or (eventTrack2 > ewr_dict2['maxThresholdF'])):
+            break
+        else:
+            postEventList.append(eventTrack)
+    eList = preEventList + postEventList
+        
+    return eList, preEventList, postEventList
+
+def simultaneousFlowCalcAnytime(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, dateSeries):
+    '''The calculation section for flow type ewrs with no time constraints,
+    these have been seperated due to their ability to cross water year boundaries'''
+    # Declare variables:
+    eList = []
+    eventDict = {}
+    noneCounter = 0
+    noneList = []
+    linesToSkip = 0
+
+    # Saving dates as nparrays to increase speed of processing:
+    days = dateSeries.month.values
+    months = dateSeries.day.values
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
+    # Hit the first iteration outside the loop
+    eList, eventDict, noneCounter, noneList =\
+            simultaneousEwrCheck(ewr_dict['minThresholdF'],
+                     ewr_dict2['minThresholdF'],
+                     ewr_dict['maxThresholdF'],
+                     ewr_dict2['maxThresholdF'],
+                     ewr_dict['duration'],
+                     ewr_dict2['duration'],
+                     ewr_dict['min event'],
+                     ewr_dict2['min event'],
+                     flowSeries[0],
+                     flowSeries2[0],
+                     eList,
+                     eventDict,
+                     wySeries[0],
+                     noneCounter,
+                     noneList
+                    )    
+    # Cycle through the remaining flow timeseries except the last one:
+    for iteration, flow in enumerate(flowSeries[1:-1]):
+        if linesToSkip > 0:
+            linesToSkip = linesToSkip - 1
+        else:
+            wyCurrent = wySeries[iteration]      
+            if (months[iteration] == 6) and (days[iteration] == 30): # last day in WY
+                # Determine the max window (if the date is close to the start or end of the timeseries), otherwise leave the max window to the full year
+                if iteration > len(flowSeries) - 365:
+                    maxForwardWindow = len(flowSeries) - iteration
+                else:
+                    maxForwardWindow = 365
+                if iteration < 365:
+                    maxBackwardWindow = iteration
+                else:
+                    maxBackwardWindow = 365
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF']) and (flowSeries2[iteration] >= ewr_dict2['minThresholdF']) and (flowSeries2[iteration] <= ewr_dict2['mxThresholdF'])):
+                    eList, preEventList, postEventList = simultaneousMultiYearEvent(flow,
+                                                                        flowSeries2[iteration],
+                                                                        ewr_dict,
+                                                                        ewr_dict2,
+                                                                        flowSeries,
+                                                                        flowSeries2,
+                                                                        iteration,
+                                                                        maxForwardWindow,
+                                                                        maxBackwardWindow,
+                                                                        'end'
+                                                                       )
+                    if len(eList) >= ewr_dict['min event']:
+                        if len(preEventList) >= len(postEventList):
+                            eventDict[wyCurrent].append(eList)
+                            linesToSkip = len(postEventList)
+
+                eList = [] # Reset the event list at the end of the water year  
+
+            elif (months[iteration] == 7) and (days[iteration] == 1): # start of WY
+                # Determine the max window (if the date is close to the start or end of the timeseries), otherwise leave the max window to the full year
+                if iteration > len(flowSeries) - 365:
+                    maxForwardWindow = len(flowSeries) - iteration
+                else:
+                    maxForwardWindow = 365
+                if iteration < 365:
+                    maxBackwardWindow = iteration
+                else:
+                    maxBackwardWindow = 365
+                if ((flow >= ewr_dict['minThresholdF']) and (flow <= ewr_dict['maxThresholdF']) and (flowSeries2[iteration] >= ewr_dict2['minThresholdF']) and (flowSeries2[iteration] <= ewr_dict2['maxThresholdF'])):
+                    eList, preEventList, postEventList = simultaneousMultiYearEvent(flow,
+                                                                        flowSeries[iteration],
+                                                                        ewr_dict,
+                                                                        ewr_dict2,
+                                                                        flowSeries, 
+                                                                        flowSeries2,
+                                                                        iteration,
+                                                                        maxForwardWindow,
+                                                                        maxBackwardWindow,
+                                                                        'start'
+                                                                       )
+                    if len(eList) >= ewr_dict['min event']:
+                        if len(preEventList) < len(postEventList):
+                            eventDict[wyCurrent].append(eList)
+                            linesToSkip = len(postEventList)-1
+                eList = []
+            else:
+                eList, eventDict, noneCounter, noneList =\
+                        simultaneousEwrCheck(ewr_dict['minThresholdF'],
+                                 ewr_dict2['minThresholdF'],
+                                 ewr_dict['maxThresholdF'],
+                                 ewr_dict2['maxThresholdF'],
+                                 ewr_dict['duration'],
+                                 ewr_dict2['duration'],
+                                 ewr_dict['min event'],
+                                 ewr_dict2['min event'],
+                                 flow,
+                                 flowSeries2[iteration],
+                                 eList,
+                                 eventDict,
+                                 wySeries[iteration],
+                                 noneCounter,
+                                 noneList
+                                )  
+    
+    # Hit the final iteration
+    eList, eventDict, noneCounter, noneList =\
+            simultaneousEwrCheck(ewr_dict['minThresholdF'],
+                     ewr_dict2['minThresholdF'],
+                     ewr_dict['maxThresholdF'],
+                     ewr_dict2['maxThresholdF'],
+                     ewr_dict['duration'],
+                     ewr_dict2['duration'],
+                     ewr_dict['min event'],
+                     ewr_dict2['min event'],
+                     flowSeries[-1],
+                     flowSeries2[-1],
+                     eList,
+                     eventDict,
+                     wySeries[-1],
+                     noneCounter,
+                     noneList
+                    )  
+    if len(eList) >= ewr_dict['min event']:
+        eventDict[wyCurrent].append(eList) 
+    
+    return eventDict, noneList
+
+def simultaneousFlowCalc(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, dateSeries):
+    '''For standard flow EWRs with time constraints'''
+    # Decalre variables:
+    eList = []
+    eventDict = {}
+    noneCounter = 0
+    noneList = []
+    linesToSkip = 0
+    
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    
+    # Cycle through the flow timeseries:    
+    for iteration, flow in enumerate(flowSeries[:-1]):
+        wyCurrent = wySeries[iteration] # check for transformation
+        # Check ewr completion:
+        eList, eventDict, noneCounter, noneList =\
+                simultaneousEwrCheck(ewr_dict['minThresholdF'],
+                         ewr_dict2['minThresholdF'],
+                         ewr_dict['maxThresholdF'],
+                         ewr_dict2['maxThresholdF'],
+                         ewr_dict['duration'],
+                         ewr_dict2['duration'],
+                         ewr_dict['min event'],
+                         ewr_dict2['min event'],
+                         flow,
+                         flowSeries2[iteration],
+                         eList,
+                         eventDict,
+                         wyCurrent,
+                         noneCounter,
+                         noneList
+                        )
+        if wySeries[iteration] != wySeries[iteration+1]:
+            if len(eList) >= ewr_dict['min event']: 
+                eventDict[wyCurrent].append(eList)
+            eList = [] # reset the event list at the end of the water year
             
+    # Check ewr completion for last day:
+    eList, eventDict, noneCounter, noneList =\
+            simultaneousEwrCheck(ewr_dict['minThresholdF'],
+                     ewr_dict2['minThresholdF'],
+                     ewr_dict['maxThresholdF'],
+                     ewr_dict2['maxThresholdF'],
+                     ewr_dict['duration'],
+                     ewr_dict2['duration'],
+                     ewr_dict['min event'],
+                     ewr_dict2['min event'],
+                     flowSeries[-1],
+                     flowSeries2[-1],
+                     eList,
+                     eventDict,
+                     wySeries[-1],
+                     noneCounter,
+                     noneList
+                    )
+    if len(eList) >= ewr_dict['min event']: 
+        eventDict[wyCurrent].append(eList)
+    #--- End last day check ---#
+    
+    return eventDict, noneList
+
+def simultaneousLowFlowCalc(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, climateSeries, PU_df, ewr, gauge_ID):
+    '''Evaluating the EWRs where a simultaneous EWR is required to be met'''
+    # Decalre variables:
+    eList, eList2 = [], []
+    eventDict, eventDict2 = {}, {}
+    noneCounter = 0
+    noneList = []                 
+    yearsWithEvents = []
+    avLowFlowDays = []
+    waterYears = sorted(set(wySeries))
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    eventDict2 = dict.fromkeys(wYears)
+    for k, _ in eventDict2.items():
+        eventDict2[k] = []
+    # Cycle through the flow timeseries:
+    for iteration, flow in enumerate(flowSeries[:-1]):
+        wyCurrent = wySeries[iteration] 
+        # EWR check:
+        eList, eList2, eventDict, eventDict2, noneCounter, noneList = simultaneousLowFlowCheck(ewr_dict['minThresholdF'],
+                                                                           ewr_dict2['minThresholdF'],
+                                                                           ewr_dict['maxThresholdF'],
+                                                                           ewr_dict2['maxThresholdF'],
+                                                                           flow,
+                                                                           flowSeries2[iteration],
+                                                                           eList,
+                                                                                               eList2,
+                                                                           eventDict,
+                                                                                               eventDict2,
+                                                                           wyCurrent,
+                                                                           noneCounter,
+                                                                           noneList
+                                                                          )
+        if wySeries[iteration] != wySeries[iteration+1]:
+            if ((climateSeries[iteration] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
+                ewr_duration = ewr_dict['veryDry_duration']
+                ewr_duration2 = ewr_dict2['veryDry_duration']
+            else:
+                ewr_duration = ewr_dict['duration']
+                ewr_duration2 = ewr_dict2['duration']
+            # If there are more elements in the final list, save them to the results dictionary:    
+            if len(eList) > 0:
+                eventDict[wyCurrent].append(eList)
+                noneCounter = noneCounter - len(eList)#count to start of event
+                noneList.append(noneCounter)
+                noneCounter = 1
+            if len(eList2) > 0:
+                eventDict2[wyCurrent].append(eList2)
+                noneCounter= noneCounter - len(eList2)
+                noneList.append(noneCounter)
+                noneCounter = 1
+
+            # Check year for event, add result to the list
+            calcList = ['years with events','number of low flow days']
+            yearsWithEvents, avLowFlowDays = simultaneousResultsStatsLowFlow(calcList,
+                                                                 eventDict, 
+                                                                 eventDict2,
+                                                                 wyCurrent, 
+                                                                 yearsWithEvents, 
+                                                                 avLowFlowDays,
+                                                                 ewr_duration,
+                                                                 ewr_duration2)
+            
+            eList, eList2 = [], [] # Reset at the end of the water year
+
+    #--- Check final iteration: ---#
+    eList, eList2, eventDict, eventDict2, noneCounter, noneList = simultaneousLowFlowCheck(ewr_dict['minThresholdF'],
+                                                                       ewr_dict2['minThresholdF'],
+                                                                       ewr_dict['maxThresholdF'],
+                                                                       ewr_dict2['maxThresholdF'],
+                                                                       flowSeries[-1],
+                                                                       flowSeries2[-1],
+                                                                       eList,
+                                                                                           eList2,
+                                                                       eventDict,
+                                                                                           eventDict2,
+                                                                       wySeries[-1],
+                                                                       noneCounter,
+                                                                       noneList
+                                                                      )
+            
+    if ((climateSeries[-1] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
+        ewr_duration = ewr_dict['veryDry_duration']
+        ewr_duration2 = ewr_dict2['veryDry_duration']
+    else:
+        ewr_duration = ewr_dict['duration']
+        ewr_duration2 = ewr_dict2['duration']
+    # If there are more elements in the final list, save them to the results dictionary:    
+    if len(eList) > 0:
+        eventDict[wySeries[-1]].append(eList)
+        noneCounter = noneCounter - len(eList)#count to start of event
+        noneList.append(noneCounter)
+        noneCounter = 1
+    if len(eList2) > 0:
+        eventDict2[wySeries[-1]].append(eList2)
+        noneCounter= noneCounter - len(eList2)
+        noneList.append(noneCounter)
+        noneCounter = 1
+
+    # Check year for event, add result to the list
+    calcList = ['years with events','number of low flow days']
+    yearsWithEvents, avLowFlowDays = simultaneousResultsStatsLowFlow(calcList,
+                                                         eventDict,
+                                                         eventDict2,
+                                                         wySeries[-1], 
+                                                         yearsWithEvents, 
+                                                         avLowFlowDays,
+                                                         ewr_duration,
+                                                         ewr_duration2)   
+
+    addSeries = pd.Series(yearsWithEvents)
+    addSeries.index = waterYears
+    
+    addSeries1 =  pd.Series(avLowFlowDays)
+    addSeries1.index = waterYears
+    
+    # Average length of time between events:
+#     averageBetween = sum(noneList)/len(waterYears)
+#     addSeries2 = [averageBetween] * len(waterYears)
+    
+    # Saving the results to the dataframe: 
+    PU_df[str(ewr + '_eventYears')] = addSeries
+    PU_df[str(ewr + '_avLowFlowDays')] = addSeries1
+#     PU_df[str(ewr + '_avDaysBetween')] = addSeries2
+    
+    return PU_df  
+
+def simultaneousCfCalc(ewr_dict, ewr_dict2, flowSeries, flowSeries2, wySeries, climateSeries, PU_df, ewr):
+    '''For calculating cease to flow type ewrs'''
+    # Decalre variables:
+    eList, eList2 = [], []
+    eventDict, eventDict2 = {}, {}
+    noneCounter = 0
+    noneList = []
+    counter = 0
+    overallCounter = 0
+    eventCounter = 0   
+    #Variables to save yearly results to:
+    yearsWithEvents = []
+    numEvents = []
+    ctfDaysPerYear = []
+    avLenCtfSpells = []
+    waterYears = sorted(set(wySeries))
+    # Save spot in the dictionary of results for the years included:
+    wYears = set(wySeries)
+    eventDict = dict.fromkeys(wYears)
+    for k, _ in eventDict.items():
+        eventDict[k] = []
+    eventDict2 = dict.fromkeys(wYears)
+    for k, _ in eventDict2.items():
+        eventDict2[k] = []
+        
+    for iteration, flow in enumerate(flowSeries[:-1]): 
+        wyCurrent = wySeries[iteration] # check for transformation 
+        eList, eList2, eventDict, eventDict2, noneCounter, noneList = simultaneousCtfCheck(ewr_dict['minThresholdF'],
+                                                           ewr_dict2['minThresholdF'],
+                                                           flow,
+                                                           flowSeries2[iteration],
+                                                           eList,
+                                                           eList2,
+                                                           eventDict,
+                                                           eventDict2,
+                                                           wyCurrent,
+                                                           noneCounter,
+                                                           noneList)
+        if wySeries[iteration] != wySeries[iteration+1]:
+            if ((climateSeries[iteration] == 'Very Dry') and (ewr_dict['veryDry_duration'] !=None)):
+                ewr_duration = ewr_dict['veryDry_duration']
+                ewr_duration2 = ewr_dict2['veryDry_duration']
+            else:
+                ewr_duration = ewr_dict['duration']
+                ewr_duration2 = ewr_dict2['duration']
+            # Add in the current event list:
+            if len(eList) > 0:
+                eventDict[wyCurrent].append(eList)
+            if len(eList2) > 0:
+                eventDict2[wyCurrent].append(eList2)
+            # Send to get evaluated:
+            yearsWithEvents,numEvents,ctfDaysPerYear,avLenCtfSpells=simultaneousResultsStatsCF(eventDict, 
+                                                                                   eventDict2,
+                                                                                   wyCurrent,
+                                                                                   yearsWithEvents,
+                                                                                   numEvents,
+                                                                                   ctfDaysPerYear,
+                                                                                   avLenCtfSpells,
+                                                                                   ewr_duration,
+                                                                                   ewr_duration2
+                                                                                  )
+            eList = []
+    #--- Handling the final element in the series ---#
+    eList, eList2, eventDict, eventDict2, noneCounter, noneList = simultaneousCtfCheck(ewr_dict['minThresholdF'],
+                                                       ewr_dict2['minThresholdF'],
+                                                       flowSeries[-1],
+                                                       flowSeries2[-1],
+                                                       eList,
+                                                       eList2,
+                                                       eventDict,
+                                                       eventDict2,
+                                                       wySeries[-1],
+                                                       noneCounter,
+                                                       noneList)
+    if ((climateSeries[-1] == 'Very Dry') and \
+        (ewr_dict['veryDry_duration'] !=None)):
+        ewr_duration = ewr_dict['veryDry_duration']
+        ewr_duration2 = ewr_dict2['veryDry_duration']
+    else:
+        ewr_duration = ewr_dict['duration']
+        ewr_duration2 = ewr_dict2['duration']
+    if len(eList) > 0:
+        eventDict[wySeries[-1]].append(eList)
+    if len(eList2) > 0:
+        eventDict2[wyCurrent].append(eList2)    
+    # Send to get evaluated:
+    yearsWithEvents,numEvents,ctfDaysPerYear,avLenCtfSpells=simultaneousResultsStatsCF(eventDict, 
+                                                                           eventDict2,
+                                                                           wySeries[-1],
+                                                                           yearsWithEvents,
+                                                                           numEvents,
+                                                                           ctfDaysPerYear,
+                                                                           avLenCtfSpells,
+                                                                           ewr_duration,
+                                                                           ewr_duration2
+                                                                          )
+    #--- End handling the final element ---#
+    addSeries = pd.Series(yearsWithEvents)
+    addSeries.index = waterYears
+    
+    addSeries1 =  pd.Series(numEvents)
+    addSeries1.index = waterYears
+    
+    addSeries2 = pd.Series(ctfDaysPerYear)
+    addSeries2.index = waterYears
+    
+    addSeries3 =  pd.Series(avLenCtfSpells)
+    addSeries3.index = waterYears
+
+    # Average length of time between events:
+#     averageBetween = sum(noneList)/len(waterYears)
+#     addSeries4 = [averageBetween] * len(waterYears)
+    
+    # Save results to dataframe:
+    PU_df[str(ewr + '_eventYears')] = addSeries
+    PU_df[str(ewr + '_numEvents')] = addSeries1
+    PU_df[str(ewr + '_ctfDaysPerYear')] = addSeries2
+    PU_df[str(ewr + '_avLenCtfSpells')] = addSeries3   
+#     PU_df[str(ewr + '_avDaysBetween')] = addSeries4
+    
+    return PU_df    
+
+    
+    
 #------------------- Doing stats on the dictionary of events -----------------#
 def resultsStatsFlow(calcList, eventDict, ewr_dict, PU_df, ewr, wyList, noneList):
     '''Taking in a dictionary of events from a flow timeseries, summarises these and returns in the results dataframe
     Only for calculating the final results, not on a yearly basis. For flow only, due to the inclusion of the 'min_event' being able to contribute to an event
     '''
-    # If there are years that were missed due to events spanning multiple years, add these spots into the dictionary:
-    for wYear in wyList:
-        if wYear not in eventDict.keys():
-            eventDict[wYear] = []
     
     if 'years with events' in calcList:  
         yearsWithEvents = []
@@ -1908,7 +3057,6 @@ def resultsStatsFlow(calcList, eventDict, ewr_dict, PU_df, ewr, wyList, noneList
         addSeries.index = wyList
         
         PU_df[str(ewr + '_eventYears')] = addSeries
-        
             
     if 'number of events' in calcList:
         numEvents = []
@@ -1975,7 +3123,6 @@ def resultsStatsFlow(calcList, eventDict, ewr_dict, PU_df, ewr, wyList, noneList
         PU_df[str(ewr + '_avDaysBetween')] = addSeries
         
     return PU_df
-
 
 def resultsStats(calcList, eventDict, ewr_dict, PU_df, ewr, wyList):
     '''Taking in a dictionary of events, summarises these and returns in the 
@@ -2113,41 +3260,112 @@ def resultsStatsCF(eventDict, wyCurrent, yearsWithEvents, numEvents, ctfDaysPerY
     
     return yearsWithEvents, numEvents, ctfDaysPerYear, avLenCtfSpells
 
+def simultaneousResultsStatsLowFlow(calcList, eventDict, eventDict2, wyCurrent, yearsWithEvents, avLowFlowDays, ewr_duration, ewr_duration2):
+    '''For low flows, needing to calculate the results on a year by year basis
+    because climate needs to be used'''
+    if 'years with events' in calcList:
+        yearlyTracker, yearlyTracker2 = [], []
+        for i in eventDict[wyCurrent]:
+            yearlyTracker.extend(i)
+        for i in eventDict2[wyCurrent]:
+            yearlyTracker2.extend(i)
+        if ((len(yearlyTracker) >= ewr_duration) and (len(yearlyTracker2) >= ewr_duration2)):
+            yearsWithEvents.append(1)
+        else:
+            yearsWithEvents.append(0)
+    
+    if 'number of low flow days' in calcList: # Just get the low flow stats for the gauge we are iterating over.
+        yearlyTracker = []
+        for i in eventDict[wyCurrent]:
+            yearlyTracker.extend(i)
+        avLowFlowDays.append(len(yearlyTracker))
+    
+    return yearsWithEvents, avLowFlowDays
+
+def simultaneousResultsStatsCF(eventDict, eventDict2, wyCurrent, yearsWithEvents, numEvents, ctfDaysPerYear, avLenCtfSpells, ewr_duration, ewr_duration2):
+    '''Getting yearly statistics on the cease to flow EWRs'''
+    yearTracker = []
+    for i in eventDict[wyCurrent]:
+        if len(i) >= ewr_duration:
+            yearTracker.append(1)
+        else:
+            yearTracker.append(0)
+    for i in eventDict2[wyCurrent]:
+        if len(i) >= ewr_duration2:
+            yearTracker.append(1)
+        else:
+            yearTracker.append(0)
+    if yearTracker != []:
+        yearsWithEvents.append(max(yearTracker))
+    else:
+        yearsWithEvents.append(0)
+    numEvents.append(sum(yearTracker)) # If there is an event on at the same time at both sites this will be recorded as two events
+    # Num ctf days per year:
+    yearlyCounter = 0
+    for i in eventDict[wyCurrent]:
+        yearlyCounter = yearlyCounter + len(i)
+    for i in eventDict[wyCurrent]:
+        yearlyCounter = yearlyCounter + len(i)
+    ctfDaysPerYear.append(yearlyCounter) # If there is an event on at the same time at both sites this will be doubled in the total days
+    # Average length of ctf spells for the year:
+    # First site:
+    if len(eventDict[wyCurrent])>0:
+        lenEvents = []
+        for i in eventDict[wyCurrent]:
+            lenEvents.append(len(i))
+        avLength = sum(lenEvents)/len(lenEvents)
+    else:
+        avLength = 0
+    # Second site:
+    if len(eventDict2[wyCurrent])>0:
+        lenEvents2 = []
+        for i in eventDict2[wyCurrent]:
+            lenEvents2.append(len(i))
+        avLength2 = sum(lenEvents)/len(lenEvents)
+    else:
+        avLength2 = 0        
+    if ((avLength == 0) and (avLength2 == 0)):
+        avLength = (avLength + avLength2)/2
+    else:
+        avLength = 0
+        
+    avLenCtfSpells.append(avLength) # average length of ctf events for this type are worked out seperately for each site, then averaged out. i.e. site 1 has 10 days, site 2 has 5 days. The av length would be 7.5 days
+    
+    return yearsWithEvents, numEvents, ctfDaysPerYear, avLenCtfSpells
+
 #------------------ Calculation master function -------------------------#
 
 def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
     '''Sends to handling functions to get calculated depending on the type of EWR''' 
-    # If additional information in the gauge code, extract gauge for certain functions below:
-    if '_Level' in gauge_ID:
-        gaugeOnly = gauge_ID[:-6]
-    else:
-        gaugeOnly = gauge_ID
+    # Get menindee and weirpool gauges, gauges with combined flow requirements, simultaneous ewr requirements, and those with 'other complex requirements'
+    menindeeGauges, wpGauges = data_inputs.getLevelGauges()
+    multiGaugeCalc = data_inputs.getMultiGauges('all')
+    simultaneousGaugesCalc = data_inputs.getSimultaneousGauges('all')
+    complexCalc = data_inputs.getComplexCalcs()
     # Extract relevant sections of the EWR table:
-    sub_ewr_table = ewr_table[ewr_table['gauge'] == gaugeOnly]
+    sub_ewr_table = ewr_table[ewr_table['gauge'] == gauge_ID]
     # Get unique list of planning units to iterate over in the first instance:
     planningUnits = set(sub_ewr_table['PlanningUnitID'])
-    # Define dictionary with the 'complex' ewrs requiring seperate functions to evaluate:
-    complexCalc = {'409025': {'OB2_S': 'flowDurPostReq', 'OB2_P': 'flowDurPostReq',
-                              'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
     # save the planning unit dataframes to this dictionary:
-    locationDict = {} 
+    locationDict = {}
     for planUnit in planningUnits:
         # Extract the planning unit table:
         planUnitTable = sub_ewr_table[sub_ewr_table['PlanningUnitID'] == planUnit]
         # Extract the relevant columns from the table that will be referred to below:
-        ewr_type_col = planUnitTable['flow level volume'].to_numpy()
+        ewr_type_col = planUnitTable['flow level volume'].values
         code_col = planUnitTable['code']
         # Get clean version of the dataframe template from above section to save results to:
         PU_df = pd.DataFrame()
         # Iterate over the ewrs for that planning unit:
         for num, ewr in enumerate(tqdm(code_col, position = 0, leave = False,
                              bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}', 
-                                       desc= str('Evaluating ewrs for '+ gaugeOnly))):
+                                       desc= str('Evaluating ewrs for '+ gauge_ID))):
             if ('_VD' not in ewr): # Skip very dry (VD) ewrs, these will be called upon later 
                 # Check to see if this ewr is classified as 'complex' (requiring special functions to check)
                 # If not complex, now start looking through standard EWR categories for how to analyse:
-                if ((gaugeOnly in complexCalc) and (ewr in complexCalc[gaugeOnly])):
+                if ((gauge_ID in complexCalc) and (ewr in complexCalc[gauge_ID])):
                     PU_df = complexEWRhandler(complexCalc[gaugeOnly][ewr],
+                                              planUnit,
                                                    gaugeOnly,
                                                    ewr,
                                                    planUnitTable,
@@ -2155,12 +3373,84 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                    PU_df,
                                                    toleranceDict
                                                   )
-                elif ((ewr_type_col[num] == 'F') and ('_Level' not in gauge_ID)):
+                elif ((planUnit in multiGaugeCalc) and (gauge_ID in multiGaugeCalc[planUnit]) and (ewr_type_col[num] == 'F')):
+                    if 'CF' in ewr:
+                        PU_df = multiGaugeEWRhandler('cease to flow',
+                                                     planUnit,
+                                                     gauge_ID,
+                                                     ewr,
+                                                     planUnitTable,
+                                                     df,
+                                                     PU_df,
+                                                     toleranceDict)
+                    if (('VF' in ewr) or ('BF' in ewr)):
+                        PU_df = multiGaugeEWRhandler('low flow',
+                                                    planUnit,
+                                                    gauge_ID,
+                                                    ewr,
+                                                    planUnitTable,
+                                                    df,
+                                                    PU_df,
+                                                    toleranceDict)
+                    if (('SF' in ewr) or ('LF' in ewr) or ('BK' in ewr) or ('OB' in ewr)):
+                        PU_df = multiGaugeEWRhandler('flow',
+                                                    planUnit,
+                                                    gauge_ID,
+                                                    ewr,
+                                                    planUnitTable,
+                                                    df,
+                                                    PU_df,
+                                                    toleranceDict)
+                elif ((planUnit in multiGaugeCalc) and (gauge_ID in multiGaugeCalc[planUnit]) and (ewr_type_col[num] == 'V')):
+                    if ('OB' in ewr):
+                        PU_df = multiGaugeEWRhandler('cumulative volume',
+                                                     planUnit,
+                                                     gauge_ID,
+                                                     ewr,
+                                                     planUnitTable,
+                                                     df,
+                                                     PU_df,
+                                                     toleranceDict)
+                
+                elif ((planUnit in simultaneousGaugesCalc) and (gauge_ID in simultaneousGaugesCalc[planUnit]) and (ewr_type_col[num] == 'F')):
+                    if 'CF' in ewr:
+                        PU_df = simultaneousEWRhandler('cease to flow',
+                                                            planUnit,
+                                                    gauge_ID,
+                                                    ewr,
+                                                    planUnitTable,
+                                                    df,
+                                                    PU_df,
+                                                    toleranceDict,
+                                                    ewr_table)
+                    if (('VF' in ewr) or ('BF' in ewr)):
+                        PU_df = simultaneousEWRhandler('low flow',
+                                                            planUnit,
+                                                    gauge_ID,
+                                                    ewr,
+                                                    planUnitTable,
+                                                    df,
+                                                    PU_df,
+                                                    toleranceDict,
+                                                    ewr_table)
+                    if (('SF' in ewr) or ('LF' in ewr) or ('BK' in ewr) or ('OB' in ewr)):
+                        PU_df = simultaneousEWRhandler('flow',
+                                                            planUnit,
+                                                    gauge_ID,
+                                                    ewr,
+                                                    planUnitTable,
+                                                    df,
+                                                    PU_df,
+                                                    toleranceDict,
+                                                    ewr_table)
+                    
+                elif ((ewr_type_col[num] == 'F') and (gauge_ID not in wpGauges.values())):
                     # If standard flow EWRs:
                     if (('SF' in ewr) or ('LF' in ewr) or ('BK' in ewr) or ('OB' in ewr) or ('AC' in ewr)\
                        or ('WL' in ewr)):
                         PU_df = flowEWRhandler('flow',
-                                               gaugeOnly,
+                                               planUnit,
+                                               gauge_ID,
                                                ewr,
                                                planUnitTable,
                                                df,
@@ -2170,7 +3460,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                     # If low flow type EWRs:
                     elif (('BF' in ewr) or ('VF' in ewr)):
                         PU_df = lowFlowEWRhandler('low flow',
-                                               gaugeOnly,
+                                                  planUnit,
+                                               gauge_ID,
                                                ewr,
                                                planUnitTable,
                                                df,
@@ -2180,7 +3471,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                     # If cease to flow type EWRs:
                     elif ('CF' in ewr):         
                         PU_df = cfFlowEWRhandler('cease to flow',
-                                               gaugeOnly,
+                                                 planUnit,
+                                               gauge_ID,
                                                ewr,
                                                planUnitTable,
                                                df,
@@ -2189,7 +3481,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                               )
                     elif ('Nest' in ewr):
                         PU_df = nestEWRhandler('nest',
-                                               gaugeOnly,
+                                               planUnit,
+                                               gauge_ID,
                                                ewr,
                                                planUnitTable,
                                                df,
@@ -2198,7 +3491,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                               )
                     elif ('WP' in ewr):
                         PU_df = wpEWRhandler('weir pool',
-                                               gaugeOnly,
+                                             planUnit,
+                                               gauge_ID,
                                                ewr,
                                                planUnitTable,
                                                df,
@@ -2209,10 +3503,11 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                         continue
 
                 # Option for cumulative volume type EWRs:
-                elif ((ewr_type_col[num] == 'V') and ('_Level' not in gauge_ID)):
+                elif ewr_type_col[num] == 'V':
                     if (('LF' in ewr) or ('OB' in ewr) or ('WL' in ewr)):
                         PU_df = cumulVolEWRhandler('cumulative volume',
-                                               gaugeOnly,
+                                                   planUnit,
+                                               gauge_ID,
                                                ewr,
                                                planUnitTable,
                                                df,
@@ -2225,6 +3520,7 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                     #---- Requires a trigger and a max drawdown rate ----#
                     if (('LLLF' in ewr) or ('MLLF' in ewr) or ('HLLF' in ewr)  or ('VHLL' in ewr)):
                         PU_df = lakeEWRhandler('lake level',
+                                               planUnit,
                                                gauge_ID,
                                                ewr,
                                                planUnitTable,

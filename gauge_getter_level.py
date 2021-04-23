@@ -34,16 +34,19 @@ from datetime import date, timedelta
 # from pyspark.sql import Row
 # from pyspark.sql.types import StructType, StructField, StringType, TimestampType, DoubleType, DateType, DecimalType
 import requests
-
 #-------------------------------------------------------------------------------------------------------------------------------
 def CallStateAPI (state, indicativeSites, parmStartTime, parmEndTime, parmDataSource, parmVarFrom, parmVarTo, parmInterval, parmDataType):
     sitesString = ''
     if state == 'NSW':
-        url = 'realtimedata.waternsw.com.au' 
+        url = 'realtimedata.waternsw.com.au'
+        parmVarFrom = 130
+        parmVarTo = 130
     if state == 'QLD':
         url = 'water-monitoring.information.qld.gov.au'
     if state == 'VIC':
         url = 'data.water.vic.gov.au'
+        parmVarFrom = 100
+        parmVarTo = 100
         
     for site in indicativeSites:
         sitesString = sitesString + site + ','
@@ -97,14 +100,14 @@ lstObservation = []
 today = str(date.today().strftime('%Y%m%d'))
 
 
-def gaugePull(gauge_list, start_time_user, end_time_user, varfrom = "100.00", varto = "141.00", interval = "day", datatype = "mean"):
+def gaugePull(gauge_list, start_time_user, end_time_user, varfrom = "", varto = "", interval = "day", datatype = "mean"):
     
     nsw_sitelist, qld_sitelist, vic_sitelist, JUNK = state_sorter(gauge_list)
     
     callStartTime = start_time_user
     callEndTime = end_time_user
     callVarFrom = varfrom
-    callVarTo = varto 
+    callVarTo = varto
     callInterval = interval 
     callDataType = datatype
     

@@ -2,9 +2,22 @@ import io
 import requests
 import pandas as pd
 import dashboard
+import numpy as np
 
 # Importing the climate cat data - to be replaced by RAS data once available:
 
+def getLevelGauges():
+    '''Call this function to return the menindee lakes gauges, and the weirpool level gauges'''
+    
+    menindeeGauges = ['425020', '425022', '425023']
+    
+    weirpoolGauges = {'414203': '414209', 
+                      '425010': '4260501', 
+                      '4260507': '4260508',
+                      '4260505': '4260506'}
+    
+    return menindeeGauges, weirpoolGauges
+    
 def get_climate_cats():
     '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
     in which case this is used'''
@@ -34,17 +47,27 @@ def get_ewr_table():
     cond = df['code'].str.startswith('???')
     undefined_ewrs = df[cond]
     cond_1 = ~(use_df['code'].str.startswith('???'))
-    use_df = use_df[cond_1]    
-    # Changing the flow max threshold to a high value when there is none available:
-    use_df['flow threshold max'].fillna(1000000, inplace = True)
+    use_df = use_df[cond_1]   
+    
+    # Swap nan cells for '?'
+    use_df['level threshold min'].fillna('?', inplace = True)
+    use_df['level threshold max'].fillna('?', inplace = True)
+    use_df['volume threshold'].fillna('?', inplace = True)
+    use_df['flow threshold max'].fillna('?', inplace = True)
     
     # Removing the rows with no available thresholds
+    noThresh_df = use_df.loc[(use_df["flow threshold min"] == '?') & (use_df["flow threshold max"] == '?') &\
+                        (use_df["volume threshold"] == '?') &\
+                        (use_df["level threshold min"] == '?') & (use_df["level threshold max"] == '?')]
+    
+    # Keeping the rows with a threshold:
     use_df = use_df.loc[(use_df["flow threshold min"] != '?') | (use_df["flow threshold max"] != '?') |\
                         (use_df["volume threshold"] != '?') |\
                         (use_df["level threshold min"] != '?') | (use_df["level threshold max"] != '?')]
-    
-    noThresh_df = use_df.loc[(use_df["flow threshold min"] == '?') | (use_df["volume threshold"] == '?') |\
-                        (use_df["level threshold min"] == '?') | (use_df["level threshold max"] == '?')]
+
+    # Changing the flow and level max threshold to a high value when there is none available:
+    use_df['flow threshold max'].replace({'?':1000000}, inplace = True)
+    use_df['level threshold max'].replace({'?':1000000}, inplace = True)
     
     # Removing the rows with no duration
     use_df = use_df.loc[(use_df["duration"] != '?')]
@@ -74,17 +97,12 @@ def catchments_gauges_dict():
     no_duration, DSF_ewrs = get_ewr_table()
     gauge_number = temp_ewr_table['gauge'].values
     gauge_name = temp_ewr_table['CompliancePoint/Node'].values
-    weirpoolGauge = temp_ewr_table['weirpool gauge'].values
-    # Update when we have the common names in the database:
-    weirpoolGaugeName = temp_ewr_table['weirpool gauge'].values
     
     gauge_to_name = dict()
     for iteration, value in enumerate(gauge_number):
         if type(value) == str:
             gauge_to_name[value] = gauge_name[iteration]
-    for iteration, value in enumerate(weirpoolGauge):
-        if type(value) == str:
-            gauge_to_name[value] = weirpoolGaugeName[iteration]   
+
     gauge_to_catchment = dict()
     namoi_catchment = dict()
     gwydir_catchment = dict()
@@ -114,7 +132,7 @@ def catchments_gauges_dict():
             murrumbidgee_catchment.update({k: v})
               
     gauge_to_catchment.update({'Namoi': namoi_catchment, 'Gwydir': gwydir_catchment,
-                               'Macquarie': macquarie_catchment, 'Lachlan': lachlan_catchment,
+                               'Macquarie-Castlereagh': macquarie_catchment, 'Lachlan': lachlan_catchment,
                                'Lower Darling': lower_darling_catchment, 
                                'Barwon-Darling': barwon_darling_catchment,
                                'Murray': murray_catchment,
@@ -141,18 +159,61 @@ def gauge_to_catchment(input_gauge):
     
 def wy_to_climate(input_df, catchment):
     '''Takes in '''
-    climate_cat = get_climate_cats()
-    df_reindex = input_df.reset_index()
-    df_reindex['climate'] = df_reindex['water year'].apply(lambda x: climate_cat[catchment].loc[x])
-#     df_reindex['climate'] = df_reindex['Date'].apply(lambda x: climate_cat[catchment].loc[x.year])
-    df = df_reindex.set_index('Date')
+    # Get the climate categorisation:
+    climate_cats = get_climate_cats()
     
-    return df
+    # Get the unique years covered in the flow dataframe, and how many days are in each year:
+    years = input_df.index.year.values
+    unique_years, count_years = np.unique(years, return_counts=True)
     
-ewr_cats = {'vlf': 'Very low flows', 
-            'bf': 'Baseflows', 
-            'sf': 'Small freshes', 
-            'lf': 'Large freshes',
-            'bk': 'Bankfull flows', 
-            'ob': 'Overbank flows', 
-            'ac': 'Anabranch connection'}
+    # Get the years covered by the climate cats, and filter them to those of interest (using min and max from flow dataframe)
+    climateCatchment = climate_cats[catchment]
+    climateFiltered = climateCatchment[(climateCatchment.index>=min(unique_years)) & (climateCatchment.index<=max(unique_years))].values
+    # Repeating the climate result for that year over the total days in each year 
+    def mapper(climate, count):
+        return np.repeat(climate, count)
+
+    climateDailyYear = list(map(mapper, climateFiltered, count_years))
+    climateDaily = np.concatenate(climateDailyYear)
+    
+    return climateDaily
+
+def getMultiGauges(dataType):
+    '''Call function to return a dictionary of associated gauges'''
+    
+    gauges = {'PU_0000130': {'421090': '421088', '421088': '421090'},
+              'PU_0000131': {'421090': '421088', '421088': '421090'},
+              'PU_0000132': {'421090': '421088', '421088': '421090'},
+              'PU_0000133': {'421090': '421088', '421088': '421090'}
+             }
+    returnData = {}
+    if dataType == 'all':
+        returnData = gauges
+    if dataType == 'gauges':
+        for i in gauges:
+            returnData = {**returnData, **gauges[i]}
+    
+    return returnData
+
+def getSimultaneousGauges(dataType):
+    '''Call function to return a dictionary of associated gauges'''
+    
+    gauges = {'PU_0000131': {'421090': '421022', '421022': '421090'},
+              'PU_0000132': {'421090': '421022', '421022': '421090'},
+              'PU_0000133': {'421090': '421022', '421022': '421090'}
+             }
+    returnData = {}
+    if dataType == 'all':
+        returnData = gauges
+    if dataType == 'gauges':
+        for i in gauges:
+            returnData = {**returnData, **gauges[i]}
+        
+    return returnData
+
+def getComplexCalcs():
+    '''Call function to return a dictionary of '''
+    complexCalcs = {'409025': {'OB2_S': 'flowDurPostReq', 'OB2_P': 'flowDurPostReq',
+                              'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
+    
+    return complexCalcs

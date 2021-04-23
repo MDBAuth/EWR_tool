@@ -129,6 +129,9 @@ path_box_5 = widgets.Text(
     style= {'description_width':'initial'}
 )
 
+
+#------------------Tolerance widgets-----------------------#
+# Scenario testing:
 min_threshold_allowance_s = widgets.BoundedIntText(
     value=0,
     min=0,
@@ -160,6 +163,48 @@ duration_allowance_s = widgets.BoundedIntText(
 )
 
 drawdown_allowance_s = widgets.BoundedIntText(
+    value=0,
+    min=0,
+    max=20,
+    step=1,
+    description='Allowance applied to max drawdown rate (%)',
+    disabled=False,
+    style= {'description_width':'initial'}
+)
+
+# Observed flows:
+
+min_threshold_allowance_o = widgets.BoundedIntText(
+    value=0,
+    min=0,
+    max=20,
+    step=1,
+    description='Allowance applied to min threshold (%)',
+    disabled=False,
+    style= {'description_width':'initial'}
+)
+
+max_threshold_allowance_o = widgets.BoundedIntText(
+    value=0,
+    min=0,
+    max=20,
+    step=1,
+    description='Allowance applied to max threshold (%)',
+    disabled=False,
+    style= {'description_width':'initial'}
+)
+
+duration_allowance_o = widgets.BoundedIntText(
+    value=0,
+    min=0,
+    max=20,
+    step=1,
+    description='Allowance applied to min duration (%)',
+    disabled=False,
+    style= {'description_width':'initial'}
+)
+
+drawdown_allowance_o = widgets.BoundedIntText(
     value=0,
     min=0,
     max=20,
@@ -271,12 +316,12 @@ def on_model_button_clicked(b):
         ewr_data, see_notes_ewrs, undefined_ewrs, noThresh_df,\
         no_duration, DSF_ewrs = data_inputs.get_ewr_table()
         
+        # Get tolerance:
         minThreshold_tolerance = (100 - min_threshold_allowance_s.value)/100
         maxThreshold_tolerance = (100 + max_threshold_allowance_s.value)/100
         duration_tolerance = (100 - duration_allowance_s.value)/100
         drawdown_tolerance = (100 - drawdown_allowance_s.value)/100
 
-        # Get allowances:
         allowanceDict ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance, 
                         'duration': duration_tolerance, 'drawdownTolerance': drawdown_tolerance}
         
@@ -297,7 +342,7 @@ def on_model_button_clicked(b):
         display(out)
 
 ###############################################################################################        
-########### Realtime output section #########
+########### Observed output section #########
 
 def get_gauges_to_pull():
     ''' Get gauges to pull from state portal based on user selection,
@@ -358,11 +403,21 @@ def on_gauge_button_clicked(b):
         # Get ewr tables:
         ewr_data, see_notes_ewrs, undefined_ewrs, noThresh_df,\
         no_duration, DSF_ewrs = data_inputs.get_ewr_table()
-        raw_data_o, results_summary_o = ewr_evaluation.realtime_handler(gauges_list, 
-                                                                    list_of_request_o, 
-                                                                    input_params_o,
-                                                                    ewr_data)
-            
+        
+        # Get tolerances:
+        minThreshold_tolerance = (100 - min_threshold_allowance_s.value)/100
+        maxThreshold_tolerance = (100 + max_threshold_allowance_s.value)/100
+        duration_tolerance = (100 - duration_allowance_s.value)/100
+        drawdown_tolerance = (100 - drawdown_allowance_s.value)/100
+
+        allowanceDict ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance, 
+                        'duration': duration_tolerance, 'drawdownTolerance': drawdown_tolerance}
+        
+        raw_data_o, results_summary_o = ewr_evaluation.realtime_handler(gauges_list,
+                                                                        list_of_request_o,
+                                                                        input_params_o,
+                                                                        ewr_data,
+                                                                        allowanceDict)
         display(results_summary_o.style)
 
 ###############################################################################################        
@@ -576,8 +631,8 @@ model_run_button.on_click(on_model_button_clicked)
 model_output_button.on_click(model_output_button_clicked)
 
 model_format_type = widgets.Dropdown(
-    options=[('Source'), ('Bigmod'), ('IQQM')],
-    value='Source',
+    options=[('Source'), ('Bigmod'), ('IQQM'), ('NSW 10,000 years')],
+    value='Bigmod',
     description='',
     style= {'description_width':'initial'}
 )
@@ -590,13 +645,14 @@ climate_type = widgets.Dropdown(
 )
 
 ##################################### Dashbaord labels #######################################
+# Widget labels for the scenario testing:
 gauge_inputs_title = widgets.HBox([widgets.Label(value="Configure inputs for real-world EWR checks",
                                                  layout=widgets.Layout(width="100%"),
                                                  style= {'description_width':'initial'})])
 model_inputs_title = widgets.HBox([widgets.Label(value="Configure inputs for scenario testing",
                                                  layout=widgets.Layout(width="100%"),
                                                  style= {'description_width':'initial'})])
-analysis_selection = widgets.HBox([widgets.Label(value="4. Select the type of analysis")])
+analysis_selection_s = widgets.HBox([widgets.Label(value="4. Select the type of analysis")])
 model_selection = widgets.HBox([widgets.Label(value="1. Upload model files")])
 model_format_header = widgets.HBox([widgets.Label(value="2. Select format of timeseries data",
                                                   layout=widgets.Layout(width="100%"),
@@ -604,36 +660,45 @@ model_format_header = widgets.HBox([widgets.Label(value="2. Select format of tim
 climate_format_header = widgets.HBox([widgets.Label(value="3. Select climate sequence to load",
                                                   layout=widgets.Layout(width="100%"),
                                                   style= {'description_width':'initial'})])
-allowance_header = widgets.HBox([widgets.Label(value="5. Enter an allowance",
+allowance_header_s = widgets.HBox([widgets.Label(value="5. Enter an allowance",
                                                   layout=widgets.Layout(width="100%"),
                                                   style= {'description_width':'initial'})])
-run_header = widgets.HBox([widgets.Label(value="6. Enter output file name and run",
+run_header_s = widgets.HBox([widgets.Label(value="6. Enter output file name and run",
                                                   layout=widgets.Layout(width="100%"),
                                                   style= {'description_width':'initial'})])
-
+# Widget labels for the observed flows:
+date_selection = widgets.HBox([widgets.Label(value="1. Select date range of interest")])
+cs_selection = widgets.HBox([widgets.Label(value="2. Select the catchment (1) and sites (1+)")])
+analysis_selection_o = widgets.HBox([widgets.Label(value="3. Select the type of analysis")])
+allowance_header_o = widgets.HBox([widgets.Label(value="4. Enter an allowance",
+                                                  layout=widgets.Layout(width="100%"),
+                                                  style= {'description_width':'initial'})])
+run_header_o = widgets.HBox([widgets.Label(value="5. Enter output file name and run",
+                                                  layout=widgets.Layout(width="100%"),
+                                                  style= {'description_width':'initial'})])
+# Widget labels for both:
 justLine = widgets.HBox([widgets.Label(value="________________________________________________________________________________", 
                                       layout=widgets.Layout(width="100%"),
                                       style= {'description_width':'initial'})])
+
 ##################################### Grouping together #######################################
-gauge_input_widgets = widgets.VBox([gauge_inputs_title,widgets.HBox([start_date, end_date]), 
-                                     widgets.HBox([catchment, sites]), 
-                                     analysis_selection, years_events_o, freq_events_o, 
+gauge_input_widgets = widgets.VBox([gauge_inputs_title, justLine, date_selection, widgets.HBox([start_date, end_date]), 
+                                     justLine, cs_selection, widgets.HBox([catchment, sites]),
+                                     justLine, analysis_selection_o, years_events_o, freq_events_o, 
                                      max_dry_o, time_since_o, numEvents_o, avLengthEvents_o, 
-                                     avNumEvents_o,
-                                     avLowFlowDays_o, avCtfDaysPerYear_o, avLenCtfSpells_o,
-                                     widgets.HBox([file_name_o, gauge_run_button])])
+                                     avNumEvents_o, avLowFlowDays_o, avCtfDaysPerYear_o, avLenCtfSpells_o,
+                                     justLine, allowance_header_o, widgets.HBox([min_threshold_allowance_o, max_threshold_allowance_o, duration_allowance_o, drawdown_allowance_o]),
+                                     justLine, run_header_o, widgets.HBox([file_name_o, gauge_run_button])])
 
 model_input_widgets= widgets.VBox([model_inputs_title, justLine, model_selection, 
                                    widgets.VBox([load_model_files, or_text, fileLocationHeader, path_box_1, path_box_2, path_box_3, path_box_4, path_box_5]),
                                    widgets.VBox([justLine, model_format_header, model_format_type]),
                                    widgets.VBox([justLine, climate_format_header, climate_type]),
-                                   justLine, analysis_selection, years_events_s, freq_events_s, 
+                                   justLine, analysis_selection_s, years_events_s, freq_events_s, 
                                    max_dry_s, time_since_s, numEvents_s, avLengthEvents_s,
-                                   avNumEvents_s,
-                                   avLowFlowDays_s, avCtfDaysPerYear_s, avLenCtfSpells_s,
-                                   justLine, allowance_header, widgets.HBox([min_threshold_allowance_s, max_threshold_allowance_s, duration_allowance_s, drawdown_allowance_s]),
-                                   justLine, run_header, 
-                                   widgets.HBox([file_name_s, model_run_button])])
+                                   avNumEvents_s, avLowFlowDays_s, avCtfDaysPerYear_s, avLenCtfSpells_s,
+                                   justLine, allowance_header_s, widgets.HBox([min_threshold_allowance_s, max_threshold_allowance_s, duration_allowance_s, drawdown_allowance_s]),
+                                   justLine, run_header_s, widgets.HBox([file_name_s, model_run_button])])
 
 model_output_widgets = widgets.HBox([model_output_button, model_output])
 # Then group them together:    
