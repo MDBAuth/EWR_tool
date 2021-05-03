@@ -276,18 +276,17 @@ def unpack_bigmod_data(csv_file):
     def mainData(fle, line,**kwargs):
         if os.stat(fle).st_size == 0:
             raise ValueError("File is empty")
-        with open(fle) as f:
-            pos = 0
-            cur_line = f.readline()
-            while not cur_line.startswith(line):
-                pos = f.tell()
-                cur_line = f.readline()
-            f.seek(pos)
-            
-            df = pd.read_csv(f, **kwargs)
-            df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-            
-            return df, pos
+        with open(fle) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if row[0].startswith(line):
+                    headerVal = line_count
+                line_count = line_count + 1
+        df = pd.read_csv(fle, header=headerVal)
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]            
+
+        return df, headerVal
         
     #--------Functions for pulling header data---------#
     
@@ -309,19 +308,20 @@ def unpack_bigmod_data(csv_file):
     def headerData(fle, line, endLine, **kwargs):
         if os.stat(fle).st_size == 0:
             raise ValueError("File is empty")
-        with open(fle) as f:
-            pos = 0
-            cur_line = f.readline()
-            while not cur_line.startswith(line):
-                pos = f.tell()
-                cur_line = f.readline()
-            f.seek(pos)
             
-            df = pd.read_csv(f, nrows = (endLine-1), dtype={'Site':'str', 'Measurand': 'str', 'Quality': 'str'}, **kwargs) 
-            df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        with open(fle) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if row[0].startswith(line):
+                    headerVal = line_count
+                line_count = line_count + 1
+            junkRows = headerVal
+        df = pd.read_csv(fle, header=headerVal, nrows = (endLine-junkRows-1), dtype={'Site':'str', 'Measurand': 'str', 'Quality': 'str'}, **kwargs) 
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
             
-            return df
-     
+        return df
+
     #----------Constructing the full reference codes---------------#
     
     def bigmodHeaderContruction(input_header):
