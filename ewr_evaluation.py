@@ -740,7 +740,7 @@ def getWPewrs(planning_unit, gauge_number, ewr_name, ewr_table, toleranceDict):
         ewrs['wpType'] = 'wpDrawdown'
         ewrs['maxThresholdL'] = float(maxThresh)*toleranceDict['maxThreshold']
         
-    elif maxThresh == '?':
+    else:
         ewrs['wpType'] = 'wpRaising' 
         ewrs['minThresholdL'] = float(minThresh)*toleranceDict['minThreshold']
         
@@ -1436,7 +1436,7 @@ def wpEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, 
     dateSeries = input_df_timeslice.index
     flowSeries = input_df_timeslice[gauge_ID].values
     waterYears = sorted(set(wySeries))   
-    
+
     try:
         heightSeries = input_df_timeslice[ewr_dict['weirpoolGauge']]
         # Check the flow timeseries against the ewr
@@ -1499,7 +1499,6 @@ def multiGaugeEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableE
                                         ewr_dict['end_month'],
                                         input_df)      
     # Append water year column to the dataframe:
-    np.set_printoptions(threshold=np.inf)
     wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     
     # Allocate climate to flow timeseries:
@@ -1708,7 +1707,7 @@ def wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, dateSeries):
         eventDict[k] = []
     
     # Cycle through the flow timeseries
-    for iteration, flow in enumerate(flowSeries[:ewr_dict['duration']]):
+    for iteration, flow in enumerate(flowSeries[:-ewr_dict['duration']]):
         if linesToSkip > 0:
             linesToSkip = linesToSkip - 1
         else:           
@@ -1729,7 +1728,7 @@ def wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, dateSeries):
                             # Check to see if change in level, minimum weirpool height, and flow thresholds are met over the duration:
                             if ((max(eList) <= ewr_dict['maxDrawdown']) and (min(futureSubsetLevel) >= ewr_dict['minThresholdL']) \
                                 and (min(futureSubsetFlow) >= ewr_dict['minThresholdF']) and (max(futureSubsetFlow) <= ewr_dict['maxThresholdF'])):
-                                eventDict[wyCurrent].append(futureSubsetLevel)
+                                eventDict[wyCurrent].append(list(futureSubsetLevel))
                                 linesToSkip = ewr_dict['duration']
                     elif ewr_dict['wpType'] == 'wpDrawdown':
                         if heightSeries[iteration] <= ewr_dict['maxThresholdL']:
@@ -1744,7 +1743,7 @@ def wpCalc(ewr_dict, flowSeries, heightSeries, wySeries, dateSeries):
                             # Check to see if change in level, maximum weirpool height, and flow thresholds are met over the duration:
                             if ((max(eList) <= ewr_dict['maxDrawdown']) and (max(futureSubsetLevel) <= ewr_dict['maxThresholdL']) \
                                 and (min(futureSubsetFlow) >= ewr_dict['minThresholdF']) and (max(futureSubsetFlow) <= ewr_dict['maxThresholdF'])):
-                                eventDict[wyCurrent].append(futureSubsetLevel)
+                                eventDict[wyCurrent].append(list(futureSubsetLevel))
                                 linesToSkip = ewr_dict['duration']
             else:
                 continue # Not enough time left to complete the EWR requirements
