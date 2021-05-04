@@ -12,7 +12,7 @@ import csv
 
 #------------------------------- Handling functions---------------------------------------------#
 
-def scenario_handler(file_locations, request_list, ewr_table, model_format, bigmod_info, toleranceDict):
+def scenario_handler(file_locations, request_list, ewr_table, model_format, bigmod_info, toleranceDict, climate_file):
     '''Takes in scenarios, send to functions to clean, calculate ewrs, and summarise results,
     returns a results summary as a dataframe and a dictionary with yearly results'''
     
@@ -43,7 +43,8 @@ def scenario_handler(file_locations, request_list, ewr_table, model_format, bigm
                                                                   ewr_table,
                                                                   None,
                                                                   bigmod_info,
-                                                                  toleranceDict
+                                                                  toleranceDict,
+                                                                  climate_file
                                                                  )
     # Analyse and summarise the results:
     std_results_table = summarise_results(dict_scenario_results, request_list, ewr_table)
@@ -51,7 +52,7 @@ def scenario_handler(file_locations, request_list, ewr_table, model_format, bigm
     # Return yearly results, results summary
     return dict_scenario_results, std_results_table
     
-def realtime_handler(gauges_list, request_list, input_params_g, ewr_table, toleranceDict):
+def realtime_handler(gauges_list, request_list, input_params_g, ewr_table, toleranceDict, climate_file):
     '''ingests a list of gauges and user defined parameters
     pulls gauge data using relevant states API, calcualtes and analyses ewrs
     returns dictionary of raw data results and result summary'''
@@ -95,7 +96,8 @@ def realtime_handler(gauges_list, request_list, input_params_g, ewr_table, toler
                                                                   ewr_table,
                                                                   input_params_g,
                                                                   None,
-                                                                  toleranceDict
+                                                                  toleranceDict,
+                                                                  climate_file
                                                                  )
     
     # Analyse and summarise the results:
@@ -104,7 +106,7 @@ def realtime_handler(gauges_list, request_list, input_params_g, ewr_table, toler
     # return yearly results and results summary:
     return dict_scenario_results, std_results_table
 
-def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmod_info, toleranceDict):
+def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmod_info, toleranceDict, climate_file):
     '''Pass to different dataframe cleaning function, 
     then iterates over the locations and passes these with the dataframe to get calculated
     Returns a dataframes with results of the binary ewr check'''
@@ -117,7 +119,7 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
         flow_df_clean = bigmod_cleaner(flow_df_subset)# clean model inputs
         dict_of_results = {}
         for gauge_ID  in flow_df_clean:
-            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict)
+            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict, climate_file)
             dict_of_results[gauge_ID] = calculated_col
 
         return dict_of_results
@@ -126,7 +128,7 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
         flow_df_clean = source_cleaner(input_df['flow data'])
         dict_of_results = {}
         for gauge_ID  in flow_df_clean:
-            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict)
+            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict, climate_file)
             dict_of_results[gauge_ID] = calculated_col
 
         return dict_of_results
@@ -138,7 +140,7 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
         flow_df_clean = nswData_cleaner(input_df['flow data'])
         dict_of_results = {}
         for gauge_ID in flow_df_clean:
-            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict)
+            calculated_col = EWR_calculator(flow_df_clean, gauge_ID, ewr_table, toleranceDict, climate_file)
             dict_of_results[gauge_ID] = calculated_col
         
         return dict_of_results
@@ -147,7 +149,7 @@ def calculation_distributor(input_df, data_source, ewr_table, user_params, bigmo
         gauge_df_clean, minDatesDict = realtime_cleaner(input_df, user_params) # clean gauge inputs
         dict_of_results = {}
         for gauge in gauge_df_clean:
-            calculated_col = EWR_calculator(gauge_df_clean, gauge, ewr_table, toleranceDict)
+            calculated_col = EWR_calculator(gauge_df_clean, gauge, ewr_table, toleranceDict, climate_file)
             filtered_col = filter_earlyDates(calculated_col, minDatesDict[gauge])
             dict_of_results[gauge] = filtered_col
         return dict_of_results   
@@ -1311,7 +1313,7 @@ def flowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract
             PU_df = resultsStatsFlow(statsRequest, eventDict, ewr_dict, PU_df, ewr, waterYears, noneList)
     return PU_df 
         
-def lowFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def lowFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, climate_file):
     '''Handling low flow type EWRs
     returns a dataframe yearly results for each ewr within the planning unit'''        
     # Get ewr details:
@@ -1325,7 +1327,7 @@ def lowFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtr
     wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Allocate climate to flow timeseries:
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)  
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name, climate_file)  
     # Save the relevant flow timeseries columns to variables:
     flowSeries = input_df_timeslice[gauge_ID].values
     waterYears = sorted(set(wySeries))        
@@ -1336,7 +1338,7 @@ def lowFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtr
         
     return PU_df
         
-def cfFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def cfFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, climate_file):
     '''Handling cease to flow type EWRs
     returns a dataframe yearly results for each ewr within the planning unit'''  
     ewr_dict = dict()
@@ -1353,7 +1355,7 @@ def cfFlowEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtra
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
     
     # Put the climate on the dataseries
-    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)     
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name, climate_file)     
     
     # Save the relevant flow timeseries columns to variables:
     flowSeries = input_df_timeslice[gauge_ID].values
@@ -1416,7 +1418,7 @@ def lakeEWRhandler(calculationType, planningUnit,  gauge_ID, ewr, ewrTableExtrac
     
     return PU_df
     
-def wpEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict): 
+def wpEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, climate_file): 
     '''Handling of weirpool ewrs.
     returns a dataframe yearly results for each ewr within the planning unit'''
     ewr_dict = dict()
@@ -1429,7 +1431,7 @@ def wpEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, 
     wySeries = waterYear_daily(input_df_timeslice, ewr_dict)
     # Allocate climate to flow timeseries:
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)    
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name, climate_file)    
     # Save the relevant flow timeseries columns to variables:
     dateSeries = input_df_timeslice.index
     flowSeries = input_df_timeslice[gauge_ID].values
@@ -1487,7 +1489,7 @@ def nestEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract
     
     return PU_df
 
-def multiGaugeEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict):
+def multiGaugeEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, climate_file):
     '''Handling those EWRs that require flow at two gauges summed together'''
     # Get EWRs
     ewr_dict = dict()
@@ -1502,7 +1504,7 @@ def multiGaugeEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableE
     
     # Allocate climate to flow timeseries:
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)  
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name, climate_file)  
     
     # Save relevant columns to variables to iterate through:
     firstFlowSeries = input_df_timeslice[gauge_ID].values
@@ -1541,7 +1543,7 @@ def multiGaugeEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableE
         
     return PU_df
 
-def simultaneousEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, ewr_table):
+def simultaneousEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTableExtract, input_df, PU_df, toleranceDict, ewr_table, climate_file):
     '''For those EWRs that need to be met at two locations at the same time'''
     # Get EWRs
     ewr_dict = dict()
@@ -1560,7 +1562,7 @@ def simultaneousEWRhandler(calculationType, planningUnit, gauge_ID, ewr, ewrTabl
     waterYears = sorted(set(wySeries))
     # Get the catchment name, and then create a series with a daily climate category for the catchment
     catchment_name = data_inputs.gauge_to_catchment(gauge_ID) # catchment name for checking climate
-    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name)     
+    climateSeries = data_inputs.wy_to_climate(input_df_timeslice, catchment_name, climate_file)     
     # Save relevant columns to variables to iterate through:
     flowSeries = input_df_timeslice[gauge_ID].values 
     dateSeries = input_df_timeslice.index
@@ -3335,7 +3337,7 @@ def simultaneousResultsStatsCF(eventDict, eventDict2, wyCurrent, yearsWithEvents
 
 #------------------ Calculation master function -------------------------#
 
-def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
+def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict, climate_file):
     '''Sends to handling functions to get calculated depending on the type of EWR''' 
     # Get menindee and weirpool gauges, gauges with combined flow requirements, simultaneous ewr requirements, and those with 'other complex requirements'
     menindeeGauges, wpGauges = data_inputs.getLevelGauges()
@@ -3382,7 +3384,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                      planUnitTable,
                                                      df,
                                                      PU_df,
-                                                     toleranceDict)
+                                                     toleranceDict,
+                                                     climate_file)
                     if (('VF' in ewr) or ('BF' in ewr)):
                         PU_df = multiGaugeEWRhandler('low flow',
                                                     planUnit,
@@ -3391,7 +3394,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                     planUnitTable,
                                                     df,
                                                     PU_df,
-                                                    toleranceDict)
+                                                    toleranceDict,
+                                                    climate_file)
                     if (('SF' in ewr) or ('LF' in ewr) or ('BK' in ewr) or ('OB' in ewr)):
                         PU_df = multiGaugeEWRhandler('flow',
                                                     planUnit,
@@ -3400,7 +3404,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                     planUnitTable,
                                                     df,
                                                     PU_df,
-                                                    toleranceDict)
+                                                    toleranceDict,
+                                                    climate_file)
                 elif ((planUnit in multiGaugeCalc) and (gauge_ID in multiGaugeCalc[planUnit]) and (ewr_type_col[num] == 'V')):
                     if ('OB' in ewr):
                         PU_df = multiGaugeEWRhandler('cumulative volume',
@@ -3410,7 +3415,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                      planUnitTable,
                                                      df,
                                                      PU_df,
-                                                     toleranceDict)
+                                                     toleranceDict,
+                                                     climate_file)
                 
                 elif ((planUnit in simultaneousGaugesCalc) and (gauge_ID in simultaneousGaugesCalc[planUnit]) and (ewr_type_col[num] == 'F')):
                     if 'CF' in ewr:
@@ -3422,7 +3428,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                     df,
                                                     PU_df,
                                                     toleranceDict,
-                                                    ewr_table)
+                                                    ewr_table,
+                                                    climate_file)
                     if (('VF' in ewr) or ('BF' in ewr)):
                         PU_df = simultaneousEWRhandler('low flow',
                                                             planUnit,
@@ -3432,7 +3439,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                     df,
                                                     PU_df,
                                                     toleranceDict,
-                                                    ewr_table)
+                                                    ewr_table,
+                                                    climate_file)
                     if (('SF' in ewr) or ('LF' in ewr) or ('BK' in ewr) or ('OB' in ewr)):
                         PU_df = simultaneousEWRhandler('flow',
                                                             planUnit,
@@ -3442,7 +3450,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                     df,
                                                     PU_df,
                                                     toleranceDict,
-                                                    ewr_table)
+                                                    ewr_table,
+                                                    climate_file)
                     
                 elif ((ewr_type_col[num] == 'F') and (gauge_ID not in wpGauges.values())):
                     # If standard flow EWRs:
@@ -3466,7 +3475,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                planUnitTable,
                                                df,
                                                PU_df,
-                                               toleranceDict
+                                               toleranceDict,
+                                               climate_file
                                               )
                     # If cease to flow type EWRs:
                     elif ('CF' in ewr):         
@@ -3477,7 +3487,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                planUnitTable,
                                                df,
                                                PU_df,
-                                               toleranceDict
+                                               toleranceDict,
+                                               climate_file
                                               )
                     elif ('Nest' in ewr):
                         PU_df = nestEWRhandler('nest',
@@ -3497,7 +3508,8 @@ def EWR_calculator(df, gauge_ID, ewr_table, toleranceDict):
                                                planUnitTable,
                                                df,
                                                PU_df,
-                                               toleranceDict
+                                               toleranceDict,
+                                               climate_file
                                               )
                     else:
                         continue

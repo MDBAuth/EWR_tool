@@ -9,7 +9,7 @@ from tkinter import Tk, filedialog
 from datetime import datetime
 
 catchments_gauges = data_inputs.catchments_gauges_dict()
-climate_type = widgets.Dropdown(
+climate_file = widgets.Dropdown(
     options=[('Standard - 1911 to 2018 climate categorisation'), ('NSW 10,000 year climate sequence')],
     value='Standard - 1911 to 2018 climate categorisation',
     description='',
@@ -333,7 +333,8 @@ def on_model_button_clicked(b):
                                                                     ewr_data,
                                                                     model_format_type.value,
                                                                     bigmod_metadata,
-                                                                    allowanceDict
+                                                                    allowanceDict,
+                                                                    climate_file.value
                                                                    )
         items = get_locations_from_scenarios(data_summary_s)              
         w = widgets.Select(options=items)
@@ -417,7 +418,8 @@ def on_gauge_button_clicked(b):
                                                                         list_of_request_o,
                                                                         input_params_o,
                                                                         ewr_data,
-                                                                        allowanceDict)
+                                                                        allowanceDict,
+                                                                        'Standard - 1911 to 2018 climate categorisation') # hardcode in the climate cats for the observed flows
         display(results_summary_o.style)
 
 ###############################################################################################        
@@ -637,7 +639,7 @@ model_format_type = widgets.Dropdown(
     style= {'description_width':'initial'}
 )
 
-climate_type = widgets.Dropdown(
+climate_file = widgets.Dropdown(
     options=[('Standard - 1911 to 2018 climate categorisation'), ('NSW 10,000 year climate sequence')],
     value='Standard - 1911 to 2018 climate categorisation',
     description='',
@@ -693,7 +695,7 @@ gauge_input_widgets = widgets.VBox([gauge_inputs_title, justLine, date_selection
 model_input_widgets= widgets.VBox([model_inputs_title, justLine, model_selection, 
                                    widgets.VBox([load_model_files, or_text, fileLocationHeader, path_box_1, path_box_2, path_box_3, path_box_4, path_box_5]),
                                    widgets.VBox([justLine, model_format_header, model_format_type]),
-                                   widgets.VBox([justLine, climate_format_header, climate_type]),
+                                   widgets.VBox([justLine, climate_format_header, climate_file]),
                                    justLine, analysis_selection_s, years_events_s, freq_events_s, 
                                    max_dry_s, time_since_s, numEvents_s, avLengthEvents_s,
                                    avNumEvents_s, avLowFlowDays_s, avCtfDaysPerYear_s, avLenCtfSpells_s,

@@ -1,7 +1,6 @@
 import io
 import requests
 import pandas as pd
-import dashboard
 import numpy as np
 
 # Importing the climate cat data - to be replaced by RAS data once available:
@@ -18,14 +17,14 @@ def getLevelGauges():
     
     return menindeeGauges, weirpoolGauges
     
-def get_climate_cats():
+def get_climate_cats(climate_file):
     '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
     in which case this is used'''
     
-    if dashboard.climate_type.value == 'Standard - 1911 to 2018 climate categorisation':
+    if climate_file == 'Standard - 1911 to 2018 climate categorisation':
         climate_cats = pd.read_csv('Climate_data/climate_cats.csv', index_col = 0)
         
-    elif dashboard.climate_type.value  == 'NSW 10,000 year climate sequence':
+    elif climate_file  == 'NSW 10,000 year climate sequence':
         climate_cats = pd.read_csv('Climate_data/climate_cats_10000year.csv', index_col = 0)
 
     return climate_cats
@@ -157,10 +156,10 @@ def gauge_to_catchment(input_gauge):
         if input_gauge in catchments_gauges[catchment]:
             return catchment
     
-def wy_to_climate(input_df, catchment):
+def wy_to_climate(input_df, catchment, climate_file):
     '''Takes in '''
     # Get the climate categorisation:
-    climate_cats = get_climate_cats()
+    climate_cats = get_climate_cats(climate_file)
     
     # Get the unique years covered in the flow dataframe, and how many days are in each year:
     years = input_df.index.year.values
