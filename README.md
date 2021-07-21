@@ -1,4 +1,4 @@
-### **EWR tool 0.0.4 README**
+### **EWR tool 0.0.5 README**
 
 **Purpose**
 This tool has two purposes:
