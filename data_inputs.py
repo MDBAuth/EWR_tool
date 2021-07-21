@@ -4,19 +4,7 @@ import pandas as pd
 import numpy as np
 
 # Importing the climate cat data - to be replaced by RAS data once available:
-
-def getLevelGauges():
-    '''Call this function to return the menindee lakes gauges, and the weirpool level gauges'''
-    
-    menindeeGauges = ['425020', '425022', '425023']
-    
-    weirpoolGauges = {'414203': '414209', 
-                      '425010': '4260501', 
-                      '4260507': '4260508',
-                      '4260505': '4260506'}
-    
-    return menindeeGauges, weirpoolGauges
-    
+   
 def get_climate_cats(climate_file):
     '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
     in which case this is used'''
@@ -29,7 +17,7 @@ def get_climate_cats(climate_file):
 
     return climate_cats
 
-def get_ewr_table():
+def get_EWR_table():
     ''' Loads ewr table from blob storage, seperates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
     does some cleaning, including swapping out '?' in the frequency column with 0'''
@@ -93,7 +81,7 @@ def catchments_gauges_dict():
     first three numbers for each gauge '''
     
     temp_ewr_table, see_notes, undefined_ewrs, noThresh_df,\
-    no_duration, DSF_ewrs = get_ewr_table()
+    no_duration, DSF_ewrs = get_EWR_table()
     gauge_number = temp_ewr_table['gauge'].values
     gauge_name = temp_ewr_table['CompliancePoint/Node'].values
     
@@ -142,12 +130,19 @@ def catchments_gauges_dict():
 
 catchments_gauges = catchments_gauges_dict()
 
-def get_bigmod_codes():
-    metadata = pd.read_csv('bigmod_metadata/SiteID.csv', engine = 'python', dtype=str)
+def get_MDBA_codes():
+    ''''''
+    metadata = pd.read_csv('model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)
     metadata = metadata.where(pd.notnull(metadata), None)
 
     return metadata
+  
+def get_NSW_codes():
+    ''''''
+    metadata = pd.read_csv('model_metadata/SiteID_NSW.csv', engine = 'python', dtype=str)
     
+    return metadata
+
 def gauge_to_catchment(input_gauge):
     ''' Takes in a gauge, maps it to the catchment
     returns the catchment '''
@@ -176,6 +171,20 @@ def wy_to_climate(input_df, catchment, climate_file):
     climateDaily = np.concatenate(climateDailyYear)
     
     return climateDaily
+
+
+def getLevelGauges():
+    '''Call this function to return the menindee lakes gauges, and the weirpool level gauges'''
+    
+    menindeeGauges = ['425020', '425022', '425023']
+    
+    weirpoolGauges = {'414203': '414209', 
+                      '425010': '4260501', 
+                      '4260507': '4260508',
+                      '4260505': '4260506'}
+    
+    return menindeeGauges, weirpoolGauges
+
 
 def getMultiGauges(dataType):
     '''Call function to return a dictionary of associated gauges'''
@@ -216,3 +225,123 @@ def getComplexCalcs():
                               'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
     
     return complexCalcs
+
+
+def get_gauges(category):
+    ''''''
+    goodEwrs, seeNotesEwrs, undefinedEwrs, noThresh_df, noDurationEwrs, DSFewrs = get_EWR_table()
+    menindee_gauges, wp_gauges = getLevelGauges()
+    wp_gauges = list(wp_gauges.values())
+    
+    multi_gauges = getMultiGauges('gauges')
+    simul_gauges = getSimultaneousGauges('gauges')
+    multi_gauges = list(multi_gauges.values())
+    simul_gauges = list(simul_gauges.values())
+    if category == 'all gauges':
+        return goodEwrs['gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges
+    elif category == 'flow gauges':
+        return goodEwrs['gauge'].to_list() + multi_gauges + simul_gauges
+    elif category == 'level gauges':
+        return menindee_gauges + wp_gauges
+    else:
+        raise ValueError('''No gauge category sent to the "get_gauges" function''')
+
+def get_EWR_components(category):
+    '''Ingests an EWR type and a gauge, returns the components required to analyse for
+    this type of EWR.
+    '''
+
+    if category == 'flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'GP', 'EPY', 'ME', 'MIE']
+    elif category == 'low flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'EPY', 'DURVD', 'MIE']
+    elif category == 'cease to flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'EPY', 'DURVD', 'MIE']
+    elif category == 'cumulative':
+        pull =  ['SM', 'EM', 'MINV', 'DUR', 'EPY', 'MINF', 'MIE']
+    elif category == 'level':
+        pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'EPY', 'MD', 'ME', 'MIE']
+    elif category == 'weirpool-raising':
+        pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'MD', 'EPY','WPG', 'MIE']
+    elif category == 'weirpool-falling':
+        pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'MD', 'EPY','WPG', 'MIE']
+    elif category == 'nest-level':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'MD', 'EPY', 'WPG', 'MIE']
+    elif category == 'nest-percent':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'MD', 'EPY', 'MIE']
+    elif category == 'multi-gauge-flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'GP', 'EPY', 'ME', 'MG', 'MIE']
+    elif category == 'multi-gauge-low flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'EPY', 'DURVD', 'MG', 'MIE']
+    elif category == 'multi-gauge-cease to flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'EPY', 'DURVD', 'MG', 'MIE']
+    elif category == 'multi-gauge-cumulative':
+        pull =  ['SM', 'EM', 'MINV', 'DUR', 'EPY', 'MINF', 'MG', 'MIE']
+    elif category == 'simul-gauge-flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'GP', 'EPY', 'ME', 'DURVD', 'SG', 'MIE']
+    elif category == 'simul-gauge-low flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'GP', 'EPY', 'ME', 'DURVD', 'SG', 'MIE']
+    elif category == 'simul-gauge-cease to flow':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'GP', 'EPY', 'ME', 'DURVD', 'SG', 'MIE']
+    elif category == 'complex':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'EPY', 'MIE']  
+    return pull
+    
+def get_bad_QA_codes():
+    
+    return [151, 152, 153, 155, 180, 201, 202, 204, 205, 207, 223, 255]
+    
+
+def complex_EWR_pull(EWR_info, gauge, EWR, allowance):
+    '''Additional EWR information not yet included in the database has been hard coded'''
+    if ((gauge == '409025') and ('NestS1' in EWR)):
+        EWR_info['trigger_day'] = 15
+        EWR_info['trigger_month'] = 9
+    elif ((gauge == '409207') and ('NestS1' in EWR)):
+        EWR_info['trigger_day'] = 1
+        EWR_info['trigger_month'] = 10
+        EWR_info['start_month'] = 10
+        EWR_info['start_day'] = None
+    elif 'NestS1' in EWR:
+        EWR_info['trigger_day'] = None
+        EWR_info['trigger_month'] = None
+    if gauge == '409025' and (EWR == 'OB2_S' or EWR == 'OB2_P'):
+        EWR_info['min_flow_post'] = int(round(9000*toleranceDict['minThreshold'], 0))
+        EWR_info['max_flow_post'] = int(round(1000000*toleranceDict['maxThreshold'], 0))
+        EWR_info['duration_post'] = int(round(105*toleranceDict['duration'], 0))
+        EWR_info['start_month'] = 7
+        EWR_info['end_month'] = 6
+        EWR_info['gap_tolerance'] = 7
+    if gauge == '409025' and (EWR == 'OB3_S' or EWR == 'OB3_P'):
+        EWR_info['min_flow_outside'] = int(round(15000*allowance['minThreshold'], 0))
+        EWR_info['max_flow_outside'] = int(round(1000000*allowance['maxThreshold'], 0))
+        EWR_info['duration_outside'] = int(round(90*allowance['duration'], 0))
+        EWR_info['start_month'] = 7
+        EWR_info['end_month'] = 6
+        EWR_info['gap_tolerance'] = 7
+        
+    return EWR_info
+
+def analysis():
+    '''Returns a list of types of analysis to be shown in the summary table'''
+    
+    return ['Event years','Frequency','Target frequency','Event count','Events per year',
+            'Event length','Threshold days','Inter-event exceedence count','No data days',
+            'Total days']
+
+def weirpool_type(EWR):
+    '''Returns the type of Weirpool EWR. Currently only WP2 EWRs are classified as weirpool raisings'''
+    if EWR == 'WP2':
+        weirpool_type = 'raising'
+    else:
+        weirpool_type = 'falling'
+
+    return weirpool_type
+
+def convert_max_interevent(unique_water_years, water_years, EWR_info):
+    '''Max interevent is saved in the database as years, we want to convert it to days.
+    '''
+    average_days_per_year = len(water_years)/len(unique_water_years)
+    new_max_interevent = average_days_per_year * EWR_info['max_inter-event']
+    
+    return average_days_per_year

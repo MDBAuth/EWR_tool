@@ -1,0 +1,2542 @@
+SITEID,Name,Description,AWRC,StateID
+23131,Hindmarsh Island (Mundoo Barrage),BOM station - Hindmarsh Island (Mundoo Barrage),23131,5
+23742,Tailmet,Port Elliot Caravan Park - rainfall,23742,5
+23751,Victor Harbour comparison,Victor Harbour comparison (rain ),23751,5
+23783,Myponga Reservoir (rain + evap),Myponga Reservoir (rain + evap),23783,5
+24558,Milang E&Ws (rain & evap),Milang E & Ws (rain & evap),24558,5
+24562,Wellington Pumping Station,Wellington Pumping Station (rain & evap),24562,5
+03M_EOS,Balonne River at St George,,422201,1
+48031,Collarenebri (Albert Street),Collarenebri (Albert Street),48031,2
+52002,Rowena (Iffley),Rowena - IFFLEY,52002,2
+52008,Rowena (Bunna Bunna),Rowena (Bunna Bunna),52008,2
+52010,Weemelah (Crinolyn),Weemelah (Crinolyn),52010,2
+52017,Garah (Bengerang),Garah (Bengerang),52017,2
+52019,Mogil Mogil (Benimora),Mogil Mogil (Benimora),52019,2
+52020,Mungindi Post Office,Mungindi Post Office,52020,2
+53011,Garah Post Office,Garah Post Office,53011,2
+53014,Gurley (Glenroy),Gurley (Glenroy),53014,2
+53034,Wee Waa (Pendennis),Wee Waa (Pendennis),53034,2
+53048,Moree Comparison,Moree Comparison,53048,2
+54004,Bingara Post Office,Bingara Post Office,54004,2
+54017,Gravesend Post Office,Gravesend Post Office,54017,2
+54021,Barraba (Mount Lindesay),Barraba (Mount Lindesay),54021,2
+54029,Warialda Post Office,Warialda Post Office,54029,2
+54039,Bingara (Keera),Bingara (Keera),54039,2
+54128,Copeton Dam,Copeton Dam,54128,2
+10BOOBG,Lachlan River at Booberoi,Lachlan River @ Booberoi,412021,2
+10BREWW,Lachlan River at Lake Brewster Weir,Lachlan River at Lake Brewster Weir,412048,2
+10CANWG,Belubula River at Canowindra,,412009,2
+10CARGW,Lachlan River at Lake Cargelligo Weir,,412011,2
+10COWRG,Lachlan River at Cowra,,412002,2
+10JEMAG,Lachlan River at Jemalong Weir,,412036,2
+10NANAG,Lachlan River at Nanami,,412057,2
+10OXLEY,Lachlan River at Oxley,,412026,2
+10WILAN,Lachlan River u/s Willandra Weir,LACHLAN RIVER U/S WILLANDRA WEIR,412038,2
+10WYANG,Lachlan River at  Wyangala Dam,,412010,2
+10WYLAR,Lachlan River D/S Wyangala Dam,,412067,2
+11BURRD,Murrumbidgee River at D/S Burrinjuck dam,MURRUMBIDGEE RIVER AT D/S BURRINJUCK DAM,410008,2
+11GFBRU,Tumut River at Brungle Bridge,,410039,2
+11GFCAR,Murrumbidgee River at Carrathool,,410078,2
+11TUMOD,Tumut River at Odeys Bridge,,410073,2
+11YANOT,Murrumbidgee River d/s Yanco weir,MURRUMBIDGEE RIVER AT DOWNSTREAM YANCO WEIR,410036,2
+12MILE,River Murray at 12 Mile Reserve-Bankview,ALSO KNOWN AS BANKVIEW,409043,2
+3DMARSH,Avoca Outflow from 3rd Marsh,,,4
+404216,Broken River at Caseys Weir Head Gauge,Broken River at Goorambat,404216,4
+405253A,Goulburn at Goulburn Weir,Goulburn Weir,405253A,4
+407203,Loddon River at Laanecoorie,,407203b,4
+412029,Boorowa River at Prossers Crossing,Boorowa River at Prossers Crossing (Boorowa Prossers Xng),412029,2
+412030,Mandagery U/S Eugowra,Mandagery Creek Upstream Eugowra (Smithfield),412030,2
+412043,Goobang Darby's Dam,Goobang Creek at Darby's Dam,412043,2
+412072,Back Creek @ Koorawatha,Back Creek @ Koorawatha,412072,2
+412080,Flyers Creek at Beneree,Flyers Creek at Beneree,412080,2
+412092,Coombing Creek Near Neville,Coombing Creek Near Neville,412092,2
+415201B,Wimmera River at Glenochy Weir Tail Gauge,,415201B,4
+415203D,Mount William Creek at Lake Lonsdale (Tail Gauge),,415203D,4
+415214C,Fyans Creek at Lake Bellfield,,415214C,4
+415251A,Mackenzie River at Mckenzie Creek,,415251A,4
+418005,Copes Creek at Kimberley,Copes Creek at Kimberley,418005,2
+418015,Horton River @ Rider (Killara),Horton River @ Rider (Killara),408015,2
+418016,Warialda at Warialda,Warialda at Warialda,418016,2
+418017,Myall at Molroy,Myall at Molroy,418017,2
+418018,Keera Creek at Keera,Keera Creek at Keera,418018,2
+418021,Laura at Laura,Laura at Laura,418021,2
+418022,Georges Creek at Clerkness,Georges at Clerkness,418022,2
+418023,Moredun Creek at Bundarra,Moredun Creek at Bundarra,418023,2
+418025,Halls Creek at Bingara,Halls Creek at Bingara,418025,2
+418029,Gwydir at Stonybatter,Gwydir at Stonybatter,418029,2
+418032,Tycannah at Horseshoe,Tycannah at Horseshoe,418032,2
+418033,Bakers Creek at Bundarra,Bakers Creek at Bundarra,418033,2
+4190050,Namoi River at North Cuerindi,,419005,2
+419012,Namoi River at Boggabri,Namoi River at Boggabri,419012,2
+419020,Manilla River at Brabri (Merriwee),,419020,2
+419022,Namoi River at Manilla railway Bridge,,419022,2
+4190510,Maules Creek at Avoca East,,419051,2
+419068,Namoi river D/S Weeta weir,,419068,2
+422016_,Narran River at Wilby Wilby (Belvedere),,422016,2
+422203A,Balonne River at Barrackdale,Balonne River at Barrackdale,422203,1
+422325A,Condamine River @ Cotswold,,422325,1
+422350A,Oakey Creek @ Fairview,,422350,1
+422395A,Sandy Creek @ Leslie Dam Tailwater,,422395,1
+422401,Maranoa River @ Mitchell,,422401,1
+422404A,Maranoa River @ Cashmere,,422404,1
+422407C,Maranoa River @ Forestvale,,422407,1
+423003_,Warrego River @ Barringun,,423003,2
+423201A,Warrego River @ Charleville,,423201A,1
+423202C,Warrego River @ Cunnamulla,,423202C,1
+423203A,Warrego River @ Wyandra,,423203,
+423204_,Warrego River @ Augathella,,423204,
+424002_,Paroo River @ Willara Crossing,,424002,
+4261125,Wellington @ Top Surface,,,5
+5ASHFDG,Severn River @ Ashford,,416006,1
+5BONSHW,Dumaresq River @ Bonshaw Weir,,416007,1
+5BOOMWG,Macintyre River @ Boomi Weir,,416043,1
+5BOONAL,Macintyre River @ Boonal,,416038,1
+5DAMSTG,Macintyre River @ Dam Site,,416018,1
+5FFARNG,Dumaresq River @ Farnbro,,416310,1
+5FGOONG,Moonie River @ Nindigully,,416201,1
+5FMAURG,Dumaresq River @ Mauro,,416049,1
+5FMINGG,Dumaresq River @ Mingoola No3,,416014,1
+5FTERRG,Macintyre River @ Terrewah,,416047,1
+5FWALLG,Macintyre River @ Wallangra,,416010,1
+5GIFR03,Severn River @ Strathbogie,,416039,1
+5HOLDFG,Macintyre River @ Holdfast (Yelarbon Crossing),,416012,1
+5KANWNG,Macintyre River @ Kanowna,,416048,1
+5NEEWRG,Boomi River @ Neeworra,,416028,1
+5PINDAG,Severn River d/s Pindari,,416019,1
+5ROSEN2,Dumaresq River @ Roseneath,,416011,1
+5TALWDG,Weir River @ Talwood,,416202A,1
+6BUNDAG,Gwydir River @ Bundarra,,418008,
+6CAMURG,Gwydir River @ Camurra,,418007,
+6COPETN,Gwydir River @ Copeton Dam storage gauge,,418035,
+6FPINEG,Gwydir River @ Pinegrove,,418012,2
+6GALLGF,Gil Gil Creek @ Galloway,,416052,1
+6GILGIL,Gil Gil Creek @ Weemelah,,416027,1
+6ON7CHN,Flow from 6/7 Channel to Little Murray,,,
+6ON7FPO,6 on 7 Channel flows with FP Weir open,Fish Point Weir Open,,4
+6STONYG,Gwydir River @ Stonybatter,,418029,
+6USCOMG,Mehi River D/S of Combadello weir,,418037,2
+6USMEHI,Gwydir River U/S of Mehi Offtake,,418006,2
+717OESC,7/1/7 Outfall,,,4
+7BUGILB,Namoi River @ Bugilbone (Riverview),,419021,2
+7CARGPG,Peel River @Carrol Gap,,419006,2
+7CHAFDH,Peel River D/S Chaffey Dam,,419045,2
+7CHAFDI,Peel River @Chaffey Dam - Storage Gauge,,419069,2
+7DSGUGF,Combined flow downstream Gunidgera Split,,419059,2
+7KEEPGF,Namoi River D/S Keepit Dam,,419007,2
+7KEEPIT,Namoi River @ Keepit Dam - Storage Gauge,,419041,2
+7PARDWG,Peel River @ Paradise Weir,,419024,2
+7PIALMG,Peel River @ Piallamore,,419015,2
+7SPLTRD,Manill River @ Split Rock Dam Storage gauge,,419080,
+7TARPOL,Manilla River @ D/S Split Rock Dam,,419043,2
+8BENCHD,Campbells River @ U/S Ben Chifley Dam,,421101,
+8BROOMG,Bogan River @ Broomfield,,421069,
+8EOSMAR,Marra Creek @ Billybingbone Bridge,,421107,2
+8FGBATH,Macquarie River @ Bathurst Post Q.Charlottes Div,,421007,
+8FGRWHL,Cudgegong River @ Rocky Water Hole,,421149,
+8FGYAMB,Cudgegong River @ Yamble Bridge,,421019,2
+8FNPGBR,Bogan River @ Neurie Plains,,421039,
+8GFBRUI,Macquarie River @ Bruinbun,,421025,
+8GFDSBD,Macquarie River D/S Burrendong Dam,,421040,
+8GFDXLP,Macquarie River @ Dixons Long Point,,421080,
+8GFUSBD,Macquarie River @ Burendong Dam - Storage Gauge,,421078,
+8GIFR06,Bogan River @ Peak Hill,,421076,
+8GIFR1C,Cudgegong River @ Wilbertree Road,,421150,2
+8MAERGF,Macquarie River D/S Marebone Weir,,421090,2
+8MENCAI,Castlereagh River @ Mendooran,,420004,
+8MFWIND,Cudgegong River D/S Windamere Dam,,421079,
+8WARREN,Macquarie River @ Warren Weir,,421004,2
+8WINDAD,Cudgegong River @ Windamere Dam-Storage Gauge,,421148,
+ACT,ACT - Australian Capital Territory,ACT - Australian Capital Territory,,3
+ACTBG,Diversions from Lake Burley Griffins,controlled by AG,,3
+ACTGWE,ACT Groundwater Extractions,,,3
+ACTLBG,Lake Burley Griffin - ACT,ACT -Lake Burley Griffin - Controlled by CG,,3
+ACTPD,ACT Private Surface Water Irrigation Diversion,ACT Private Surface Water Irrigation Diversion,,3
+ADASTP,Adaminaby STP,,,2
+ADE2MET,Adelaide Kent town Met Stn,Located at the Met Bureau (80 degrees 2.2km from GPO),23090,5
+ADELMET,Adelaide (Airport) Met Stn,Located at Adelaide Airport,23034,5
+ADELNTH,North Adelaide Met Station - Pooraka PO,,23026,5
+ADESTP,Adelong STP,,,2
+ALBERT,Lake Albert average value,"Levels are 5 day average of Meningie, Waltowa Swamp and Warringee Point",200,
+ALBERTP,Lake Albert Pumps,Pumps from Lake Alexandrina to Lake Albert,,2
+ALBSTW,Albury Sewage T W Discharge,DISCHARGE FROM HORSESHOE LAGOON,,2
+ALBSTW2,Albury STW - Outflow From Pond 2,,,2
+ALBURY,River Murray at Albury,,409001,2
+ALEX10M,,,,5
+ALEX13M,,,,5
+ALEXM1M,,,,5
+ALEXM4M,,,,5
+ALEXM7M,,,,5
+ALGPLAN,Algeboia Plain,Millewa monitoring site,,
+ALGROAD,Algeboia Road,Millewa monitoring site,,
+ALLANSF,Yackandandah Creek @ Allans Flat,,402202,4
+ALLINFS,Murray System Inflows,Murray System Inflows including inflow to Menindee Lakes,,2
+ALLSNET,All inflows except Snowy and IVT and Env component,Inflows excluding Snowy and excluding IVT and managed E flow componenets of other tribs,,
+ALXB101,Lake Alexandrina @ Beacon 101 (Pomanda Point),,A4261130,5
+ALXB95,Lake Alexandrina West Point McLeay-Beacon 95,Lake Alexandrina West Point McLeay (Star Beacon 95),A4261156,5
+ALXB97,Lake Alexandrina at Beacon 97 (Offshore Raukkan),Lake Alexandrina at Beacon 97 (Offshore Raukkan),A4261133,5
+ALXBC12,Goolwa Channel @ Beacon 12 (Adjacent Reedy Island,Goolwa Channel at Beacon 12 (Adjacent Reedy Island),A4261036,5
+ALXBC20,Goolwa Channel 200m US Goolwa Brg (Port Beacon 20),Goolwa Channel 200m us Goolwa Brg (Port Beacon 20),A4261122,5
+ALXBC23,Goolwa Channel @ Signal Point (Beacon 23),Goolwa Channel at Signal Point (Beacon 23),A4261123,5
+ALXPOM,Lake Alexandrina 4km West Pomanda Point,Lake Alexandrina 4km West Pomanda Point,A4261158,5
+ALXSTP,Alexandra STP,,,4
+ALXWCLA,Goolwa Channel 2km West Clayton (Starboard Beacon,Goolwa Channel 2km West Clayton (Starboard Beacon 65),A4261124,5
+ANABRAN,Darling Anabranch near Murray Junction,,,2
+ANABRCH,Anabranch - Lower Darling River System,Anabranch Supplies - Lower Darling River System,,2
+ANAOFFT,GREAT DARLING ANABRANCH AT OFFTAKE,GREAT DARLING ANABRANCH AT OFFTAKE,425050,2
+ANAOUT,Anabranch Outflow (ML/d),Anabranch Outflow (ML/d),,2
+ANAOVER,Overflow from Darling to Anabranch (ML/d),Overflow from Darling to Anabranch (ML/d),,2
+ANAPIPE,Anabranch Pipeline Supply from Darling,Piped Stock and Domestic Supply to Darling Anabranch from the Lower Darling,,
+ANAPIPM,Anabranch Piped Supply from River Murray,Piped Stock and Domestic Supply to Darling Anabranch from the River Murray,,
+ANGANGP,Angas River at Angas Plains,,A4260629,5
+ANGASCK,Angas,,,
+ANGBALR,Angas River @ Ballandown Road,Angas River at Ballandown Road,A4261073,5
+ANGCHER,Angas River @ Cheriton Road,Angas River at Cheriton Road,A4261074,5
+ANGWEIR,Angas River @ Angas Weir,,4260503,
+ANMEFF,EFFLUENT FROM ANM MILL ALBURY,,,2
+AOPCEWH,All Other Purposes CEWH,All Other Purposes Commonwealth Environmental Water Holder,,
+AOPOTHR,All Other Purposes Other Env. Ent,All Other Purposes Other Environment Entitlements,,
+AOPTLM,All Other Purposes TLM,All Other Purposes Total Living Murray,,
+APPIN,Loddon River @ Appin South,,407205A,4
+APPINSC,Appin South Community Dr,Appin South Community Dr at Forest Lane,407756,4
+ASHESC,11/4 Ashwin,,,4
+ASHSTP,Ashford STP,,,2
+ATKHRDS,Atkinsons Regulator D/S,Millewa monitoring site,,
+ATKINS,Atkinsons River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+AVOCA,Flow From Avoca To Channel 7,AVOCA FLOODWAY AT MYSTIC PARK,,4
+AVOCBGO,Avoca to Channel 7 plus Lake Boga Outflow,Avoca to Channel 7 plus Lake Boga Outflow,,4
+AVOQUAM,Avoca River at Quambatook (Victoria),Avoca River at Quambatook,408203,4
+BACKBAR,Back Baroogo Rd Drain - landholding E919,"Back Baroogo Rd Drain in landholding E919, South Boundry.",409092,2
+BACKFLO,to be delected - yan,yan is testing to add it into bsis from wamm,,1
+BALAK06,Lake Balaka Sample Site 6,See WRC Menindee Lakes Storages map,42510006,2
+BALBOOR,Mehi River @ u/s Ballin Boora Creek,Mehi River @ u/s Ballin Boora Creek,418068,2
+BALFLOR,Murrumbidgee River @ Balranald,Murrumbidgee River - Balranald,410003,2
+BALLBOR,Ballandool River @ Border,,,
+BALOJAC,Jack Taylor dam on Balonne river,,,4
+BALONBD,Balonne River @ Beardmore Dam,,,1
+11FGBLW,Murrumbidgee River D/S Balranald,,410130,2
+BALRMET,Balranald (Til Til),,,2
+BAMAWM,Bamawm Main Drain @ Dargons Bridge,,406750,4
+BANDIAN,Kiewa River @ Bandiana,Sample at Killara,402205A,4
+BANNACH,"Bannacher Creek, near Appin, VIC",,,
+BARBCK,Barbers Creek River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+BARBCKP,Barbers Creek Pool Upstream Regulator,New South Wales Regulators - Koondrook-Perricoota Forest,409113,
+BARBOVR,Barbers Overflow River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+BARHAM,River Murray @ Barham,,409005,4
+BARHCUT,Barham Cutting River Regulator,Gunbower Forest - VIC National Parks,,4
+BARHMET,Barham Police Met Station,Meteorological,75003,4
+BARLMWR,Part of Torrumbarry Returns,Torrumbarry Returns Less KERANGW +KOONDSP,,
+BARM2WJ,can be deleted 29/9/05,YAN IS TESTING TO ADD THIS SITE INTO HYDRO,,
+BARMAH,River Murray @ Barmah,,409215B,4
+BARMERA,Barmera,Barmera - Riverland System,,
+BARMET,Barmera,,24001,
+BARMILL,Barmah-Millewa Forest,Barmah-Millewa Forest,,4
+BARMILN,NSW Barmah-Millewa EWA,NSW share of the Barmh-Millewa Account,,
+BARMILV,VIC share of Barmah-Millewa EWA,Victorian share of the Barmh-Millewa Account,,
+BARMWTP,Barmera Water Treatment Plant,,,
+BARNXNY,Vic Barmah to Nyah  exc. Nyah Pumps,Victorian Barmah to Nyah diversions excluding Nyah Pumps,,4
+BARNYAH,Barmah to Nyah - Murray River,Barmah to Nyah - Murray River,,4
+BAROONA,Macquarie River @ Baroona,,421127,2
+BARPRES,Barwon River u/s Presbury Weir,Barwon River u/s Presbury Weir,416050,2
+BARRAGE,Barrages near the Murray Mouth,,,5
+BARRASP,Airspace in Barr Creek Disposal Basins,,,4
+BARRATT,Edward River D/S of Barratta.,Edward River Downstream of Barratta.,,2
+BARRCK,Barr Creek D/S of Pumps,,,4
+BARREVB,Barr Creek Evaporation Basins,,,4
+BARRFSH,Total Fishways at Barrages,Agrregate of all barrage fishways,,
+BARRING,Warrego @ Barringun No 2,BSMS EOV target site,423004,1
+BARRMCM,Barr Creek @ McMillans Rd,,407299,4
+BARRMD,Barr Main Drain D/S Drain 20,,407730,4
+BARRPUM,Pumping From Barr Creek to Evap Basins,,,4
+BARRSCW,Barr Creek @ Schwenkes Rd,BARR CREEK AT SCHWENKES RD,407283,4
+BARSTP,Barmera STP,,,5
+BASIN,Total Murray-Darling Basin,,,
+BASINSM,Murray-Darling Basin plus Snowy Scheme,,,
+BASINUS,New South Wales and Victoria,,,
+BATSTP,Bathurst STP,,,2
+BBDOF,Back Barooga Drain (BBRI),,,2
+BCKATBB,Bogandillon Creek @ Birrak bridge,,,2
+BCKRWDO,Broken Creek at Rice's Weir deemed irrigation retu,,,4
+BDGRWP,Bendigo RWP,,,4
+BECTIVE,Peel River @ Bective,Peel River @ Bective,419074,1
+BEEMERY,Barwon River @ Beemery (u/s Culgoa Junction),,422028,2
+BELLFIE,Lake Bellfields - Wimmera Mallee,,,4
+BELNEW,Bell River @ Newrea,Bell River @ Newrea,421018,2
+BELTONS,Beltons,Hattah Lakes System - manual data collection in the lakes,,
+BELUBUL,Belubul portion of Lachlan valley,,,
+BENALPD,Benalla PD Licence,Benalla PD Licence (Broken River),,4
+BENAMET,Benalla Metering Station,Benalla Metering Station,82002,4
+BENDORA,Bendora Dam,Bendora Dam,,1
+BENJER,Loddon River @ Benjroop,,,4
+BENSTP,Benalla STP,,,4
+BERDROP,Berrigan Channel @ The Drop,Berrigan Channel at The Drop,409064,2
+BERQDRN,Berriquin LWMP Drains,Berriquin LAND AND WATER MANAGEMENT PLAN Drains - Replaced Lalalty Drain,,2
+BERRESC,Berrigan Ck escape D/S Coree 10 Esc and D/S bridge,Berrigan Ck escape D/S Coree 10 Escape and D/S bridge,41010396,2
+BERRI,River Murray @ Berri Irrigation Pumps,,426537,5
+BERRINM,Cudgewa Creek @ Berringama,,401208A,4
+BERRMET,Berri Post Office Meterological Station,Berri Post Office Meterological Station - Rainfall Only,24025,5
+BERRSTP,Berrigan STP,,,2
+BERRWTP,Berri Water Treatment Plant,,,
+BERSTP,Berri STP,,,5
+BFDSTP,Broadford STP,,,4
+BGA1DOF,Browns Drain 2 Brown's Group Drainage Area,URS Project for Cap - Returns Flow Investigation,,4
+BGIFPWO,Lake Boga Inflow from Little Murray,Lake Boga Inflow from Little Murray when Fishpoint Weir open,,4
+BGOFPWO,Lake Boga Outfalls with FP Weir open,Fish Point Weir Open,,4
+BGTSTP,Bright STP,,,4
+BIBEESC,Berrigan Escape,Berrigan Escape Flow to Billabong Ck,41010110,2
+BIGGARA,River Murray at Biggara,,401012,4
+BIGWCUT,Big Woodcutter Lagoon River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+BIGWNSW,Big Warrambool River in NSW,,,2
+BIJIJ07,Menindee Lakes at Lake Bijijie Sample Site 7,See WRC Menindee Lakes Storages map - Menindee Lakes at Lake Bijijie Sample Site 7,42510007,2
+BILALGW,Billabong Creek @ Algudgerie Weir (DWR),Billabong Creek @ Algudgerie Weir D/S FROM BERRIGAN CREEK,,2
+BILFINE,Finley Escape (DWR),FINLEY ESCAPE NORTH OF HOLDING REFERENCE 797/D (DWR),,2
+BILWANG,Wangamon Creek @ South Coree Road (DWR),,,2
+BILWOLL,WOLLAMAI ESCAPE (DWR),WOLLAMAI ESCAPE NORTH OF HOLDING REFERENCE 764 (DWR),,2
+BINSTP,Bingara STP,,,2
+BIRCMET,Birchip (Birchip Reservoir) BOM Station,,77088,4
+BITTTRK,Bitterang Track - Hattah Lakes,Bitterang track alomg lake Bitterang - Sampled in the lake,,
+BJRESC,No 4 Benjeroop,,,4
+BLACKDG,Black Dog Creek US Dugays Bridge,Black Dog Creek US Dugays Bridge,,
+BLALAGO,Blackgate Lagoon Outlet,Millewa monitoring site,,
+BLANCHE,Blanchetown,Blanchetown - Mallee Region,,
+BLANK,Null,,,
+BLCKREG,Black Swamp River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+BLINE,Upper Lindsay River at B. Line,,414213,4
+BLOWERI,Blowering Reservoir,,,2
+BLSWRDS,Black Swamp Regulator D/S,Millewa monitoring site,,
+BMDRLOF,Bamawn Main Drain @ Richardson Lagoon Outfall,,,4
+BOALSCK,Boals Creek River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+BOBEDOF,Boundary Bend Drainage Line 7/1,,,4
+BOGA,Lake Boga,,,4
+BOGABIL,MACINTYRE RIVER - BOGGABILLA,,416002,1
+BOGAHED,Diversions from Lake Boga Headworks,From old RMC MDBC Annual Reports,,
+BOGAIN,Inflow to Lake Boga from Little Murray,,,4
+BOGAOUT,Outflow From Lake Boga to Little Murray,,,4
+BOGSTP,Boggabri STP,,,2
+BOHNEW,Bohena Creek @ Newell Highway,Bohena Creek @ Newell Highway,419905,2
+BOKHARA,Bokhara River at Bokhara (Goodwins),See Qcode comments for measurand 1,422005,2
+BOKHBOR,Bokhara River at Border,,,
+BOKHEOS,Bokhara River at Barwon,,,
+BOKHGOO,Bokhara River at Goodooga,,422032,2
+BONNBDG,Lake Bonney Nap Bridge,,,5
+BONNERS,Bonners River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+BONNEY,Lake Bonney at South Side Jetty,,4260596,5
+BONNRDS,Bonners Regulator D/S,Millewa monitoring site,,
+BOOKPUR,Bookpurnong Bank On Wetland Side,Bookpurnong Bank On Wetland Side,A4261084,5
+BOOKSIS,Bookpurnong Salt Interception Scheme,Salt inflow from reach currently controlled by Salt,,
+BOOLIGA,Lachlan River at Booligal,,412005,2
+BOOLOOR,Gwydir River d/s Boolooroo Weir,Gwydir River d/s Boolooroo Weir,418036,2
+BOORTOK,"BOORT OUTFALL 1/2/2, KINYPANIEL CK","BOORT OUTFALL 1/2/2, KINYPANIEL CK",407765,4
+BOORTOY,"BOORT OUTFALL 5/2, LAKE YANDO","BOORT OUTFALL 5/2, LAKE YANDO",407764,4
+BOOSTP,Boorowa STP,,,2
+BORDDOF,Boronia Deep Drain,,,2
+BORDERM,Upper Section - Border Rivers QLD,Upper Section - Border Rivers QLD,,
+BORDRRN,Border Rivers System - New South Wales,,,2
+BORDRRQ,Border Rivers Cap Valley - Queensland,"Border Rivers Cap Valley - Queensland - includes Border River, Weir River and Macintyre Brook",,1
+BORDRV,Border Rivers in Queensland,Border Rivers excluding Weir river in Queensland in Border River System,,1
+BOROMA,Barwon River @ Boorooma (u/s Macquarie Junction),,422026,2
+BORWEIR,Border Rivers including Weir River in QLD,Border Rivers including Weir River in Border River System Queensland,,1
+BOUBEND,River Murray at Boundary Bend,,414201B,2
+BOUNDCK,Lake Alexandrina U/S Boundary Ck Barrage,,,5
+BOUNDDS,Boundary Creek D/S Boundary Creek Barrage,Boundary Creek downstream Boundary Creek Barrage,A4261044,5
+BOURKE,Darling River at Bourke,,425003,2
+BOWKILN,Bowls Kiln,Millewa monitoring site,,
+BOWLERS,Mitta Mitta River at Bowlers Lane,,401222,
+BOXBARR,Box Creek at Barratta Dam,,409059,2
+BOXBD,BLIGHTY RETREAT DC HR 535 (DWR),,,2
+BOXBLI,Box Creek @ Blighty Deniliquin Road,,409057,2
+BOXBR,BOX CK. BROUGHANS RD. NTH HR 407 (DWR),,,2
+BOXCON,Box Creek at Conargo Road,Box Creek at Conargo Road.,409058,2
+BOXCREG,BOX CK REGULATOR - KOW SWAMP INTO BOX CK,,,2
+BOXESC,Box Creek Escape,,,2
+BOXFR,BOX CK. FULLERS RD. NTH HR 425/E (DWR),,,2
+BOXHR,BOX CREEK AT HOGANS RD. WEST HR 409 DWR,,,2
+BOXJR,BOX CREEK JAMES RD. WEST HR 441 (DWR),,,2
+BOXLR,BOX CK. AT LAWLORS RD. WEST HR 223 (DWR),,,2
+BOXMA,MOONEY SWAMP DC AVALON RD HR 597/D (DWR),,,2
+BOXMS,BOX CREEK MOONEY SWAMP RD (DWR),,,2
+BOXNH,BOX CREEK AT NEWELL HIGHWAY (DWR),,,2
+BOXPR,BOX CREEK PYLES RD. HR 818 (DWR),,,2
+BOXTR,BOX CK. TUPPAL RD. WEST HR 444 (DWR),,,2
+BOXWC,WOODBURY CENTRE DC HR 589/J (DWR),,,2
+BOXWH,BOX CREEK WEST HR 544 (DWR),,,2
+BOXWN,WOODBURY NORTH DC HR 597/A (DWR),,,2
+BOXWPD,BOX CREEK WOODBURY PRIVATE DRAIN (DWR),,,2
+BOXWS,WOODBURY STH DC JUNCTION BOX CK (DWR),,,2
+BOXXH,BOX CREEK HAY ROAD (DWR),,,2
+BOXXN,BOX CREEK NESBITS LANE (DWR),,,2
+BOXXO,Box Creek at Moora Park (Oro Road),Box Creek at Moora Park (Oro Road),409090,4
+BRAGEEN,Gwydir River at Brageen Crossing,Gwydir River @ Brageen Crossing,418053,2
+BRANDYW,BRANDY LAKE DRAIN AT WANDELLA RD,BRANDY LAKE DRAIN AT WANDELLA RD,407755,4
+BRASSI,Wakool River @ Brassi Road,,409088,4
+BRCUTDS,Barham Cutting D/S (river side),Gunbower Forest - VIC National Parks,,
+BREMBAR,Bremer River at Ballandown Road,,A4261072,5
+BREMBLR,Bremer River at Bletchley Road,,A4261070,5
+BREMHAR,Bremer River near Hartley,,A4260533,5
+BREMLAK,Mount Barker Creek U/S Bremer River Confluenc,,A4260679,5
+BREMLHC,Bremer River at Langhorne Creek,,A4260696,5
+BREMMBC,Bremer River U/S Mount Barker Confluence,Bremer River upstream Mount Barker Confluence,A4260688,5
+BREMRIV,Bremer,,,
+BREMWAR,Bremer River U/S Wandstead Road,Bremer River us Wandstead Road,A4261173,5
+BREMWKR,Bremer River at Woodstock Road,Bremer River at Woodstock Road,A4261071,5
+BRENDA,Culgoa River at Brenda,BSMS EOV target site,422015,2
+BRESDRN,BERRI EAST DRAINAGE OUTFALL,BERRI EAST DRAINAGE OUTFALL DIRECTLY TO R.MURRAY,,5
+BRESTP,Brewarrina STP,,,2
+BREWARR,Barwon River at Brewarrina,,422002,2
+BREWTOT,Barwon R Brewarrina ( total flow ),,422023,2
+BRGSTP,Bellbridge STP,,,4
+BRHAMET,Broken Hill Airport MET,Broken Hill Airport AWS. 2.8 Km from closed Site BROKMET,47048,2
+BRIABOR,Briarie Creek @ Border,,,
+BRIDGEW,Loddon River at Bridgewater,Loddon River at Bridgewater,407200,4
+BRIGADO,Murray River @ Brigadoon,Mitta Mitta River & Upper Thermal Analysis Site,40110064,2
+BRIGHT,Ovens River at Bright,,403205C,4
+BRILKA,Brilka Creek - Dam,,,2
+BRINGBR,River Murray at Bringenbrong Bridge,,401001,2
+BRINGEN,River Murray at Bringenbrong,,401549,2
+BRMNDRN,Berri Main Drain E.D. Drainage Outfall,BERRI MAIN DRAIN E.D. DRAINAGE OUTFALL DIRECTLY TO R.MURRAY,,5
+BROKDSC,D/S of Casey's Weir,D/S of Casey's Weir - Broken River System,,4
+BROKEN,Broken River System,,,4
+BROKEOF,Broken Diversion for Env or Flood Flow,Broken Diversions for Environment or Flood Flows,,4
+BROKESC,Broken Creek Escape,,,4
+BROKHIL,Broken Hill,Broken Hill - Lower Darling River System,,2
+BROKMET,Broken Hill Met Station (Patton Street),Broken Hill Meteorological Station (Patton Street).,47007,2
+,,Data from 1889. Site closed on 31 Dec 2015.,,
+BROKOFT,Broken River at Broken Chan Offtake,Broken River at Broken Chan Offtake (Goorambat),404216,2
+BROKTWS,Broken Hill Town Water Supply,Supplied by Broken Hill Water Board,,2
+BROKUSC,U/S of Casey's Weir,U/S of Casey's Weir - Broken River System,,4
+BRONTE,Mehi River at Bronte,,418058,2
+BRUNSTP,Brungle STP,,,2
+BRYESC,25/4 Bryer,,,4
+BSBDOF,Baseby,,,5
+BSREG,Black Swamp regulator U/S (creek side),Gunbower Forest - VIC National Parks,407340A,4
+BSREGDS,Black Swamp regulator D/S (forest side),Gunbower Forest - VIC National Parks,,
+BTCKDSB,Boat Creek 200m downstream Bridge @ Chowilla,Chowilla System - South Australia,A4261092,
+BUCHRDS,Buchanans Regulator D/S,Millewa monitoring site,,
+BUCHREG,Buchanans River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+BUCKIIN,Buckiinguy Ck at Break,Buckiinguy Ck @ Break,421111,2
+BUCKLND,Ovens River at Buckland,,403233A,4
+BUFFALO,Lake Buffalo - Ovens River,,403235A,4
+BULBIF,Bulgeraga Creek at Bifurcation,Bulgeraga Creek @ Bifurcation,421145,2
+BULGIB,Bulgeraga Creek @ Gibson Way,Bulgeraga Creek @ Gibson Way,421118,2
+BULLATA,Bullatale Creek U/S Edward River,Bullatale Creek U/S Edward River,409075,2
+BULLEL,Bullock Creek at East Loddon,Bullock Creek at East Loddon,407290,4
+BULLIOH,Tallangatta Creek at Bullioh,,401218,4
+BULLPAD,Bull Paddock River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+BULLUBC,Bullock Creek U/S Box Creek,BULLOCK CREEK U/S BOX CREEK,407287,4
+BULOFDS,Bullatale Offtake (Downstream),Millewa monitoring site,,
+BULOFUS,Bullatale Offtake U/S,Millewa monitoring site,,
+BULPUNG,Great Darling Anabranch at Bulpunga,,425011,4
+BUNDY,Billabong Creek at Bundy,,410053,2
+BUNGSTP,Bungendore STP,,,2
+BUNNYDS,Bunny Digger Regulator D/S,Millewa monitoring site,,
+BUNYDIG,Bunnydigger River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+BUR@OUT,Burragorimma Dr at Outfall,U/S Burragorimma Drain Outfall into Taylor's Creek,40910026,2
+BURDET,Burdett,,426,5
+BURDOF,Burrigaroma Drain (NMBR),,,2
+BURNSCK,Burns Ck inflow to Tooma-Tumut tunnel,Burns Ck is in the Tumut catchment,,2
+BURNTBR,Burnt Bridge,Millewa monitoring site,,
+BURNTHT,Snowy River at Burnt Hut Crossing,SNOWY RIVER - BURNT HUT CROSSING,222013,2
+BURPUMP,Buronga Irrigation Pump - From Murray,,,
+BURRABO,Burraboi Storm Drain,Burraboi Storm Drain to Jimaringle Ck,40910125,2
+BURRAWE,Burra Creek at Worlds End (Low Flow),Burra Creek at Worlds End (Low Flow),A4261148,5
+BURREND,Burrendong Reservoir - Macquarie River,,,2
+BURRINJ,Burrinjuck Reservoir,,,2
+BURRLOG,Burra Creek U/S Logan Creek,,A4261147,5
+BURTUND,Darling River @ Burtundy,,425007,2
+BWTFE,Beechworth Trout Farm,,,4
+BWTSTP,Beechworth STP,,,4
+CABRSTP,Cabramurra STP,,,2
+CADELL,River Murray at Cadell Irrigation Pumps,,4260556,5
+CADESC2,Cadow No.2 Escape,,,2
+CADESC3,Cadow No. 3 Escape,,,2
+CADLDRN,Cadell LWMP Drains,Cadell Land and Water Management Plan Drains,,
+CADPUM,Cadell - Blanchetown Pipeline,,,
+CAIRNCU,Loddon River at Cairn Curran Reservoir,Cairn Curran Reservoir - Loddon River,407210A,4
+CAIWARR,Paroo R at Caiwarro,Paroo R at Caiwarro - Queensland,424201,1
+CALFCK,Calf Creek River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+CALIVIL,Calivil Creek at Wisharts Road,Calivil Creek at Wisharts Road,407284,4
+CALWATR,Caldwells Waterhole,Millewa monitoring site,,
+CAMCAMP,Campaspe River at Campaspe,,,4
+CAMDSEP,Campaspe River d/s of Eppalock,Campaspe River d/s of Eppalock,,4
+CAMDSRO,Campaspe River d/s of Rochester,,,4
+CAMFEHR,Campaspe River at Fehrings Lane,Campaspe River at Fehrings Lane,406276,4
+CAMPAPD,Eppalock to Campaspe Weir,Regulated Licences - Eppalock to Campaspe Weir,,4
+CAMPASP,Campaspe River System,,,4
+CAMPBCK,Campbells Creek,Millewa monitoring site,,
+CAMPECH,To be deleted - see ECHCAMP,To be deleted - see ECHCAMP - Jas (Jan2002),,
+CAMPEXT,Millewa Ck at Northern Highway,Shepparton Drain,406264,4
+CAMPID,Campaspe Irrigation District,,,4
+CAMPSYP,Campaspe River D/S OF Syphon,,,2
+CAMPWR,Campaspe River at Weir,,,2
+CAMPWST,Campaspe West Drains for BSMS,,,4
+CAMPWUS,Campaspe R at Campaspe Weir (HG),,406218,4
+CAMROCH,Campaspe River at Rochester,,,4
+CAMUSEP,Campaspe River u/s of Eppalock,,,4
+CAMWEIR,Campaspe River at Campaspe Weir,,406203,4
+CAMWWMC,Campaspe River - WWMC,,,4
+CAMWWS,Campaspe Weir to WWC Siphon,Regulated Licences - Campaspe Weir to WWC Siphon,,4
+CANBERR,Canberra Airport,Site closed on 3/12/2010. To be replaced by 70351 opened on 19/9/2008,70014,3
+CANBMET,Canberra Airport,Site opened in 2008. Replace 70014,70351,
+CANSTP,Canowindra STP,,,2
+CANTALA,Cantala Regulator lake side - Hattah Lakes,Hattah Lakes Regulators - Victoria,,
+CAPELSX,Barr Ck at Capels Flume,Barr Ck - Capels Flume (not capels Xing),407252A,4
+CAPELXG,Barr Ck at Capels Crossing,Barr Ck at Capels Crossing (not the flume),407216,4
+CAPFSTP,Captain's Flat STP,,,2
+CARCOAR,Carcoar Reservoir on Lachlan System,,,2
+CARIMAR,Marthaguy Creek at Carinda,,421011,2
+CARIMET,Carinda (Post Office),,51007,2
+CARINDA,Macquarie River at Carinda (Bells Bridge),,421012,2
+CAROLE,Carole Creek Outflow -Gwydir System,Carole Creek @ near Garah,418052,2
+CAROMET,Walgett (Old Boorooma),,48231,2
+CARYELT,Carwarp/Yelta WWD,Carwarp/Yelta WWD - Sunraysia,,
+CASEYS,Broken River at Caseys Weir,,404217,4
+CASEYWR,Broken River 60m d/s Casey's Weir,Broken River 60m d/s Casey's Weir (Goonranbat),404200,4
+CATTANA,Cattanach Canal,,,4
+CAW2DAR,Release from Cawndilla to Darling,Penellco Channel,,2
+CAWND29,Lake Cawndilla Sample Site 29,See WRC Menindee Lakes Storages map,42510029,2
+CAWND30,Lake Cawndilla Sample Site 30,See WRC Menindee Lakes Storages map,42510030,2
+CAWND31,Lake Cawndilla Sample Site 31,See WRC Menindee Lakes Storages map,42510031,2
+CAWND32,Lake Cawndilla Sample Site 32,See WRC Menindee Lakes Storages map,42510032,2
+CAWND33,Lake Cawndilla Sample Site 33,See WRC Menindee Lakes Storages map,42510033,2
+CAWND34,Lake Cawndilla Sample Site 34 ~CAWNOUT,See WRC Menindee Lakes Storages map,42510034,2
+CAWNDIL,Lake Cawndilla,,425023,2
+CAWNOUT,Lake Cawndilla Outlet Regulator ~CAWND34,,425014,2
+CBBNNSW,Culgoa-Birrie-Bokhara-Narran in NSW,,,2
+CCDOF,Coleambally Catchment Drain (CCD),,,2
+CCEESC,Campaspe Channel 2/2 East,,,4
+CCKUSMC,Chowilla Creek @ US Monoman Creek (Pontoon),Chowilla System - South Australia,A4261107,
+CCPUMP,Pump To Chalka Creek,,CCPUMP,
+CCUSRMJ,Chowilla Creek 1.5km U/S River Murray junction,Chowilla System - South Australia,A4261224,
+CENTIRR,Central Irrigation Trust,,,5
+CEPSTP,Cecil Plains STP,,,1
+CFINR1,FINLEY NO.3 CHANNEL D/S R1 (DWR),,,2
+CFINR2,FINLEY NO.3 CHANNEL D/S R2 (DWR),,,2
+CGC15ES,Central Goulburn Chnl 15/6/4,,,4
+CGC25ES,Central Goulburn Chnl 25/4,,,4
+CGC27ES,No 11 (CG Chnl 5/27/6),,,4
+CGC7ES,Central Goulburn Chnl 7/19/6,,,4
+CGC9ES,Central Goulburn 9/9,,,4
+CGCL6ES,Central Goulburn Chnl Lower 6/4,,,4
+CH9FPWO,Swan Hill to Channel 9,Swan Hill to Channel 9 Diversion when Fishpoint Weir open,,4
+CHAFFEY,Ral Ral Creek at Chaffey Irrigation Pump,,4260552,5
+CHAFGRV,River Murray at Chaffey's Graveyard,JUST DOWNSTREAM OF LOCK 11 AT MILDURA,414216A,2
+CHAFPON,Murray River at Chaffeys Greaveyard - pontoon,Murray River at Chaffeys Greaveyard - pontoon,41310026,2
+CHAFSTO,Chaffey Reservoir on Namoi System,,,2
+CHALKA,Chalka Creek Dissipator Pit Water Level,Chalka Creek Dissipator Pit Water Level,CHALKA,
+CHAMBER,Lake Bonney Near Chambers Creek Inlet,,4260597,5
+CHAMNTH,Chambers Creek Culvert North (SA),Chambers Creek Culvert North (SA),,5
+CHAMSTH,Chambers Ck Culvert - South (SA),Chambers Ck Culvert - South (SA),,5
+CHANNL7,Channel 7 upstream of Mid-Murray Storage,,,4
+CHANNL9,Channel 9 Diversion from Little Murray,,,4
+CHANRDS,Ancillary Regulator D/S Chowilla,Chowilla System Site,,
+CHANRUS,Ancillary Regulator U/S Chowilla,Chowilla System Site,,
+CHARCSW,Charcol Swamp,Gunbower Forest - VIC National Parks,407365A,
+CHAWSL6,Chowilla All Weather Station(A.W.S.) Lock 6,Chowilla System - South Australia,A4261167,
+CHBKFDS,Bank F Downstream at Chowilla,Chowilla System - South Australia,,
+CHBKFUS,Bank F Upstream at Chowilla,Chowilla System - South Australia,,
+CHCKDSO,Chalka Ck D/S Oateys Regulator,Accoustic doppler to measure return flow to the Murray River,414231A,
+CHCKSHC,Chambers Ck@Sugarloaf Hill,Chambers Creek at Sugarloaf Hill crossing,A4261171,5
+CHCKTRK,Chalker Creek Track in Hattah Lakes,Hattah Lakes System,,
+CHCKUSM,Chalka Ck at Gauging station,Hattah Lakes System,414230A,
+CHCKUSO,Chalka Creek U/S Oateys Regulator,Hattah Lakes System,CHCKUSO,
+CHCOPFL,Coppermine Flood Plain at Chowilla,Chowilla System - South Australia,A4261166,
+CHCSTP,Chinchilla STP,,,1
+CHESHUN,King River at Cheshunt,,403227A,4
+CHILRDS,Island Loop Regulator D/S Chowilla,Chowilla System Site,,
+CHILRUS,Island Loop Regulator U/S Chowilla,Chowilla System Site,,
+CHMRGDS,Chowilla Main Regulator D/S,Chowilla System - South Australia,,
+CHMRGUS,Chowilla Main Regulator U/S,Chowilla System - South Australia,,
+CHOCKDS,River Murray DS Chowilla Creek (second site),Chowilla System - South Australia,,
+CHOFLW,3/17/2 Channel Outfall at Lake Wandella,3/17/2 CHANNEL OUTFALL AT LAKE WANDELLA,407762,4
+CHOWBRG,Chowilla Ck at Bridge U/S Monoman Ck (Site 31),Chowilla System - South Australia,A4260535,5
+CHOWDS,River Murray downstream Chowilla Creek,Chowilla System - South Australia,A4260704,5
+CHOWILA,Chowilla Creek at Chowilla,Chowilla System - South Australia,,5
+CHOWILL,Chowilla Creek Outflow,Chowilla System - South Australia,,5
+CHOWMON,Chowilla Creek D/S Monoman Creek,Chowilla System - South Australia,A4261091,5
+CHOWUS,River Murray upstream Chowilla Creek,Chowilla System - South Australia,A4260705,5
+CHWOEDS,Woolshed East Regulator D/S Chowilla,Chowilla System - South Australia,,
+CHWOEUS,Woolshed East Regulator U/S Chowilla,Chowilla System - South Australia,,
+CHWOSDS,Woolshed South Regulator D/S Chowilla,Chowilla System - South Australia,,
+CHWOSUS,Woolshed South Regulator U/S Chowilla,Chowilla System - South Australia,,
+CKWSTP,Creswick STP,,,4
+CLAREHS,Clare High School Met Stn,Clare High School Meteorological Station,21131,5
+CLARKES,River Murray at Clarke's Sandbar (AMTD 513.4km),River Murray at Clarke's Sandbar (AMTD 513.4km),A4261066,5
+CLAYTON,Lake Alexandrina at Clayton Jetty,http://e-http://e-nrims.dwlbc.sa.gov.au/SiteInfo/Default.aspx?site=A4261033#Site Details,A4261033,5
+CLAYTPU,Clayton Weir Pumping,Pumping into Goolwa Channel from Lake Alexandrina,,5
+CLFSTP,Clifton STP,,,1
+CMAYCAM,MAYRUNG CHANNEL D/S CAMBELL'S (DWR),,,2
+CMAYLOC,MAYRUNG CHANNEL D/S LOCHIEL (DWR),,,2
+CMULWG1,MULWALA NO.11 CANAL D/S G1 (DWR),,,2
+CMULWG2,MULWALA NO.11 CANAL (DWR),,,2
+COBASIN,Cobdogla Evaporation Basin at Drainage Outfall,,A4260592,5
+COBDOGL,River Murray at Cobdogla Irrigation Pump,,426538,5
+COBDSTP,Cobdogla STP,,,5
+COBPUMP,Cobram Pumping Station,Pumps to supply part of Murray Valley District,,4
+COBRAM,River Murray at Cobram,,409217,4
+COCKETG,Billabong Creek at Cocketgedong,,410012,2
+COCMUL,Cockburn River @ Mulla Crossing,Cockburn River @ Mulla Crossing,419016,
+COH14MO,"COHUNA NO. 14 DRAIN, McMILLANS RD","COHUNA NO. 14 DRAIN, McMILLANS RD",407731,4
+COH20UB,COHUNA NO. 20 DRAIN U/S BARR MAIN DRAIN,COHUNA NO. 20 DRAIN U/S BARR MAIN DRAIN,407728,4
+COH5UBO,COHUNA No. 5 DRAIN U/S BARR CK OUTFALL,COHUNA No. 5 DRAIN U/S BARR CK OUTFALL,407726,4
+COH7UBO,COHUNA NO. 7 DRAIN U/S BARR CK OUTFALL,COHUNA NO. 7 DRAIN U/S BARR CK OUTFALL,407727,4
+COHUNWR,Cohuna weir  U/S,Gunbower Forest - VIC National Parks,407330A,
+COHWRDS,Cohuna weir D/S,Gunbower Forest - VIC National Parks,,
+COLCANO,Colleambally Canal Offtake,,,
+COLEAMB,Coleambally Drain at Bundy,Coleambally Drain at Bundy (Outfall) - Eurolie Ck,410133,2
+COLEMAN,Mitta Mitta River at Colemans,,401211A,4
+COLIBAN,Upper Coliban Reservoir - Campaspe River,,,4
+COLIBAS,Campaspe River - Coliban System,,,4
+COLIGNA,River Murray at Colignans,,414207A,4
+COLIPON,Murray River at Colignan - pontoon,Murray River at Colignan - pontoon,41310022,4
+COLLARE,Barwon River at Collarenebri Main Channel,Barwon River @ Collarenebri Main Channel,422003,2
+COLLBRI,Mehi River Near Collarenebri,,418055,2
+COLLEAM,Colleambally,Colleambally - Murrumbidgee River System,,2
+COLLELD,CIA Diversion,,,2
+COLLINS,Collins River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+COLLMET,Collarenabri (Bundabarina),,48018,2
+COLLNDS,Collins Regulator D/S,Millewa monitoring site,,
+COLLNGW,Collinsville Groundwater Bore,,A4261154,5
+COLLREG,Colligen Creek D/S Offtake Regulator,,409024,4
+COLLRET,Colleambally return,,,
+COLLTOT,Barwon R @ Collarenabri ( total flow ),,422033,2
+COLLYMO,GWYDIR RIVER AT COLLYMONGLE,,418031,2
+CONAMET,CONARGO POST OFFICE MET STATION,Meteorological,74192,2
+CONARGO,BILLABONG CREEK AT CONARGO,,410017,2
+CONBDAM,Cecil Plains to Beardmore Dam,Cecil Plains to Beardmore Dam - Condamine / Balonne River,,
+CONBIF1,St George Irrigation Channels,St George Irrigation Channels - Balonne River,,
+CONBORD,Condamine Balonne at QLD-NSW border,Condamine Balonne at QLD-NSW border,,1
+CONBSB,Beardmore Storage to NSW Border STGWSS,Beardmore Storage to NSW Border - St George Water Supply System,,4
+CONBSBM,Beardmore Storage to Border - MWSS,Condamine and Balonne - Beardmore Storage to Border - Maranoa water Supply Scheme,,1
+CONCOOB,Cooby dam on Condamine,,422312A,1
+CONCPNW,Cecil Plains to Nangram Weir,Cecil Plains to Nangram Weir,,1
+CONCWBS,Chinchilla Weir to Beardmore Storage,Chinchilla Weir to Beardmore Storage - Chinchilla Weir Water Supply System,,4
+CONDAM,Condamine/Balonne/Culgoa System,Condamine/Balonne/Culgoa River System,,1
+CONDCC,Condamine River - Chinchilla,,,1
+CONDEOS,Condamine Balonne System at Barwon,Outflow from Condamine,,1
+CONDIBR,Condidorio’s Bridge,Gunbower Forest - VIC National Parks,407332A,
+CONDLES,Leslie dam on Condamine river,,,4
+CONNAN,Nangram Weir to Beardmore Storage,Nangram Weir to Beardmore Storage,,1
+CONQNB,Bifurcation 1 to NSW Border,Bifurcation 1 to NSW Border - Balonne / Culgoa River,,
+CONSTP,Condobolin STP,,,2
+CONUCPW,U/S of Cecil Plains Weir,U/S of Cecil Plains Weir - Condamine River,,4
+CONUCWS,Upstream of Chinchilla Weir,Upstream of Chinchilla Weir - Upper Condamine Water Supply System,,4
+COOBSTP,Coonabarabran STP,,,2
+COOLACR,Coolamon Crossing,Millewa monitoring site,,
+COOLBAG,Coolbaggie Creek @ Rawsonville,Coolbaggie Creek @ Rawsonville,421055,2
+COOLMUN,Coolmunda Reservoir on MacIntyre Brook,Coolmunda Reservoir on MacIntyre Brook in Queensland Border Rivers,,4
+COOLTON,Cooltong,Cooltong - Riverland Region,,
+COOMKPT,The Coorong at Mark Point,,A4260664,5
+COOMPUM,Coomealla Irrigation Pumps - From Murray,,,
+COONALP,Coonalpyn Met Stn,Coonalpyn Met Stn,25504,5
+COONAMB,Castlereagh River at Coonamble,,420005,2
+COONMET,Coonamble (Coonamble Airport),,51010,2
+COONWSI,The Coorong NW Snipe Island,The Coorong NW Snipe Island,A4261165,5
+COORBC1,Coorong Channel near Beacon 1 (Ewe Island Shacks),Coorong Channel near Beacon 1 (Ewe Island Shacks),A4261043,5
+COORBRK,Coorong Channel adjacent Barker Knoll,Coorong Channel adjacent Barker Knoll,A4261039,5
+COORPEL,The Coorong at Pelican Point,The Coorong at Pelican Point,A4261134,5
+COOSSPT,COORONG @ Sand Spit Point,,A4260634,5
+COOSTP,Coolah STP,,,2
+COOTSTP,Cootamundra STP,,,2
+COPEDS,GWYDIR RIVER D/S COPETON DAM,,418026,2
+COPETON,Copeton Dam - Gwydir River,,,2
+COPIHOL,Copi Hollow,Storage between Lake Menindee and Lake Cawandilla,42510037,2
+CORIN,Corin Reservoir,,,3
+CORNALA,Cornalla Creek,Millewa monitoring site,,
+COROWA,River Murray at Corowa,,409002,4
+CORREYS,Correys River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+CORRMET,CORRYONG MET STATION,,82011,4
+CORRONG,Lachlan River at Coorong,,412045,2
+CORSTP,Corowa STP,,,2
+CORYRDS,Correys Regulator D/S,Millewa monitoring site,,
+COTTER,Cotter Dam Extractions,Cotter Dam Extractions,,3
+COTTPUM,Murrumbidgee at Cotter Pump Station,Murrumbidgee at Cotter Pump Station,,
+COWANNA,River Murray - Cowanna Bend,,,4
+COWCK,COW CREEK,,,
+COWCKRG,Cow Creek River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+COWIRRA,Cowirra,Cowirra - Mallee Region,,4
+COWPUM,Cowirra - Jervois Pipeline,,,
+COXBOG,Coxs Creek @ Boggabri,Coxs Creek @ Boggabri,419032,2
+CROSSRD,Cross Road,Millewa monitoring site,,
+CROSTP,Crookwell STP,,,2
+CRUMPDS,Crumps Regulator D/S,Millewa monitoring site,,
+CRUMPS,Crumps River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+CSLRWP,Castlemaine RWP,,,4
+CSUSTP,Charles Sturt University STP,,,2
+CUDGEGO,CUDGEGO portion of MACQUARIE CASTLEREAGH BOGAN,MACQUARIE CASTLEREAGH BOGAN,,
+CUDGEWA,Cudgewa Creek & Cudgewa North,,401229A,4
+CULGBOR,Culgoa River at Border,,,
+CULGEOS,Culgoa River at Barwon,,,
+CUNNMET,Cunnamulla (Post Office),,44026,2
+CURLPON,Murray River at Curlwaa - pontoon,Murray River at Curlwaa - pontoon,41310028,2
+CURLPUM,Curlwaa Irrigation Pumps - from Murray,,,
+CURLSIS,Curlwaa Salt Interception Scheme,Salt flowing into reach currently controlled by Salt,,
+CURLWAA,RIVER MURRAY - CURLWAA,,414217,2
+CURRCUR,Currency Creek at Currency Creek,,A4261078,5
+CURRECK,Currency,,,
+CURRHIG,Currency Creek near Higgins,Currency Creek near Higgins,A4260530,5
+CURRPRC,Currency Creek near Peel Road Cemetery,Currency Creek near Peel Road Cemetery,A4261099,5
+CURRS,Mosquito Ck Depression at Currs Rd,Mosquito Creek at Currs Road,406756,4
+CWMCRWA,Caseys Weir and Major Creek RWA,Rural Water Authority,,4
+CYGSTP,Corryong STP,,,4
+DALGETY,Snowy River at Dalgety,SNOWY RIVER - DALGETY,222006,2
+DALSTP,Dalby STP,,,1
+DAM183D,GREAT DARLING ANABRANCH DOWNSTREAM DAM 183,GREAT DARLING ANABRANCH DOWNSTREAM DAM 183,425053,2
+DARDIVA,Broken Hill Water Board Pumps,Diversion from Weir 32 Pool of Darling to Broken Hill,,4
+DARDIVB,Darling Diversion - Main Weir to Weir 32,Includes Diversions in Menindee Lakes,,2
+DARDIVC,Darling Diversion - Weir 32 to L10 Pool,,,2
+DARDIVD,Darling Diversion - Pomona I. D.,DIVERSION TO POMONA I.D. FROM WENTWORTH WEIR POOL,,2
+DARDIVE,Darling Lock 10 Pool Private Diversions,Does Not Include Pomona,,2
+DARDIVS,Darling Diversions - total,Sum of DARDIV A-E + TANDIV + CAWNOUT,,2
+DARLANA,Darling at Anabranch,,425048,2
+DARLCAT,River Darling Catchment,,,2
+11FGDAR,Billabong Creek at Darlot,,410134,4
+11GFDAR,Murrumbidgee River at Darlington Point,,410021,2
+DARLUSM,,,,
+DARPSTP,Darlington Point STP,,,2
+DARSTP,Dareton STP,,,2
+DARTLOC,Dartmouth Local Inflows,,,4
+DARTMET,Dartmouth Reservoir Met Station,Meteorological,82076,4
+DARTMOU,Mitta Mitta River at Dartmouth,MITTA MITTA RIVER - DARTMOUTH,401213,4
+DARTNSW,NSW Component of Dartmouth Reservoir,Used for Extra Releases from Dartmouth for NSW purposes,,
+DARTOUT,Calculated Dartmouth outflows,Calculated Dartmouth Outflows without DARTLOC,,4
+DARTPWR,Outflow from Dartmouth Power Station,"Outflow through Dartmouth Power Station, does not include",,4
+DARTREG,Dartmouth Dam Re-regulating Pondage,Dartmouth Dam Re-regulating Pondage D/S of the Dam Wall,,4
+DARTRIB,Tributaries routed to Dartmouth,Hinnomumjie Gibbo Park and Uplands routed to Dartmouth,,4
+DARTSHY,Dartmouth - Southern Hydro,Releases for hydro electricity from Dartmouth,,4
+DARTSTP,Dartmouth STP,,,4
+DARTUS,Lake Dartmouth - Dam Wall,,401224A,4
+DARTVIC,Victorian Component of Dartmouth Reservoir,Used for Extra Releases from Dartmouth for Victorian purposes,,
+DAVID,Test site,Test Site,,4
+DAWDWR,DAW DR AT WANDELLA RD,DAW DR AT WANDELLA RD,407761,4
+DAWHDLW,DAW HOUSE DR AT LAKE WANDELLA,DAW HOUSE DR AT LAKE WANDELLA,407760,4
+DC1000,DC1000 Drain U/S outfall to Wakool R,Also known as Wakool Outfall Drain at Barham/Moulamein Road,409073,4
+DC2500,DC2500 East Escape,DC2500 East Escape to Jimaringle Ck,40910117,2
+DC800DO,Drainage Channel 800 (DC800),,,2
+DEADMAN,Darling River U/S of Deadmans Creek,DARLING RIVER DARLING RIVER AT GLEN VILLA. 2ND STATION ESTABLISHED FOR DWR SALINITY SURVEY JUNE 1993,425036,2
+DEADMCK,Deadmans Creek,Millewa monitoring site,,
+DEAKDRN,Deakin Main Drain Outfall (Echuca),,406704,4
+DEEPFIR,Deep Creek at Fiegert Road,Deep Creek at Fiegert Road,A4261077,5
+DELAWAR,RIVER MURRAY - DELAWARE,,,
+DELSTP,Delungra STP,,,2
+DENBESC,Deniboota Canal Escape,Escape from Deniboota Canal at Porthole Creek,409067,4
+DENCDOF,Deniboota Canal Drain (DBCE),,,2
+DENIHAY,North Deniliquin Drain at Hay Road,North Deniliquin Drain at Hay Road,409060,4
+DENILQ,Edward River @ Deniliquin,,409003,4
+DENIMET,Deniliquin Post Office Met Station,Meteorological,74128,4
+DENMDRN,Denimein LWMP Drains,Replaced North Deni Drain at Hay Rd,,
+DENMET,Deniliquin Airport AWS,,74258,4
+DENSTP,Deniliquin STP,,,2
+DENYALL,Deniboota Escape u/s Yallakool channel,Deniboota Escape u/s Yallakool channel.,409067,4
+DEVLINS,YEA RIVER - DEVLIN'S BRIDGE,,,4
+DEWTSTP,Deepwater STP,,,2
+DISHERS,Dishers Ck Drainage Outfall at Dishers Ck Drain Ba,Dishers Ck Drainage Outfall at Dishers Ck Drain Basin,A4261085,5
+DKMDOF,Deakin Main Drain,,,4
+DLBU2WP,Darling from Burtundy to u/s Weir Pool,,,2
+DLFSTP,Daylesford STP,,,4
+DLWPOOL,Ww Weir Pool,Ww Weir Pool - Private Diverters,,
+DOCTORS,River Murray at Doctors Point,,409017,4
+DORADOR,River Murray @ Dora Dora,,401004,2
+DPCK183,DEEP CK AT PEPPERTREE RD AT HR 183/C DWR,,,2
+DPCK184,DEEP CK AT PEPPERTREE RD HR 184/A (DWR),,,2
+DPCKWLR,DEEP CK AT WOOLSHED RD (DWR),,,2
+DRYCOLS,Dry Creek down stream of Coldwalls road,Dry Creek down stream of Coldwalls road - LBDS,,
+DRYCOLU,DRY CREEK U/S COLDWELLS ROAD (DWR),,,2
+DRYENNR,DRY CREEK AT ENNALS ROAD (DWR),,,2
+DRYESC1,DRY CREEK ESCAPE TO TOCUMWAL CHNNL (DWR),,,2
+DRYESC2,DRY CREEK ESCAPE TO TOCUMWAL CHNNL (DWR),,,2
+DRYSB33,DRY CK AT STH BOUNDARY HR 33/B (DWR),,,2
+DRYVICK,DRY CK AT VICKERS RD O/F TO DEEP CK (DWR,,,2
+DRYWAMB,DRY CREEK AT WAMBOIN RD (DWR),,,2
+DRYWB33,DRY CK AT WST BOUNDARY HR 33/B (DWR),,,2
+DSBUFFA,Downstream lake Buffalo,Downstream lake Buffalo,403220B,4
+DSEILDN,Goulburn River Downstream Eildon,,405203C,4
+DSMORGN,River Murray downstream Morgan (AMTD 316.5km),,A4261110,5
+DSWILHO,Downstream of William Hovell,Downstream of William Hovell,403228B,4
+DUBBO,Macquarie River at Dubbo,,421001,2
+DUBSTP,Dubbo STP,,,2
+DUNSTP,Dunedoo STP,,,2
+DWYERDS,Dwyers Regulator D/S,Millewa monitoring site,,
+DWYERS,Dwyers River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+EASTCHN,Eastern Channel,,,4
+EC1ALEX,,,,
+EC2ALEX,,,,
+EC3ALEX,,,,
+EC4ALEX,,,,
+EC5ALEX,,,,
+ECHCAMP,Campaspe River at Echuca,,406265,4
+ECHUCA,River Murray at Echuca,,409200A,4
+ECHUMET,ECHUCA COMPUTER SERVICE MET STATION,,80015,4
+EDGULP,EDWARD R. + GULPA CK. - OFFTAKES,,,2
+EDLFD,Edols lans floodway,,,2
+EDWARD,Edward/Wakool River,,,4
+EDWESC,Escape From Mulwala Canal Into Edward R.,,409029,4
+EDWOFF,Edward River D/S Offtake Regulator,,409008,4
+EDWREG,Edward Regulator,River Regulator settings - Edward River - NSW National Parks,,
+EDWRGDS,Edward Regulator D/S,Millewa monitoring site,,
+EDWSILO,Edward Ck SILO data,Data Drill for Edward Creek,,4
+EG2CESC,East Goulburn No 2 Channel,,,4
+EGBN1C,East Goulburn No.1 Channel,,404,4
+EGBN22C,East Goulburn No. 22/12 Channel,,404,4
+EGBN3C,East Goulburn No.3B Channel,,404,4
+EGBN4C,East Goulburn No.4 Channel,,404,4
+EGBN6C,East Goulburn No.6 Channel,,404,4
+EGBN7C,East Goulburn No.7 Channel,,404,4
+EGBN82C,East Goulburn No.8/2 Channel,,404,4
+EGBN8C,East Goulburn No.8 Channel,,404,4
+EGCESC,East Goulburn No 1/22/12 Channel,,,4
+EGOULMN,EAST GOULBURN MAIN DIVERSION,FROM GOULBURN WEIR,,4
+EILDNDS,GOULBURN RIVER D/S EILDON,,,4
+EILDON,EILDON RESERVOIR,,,4
+ELDSTP,Eildon STP,,,4
+ELERSIE,DARLING RIVER AT ELLERSLIE,,42510049,
+ELIZGR,LAKE ELIZABETH STH DR,"LAKE ELIZABETH Sth Dr, Gitsham Rd",407754,4
+ELIZNC,LAKE ELIZABETH NTH DR,"LAKE ELIZABETH Nth Dr, Carmichael Rd",407753,4
+ELMORE,Campaspe River at Elmore,,406205,4
+ELNINO,El Nino - Southern Oscillation Indices,,,
+EMLR,Eastern Mount Lofty Ranges,"Combination of Bremer, Angas, Finniss, Tookayerta and Currency Creek",,
+EPACOWI,EPA Pump Logging \150 Cowirra,,A4261121,5
+EPAJERV,EPA Pump Logging \150 Jervois,,A4261112,5
+EPALONG,EPA Pump Logging - Long Flat,,A4261119,5
+EPAMONT,EPA Pump Logging \150 Monteith,,A4261114,5
+EPANEET,EPA Pump Logging \150 Neeta,,A4261118,5
+EPAPOMP,EPA Pump Logging \150 Pompoota,,A4261116,5
+EPARIVG,EPA Pump Logging - River Glen,,A4261115,5
+EPAWALL,EPA Pump Logging - Wall Flat,,A4261117,5
+EPAWELL,EPA Pump Logging \150 Wellington,,A4261111,5
+EPAWOOD,EPA Pump Logging - Wood Point,,A4261113,5
+EPPALOC,Campaspe River at Eppalock,,406207,4
+ERCESC,Edward River Escape,,,2
+ERNBANK,Mitta Mitta River at Ernbank,Mitta Mitta R & Upper Thermal Analysis Site,40110065,4
+ESCMDBC,MDBC COMPONENT OF EDWARD ESCAPE FLOW,,,
+ESCMIL,MURRAY IRRIGATION ESCAPES,"Total of Edward,Yallakool, Wakool  and  Pericoota escapes.",,
+ESCWAK,WAKOOL COMPONENT OF EDWARD ESCAPE FLOW,,,4
+ESKDALE,LITTLE SNOWY CREEK AR ESKDALE BRIDGE,,401225,4
+ESKDALM,Mitta Mitta River at Eskdale Bridge,,401223,4
+EUC2GEE,Eucumbene reservoir to Geehi Reservoir,Eucumbene reservoir to Geehi Reservoir,,2
+EUCMUR,Murray Component of Storage in Eucumbene,Accounts kept by SMHEA,,2
+EUCUMBE,LAKE EUCUMBENE,,,2
+EULOMET,Eulo (Post Office),,44032,
+EUROBIN,Ovens River at Eurobin,,403250A,4
+EURSTP,Euroa STP,,,4
+EUS2MIL,Euston to Mildura Reach,,,
+EUSTDS,River Murray D/S Euston Weir,,414203,4
+EUSTUS,River Murray U/S Euston Weir,,414209,4
+EWDFFCL,Env water Flora Fauna -Cardross Lakes,Environmental Water Deliveries from Flora & Fauna Ent,,4
+EWEI,Lake Alexandrina U/S Ewe Island and Barrages,Ewe Island Dual Vertical Slot fishway,,5
+EWEIDS,Coorong at Ewe Island Barrage,Coorong at Ewe Island Barrage,A4261046,5
+EWSEPD,East Wentworth Sewerage Ponds,,,2
+EWSMLM,Env water from Snowy RMIF to LM Red Gum,Environmental Water Deliveries from Snowy RMIF Account,,4
+FCKRSTP,Falls Ck Resort STP,,,4
+FENTON,Moonie River at Fenton,Moonie River at Fenton - Queensland,417204,1
+FERRITS,MORTON-BOULKA CREEK AT FERRITS GAUGE,MORTON-BOULKA CREEK AT FERRITS GAUGE,4525041,2
+FIFTEEN,15 Mile Creek,15 Mile Creek,,4
+FINBRAE,Finniss River at Braeside Road,,A4261076,5
+FINFORD,Finniss River at Ford Road,Finniss River at Ford Road,A4261075,5
+FINLCOR,Finley Escape Downstream Coree 11,Finley Escape Downstream Coree 11,409087,4
+FINLESC,Finley Escape at outfall,Finley Escape at the outfall,409077,4
+FINNINL,Finniss River Inlet near Finniss,,A4261050,5
+FINNISS,Lake Alexandrina @ Finniss River,,,5
+FINYUND,Finniss River 4km E Yundi,,4260504,
+FIRSTST,Sunraysia - North East Drain at First St,Sunraysia Plain -  North East Drain at First Street,414710,4
+FISHMAN,Fishermans River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+FISHMDS,Fishermans D/S,Millewa monitoring site,,
+FISHPDS,LITTLE MURRAY D/S FISHPOINT WEIR,,,4
+FISHPTB,LITTLE MURRAY - FISHPOINT BRIDGE,,,4
+FISHPUS,LITTLE MURRAY U/S FISHPOINT WEIR,,,4
+FMITBRB,FMIT NORTH EAST @ BRUCES BEND,FMIT NORTH EAST @ BRUCES BEND,414702,4
+FMITNED,FMIT North East Drain,,,4
+FMITNTH,FMIT North Drain,FMIT Drain @ Ettiwanda Avenue,414709,
+FMITPBL,FMIT DRAIN @ U/S PSYCHE BEND LAGOON,FMIT DRAIN @ U/S PSYCHE BEND LAGOON,414711,4
+FMITPUM,F.M.I.T. IRRIGATION PUMPS _ FROM MURRAY,,,4
+FOAPMET,Forbes Apt,,65103,2
+FORBES,Lachlan River - Forbes (Cottons Weir),,412004,2
+FORBMET,Forbes (Camp Street),,65016,2
+FORDSBR,WARREGO RIVER AT FORDS BRIDGE (MN CHANN),,423001,2
+FORDSBY,WARREGO RIVER - FORDS BRIDGE (BYWASH),,423002,2
+FOREST,Barmah-Millewa Regulator Openings,PERCENTAGE OF REGULATORS THAT ARE OPEN,,4
+FORHSTP,Forest Hill STP (Wagga Wagga),,,2
+FORSTP,Forbes STP,,,2
+FRANKBR,LITTLE MERRAN CREEK AT FRANKLINGS BRIDGE,,409044,4
+FYANSLK,Lake Fyans - Wimmera Mallee,,,4
+GBCFLOW,Goulburn/Broken Creek/Campaspe Outflows,,,4
+GEE2JIN,Geehi Reservoir to Jindabyne Reservoir,Geehi Reservoir to Jindabyne Reservoir used to calculate net,,2
+GEEHAQD,Geehi Aquaduct Losses,A component of Snowy Accounted release,,2
+GEEHI,Geehi River Above Geehi Reservoir,"For Measurand 87 - This site is ""Geehi Natural Inflows"".",401560,2
+GEEHNAT,Geehi Natural,Natural conditions inflows to Geehi Dam,,
+GEEHREL,Geehi Reservoir regulated release,,,2
+GEEHSPI,Geehi Reservoir Spill,,,2
+GEEHSTO,Geehi Reservoir,,,2
+GEERA,Barwon River @ Geera (d/s Macquarie Junction),,422027,2
+GENOE,GENOE,Lake Genoe in the Poon Boon system,,2
+GENRMIF,General RMIF Account,States resources held in Snowy Scheme under the 2013 Strategy for RMIF,,
+GIBBOPK,Gibbo River at Gibbo Park,,401217A,4
+GILBOOL,Gil Gil Creek at Boolataroo,Gil Gil Creek @ Boolataroo,418054,2
+GILESFR,Giles Creek downstream Signal Flat Road,Giles Creek downstream Signal Flat Road,A4261103,5
+GINGHAM,,,,
+GINGIN,MACQUARIE RIVER - GINGIN,,421031,2
+GLENLYO,Glenlyon Dam,Border Rivers Commission,,1
+GLENLYQ,Glenlyn dam on Queensland Border Rivers,Glenlyn dam on Queensland Border Rivers,,4
+GLENVIL,Darling River  D/S of Weir 19A,DARLING RIVER AT GLEN VILLA; 1.5 KM  DOWNSTREAM OF WEIR 19A.,425037,2
+GLESTP,The Glen WWTP (Cooma North),,,2
+GLEWIM,Glenelg River Catchment to Wimmera-Mallee,Glenelg River Catchment to Wimmera-Mallee,,4
+GLINSTP,Glen Innes STP,,,2
+GLOMON,Glossop and Monash,Glossop and Monash,,
+GLOSSOP,Glossop,Glossop - Riverland Region,,
+GLOWEDS,Glowrey's Regulator (Plantation) D/S,Millewa monitoring site,,
+GLSDOF,Glen Lossie Sth,,,5
+GMSDRN,Gogeldrie Main Southern Drain at River Rd (GMSRR),,,2
+GMW,Goulburn Murray Water,,,4
+GNCHAN6,Channel 6/1,Gunbower Forest - VIC National Parks,,
+GNLTRDY,Little Reedy,Gunbower Forest - VIC National Parks,407366A,
+GOANGRA,Namoi River at Goangra,,419026,2
+GOBENGP,Goulburn to Bendigo by GF superpipe,Goulburn to Bendigo by superpipe,,4
+GOBRLOD,Goulburn Broken Loddon Cap Valley,Goulburn Broken Loddon,,4
+GOBRPD,Goulburn Broken Private Diverters,Goulburn Broken Private Diverters,,4
+GOCOSY,Goulburn to Coliban System,Goulburn to Coliban System,,4
+GOFFTM,Goulburn Flora Fauna from Murray,Goulburn Flora Fauna from Murray,,4
+GOGELDS,Murrumbidgee River D/S Gogeldrie Weir,,410082,2
+GOGELUS,Gogeldrie Weir at Storage Gauge,Gogeldrie Weir  u/s at Storage Gauge,41010922,2
+GOLHGT,Golden Heights - Major Pumping Stattion,Major Irrigation Pumping Station in South Australia,,5
+GOLWAB2,Goolwa Vertical Slot No 2,,,
+GOMUBRC,Goulburn  to River Murray via Broken Ck,Goulburn Valley Account Transfer to River Murray,,4
+GONGOLG,Bogan River at Gongolgon,,421023,2
+GOOBMET,Goolwa Barrages - BOM station,,23825,5
+GOOCHBD,Goolwa Channel at Goolwa Barrage (D/S),Goolwa Channel at Goolwa Barrage (D/S),A4261035,5
+GOOCOT,Water transferred from Googong Dam to Cotter Sys,Water transferred from Googong Dam to Cotter System,,3
+GOODSTP,Goondiwindi STP,,,1
+GOOGONG,Googong Dam Extractions,Googong Dam Extractions,,3
+GOOGWTP,Googong Water Treatment Plant,Googong Water Treatment Plant,,
+GOOLBDS,Lake Alexandrina D/S Goolwa Barrages,Lake Alexandrina or Goolwa Channel & Goolwa Barrages (D/S) - Recorder Site,A4260525,5
+GOOLMET,Goolwa Alexandrina C. Depot - BOM site,,23718,5
+GOOLWA,L. Alexandrina at Liverpool ST P.S.,,,5
+GOOLWAB,Lake Alexandrina U/S Goolwa Barrage,LAKE ALEXANDRINA - GOOLWA BARRAGE (U/S),A4261034,5
+GOONIMU,GOONIMU,Lake Goonimur in the Poon Boon system,,2
+GOONOO,Goonoo Goonoo Creek @ Timbumburi,Goonoo Goonoo Creek @ Timbumburi,419035,
+GOSMBR,Goulburn Snowy Acc Trnsfer to Murray Via Broken Ck,Goulburn Snowy Account Transfer to Murray Via Broken Ck,,4
+GOSMCR,Goulburn Snowy Acc Trnsfer to Murray Via Campaspe,Goulburn Snowy Account Transfer to Murray Via Campaspe River,,4
+GOUDSBR,Goulburn River - D/S Broken River Jtn,Goulburn River - D/S Broken River Jtn,,4
+GOUDSMB,Goulburn River d/s of McCoys Bridge,,,4
+GOULBGD,Goulburn Gravity District Entitlements,Goulburn Gravity District Entitlements,,4
+GOULBPD,Goulburn Private Regulated Diversions,Goulburn Private Regulated Diversions,,4
+GOULBRO,Goulburn/Broken River System,,,4
+GOULBUR,Goulburn River System,Goulburn River System,,4
+GOULBWR,Goulburn River D/S Goulburn Weir,,,4
+GOULCAM,Goulburn valley to Campaspe River,Goulburn Valley Account Transfer to Campaspe River,,4
+GOULCHN,UBE - Channel - Goulburn River,Urban Bulk Entitlements - Channel - Goulburn River System,,4
+GOULEVA,Goulburn End of Valley Account,,,4
+GOULIVT,Goulburn Valley IVT Balance,,,4
+GOULMET,Goulburn Weir (Nagambie),,81019,4
+GOULNSW,Goulburn Valley Trading with NSW,Direction is from NSW to Goulburn,,4
+GOULRIV,UBE - River - Goulburn River,Urban Bulk Entitlements - River - Goulburn River System,,
+GOULTLM,Goulburn TLM release,,,4
+GOULWUS,Goulburn R at Goulburn Weir (Head gauge),,405259,4
+GOUSNOW,,Victorian Snowy Allocation for next year sourced from,,
+GOUUSBR,Goulburn River - U/S Broken River Jtn,Goulburn River - U/S Broken River Jtn,,4
+GOWQBRC,Goulburn WQ Reserve to Broken Crk,Goulburn Water Quality Reserve Transferred to Broken Creek,,4
+GP1BURD,BURDETT GOVERNMENT DRAINAGE PUMP 1,,,
+GP1COWI,COWIRRA GOVERNMENT DRAINAGE PUMP 1,,,
+GP1JERV,JERVOIS GOVERNMENT DRAINAGE PUMP 1,,,5
+GP1LNGF,LONG FLAT GOVERNMENT DRAINAGE PUMP 1,,,
+GP1MOBI,MOBILONG GOVERNMENT DRAINAGE PUMP 1,,,
+GP1MONT,MONTEITH GOVERNMENT DRAINAGE PUMP 1,,,
+GP1MYPO,MYPOLONGA GOVERNMENT DRAINAGE PUMP 1,,,
+GP1MYPS,MYPOLONGA SOUTH GOVT DRAINAGE PUMP 1,,,
+GP1NEET,NEETA GOVERNMENT DRAINAGE PUMP 1,,,
+GP1POMP,POMPOOTA GOVERNMENT DRAINAGE PUMP 1,,,
+GP1WALF,WALL FLAT GOVERNMENT DRAINAGE PUMP 1,,,
+GP1WDPT,WOODS POINT GOVERNMENT DRAINAGE PUMP 1,,,
+GP1WELI,WELLINGTON GOVERNMENT DRAINAGE PUMP 1,,,5
+GP2COWI,COWIRRA GOVERNMENT DRAINAGE PUMP 2,,,
+GP2JERV,JERVOIS GOVERNMENT DRAINAGE PUMP 2,,,5
+GP2MOBI,MOBILONG GOVERNMENT DRAINAGE PUMP 2,,,
+GP2MONT,MONTEITH GOVERNMENT DRAINAGE PUMP 2,,,
+GP2MYPO,MYPOLONGA GOVERNMENT DRAINAGE PUMP 2,,,
+GP2POMP,POMPOOTA GOVERNMENT DRAINAGE PUMP 2,,,
+GP2WALF,WALL FLAT GOVERNMENT DRAINAGE PUMP 2,,,
+GP2WDPT,WOODS POINT GOVERNMENT DRAINAGE PUMP 2,,,
+GP2WELI,WELLINGTON GOVERNMENT DRAINAGE PUMP 2,,,5
+GRANITE,Snowy Creek - Granite Flat,,401210A,4
+GRAVES,GWYDIR RIVER - GRAVESEND ROAD BRIDGE,Gwydir River @ Gravesend Road Bridge,418013,2
+GRAYDRN,Deakin Main Drain (D/S Drain 3) at Gray Rd,Deakin Main Drain (D/S Drain 3) at Gray Rd,406731,4
+GREENSW,Greens Swamp,Gunbower Forest - VIC National Parks,407363A,
+GRESTP,Grenfell STP,,,2
+GRETA,15 Mile Creek at Greta South,,403213A,4
+GRIFMET,Griffith Airport AWS,,75041,
+GRIFSTP,Griffith STP,,,2
+GULBSTP,Gulargambone STP,,,2
+GULCRDS,Gulpa Creek Rd Regulator D/S,Millewa monitoring site,,
+GULCRRD,Gulpa Creek Road,Millewa monitoring site,,
+GULFCK1,Gulf Creek No1 River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+GULFCK2,Gulf Creek No2 River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+GULPOFF,GULPA CREEK D/S OFFTAKE REGULATOR,,409030,4
+GULSILO,Gulpa Ck SILO data,Data Drill for Gulpa Creek,,
+GULSTP,Gulgong WTP,,,2
+GUMCOW,Gum Cowal @ Bifurcation,Gum Cowal @ Bifurcation,421146,2
+GUNBENV,Gunbower Creek Environmental Releases,Releases for environmental watering of riverine wetlands,,4
+GUNCOXY,Gum Cowal @ Oxley,Gum Cowal @ Oxley,421152,2
+GUNDABA,MOONIE RIVER - GUNDABLOUIE,,417001,
+GUNDAGI,MURRUMBIDGEE RIVER - GUNDAGAI,,410004,2
+GUNDSTP,Gundagai STP,,,2
+GUNFORE,Gunbower forest system,added to capture environmental water for the Gunbower system,GUNFORE,4
+GUNFOUT,Chinamans Bend - Gunbower Forest Outfall,Gunbower Forest - VIC National Parks,407336A,
+GUNGLMN,Castlereagh River at Gungalman,,420020,2
+GUNIDCK,Gunidgera Creek @ d/s Regulator,Gunidgera Creek @ d/s Regulator,419061,2
+GUNNDAH,NAMOI RIVER - GUNNEDAH,,419001,2
+GUNNING,Gunningbar Creek @ d/s Weir,Gunningbar Creek @ d/s Weir,421017,2
+GUNNSTP,Gunnedah STP,,,2
+GUNSTP,Gunning STP,,,2
+GUNWEIR,Gunbower Weir U/S,Gunbower Forest - VIC National Parks,,
+GUNWRDS,Gunbower Weir D/S,Gunbower Forest - VIC National Parks,,
+GURRA,Gurra Gurra Lake SA,Gurra Gurra Lake SA,,5
+GUSCES2,"Gully, South of Cadow No. 2 Escape",,,2
+GUYSTP,Guyra STP,,,2
+GWYDIR,Gwydir River System,,,2
+GWYDIRV,Gwydir River Component of Gwydir System,,,2
+GWYMILL,Gwydir River at Millewa,,418066,2
+GWYWET,Inflows - Gwydir Wetland,Inflows - Gwydir Wetland - Gwydir River System,,2
+HABELS,Habels Bend,,4260643,5
+HALCUKO,Halls Creek @ Ukolan,Halls Creek @ Ukolan,419029,2
+HALLS,Murrumbidgee at Halls Creek,ACT catchment,410777,2
+HARTDRN,Harts Lagoon Drain,,,5
+HARTLAG,Harts Lagoon,,,5
+HARTOUT,Harts Lagoon Outlet,,,5
+HASHSTP,Harden Shire STP,,,2
+HATTAH,Lake Hattah,Lake Hattah Sampled in Lake Hattah,,4
+HATTAHL,Hattah Lakes,Hattah Lakes System,,
+HATTMET,Lake Hattah Met Station,,,4
+HAWSALT,Lake Hawthorn - d/s from outlet,Lake Hawthorn - d/s from outlet.  Site No 889 in GMW dbase,,4
+HAWTH1,Lake Hawthorn (Site 1) - West bank,Lake Hawthorn (Site 1) - Western bank of Lake (GMW site 868),,4
+HAWTH2,Lake Hawthorn (Site 2) - East bank,Lake Hawthorn (Site 2) - Eastern bank of Lake (GMW site 867),,4
+HAWTH3,Lake Hawthorn (Site 3) - Southern bank,Lake Hawthorn (Site 3) - Southern bank of Lake.,,4
+HAY,MURRUMBIDGEE RIVER - HAY,,410002,2
+HAYDS,MURRUMBIDGEE RIVER D/S HAY WEIR,,410136,2
+HAYUS,Murrumbidgee River at Hay Weir (u/s),Murrumbidgee River at Hay Weir (u/s) - Storage Gauge,41010928,2
+HAYWEIR,Hay Weir on the Murrumbidgee,,,2
+HEBEL,Bokhara R at Hebel,Bokhara R at Hebel - Queensland,422209,1
+HEBELBO,Ballandool R at Hebel Bollon Rd,Ballandool R at Hebel Bollon Rd - Queensland,422207,1
+HEBEMET,Hebel (Post Office),,44042,1
+HEFESC,6 Heffers,,,4
+HENSTP,Henty STP,,,2
+HEYWOOD,River Murray at Heywoods,Sample at Gauging Station,409016,4
+HINNOMU,Mitta Mitta River at Hinnomunjie,,401203A,4
+HIPOFFT,Hipwell Road Offtake Regulator,Gunbower Forest - VIC National Parks,,
+HIPRWDS,Hipwell Road Weir D/S,Gunbower Forest - VIC National Parks,,
+HIPWEIR,Hipwell Road Weir Regulator,Gunbower Forest - VIC National Parks,,
+HLBOOCR,Boolungal crossing - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+HLCANCK,Cantala Creek - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+HLCANDS,Cantala Regulator River Side - Hattah Lakes,Gauge Board Site,HLCANDS,
+HLHPOLD,Lake Hattah pump (old),Hattah Lakes System - manual data collection in the lakes,,
+HLMESDS,Messengers Regulator River Murray Side,Down Stream gauge site for Messengers Regulator on the river side Hattah Lakes System,HLMESDS,
+HLOTYDS,Oateys Regulator River Side - Hattah Lakes,Gauge Board Site - Return to Murray,HLOTYDS,
+HLRAKCR,Raak Crossing - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+HLRAKTK,Raak Track - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+HLRIMCR,Rim crossing - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+HLYERCH,Yerang channel - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,HLYERCH,
+HOBESC,11/4 Hobson,,,4
+HOGWASH,HOGWASH BEND,,,5
+HOLBSTP,Holbrook STP,,,2
+HOLDER,River Murray at Holder,River Murray at Holder - Salinity Site only.,426593,5
+HOLMESB,Holmes Bridge,Gunbower Forest - VIC National Parks,,
+HORESC,2/10 Horsburgh,,,4
+HORSLG1,Horseshoe Lagoon No 1 River Regulator,River Regulator settings - Gulpa Creek - NSW National Parks,,2
+HORSLG2,Horseshoe Lagoon No 2 River Regulator,River Regulator settings - Gulpa Creek - NSW National Parks,,2
+HORSLG3,Horseshoe Lagoon No 3 River Regulator,River Regulator settings - Gulpa Creek - NSW National Parks,,2
+HORSLG4,Horseshoe Lagoon No 4 River Regulator,River Regulator settings - Gulpa Creek - NSW National Parks,,2
+HORSMET,Horsham Composite,,79023,4
+HOUSE,House Creek River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+HOUSEDS,House Creek Regulator D/S,Millewa monitoring site,,
+HOWLONG,River Murray Below Howlong,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 11,409037,2
+HRCGOFF,HIPWELL RD CHANNEL @ GUNBOWER CK OFFTAKE,Gunbower Forest - VIC National Parks,407779A,
+HROFRDS,Hipwell Road offtake Regulator D/S,Gunbower Forest - VIC National Parks,,
+HSDESC,13/9 Homestead,,,4
+HSLA1DS,Horseshoe Lagoon 1 Regulator D/S,Millewa monitoring site,,
+HSTITPE,Howard St Industrial TP,,,4
+HUMDART,Hume and Dartmouth Reservoirs,,,4
+HUMDBAR,Hume Dam to Barmah - Murray River,Hume Dam to Barmah - Murray River,,4
+HUMDTOR,Hume Dam to Torrumbarry Weir,Hume Dam to Torrumbarry Weir,,
+HUME,Hume outflow or Heywoods,Heywoods used if Hume outflow not available,,4
+HUMEINF,Hume Dam inflows (ML/d),Hume Dam inflows (ML/d),,2
+HUMELOC,Local Inflow to Hume Dam,Local Inflow to Hume Dam includes McCallums,,4
+HUMEMET,Hume Reservoir Met Station,,72023,2
+HUMENAT,Natural Inflows to Hume Dam,"Includes inflows to Hume and to Tooma, Geehi and Khancoban",,
+HUMENSW,NSW Component of Hume Reservoir,Used for Extra Releases from Hume for NSW purposes,,2
+HUMEOPA,Hume Accounts Operational Loss (ML/d),Hume Accounts Operational Loss (ML/d),,2
+HUMEREL,Hume release excluding PreRelease (ML/d),Hume release excluding PreRelease (ML/d),,2
+HUMEUS,Lake Hume at Dam Wall,SAMPLE AT BETHANGA BRIDGE,401027,4
+HUMEVIC,Victorian Component of Hume Reservoir,Used for Extra Releases from Hume for VIC purposes,,
+HUMJITA,Tallandoon and Jingellic routed to Hume,Tallandoon and Jingellic routed to Hume inc storage change,,4
+HUMLVIC,Transfer from Hume to Lake Victoria,,,
+HUNREG,Hume Unregulated Catchment,Hume Natural minus Dartmouth Tooma and Geehi,,
+HUNTRCK,Hunters Creek Fishway on Hindmarsh Island,,,
+HUSSEYS,Husseys River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+HUSSRDS,Husseys Regulator D/S,Millewa monitoring site,,
+HUWESTP,Hume Weir STP,,,2
+IBCUHCC,I Bank Creek upstream Hyperna Creek Chowilla,Chowilla System - South Australia,A4260600,
+INDIGO,Indigo Creek at Barnawartha-Howlong Road,Indigo Creek at Barnawartha-Howlong Road downstream Creamery Bridge,403248A,4
+INGSTP,Inglewood STP,,,1
+INTERSE,The Intersecting Streams in NSW,NSW component of QLD Border streams,,2
+INVSTP,Inverell STP,,,2
+IODIPOL,Indian Ocean Dipole,"SST[X=50E:70E,Y=-10:10] - SST[X=90E:110E,Y=-10:0]",,
+IQQMTEM,Temporary variable for IQQM data format,,,
+ISB2GEE,Island Bend to Geehi,Island Bend to Geehi,,2
+ISLNDCK,Island Creek River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+IVTSMST,Snowy-Murray to Snowy-Tumut,Transfers,,2
+IVTSTSM,Snowy-Tumut to Snowy-Murray,Transfers,,2
+J76WP17,"Floodway, Boundary J76 & WP17",,,2
+JACOBS,JACOBS CREEK - JACOBS LADDER,JACOBS CREEK - JACOBS LADDER,222015,2
+JARRAHM,Snowy River at Jarrahmond,,,2
+JEMES2C,Jemalong No. 2C Escape,,,2
+JEMESC,Jemalong Escape,,,2
+JEMESC2,Jemalong No.2 Escape,,,2
+11FGJER,BILLABONG CREEK AT JERILDERIE,,410016,2
+JERIMET,Jerilderie Treatment Works Met Station,Jerilderie Treatment Works Meteorological Station - Rainfall Only,74055,2
+JERSTP,Jerilderie STP,,,2
+JERVOIS,Jervois,Jervois - Mallee Region,,
+JILLAMA,River Murray - Jillamatong,PEAK HEIGHT RECORDS,409040,2
+JIN2GEE,Jindabyne Res to Geehi Res.,Diversion from Jindabyne to Geehi Reservoirs - Water Pumped,,2
+JINDABY,LAKE JINDABYNE,,,2
+JINGCK,Jingellic Creek at Jingellic,,401013,2
+JINGELL,River Murray at Jingellic,SAMPLE AT GAUGING STATION,401201A,2
+JINGKHA,Khancoban Routed to Jingellic,Khancoban Flows routed to Jingellic by Bigmod,,2
+JINGLOC,Local Inflow above Jingellic,Flow at Jingellic other than Tooma and Khancoban,,2
+JINPUMP,Jindabyne Pump,Jindabyne Pump,,2
+JOCKWAR,Lake Alexandrina at Jockwar(Beacon 105),Lake Alexandrina at Jockwar(Beacon 105),A4261199,5
+JOKER,Big River U/S of Joker Creek,,401216A,4
+JOUNAMA,Jounama Pondage,Snowy Hydro Limited,,2
+JUNROAD,Junction Road,Millewa monitoring site,,
+JUNSTP,Junee STP,,,2
+JWEDOF,Jervois (Wellington end),,,5
+JWPEDOF,Jervois (Woods Pt end),,,5
+KANGARO,KANGAROO LAKE,,407601A,4
+KANGHOL,Talyawalka Creek at Kangaroo Water Holes,,425029,2
+KANGMET,Kangaroo Lake,,77092,4
+KANGPAC,Tandou Kangaroo and Packers Storage,Sum of Storage in Lakes Kangaroo and Packers on Tandou,,2
+KANSTP,Kandos STP,,,2
+KAPPALU,North Rhyne River near Kappalunta,North Rhyne River near Kappalunta,A4261014,5
+KATAMAT,BROKEN CREEK - KATAMATITE,50M UPSTREAM OF KATAMATITE-NUMURKAH ROAD,404214,4
+KATARAO,Katarapko Basin at Northern Outfall,Katarapko Basin at Northern Outfall,A4260700,5
+KATARUS,River Murray us Katarapko Ck Outlet (AMTD 482.4km),River Murray us Katarapko Ck Outlet (AMTD 482.4km),A4261024,5
+KDSGCK,Koondrook Spillway on Gunbower Ck,,,4
+KEECH,Keech River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+KEECHDS,Keech Regulator D/S,Millewa monitoring site,,
+KEEPIT,Keepit Reservoir - Namoi System,,,2
+KELLITT,Lakes Kelly and Little,,,
+KELLY,Lake Kelly,,,4
+KELLYS,LITTLE MURRAY RIVER (VIC) AT KELLYS,,,4
+KELRFL,Kerang Weir on Loddon River,,,4
+KEMDMET,Kerang (Meran Downs) Met Station,,80024,4
+KENEBRE,CULGOA RIVER D/S COLLERINA (KENEBREE),See Qcode info under measurand 1,422006,2
+KENSAL,RIVER MURRAY - KENSAL GREEN,,409041,2
+KERAMCD,Kerang Lakes - Meran Community Drain,Kerang Lakes - Swan Hill Plan - Meran Comunity Drain,407757,4
+KERAMET,Kerang Post Office Met Station,,80023,4
+KERANGP,LODDON RIVER - KERANG PUMPS,,,4
+KERANGW,Loddon River - Kerang,SAMPLE AT GAUGING STATION,407202C,4
+KERMMET,Kerang Model Farm Met Station,,80126,4
+KERSHEE,Kerang Weir + Sheepwash Creek,Loddon River at Kerang + Sheepwash Ck,,4
+KHANCOB,Swampy Plains River D/S Khancoban Dam,SNOWY SCHEME,600183,5
+KHANCUS,Swampy Plains River AT Khancoban,UPSTREAM OF KHANCOBAN PONDAGE,401501,5
+KHANLOC,Local Inflows Upstream of Khancoban,,,2
+KHANSTO,Khancoban Reservoir,,,2
+KIEWA,Kiewa River - Kiewa 402200=222+220,402200 FOR 1885-1936 402220+402222 FOR 1937->,402200,4
+KIEWADV,Kiewa River System,,,4
+KIEWFLW,Kiewa River Outflow,Kiewa + Anabranch at Kiewa + Yackandandah Creek,,4
+KIEWOVR,Kiewa River Overflow (anabranch),"Kiewa River Overflow (anabranch), this site and 402222",402220A,4
+KIEWPRT,Kiewa River at Kiewa (part of KIEWA),Kiewa River at Kiewa - this site + 402220 (KIEWAOVR),402222A,4
+KIFTSTP,Kitty's Flat STP,,,2
+KINGSTN,Kingston,Kingston - Riverland Region,,
+KMRSTP,Kilmore STP,,,4
+KNGSTON,RIVER MURRAY - KINGSTON,,,5
+KOMUVIC,Kiewa Ovens Murray Cap Valley,Kiewa Ovens and Victrian Murray,,4
+KONWEIR,Koondrook weir U/S,Gunbower Forest - VIC National Parks,,
+KONWRDS,Koondrook weir D/S,Gunbower Forest - VIC National Parks,,
+KOONDSP,Koondrook weir U/S,SAMPLE AT GAUGING STATION - Gunbower Ck at  Knife edge weir used to measure  Koondrook Spillway flow,407209A,4
+KOONMBT,Koondrook-Murrabit Drains for BSMS,,,
+KOONPUM,KOONDROOK (ASHWIN'S) PUMP FROM MURRAY,,,4
+KOORSTP,Kooringal STP (Wagga Wagga),,,2
+KORALEI,Poon Boon Lakes inflow at Koraleigh,,409091,2
+KOWSWMP,KOW SWAMP STORAGE,,,4
+KPBARDS,Barbers Overflow River Regulator D/S Creek Side,New South Wales Regulators - Koondrook-Perricoota Forest,,
+KPBCKDS,Barbers Creek Regulator D/S Creek Side,New South Wales Regulators - Koondrook-Perricoota Forest,,
+KPBCSBR,Barbers Creek at Sandy Bridge Road,New South Wales Regulators - Koondrook-Perricoota Forest,409111,
+KPCOWDS,Cow Creek River Regulator D/S Creek Side,New South Wales Regulators - Koondrook-Perricoota Forest,,
+KPLBREG,Little Barber regulator,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+KPRRGDS,Return Channel River Regulator D/S River Side,New South Wales Regulators - Koondrook-Perricoota Forest,,
+KPSCKBB,SPUR CK @ BURKES BRIDGE,New South Wales Regulators - Koondrook-Perricoota Forest,407370A,
+KPSCKEB,Spur Crk @ East Branch,New South Wales Regulators - Koondrook-Perricoota Forest,407369A,
+KPSKNTK,Spur Crk @ Nursery Track,New South Wales Regulators - Koondrook-Perricoota Forest,,
+KPTCLTR,Thule Creek at Lower Thule Road,New South Wales Regulators - Koondrook-Perricoota Forest,409109,
+KPTHLDS,Thule Creekk River Regulator D/S Creek Side,New South Wales Regulators - Koondrook-Perricoota Forest,,
+KPTORDS,Torrumbary Cutting Offtake Reg D/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,409114,
+KRAMEN,Kramen Creek Regulator,Kramen Creek Regulator Lake Side,KRAMEN,
+KRESTP,Kremur STP,,,2
+KRWCMET,Kerang RWC,,80110,4
+KULKYNE,Kulkyne Outfall Drain at Mansells Pump,KULKYNE OUTFALL DRAIN @ MANSELLS PUMP,414723,4
+KYABMET,Kyabram (Research Institute),BOM station,80091,4
+KYALITE,Wakool River at Kyalite,SAMPLE AT GAUGING STATION,409034,2
+KYALITN,WAKOOL RIVER - KYALITE (NSW DATA?),,,2
+KYBSTP,Kyabram STP,,,4
+KYNRWP,Kyneton RWP,,,4
+L1MET,Lock 1 Blanchetown Met Station,,24564,5
+L5MET,Lock 5 Met Station,,24037,5
+L65NOCH,Lock 6 to Lock 5 Excluding Chowilla,,,
+L9TOMOR,River Murray From Lock 9 to Morgan,River Murray between Lock 9 and Morgan,,
+LAANECO,Lodden River at Laanecoorie,Lodden River at Laanecoorie,407203,4
+LACHLAN,Lachlan River System,,,2
+LACHLRV,Lachlan regulated valley,,,2
+LADPDOF,Lane Deep Drain,,,2
+LAL@TUP,Lalalty Dr at Tuppal Ck Off,U/S of where Lalalty Drain enters Tuppal Creek,4091007,2
+LAL1JNC,LALALTY NO.1 ARM U/S JUNCTION,,409054,2
+LALAL13,LALALTY DC 13 AT LALALTY SCHOOL (DWR),,,2
+LALAL2,LALALTY DC AT AERODROME RD. (DWR),,,2
+LALAL5,Lalalty DC,,,2
+LALAL6,LALALTY DC AT LALALTY HALL (DWR),,,2
+LALAL7,LALALTY DC AT HR NO.78 (DWR),,,2
+LALAL9,LALALTY DC AT HR NO.179 (DWR),,,2
+LALALA,LALALTY DC AT SEAMERS ACCESS (DWR),,,2
+LALALB,LALALTY DC AT ACCESS RD AT HR NO.179 DWR,,,2
+LALALC,LALALTY DC AT CHINAMANS ROAD (DWR),,,2
+LALALDC,LALALTY DC AT DRY CREEK. COBRAM-BERRIGAN,,,2
+LALALF,LALALTY DC AT FARRERS ROAD (DWR),,,2
+LALALH,LALALTY DC AT NEWELL HIGHWAY (DWR),,,2
+LALALL,LALALTY DC AT SCHOOL ROAD (DWR),,,2
+LALALS,LALALTY SYPHON AT MULWALA CANAL (DWR),,,2
+LALALT,LALALTY DC AT THURBURNS ROAD (DWR),,,2
+LALALX,LALALTY DC AT ESCAPE (DWR),,,2
+LALJUNC,LALALTY DC - LALALTY JUNCTION,,409070,2
+LALLOCK,D.C. LALALTY - LOCKHART RD,,409051,2
+LALRAIL,D.C. Lalalty - Railway Bridge,,409053,2
+LALWOOL,D.C. LALALTY - WOOLSHED RD,,409052,2
+LANGAWI,,,,2
+LAPDBB1,LALALTY PD (2) AT BACK BAROOGA HR 16A-39,,,2
+LAPDBB2,LALALTY PD (2) AT BACK BAROOGA HR 17-3,,,2
+LAPDBB3,LALALTY PD (4) AT BACK BAROOGA HR 18-31,,,2
+LAPDBM1,LALALTY PD IN BOOMANOOMANA 1,,,2
+LAPDBM2,LALALTY PD IN BOOMANOOMANA 2,,,2
+LAPDENR,PRIVATE DRAIN AT ENNALS RD (DWR),,,2
+LAPDMR,PD (30) AT MULWALA RD HR 40 (DWR),,,2
+LAPDWR1,LALALTY PD (1B) AT WILTONS RD HR 7-20,,,2
+LAPDWR2,LALALTY PD (1B) AT WILTONS RD HR 15-15A,,,2
+LAURIST,Lauriston Reservoir - Campaspe River,,,4
+LCFCDF,Lake Charm Flush Channel 6/1/7,,,4
+LDGMSDN,Lagoon Drain from Gooragool Main Southern Drain DC,,,2
+LEESTP,Leeton STP,,,2
+LEETON,Leeton Meteorology Station,,74062,5
+LELIGR,LAKE ELIZABETH AT GITSHAM RD,LAKE ELIZABETH AT GITSHAM RD,407607,4
+LENEVA,Middle Creek at Leneva,Middle Creek at Leneva - at the Wodonga-Beechworth road,402221,4
+LFTDOF,Long Flat,,,5
+LHLKARA,Lake Arawak - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+LHLKBUL,Lake Bulla - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+LHLNPNP,Lake Nip Nip - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+LHRGATE,Roonki gate - Hattah Lakes,Hattah Lakes System - manual data collection in the lakes,,
+LIEWAH,Edward River at Liewah,,409035,4
+LIGHTEN,Snowy Ck at Lightening Ck,,401231A,4
+LINDOFF,Upper Lindsay River at Offtake,,414212,4
+LINDPOI,Lower Lindsay River at Lindsay Point,,414215,4
+LINDSAY,Lindsay River Allowance,Lindsay River Allowance,,4
+LINDSTH,Lindsay River @ South Murray River Offtake,,,
+LISDOF,Long Island,,,5
+LK52MOR,Lock 5 to Morgan Reach,,,
+LK5TOMB,Lock 5 to Murray Bridge,,,5
+LK62LK5,Lock 6 to Lock 5,,,
+LK8SAV,Lock 8 to South Australia,Lock 8 to South Australia,,5
+LK92LK5,Lock9 to Lock 5,,,
+LK92LK6,Lock 9 to Lock 6,,,
+LKALBCB,Lake Alexandrina at Boundary Creek Barrage,Lake Alexandrina at Boundary Creek Barrage,A4261045,5
+,,(WL – 35),,
+LKALEIB,Lake Alexandrina at Ewe Island Barrage,Lake Alexandrina at Ewe Island Barrage (WL – 35),A4261047,5
+LKALEX,Lake Alexandrina Average,"Average of Milang, Tauwitcherie, Mulgundawa",,5
+LKBALAK,Lake Balaka,Lake Balaka,,2
+LKBIJIJ,Lake Bijijie,Lake Bijijie,,2
+LKBINJI,Binjie Lake,,,2
+LKBITTE,Lake Bitterang - Hattah Lakes,Lake Bitterang - Sampled in the lake,LKBITTE,
+LKBREWS,Lake Brewster on Lachlan River,,,2
+LKCANT,Lake Cantala - Hattah Lakes,Sampled in the Lake,LKCANT,
+LKCARGE,Lake Cargellico on Lachlan River,,,2
+LKCHARM,Lake Charm Outflow,One of the Kerang Lakes with a pumped Outfall,,4
+LKEMU,Lake Emu,Lake Emu,,2
+LKKELLY,LAKE KELLY,,,4
+LKKONRD,Lake Konardin,Hattah Lakes System - manual data collection in the lakes,LKKONRD,
+LKKRAM,Lake Kramen,,,
+LKLITTL,LAKE LITTLE,,,4
+LKLOCKI,Lake Lockie - Hattah Lakes,Sampled in the lake,LKLOCKI,
+LKMALTA,Lake Malta,Lake Malta,,2
+LKMENID,Lake Menindee,Lake Menindee only,,2
+LKMENIN,Lake Menindee (include Lake Speculation),Lake Menindee + Lake Speculation,425022,2
+LKMOURN,Lake Mournpall - Hattah Lakes,Sampled in the lake,LKMOURN,
+LKNEARI,LAKE NEARIE,,,2
+LKNIALI,Nialia Lake,,,2
+LKPOPIL,Popiltah Lake,Popiltah Lake,,2
+LKPOPIO,Popio Lake,,,2
+LKPUMP,Pump To Lake Kramen,,LKPUMP,
+LKSPECT,Spectacle Lakes,,,5
+LKSPECU,Lake Speculation,,,2
+LKTRAVL,Travellers Lake,,,2
+LKTUTCH,LAKE TUTCHEWOP,,,4
+LKTUTN,LAKE TUTCHEWOP NORTH,,,4
+LKTUTS,LAKE TUTCHEWOP SOUTH,,,4
+LKWALLA,Upper Lindsay River U/S Lake Wallawalla,,414218,4
+LKWALWA,Lake Wallawalla,In lake level monitoring site set up by Mallee CMA,,
+LKWILLM,Lake William,,,4
+LKYARTL,Lake Yartla,EcoScience Reference -r4j5s0snr,,2
+LKYARTS,Lake Yartla South,Lake Yartla South,,2
+LKYELTA,YELTA Lake,,,2
+LLHATAH,Lake little Hattah,,LLHATAH,
+LLHATTR,Lake Little Hattah Regulator U/S,Lake Little Hattah Regulator - Lake Hattah Side - Victoria,,
+LLHTRDS,Lake Little Hattah Regulator D/S,Lake Little Hattah Regulator D/S - Lake Little Hattah Side,,
+LMERMET,Lake Meran,,77076,4
+LMRTURN,Returns From Little Murray System,LITTLE MURRAY WEIR FLOWS WHEN FISHPOINT WEIR SHUT AND,,
+LMSCEWH,Lower Murray Swamps CEWH,Lower Murray Swamps Commonwealth Environmental Water Holder,,
+LMSOTHR,Lower Murray Swamps Other Env Ent,Lower Murray Swamps Other Environment Entitlements,,
+LMSTLM,Lower Murray Swamps TLM,Lower Murray Swamps Total Living Murray,,
+LMURNYV,L.M.E to Nyah - Murray River,,,4
+LMWQCC,Lower Molonglo W.Q.C.C.,Lower Molonglo Water Quality Control Centre (W.Q.C.C.),,3
+LNDOFDS,Upper Lindsay River at Offtake D/S,,,
+LNDSTDS,Lindsay River @ South Murray River Offtake D/S,,,
+LOCK1DS,River Murray D/S Lock 1,,426903,5
+LOCK1US,River Murray U/S Lock 1,,426902,5
+LOCK2DS,River Murray D/S Lock 2,,426519,5
+LOCK2US,River Murray U/S Lock 2,,426518,5
+LOCK3DS,River Murray D/S Lock 3,,426517,5
+LOCK3US,River Murray U/S Lock 3,SAMPLE AT GAUGING STATION,426516,5
+LOCK4DS,River Murray D/S Lock 4,,426515,5
+LOCK4US,River Murray U/S Lock 4,,426514,5
+LOCK5DS,River Murray D/S Lock 5,,426513,5
+LOCK5US,River Murray U/S Lock 5,SAMPLE AT GAUGING STATION,426512,5
+LOCK6DS,River Murray D/S Lock 6,,426511,5
+LOCK6US,River Murray U/S Lock 6,,426510,5
+LOCK7DS,River Murray D/S Lock 7,,4260509,5
+LOCK7US,River Murray U/S Lock 7,,426508,5
+LOCK8DS,River Murray D/S Lock 8,,4260507,5
+LOCK8US,River Murray U/S Lock 8,,426506,5
+LOCK9DS,River Murray D/S Lock 9,,4260505,5
+LOCK9US,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,4260501,5
+LOCKING,Lockington Main Drain,Lockington Main Drain Shepparton,407712,4
+LOCKRIC,Lockington Main Drain adj to Richardsons,Lockington Main Drain adjacent to Richardsons,,4
+LOCKSTP,Lockhart STP,,,2
+LODDBW,Loddon River - Bridgewater,,,4
+LODDGD,Loddon Gravity Districts,Loddon Gravity Districts,,4
+LODDON,Loddon River System,,,4
+LODDSKW,Loddon River d/s of Kerang Weir,,,4
+LODDWR,Loddon River at Loddon Weir,,407224D,4
+LODEDBW,Loddon Env delivery to Boort wetland,Loddon Environmental deliveries to Boort wetlands,,4
+LODEWWD,Diversion to East Loddon Waterworks District,Diversion to East Loddon Waterworks District,,4
+LODGRL,Loddon G D Regulated Licences,Loddon Gravity Districts regulated Licences,,4
+LODRSW,Loddon River at Serpentine Weir,LODDON RIVER AT SERPENTINE WEIR,407229,4
+LODSERP,Loddon River - Serpentine Creek,,,4
+LODUSLM,LODDON RIVER JUST U/S LITTLE MURRAY,(RELOCATED KELLYS),,4
+LODWWMC,Loddon River - WWMC,,,4
+LONSDAL,Lake Lonsdale - Wimmera Mallee,,,4
+LOUSYCR,Lousy Crossing,Millewa monitoring site,,
+LOUTH,Darling River at Louth,,425004,2
+LOVEBAS,Loveday Outfall at Loveday Evaporation Basin,Loveday Outfall at Loveday Evaporation Basin,A4260698,5
+LOVECAU,Loveday Swamp at Cit Causeway Southern Basin,Loveday Swamp at Cit Causeway Southern Basin,A4261088,5
+LOVECOB,Loveday Disposal Basin at Cobdogla Swamp,Loveday Disposal Basin at Cobdogla Swamp,A4261081,5
+LOVEDAY,River Murray at Loveday Pump Station (AMTD 446.9 K,,A4260624,5
+LOVENBI,Loveday Swamp at Northern Basin Inlet,Loveday Swamp at Northern Basin Inlet,A4261086,5
+LOVESBI,Loveday Swamp at Southern Basin Inlet (Red Gate),Loveday Swamp at Southern Basin Inlet (Red Gate),A4261087,5
+LOWBIDG,Total - Lowbidgee Scheme,,,2
+LOWDARL,Lower Darling River System,,,2
+LOWDARM,Lower Darling Main Stem,Includes Lock 10 Pool and Tandou Darling Pumps,,2
+LOWDEVA,Lower Darling End of Valley Account,,,2
+LOWDOTH,Lower Darling Other Diverters,Lower Darling Diverters from Lakes to u/s Weir Pool,,2
+LOXNTHO,Loxton North Outfall,Loxton North Outfall,A4261095,5
+LOXSTHO,Loxton South Outfall,Loxton South Outfall,A4261096,5
+LOXTMET,Loxton Met Station,Located at the Loxton PO - Rainfall Only site.,24007,5
+LOXTON,River Murray at Loxton Irrigation Pumps,,4260550,5
+LOXTRES,Loxton Research Meteo Stn,,24024,5
+LOXTWTP,Loxton Water Treatment Plant,,,
+LTEDREG,Little Edwards River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+LTEDWCR,Little Edward Crossing,Millewa monitoring site,,
+LTEDWDS,Little Edwards Regulator D/S,Millewa monitoring site,,
+LTEDWRD,Little Edward Road,Millewa monitoring site,,
+LTGCRDS,Little Gunbower Creek regulator D/S,Gunbower Forest - VIC National Parks,,
+LTGUNCK,Little Gunbower Ck River Regulator,Gunbower Forest - VIC National Parks,,4
+LTGUNLG,Little Gunbower Lagoon,Gunbower Forest - VIC National Parks,407337A,
+LTMUFPC,Little Murray Weir when FP Weir Closed,Fish Point Weir Closed,,4
+LTMUFPO,Little Murray Weir when FP Weir is open,Little Murray Weir when FP Weir is open,,4
+LTMURWR,LITTLE MURRAY - LITTLE MURRAY WEIR,CHANGED ON 29/7/1993 TO BE FLOW OVER WEIR RATHER THAN RETURN,,4
+LTWCUT1,Little Woodcutter 1 River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,
+LTWCUT2,Little Woodcutter 2 River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+LTWCUT3,Little Woodcutter 3 River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+LTWCUT4,Little Woodcutter 4 River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+LVIC,Lake Victoria,Lake Victoria Storage - flows are for outlet,4260553,5
+LVICCON,OLD CONTROL REGULATOR - LAKE VICTORIA,,426635,5
+LVICIN,FRENCHMANS CK (LAKE VIC INLET) REGULATOR,,426500,5
+LVICIND,LAKE VICTORIA INLET D/S REGULATOR,,,2
+LVICINU,Lake Victoria Inlet Regulator Upstream,,,2
+LVICMET,LAKE VICTORIA MET STATION,,47016,2
+LVICNSW,NSW Component of Lake Victoria,,,2
+LVICOUT,Rufus River D/S Lake Victoria,,426502,5
+LVICPON,Lake Victoria Pontoon,Lake Victoria centre,A4261093,5
+LVICVIC,Victorian component of Lake Victoria,,,
+LWANDMR,LAKE WANDELLA AT McKENZIE RD,LAKE WANDELLA AT McKENZIE RD,407606,4
+LXTSTP,Loxton STP,,,5
+LYRUP,Murray River at Lyrup Pumping Station,,426663,5
+MACBDWA,Burrendong Dam - Warren,Burrendong Dam - Warren - Macquarie River,,
+MACBURR,Burrendong Dam Entitlement,Burrendong Dam Entitlement - Macquarie River,,
+MACGIBW,Macquarie River @ Gibson Way,Macquarie River @ Gibson Way,421116,2
+MACINBR,Macintyre Brook River System,,,1
+MACMARS,Inflows to Macquarie Marshes,Inflows to Macquarie Marshes - Macquarie River,,2
+MACMILT,Macquarie River @ Miltara,Macquarie River @ Miltara,421135,2
+MACPILL,Macquarie River @ Pillicawarrina,Macquarie River @ Pillicawarrina,421147,2
+MACQUAR,Macquarie / Castlereagh / Bogan Rivers,Macquarie / Castlereagh / Bogan Rivers System,,2
+MACQURV,Macquarie portion of MACQUARIE CASTLEREAGH  BOGAN,Macquarie portion of  MACQUARIE CASTLEREAGH  BOGAN,,2
+MACWIND,Windamere Dam Entitlement,Windamere Dam Entitlement - Cudgegong River,,
+MAINS,Mains River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+MAINSDS,Mains Regulator D/S,Millewa monitoring site,,
+MALDPON,Murray River at Mallee Cliffs Downstream - pontoon,Murray River at Mallee Cliffs Downstream - pontoon,41310024,2
+MALLEE,Murray Mallee System - Sth Australia,Murray Mallee System - South Australia,,
+MALLEEC,Mallee Cliffs Salt Interception Scheme,Salt Inflow to reach controlled by Salt,,4
+MALLMET,MALLAN MET STATION,,75020,2
+MALLOWA,Mallowa Creek @ Regulator,Mallowa Creek @ Regulator,418049,2
+MALMSBU,Malmsbury Reservoir - Campaspe River,,,4
+MALTA05,Lake Malta Sample Site 5,See WRC Menindee Lakes Storages map,42510005,2
+MALUPON,Murray River at Mallee Cliffs  - pontoon,Murray River at Mallee Cliffs  - pontoon,41310023,2
+MAMANAD,Mannum - Adelaide No. 1 PS,Mannum - Adelaide No. 1 PS - Metro-Adelaide,,
+MAMBONK,Murray Bridge - Onkaparinga No. 1 PS,Murray Bridge - Onkaparinga No. 1 PS - Metro-Adelaide,,
+MANESC,2/10 Manuel,,,4
+MANILLA,Manilla River,,,2
+MANNMET,Mannum Pumping Station Met Station,Mannum Pumping Station Met Station,24517,5
+MANNUM,River Murray at Mannum No 1 Pumps,,426521,5
+MANNWHF,River Murray adjacent Mannum Town Wharf,River Murray adjacent Mannum Town Wharf,A4261161,5
+MANSTP,Mannum STP,,,5
+MANUPUM,Manilla River at Upper Manilla,Manilla River @ Upper Manilla,419056,2
+MAPUMP,Pumping from River Murray to Adelaide,,,5
+MARCAMB,Marne River US Cambria,,4260529,
+MARDSJU,Marne River 1km downstream Jutland Road Crossing,Marne River 1km downstream Jutland Road Crossing,A4261030,5
+MAREBON,Marebone Break @ d/s Marebone Regulator,Marebone Break @ d/s Marebone Regulator,421088,2
+MARKING,Marne River at Kings Park,,A4261009,5
+MARKONG,Marne River at Kongolia Bridge,,A4261008,5
+MARMRBR,Marne River upstream Redbanks Road Ford Crossing,Marne River upstream Redbanks Road Ford Crossing,A4261007,5
+MARNBHS,Marne River upstream Black Hill Springs,Marne River upstream Black Hill Springs,A4261011,5
+MARNGOR,Marne River at Marne Gorge,,A4260605,5
+MARNGUM,Marne River at Gum Park,,A4261010,5
+MARNJUT,Marne River at Jutland Road Crossing,,A4261013,5
+MARNMRB,Marne River at Main Road Bridge,,A4261012,5
+MARNRIV,Marne,,,
+MARVBHS,Marne River at Balck Hill Springs,Marne River at Balck Hill Springs,A4261104,5
+MARYADA,Mary Ada River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,409227,2
+MARYADS,MARY ADA D/S,Millewa monitoring site,409227,
+MASFMET,MATHOURA STATE FOREST MET STATION,,74069,2
+MATHMET,Mathoura Met Station,Mathoura Meteorological Station - Rainfall Only,74129,2
+11FGMAU,Murrumbidgee River D/S Maude Weir,,410040,2
+MAUDEUS,Murrumbidgee River at Maude Weir (u/s),Murrumbidgee River at Maude Weir (u/s) - Storage Gauge,41010941,2
+MAWARRN,Warren Trunk/Swan Reach to Sth Para,Warren Trunk/Swan Reach to Sth Para - Metro-Adelaide,,
+MAYFIEL,River Murray at Mayfield,,409042,2
+MBARSTP,Mt Barker STP,,,5
+MBGSTP,Murray Bridge STP,,,5
+MBHSTP,Maryborough STP,,,4
+MBLONGI,River Murray at Murray Bridge (Long Island),River Murray at Murray Bridge (Long Island),A4261162,5
+MBMANPM,Murray Bridge and Mannum Pipelines,,,5
+MBONKNT,Murray Bridge to Onkaparinga Net,Murray Bridge to Onkaparinga reduced by Metro-Adelaide,,
+MBRIDGE,River Murray at  Murray Bridge,SAMPLE AT NO. 1 PUMP STATION,426522,5
+MBTOALX,Murray Bridge to Milang Reach,,,
+MCARTDS,McCartneys D/S,Millewa monitoring site,,
+MCARTHY,McCartneys River Regulator,River Regulator settings - Gulpa Creek - NSW National Parks,,2
+MCCALLM,TALLANGATTA CREEK - MCCALLUMS,,401220B,2
+MCCOYSB,Goulburn River at McCoys Bridge,SAMPLE AT GAUGING STATION,405232C,4
+MCKDOF,Mullers Creek Drain,,,4
+MCKFLD,Mirrool Ck Floodway (MIRFLD),,,2
+MCKILLO,Snowy River at McKillops Bridge,,,2
+MCLARDS,McLaurens Regulator D/S,Millewa monitoring site,,
+MCLAREN,McLarens River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+MCLIFF1,Murray River at Mallee Cliffs 1,,413001,4
+MCLIFF2,Murray River at Mallee Cliffs 2,,413002,4
+MCNESC,6 McNight,,,4
+MCOYNAT,Mccoys Bridge natural flow estimate,Short-term operational estimate of natural flow at Mccoys Bridge,,
+MDBCMIL,MDBC Component of MIL Escape Flows,MDBC Component of MIL Escape Flows,,
+MDBCSMA,MDBC + Snowy Mountains H.E.A.,,,
+MDCWACH,River Murray DS Chowilla Woolshed Adj Chowilla HS,River Murray DS Chowilla Woolshed Adj Chowilla HS (Sal - 5),A4261168,5
+MDFRC1,RIVER MURRAY - TALMALMO,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 1,,2
+MDFRC10,RIVER MURRAY - MCFARLAND'S,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 10,,2
+MDFRC14,RIVER MURRAY - D/S YARRAWONGA (MDFRC),MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 14,,4
+MDFRC15,OVENS RIVER - PEECHELBA EAST - MDFRC,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 15,,4
+MDFRC2,MITTA MITTA RIVER - PIGS POINT,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 2,,4
+MDFRC3,LAKE HUME - WYMAH FERRY,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 3,,2
+MDFRC31,MIDDLE CREEK - WHYTES ROAD,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 31,,4
+MDFRC33,TALLANGATTA CREEK - D/S DRY FOREST CREEK,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 33,,4
+MDFRC4,LAKE HUME - TALLANGATTA,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 4,,4
+MDFRC8,"RIVER MURRAY - LINCOLN CAUSEWAY,ALBURY",MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 8,,2
+MDFRC9,WODONGA CREEK - WODONGA WATER SUPPLY,MURRAY DARLING FRESHWATER RESEARCH CENTRE STATION 9,,4
+MEHI,Mehi River Outflow - Gwydir System,,,2
+MELMET,melbourne Regional Office Met Station,melbourne Regional Office Met Station,86071,4
+MELROAD,Melvilles Road,Millewa monitoring site,,
+MELWATE,Melvilles Waterhole,Millewa monitoring site,,
+MENGMET,meningie,,24518,5
+MENICAW,Lakes Menindee and Cawndilla,,,2
+MENIMET,Menindee Met Station,Menindee DWR Depot,47058,2
+MENIN16,Lake Menindee Sample site 16 ~MENININ,See WRC Menindee Lakes Storages map,42510016,2
+MENIN19,Lake Menindee Sample Site 19,See WRC Menindee Lakes Storages map,42510019,2
+MENIN22,Lake Menindee Sample Site 22,See WRC Menindee Lakes Storages map,42510022,2
+MENIN23,Lake Menindee Sample Site 23,See WRC Menindee Lakes Storages map,42510023,2
+MENIN24,Lake Menindee Sample Site 24,See WRC Menindee Lakes Storages map,42510024,2
+MENIN25,Lake Menindee Sample Site 25,See WRC Menindee Lakes Storages map,42510025,2
+MENIN26,Lake Menindee Sample Site 26 ~MENOUT,See WRC Menindee Lakes Storages map,42510026,2
+MENIN28,Lake Menindee Sample Site 28,See WRC Menindee Lakes Storages map,42510028,2
+MENINDE,Menindee Lakes,MENINDEE LAKES treated as a single storage,,2
+MENINGI,Lake Albert at Meningie,,426630,5
+MENININ,Inlet Channel at Lake Menindee ~MENIN16,,425025,2
+MENINMW,Darling River D/S Menindee Main Weir,Lake Wetherell - Menindee Lakes Storage - River Darling,425034,2
+MENINPO,Menindee Post Office,,47019,2
+MENINSW,Menindee Lakes Under NSW Control,When Storage is less than 480/640 GL,,2
+MENITWS,Menindee Town Water Supply,Supplied from Weir 32 Pool by Broken Hill,,2
+MENOUT,Lake Menindee Outlet Regulator ~MENIN26,,425044,2
+MENTOWN,Darling River - Menindee Town,,425001,2
+MENXNSW,Extra releases from Menindee for NSW purposes,Used for Extra Releases from Menindee for NSW purposes,,
+MENXVIC,Victorian extra releases from Menindee Lakes,Used for Extra Releases from Menindee for VIC purposes,,
+MERANCK,MERRAN CREEK,,,2
+MERBEIN,River Murray at Merbein,SAMPLE AT GAUGING STATION,414206,4
+MERBPON,Murray River at Merbein - pontoon,Murray River at Merbein - pontoon,41310027,4
+MERBPUM,MERBEIN IRRIGATION PUMPS,,,4
+MERRETI,Lake Merreti,,,5
+MERTUEL,MERRAN CREEK - TUELAGO ROAD,,,2
+MERUWJ,Merran Creek U/S Wakool River Junction,,409036,2
+MESSENG,Messengers Regulator,Hattah Lakes Regulators - Victoria         Samples taken from the Up stream side / Lake side,,
+METROAD,Metro-Adelaide Total Usage,Metro-Adelaide Total Usage,,5
+MFLDOF,McFarlanes,,,5
+MHORSTP,Mt Hotham Resort STP,,,4
+MHORSUS,Mulcra Island - Horseshoe Inlet Culvert U/S,"Penstock Gate  When LPCRUS reaches 24.1m the gate is opened, When L5 reaches 24.5m it is closed",MHORSUS,
+MHORWET,Mulcra Island Horseshoe wetland,Gauge site in the wetland,MHORWET,
+MIA,Murrumbidgee Irrigation Area,"Yanco, Mirool, Bener, Tabbita, Wah Wah (MIA)",,2
+MIL,Net - Murray Irrigation Limited,MILDIV = MULWALA + WAKCAN+ PERRICO- EDWESC-,,2
+MIL2LK9,Mildura to Lock 9,,,
+MILACCT,Accounted Use by Murray Irrigation Ltd,May have Edward Escape losses removed,,
+MILACTH,Aratula Creek 3,Millewa monitoring site,,
+MILAMET,Milang - BOM station,,24519,
+MILANG,Lake Alexandrina at Milang,,426524,5
+MILDMET,Mildura Airport Met Station,Mildura Airport Meteorological Station - full Weather site.,76031,2
+MILDMRB,Mildura-Merbein Interception Scheme,RWC Salt Interception Scheme just Downstream Lock 11,,4
+MILDUDS,River Murray D/S Mildura Weir,,414202,2
+MILDURA,River Murray U/S Mildura Weir,,414210A,2
+MILLACO,Aratula Creek Offtake,Millewa monitoring site,,
+MILLOWS,Low Sandy,Millewa monitoring site,,
+MILLPUM,MILLEWA PUMPED DIVERSION FROM MURRAY,,,4
+MILLRPG,Rabbit Proof Gate,Millewa monitoring site,,
+MILLSBE,Scotts Beach Entrance (Rock Causeway),Millewa monitoring site,,
+MILNCSE,MIL Non-Credited Supply Escapes,Channel escape (not-credited),410,2
+MILRBBH,Reed Beds Bird Hide,Millewa monitoring site,409230A,
+MILSCOT,Scotts Road,Millewa monitoring site,,
+MINDONA,Mindona Lake,,,2
+MITCSTP,Mitchell STP,,,1
+MITTA,Mitta Mitta River at Mitta Mitta,At the Omeo Highway bridge at Mitta Mitta,401202,4
+MITTAR,Mitta Mitta River,Mitta Mitta River,,
+MITTMET,MITTA MITTA MET STATION,,82068,4
+ML1REUS,Mulcra Island - L1 Regulator U/S,"Stoplog Height - 200mm,  Stoplog Length - 1500mm,            stoplog No. (No. 8 x 3 bays)  24",ML1REUS,
+ML5REUS,Mulcra Island - L5 Regulator U/S,"Stoplog Height = 200mm,  Stoplog Length = 1800mm,       Stoplog No. = (No.8 x 1 Bay)  8",ML5REUS,
+MLPCRDS,Mulcra Island - Lower Potterwalkagee Ck Reg D/S,,MLPCRDS,
+MLPCRUS,Mulcra Island - Lower Potterwalkagee Ck Reg U/S,Stoplog height 333 mm Stoplog leng 2000mm                   Stoplog No. (No.13 x 3 bays)    39,MLPCRUS,
+MMSINFB,,,,
+MMSRELB,,,,
+MMSTORE,Mid Murray Storage,Boga Charm and Kangaroo,,4
+MNCKUMB,"Manna Creek, upstream Manna bridge",,,2
+MNTESC,1 McNight,,,4
+MNWDRM,Merbein North-West Drain,Merbein North-West Drain @ U/S of Outfall to Murray River,414706,4
+MOGIL,Barwon River at Mogil Mogil,,422004,2
+MOIRACK,Moira Creek River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+MOIRADS,Moira Creek D/S,Millewa monitoring site,,
+MOIRALW,Moira Lake West,Millewa monitoring site,,
+MOIRPUM,MOIRA IRRIGATION PUMPS - FROM MURRAY,,,
+MOKOAN,Lake Mokoan,,,4
+MOLLEE,NAMOI RIVER - MOLLEE,,419039,2
+MOLSTP,Molong STP,,,2
+MONASH,Monash,Monash - Riverland Region,,
+MONASHO,Monash Outfall at Berri Evaporation Basin,Monash Outfall at Berri Evaporation Basin,A4260697,5
+MONCHOW,Monoman Creek at Bridge upstream Chowilla Creek,Chowilla System - South Australia,A4260576,5
+MONCWAR,Monkeygar Creek @ u/s Western Arm Return,Monkeygar Creek @ u/s Western Arm Return,421129,2
+MONGANS,KIEWA RIVER - MONGANS BRIDGE,,402203A,4
+MONGIBW,Monkeygar Creek @ d/s Gibson Way,Monkeygar Creek @ d/s Gibson Way,421132,2
+MONOMAN,Monoman Horshoe 200m downstream Chowilla Creek,Chowilla System - South Australia,A4261063,5
+MONTANE,Snowy Murray Montane Releases,Snowy Murray Montane Releases included in RAR,,
+MOOALMA,Moomin Creek @ Alma Bridge (Derra Road),Moomin Creek @ Alma Bridge (Derra Road),418061,2
+MOOBRE,Mooki River @ Breeza,,419027,2
+MOOCLAR,Moomin Creek @ Clarendon Bridge (Heathfield),Moomin Creek @ Clarendon Bridge (Heathfield),418067,2
+MOOCOMB,Moomin Creek @ Combadello Cutting,Moomin Creek @ Combadello Cutting,418048,2
+MOOGLEN,Moomin Creek @ Glendello,Moomin Creek @ Glendello,418060,2
+MOOKIN,Moorook and Kingston,Moorook and Kingston,,
+MOOMIN,Moomin Creek Outflow - Gwydir System,,,2
+MOONIE,Moonie River System,,,1
+MOONNSW,Moonie River in New South Wales,,,1
+MOORCLD,Moorook Country Lands,Moorook Country Lands - Riverland System,,
+MOORFIE,River Murray at Moorfields,,,4
+MOORNA,River Murray at Moorna Station,,426653,5
+MOORO5,Moorook Drain Outlet 5 (SA),Moorook Drain Outlet 5 (SA),,5
+MOORO8,Moorook Drain Outlet 8 (SA),Moorook Drain Outlet 8 (SA),,5
+MOOROOK,Moorook,Moorook - Riverland Region,,
+MOORUS,River Murray upstream Moorook (AMTD 455.6km),River Murray upstream Moorook (AMTD 455.6km),A4261025,5
+MOORUV,Mooki River @ Ruvigne,Mooki River @ Ruvigne,419084,2
+MOREE,MEHI RIVER AT MOREE,,418002,2
+MORGAN,River Murray - Morgan,Sample at No. 1 Pump Station,4260554,5
+MORGMET,Morgan at Penfolds,"Incorporates two stations - 24520 (Morgan PO 34.033,139.667)",24578,5
+MORGOTG,River Murray at Morgan Old Town Gauge (AMTD 319.5,,A4260901,5
+MORGPUM,MORGAN TO WHYALLA PUMPS,,,5
+MORSTP,Moree STP,,,2
+MORTBLK,Morton Boulka Lake,,,2
+MORTOMB,Morgan to Murray Bridge Reach,,,
+MOULAME,Edward River at Moulamein,,409014,4
+MOULMET,Moulamein Post Office Met Station,,75046,4
+MOUTH,Murray Mouth,,,5
+MPNSTP,Mooroopna STP,,,4
+MRLPUMP,Murray River Level @ Main Hattah Pump Station,,MRLPUMP,
+MRUFUSR,River Murray D/S Rufus River,,426200A,5
+MSNAKLC,Snake Lagoon Crossing,,,
+MSTRGDS,Mulcra Island - Stoney Crossing Regulator D/S,,,
+MSTRGUS,Mulcra Island - Stoney Crossing Regulator U/S,"Stoplog Height - 200mm,  Stoplog Length - 1200mm,      Stoplog No. (No.5 x 5 Bays) 25",MSTCRRG,
+MTBCKWR,Mount Barker Creek at Williams Road,Mount Barker Creek at Williams Road,A4261098,5
+MTBRSTP,Mt Buller Resort STP,,,4
+MTBRYGW,Mount Bryan Groundwater Bore,,A4261150,5
+MTBSTP,Mount Beauty STP,,,4
+MTHDOF,Monteith,,,5
+MTHOPE,Mt Hope Creek at Mitiamo,,407236A,4
+MUCKDRN,Sheparton Plan - Muckatah Outfall,Muckatah Depression Drain@Numurkah Outfall,404712,4
+MUDSTP,Mudgee STP,,,2
+MULCRA,Mulcra,,,
+MULDFML,Mulwala Diversions less returns and Loss Allowance,Mulwala Diversions less all returns and the Mulwala Loss Allowance,,2
+MULDIV,Net Diversion from Mulwala Canal,Mulwala Canal + Perricoota - Escapes,,2
+MULDLWC,NSW COMPONENT OF MULWALA CANAL OFFTAKE,,,
+MULDVFM,Mulwala Canal net Finley Esc and Loss allowance,Mulwala Canal net diversions net of Finley Escape and Mulwala Loss allowance - For Source Accounts,,2
+MULDVFN,Mulwala Canal net diversions,MULWALA-FINLESC-YALLESC-,,2
+MULGUNA,Lake Alexandrina at Mulgundawa,,4260574,5
+MULLERO,MULLEROO CREEK D/S OFFTAKE (ABOVE LOCK7),,414211,4
+MULLERS,Mullers Creek at Murray Valley Hwy,Muller Creek at Murray Valley Highway,406263,4
+MULLRDS,Mullaroo Regulator D/S on Mullaroo Creek,,,
+MULLRG1,Mullaroo Regulator on Mullaroo Creek Gate 1,,,
+MULLRG2,Mullaroo Regulator on Mullaroo Creek Gate 2,,,
+MULLRG3,Mullaroo Regulator on Mullaroo Creek Gate 3,,,
+MULLRUS,Mullaroo Regulator U/S on Mullaroo Creek,,,
+MULMDBC,MDBC COMPONENT OF MULWALA CANAL OFFTAKE,,,
+MULWALA,MULWALA CANAL D/S OFFTAKE REGULATOR,,409026,2
+MULWPER,Mulwala Canal + Perricoota Pumps,Gross Mulwala Diversions plus Perricoota Pumps,,2
+MULWSTP,Mulwala STP,,,2
+MUNBOAT,Mundoo Channel at Channel Drive Boat Ramp,Mundoo Channel at Channel Drive Boat Ramp,A4261128,5
+MUNCHBD,Mundoo Channel at Mundoo Barrage (D/S),Mundoo Channel at Mundoo Barrage (Downstream),A4261041,5
+MUNDDS,LAKE ALEXANDRINA D/S MUNDOO BARRAGES,,A4260526,5
+MUNDIWA,CULGOA RIVER U/S COLLERINA (MUNDIWA),,422011,2
+MUNDOO,LAKE ALEXANDRINA U/S MUNDOO BARRAGES,,A4261042,5
+MUNGIND,Barwon River - Mungindi,,416001,1
+MUNGMET,Mungindi (Post Office),,52020,2
+MUNGSTP,Mungallala STP,,,1
+MUPCRDS,Upper Potterwalkage Creek Regulator D/S,,,
+MUPCRUS,Mulcra Island - Upper Potterwalkagee Ck Reg U/S,"Stoplog Height - 200mm,  Stoplog Length - 1000mm,      Stoplog No. ( No.2 x 5 Bays)  10",MUPCRUS,
+MUR1MAY,Forecast Murray 1 Release next May,,,
+MUR1REL,RELEASE FROM MURRAY 1 POWER STATION,,,
+MURBDGE,Murray Bridge Post Office Met Station,Murray Bridge Met Stn,24521,5
+MURBDSB,Murrumbidgee R. Balranald to Murray R.,Murrumbidgee River at Balranald to Murray River,,2
+MURBEVA,Murrumbidgee End of Valley Account,,,2
+MURBVIC,Murrumbidgee trading with Victoria,Direction is from Victoria to Murrumbidgee,,2
+MURCHAN,UBE - Channels (GMW),Urban Bulk Entitlements - Channels (G-M Water),,4
+MURCHIS,Goulburn River at Murchison,Goulburn River at Murchison,405200,4
+MURGATE,Murray Gates,River Murray at Site of Murray Gates,,
+MURGMGD,Murray GMW Gravity Districts,Murray GMW Gravity Districts,,4
+MURGMPD,Regulated Lic. Private Diverter Murray,Regulated Licences Private Diverters - Murray GMW boundary,,
+MURGMW,Murray River  (Goulburn-Murray Water),,,4
+MURGPPD,Murray GMW Pumped Districts,Murray GMW Pumped Districts,,4
+MURNCHA,UBE - Non Channels (GMW),Urban Bulk Entitlements - Non Channels (G-M Water),,
+MURNOTH,New South Wales Other Murray Diversions,Total - Mulwala - Wakool Canal - Western Murray - Edward/Wak,,2
+MURNRES,NSW Murray Residual Diversion,NSW Murray Diversion less MIL and Western Murray,,
+MURNSW,Murray River (NSW),,,2
+MURRABI,River Murray at Murrabit,,,4
+MURRAY,River Murray,,,4
+MURREGV,UBE - Regulated River (GMW),Urban Bulk Entitlements - Regulated River (G-M Water),,4
+MURRMLD,Licensed Pumpers Regulated Licences,,,
+MURRSMW,Sunraysia and FMIT System,Sunraysia and FMIT System,,
+MURRUMB,Murrumbidgee River System,,,2
+MURRVAL,Net - Murray Valley Diversions,,,4
+MURSRW,Sunraysia Rural Water Authority,Murray - Sunraysia Rural Water Authority,,4
+MURTRAN,Sale of Murray Water by Victoria to NSW,,,
+MURTRBV,Victorian Tributary Flows d/s Albury,,,4
+MURVIC,River Murray - Victoria,River Murray - Victoria Diversions (G-MW + Sunraysia),,4
+MURVLIN,Total Net Diversions including Lindsay R,,,4
+MURWMW,Other WMW,"Hazledale, Annuello, Kooloonong",,
+MUT@WAK,Murphys Timber SEC outfall into Wakool R,Murphys Timber SEC outfall into Wakool R,40910131,2
+MV3DRN,Murray Valley Drain 3 Outfall,Murray Valley Drain 3 Outfall at Sheepwash Ck,409711,4
+MV5DRN,Murray Valley Drain 5,,,4
+MV6DRN,Murray Valley No. 6 Drain,Murray Valley drain 6 at 2km Nth Murray Valley Hwy,409712,4
+MVDR9,Murray Valley Drain 9,,404,4
+MVOCESC,Murray Valley Outfall Channel 20/5,,,4
+MWDHON,MERBEIN WEST DRAIN @ HONOUR AVENUE,MERBEIN WEST DRAIN @ HONOUR AVENUE,414701,4
+MWDLAMB,MERBEIN WEST DRAIN @ D/S LAMBERT SWAMP,MERBEIN WEST DRAIN @ D/S OF LAMBERT SWAMP PUMP,414707,4
+MWDUSNW,MERBEIN WEST DRAIN @ U/S OUTFALL TO NW,MERBEIN WEST DRAIN @ U/S OF OUTFALL TO NORTH WEST DRAIN,414708,4
+MYANDET,Darling River at Myandetta,SEE DWR REPORT ON SALINE GROUNDWATER INFLOWS JUNE 1993,425038,2
+MYCREEK,MURRAIN YARRERIN CREEK,,,
+MYFDSTP,Myrtleford STP,,,4
+MYLDNSW,Murray River Licensed Diversions - NSW,Murray River Licensed Diversions - NSW,,2
+MYPNDOF,Myplonga North,,,5
+MYPOLON,Mypolonga,Mypolonga - Mallee Region,,5
+MYPOMET,Myponga Reservoir - Met Station,,23738,5
+MYPOMP,Mypolonga and Pompoota,Mypolonga and Pompoota,,
+N10SESC,No 10 Smiths,,,4
+NAMDUNJ,Namoi River @ d/s Duncans Junction,Namoi River @ d/s Duncans Junction,419094,2
+NAMKNAM,Namoi Valley excluding Peel,Namoi Valley - Namoi River System,,2
+NAMOI,Namoi River System,,,2
+NAMOIRV,Namoi River Diversions,,,2
+NAMWALG,Namoi River at Walgett,,419091,2
+NANGCOL,Nangiloc Colignan Drains for BSMS,,,
+NANGILO,RIVER MURRAY - NANGILOC,,,4
+NARBSTP,Narrabri STP,,419,2
+NARGSTP,Narrung St STP & Bomen Industrial PTP (Wagga Wagga,,410,2
+NARIEL,NARIELCREEK AT UPPER NARIEL,200M U/S STACEY'S BRIDGE,401212,4
+NARMINE,MACQUARIE RIVER - NARROMINE,,421006,2
+NARNSTP,Narrandera STP,,410,2
+11TFNAR,MURRUMBIDGEE RIVER - NARRANDERA,,410005,2
+NARRANL,NARRAN LAKE - STORAGE,See Qcode info under measurand 1,422019,
+NARRBOR,Narran River at Border,,,
+NARRBRI,NAMOI RIVER - NARRABRI,,419002,2
+NARRCRK,Narrabri Creek at Narrabri,,419003,2
+NARRUNG,LAKE ALBERT - NARRUNG,,,5
+NARRUNJ,Lake Alexandrina at Narrung Jetty,,426583,5
+NATCHNT,Internal Torrumbarry Extraction for Source Accts,Internal Torrumbarry Extraction for Source Accounts,,4
+NATDS,National Channel D/S Torrumbarry Headworks,,409701E,
+NBATSTP,Batlow STP,,,2
+NBORGLB,Glenlyon Dam Class B  Entitlement,Glenlyon Dam Class B  Entitlement - Border Rivers System,,
+NBORNA,NSW Border Riv Class A entilement,,,
+NBORNB,NSW Border Riv Class B Normal Security,NSW Border River Noraml Security Class B,,
+NCDDOER,Nangiloc-Colignan Drain at Doerings Basin,Nangiloc-Colignan Drain at Doerings Basin,414722,4
+NCDHEWT,Nangiloc-Colignan Drain at Hewetts Road,Nangiloc-Colignan Drain at Hewetts Road,414721,4
+NCDHILL,Nangiloc-Colignan Drain at Hillview Outfall,NANGILOC-COLIGNAN DRAIN @ HILLVIEW OUTFALL,414725,4
+NCDNANG,Nangiloc Colignan Drain at Nangiloc,Nangiloc Colignan Drain at Nangiloc,414724,4
+NEBINE,Nebine River,Queensland,,1
+NEEDOF,Neeta,,,5
+NEGMULD,Negative component of Net Mulwala div for Accts,Negative component of Net Mulwala diversion for Accounts,,2
+NESTRDS,Nestrons Regulator D/S,Millewa monitoring site,,
+NESTREG,Nestrons River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+NETTLEG,Tandou Lake Nettlegoe,,,2
+NEWANGL,Narran at New Angledool 2,BSMS EOV target site,422030,2
+NEWATER,Victorian North East Water,Urban water supplies and returns in NE Victoria,,4
+NIEMBAR,Niemur River at Barham Rd,,409048,4
+NIEMDLB,Niemur Drain,Niemur Drain at Levee Bank,40910116,2
+NIEMDRN,NIEMUR DRAIN - OUTFALL,,409046,4
+NIEMMAL,Niemur River at Mallan School,Niemur River at Mallan School,409086,4
+NIEMNAC,NIEMUR R - NACURRIE RD,,409071,4
+NIEMNBC,NIEMUR R - N.B.C. SYPHON,Niemur Syphon,409068,4
+NIEMRDS,Niemur Regulator D/S,Millewa monitoring site,40922001,
+NIEMUR,Niemur River Regulator,River Regulator settings - Edward River - NSW National Parks,40922001,2
+NIGRACK,Nigra Creek at Lock 2 Crossing Culvert,Nigra Creek at Lock 2 Crossing Culvert,A4261094,5
+NILLAHC,Lake Nillahcootie - Broken River,,404218A,4
+NIMMOFF,Nimming Pollen Creek at Offtake,,410060,2
+NINEMCC,Nine Mile Creek at Coads Road,NINE MILE CREEK AT COADS RD,407285,4
+NINEMSO,Nine Mile Creek at Serpentine Ck Offtake,NINE MILE CREEK AT SERPENTINE CK OFFTAKE,407289,4
+NINEPAN,Nine Panel River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+NINEPDS,Nine Panel Regulator D/S,Millewa monitoring site,,
+NITCHIE,Lake Nitchie,,,2
+NNETTRB,NSW net Tributary Inflow,Sum of net Balranald and Darlot Flows,,2
+NO17ESC,No 1/7,,,4
+NOCKBUR,Nockburra Ck (SA),Nockburra Ck (SA),,5
+NOORSIS,Noora Salt Interception Scheme,Salt inflow from reach currently controlled by Salt,,
+NORTHNM,Northern Mallee,Northern Mallee - Sunraysia,,4
+NPMAIE,Norske Paper Mills Albury,,,2
+NSUNDV,Western Murray Irrigation,Western Murray Irrigation,,
+NSW,Total NSW Diversion in MDB,Total NSW Diversion in Murray-Darling Basin,,2
+NSWDBM,NSW Murray -Burma to M'Bidgee junction,NSW Murray River d/s of Borken creek and upto,,
+NSWDED,NSW Murray - Edward system,,,2
+NSWDHB,NSW Murray - Hume Dam to Barma,NSW Murray River between Hume Dam and Broken Creek junction,,2
+NSWDIVA,NSW Licensed Pumps - Hume to Yarrawonga,,,2
+NSWDIVB,NSW LICENSED PUMPS - YARRA'GA TO BARMAH,,,2
+NSWDIVC,NSW LICENSED PUMPS - BARMAH TO TORRU'BRY,,,2
+NSWDIVD,NSW LICENSED PUMPS - TORR'RY TO WAKOOL J,,,2
+NSWDIVE,NSW LICENSED PUMPS - EDWARD/WAKOOL,,,2
+NSWDIVF,NSW LICENSED PUMPS - WAKOOL JN TO EUSTON,,,2
+NSWDIVG,NSW LICENSED PUMPS - EUSTON TO WENTWORTH,,,2
+NSWDIVH,NSW LICENSED PUMPS - WENTWORTH TO RUFUS,,,2
+NSWDIVS,NSW Licensed pumps - total,sum of NSWDIV A-H,,2
+NSWDMB,NSW Murray - Murrumbidgee to Border,Excluding Darling in Wentworth Weir Pool,,2
+NSWDSMB,NSW Diversion d/s Murrumbidgee Junction,Disagreggated annual data,,2
+NSWDVBC,NSW Licensed Pumps - Yarra to Torrumb'ry,,,2
+NSWDVHY,NSW DIVERSIONS HUME-YARRA LESS WEST COR.,NSW LICENSED PUMPS HUME TO YARRAWONGA LESS WEST CORURGAN,,2
+NSWDVTM,Torrumbarry to Murrumbidgee Junc.,Torrumbarry to Murrumbidgee Junc. - Murray River,,2
+NSWDVUH,U/S of Hume Dam - Murray River,,,2
+NSWDVUS,Edward River u/s of Stevens Weir,,,
+NSWDVYB,NSW DIVERSIONS YARRA-BARMAH LESS MOIRA,NSW LICENSED PUMPS YARRAWONGA TO BARMAH LESS MOIRA PUMPS,,2
+NSWNETS,NSW Net Inflows,NSW inflows net of IVT and environmental water.  Excludes inflows to Menindee and Snowy releases,,2
+NSWSNOW,NSW Component of Snowy-Murray,,,2
+NSWTRIB,NSW Y Tributory Murrumbidgee,,,2
+NSWUSMB,NSW Other divs u/s Murrumbidgee Junction,NSW Other divs u/s Murrumbidgee Junction,,2
+NY11ADF,Nyah - Drain 13 River Road (Drain 2 GMW NVIRP Map),,,4
+NYAH,River Murray at Nyah,,409206,4
+NYAHP,Nyah - Pumped Irrigation District,,,4
+NYAHPUM,Nyah Irrigation Pumps,,,4
+NYAWAKV,Nyah to Wakool Junction,Nyah to Wakool Junction,,4
+NYH11DF,Nyah - Drain 11 Showgrounds (Drain 1 GMW NVIRP Map,,,4
+NYNGMET,Nyngan (Airport),,51039,
+NYUSTP,Nyngan STP,,,2
+OAKSTP,Oakey STP,,,1
+OATEYS,Oateys Regulator Lake Side,Hattah Lakes Regulators - Victoria,,
+OBESTP,Oberon STP,,,2
+OBLEY,Little River @ Obley Number 2,Little River @ Obley Number 2,421048,2
+OJETDOF,Old Jetty,,,2
+OLDCUST,River Murray at Old Custom House (637.1km),Chowilla System - South Australia,A4261022,5
+OLDMILD,River Murray at Old Mildura,,,2
+OPITZ,Opitz River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+OPITZDS,Opitz Regulator D/S,Millewa monitoring site,,
+ORASTP,Orange STP,,,2
+ORDEDFN,State Order from Edward Esc adj for Finley Esc,State Order from Edward Escape adjusted for Finley Escape,,2
+ORDMULW,Mulwala Canal Offtake shares for Accounts,Mulwala Canal Offtake shares for Accounts,,2
+ORDWYP,State Order from Wakool Yallakool & Perricoota Esc,State Order from Wakool Yallakool and Perricoota Escapes,,2
+ORRVALE,BROKEN RIVER @ ORRVALE,,404222A,4
+OSBFLAT,Yackandandah Creek - Osbornes Flat,,402204A,4
+OSHANDS,OSHANNASSYS CK  (Porters Plain) D/S,Millewa monitoring site,,
+OSHNASY,O'Shannassy River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+OVENFLW,Ovens Catchment Flow to Murray,Ovens + Reedy Creek at Wangarratta,,4
+OVENLOC,Local Inflow to Ovens River,Local Inflow to Ovens River excluding Greta and Wangaratta,,2
+OVENS,Ovens River + Reedy Creek - Wangaratta,,403242C,4
+OVENSDN,Ovens River d/s of Wangaratta,,,4
+OVENSDV,Ovens River  System,,,4
+OVERLAN,River Murray at Overland Corner,,426528,5
+OXLEYST,MACQUARIE RIVER - OXLEY STATION,,421022,2
+PACKERS,Redbank Creek D/S of Packers Crossing,,425019,
+PALLAMA,GWYDIR RIVER AT PALLAMALLAWA,Gwydir River @ Pallamwallawa,418001,2
+PAMAM09,Lake Pamamaroo Sample site 9 ~PAMAMIN,See WRC Menindee Lakes Storages map,42510009,2
+PAMAM10,Lake Pamamaroo Sample Site 10 ~PAMOUT,See WRC Menindee Lakes Storages map,42510010,2
+PAMAM11,Lake Pamamaroo Sample Site 11,See WRC Menindee Lakes Storages map,42510011,2
+PAMAM12,Lake Pamamaroo Sample Site 12,See WRC Menindee Lakes Storages map,42510012,2
+PAMAM13,Lake Pamamaroo Sample Site 13,See WRC Menindee Lakes Storages map,42510013,2
+PAMAM14,Lake Pamamaroo Sample Site 14,See WRC Menindee Lakes Storages map,42510014,2
+PAMAM15,Lake Pamamaroo Sample Site 15,See WRC Menindee Lakes Storages map,42510015,2
+PAMAMA,Lake Pamamaroo,,425021,2
+PAMAMIN,Inlet Channel at Lake Pamamaroo ~PAMAM09,,425024,2
+PAMANOC,Lake Pamamaroo excluding Copi Hollow,,,4
+PAMOUT,Lake Pamamaroo Outlet Regulator ~PAMAM10,,425042,2
+PARINGA,Paringa,Paringa - Riverland Region,,
+PARKSTP,Parkes STP,,,2
+PARNAKA,Coorong at Parnka Point,Coorong at Parnka Point,A4260633,5
+PARONSW,Paroo River in NSW,,,1
+PAROO,Paroo River System,Paroo River System,,1
+PARSTP,Paringa STP,,,5
+PASKEVL,Paskevelle Met Stn,Paskevelle Meteorological Stn,22012,5
+PATTERS,Mullaroo Creek at Patterson Camp,Near mouth,414214,4
+PCCKUCC,Pipeclay Creek 175m upstream Chowilla Confluence,Chowilla System - South Australia,A4260578,
+PCKGFFP,Punkah Creek @ Gum Flat Flood Plain Chowilla,Chowilla System - South Australia,A4261160,
+PCKSBCL,Punkah Creek at Sheep Bridge Chowilla (Land site),Chowilla System - South Australia,,5
+PCLAYDS,Pipeclay Regulator D/S @ Chowilla,Chowilla System - South Australia,,
+PCLAYUS,Pipeclay Regulator U/S @ Chowilla,Chowilla System - South Australia,,
+PEECHEL,Ovens River - Peechelba East,,403241A,4
+PEECMET,Peechelba Est (was 081039),,82127,4
+PEEL,Pell River Valley NSW,,,2
+PELIMET,Pelican point met data,Pelican Point AWS,A4260603,2
+PENELCO,Penelco Channel Anabranch to Darling,,,
+PENTAL,RIVER MURRAY - PENTAL ISLAND,,409214A,4
+PERRESC,Perricoota Escape,Perricoota Escape,,2
+PERRICO,PERRICOOTA PUMPS,,,
+PIANGIL,RIVER MURRAY - PIANGIL,,409213,4
+PIANTA,Murray River at Pianta Road,Murray River D/S Campaspe Rv at Pianta Road,409222A,4
+PIAROSS,Pian Creek @ Rossmore,Pian Creek @ Rossmore,419064,2
+PICNIC,River Murray - Picnic Point (Gulpa),MURRAY RIVER - GULPA,409006,4
+PICNICG,Pike River at Picnic Grounds U/S Murray,,426645,5
+PIDFPWO,Pental Island diverters when Fish Point Weir Open,Pental Island diverters when Fish Point Weir Open,,4
+PIKECOL,Pike River upstream Col Col Bank,Pike River upstream Col Col Bank,A4261053,5
+PIKECOO,Pike River upstream Coombs Bridge,Pike River upstream Coombs Bridge,A4261055,5
+PIKEUS,River Murray upstream Pike River Outlet,River Murray upstream Pike River Outlet,A4261023,5
+PIN@OUT,Pinlea Drain at Outfall,Pinlea Drain at Outfall - Tuppal Creek,40910011,2
+PINCRDS,Pinch Gut D/S,Millewa monitoring site,,
+PINCREG,Pinch Gut River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+PINDARI,Pindari Reservoir - Severn River,,,2
+PINDOF,Pinelea Drain (TCPL),,,2
+PINEGRO,Tooma River at Pinegrove,,401014,4
+PINELAK,Pine Lake - Wimmera Mallee,,,4
+PIPCULV,Pipe Culverts River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+PIPMFPC,Pental Island Pumps when FPW Closed,When Fish point Weir Closed,,
+PIPUMPS,PENTAL ISLAND IRRIGATION PUMPS,,,4
+PIRRMET,Pirramimma - BOM station,,23876,5
+PLANREG,Plantation River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+PLANTCA,Plantation Causeway,Millewa monitoring site,,
+PMCLEAY,L. Alex 3km west Point Mcleay,,A4261156,5
+POLTALL,Lake Alexandrina at Poltalloch Plains,,4260575,5
+POMPNT,Lake Alexandrina 4km west Pomanda Point,,A4261158,5
+POMPOOL,Pompoota,Pompoota - Mallee Region,,5
+POMPPON,Pompoota Pontoon,,A4261127,5
+POOMAH,POOMAH,Lake Poomah in the Poon Boon system,,2
+POONBO,POONBO,Lake Poon Boon in the Poon Boon system,,2
+POONCAR,Darling River at Pooncarie,,425005,2
+PORKEYS,Porkeys,Millewa monitoring site,,
+PORSTP,Portland WTP,,,2
+PORTEDS,Porters D/S,Millewa monitoring site,,
+PORTERS,Porters River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+POSILO,Lake Poon Boon SILO data,Data Drill for Lake Poon Boon,,2
+POSSUMP,Tooma River - Possum Point,,401005,2
+POTSRDS,Potts Regulator D/S,Millewa monitoring site,,
+POTSREG,Potts River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+PP1BASE,BASEBY PASTORAL CO. PRI DRAINGE PUMP,,,
+PP1BAUL,BAULDERSTONE PAST. CO. PRIV DRAIN PUMP,,,
+PP1BURB,BN BURBRIDGE PRIVATE DRAINAGE PUMP,,,
+PP1GLED,GLEN LOSSIE (R DEIONNIO) PRIV DRAIN PUMP,,,
+PP1GLEW,GLEN LOSSIE (R WATSON) PRIV DRAIN PUMP,,,
+PP1KILS,KILSBY SWAMP PRIVATE DRAINAGE PUMP,,,
+PP1LONG,LONG ISLAND I.B. PRIVATE DRAINAGE PUMP,,,
+PP1NEET,NEETA (TJ KENNY) PRIVATE DRAINAGE PUMP,,,
+PP1RVGN,RIVER GLEN I.B. PRIVATE DRAINAGE PUMP,,,
+PP1SELL,PO & SL SELLICK PRIVATE DRAINAGE PUMP,,,
+PP1SWAN,Swanport I.A. private drainage pump,,,
+PP1THIL,GR & JD THIELE PRIVATE DRAINAGE PUMP,,,
+PP1TOOR,TOORA I.B. (PUMP 1) PRIVATE DRAIN PUMP 1,,,
+PP1WDPT,WOODS POINT I.A. (PUMP 1) DRAINAGE PUMP,,,
+PP1WELI,WELLINGTON PAST. CO. PRIV DRAIN PUMP,,,
+PP1WEST,WEST BROOK PAST. CO. PRIV DRAINAGE PUMP,,,
+PP1YIDD,YIDDINGA (MJ ASHBY) PRIV DRAINAGE PUMP,,,
+PP1YIDN,YIDDINGA NORTH (BJ ATTRIL) DRAINAGE PUMP,,,
+PP1YIDS,YIDDINGA SOUTH (BJ ATTRIL) DRAINAGE PUMP,,,
+PP2TOOR,TOORA I.B. (PUMP 2) PRIVATE DRAIN PUMP 2,,,
+PP2WDPT,WOODS POINT I.A. (PUMP 2) DRAINAGE PUMP,,,
+PRESMAK,ESTIMATED FLOW - KHANCOBAN NO SMA,,,2
+PSBHSTP,Picton St Broken Hill WTP,,,2
+PSYCHEB,River Murray at Psyche Bend,,,4
+PTPULLN,Goolwa Channel at Port Pullen,,A4261037,5
+PTWSTP,Pittsworth STP,,,1
+PUDDLET,Puddletown Outfall at Berri Evaporation Basin,Puddletown Outfall at Berri Evaporation Basin,A4260699,5
+PUNKSCA,Punkah Creek at Scab Inspectors House Chowilla,Chowilla System - South Australia,A4260595,5
+PUNKSHB,Punkah Creek at Sheep Bridge Chowilla (Pontoon),Chowilla System - South Australia,A4260580,5
+PUNTPAD,Punt Paddock Lagoon River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+PYAP,Pyap Lagoon (SA),Pyap Lagoon (SA),,5
+PYR1HS,Pyramid No. 1 Drain at Hirds Swamp,Pyramid No. 1 Drain at Hirds Swamp,407732,4
+PYR2UPC,Pyramid No. 2 Drain U/S Pyramid Creek,Pyramid No. 2 Drain U/S Pyramid Creek,407735,4
+PYRAMET,Pyramid Hill Met Station,,80102,4
+QBORDMN,Mungindi Section - Border Rivers System,,,
+QLDNSW,Queensland - Water Trading with NSW,Queensland - Water Trading with NSW,,4
+QSTP,Queanbeyan S.T.P.,Queanbeyan S.T.P.,,3
+QUAMBIE,Quambies Road,Millewa monitoring site,,
+QUATQUA,RIVER MURRAY - QUAT QUATTA,,,4
+QUATREG,Quat Quatta River Regulator,River Regulator settings - Murray River -Murray Valley NP (Quatt Quatta precinct),,2
+QUEAMET,Queanbeyan Meteo Station,,70072,3
+QUEENS,Total Queensland Diversion in MDB,,,4
+QUISTP,Quirindi STP,,,2
+QWPCC,Queanbeyan Water Pollution Control Centre,,,3
+R12CES,Rochester No 12 Channel,,,4
+R14CES,Rochester No 1/14 Channel,,,4
+RALRAL,Ral-Ral,Ral-Ral - Government Irrigation,,
+RALRUSM,Ral Ral Crek upstream River Murray,Ral Ral Crek upstream River Murray,RRP00620,5
+RAMCDRN,Ramco Lagoon Drain,,,5
+RAMCLAG,Ramco Lagoon,,,5
+RAMCOUT,Ramco Lagoon Outlet,,,5
+RANABRA,Wentworth to SA Reach Storage (ML),Wentworth to SA Reach Storage (ML),,2
+RBKWNTH,Redbank North  Regulator,,,
+RBKWRTS,Redbam weir return,Redbam weir return,,
+RBKWSTH,plus Redbank South Regulator,,,
+RCD10OF,RED CLIFFS DRAIN NO. 10,RED CLIFFS DRAIN NO. 10 U/S OUTFALL TO BASIN 12,414705,4
+RCD1BRD,RED CLIFFS DRAIN NO. 1 @ BLOUNTS RD,RED CLIFFS DRAIN NO. 1 @ BLOUNTS RD (BARNET ROAD),414703,4
+RCD3WOR,Red Cliffs No 3 and 4  Drain at Woorlang,Red Cliffs No 3 and 4  Drain at Woorlang,414712,4
+RCD5WOM,RED CLIFFS DRAIN NO. 5 @ WOMERA AVENUE,RED CLIFFS DRAIN NO. 5 @ WOMERA AVENUE,414704,4
+RCD7OF,RED CLIFFS DRAIN NO. 7,RED CLIFFS DRAIN NO. 7 @ U/S OUTFALL TO BASIN 12,414713,4
+RCD8STE,RED CLIFFS DRAIN NO. 8 @ STEWARTS ROAD,RED CLIFFS DRAIN NO. 8 @ STEWARTS ROAD,414714,4
+RCDPBL,RED CLIFFS DRAIN @ CONNECT. BASIN 12,RED CLIFFS DRAIN @ CONNECT. BASIN 12 TO PSYCHE BEND LAGOON,414715,4
+REBDRDS,Reed Bed Creek Regulator D/S,Millewa monitoring site,,
+REBEDCK,Reed Bed Creek River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+REDBANK,MURRUMBIDGEE RIVER D/S REDBANK WEIR,,410041,4
+REDBNUS,MURRUMBIDGEE RIVER U/S OF REDBANK WEIR,,41010966,4
+REDCLF2,River Murray at Redcliffs,New pontoon sample site,41310025,4
+REDCLIF,River Murray at Redcliffs,,414204,4
+REDCMET,Red Cliffs Post Office Met Station,Red Cliffs Post Office Meteorological Station,76052,4
+REDCPON,Murray River at Redcliffs - pontoon,Murray River at Redcliffs - pontoon,41310025,4
+REDCPUM,REDCLIFFS PUMPED DIVERSION,,,4
+REDESD,Campaspe River@Redesdale,,406213,4
+REDLRDS,Reedy Lagoon regulator D/S (forest side),Gunbower Forest - VIC National Parks,,
+REDYLAG,Reedy Lagoon River Regulator,Gunbower Forest - VIC National Parks,407339A,4
+REEDYCK,REEDY CREEK - WANGARATTA NORTH,,403209,4
+REEDYSP,Reedy Creek South Palmer,,A4261069,5
+REN2MET,Renmark Irrigation Met Stn,Located at Renmark Irrigation Trust Office,24003,5
+RENMARK,River Murray at Renmark,,4260628,5
+RENMET,Renmark PO Meteorological Station,Renmark Post Office,24016,5
+RENMIRR,Renmark Irrigation Trust,,,
+RENMMET,Renmark Aero Met Station,,24048,5
+RENMOTG,River Murray at Renmark Town Gauge (AMTD 567.4km),,A4260900,5
+RENMWTP,Renmark Water Treatment Plant,,,
+REPACO,"Renmark, Paringa and Cooltong","Renmark, Paringa and Cooltong",,
+RETNREG,Return Channel River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+RGLDOF,River Glen,,,5
+RHUMYAR,Reach Hume - Yarrawonga,Reach Hume - Yarrawonga for accounts,,
+RICESWR,Broken Creek at Rices Weir,SAMPLE AT GAUGING STATION,404210D,4
+RICHLOC,Richardson's Lagoon Outlet Creek,Richardson's Lagoon Outlet Creek,406757,4
+RILLI,Rilli Reservoir,,A4260642,5
+RISDOF,Risbey's Outfall - Risbey's Main Deep Drain & Bran,,,2
+RIVERGO,MURRAY RIVER - RIVERGOLD,,,
+RIVERLD,Riverland System - Sth Australia,Riverland System - South Australia,,
+RLOTEDO,Richardsons Lagoon Outlet @ Torrumbarry Estate,,,4
+RMBOOKP,R Murray at Bookpurnong Bank-Tree Watering (AMTD 5,R Murray at Bookpurnong Bank-Tree Watering (AMTD 511km),A4261083,5
+RMDWELS,Rodney Main Drain at Wells Ck,Rodney Main Drain at Wells Ck,405720,4
+RMIFHUM,RMIF Account in Hume,River Murray Increased Flows in Hume,,
+RMIFSNW,RMIF Account in Snowy Scheme,River Murray Increased Flows,,
+RMKSTP,Renmark STP,,,5
+ROB1DRN,ROBINVALE DRAINAGE OUTFALL NO. 1,,,4
+ROB2DRN,ROBINVALE DRAINAGE OUTFALL NO. 2,,,4
+ROB3DRN,ROBINVALE DRAINAGE OUTFALL NO. 3,,,4
+ROB4DRN,ROBINVALE DRAINAGE OUTFALL NO. 4,Outfall @ Pethard Road,414716,4
+ROB5DRN,ROBINVALE DRAINAGE OUTFALL NO. 5,,,4
+ROB6DRN,ROBINVALE DRAINAGE OUTFALL NO. 6,Robinvale no. 6 system outfall @ Malaya Road,414717,4
+ROBIMET,Robinvale Met Station,Robinvale Met Station,76053,4
+ROBVALE,River Murray at Robinvale,,,4
+ROBVPUM,ROBINVALE IRRIGATION PUMPS,,,4
+ROC2ECH,Campaspe Reach from Rochester to Echuca,,,4
+ROC3ADO,Millewa Ck (Rochester Drain 3A),,,4
+ROC3DOF,Rochester Drain 3,,,4
+ROC4DOF,Rochester Drain 4,,,4
+ROC5DOF,Rochester Drain 5,,,4
+ROCHEST,Campaspe River - Rochester,SAMPLE AT GAUGING STATION,406202C,4
+ROCHMET,Rochester (Goulburn Murray),,80049,4
+ROCKYPT,Ovens River - Rocky Point,,403230A,4
+ROCKYVA,Rocky Valley Reservoir - Kiewa River,,,4
+ROESCCK,Roaches Escape to Cudgel Ck (ROCUDG),,,2
+ROMASTP,Roma STP,,,1
+ROSSLAG,Ross Lagoon,,,5
+RPPTSWR,Reach Picnic Point - Stevens Weir,Reach Picnic Point - Stevens Weir for Accounts,,
+RRMOUTH,RUFUS RIVER U/S MURRAY JUNCTION,,4260641,5
+RSWRKYL,Reach Stevens Weir - Kyalite,Reach Stevens Weir - Kyalite,,
+RTORWJ,Reach Torrumbarry - Wakool Junction,Reach Torrumbarry - Wakool Junction for accounts,,
+RUBICON,RUBICON RIVER - RUBICON,,,4
+RUF2SA,Rufus River to SA Border,Downstream of GS426200,,5
+RUFMEAN,Rufus River at Meandorloop Outlet,Rufus River at Meandorloop Outlet,A4261059,5
+RUFUSFH,Rufus River downstream Fishermans Hut,Rufus River downstream Fishermans Hut,A4261051,5
+RUFUSIS,Rufus River Salt Interception Scheme,Salt inflow from reach currently controlled by salt,,5
+RUFUSMD,Rufus River at Mid Reach,Rufus River at Mid Reach,A4260701,5
+RUFUSR,River Murray D/S Rufus River Junction,SAMPLE AT GAUGING STATION,426200,5
+RUMPAGU,Pike River Lettons D/S Rumpagunyah Creek,,426644,5
+RUSHONE,Rushy Swamp 1,Millewa monitoring site,,
+RUSHTWO,Rushy Swamp 2,Millewa monitoring site,,
+RW32BTD,Reach Weir 32 to Burtundy,Reach Weir 32 to Burtundy for accounts,,4
+RWJWW,Reach Wakool Junction - Wentworth,Reach Wakool Junction - Wentworth for accounts,,
+RWWSAB,Reach Wentworth - South Australin Border,Reach Wentworth - South Australin Border for accounts,,5
+RYARTOR,Reach Yarrawonga to Torrumbarry,Reach Yarrawonga to Torrumbarry for accounts,,
+RYLSTP,Rylstone STP,,,2
+SACEWH,South Australia - Commonwealth Environmental Water,South Australia - Commonwealth Environmental Water Holder,,5
+SACOUNT,South Australian Country Towns,River Murray Country Towns Water Supplies - South Australia,,5
+SACTMAL,SA Country Towns - Mallee -Not Morg TB-K,D/S Lock 2 - Excludes Morgan Tailem Bd & Metro Ad,,
+SACTRIV,SA Country Towns - Riverland,Lock 2 to SA Border,,
+SADILUT,South Australian Dilution Entitlement,58 GL per month,,5
+SAENT,South Australias Entitlement Flow,,,5
+SAENVIR,SA Environmental Entitlement,,,5
+SAEVSAV,South Australia - Evaporative Savings,South Australia - Evaporative Savings,,5
+SAFLOW,Flow to South Australia,D/S RUFUS FLOW (426200) WHEN GH > 5.8 M (26881 ML/D) OR THE,,5
+SAIRRIG,Total Non Swamp Irrigation - Sth Aust,Total Non Swamp Irrigation - Sth Aust,,5
+SAIRRSW,South Australian Non Urban Diversion,,,5
+SALTBOR,Salt Creek at SA/NSW Border Chowilla,Chowilla System - South Australia,A4261027,5
+SALTCK,Salt Creek Cau Bridge (SA),Salt Creek Cau Bridge (SA),,5
+SALT-CK,SALT CK NEAR COORONG,SALT CK NEAR COORONG,,5
+SANDSPK,Sandspit Creek River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+SANSW,Sth Australia - Water Trading with NSW,Sth Australia - Water Trading with NSW,,
+SANSWLD,SA - Water Trading with NSW Low. Darling,SA - Water Trading with NSW Low. Darling,,5
+SANSWMB,SA - Water Trading with NSW M'bidgee R,SA - Water Trading with NSW Murrumbidgee River,,
+SANSWMR,SA - Water Trading with NSW Murray River,SA - Water Trading with NSW Murray River,,
+SAOTHER,Other South Australia Trade and Env in MDB,Other South Australia Trade and Environment Site in MDB,,
+SAPCREK,Sapling Creek River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+SAREEDW,Reedy Creek us waterfall (near Reedy Creek Swamp),Reedy Creek us waterfall (near Reedy Creek Swamp),A4261172,5
+SAREEDY,Reedy Creek,Reedy Creek,A4261026,5
+SASURP,Surplus flow to SA,Surplus flow to SA,,5
+SASWAMP,Reclaimed Swamp Irrigation - Sth Aust.,Reclaimed Swamp Irrigation - Sth Aust.,,5
+SATLM,South Australian - Total living Murray Water,South Australian - Total living Murray Water,,5
+SAUNDCK,Saunders,,,
+SAUNDSG,Saunders Creek downstream Gorge,Saunders Creek downstream Gorge,A4261100,5
+SAUNGOR,Saunders Creek at Saunders Gorge,,A4261028,5
+SAUNLEN,Saunders Creek at Lenger Reserve,Saunders Creek at Lenger Reserve,A4261029,5
+SAVIC,Sth Australia - Water Trading with Vic.,Sth Australia - Water Trading with Vic.,,
+SAVICMR,SA - Water Trading with VIC Murray River,SA - Water Trading with VIC Murray River,,
+SCLFD,Scrubby lane floodway,,,2
+SDRTRES,Drought Reserve Held in Snowy,The drought reserve (max 225 GL) held in the Snowy Scheme,,
+SELECT,Selected Govt. Irrigation Diversions,Selected Government Irrigation Diversions,,
+SEVENMC,SEVEN MONTHS CREEK AT E32 SITE,SEVEN MONTHS CREEK AT E32 SITE,407292,4
+SEYMOUR,Goulburn River at Seymout,,405202,4
+SGREG,Snowy Geehi Regulating Gate,Snowy Geehi Regulating Gate,,4
+SH2DOF,Swan Hill Drain 2 (GMW NVIRP Map),,,4
+SH3DOF,Swan Hill Drain 3 (GMW NVIRP Map),,,4
+SH4DOF,Swan Hill Drain 4 (GMW NVIRP Map),,,4
+SH5DOF,Swan Hill Drain 5 (GMW NVIRP Map),,,4
+SHANTY,RIVER MURRAY - SHANTY,,409038,4
+SHEEPCK,Sheepwash Creek Spillway,The flow from Kerang Weir pool into sheepwash Creek.,407251A,4
+,,Is calculated from weir pool height in floods.,,
+SHELLAN,Gunbower Creek @ Shellys Lane,Gunbower Forest - VIC National Parks,,4
+SHEPMET,Shepparton Airport Met Station,Shepparton Airport Met Station,81125,4
+SHEPP03,Shepparton Drain 3,,,4
+SHEPP04,Shepparton Drain 4,,,4
+SHEPP11,Shepparton Drain 11,Shepparton Drain 11,405757,4
+SHEPP12,Shepparton Drain 12 U/S Goulburn Valley Highway,Shepparton Drain 12,405758,4
+SHEPPAR,Goulburn River - Shepparton,,405204C,4
+SHILREG,Shillinglaws River Regulator,Gunbower Forest - VIC National Parks,,4
+SHPSTP,Shepparton STP,,,4
+SHREGDS,Shillinglaws D/S (river side),Gunbower Forest - VIC National Parks,,
+SITEID,SITE_NAME,SITE_DESCRIPTION,AWRC,
+SLANEYS,Slaneys Creek 150m upstream Chowilla Confluence,Chowilla System - South Australia,A4260579,5
+SLANYDS,Slaneys Regulator D/S @ Chowilla,Chowilla System - South Australia,,
+SLANYUS,Slaneys Regulator U/S @ Chowilla,Chowilla System - South Australia,,
+SMCDIV,Stuart Murray Canal (SMC),,,4
+SNAKEIS,Snake Island River Regulator,River Regulator settings - Murray River -Murray Valley NP (Quatt Quatta precinct),,2
+SNOWMUR,Murray Component of Snowy storage,Murray Component of Snowy storage = JINDABY + EUCMUR,,
+SNOWRIV,Snowy River Accounts for Snowy Scheme,,,2
+SNOWSCH,Snowy Scheme,,,
+SNOWTUM,Snowy-Tumut Hydro Development,,,
+SNOWYDV,Transfer From Snowy to Murray Catchment,THIS IS NOT A NET DIVERSION,,
+,,"axd-09/01/2017- changed SiteName- ""Diversion"" -> 'Transfer'",,
+SNOWYMY,Net Transfer from Snowy System to Murray,,,2
+SNOWYTR,Net NSW transfer through Snowy,Positive when extra NSW water is supplied,,
+SNW2GEE,Net Transfer from Snowy Scheme to Geehi,Eucumbene to Geehi + Island Bend to Geehi +,,
+SPACNSW,Speciall accounting for NSW,Values are the cumulative totals to the end of the month,,2
+SPACVIC,Special accounting Victoria,Values are the cumulative value for the end of the month,,4
+SPECACC,Special Accounting Index,,,
+SPLITRK,Split Rock Dam - Manilla River,,,2
+SRSTOCK,Swan Reach - Stockwell Pipeline,Swan Reach - Stockwell Pipeline - Mallee Region,,
+SRWNET,Net Sunraysia Rural Water,#NAME?,,4
+STEVSWR,EDWARD RIVER D/S STEVENS WEIR,,409023,4
+STEVWUS,EDWARD RIVER U/S STEVENS WEIR,,409101,4
+STEWKIT,Stewarts Kitchen  River Regulator,River Regulator settings - Murray River - Barmah forest - VIC National Parks,,4
+STGEORG,Balonne River at St George,,,1
+STGSTP,St George STP,,,1
+STHAUST,Total South Australia Diversion in MDB,Total South Australia Diversion in MDB,,5
+STHSTP,Stanthorpe STP,,,1
+STONEYX,WAKOOL RIVER - STONEY CROSSING,,409013,2
+STONMET,STONEY CROSSING MET STATION,,75164,4
+STRATHA,Strathallen Drain - SIR catchment,SIRSA Drain Ungauged,,
+STROMLO,STROMLO WATER TREATMENT PLANT,,,3
+SUGARLO,Sugarloaf Crossing (SA),Sugarloaf Crossing (SA),,5
+SUNLAND,River Murray at Sunlands,River Murray at Sunlands - Level and Salinity,4260594,5
+SWANAIR,Swan Hill Airport Met Stn,"Swan Hill Aerodrome Meteorological station - see also SWANMET,",77094,4
+SWANDS,Swan Lagoon Downstream Regulator U/S River Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+SWANHIL,River Murray - D/S Swan Hill,Sample 2.KMS D/S of Gauging Station 409204,409204C,4
+SWANMET,Swan Hill Post Office Met Station,This station closed December 1996. Swan Hill observations,77042,4
+SWANPM,River Murray D/S Swan Hill Pumps,,,4
+SWANUS,Swan Lagoon Upstream Regulator U/S River Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+SWH2EUS,Swan Hill to Euston Reach,,,
+SWH2MET,SWAN HILL (MURRAY DOWNS) MET STATION,,75048,4
+SWH3MET,Swan Hill State Rivers Water Supply Stn,Station Closed - December 1982,77084,4
+SWHHEAD,Diversions from Swan Hill Headworks,From old RMC-MDBC Annual Reports,,
+SWHPUMP,SWAN HILL PUMPED DIVERSION,,,4
+SWHWOOR,Aggregates SWHPUMP and WOORPUM,Total of Swan Hill Pumps and Woorinen Pumps (required for Source Model),,4
+SWIFTDS,Swifts D/S,Millewa monitoring site,,
+SWIFTS,Swifts River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+SWNRC3K,River Murray 3km downstream Swan Reach Ferry,River Murray 3km downstream Swan Reach Ferry,A4261164,5
+SWNRCH,RIVER MURRAY - SWAN REACH,,426520,5
+SYDMET,Sydney Regional Office,,66062,2
+SYRSTP,Seymour STP,,,4
+SYSTINF,Inflows to the River Murray System,Excludes Darling and Snowy Scheme,,2
+SYSTNET,System Inflows excluding IVT and Env. Deliveries,Inflows excluding Snowy and Menindee and excluding IVT and managed E flow componenets of other tribs,,
+TABESTP,Tailem Bend STP,,,5
+TAGGERT,ACHERON RIVER - TAGGERTY,,,4
+TAILEMB,River Murray - Tailem Bend,Sample at no. 1 Pump Station,4260551,5
+TAILMET,Tailem Bend Post Office Met Station,,24536,5
+TAILWTP,Tailem Bend Water Treatment Plant,,,
+TAIWMET,Tailem Bend (Woodlands) - Met Station,,24510,5
+TALBING,Talbingo Reservoir,,,2
+TALBRAG,Talbragar River @ Elong Elong,Talbragar River @ Elong Elong,421042,2
+TALBSTP,Talbingo STP,,,2
+TALGLOC,Local inflow - Dartmouth and Tallangatta,,,
+TALLAND,MITTA MITTA RIVER - TALLANDOON,SAMPLE AT GAUGING STATION,401204A,4
+TALLANG,Mitta Mitta River - Tallangatta,,401200,4
+TALLARO,SUNDAY CREEK - TALLAROOK,,,4
+TALLCOL,Colemans routed to Tallandoon,Colemans flows routed to Tallandoon by Bigmod,,4
+TALLGCK,TALLANGATTA CREEK - TALLANGATTA,,401205,4
+TALLLOC,Local Inflow Dartmouth toTallandoon,Local Inflow Dartmouth to Tallandoon Including Snowy Creek,,4
+TALLMET,Tallangatta Met Station,ALSO Meteorological NUMBER 82047,82045,4
+TALMALM,Murray R @ Talmalmo,Thermal Analysis Site,,2
+TALPILE,TALPILE,Lake Talpile in the Poon Boon system,,2
+TALSTP,Tallangatta STP,,,4
+TALYBH,TALYAWALKA CREEK AT BARRIER HIGHWAY,TALYAWALKA CREEK AT BARRIER HIGHWAY,425018,4
+TALYRLB,Talyawalka Creek at Rail Bridge,Bypass Flow around Menindee Lakes,,
+TAMFIE,Thales Australia Munitions Factory,,,2
+TAMSTP,Tamworth STP - Westdale & Swan St Plants,,,2
+TAN2EUC,Tantangara Res to Lake Eucumbene,Diversion from Tantangara Reservoir to Lake Eucumbene.,,4
+TANCAW,TANDOU DIVERSIONS FROM CAWNDILLA OUTLET,NOTE: TANDOU DIVERSIONS FROM DARLING STORED UNDER TANDIV,,
+TANDIV,DIVERSION FROM DARLING TO TANDOU LAKES,USES PUMPS ESTABLISHED ON DARLING,,
+TANDOU,Tandou Diversions,,,2
+TANDSUM,Tandou summer crop areas,,,2
+TANDU08,Lake Tandure Sample Site 8,See WRC Menindee Lakes Storages map - One off Project.,42510008,2
+,,Same Site as TANDURE,,
+TANDURE,Lake Tandure,,42510008,2
+TANDWNT,Tandou winter crop area,,,2
+TANKANG,Tandou Lake Kangaroo,,,2
+TANOVER,Tandou from overbank flows,Tandou when water is flowing overbank from Darling,,
+TANPACK,Tandou Packers Lake,,,2
+TANREDB,Tandou Diversions from Redbank Creek,Tancaw + Tanover,,2
+TANTANG,Tantangara Reservoir on Murrumbidgee,Snowy Hydro Limited,,2
+TAPIO,DARLING River AT TAPIO,,42510050,
+TARA,Barwon River @ Tara (u/s Namoi Junction),Barwon River @ Tara (u/s Namoi Junction),422025,2
+TARADWN,Great Darling River at Tara Downs,,425054,2
+TARASTP,Tara STP,,,1
+TARCOOL,RIVER MURRAY - TARCOOLA,,,
+TAREEL,Mehi River d/s Tareelaroi Regulator,Mehi River d/s Tareelaroi Regulator,418044,2
+TAREELA,Tareelaroi Weir - Gwydir River,,,2
+TATMET,Tatura Met Station,Tatura Meteorological Station - Sustainable Agriculture Research Site,81049,4
+TAUWDS,LAKE ALEXANDRINA D/S TAUWITCHERIE BARRAG,For further data see site TAUWIT - the same AWRC number,A4261048,5
+TAUWIT,LAKE ALEXANDRINA U/S TAUWITCHERIE BARRAG,TAUWDS has same AWRC number and further data.,426527,5
+TAUWIT2,TAUWITCHERIE Barrage Small Vertical Slot Fishway,,,
+TAWOMET,Tawonga (MT Yorke) Met Station,,83038,4
+TAYLOR,Lake Taylor - Wimmera Mallee,,,4
+TAYLORS,Taylors River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+TAYLRBR,Taylor's Bridge (Edward River),Millewa monitoring site,,
+TAYLRCK,Taylors Creek regulator,Gunbower Forest - VIC National Parks,,
+TAYLRDS,Taylors Regulator D/S,Millewa monitoring site,,
+TBKEITH,Tailem Bend - Keith No. 1 PS,Tailem Bend - Keith No. 1 PS - Mallee Region,,
+TBKEJER,Tailem Bend - Keith No. 1 PS (including Jervois),Tailem Bend - Keith No. 1 PS (including Jervois),,
+TBRDONE,Taylors Bridge Road 1,Millewa monitoring site,,
+TBRDTWO,Taylors Bridge Road 2,Millewa monitoring site,,
+TEDROAD,Teds Road,Millewa monitoring site,,
+TEMSTP,Temora STP,,,2
+TENSTP,Tenterfield STP,,,2
+TERMART,Terrigal Creek @ U/S Marthaguy Creek,Terrigal Creek @ U/S Marthaguy Creek,421153,2
+TERTEF1,Tertiery Effluent 1,Millewa monitoring site,,
+TERTEF2,Tertiery Effluent 2 (US),Millewa monitoring site,,
+Test2,test Site 2,,,1
+test3,Test 3 Site,,,2
+TESTID,Test Site,Test Site,,1
+TEXSTP,Texas STP,,,1
+THOMPWR,Thompsons weir U/S,Gunbower Forest - VIC National Parks,,
+THOWRDS,Thompsons weir D/S,Gunbower Forest - VIC National Parks,,
+THUCAD,THULE CREEK - CADELL,,,2
+THULECK,Thule Creek  River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+THURK,Thurk island (SA),Thurk island (SA),,5
+TIDBMET,Tidbinbilla Meteo Station,,70310,3
+TILLMET,Balranald (Tillara),,49048,2
+TILPA,Darling River @ Tilpa,Sample @ Gauging Station,425900,2
+TINHUT,Tin Hut,Millewa monitoring site,,
+TMPLTON,RIVER MURRAY - TEMPLETON,,4260632,5
+TOCDOF,Toolamba Community Drain,,,4
+TOCROFF,Toupna Ck Offtake (Proper),Millewa monitoring site,,
+TOCUMET,Tocumwal Post Office Met Station,,74106,2
+TOCUMWA,River Murray - Tocumwal,,409202A,2
+TOLDOF,Tol Tol Drain TT1,,,4
+TOLMURV,Torrumbarry to L.M.E - Murray River,,,4
+TOMBUDS,Murrumbidgee River d/s Tombulled Out Reg,Murrumbidgee River at Tombulled Outlet Regulator (d/s),41010970,2
+TOMBUL,Tombullen  Storage Offtake,,,
+TOMBULL,Tombullen Storage on Murrumbidgee,,,2
+TOMBUUS,Murrumbidgee River u/s Tombulled Out Reg,Murrumbidgee River u/s Tombulled Outlet Regulator,41010971,2
+TOODOF,Toora,,,5
+TOOGEHI,Tooma and Geehi Inflows,,,
+TOOKACK,Tookayerta,,,
+TOOKAYN,Tookayerta Creek downstream Nangkita Creek,Tookayerta Creek downstream Nangkita Creek,A4261020,5
+TOOLAMB,Toolamba Depression (Drain),Toolamba Depression (Drain),405730,4
+TOOLOON,Tooloondo Reservoir - Wimmera Mallee,,,4
+TOOLUNK,River Murray at Toolunka Inlet/Outlet,,A4261105,5
+TOOMA,Tooma River U/S Tooma Reservoir,,401554,2
+TOOMADS,Tooma Reservoir spill plus release,,,2
+TOOMADV,Tooma to Tumut tunnel outflow,Tooma to Tumut diversion including Burns Ck,,2
+TOOMARS,Tooma Reservoir,,,2
+TOOMINF,Influence of Snowy Scheme on Tooma,Tooma Reservoir inflow (calculated by water balance) +,,
+TOOMOUT,Tooma to Tumut Diversion excl Burns ck,Tunnel Diversion Tooma to Tumut excluding Burns ck,,2
+TOOMREL,Tooma Reservoir regulated release,,,2
+TOOMSPI,Tooma Reservoir spill,,,2
+TOOMSTO,Tooma Reservoir storage,,,2
+TOONALK,Edward River at Toonalook,,409047,4
+TOOSTP,Toowoomba STP,,,1
+TOOTACR,Tootalong Crossing,Millewa monitoring site,,
+TOR2SWH,Torrumbarry to Swan Hill Reach,,,
+TORNAR,Torrumbarry Weir to Narrung,Torrumbarry Weir to Narrung,,
+TORNETR,Net - Torrumbarry Returns,,,4
+TORNYAH,Torrumbarry to Nyah Diversion,Torrumbarry to Nyah Diversion,,
+TORNYAV,Torrumbarry to Nyah - Private Diversions,Torrumbarry to Nyah - Private Diversions,,
+TORRCUT,Torrumbarry Cutting Offtake Regulator River Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
+TORRDIV,NATIONAL CHANNEL - HEADWORKS,,409701D,4
+TORRDS,River Murray -D/S Torrumbarry Weir,,409207,4
+TORRGRS,Torrumbarry System - Gross,,,4
+TORRNAT,Torrumbarry Natural Flow Estimate,Short-term operational estimate of Torrumbarry natural flow,,
+TORRNCK,National Channel plus Koondrook (Ashwins) Pumps,National Channel plus Koondrook (Ashwins) Pumps,,4
+TORRNET,Torrumbarry System - Net,Torrumbarry System - Net,,4
+TORRUS,River MURRAY U/S TORRUMBARRY WEIR,,409219,4
+TORTRBN,Torrumbarry Tributaries net of Appin,Avoca + Mt Hope Creek + Capels - Pumps,,4
+TORTRES,Torrumbarry Residual Trib Flow for Source Accounts,Torrumbarry Residual Tributary Flow for Source Accounts,,4
+TORTRIB,Torrumbarry Tributary Inflows,,,4
+TOUPNA,Lower Toupna Creek Offtake,OFFTAKE FOR BULLATALE CREEK TRUST DIVERSIONS,409066,4
+TOUPNRC,Toupna Ck (Toupna Crossing Road),Millewa monitoring site,409226A,
+TOUPONE,Toupna Creek 1,Millewa monitoring site,,
+TOUPTWO,Toupna Creek 2,Millewa monitoring site,,
+TOWONG,Corryong Creek at Towong,,401230A,4
+TOWRGCR,Towrong Creek  (Tocumwal-Mathoura Rd),Millewa monitoring site,,
+TOWRONE,Towrong Outlet 1 (Northern Millewa),Millewa monitoring site,,
+TOWRONG,Towrong Creek (Dudleys Road),Millewa monitoring site,,
+TOWRTHR,Towrong Outlet 3 (Great Wall of China),Millewa monitoring site,,
+TOWRTWO,Towrong Outlet 2 (Northern Millewa),Millewa monitoring site,,
+TRANNSA,Transfer of Water from NSW to SA,,,
+TRANVSA,Transfer of water from Victoria to SA,,,
+TRAWOOL,Goulburn River at Trawool,,,4
+TRCDE8,Tragowel Community Drain at E8 Site,TRAGOWEL COMMUNITY DRAIN AT E8 SITE,407734,4
+TRGOCMR,Transfer to Googong from Cotter and Murrumbidgee R,Water Transfer to Googong from Cotter and Murrumbidgee River,,1
+TROCSTP,The Rock STP,,,2
+TUGGMET,Tuggeranong Meteo Station,,70339,3
+TULLARO,Tullaroop Reservoir at Tullaroop Creek,Tullaroop Creek is a tributary of the Loddon,407244A,4
+TULLMET,Tullakool (Cheethams Salt),,75176,2
+TUM2EUC,Tumut Pond Res to Lake Eucumbene,Diversion from Tumut Pond Reservoir to Lake Eucumbene.,,2
+TUMBSTP,Tumbarumba STP,,,2
+TUMSTP,Tumut STP,,,2
+TUMURDS,Tumudgery Regulator D/S,Millewa monitoring site,40922002,
+TUMUREG,Tumudgery River Regulator,River Regulator settings - Edward River - NSW National Parks,40922002,2
+TUMUT,Tumut River @ Tumut,,410006,2
+TUMUT1,Release From TumutT 1 Power Station,RECEIVED FROM SMHEA COOMA,,2
+TUMUTPD,Tumut Pondage,Snowy Hydro Limited,,2
+TUNGAMA,Boosey Creek at Tungamah (ML),,,4
+TUP@HED,Tuppal Ck @ Headwater,Head waters of Tuppal Creek,40910025,2
+TUPMUL,Mulwala Channel Esc to Tuppal Ck (DWR),,,2
+TUPNO1,Tuppal Ck NO.1 Weir on Lalalty Drain DWR,,,2
+TUPNO10,Tuppal Ck NO.10 SE BDY HR 744 (DWR),,,2
+TUPNO11,Tuppal Channel Escape (DWR),,,2
+TUPNO12,Tuppal Ck NO.12 HR 738 (DWR),,,2
+TUPNO2,Tuppal Ck NO.2 HR 425/B (DWR),,,2
+TUPNO3,Tuppal Ck NO.3 West BDY HR 425 (DWR),,,2
+TUPNO5,Tuppal Ck NO.5 HR 853 (DWR),,,2
+TUPNO6,Tuppal Ck NO.6 West Tuppal Station (DWR),,,2
+TUPNO7,Tuppal Ck NO.7 Tuppal Village (DWR),,,2
+TUPNO8,Tuppal Ck NO.8 BDY HR 759 (DWR),,,2
+TUPNO9,Tuppal Ck NO.9 Sth HR 759/A (DWR),,,2
+TUPPALM,Tuppal Ck at Aratula Rd,GAUGE ZERO = 87.830,409056,2
+TUPPALX,Tuppal Ck at Old Tocumwal Rd,,409055,2
+TUPPMET,Tuppal Met Station,,74208,2
+TUPTOC,Tocumwal Channel esc to Tuppal Ck (DWR),,,2
+TURRA,Cuttaburra at Turra,BSMS EOV target site,423005,2
+TURSOF,Turon River at Sofala,Turon River @ Sofala,421026,2
+TUTCHEW,Lake Tutchewop,,,4
+TWOWEL,Two Wells SA,TWO WELLS SA,,5
+TYNTYN,Tyntynder North WWD,Tyntynder North WWD - Sunraysia,,
+TYREEL,Gwydir River d/s Tyreel Offtake Regulator,Gwydir River (South Arm) @ d/s Tyreel Offtake Regulator,418063,2
+UALBINF,Murray Inflows Upstream of Albury,"Aggregate of Dartmouth Inflows, Hume unregualted and Kiewa at Bandiana",,2
+UKERLOD,4070600 Urban Kerang to Loddon Diversion,,,
+UKERMUR,4090699 Urban Kerang to Murray Diversion,,,
+ULUPNA1,Ulupna Drain 1,CORNER MEMBREY'S AND BRIAN'S ROAD,409069,4
+UMI7WTP,4003010 Urban Mildura 7th Street WTP,,,
+UPDARL,Upper Darling River System,,,2
+UPLANDS,Morrass Creek at Uplands,,401215,4
+UPMINFS,Upper Murray Inflows,"Aggregate of Hume unregulated, Dartmouth, Kiewa and Ovens.",,
+UPPSED,Upper Southeast Drainage,Upper Southeast Drainage flow from Salt Creek,,5
+UPRMURV,UBE - Upper Murray River (GMW),Urban Bulk Entitlements - Upper River Murray (G-M Water),,4
+UPTUMUT,Upper Tumut Reservoir,,,
+URASTP,Uralla STP,,,2
+URBOWTP,4142155 Urban Robinvale Water Treatment Plant,,,
+URKEWTP,4090699 Urban Kerang to Murray Diversion,To be deleted,,
+URKOWTP,4090699 Urban Koondrook Water Treatment Plant,,,
+URMWWTP,4142155 Urban Mildura West WTP,,,
+URPIWTP,4142272 Urban Piangil Water Treatment Plant,,,
+URREWTP,4142157 Urban Red Cliffs WTP,,,
+URSWWTP,4142155 Urban SwanHill Water Treatment Plant,,,
+USBANSW,Upstream of Barmah - New South Wales,,,
+USBARMA,U/S of Barmah - Murray River,U/S of Barmah - Murray River,,4
+USBAVIC,U/S of Barmah - Victorian,,,
+USMBRES,NSW Murray Diversion US Murrumbidgee,NSW Murray Diversion US Murrumbidgee Less West Corurgan Moira and the Edward Wakool System,,2
+USOVERL,Murray River U/S Overland Cnr,(6km D/S Lock3),A4260652,5
+USRENMK,River Murray upstream Renmark (AMTD 570.6km),River Murray upstream Renmark (AMTD 570.6km),A4260703,5
+UTOWMET,Upper Towong Met Station,,82060,4
+V2N113D,Clause 113 V to N in Dartmouth N to V in Hume,Clause 113 adjustment.  The volume is cede from  VIC to NSW in Dartmouth and from NSW to VIC in Hume,,
+VBLOCK,V Block River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+VCAMPSA,Campaspe System to South Australia,,,4
+VDIVLOD,Loddon R. Div d/s of Kerang Weir,Loddon R. Diversions d/s of Kerang Weir,,4
+VENCDOR,Venables Creek at Durxam Ox Rd,VENABLES CREEK AT DURHAM OX RD,407302,4
+VGOULSA,Goulburn System to South Australia,,,4
+VGOUVMY,Goulburn to Victorian Murray,,,4
+VICDIV1,PDs Lock 8 to Rufus River Junction,PDs Lock 8 to Rufus River Junction,,4
+VICDIV2,PDs Rufus River to SA border,PDs Rufus River to SA border,,4
+VICDIV3,Lindsay River - PDs,Lindsay River - PDs,,4
+VICDIV4,Vic Pumps Lock 8 to Border excl VICDIV3,Vic Licensed Pumps - Lock 8 to Border excl Lindsay Point,,4
+VICDIVA,Vic Licensed Pumps - Hume to Yarrawonga,,,4
+VICDIVB,Vic Licensed Pumps - Yarra'ga to Barmah,,,4
+VICDIVC,Vic Licensed Pumps - Barmah to Torr'ry,,,4
+VICDIVD,Vic Licensed Pumps - Torrumbarry to Wakool Junc,,,4
+VICDIVE,Vic Licensed Pumps - Wakool Junc to Euston,,,4
+VICDIVF,Vic Licensed Pumps - Euston to Wentworth,,,4
+VICDIVG,Vic Licensed Pumps - Wentworth to Lock 8,PRIOR TO AUGUST 1996 - WENTWORTH TO RUFUS INCLUDING LINDSAY,,4
+VICDIVH,Vic Licensed Pumps - Lock 8 to Border,PRIOR TO AUGUST 1996 - LINDSAY RIVER DIVERSIONS,,4
+VICDVBC,Vic Licensed Pumps - Yarrawonga toTorrumbarry,,,4
+VICDVNW,Vic Licensed Pumps - Nyah to Wakool Junction,,,4
+VICDVTN,VIC Other  - TORRUMBARRY TO NYAH,Includes Little Murray Weir and Nyah Pumps,,4
+VICDVUH,Victorian Diversions U/S of Hume Dam,,,4
+VICNETS,Victorian Share of Net Inflows,Vic tribs net of IVT and environmental water.  Excludes inflows to Menindee and Snowy releases,,4
+VICNSW,Victoria - Water Trading with NSW,Victoria - Water Trading with NSW,,
+VICSA,Victoria - Water Trading with Sth Aust.,Victoria - Water Trading with Sth Aust.,,
+VICSNOW,Victorian component of Snowy-Murray,,,4
+VICSUNR,Victorian Sunraysia (deliver & losses),Red Cliffs + FMIT + Merbein,,4
+VICTMET,Victor Harbor - BOM station,,23834,5
+VICTOR,Victor Harbour,"Victor Harbour, South Australia",,5
+VICTORI,Total Victoria Diversion in MDB,Total Victoria Diversion in Murray-Darling Basin,,4
+VICTRIB,Victorian River Murray Tributaries,,,4
+VINCETM,Test site to be deleted,Created by Vince on 20111110,,1
+VNETTRB,Vic Tributaries Net of IVT and E Water,"Sum of net Ovens, Goulburn, Broken Creek, Campaspe and Loddon Flows",,4
+VP&PIE,Visy Pulp & Paper,,,2
+VSUNDV,"Red Cl, Mildura, Merbein Diversions","Red Cl, Mildura, Merbein Diversions",,4
+WADDREG,Waddy Creek D/S Regulator,Waddy Creek D/S Regulator,409098,2
+WADPDOF,Wakefield Deep,,,2
+11GFWAG,Murrumbidgee River at Wagga Wagga,,410001,2
+WAIKERI,River Murray at Waikerie,SAMPLE AT GAUGING STATION,4260539,5
+WAIKMET,Waikerie (Ramco) Met Stn,Located at a private property (Ramco),24015,5
+WAIKSIS,Waikerie Salt Interception Scheme,Salt Inflow from reach currently controlled by Salt,,5
+WAIKWTP,Waikerie Water Treatment Plant,,,5
+WAKBAR,Wakool River at Wakool Barham Rd,GAUGE ZERO = 70.230,409045,2
+WAKBMET,Wakool (Barratto) Met Station,,75004,5
+WAKCAN,Wakool Canal D/S Offtake Regulator,,409022,2
+WAKCMET,Wakool (Calimo) Met Station,,75012,2
+WAKCOLL,Wakool River and Colligen Creek Combined,,,2
+WAKCOON,Wakool River at Coonamit Bridge,,409061,2
+WAKDEN,Wakool River at Deni Wakool Rd,,409072,4
+WAKESC,Wakool River Escape,Wakool Escape - Murray Irrigation Ltd,409103,2
+WAKGEE,Wakool River at Gee Gee Bridge,,409062,2
+WAKJUNC,River Murray D/S Wakool Junction,SAMPLE AT GAUGING STATION,414200A,2
+WAKLDRN,Wakool LWMP Drains,Replaced Niemur Drain,,
+WAKMIN,Wakool River at Minnies,,,2
+WAKOOL,Wakool River,,,4
+WAKREG,Wakool River D/S Offtake Regulator,,409019,2
+WAKSYST,Wakool System,Wakool System Diversions Accounted to NSW,,2
+WAKTOWN,Wakool Town Escape,,,2
+WAKWMET,Wakool Met Station,Wakool Meteorological Station (Water Resources Commission),75086,2
+WALBUND,Billabong Creek at Walbundrie Station,,410091,2
+WALEAST,Wallawalla east regulator,,,
+WALGET2,Barwon River at Walgett (Hannafords),,422009,2
+WALGETT,Barwon River at Walgett (Dangar Bridge),,422001,2
+WALGSTP,Walgett STP,,,2
+WALHLDS,Wallpolla Horseshoe Lagoon regulator D/S,,,
+WALKERF,River Murray at Walker Flat,,426548,5
+WALL,Wall,Wall - Mallee Region,,4
+WALLSTP,Walla Walla STP,,,2
+WALPOHL,Wallpolla Horseshoe Lagoon regulator,,,
+WALPUMP,Wallawalla Pumps,,,
+WALTHUR,Walthours River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+WALTOWA,Lake Albert @ Waltowa,Lake Albert @ Waltowa - near the causeway,A4261153,5
+WALTRDS,Walthours Regulator D/S,Millewa monitoring site,,
+WALWEST,Wallawalla west regulator,,,
+WAMINDA,Pian Creek at Waminda,,419049,2
+WANAAR,Paroo River at Wanaaring,,424001,2
+WANDCGW,Wandella Creek at Gannon's Weir,WANDELLA CREEK AT GANNON'S WEIR,407301,4
+WANDELF,Wandell Creek at Fairly,WANDELL CREEK AT FAIRLY,407286,4
+WANGARA,Ovens River (ONLY) - Wangaratta,,403200,4
+WANGSTP,Wangaratta STP,,,4
+WANWIM,Wannon River Catchment to Wimmera-Mallee,,,4
+WARAWEN,Darling River @ Warraweena (d/s Culgoa Junction),,425039,2
+WARESC9,Warroo No.9 Escape,,,2
+WARGNSW,Warrego River in NSW,,,1
+WARPARO,Warrego / Paroo River System,,,1
+WARRAWE,Warrawenia Lake,,,2
+WARRDRN,Warrigal Creek Drainage Outfall,,,4
+WARREG,Warrego River @ Cunnamulla,,,1
+WARREGO,Warrego River System,Warrego River System,,1
+WARRIGA,Warrigal Creek Drain,Shepparton Plan - Warrigal Creek Drain,405297,4
+WARRING,Lake Albert 2km North Warringee Point,Warringee Point in Lake Albert,A4261155,
+WARRIST,Forest/Thulabin Creek at Warriston Weir.,Forest Creek (also known as Thulabin Ck) at Warriston Weir.,410148,2
+WARSTP,Warialda STP,,,2
+WARTOOK,Wartook Reservoir - Wimmera Mallee,,,4
+WARWEST,Waranga Western Channel at Moores,,,4
+WARWICK,Warwick River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
+WARWIDS,Warwick D/S,Millewa monitoring site,,
+WARWSTP,Warwick STP,,,1
+WASHWR,Washpen Creek D/S Whits Regulator,WASHPEN CREEK D/S WHITS REGULATOR,407297,4
+WATCHEL,Watchels Lagoon - SA,Watchels Lagoon - SA,,5
+WATTLES,Wattles Creek Regulator,Gunbower Forest - VIC National Parks,,
+WAVSTP,Waterview STP,,,2
+WCCDOF,West Coleambally Channel/DC500 (CODA),,,2
+WCCODA,West Coleambally Channel/DC500 (CODA),,410,2
+WCFTMTB,Western Flat Creek at Mt Barker,Western Flat Creek at Mt Barker,A4261018,5
+WCORPUM,West Corurgan Irrigation Pumps,,,
+WDYODOF,Warrigal Drain & Yambuna Outfall,,,4
+WEBLADS,Websters Lagoon Regulator D/S,,,
+WEBLAGR,Websters Lagoon Regulator,,,
+WECKSTP,Werris Creek STP,,,2
+WEEWMET,Wee Waa (Post Office),,53044,2
+WEIR32,Darling River @ Weir 32,,425012,2
+WEIRRV,Weir River in Border River System Queensland,Weir River in Border River System Queensland,,1
+WELFERY,River Murray 2km DS Wellington Ferry,crows nest 2km DS Wellington Ferry,A4261159,5
+WELL10M,,,,5
+WELL12M,,,,5
+WELL1M,,,,5
+WELL2P5,River Murray Pontoon 2.5 kms ds Wellington Ferry,River Murray Pontoon 2.5 kms ds Wellington Ferry,A4261200,5
+WELL4M,,,,5
+WELL7M,,,,5
+WELLING,River Murray @ Wellington,,426532,5
+WELLMET,Wellington - BOM station,,24572,5
+WELLPON,Wellington Pontoon,,A4261125,5
+WELSTP,Wellington STP,,,2
+WEMEN,River Murray @ Wemen,,,4
+WENLK8V,Darling Junction to Lock 8,Darling Junction to Lock 8,,2
+WENSTP,Wentworth STP,,,2
+WENTDAR,Darling River U/S Wentworth,DARLING RIVER JUST UPSTREAM OF MURRAY JN,425017,2
+WENTMET,Wentworth Met Station,,47053,2
+WENTUS,River Murray U/S Wentworth Weir,,425055,2
+WENTWTH,River Murray D/S Wentworth Weir,,425010,4
+WETBARV,Wetlands - Barmah (Vic share),Wetlands - Barmah (Victoria's share),,4
+WETHE01,Lake Wetherell Sample Site 1,See WRC Menindee Lakes Storages map,42510001,2
+WETHE02,Lake Wetherell Sample Site 2,See WRC Menindee Lakes Storages map,42510002,2
+WETHE03,Lake Wetherell Sample Site 3,See WRC Menindee Lakes Storages map,42510003,2
+WETHE04,Lake Wetherell  Sample Site 4 ~WETHOUT,See WRC Menindee Lakes Storages map,42510004,2
+WETHERL,Lake Wetherell,,425020,2
+WETHNOT,Lale Wetherell excluding Lake Tandure,,,4
+WETHOUT,Lake Wetherell Outlet Regulator ~WETHE04,,425043,2
+WETMUFF,Wetlands Murray Valley Flora & Fauna Ent,Wetlands - Murray Valley I. A.(Flora & Fauna Entitlement),,4
+WETORFF,Wetlands Torrumbarry Flora  Fauna Ent,Wetlands- Torrumbarry (Flora & Fauna Entitlement),,4
+WETTORV,Wetlands - Torrumbarry,Wetlands - Torrumbarry (Diversion incl. in Torrumbarry),,4
+WEWYSTP,West Wyalong STP,,,2
+WHYTES,Middle Creek @ Whites Road,Middle Creek at Whites Road.  At road bridge 1km u/s of the,402219,4
+WIDGEON,River Murray @ Widgeon,,409039,4
+WILCAN,Darling River at Wilcannia (Total Flow),,425002,2
+WILCMET,Wilcannia Met Station,From 10/1/2015 we are using above site as - 46012 Wilcannia Aerodrome Automatic water station (AWS),46043,2
+WILCMNC,Main Darling Channel at Wilcannia,,425008,2
+WILDDOG,Wild Dog Creek,Millewa monitoring site,,
+WILKDLW,Wilkinsons Dr @ Lake Wandella,Kerang Lakes - Wilkinsons Dr at Lake Wandella,407758,4
+WILLHOV,Lake William Hovell - Ovens River,,403234A,4
+WILLIAM,Lake William,,,
+WILMSTO,Williamstown Met Stn,Williamstown Meteorological Stn,23572,4
+WIMHOR,Wimmera River @ Horsham Weir (Victoria),Wimmera River at Horsham (Victoria),415200,4
+WIMMALL,Wimmera Mallee - Diversions,,,4
+WIMMDIM,Wimmera River U/S of Dimboola,Wimmera River U/S of Dimboola,415256A,4
+WINDAME,Windamere Reservoir - Cudgegong River,,,2
+WINTERC,Winter Creek,Millewa monitoring site,,
+WKRSTP,Waikerie STP,,,5
+WLDENGW,Worlds End Station Groundwater Bore,,A4261151,5
+WMAVOCA,Avoca - Private Unreg. Irrigation,Avoca - Private Unreg. Irrigation (WMW),,4
+WMURIRN,Net - Western Murray Irrigation,WMURIRN = BURPUM + COOMPUM + CURLPUM,,
+WMWALL,Wimmera Mallee Water Supply System,Wimmera Mallee Water Supply System,,4
+WMWIMM,Wimmera - Private Unreg. Irrigation,,,4
+WMWSS,Wimmera Mallee Water Supply System,,,4
+WNDRWP,Woodend RWP,,,4
+WNGITPE,Wangaratta Industrial TP,,,4
+WODOTWS,Wodonga Town Water Supply,Supplied by North East Water,,
+WODSTWN,New Wodonga Sewage T W Discharge,EFFLUENT PIPE TO WODONGA CREEK,,4
+WODSTWO,Old Wodonga Sewage T W Discharge,DISCHARGE TO WODONGA CREEK,,4
+WOLEDOF,Wollami East Drain (BIWE),,,2
+WOLLARE,Lake Wollare,Poon Boon Lakes,,4
+WOLLBIL,Wollamai East Outfall U/S Billabong Ck,Wollamai East Outfall U/S Billabong Ck. MIL Reference - BIWE,409089,4
+WOLLESC,Wollami Escape channel @ the outfall,Wollami Escape channel at the outfall.,409076,4
+WOLLWAC,Wollami Creek Outfall (BIOW),,,2
+WOODPON,Woods Point Pontoon,,A4261126,5
+WOOLERB,Briarie River @ Woolerbilla-Hebel,Briarie River at Woolerbilla-Hebel - Queensland,422211,1
+WOOLFOR,Woolami escape U/S Forest Ck,Woolami escape U/S Forrest Ck,,4
+WOOLPUN,River Murray at Woolpunda 411.5Km,,A4260573,5
+WOOLSIS,Woolpunda Salt Interception Scheme,Salt inflow from reach currently controlled by Salt,,
+WOORPUM,Woorinen Pump Station,,,4
+WOTERAP,Lake Woterap,,,
+WRAGGES,Wragges River Regulator,River Regulator settings - Edward River - NSW National Parks,,2
+WRAGRDS,Wragges Regulator D/S,Millewa monitoring site,,
+WSBHSTP,Wills St Broken Hill WTP,,,2
+WTRDDOF,Water's Deep Drain,,,2
+WWA@TUP,West Warragoon SEC into Tuppal Creek,West Warragoon SEC into Tuppal Creek,40910130,2
+WWODSTP,West Wodonga STP,,,4
+WWSTRM,WWC Siphon to River Murray,Regulated Licences - WWC Siphon to River Murray,,4
+WYADSTP,Wyangala Dam STP,,,2
+WYANGAL,Wyangala Reservoir - Lachlan,,,2
+WYAWSP,Wyangala Waters State Park,,,2
+WYCOT,Great Darling Anabranch at Wycot,,425013,2
+YAGSTP,Yanco Ag School,,,2
+YALLDEN,Yallakool Channel u/s Deniboota Creek,Yallakool Channel u/s Deniboota Creek,409084,2
+YALLESC,Yallakool Creek Escape,"This site was closed on the 6th July 2012, by NSW State Water. PRS",,2
+YALLREG,Yallakool Creek D/S Offtake Regulator,,409020,4
+YAMBDRN,Yambuna Creek Drainage Outfall,,,4
+YAMBLA,Bowna Creek @ Yambla,,401015,2
+YANCOBR,Yanco Creek @ Yanco Bridge,Yanco Creek at Yanco Bridge,410169,2
+11YNOFF,Yanco Creek D/S Offtake Regulator,,410007,2
+YANCOUS,Murrumbidgee River U/S Yanco Weir,Murrumbidgee River at Yanco Weir (u/s) - Storage Gauge,41010981,2
+YANDA,Darling River at Yanda D/S of Deadhorse ck,"7KM DOWNSTREAM OF YANDA STATION, JUST DOWNSTREAM OF DEADHORSE CREEK",425035,2
+YANSTP,Yanco STP,,,2
+YAR2KYA,Yarrawonga to Kyalite Reach,Edward Gulpa Offtakes to Kyalite including Wakool River,,
+YARCRDS,Yarran Creek regulator D/S (forest side),Gunbower Forest - VIC National Parks,407338A,
+YARENDS,D/S Yarran Ck Reg,Gunbower Forest - VIC National Parks,407331A,
+YARMAN,Gwydir River @ Yarraman Bridge,,418004,2
+YARRADS,River Murray D/S Yarrawonga Weir,SAMPLE AT GAUGING STATION,409025,2
+YARRAPO,Yarrawonga Post Office,Yarrawonga Post Office,81057,
+YARRAUS,River Murray U/S Yarrawonga Weir,,409216A,2
+YARREN,Yarren Creek River Regulator U/S Creek Side,Gunbower Forest - VIC National Parks,407338A,4
+YARRLAG,Lower Yarra Lagoon,,,4
+YARTORR,Yarrawonga to Torrumbarry Diversion,Yarrawonga to Torrumbarry Diversion,,
+YASSTP,Yass STP (Wagga Wagga),,,2
+YATCO,Yatco Lagoon MK S (SA),Yatco Lagoon MK S (SA),,5
+YATCOCU,Yatco Lagoon CUL (SA),Yatco Lagoon CUL (SA),,5
+YDHSTP,Yackandandah STP,,,4
+YDNDOF,Yiddinga Nth,,,5
+YDSDOF,Yiddinga Sth,URS - Returns Flow Investigation Project for Cap,,5
+YEASTP,Yea STP,,,4
+YELWELL,Lake Yelwell,Hattah Lakes System - manual data collection in the lakes,,
+YENDSTP,Yenda STP,,,2
+YERCK1,Yarrain Creek Site 1,,,2
+YERCK2,Yarrain Creek Site 2,,,2
+YMCESC,Yarrawonga Main Channel Escape,#NAME?,409710A,4
+YMSDRN,Yanco Main Southern Drain (YMS),,,2
+YNBLDSD,Billabong Creek d/s of Darlot,,,
+YOUSTP,Young STP,,,2
+YWCANAL,Yarrawonga Main Channel at 8M 3CH Weir,,409700A,4
+YWCCOBP,Aggregate of YMCCANAL-211 and COBPUMP-70,Total of Yarrawonga Main Canal diversions and Cobram Pumps (required for Source),,4
+YWCNET,Yarrawonga Channel less Escape,Broken Creek Escape not subtracted,,4
+11UBMIT,Murrumbidgee River at Mittagang,,410033,2
+11TUMUT,Tumut River at Tumut,,410006,2
+11CLMOR,Colombo Creek @ Morundah,Colombo Ck at Morundah,410014,2
+11YNMOR,Yanco Creek @ Morundah,Yanco Ck at Morundah,410015,2
+11OMKYW,Old Man Ck @ Kywong,Old Man Ck at Kywong,410093,2
