@@ -1,14 +1,17 @@
-# gauge data loading information for the operational use of the tool
-
+import datetime
+from datetime import date, timedelta
+import requests
 import pandas as pd
+
 from tqdm import tqdm
 
-gauges = pd.read_csv('gauge_data/bom_gauge_data.csv', names=['gauge_name', 'gauge_number', 'gauge_owner', 'lat', 'long'])
+gauges = pd.read_csv('gauge_data/bom_gauge_data.csv', 
+                     names=['gauge_name', 'gauge_number', 
+                            'gauge_owner', 'lat', 'long'])
 gauges["State"] = gauges["gauge_owner"].str[:3]
 gauges = gauges.drop(['lat', 'long', 'gauge_owner'], axis=1)
 
 # Sort the gauges into their state lists:
-
 def state_sorter(gauge_list):
     nws_list =[]
     qld_list = [] 
@@ -27,24 +30,28 @@ def state_sorter(gauge_list):
             other_list.append(gauge)
 
     return nws_list, qld_list, vic_list, other_list
-
-# Water flow data 
-import datetime
-from datetime import date, timedelta
-# from pyspark.sql import Row
-# from pyspark.sql.types import StructType, StructField, StringType, TimestampType, DoubleType, DateType, DecimalType
-import requests
-
-#-------------------------------------------------------------------------------------------------------------------------------
-def CallStateAPI (state, indicativeSites, parmStartTime, parmEndTime, parmDataSource, parmVarFrom, parmVarTo, parmInterval, parmDataType):
+#-----------------------------------------------------------------------------
+def call_state_API (state, indicativeSites, parmStartTime, parmEndTime, 
+                  parmDataSource, parmInterval, parmDataType, gauge_type):
     sitesString = ''
     if state == 'NSW':
         url = 'realtimedata.waternsw.com.au' 
+        if gauge_type == 'F':
+            parmVarFrom = "100.00"
+            parmVarTo = "141.00"
+        elif gauge_type == "L":
+            parmVarFrom = "130"
+            parmVarTo = "130"
     if state == 'QLD':
         url = 'water-monitoring.information.qld.gov.au'
     if state == 'VIC':
         url = 'data.water.vic.gov.au'
-        
+        if gauge_type == 'F':
+            parmVarFrom = "100.00"
+            parmVarTo = "141.00"           
+        elif gauge_type == 'L':
+            parmVarFrom = "100"
+            parmVarTo = "100"
     for site in indicativeSites:
         sitesString = sitesString + site + ','
     sitesString=sitesString[:-1]
@@ -64,8 +71,8 @@ def CallStateAPI (state, indicativeSites, parmStartTime, parmEndTime, parmDataSo
     r = requests.get(requestString
                     )
     return r
-#-------------------------------------------------------------------------------------------------------------------------------
-def Extract_Data (state, data):
+#-----------------------------------------------------------------------------
+def extract_data (state, data):
     if int(data['error_num']) > 0:
         print( data['error_msg'])
     else:
@@ -85,87 +92,87 @@ def Extract_Data (state, data):
                     obsdate = datetime.date(int(year), int(month),int(day))
                     objRow = [state,this_site,'WATER',obsdate,obs['v'],obs['q']]
                     lstObservation.append(objRow)
-        #print (this_sitename + str(' - ') + this_variable + str(' - ') + this_name + str(' - ') + this_units + str(' - ') + str(count));
-#-------------------------------------------------------------------------------------------------------------------------------
-
+#-----------------------------------------------------------------------------
 def split(input_list, parts):  #splits a into parts of a simmlar size
     return [input_list[i::parts] for i in range(parts)]
 
 lstObservation = []
 
-#Returning todays date for real time data
-today = str(date.today().strftime('%Y%m%d'))
-
-
-def gaugePull(gauge_list, start_time_user, end_time_user, varfrom = "100.00", varto = "141.00", interval = "day", datatype = "mean"):
+def gauge_pull(gauge_list, start_time_user, end_time_user, gauge_type,
+              interval = "day", datatype = "mean"):
     
     nsw_sitelist, qld_sitelist, vic_sitelist, JUNK = state_sorter(gauge_list)
     
     callStartTime = start_time_user
     callEndTime = end_time_user
-    callVarFrom = varfrom
-    callVarTo = varto 
     callInterval = interval 
     callDataType = datatype
     
     if nsw_sitelist:
         #Make call to the state API for NSW
-        callDataSource = 'CP' #published
+        callDataSource = 'CP'
         callState = 'NSW'
-        parts = len(nsw_sitelist) # break up nsw calls into this many parts, one part per gauge
+        parts = len(nsw_sitelist)
         n = 0
-        
-        for sub_nsw_sitelist in tqdm(split(nsw_sitelist,parts), desc='loading NSW gauge data',
+        for sub_nsw_sitelist in tqdm(split(nsw_sitelist,parts), 
+                                     desc='loading NSW gauge data',
                                      position = 0, leave = False, 
-                                     bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',):
+                                     bar_format=\
+                                     '{l_bar}{bar:10}{r_bar}{bar:-10b}'):
             n+=1
             if sub_nsw_sitelist:
                 callSites = sub_nsw_sitelist                                
-                returnedJson = CallStateAPI(callState, callSites, callStartTime, callEndTime, callDataSource, callVarFrom, callVarTo, callInterval, callDataType)
-#                 print(callState, callSites, callStartTime, callEndTime, callDataSource)
+                returnedJson = call_state_API(callState, callSites, 
+                                            callStartTime, callEndTime, 
+                                            callDataSource, callInterval, 
+                                            callDataType, gauge_type)
                 if returnedJson.ok:
-                    Extract_Data(callState, returnedJson.json())
-#                     print("NSW loaded "+ str(n) + " of " + str(parts) + " parts" )
+                    extract_data(callState, returnedJson.json())
                 else:
-                    print("NSW failed, status code:" + str(returnedJson.status_code))
-
-#-----------------------------------
+                    print("NSW failed, status code:" + \
+                          str(returnedJson.status_code))
+#-----------------------------------------------------------------------------
 #Make call to the state API for VIC
     if vic_sitelist:
         callDataSource = 'PUBLISH'
         callState = 'VIC'
-        parts = len(vic_sitelist) # break up Vic calls into this many parts
+        parts = len(vic_sitelist)
         n = 0
-        
-        for sub_vic_sitelist in tqdm(split(vic_sitelist,parts), desc='loading Vic gauge data', 
+        for sub_vic_sitelist in tqdm(split(vic_sitelist,parts), 
+                                     desc='loading Vic gauge data', 
                                      position = 0, leave = False,
-                                     bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',):
+                                     bar_format=\
+                                     '{l_bar}{bar:10}{r_bar}{bar:-10b}',):
             n+=1
             if sub_vic_sitelist:
                 callSites = sub_vic_sitelist                                
-                returnedJson = CallStateAPI(callState, callSites, callStartTime, callEndTime, callDataSource, callVarFrom, callVarTo, callInterval, callDataType)
+                returnedJson = call_state_API(callState, callSites,
+                                            callStartTime, callEndTime,
+                                            callDataSource, callInterval,
+                                            callDataType, gauge_type)
                 if returnedJson.ok:
-                    Extract_Data(callState, returnedJson.json())
-#                     print("VIC loaded "+ str(n) + " of " + str(parts) + " parts" )
+                    extract_data(callState, returnedJson.json())
                 else:
-                    print("VIC failed, status code:" + srt(returnedJson.status_code))
-
-#-----------------------------------
+                    print("VIC failed, status code:" + \
+                          str(returnedJson.status_code))
+#-----------------------------------------------------------------------------
     if qld_sitelist:
         #Make call to the state API for QLD
         callDataSource = 'AT'
         callState = 'QLD'
         callSites = qld_sitelist
-        returnedJson = CallStateAPI(callState, callSites, callStartTime, callEndTime, callDataSource, callVarFrom, callVarTo, callInterval, callDataType)
+        returnedJson = call_state_API(callState, callSites, 
+                                    callStartTime, callEndTime, 
+                                    callDataSource, callInterval, 
+                                    callDataType, gauge_type)
         if returnedJson.ok:
-            Extract_Data(callState, returnedJson.json())
-#             print("QLD loaded")
+            extract_data(callState, returnedJson.json())
         else:
             print("QLD failed, status code:" + str(returnedJson.status_code))
-#-----------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
 # Create the dataframe
-    cols = ["DATASOURCEID", "SITEID", "SUBJECTID", "DATETIME", "VALUE", "QUALITYCODE"]
+    cols = ["DATASOURCEID", "SITEID", "SUBJECTID", 
+            "DATETIME", "VALUE", "QUALITYCODE"]
     FlowDataFrame = pd.DataFrame(data = lstObservation, columns = cols)  
 
-#   FlowDataFrame = sqlContext.createDataFrame(data = lstObservation, schema = new_schema)
     return FlowDataFrame
