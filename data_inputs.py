@@ -34,7 +34,7 @@ def get_EWR_table():
     cond = df['code'].str.startswith('???')
     undefined_ewrs = df[cond]
     cond_1 = ~(use_df['code'].str.startswith('???'))
-    use_df = use_df[cond_1]   
+    use_df = use_df[cond_1]
     
     # Swap nan cells for '?'
     use_df['level threshold min'].fillna('?', inplace = True)
@@ -68,7 +68,6 @@ def get_EWR_table():
     
     # Changing the flow max threshold to a high value when there is none available:
     use_df.loc[use_df['flow threshold max'] == '?', 'flow threshold max'] = 1000000
-    
     return use_df, see_notes, undefined_ewrs, noThresh_df, no_duration, DSF_ewrs
 
 lower_darling_gauges = ['425054', '425010', '425011', '425052', '425013', '425056', '425007', 
@@ -173,7 +172,7 @@ def wy_to_climate(input_df, catchment, climate_file):
     return climateDaily
 
 
-def getLevelGauges():
+def get_level_gauges():
     '''Call this function to return the menindee lakes gauges, and the weirpool level gauges'''
     
     menindeeGauges = ['425020', '425022', '425023']
@@ -186,7 +185,7 @@ def getLevelGauges():
     return menindeeGauges, weirpoolGauges
 
 
-def getMultiGauges(dataType):
+def get_multi_gauges(dataType):
     '''Call function to return a dictionary of associated gauges'''
     
     gauges = {'PU_0000130': {'421090': '421088', '421088': '421090'},
@@ -203,7 +202,7 @@ def getMultiGauges(dataType):
     
     return returnData
 
-def getSimultaneousGauges(dataType):
+def get_simultaneous_gauges(dataType):
     '''Call function to return a dictionary of associated gauges'''
     
     gauges = {'PU_0000131': {'421090': '421022', '421022': '421090'},
@@ -219,7 +218,7 @@ def getSimultaneousGauges(dataType):
         
     return returnData
 
-def getComplexCalcs():
+def get_complex_calcs():
     '''Call function to return a dictionary of '''
     complexCalcs = {'409025': {'OB2_S': 'flowDurPostReq', 'OB2_P': 'flowDurPostReq',
                               'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
@@ -229,18 +228,18 @@ def getComplexCalcs():
 
 def get_gauges(category):
     ''''''
-    goodEwrs, seeNotesEwrs, undefinedEwrs, noThresh_df, noDurationEwrs, DSFewrs = get_EWR_table()
-    menindee_gauges, wp_gauges = getLevelGauges()
+    EWR_table, seeNotesEwrs, undefinedEwrs, noThresh_df, noDurationEwrs, DSFewrs = get_EWR_table()
+    menindee_gauges, wp_gauges = get_level_gauges()
     wp_gauges = list(wp_gauges.values())
     
-    multi_gauges = getMultiGauges('gauges')
-    simul_gauges = getSimultaneousGauges('gauges')
+    multi_gauges = get_multi_gauges('gauges')
+    simul_gauges = get_simultaneous_gauges('gauges')
     multi_gauges = list(multi_gauges.values())
     simul_gauges = list(simul_gauges.values())
     if category == 'all gauges':
-        return goodEwrs['gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges
+        return EWR_table['gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges
     elif category == 'flow gauges':
-        return goodEwrs['gauge'].to_list() + multi_gauges + simul_gauges
+        return EWR_table['gauge'].to_list() + multi_gauges + simul_gauges
     elif category == 'level gauges':
         return menindee_gauges + wp_gauges
     else:
@@ -305,7 +304,7 @@ def complex_EWR_pull(EWR_info, gauge, EWR, allowance):
     elif 'NestS1' in EWR:
         EWR_info['trigger_day'] = None
         EWR_info['trigger_month'] = None
-    if gauge == '409025' and (EWR == 'OB2_S' or EWR == 'OB2_P'):
+    if gauge == '409025' and ('OB2_S' in EWR or 'OB2_P' in EWR):
         EWR_info['min_flow_post'] = int(round(9000*toleranceDict['minThreshold'], 0))
         EWR_info['max_flow_post'] = int(round(1000000*toleranceDict['maxThreshold'], 0))
         EWR_info['duration_post'] = int(round(105*toleranceDict['duration'], 0))
@@ -344,4 +343,12 @@ def convert_max_interevent(unique_water_years, water_years, EWR_info):
     average_days_per_year = len(water_years)/len(unique_water_years)
     new_max_interevent = average_days_per_year * EWR_info['max_inter-event']
     
-    return average_days_per_year
+    return new_max_interevent, average_days_per_year
+
+def get_planning_unit_info():
+    '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP'''
+    ewr_data, see_notes_ewrs, undefined_ewrs, noThresh_df, no_duration, DSF_ewrs = get_EWR_table()
+        
+    planningUnits = ewr_data.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1) 
+    
+    return planningUnits

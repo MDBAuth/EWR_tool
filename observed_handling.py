@@ -4,11 +4,9 @@ from tqdm import tqdm
 
 import data_inputs, gauge_getter, evaluate_EWRs, summarise_results
 
-#------------ Observed flow handling-------------#
-
 def observed_handler(gauges, dates, allowance, climate):
     '''ingests a list of gauges and user defined parameters
-    pulls gauge data using relevant states API, calcualtes and analyses ewrs
+    pulls gauge data using relevant states API, calcualtes and analyses EWRs
     returns dictionary of raw data results and result summary
     '''
     # Classify gauges:
@@ -34,9 +32,9 @@ def observed_handler(gauges, dates, allowance, climate):
 
 def categorise_gauges(gauges):
     '''Seperate gauges into level, flow, or both'''
-    menindee_gauges, weirpool_gauges = data_inputs.getLevelGauges()
-    multi_gauges = data_inputs.getMultiGauges('gauges')
-    simultaneous_gauges = data_inputs.getSimultaneousGauges('gauges')
+    menindee_gauges, weirpool_gauges = data_inputs.get_level_gauges()
+    multi_gauges = data_inputs.get_multi_gauges('gauges')
+    simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
     
     level_gauges = []
     flow_gauges = []

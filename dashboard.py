@@ -70,14 +70,15 @@ def on_gauge_button_clicked(b):
     '''Run the realtime program'''
     with gauge_run_output:
         b.style.button_color='lightgreen'
+        tab_gauge.selected_index = 1
         global raw_data_o, results_summary_o
+        raw_data_o, results_summary_o = None, None
         # Get gauge list:
         gauges = get_gauges_to_pull()
 
         # Retrieve and convert dates:
         dates = {'start_date': str(start_date.value).replace('-',''), 
                  'end_date': str(end_date.value).replace('-','')}
-        
         # Get allowances:
         MINT = (100 - min_threshold_allowance_s.value)/100
         MAXT = (100 + max_threshold_allowance_s.value)/100
@@ -264,6 +265,7 @@ def on_model_button_clicked(b):
     
     with model_run_output:
         b.style.button_color='lightgreen'
+        tab_model.selected_index = 1
         global raw_data_s, data_summary_s, select_benchmark
         # Get file names and their system locations
         if load_model_files.files != []:
@@ -320,14 +322,6 @@ def getMetadata():
     
     return metadata
 
-def getPlanningUnitInfo():
-    '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP'''
-    ewr_data, see_notes_ewrs, undefined_ewrs, noThresh_df, no_duration, DSF_ewrs = data_inputs.get_EWR_table()
-        
-    planningUnits = ewr_data.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1) 
-    
-    return planningUnits
-
 def model_output_button_clicked(b):
     '''Output the scenario testing to excel'''
     with model_output:
@@ -337,14 +331,14 @@ def model_output_button_clicked(b):
         
         # Get the metadata from the model run:
         metadata_df = getMetadata()
-        planningUnitData = getPlanningUnitInfo()
+        PU_items = data_inputs.get_planning_unit_info()
         model_file_name = file_name_s.value # Gettng the user file name
         
         model_scenario_list = list(data_summary_s.columns.levels[0]) # Get scenarios / Repeated?
         
         writer = pd.ExcelWriter('Output_files/' + model_file_name + '.xlsx', engine='xlsxwriter')
         metadata_df.to_excel(writer, sheet_name='Metadata')
-        planningUnitData.to_excel(writer, sheet_name='Planning unit metadata')
+        PU_items.to_excel(writer, sheet_name='Planning unit metadata')
         data_summary_s.to_excel(writer, sheet_name='Data_summary')
         get_index = data_summary_s.reset_index().set_index(['gauge', 'planning unit']).index.unique()
         for locPU in get_index:
@@ -359,7 +353,9 @@ def model_output_button_clicked(b):
                     df_to_add.columns = \
                     pd.MultiIndex.from_product([[str(model_scenario)],df_to_add.columns])
                     temp_df = pd.concat([temp_df, df_to_add], axis = 1)
-                temp_df.to_excel(writer, sheet_name=str(locPU))   
+                PU_code = PU_items['PlanningUnitID'].loc[PU_items[PU_items['PlanningUnitName'] == locPU[1]].index[0]]
+                sheet_name = str(locPU[0]) + '-' + str(PU_code)
+                temp_df.to_excel(writer, sheet_name=sheet_name)
 
         writer.save()
 #Run analysis button (from input tab):
@@ -374,8 +370,9 @@ model_output_button.on_click(model_output_button_clicked)
 #--------------------------------------Widgets used by both tabs----------------------------------#
 #-------------------------------------------------------------------------------------------------#
 justLine = HBox([Label(value="________________________________________________________________________________", 
-                                      layout=Layout(width="100%"),
-                                      style= {'description_width':'initial'})])
+                       layout=Layout(width="100%"),
+                       style = {'description_width':'initial'})])
+                       
 or_text = HBox([Label(value="~     OR     ~", 
                                       layout=Layout(width="100%"),
                                       style= {'description_width':'initial'})])
@@ -384,7 +381,8 @@ or_text = HBox([Label(value="~     OR     ~",
 #-------------------------------------------------------------------------------------------------#
 gauge_input_widgets = VBox([gauge_inputs_title, justLine, date_selection, HBox([start_date, end_date]), 
                                      justLine, cs_selection, HBox([catchment, sites]),
-                                     justLine, allowance_header_o, HBox([min_threshold_allowance_o, max_threshold_allowance_o, duration_allowance_o, drawdown_allowance_o]),
+                                     justLine, allowance_header_o, HBox([min_threshold_allowance_o, max_threshold_allowance_o, 
+                                                                         duration_allowance_o, drawdown_allowance_o]),
                                      justLine, run_header_o, HBox([file_name_o, gauge_run_button])])
 
 model_input_widgets= VBox([model_inputs_title, justLine, model_selection, 

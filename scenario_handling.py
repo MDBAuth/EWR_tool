@@ -88,7 +88,7 @@ def unpack_model_file(csv_file, main_key, header_key):
         if os.stat(fle).st_size == 0:
             raise ValueError("File is empty")
         with open(fle) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
+            csv_reader = csv.reader(csv_file) #, delimiter=','
             line_count = 0
             for row in csv_reader:
                 if row[0].startswith(line):
@@ -121,14 +121,21 @@ def unpack_model_file(csv_file, main_key, header_key):
             raise ValueError("File is empty")
             
         with open(fle) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
+            csv_reader = csv.reader(csv_file)
             line_count = 0
             for row in csv_reader:
                 if row[0].startswith(line):
                     headerVal = line_count
+                    
+                    # Then get column length:
+                    num_cols = num_cols = list(range(0,len(row),1))
+                    
                 line_count = line_count + 1
             junkRows = headerVal
-        df = pd.read_csv(fle, header=headerVal, nrows = (endLine-junkRows-1), dtype={'Site':'str', 'Measurand': 'str', 'Quality': 'str'}, **kwargs) 
+            
+        df = pd.read_csv(fle, header=headerVal, usecols = num_cols, 
+                         nrows = (endLine-junkRows-1), dtype={'Site':'str', 'Measurand': 'str', 'Quality': 'str'},
+                        encoding = 'utf-8', sep =',')
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
             
         return df
@@ -136,18 +143,18 @@ def unpack_model_file(csv_file, main_key, header_key):
     if 'http' in csv_file:
         mainData_df, endLine = mainData_url(csv_file, main_key, sep=",")        
     else:
-        mainData_df, endLine = mainData(csv_file, mainKeyLine, sep=",")
+        mainData_df, endLine = mainData(csv_file, main_key, sep=",")
     
     if 'http' in csv_file:
         headerData_df = headerData_url(csv_file, header_key, endLine, sep=",")
     else:
-        headerData_df = headerData(csv_file, headerKeyLine, endLine, sep=",")
+        headerData_df = headerData(csv_file, header_key, endLine, sep=",")
     
     return mainData_df, headerData_df
 
 def build_MDBA_columns(input_data, input_header):
     '''Takes in the header data file, trims it, and then renames the column headings with the full reference code
-    returns a list of headings'''
+    returns a the dataframe with updated column headers'''
     # Clean dataframe
     numRows = int(input_header['Field'].iloc[1]) 
     df = input_header.drop([0,1])     
@@ -155,7 +162,6 @@ def build_MDBA_columns(input_data, input_header):
     df['Site'] = df['Site'].map(lambda x: x.lstrip("'").rstrip("'"))
     df['Measurand'] = df['Measurand'].map(lambda x: x.lstrip("'").rstrip("'"))
     df['Quality'] = df['Quality'].map(lambda x: x.lstrip("'").rstrip("'"))
-    # Get the EOC value for the number of rows we're going to look at then drop the row
 
     # Construct refs and save to list:
     listOfCols = []
@@ -171,7 +177,8 @@ def build_MDBA_columns(input_data, input_header):
     return input_data
 
 def build_NSW_columns(input_data, input_header):
-    ''''''
+    '''Takes in the header data file, trims it, and then renames the column headings with the full reference code
+    returns a the dataframe with updated column headers'''
     # Extract unique column ID's from the header:
     new_cols = input_header['Name'].to_list()
     new_cols = new_cols[2:]
@@ -193,9 +200,17 @@ def cleaner_MDBA(input_df):
     return cleaned_df
 
 def cleaner_NSW(input_df):
-
-    input_df['Date'] = pd.to_datetime(input_df['Date'], format = '%d/%m/%Y')
-    input_df = input_df.set_index('Date')    
+    '''Convert dates to datetime format, save this to the dataframe index'''
+    try:
+        input_df['Date'] = pd.to_datetime(input_df['Date'], format = '%d/%m/%Y')
+    except ValueError:
+        print('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        try:
+            input_df['Date'] = pd.to_datetime(input_df['Date'], format = '%Y-%m-%d')
+        except ValueError:
+            raise ValueError('New date format detected. Cannot read in data')
+        print('successfully read in data with yyyy-mm-dd formatting')
+    input_df = input_df.set_index('Date')
     
     return input_df
 
@@ -226,7 +241,7 @@ def extract_gauge_from_string(input_string):
         return None
 
 def match_MDBA_nodes(input_df, model_metadata):
-    '''Checks if the source file columns have EWRs available, returns a dataframe with only 
+    '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
     the columns with EWRs available. Renames columns to gauges'''
     
     flow_gauges = data_inputs.get_gauges('flow gauges')
@@ -249,6 +264,8 @@ def match_MDBA_nodes(input_df, model_metadata):
     return df_flow, df_level
 
 def match_NSW_nodes(input_df, model_metadata):
+    '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
+    the columns with EWRs available. Renames columns to gauges'''
     flow_gauges = data_inputs.get_gauges('flow gauges')
     level_gauges = data_inputs.get_gauges('level gauges')
     df_flow = pd.DataFrame(index = input_df.index)
@@ -263,4 +280,3 @@ def match_NSW_nodes(input_df, model_metadata):
                 df_level[gauge] = input_df[col]
 
     return df_flow, df_level
-
