@@ -26,6 +26,8 @@ def get_EWR_table():
     my_url = ('https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv')
     s = requests.get(my_url, proxies=proxy_dict).text
     df = pd.read_csv(io.StringIO(s), dtype={'gauge':'str', 'weirpool gauge': 'str'})
+    df['PlanningUnitName'] = df['PlanningUnitName'].str.replace('Â','')
+    df['PlanningUnitName'] = df['PlanningUnitName'].str.replace('?','')
     # removing the 'See notes'
     use_df = df.loc[(df["start month"] != 'See note') & (df["end month"] != 'See note')]
     see_notes = df.loc[(df["start month"] == 'See note') & (df["end month"] == 'See note')]
@@ -324,8 +326,8 @@ def complex_EWR_pull(EWR_info, gauge, EWR, allowance):
 def analysis():
     '''Returns a list of types of analysis to be shown in the summary table'''
     
-    return ['Event years','Frequency','Target frequency','Event count','Events per year',
-            'Event length','Threshold days','Inter-event exceedence count','No data days',
+    return ['Event years','Frequency','Target frequency','Achievement count', 'Achievements per year', 'Event count','Events per year',
+            'Event length','Threshold days','Inter-event exceedence count', 'Max inter event period (years)', 'No data days',
             'Total days']
 
 def weirpool_type(EWR):
@@ -338,12 +340,10 @@ def weirpool_type(EWR):
     return weirpool_type
 
 def convert_max_interevent(unique_water_years, water_years, EWR_info):
-    '''Max interevent is saved in the database as years, we want to convert it to days.
-    '''
-    average_days_per_year = len(water_years)/len(unique_water_years)
-    new_max_interevent = average_days_per_year * EWR_info['max_inter-event']
+    '''Max interevent is saved in the database as years, we want to convert it to days.'''
+    new_max_interevent = 365 * EWR_info['max_inter-event']
     
-    return new_max_interevent, average_days_per_year
+    return new_max_interevent
 
 def get_planning_unit_info():
     '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP'''

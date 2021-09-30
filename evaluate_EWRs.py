@@ -26,6 +26,11 @@ def apply_correction(info, correction):
 def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
     '''Pulls the relevant EWR componenets for each EWR, and applies any relevant corrections'''
     ewrs = {}
+    # Save identifying information to dictionary:
+    ewrs['gauge'] = gauge
+    ewrs['planning_unit'] = PU
+    ewrs['EWR_code'] = EWR
+    
     if 'SM' in components:
         start_date = str(component_pull(EWR_table, gauge, PU, EWR, 'start month'))
         if '.' in start_date:
@@ -146,7 +151,7 @@ def get_month_mask(start, end, input_df):
         
     input_df_timeslice = input_df.loc[month_mask]
     
-    return input_df_timeslice
+    return set(input_df_timeslice.index)
 
 
 def get_day_mask(startDay, endDay, startMonth, endMonth, input_df):
@@ -176,7 +181,7 @@ def get_day_mask(startDay, endDay, startMonth, endMonth, input_df):
         month_mask = ((input_df.index.month == startMonth) & (input_df.index.day >= startDay) & (input_df.index.day <= endDay))
         input_df_timeslice = input_df.loc[month_mask]
     
-    return input_df_timeslice
+    return set(input_df_timeslice.index)
 
 #---------------------------- Creating a daily time series with water years ----------------------#
 
@@ -213,14 +218,17 @@ def ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
     pull = data_inputs.get_EWR_components('cease to flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years and climate categorisation for this catchment
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     catchment = data_inputs.gauge_to_catchment(gauge)
-    climates = data_inputs.wy_to_climate(df, catchment, climate)
+    climates = data_inputs.wy_to_climate(df_F, catchment, climate)
     # Check flow data against EWR requirements and then perform analysis on the results:
-    E, NE, D = ctf_calc(EWR_info, df[gauge].values, water_years, climates)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
+        E, NE, D = ctf_calc_anytime(EWR_info, df_F[gauge].values, water_years, climates)
+    else:
+        E, NE, D = ctf_calc(EWR_info, df_F[gauge].values, water_years, climates, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
@@ -229,14 +237,14 @@ def lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
     pull = data_inputs.get_EWR_components('low flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years and climate categorisation for this catchment
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     catchment = data_inputs.gauge_to_catchment(gauge) 
-    climates = data_inputs.wy_to_climate(df, catchment, climate)
+    climates = data_inputs.wy_to_climate(df_F, catchment, climate)
     # Check flow data against EWR requirements and then perform analysis on the results:
-    E, NE, D = lowflow_calc(EWR_info, df[gauge].values, water_years, climates)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    E, NE, D = lowflow_calc(EWR_info, df_F[gauge].values, water_years, climates, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
@@ -245,15 +253,15 @@ def flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     pull = data_inputs.get_EWR_components('flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D = flow_calc_anytime(EWR_info, df[gauge].values, water_years)
+        E, NE, D = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years)
     else:
-        E, NE, D = flow_calc(EWR_info, df[gauge].values, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+        E, NE, D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
@@ -262,15 +270,15 @@ def cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     pull = data_inputs.get_EWR_components('cumulative')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df, EWR_info)   
+    water_years = wateryear_daily(df_F, EWR_info)   
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D = cumulative_calc_anytime(EWR_info, df[gauge].values, water_years)
+        E, NE, D = cumulative_calc_anytime(EWR_info, df_F[gauge].values, water_years)
     else:
-        E, NE, D = cumulative_calc(EWR_info, df[gauge].values, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+        E, NE, D = cumulative_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
 
     return PU_df
 
@@ -280,12 +288,12 @@ def level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance):
     pull = data_inputs.get_EWR_components('level')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
-    df = mask_dates(EWR_info, df_L) 
+    masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df, EWR_info)  
+    water_years = wateryear_daily(df_L, EWR_info)  
     # Check flow data against EWR requirements and then perform analysis on the results: 
-    E, NE, D = lake_calc(EWR_info, df[gauge].values, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    E, NE, D = lake_calc(EWR_info, df_L[gauge].values, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
@@ -298,20 +306,19 @@ def weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
         pull = data_inputs.get_EWR_components('weirpool-falling')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates for both the flow and level dataframes:
-    df_flow = mask_dates(EWR_info, df_F)
-    df_lev = mask_dates(EWR_info, df_L)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
-    water_years = wateryear_daily(df_flow, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     # If there is no level data loaded in, let user know and skip the analysis
     try:
-        levels = df_lev[EWR_info['weirpool_gauge']].values
+        levels = df_L[EWR_info['weirpool_gauge']].values
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
         also needs data for {}'''.format(gauge, EWR, EWR_info['weirpool_gauge']))
         return PU_df
     # Check flow and level data against EWR requirements and then perform analysis on the results: 
-    E, NE, D = weirpool_calc(EWR_info, df_flow[gauge].values, levels, water_years, weirpool_type)
-    PU_df = event_stats(df_flow, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    E, NE, D = weirpool_calc(EWR_info, df_F[gauge].values, levels, water_years, weirpool_type, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
@@ -325,27 +332,26 @@ def nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     EWR_info = data_inputs.complex_EWR_pull(EWR_info, gauge, EWR, allowance)
     # Mask dates for both the flow and level dataframes:
-    df_flow = mask_dates(EWR_info, df_F)
-    df_lev = mask_dates(EWR_info, df_L)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
-    water_years = wateryear_daily(df_flow, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     # Check flow/level data against EWR requirements and then perform analysis on the results: 
     if ((EWR_info['trigger_day'] != None) and (EWR_info['trigger_month'] != None)):
         # If a trigger requirement for EWR (i.e. flows must be between x and y on Z day of year)
-        E, NE, D = nest_calc_percent_trigger(EWR_info, df_flow[gauge].values, water_years, df_flow.index)
+        E, NE, D = nest_calc_percent_trigger(EWR_info, df_F[gauge].values, water_years, df_F.index)
     elif ((EWR_info['trigger_day'] == None) and (EWR_info['trigger_month'] == None)):
         if '%' in EWR_info['drawdown_rate']:
-            E, NE, D = nest_calc_percent(EWR_info, df_flow[gauge].values, water_years)
+            E, NE, D = nest_calc_percent(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
         else:
             try:
                 # If its a nest with a weirpool requirement, do not analyse without the level data:
-                levels = df_lev[EWR_info['weirpool_gauge']].values
+                levels = df_L[EWR_info['weirpool_gauge']].values
             except KeyError:
                 print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
                 also needs data for {}'''.format(gauge, EWR, EWR_info['weirpool_gauge']))
                 return PU_df
-            E, NE, D = nest_calc_weirpool(EWR_info, df_flow[gauge].values, levels, water_years)
-    PU_df = event_stats(df_flow, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+            E, NE, D = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
@@ -354,13 +360,13 @@ def flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     pull = data_inputs.get_EWR_components('multi-gauge-flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask the dates:
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info['second_gauge']].values
+        flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
@@ -370,8 +376,8 @@ def flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
         E, NE, D = flow_calc_anytime(EWR_info, flows, water_years)
     else:
-        E, NE, D = flow_calc(EWR_info, flows, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+        E, NE, D = flow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 def lowflow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
@@ -380,23 +386,23 @@ def lowflow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, clim
     pull = data_inputs.get_EWR_components('multi-gauge-low flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years and climates in the catchment:
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     catchment = data_inputs.gauge_to_catchment(gauge)
-    climates = data_inputs.wy_to_climate(df, catchment, climate)
+    climates = data_inputs.wy_to_climate(df_F, catchment, climate)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info['second_gauge']].values
+        flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
         also needs data for {}'''.format(gauge, EWR, EWR_info['second_gauge']))
         return PU_df
     # Check flow data against EWR requirements and then perform analysis on the results: 
-    E, NE, D = lowflow_calc(EWR_info, flows, water_years, climates)       
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    E, NE, D = lowflow_calc(EWR_info, flows, water_years, climates, df_F.index, masked_dates)       
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df   
  
 def ctf_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
@@ -405,23 +411,23 @@ def ctf_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     pull = data_inputs.get_EWR_components('multi-gauge-cease to flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years and climates in the catchment:
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     catchment = data_inputs.gauge_to_catchment(gauge)
-    climates = data_inputs.wy_to_climate(df, catchment, climate)
+    climates = data_inputs.wy_to_climate(df_F, catchment, climate)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values  
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info['second_gauge']].values
+        flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
         also needs data for {}'''.format(gauge, EWR, EWR_info['second_gauge']))
         return PU_df
     # Check flow data against EWR requirements and then perform analysis on the results:
-    E, NE, D = ctf_calc(EWR_info, df[gauge].values, water_years, climates)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    E, NE, D = ctf_calc(EWR_info, df_F[gauge].values, water_years, climates, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df    
 
 def cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
@@ -430,13 +436,13 @@ def cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     pull = data_inputs.get_EWR_components('multi-gauge-cumulative')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info['second_gauge']].values
+        flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
@@ -446,8 +452,8 @@ def cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
         E, NE, D = cumulative_calc_anytime(EWR_info, flows, water_years)
     else:
-        E, NE, D = cumulative_calc(EWR_info, flows, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)    
+        E, NE, D = cumulative_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)    
     return PU_df
 
 def flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
@@ -456,15 +462,15 @@ def flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     pull = data_inputs.get_EWR_components('simul-gauge-flow')
     EWR_info1 = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
-    df = mask_dates(EWR_info1, df_F)
+    masked_dates = mask_dates(EWR_info1, df_F)
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df, EWR_info1)
+    water_years = wateryear_daily(df_F, EWR_info1)
     # Get information about the EWR for the secondary EWR:
     EWR_info2 = get_EWRs(PU, EWR_info1['second_gauge'], EWR, EWR_table, allowance, pull)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info1['second_gauge']].values
+        flows2 = df_F[EWR_info1['second_gauge']].values
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data.
         Specifically, this EWR also needs data for {}'''.format(gauge, EWR, EWR_info1['second_gauge']))
@@ -473,8 +479,8 @@ def flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     if ((EWR_info1['start_month'] == 7) and (EWR_info1['end_month'] == 6)):
         E, NE, D = flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years)
     else:
-        E, NE, D = flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info1, E, NE, D, water_years)
+        E, NE, D = flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info1, E, NE, D, water_years)
     return PU_df
 
 def lowflow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
@@ -483,24 +489,24 @@ def lowflow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climat
     pull = data_inputs.get_EWR_components('simul-gauge-low flow')
     EWR_info1 = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates
-    df = mask_dates(EWR_info1, df_F)
+    masked_dates = mask_dates(EWR_info1, df_F)
     # Extract a daily timeseries for water years and climates for the catchment
-    water_years = wateryear_daily(df, EWR_info1)
+    water_years = wateryear_daily(df_F, EWR_info1)
     catchment = data_inputs.gauge_to_catchment(gauge)
-    climates = data_inputs.wy_to_climate(df, catchment, climate)
+    climates = data_inputs.wy_to_climate(df_F, catchment, climate)
     # Get information about the EWR for the secondary EWR:
     EWR_info2 = get_EWRs(PU, EWR_info1['second_gauge'], EWR, EWR_table, allowance, pull)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info1['second_gauge']].values
+        flows2 = df_F[EWR_info1['second_gauge']].values
     except KeyError: 
         print('''Cannot evaluate this ewr for {} {}, due to missing data.
         Specifically, this EWR also needs data for {}'''.format(gauge, EWR, EWR_info1['second_gauge']))
         return PU_df
     # Check flow data against EWR requirements and then perform analysis on the results:
-    E1, E2, NE1, NE2, D = lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates)
-    PU_df = event_stats_sim(df, PU_df, gauge, EWR_info1['second_gauge'], EWR, EWR_info1, E1, E2, NE1, NE2, D, water_years)
+    E1, E2, NE1, NE2, D = lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, df_F.index, masked_dates)
+    PU_df = event_stats_sim(df_F, PU_df, gauge, EWR_info1['second_gauge'], EWR, EWR_info1, E1, E2, NE1, NE2, D, water_years)
     return PU_df
 
 def ctf_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
@@ -509,24 +515,24 @@ def ctf_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate):
     pull = data_inputs.get_EWR_components('simul-gauge-cease to flow')
     EWR_info1 = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates
-    df = mask_dates(EWR_info1, df_F)
+    masked_dates = mask_dates(EWR_info1, df_F)
     # Extract a daily timeseries for water years and climates for the catchment
-    water_years = wateryear_daily(df, EWR_info1)
+    water_years = wateryear_daily(df_F, EWR_info1)
     catchment = data_inputs.gauge_to_catchment(gauge)
-    climates = data_inputs.wy_to_climate(df, catchment, climate)
+    climates = data_inputs.wy_to_climate(df_F, catchment, climate)
     # Get information about the EWR for the secondary EWR:
     EWR_info2 = get_EWRs(PU, EWR_info1['second_gauge'], EWR, EWR_table, allowance, pull)
     # Save flows for the two gauges to vars. If there is no flow data for the second, dont analyse:
-    flows1 = df[gauge].values
+    flows1 = df_F[gauge].values
     try:
-        flows2 = df[EWR_info1['second_gauge']].values
+        flows2 = df_F[EWR_info1['second_gauge']].values
     except KeyError: 
         print('''Cannot evaluate this ewr for {} {}, due to missing data.
         Specifically, this EWR also needs data for {}'''.format(gauge, EWR, EWR_info1['second_gauge']))
         return PU_df
     # Check flow data against EWR requirements and then perform analysis on the results:
-    E1, E2, NE1, NE2, D = ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates)
-    PU_df = event_stats_sim(df, PU_df, gauge, EWR_info1['second_gauge'], EWR, EWR_info1, E1, E2, NE1, NE2, D, water_years)
+    E1, E2, NE1, NE2, D = ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, df_F.index, masked_dates)
+    PU_df = event_stats_sim(df_F, PU_df, gauge, EWR_info1['second_gauge'], EWR, EWR_info1, E1, E2, NE1, NE2, D, water_years)
     return PU_df
 
 def complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
@@ -536,19 +542,27 @@ def complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     EWR_info = EWR_pull(PU, gauge, EWR_name, EWR_table, allowance, components)
     EWR_info = data_inputs.complex_EWR_pull(EWR_info, gauge, EWR, allowance)
     # Mask dates
-    df = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df, EWR_info)
+    water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results:
     if '2' in EWR:
-        E, NE, D = flow_calc_post_req(EWR_info, df[gauge].values, water_years)
+        E, NE, D = flow_calc_post_req(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     elif '3' in EWR:
-        E, NE, D = flow_calc_outside_req(EWR_info, df[gauge].values, water_years)
-    PU_df = event_stats(df, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+        E, NE, D = flow_calc_outside_req(EWR_info, df[gauge].values, water_years, df_F.index, masked_dates)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df
 
 #---------------------------------------- Checking EWRs ------------------------------------------#
 
+def which_water_year_no_event(iteration, no_event, water_years):
+    '''Finding which water year the event gap was finished in - the start of the event that broke the gap'''
+    
+    start_event = water_years[iteration-no_event]
+    
+    return start_event
+    
+    
 def which_water_year(iteration, event, water_years):
     '''Finding which water year the majority of the event fell in. If equal, defaults to latter'''
     
@@ -597,7 +611,7 @@ def flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_ev
                 all_events[water_year].append(np.array(event))
                 total_event_gap = no_event - total_event
                 if total_event_gap > 0:
-                    ne_water_year = which_water_year(iteration, [0]*no_event, water_years)
+                    ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                     all_no_events[ne_water_year].append(np.array([total_event_gap]))
                 no_event = 0
                 total_event = 0
@@ -607,7 +621,7 @@ def flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_ev
         
     return event, all_events, no_event, all_no_events, gap_track, total_event
 
-def lowflow_check(EWR_info, flow, event, all_events, no_event, all_no_events, water_year):
+def lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years):
     '''Checks daily flow against the EWR threshold. Saves all events to the relevant water year
     in the event tracking dictionary. Saves all event gaps to the relevant water year in the 
     no event dictionary.
@@ -616,18 +630,19 @@ def lowflow_check(EWR_info, flow, event, all_events, no_event, all_no_events, wa
     if ((flow >= EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
         event.append(flow)
         if no_event > 0:
-            all_no_events[water_year].append(np.array([no_event]))
+            ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event]))
         no_event = 0
     else:
         no_event += 1
         if len(event) > 0:
-            all_events[water_year].append(np.array(event))
+            all_events[water_years[iteration]].append(np.array(event))
             
         event = []
         
     return event, all_events, no_event, all_no_events
 
-def ctf_check(EWR_info, flow, event, all_events, no_event, all_no_events, water_year):
+def ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years):
     '''Checks daily flow against the cease to flow EWR threshold. Saves all events to the relevant
     water year in the event tracking dictionary. Saves all no events to the relevant water year
     in the no event dictionary.
@@ -637,16 +652,18 @@ def ctf_check(EWR_info, flow, event, all_events, no_event, all_no_events, water_
         event.append(flow)
     else:
         if len(event) > 0:
+            water_year = which_water_year(iteration, event, water_years)
             all_events[water_year].append(np.array(event))
             if no_event > 0:
-                all_no_events[water_year].append(np.array([no_event]))
+                ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
+                all_no_events[ne_water_year].append(np.array([no_event]))
                 no_event = 0
         event = []
         no_event += 1
     
     return event, all_events, no_event, all_no_events
 
-def level_check(EWR_info, level, level_change, event, all_events, no_event, all_no_events, water_year):
+def level_check(EWR_info, iteration, level, level_change, event, all_events, no_event, all_no_events, water_years):
     '''Checks daily level against the EWR threshold. Saves events meeting the minimum duration req
     to the relevant water year in the event tracking dictionary. Saves all event gaps to the
     relevant water year in the no event dictionary.
@@ -658,10 +675,11 @@ def level_check(EWR_info, level, level_change, event, all_events, no_event, all_
         no_event += 1
     else:
         if (len(event) >= EWR_info['duration']):
-            all_events[water_year].append(np.array(event))
+            all_events[water_years[iteration]].append(np.array(event))
             total_event_gap = no_event - len(event)
             if total_event_gap > 0:
-                all_no_events[water_year].append(np.array([total_event_gap]))
+                ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
+                all_no_events[ne_water_year].append(np.array([total_event_gap]))
             no_event = 0
         event = []
         no_event += 1
@@ -690,7 +708,7 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
                 water_year = which_water_year(iteration, event, water_years)
                 all_events[water_year].append(np.array(event))
                 total_event_gap = no_event - total_event
-                ne_water_year = which_water_year(iteration, [0]*no_event, water_years)
+                ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                 if total_event_gap > 0:
                     all_no_events[ne_water_year].append(np.array([total_event_gap]))
                 no_event = 0
@@ -701,6 +719,14 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
         no_event += 1
 
     return event, all_events, no_event, all_no_events, gap_track, total_event
+
+def date_check(date, masked_dates):
+    '''Pass in a date, if the date is within the range of accepted dates, return True, else False'''
+    if date in masked_dates:
+        result = True
+    else:
+        result = False
+    return result
 
 #------------------------------------ Calculation functions --------------------------------------#
 
@@ -735,7 +761,12 @@ def check_requirements(list_of_lists):
 
     return result
 
-def lowflow_calc(EWR_info, flows, water_years, climates):
+def next_water_year():
+    '''When moving to the next water year, this function calculates the missing days and returns'''
+    '''Option 2 is to have another series getting generated, showing missed days per year - perhaps coming out of the masking calculation functions
+    this will be a dictionary(?), and each year will have a corresponding days masked out, which can be called and then added onto the end'''
+
+def lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates):
     '''For calculating low flow ewrs. These have no consecutive requirement on their durations
     Events and event gaps are calculated on an annual basis, and are reset at the end of 
     each water year.
@@ -745,35 +776,35 @@ def lowflow_calc(EWR_info, flows, water_years, climates):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     # Iterate over daily flow, sending to the lowflow_check function for each iteration 
-    for i, flow in enumerate(flows[:-1]): 
-        event, all_events, no_event, all_no_events = lowflow_check(EWR_info, flow, event, all_events, no_event, all_no_events, water_years[i])
-        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
+    for i, flow in enumerate(flows[:-1]):
+        if dates[i] in masked_dates:
+            event, all_events, no_event, all_no_events = lowflow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, water_years)
+        else:
+            no_event += 1
+        # At the end of each water year, save any ongoing events and reset the list
         if water_years[i] != water_years[i+1]:
             if len(event) > 0:
                 all_events[water_years[i]].append(np.array(event))
-            if no_event > 0:
-                all_no_events[water_years[i]].append(np.array([no_event]))
-                no_event = 0
             event = [] # Reset at the end of the water year
-            no_event = 0 # Reset at the end of the water year
             durations.append(get_duration(climates[i], EWR_info))
-            min_events.append(1)
+        
     # Check the final iteration, saving any ongoing events/event gaps to their spots in the dictionaries
-    event, all_events, no_event, all_no_events = lowflow_check(EWR_info, flows[-1], event, all_events, no_event, all_no_events, water_years[-1])
+    if dates[-1] in masked_dates:
+        event, all_events, no_event, all_no_events = lowflow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, water_years)
     if len(event) > 0:
         all_events[water_years[-1]].append(np.array(event))
-    if no_event > 0 :
-        all_no_events[water_years[-1]].append(np.array([no_event]))
+        if no_event > 0:
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event]))
         no_event = 0
-    if no_event > 0:
-        all_no_events[water_years[-1]].append(np.array([no_event]))
+    if no_event > 0 :
+        all_no_events[water_years[-1]].append(np.array([no_event])) # no event to finish, save no event period to final year
     durations.append(get_duration(climates[-1], EWR_info))
-    min_events.append(1)
     return all_events, all_no_events, durations
 
-def ctf_calc(EWR_info, flows, water_years, climates):
+def ctf_calc_anytime(EWR_info, flows, water_years, climates):
     '''For calculating cease to flow ewrs. These have a consecutive requirement on their durations
     Events and event gaps are calculated on an annual basis, and are reset at the end of each
     water year.
@@ -783,30 +814,72 @@ def ctf_calc(EWR_info, flows, water_years, climates):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     # Iterate over daily flow, sending to the ctf_check function each iteration:
-    for i, flow in enumerate(flows[:-1]): 
-        event, all_events, no_event, all_no_events = ctf_check(EWR_info, flow, event, all_events, no_event, all_no_events, water_years[i])
+    for i, flow in enumerate(flows[:-1]):
+        event, all_events, no_event, all_no_events = ctf_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, water_years)
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
-            if len(event) > 0:
-                all_events[water_years[i]].append(np.array(event))
-            if no_event > 0:
-                all_no_events[water_years[i]].append(np.array([no_event]))
-                no_event = 0
-            event = []
             durations.append(get_duration(climates[i], EWR_info))
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
-    event, all_events, no_event, all_no_events = ctf_check(EWR_info, flows[-1], event, all_events, no_event, all_no_events, water_years[-1])   
+    event, all_events, no_event, all_no_events = ctf_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, water_years) 
     if len(event) > 0:
         all_events[water_years[-1]].append(np.array(event))
+        if no_event > 0:
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event]))
+        no_event = 0
     if no_event > 0:
-        all_no_events[water_years[-1]].append(np.array([no_event]))
+        all_no_events[water_years[-1]].append(np.array([no_event])) # No event to finish so save to final year in dictionary
     durations.append(get_duration(climates[-1], EWR_info))
     
     return all_events, all_no_events, durations
 
-def flow_calc(EWR_info, flows, water_years):
+
+def ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates):
+    '''For calculating cease to flow ewrs. These have a consecutive requirement on their durations
+    Events and event gaps are calculated on an annual basis, and are reset at the end of each
+    water year.
+    '''
+    # Declare variables:
+    event = []
+    no_event = 0
+    all_events = construct_event_dict(water_years)
+    all_no_events = construct_event_dict(water_years)
+    durations = []
+    # Iterate over daily flow, sending to the ctf_check function each iteration:
+    for i, flow in enumerate(flows[:-1]):
+        if dates[i] in masked_dates:
+            event, all_events, no_event, all_no_events = ctf_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, water_years)
+        else:
+            no_event += 1
+            # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
+        if water_years[i] != water_years[i+1]:
+            if len(event) > 0:
+                all_events[water_years[i]].append(np.array(event))
+                if no_event > 0:
+                    ne_water_year = which_water_year_no_event(i, len(event), water_years)
+                    all_no_events[ne_water_year].append(np.array([no_event]))
+                    no_event = 0
+                event = []
+            durations.append(get_duration(climates[i], EWR_info))
+
+    # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
+    if dates[-1] in masked_dates:
+        event, all_events, no_event, all_no_events = ctf_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, water_years) 
+    if len(event) > 0:
+        all_events[water_years[-1]].append(np.array(event))
+        if no_event > 0:
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event]))
+        no_event = 0
+    if no_event > 0:
+        all_no_events[water_years[-1]].append(np.array([no_event])) # No event to finish so save to final year in the dictionary
+    durations.append(get_duration(climates[-1], EWR_info))
+    
+    return all_events, all_no_events, durations
+
+def flow_calc(EWR_info, flows, water_years, dates, masked_dates):
     '''For calculating flow EWRs with a time constraint within their requirements. Events are
     therefore reset at the end of each water year.
     '''
@@ -816,33 +889,38 @@ def flow_calc(EWR_info, flows, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     gap_track = 0
     # Iterate over flow timeseries, sending to the flow_check function each iteration:
     for i, flow in enumerate(flows[:-1]):
-        event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event)
+        if dates[i] in masked_dates:
+            event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event)
+        else:
+            no_event += 1
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
             if len(event) >= EWR_info['min_event']:
                 all_events[water_years[i]].append(np.array(event))
                 if no_event - total_event > 0:
-                    all_no_events[water_years[i]].append(np.array([no_event-total_event]))
+                    ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                    all_no_events[ne_water_year].append(np.array([no_event-total_event]))
                 no_event = 0
                 total_event = 0
             event = []
-            min_events.append(EWR_info['min_event'])
             durations.append(EWR_info['duration'])
+        
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
-    event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event)   
-    if len(event) >= EWR_info['min_event']: 
+    if dates[-1] in masked_dates:
+        event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event)   
+    if len(event) >= EWR_info['min_event']:
         all_events[water_years[-1]].append(np.array(event))
         if no_event - total_event > 0:
-            all_no_events[water_years[-1]].append(np.array([no_event-total_event]))
+            ne_water_year = which_water_year_no_event(i, total_event, water_years)
+            all_no_events[ne_water_year].append(np.array([no_event-total_event]))
         no_event = 0
         total_event = 0
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event]))
-    min_events.append(EWR_info['min_event'])
     durations.append(EWR_info['duration'])
 
     return all_events, all_no_events, durations
@@ -857,13 +935,12 @@ def flow_calc_anytime(EWR_info, flows, water_years):
     total_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     gap_track = 0
     # Iterate over flows:
     for i, flow in enumerate(flows[:-1]):
         event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event)  
         if water_years[i] != water_years[i+1]:
-            min_events.append(EWR_info['min_event'])
             durations.append(EWR_info['duration'])
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event)
@@ -872,17 +949,16 @@ def flow_calc_anytime(EWR_info, flows, water_years):
         all_events[water_year].append(np.array(event))
         total_event_gap = no_event-total_event
         if total_event_gap > 0:
-            all_no_events[water_year].append(np.array([total_event_gap]))
+            ne_water_year = which_water_year_no_event(-1, total_event, water_years)
+            all_no_events[ne_water_year].append(np.array([total_event_gap]))
         no_event = 0
-        total_event = 0
     if no_event > 0:
-        all_no_events[water_years[-1]].append(np.array([no_event]))
-    min_events.append(EWR_info['min_event'])
+        all_no_events[water_years[-1]].append(np.array([no_event])) # No event so add to the final year
     durations.append(EWR_info['duration'])   
 
     return all_events, all_no_events, durations
 
-def lake_calc(EWR_info, levels, water_years):
+def lake_calc(EWR_info, levels, water_years, dates, masked_dates):
     '''For calculating lake level EWRs. The EWRs are checked on an annual basis, events and
     event gaps are therefore reset at the end of each water year.
     '''
@@ -891,40 +967,43 @@ def lake_calc(EWR_info, levels, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
-    # Iterate over levels:
+    durations = []
+    # Check first level and then iterate through, until last day:
     for i, level in enumerate(levels[:-1]):
         if i == 0:
             level_change = 0
-        else:
+        if dates[i] in masked_dates:
             level_change = levels[i-1]-levels[i]
-        event, all_events, no_event, all_no_events = level_check(EWR_info, level, level_change, event, all_events, no_event, all_no_events, water_years[i])
-        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
+            event, all_events, no_event, all_no_events = level_check(EWR_info, i, level, level_change, event, all_events, no_event, all_no_events, water_years)
+        else:
+            no_event += 1
+        # At the end of each water year, save any ongoing events to the dictionaries, and reset the list
         if water_years[i] != water_years[i+1]:
             if len(event) >= EWR_info['duration']:
                 all_events[water_years[i]].append(np.array(event))
-            if no_event > 0:
-                all_no_events[water_years[i]].append(np.array([no_event-len(event)]))
-            no_event = 0
+                if no_event > 0:
+                    ne_water_year = which_water_year_no_event(i, len(event), water_years)
+                    all_no_events[water_years[i]].append(np.array([no_event-len(event)]))
+                    no_event = 0
             event = []
-            min_events.append(EWR_info['min_event'])
             durations.append(EWR_info['duration'])
-    # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
-    level_change = levels[-2]-levels[-1]        
-    event, all_events, no_event, all_no_events = level_check(EWR_info, levels[-1], level_change, event, all_events, no_event, all_no_events, water_years[-1])
+    if dates[-1] in masked_dates:
+        level_change = levels[-2]-levels[-1]        
+        event, all_events, no_event, all_no_events = level_check(EWR_info, -1, levels[-1], level_change, event, all_events, no_event, all_no_events, water_years)
+        
     if len(event) >= EWR_info['duration']:
         all_events[water_years[-1]].append(np.array(event))
-    if no_event > 0:
-        all_no_events[water_years[-1]].append(np.array([no_event-len(event)]))
+        if no_event > 0:
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event-len(event)]))
         no_event = 0
     if no_event > 0:
-        all_no_events[water_years[-1]].append(np.array([no_event]))
-    min_events.append(EWR_info['min_event'])
+        all_no_events[water_years[-1]].append(np.array([no_event])) # if there is an unsaved event gap, save this to the final year of the dictionary
     durations.append(EWR_info['duration'])
 
     return all_events, all_no_events, durations
 
-def cumulative_calc(EWR_info, flows, water_years):
+def cumulative_calc(EWR_info, flows, water_years, dates, masked_dates):
     '''For calculating cumulative flow EWRs with time constraints. A 'window' is moved over the
     flow timeseries for each year with a length of the EWR duration, these flows in the window
     that are over the minimum flow threshold are summed together, and if this sum meets the min
@@ -935,34 +1014,39 @@ def cumulative_calc(EWR_info, flows, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     unique_water_years = sorted(set(water_years))
     # Iterate over unique water years:
     for year in unique_water_years:
         mask = water_years == year
         year_flows = flows[mask]
+        year_dates = dates[mask]
         durations.append(EWR_info['duration'])
         skip_lines = 0
         # Within the water year, iterate over the flows, checking the future (duration length) of days for an event:
         for i, flow in enumerate(year_flows[:-EWR_info['duration']]):
-            if skip_lines > 0:
-                skip_lines -= 1
-            else:
-                subset_flows = year_flows[i:i+EWR_info['duration']]
-                large_enough_flows = subset_flows[subset_flows >= EWR_info['min_flow']]
-                # If there are enough flows over the threshold to meet the volume requirement, save event and event gap:
-                if sum(large_enough_flows) >= EWR_info['min_volume']:
-                    all_events[year].append(np.array(large_enough_flows))
-                    skip_lines = EWR_info['duration'] - 1
-                    if no_event > 0:
-                        all_no_events[year].append(np.array([no_event]))
-                        no_event = 0
+            if year_dates[i] in masked_dates and year_dates[i+EWR_info['duration']] in masked_dates:
+                if skip_lines > 0:
+                    skip_lines -= 1
                 else:
-                    no_event += 1
-        # Check the final subset of flows for this water year            
-        else:
-            final_subset_flows = year_flows[-EWR_info['duration']+skip_lines:]
+                    subset_flows = year_flows[i:i+EWR_info['duration']]
+                    large_enough_flows = subset_flows[subset_flows >= EWR_info['min_flow']]
+                    # If there are enough flows over the threshold to meet the volume requirement, save event and event gap:
+                    if sum(large_enough_flows) >= EWR_info['min_volume']:
+                        all_events[year].append(np.array(large_enough_flows))
+                        skip_lines = EWR_info['duration'] - 1
+                        if no_event > 0:
+                            all_no_events[year].append(np.array([no_event]))
+                            no_event = 0
+                    else:
+                        no_event += 1
+            else:
+                no_event += 1
+                
+        if year_dates[-1] in masked_dates and skip_lines == 0:
+            final_subset_flows = year_flows[-EWR_info['duration']:]
             final_large_enough_flows = final_subset_flows[final_subset_flows >= EWR_info['min_flow']]
+            # If there are enough flows over the threshold to meet the volume requirement, save event and event gap:
             if sum(final_large_enough_flows) >= EWR_info['min_volume']:
                 all_events[year].append(np.array(final_large_enough_flows))
                 if no_event > 0:
@@ -970,8 +1054,9 @@ def cumulative_calc(EWR_info, flows, water_years):
                     no_event = 0
             else:
                 no_event = no_event + EWR_info['duration']
-    if no_event > 0:
-        all_no_events[water_years[-1]].append(np.array([no_event]))
+        else:
+            no_event = no_event + EWR_info['duration'] - skip_lines
+                
     
     return all_events, all_no_events, durations
 
@@ -1006,22 +1091,22 @@ def cumulative_calc_anytime(EWR_info, flows, water_years):
             else:
                 no_event += 1
     # Check for final window:
+    final_subset_flows = flows[-EWR_info['duration']+skip_lines:]
+    final_large_enough_flows = final_subset_flows[final_subset_flows >= EWR_info['min_flow']]
+    if sum(final_large_enough_flows) >= EWR_info['min_volume']:
+        water_year = which_water_year_end(-EWR_info['duration'], final_subset_flows, water_years)
+        all_events[water_year].append(np.array(final_large_enough_flows))
+        if no_event > 0:
+            all_no_events[water_years[-1]].append(np.array([no_event]))
+        no_event = 0
     else:
-        final_subset_flows = flows[-EWR_info['duration']+skip_lines:]
-        final_large_enough_flows = final_subset_flows[final_subset_flows >= EWR_info['min_flow']]
-        if sum(final_large_enough_flows) >= EWR_info['min_volume']:
-            water_year = which_water_year_end(-EWR_info['duration'], final_subset_flows, water_years)
-            all_events[water_year].append(np.array(final_large_enough_flows))
-            if no_event > 0:
-                all_no_events[water_years[-1]].append(np.array([no_event]))
-            no_event = 0
-        else:
-            no_event = no_event + EWR_info['duration']
+        no_event = no_event + EWR_info['duration']
+        
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event]))
     return all_events, all_no_events, durations
 
-def nest_calc_weirpool(EWR_info, flows, levels, water_years):
+def nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates):
     ''' For calculating Nest type EWRs with a weirpool element in the requirement. For an event
     to be registered, the requirements for flow at the flow gauge, level at the level gauge,
     and drawdown rate at the level gauge are all required to be met.'''
@@ -1029,13 +1114,14 @@ def nest_calc_weirpool(EWR_info, flows, levels, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     unique_water_years = sorted(set(water_years))
     # Iterate over the years:
     for year in unique_water_years:
         mask = water_years == year
         year_flows = flows[mask]
         year_levels = levels[mask]
+        year_dates = dates[mask]
         durations.append(EWR_info['duration'])
         skip_lines = 0
         # Iterate over flows in the water year:
@@ -1043,30 +1129,29 @@ def nest_calc_weirpool(EWR_info, flows, levels, water_years):
             if skip_lines > 0:
                 skip_lines -= 1
             else:
-                # Perform checks on flow, level, and drawdown rate in duration window
-                subset_flows = year_flows[i:i+EWR_info['duration']]
-                subset_levels = year_levels[i:i+EWR_info['duration']]
-                
-                min_flow_check = subset_flows >= EWR_info['min_flow']
-                max_flow_check = subset_flows <= EWR_info['max_flow']
-                level_change = np.diff(subset_levels)
-                level_change_check = level_change >= -float(EWR_info['drawdown_rate'])
-                checks_passed = check_requirements([min_flow_check, max_flow_check, level_change_check])
+                if year_dates[i] in masked_dates and year_dates[i+EWR_info['duration']] in masked_dates:
+                    # Perform checks on flow, level, and drawdown rate in duration window
+                    subset_flows = year_flows[i:i+EWR_info['duration']]
+                    subset_levels = year_levels[i:i+EWR_info['duration']]
 
-                if checks_passed:
-                    all_events[year].append(np.array(subset_flows))
-                    if no_event > 0:
-                        all_no_events[year].append(np.array([no_event]))
-                    no_event = 0
-                    skip_lines = len(subset_flows) -1
+                    min_flow_check = subset_flows >= EWR_info['min_flow']
+                    max_flow_check = subset_flows <= EWR_info['max_flow']
+                    level_change = np.diff(subset_levels)
+                    level_change_check = level_change >= -float(EWR_info['drawdown_rate'])
+                    checks_passed = check_requirements([min_flow_check, max_flow_check, level_change_check])
+
+                    if checks_passed:
+                        all_events[year].append(np.array(subset_flows))
+                        if no_event > 0:
+                            all_no_events[year].append(np.array([no_event]))
+                        no_event = 0
+                        skip_lines = len(subset_flows) -1
+                    else:
+                        no_event += 1
                 else:
                     no_event += 1
-        # Perform check on final duration window of the water year:
-        if skip_lines > 0:
-            # Not enough days in the year left to meet another requirement
-            # Add on the the remaining days in the year to the no event counter:
-            no_event = no_event + (EWR_info['duration'] - skip_lines)
-        else:
+        
+        if year_dates[-1] in masked_dates and skip_lines == 0:
             final_subset_flows = year_flows[-EWR_info['duration']:]
             final_subset_levels = year_levels[-EWR_info['duration']:]
 
@@ -1074,7 +1159,6 @@ def nest_calc_weirpool(EWR_info, flows, levels, water_years):
             max_flow_check = final_subset_flows <= EWR_info['max_flow']
             level_change = np.diff(final_subset_levels)
             level_change_check = level_change >= -float(EWR_info['drawdown_rate'])
-
             checks_passed = check_requirements([min_flow_check, max_flow_check, level_change_check])
 
             if checks_passed:
@@ -1083,14 +1167,16 @@ def nest_calc_weirpool(EWR_info, flows, levels, water_years):
                     all_no_events[year].append(np.array([no_event]))
                 no_event = 0
             else:
-                # There won't be any events for the rest of the year, reflect this in the counter:
                 no_event = no_event + EWR_info['duration']
+        else:
+            no_event = no_event + EWR_info['duration'] - skip_lines
+        
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event]))
 
     return all_events, all_no_events, durations  
             
-def nest_calc_percent(EWR_info, flows, water_years):
+def nest_calc_percent(EWR_info, flows, water_years, dates, masked_dates):
     ''' For calculating Nest type EWRs with a percentage drawdown requirement. For an event
     to be registered, the requirements for flow and drawdown rate at the flow gauge are all
     required to be met.'''
@@ -1099,13 +1185,14 @@ def nest_calc_percent(EWR_info, flows, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     unique_water_years = sorted(set(water_years))
     drawdown_rate = int(EWR_info['drawdown_rate'][:-1])
     # Iterate over unique water years:
     for year in unique_water_years:
         mask = water_years == year
         year_flows = flows[mask]
+        year_dates = dates[mask]
         durations.append(EWR_info['duration'])
         skip_lines = 0
         # Iterate over flows in the water year:
@@ -1113,34 +1200,31 @@ def nest_calc_percent(EWR_info, flows, water_years):
             if skip_lines > 0:
                 skip_lines -= 1
             else:
-                # Perform checks on flow and drawdown rate (percentage) in duration window
-                subset_flows = year_flows[i:i+EWR_info['duration']]
-                
-                min_flow_check = subset_flows >= EWR_info['min_flow']
-                max_flow_check = subset_flows <= EWR_info['max_flow']
-                flow_change = np.array(np.diff(subset_flows),dtype=float)
-                divide_flows = subset_flows[:-1]
-                difference = np.divide(flow_change, divide_flows, out=np.zeros_like(flow_change), where=divide_flows!=0)*100
-                flow_change_check = difference >= -drawdown_rate
+                if year_dates[i] in masked_dates and year_dates[i+EWR_info['duration']] in masked_dates:
+                    # Perform checks on flow and drawdown rate (percentage) in duration window
+                    subset_flows = year_flows[i:i+EWR_info['duration']]
 
-                checks_passed = check_requirements([min_flow_check, max_flow_check, flow_change_check])
+                    min_flow_check = subset_flows >= EWR_info['min_flow']
+                    max_flow_check = subset_flows <= EWR_info['max_flow']
+                    flow_change = np.array(np.diff(subset_flows),dtype=float)
+                    divide_flows = subset_flows[:-1]
+                    difference = np.divide(flow_change, divide_flows, out=np.zeros_like(flow_change), where=divide_flows!=0)*100
+                    flow_change_check = difference >= -drawdown_rate
 
-                if checks_passed:
-                    all_events[year].append(np.array(subset_flows))
-                    if no_event > 0:
-                        all_no_events[year].append(np.array([no_event]))
-                    no_event = 0
-                    skip_lines = len(subset_flows) -1
+                    checks_passed = check_requirements([min_flow_check, max_flow_check, flow_change_check])
+
+                    if checks_passed:
+                        all_events[year].append(np.array(subset_flows))
+                        if no_event > 0:
+                            all_no_events[year].append(np.array([no_event]))
+                        no_event = 0
+                        skip_lines = len(subset_flows) -1
+                    else:
+                        no_event = no_event + 1
                 else:
-                    no_event = no_event + 1
-        # Perform check on final duration window of the water year:
-        if skip_lines > 0:
-            # Not enough days in the year left to meet another requirement
-            # Add on the the remaining days in the year to the no event counter:
-            no_event = no_event + (EWR_info['duration'] - skip_lines)
-        else:
+                    no_event += 1
+        if year_dates[-1] in masked_dates and skip_lines == 0:
             final_subset_flows = year_flows[-EWR_info['duration']:]
-
             min_flow_check = final_subset_flows >= EWR_info['min_flow']
             max_flow_check = final_subset_flows <= EWR_info['max_flow']
             flow_change = np.array(np.diff(final_subset_flows),dtype=float)
@@ -1155,9 +1239,12 @@ def nest_calc_percent(EWR_info, flows, water_years):
                 if no_event > 0:
                     all_no_events[year].append(np.array([no_event]))
                 no_event = 0
+                skip_lines = len(subset_flows) -1
             else:
-                # There won't be any events for the rest of the year, reflect this in the counter:
                 no_event = no_event + EWR_info['duration']
+        else:
+            no_event = no_event + EWR_info['duration'] - skip_lines
+            
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event]))
     
@@ -1173,7 +1260,7 @@ def nest_calc_percent_trigger(EWR_info, flows, water_years, dates):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     durations = len(set(water_years))*[EWR_info['duration']]
     skip_lines = 0
     drawdown_rate = int(EWR_info['drawdown_rate'][:-1])
@@ -1187,17 +1274,16 @@ def nest_calc_percent_trigger(EWR_info, flows, water_years, dates):
             # Only perform check on trigger day, looking ahead to see if there is an event:
             trigger_day = days[i] == EWR_info['trigger_day']
             trigger_month = months[i] == EWR_info['trigger_month']
-            
             if trigger_day and trigger_month:
                 subset_flows = flows[i:i+EWR_info['duration']]               
                 min_flow_check = subset_flows >= EWR_info['min_flow']
                 max_flow_check = subset_flows <= EWR_info['max_flow']
+                
                 flow_change = np.array(np.diff(subset_flows),dtype=float)
                 divide_flows = subset_flows[:-1]
                 difference = np.divide(flow_change, divide_flows, out=np.zeros_like(flow_change), where=divide_flows!=0)*100
-                flow_change_check = difference <= drawdown_rate
+                flow_change_check = difference >= -drawdown_rate
                 checks_passed = check_requirements([min_flow_check, max_flow_check, flow_change_check])
-
                 if checks_passed:
                     all_events[water_years[i]].append(np.array(subset_flows))
                     if no_event > 0:
@@ -1212,7 +1298,7 @@ def nest_calc_percent_trigger(EWR_info, flows, water_years, dates):
         all_no_events[water_years[-1]].append(np.array([no_event+EWR_info['duration']]))
     return all_events, all_no_events, durations
        
-def weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type):
+def weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates):
     '''For calculating weirpool type EWRs, these have a required flow rate at a flow gauge,
     a required river level at a level gauge, a drawdown rate, and are either a weirpool raising
     or weirpool drawdown. Weirpool raising EWRs have a minimum height, and weirpool falling have
@@ -1222,13 +1308,14 @@ def weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     unique_water_years = sorted(set(water_years))
     # Iterate over unique water years:
     for year in unique_water_years:
         mask = water_years == year
         year_flows = flows[mask]
         year_levels = levels[mask]
+        year_dates = dates[mask]
         durations.append(EWR_info['duration'])
         skip_lines = 0
         # Iterate over flows:
@@ -1236,34 +1323,33 @@ def weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type):
             if skip_lines > 0:
                 skip_lines = skip_lines - 1
             else:
-                # Get a subset of flows and levels, check the requirements are met:
-                subset_flows = year_flows[i:i+EWR_info['duration']]
-                subset_levels = year_levels[i:i+EWR_info['duration']]
+                if year_dates[i] in masked_dates and year_dates[i+EWR_info['duration']] in masked_dates:
+                    # Get a subset of flows and levels, check the requirements are met:
+                    subset_flows = year_flows[i:i+EWR_info['duration']]
+                    subset_levels = year_levels[i:i+EWR_info['duration']]
 
-                min_flow_check = subset_flows >= EWR_info['min_flow']
-                max_flow_check = subset_flows <= EWR_info['max_flow']
-                levels_change = np.array(np.diff(subset_levels),dtype=float)
-                level_change_check = levels_change >= -float(EWR_info['drawdown_rate'])
-                if weirpool_type == 'raising':
-                    check_levels = subset_levels >= EWR_info['min_level']
-                elif weirpool_type == 'falling':
-                    check_levels = subset_levels <= EWR_info['max_level']
-                checks_passed = check_requirements([min_flow_check, max_flow_check, 
-                                                    level_change_check, check_levels])
-                if checks_passed:
-                    all_events[year].append(np.array(subset_flows))
-                    skip_lines = EWR_info['duration'] -1
-                    if no_event > 0:
-                        all_no_events[year].append(np.array([no_event]))
-                    no_event = 0
+                    min_flow_check = subset_flows >= EWR_info['min_flow']
+                    max_flow_check = subset_flows <= EWR_info['max_flow']
+                    levels_change = np.array(np.diff(subset_levels),dtype=float)
+                    level_change_check = levels_change >= -float(EWR_info['drawdown_rate'])
+                    if weirpool_type == 'raising':
+                        check_levels = subset_levels >= EWR_info['min_level']
+                    elif weirpool_type == 'falling':
+                        check_levels = subset_levels <= EWR_info['max_level']
+                    checks_passed = check_requirements([min_flow_check, max_flow_check, 
+                                                        level_change_check, check_levels])
+                    if checks_passed:
+                        all_events[year].append(np.array(subset_flows))
+                        skip_lines = EWR_info['duration'] -1
+                        if no_event > 0:
+                            all_no_events[year].append(np.array([no_event]))
+                        no_event = 0
+                    else:
+                        no_event += 1
                 else:
                     no_event += 1
-        # Get the final subset for the year:
-        if skip_lines > 0:
-            # Not enough days in the water year left to meet another requirement
-            # Add on the the remaining days in the year to the no event counter:
-            no_event = no_event + (EWR_info['duration'] - skip_lines)
-        else:
+                    
+        if year_dates[-1] in masked_dates and skip_lines == 0:
             final_subset_flows = year_flows[-EWR_info['duration']:]
             final_subset_levels = year_levels[-EWR_info['duration']:]
 
@@ -1279,11 +1365,15 @@ def weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type):
                                                 level_change_check, check_levels])
             if checks_passed:
                 all_events[year].append(np.array(final_subset_flows))
+                skip_lines = EWR_info['duration'] -1
                 if no_event > 0:
                     all_no_events[year].append(np.array([no_event]))
                 no_event = 0
             else:
                 no_event = no_event + EWR_info['duration']
+        else:
+            no_event = no_event + EWR_info['duration'] - skip_lines
+            
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event]))
     return all_events, all_no_events, durations  
@@ -1298,7 +1388,7 @@ def flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     gap_track = 0
     total_event = 0
     # Iterate over flows
@@ -1311,7 +1401,6 @@ def flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years):
                                                                                all_no_events,gap_track,
                                                                                            total_event)
         if water_years[i] != water_years[i+1]:
-            min_events.append(EWR_info1['min_event'])
             durations.append(EWR_info1['duration'])
     # Check final iteration:
     event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,
@@ -1323,14 +1412,16 @@ def flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years):
     if len(event) >= EWR_info1['min_event']:
         water_year = which_water_year(-1, event, water_years)
         all_events[water_year].append(np.array(event))
-        
-    min_events.append(EWR_info1['min_event'])
+        if no_event > 0:
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event-total_event]))
+        no_event = 0
     durations.append(EWR_info1['duration'])   
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event-total_event]))
     return all_events, all_no_events, durations
     
-def flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years):
+def flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, masked_dates):
     '''For calculating flow EWRs with a time constraint within their requirements. Events are
     therefore reset at the end of each water year. These EWRs need to be met simultaneously 
     with EWRs at partner sites.
@@ -1340,49 +1431,54 @@ def flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     gap_track = 0
     lines_to_skip = 0
     total_event = 0
     # Iterate over flows
     for i, flow in enumerate(flows1[:-1]):
-        # Each iteration send to a simultaneous flow check function, to see if both sites requirements are met:
-        event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,EWR_info2,
-                                                                               water_years, flow,
-                                                                               flows2[i],event,
-                                                                               all_events, no_event,
-                                                                               all_no_events, gap_track,
-                                                                                           total_event)  
+        if dates[i] in masked_dates:
+            # Each iteration send to a simultaneous flow check function, to see if both sites requirements are met:
+            event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,EWR_info2,
+                                                                                   water_years, flow,
+                                                                                   flows2[i],event,
+                                                                                   all_events, no_event,
+                                                                                   all_no_events, gap_track,
+                                                                                               total_event)
+        else:
+            no_event += 1
         if water_years[i] != water_years[i+1]:
             if len(event) >= EWR_info1['min_event']: 
                 all_events[water_years[i]].append(np.array(event))
                 if no_event - total_event > 0:
-                    all_no_events[water_years[i]].append(np.array([no_event-total_event]))
+                    ne_water_year = which_water_year_no_event(i, len(event), water_years)
+                    all_no_events[ne_water_year].append(np.array([no_event-total_event]))
                 no_event = 0
                 total_event = 0
             event = []
-            min_events.append(EWR_info1['min_event'])
             durations.append(EWR_info1['duration'])
+        
     # Check final iteration:
-    event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,
-                                                                           EWR_info2, water_years,
-                                                                           flows1[-1], flows2[-1], event,
-                                                                           all_events, no_event,
-                                                                           all_no_events,gap_track,
-                                                                                       total_event)            
-    if len(event) >= EWR_info1['min_event']: 
+    if dates[-1] in masked_dates:
+        event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,
+                                                                               EWR_info2, water_years,
+                                                                               flows1[-1], flows2[-1], event,
+                                                                               all_events, no_event,
+                                                                               all_no_events,gap_track,
+                                                                                           total_event)
+    if len(event) >= EWR_info1['min_event']:
         all_events[water_years[-1]].append(np.array(event))
         if no_event - total_event > 0:
-            all_no_events[water_years[-1]].append(np.array([no_event-total_event]))
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events[ne_water_year].append(np.array([no_event-total_event]))
         no_event = 0
         total_event = 0
-    min_events.append(EWR_info1['min_event'])
     durations.append(EWR_info1['duration'])
     if no_event > 0:
         all_no_events[water_years[-1]].append(np.array([no_event]))  
     return all_events, all_no_events, durations    
 
-def lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates):
+def lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, dates, masked_dates):
     '''For calculating low flow ewrs. These have no consecutive requirement on their durations
     Events and event gaps are calculated on an annual basis, and are reset at the end of 
     each water year. These EWRs need to be met simultaneously with EWRs at partner sites.
@@ -1394,47 +1490,49 @@ def lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates
     all_events2 = construct_event_dict(water_years)
     all_no_events1 = construct_event_dict(water_years)
     all_no_events2 = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     for i, flow in enumerate(flows1[:-1]):
-        # Check flows at each site against their respective EWR requirements:
-        event1, all_events1, no_event1, all_no_events1 = lowflow_check(EWR_info1, flow, event1, all_events1, no_event1, all_no_events1, water_years[i])
-        event2, all_events2, no_event2, all_no_events2 = lowflow_check(EWR_info2, flows2[i], event2, all_events2, no_event2, all_no_events2, water_years[i])
+        if dates[i] in masked_dates:
+            # Check flows at each site against their respective EWR requirements:
+            event1, all_events1, no_event1, all_no_events1 = lowflow_check(EWR_info1, i, flow, event1, all_events1, no_event1, all_no_events1, water_years)
+            event2, all_events2, no_event2, all_no_events2 = lowflow_check(EWR_info2, i, flows2[i], event2, all_events2, no_event2, all_no_events2, water_years)
+        else:
+            no_event1 += 1
+            no_event2 += 1
         if water_years[i] != water_years[i+1]:
             if len(event1) > 0:
                 all_events1[water_years[i]].append(np.array(event1))
-            if no_event1 > 0:
-                all_no_events1[water_years[i]].append(np.array([no_event1]))
             if len(event2) > 0:
                 all_events2[water_years[i]].append(np.array(event2))
-            if no_event2 > 0:
-                all_no_events2[water_years[i]].append(np.array([no_event2]))
-            
+
             event1, event2 = [], []
-            no_event1, no_event2 = 0, 0
             durations.append(get_duration(climates[i], EWR_info1))
-            min_events.append(1)
-    # Check final iteration:        
-    event1, all_events1, no_event1, all_no_events1 = lowflow_check(EWR_info1, flows1[-1], event1, all_events1, no_event1, all_no_events1, water_years[-1])
-    event2, all_events2, no_event2, all_no_events2 = lowflow_check(EWR_info2, flows2[-1], event2, all_events2, no_event2, all_no_events2, water_years[-1])
+
+    # Check final iteration:
+    if dates[-1] in masked_dates:
+        event1, all_events1, no_event1, all_no_events1 = lowflow_check(EWR_info1, -1, flows1[-1], event1, all_events1, no_event1, all_no_events1, water_years)
+        event2, all_events2, no_event2, all_no_events2 = lowflow_check(EWR_info2, -1, flows2[-1], event2, all_events2, no_event2, all_no_events2, water_years)
     if len(event1) > 0:
         all_events1[water_years[-1]].append(np.array(event1))
         if no_event1 > 0:
-            all_no_events1[water_years[-1]].append(np.array([no_event1]))
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events1[ne_water_year].append(np.array([no_event1]))
         no_event1 = 0
     if len(event2) > 0:
         all_events2[water_years[-1]].append(np.array(event2))
         if no_event2 > 0:
-            all_no_events2[water_years[-1]].append(np.array([no_event2]))
+            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            all_no_events2[ne_water_year].append(np.array([no_event2]))
         no_event2 = 0
     durations.append(get_duration(climates[-1], EWR_info1))
-    min_events.append(1)
+    # If there are event gaps left over, save these to the last year in the dictionary
     if no_event1 > 0:
         all_no_events1[water_years[-1]].append(np.array([no_event1]))
     if no_event2 > 0:
         all_no_events2[water_years[-1]].append(np.array([no_event2]))
     return all_events1, all_events2, all_no_events1, all_no_events2, durations
 
-def ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates):
+def ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, dates, masked_dates):
     '''For calculating cease to flow ewrs. These have a consecutive requirement on their durations
     Events and event gaps are calculated on an annual basis, and are reset at the end of each
     water year. These EWRs need to be met simultaneously with EWRs at partner sites.
@@ -1446,27 +1544,34 @@ def ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates):
     all_events2 = construct_event_dict(water_years)
     all_no_events1 = construct_event_dict(water_years)
     all_no_events2 = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     for i, flow in enumerate(flows1[:-1]):
         # Check flows at each site against their respective EWR requirements:
-        event1, all_events1, no_event1, all_no_events1 = ctf_check(EWR_info1, flow, event1, all_events1, no_event1, all_no_events1, water_years[i])
-        event2, all_events2, no_event2, all_no_events2 = ctf_check(EWR_info2, flows2[i], event2, all_events2, no_event2, all_no_events2, water_years[i])
-        if water_years[i] != water_years[i+1]:
-            if len(event1) > 0:
-                all_events1[water_years[i]].append(np.array(event1))
-            if len(event2) > 0:
-                all_events2[water_years[i]].append(np.array(event2))
-            event1, event2 = [], [] 
-            if no_event1 > 0:
-                all_no_events1[water_years[i]].append(np.array([no_event1]))
-            if no_event2 > 0:
-                all_no_events2[water_years[i]].append(np.array([no_event2]))
-            no_event1, no_event2 = 0, 0
-            durations.append(get_duration(climates[i], EWR_info1))
-            min_events.append(1)
+        if dates[i] in masked_dates:
+            event1, all_events1, no_event1, all_no_events1 = ctf_check(EWR_info1, i, flow, event1, all_events1, no_event1, all_no_events1, water_years)
+            event2, all_events2, no_event2, all_no_events2 = ctf_check(EWR_info2, i, flows2[i], event2, all_events2, no_event2, all_no_events2, water_years)
+            if water_years[i] != water_years[i+1]:
+                if len(event1) > 0:
+                    all_events1[water_years[i]].append(np.array(event1))
+                    if no_event1 > 0:
+                        ne_water_year = which_water_year_no_event(i, len(event1), water_years)
+                        all_no_events1[water_years[i]].append(np.array([no_event1]))
+                        no_event1 = 0
+                if len(event2) > 0:
+                    all_events2[water_years[i]].append(np.array(event2))
+                    if no_event2 > 0:
+                        ne_water_year = which_water_year_no_event(i, len(event2), water_years)
+                        all_no_events2[water_years[i]].append(np.array([no_event2]))
+                        no_event2 = 0
+                event1, event2 = [], []
+                durations.append(get_duration(climates[i], EWR_info1))
+        else:
+            no_event1 += 1
+            no_event2 += 1
     # Check final iteration:
-    event1, all_events1, no_event1, all_no_events1 = ctf_check(EWR_info1, flows1[-1], event1, all_events1, no_event1, all_no_events1, water_years[-1])
-    event2, all_events2, no_event2, all_no_events2 = ctf_check(EWR_info2, flows2[-1], event2, all_events2, no_event2, all_no_events2, water_years[-1])  
+    if dates[-1] in masked_dates:
+        event1, all_events1, no_event1, all_no_events1 = ctf_check(EWR_info1, -1, flows1[-1], event1, all_events1, no_event1, all_no_events1, water_years)
+        event2, all_events2, no_event2, all_no_events2 = ctf_check(EWR_info2, -1, flows2[-1], event2, all_events2, no_event2, all_no_events2, water_years)  
     if len(event1) > 0:
         all_events1[water_years[-1]].append(np.array(event1))
     if len(event2) > 0:
@@ -1501,7 +1606,7 @@ def check_trigger(iteration, min_flow, max_flow, gap_tolerance, min_event, water
 
     return event, gap_track, trigger
 
-def flow_calc_post_req(EWR_info, flows, water_years):
+def flow_calc_post_req(EWR_info, flows, water_years, dates, masked_dates):
     ''' For flow EWRs with a main requirement, and a secondary requirement which needs to be 
     satisfied immediately after the main requirement. Currently only two EWRs have this requirement,
     gauge 409025 OB2_S and OB2_P
@@ -1511,7 +1616,7 @@ def flow_calc_post_req(EWR_info, flows, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     gap_track = 0
     skip_lines = 0
     for i, flow in enumerate(flows):
@@ -1527,9 +1632,9 @@ def flow_calc_post_req(EWR_info, flows, water_years):
                 # Send to check the post requirement
                 event, gap_track, post_trigger = check_trigger(i, EWR_info['min_flow_post'], EWR_info['max_flow_post'], EWR_info['gap_tolerance'], EWR_info['duration_post'], water_years, flow, event, gap_track, post_trigger)
             elif ((trigger == True) and (post_trigger == True)):
-                water_year = which_water_year(iteration, event, water_years)
+                water_year = which_water_year(i, event, water_years)
                 all_events[water_year].append(np.array(event))
-                ne_water_year = which_water_year(iteration, [0]*no_event, water_years)
+                ne_water_year = which_water_year_no_event(i, no_event, water_years)
                 all_no_events[ne_water_year].append(np.array([no_event-len(event)]))
                 no_event = 0
                 trigger1, trigger2 = False, False
@@ -1537,7 +1642,7 @@ def flow_calc_post_req(EWR_info, flows, water_years):
         all_no_events[water_years[-1]].append(np.array([no_event]))
     return all_events, all_no_events, durations
 
-def flow_calc_outside_req(EWR_info, flows, water_years):
+def flow_calc_outside_req(EWR_info, flows, water_years, dates, masked_dates):
     ''' For flow EWRs with a main requirement, and a secondary requirement which can either be 
     satisfied immediately after the main requirement, or immediately before. 
     Currently only two EWRs have this requirement, gauge 409025 OB3_S and OB3_P
@@ -1547,7 +1652,7 @@ def flow_calc_outside_req(EWR_info, flows, water_years):
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     skip_lines = 0
     gap_track = 0
     for i, flow in enumerate(flows):
@@ -1569,9 +1674,9 @@ def flow_calc_outside_req(EWR_info, flows, water_years):
                         break
                     if pre_trigger == True:
                         event = list(reversed(pre_event)) + event
-                        water_year = which_water_year(iteration, event, water_years)
+                        water_year = which_water_year(i, event, water_years)
                         all_events[water_year].append(np.array(event))
-                        ne_water_year = which_water_year(iteration, [0]*no_event, water_years)
+                        ne_water_year = which_water_year_no_event(i, no_event, water_years)
                         all_no_events[ne_water_year].append(np.array([no_event-len(event)]))
                 # If the above fails, enter sub routine to check for an event after:
                 if pre_trigger == False:
@@ -1582,8 +1687,8 @@ def flow_calc_outside_req(EWR_info, flows, water_years):
                             trigger, pre_trigger, post_trigger = False, False, False
                             break
                         if trigger_after == True:
-                            water_year = which_water_year(iteration, event, water_years) #Check loc
-                            ne_water_year = which_water_year(iteration, [0]*no_event, water_years)
+                            water_year = which_water_year(i, event, water_years) #Check loc
+                            ne_water_year = which_water_year_no_event(i, no_event, water_years)
                             all_no_events[ne_water_year].append(np.array([no_event-len(event)]))
                             no_event = 0
                             event = event + post_event
@@ -1599,7 +1704,7 @@ def flow_calc_outside_req(EWR_info, flows, water_years):
 
 def get_event_years(EWR_info, events, unique_water_years, durations):
     '''Returns a list of years with events (represented by a 1), and years without events (0)'''
-    event_years = []
+    event_years = []    
     for index, year in enumerate(unique_water_years):
         combined_len = 0
         for e in events[year]:
@@ -1610,8 +1715,8 @@ def get_event_years(EWR_info, events, unique_water_years, durations):
             event_years.append(0)
     
     return event_years
-    
-def number_events(EWR_info, events, unique_water_years, durations):
+
+def get_achievements(EWR_info, events, unique_water_years, durations):
     '''Returns a list of number of events per year'''
     num_events = []
     for index, year in enumerate(unique_water_years):
@@ -1623,6 +1728,22 @@ def number_events(EWR_info, events, unique_water_years, durations):
                 yearly_events += 1
                 combined_len = 0
         total = yearly_events/EWR_info['events_per_year']
+        num_events.append(int(total))
+    
+    return num_events
+
+def get_number_events(EWR_info, events, unique_water_years, durations):
+    '''Returns a list of number of events per year'''
+    num_events = []
+    for index, year in enumerate(unique_water_years):
+        combined_len = 0
+        yearly_events = 0
+        for e in events[year]:
+            combined_len += e.size
+            if combined_len >= durations[index]:
+                yearly_events += 1
+                combined_len = 0
+        total = yearly_events
         num_events.append(int(total))
     
     return num_events
@@ -1654,26 +1775,26 @@ def get_total_days(events, unique_water_years):
             total_days.append(0)
             
     return total_days
-        
+
 def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years):
     '''Calculates the days/years between events. For certain EWRs (cease to flow, lowflow, 
     and level EWRs), event gaps are calculated on an annual basis, others will calculate on a daily basis'''
     
     CTF_EWR = 'CF' in EWR
     LOWFLOW_EWR = 'VF' in EWR or 'BF' in EWR
-    LEVEL_EWR = 'LLLF' in EWR or 'MLLF' in EWR or 'HLLF' in EWR or 'VHLL' in EWR
+#     LEVEL_EWR = 'LLLF' in EWR or 'MLLF' in EWR or 'HLLF' in EWR or 'VHLL' in EWR
     YEARLY_INTEREVENT = EWR_info['max_inter-event'] >= 1
     if EWR_info['max_inter-event'] == None:
         # If there is no max interevent period defined in the EWR, return all interevent periods:
         return list(no_events.values())
     else:
-        max_interevent, days_per_year = data_inputs.convert_max_interevent(unique_water_years, water_years, EWR_info)
+        max_interevent = data_inputs.convert_max_interevent(unique_water_years, water_years, EWR_info)
         # If its a cease to flow/low flow/level EWR and has an interevent duration of equal to or more than a year,
         # This one will need to be worked out on an annual basis, looking at the total days between the years with events,
         # Rather than the individual sub event gaps, as these are not applicable here:
-        if ((CTF_EWR and YEARLY_INTEREVENT) or (LOWFLOW_EWR and YEARLY_INTEREVENT) or (LEVEL_EWR and YEARLY_INTEREVENT)):
+        if ((CTF_EWR and YEARLY_INTEREVENT) or (LOWFLOW_EWR and YEARLY_INTEREVENT)): #  or (LEVEL_EWR and YEARLY_INTEREVENT))
             temp = np.array(years_with_events)
-            temp[temp==0] = days_per_year
+            temp[temp==0] = 365
             temp[temp==1] = 0
             total_list = []
             temp_count = 0
@@ -1682,7 +1803,7 @@ def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_y
                     temp_count = temp_count + i
                     total_list.append([])
                 else:
-                    if temp_count > max_interevent:
+                    if temp_count >= max_interevent:
                         total_list.append([temp_count])
                     else:
                         total_list.append([])
@@ -1726,7 +1847,16 @@ def event_years_sim(events1, events2):
     results = mask*1
     return results
 
-def number_events_sim(events1, events2):
+def get_achievements_sim(events1, events2):
+    '''get the minimum number of events for simultaneous EWRs'''
+    e1 = np.array(list(events1))
+    e2 = np.array(list(events2))
+    results = []
+    for i, event in enumerate(e1):
+        results.append(min([event, e2[i]]))
+    return results
+
+def get_number_events_sim(events1, events2):
     '''get the minimum number of events for simultaneous EWRs'''
     e1 = np.array(list(events1))
     e2 = np.array(list(events2))
@@ -1748,8 +1878,12 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, w
     years_with_events = get_event_years(EWR_info, events, unique_water_years, durations)
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
-    # Number of events
-    num_events = number_events(EWR_info, events, unique_water_years, durations)
+    # Number of event achievements:
+    num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations)
+    NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
+    PU_df = pd.concat([PU_df, NEA], axis = 1)
+    # Total number of events
+    num_events = get_number_events(EWR_info, events, unique_water_years, durations)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
     # Average length of events
@@ -1783,10 +1917,16 @@ def event_stats_sim(df, PU_df, gauge1, gauge2, EWR, EWR_info, events1, events2, 
     years_with_events = pd.Series(event_years_sim(years_with_events1, years_with_events2))
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
-    # Number of events
-    num_events1 = number_events(EWR_info, events1, unique_water_years, durations)
-    num_events2 = number_events(EWR_info, events2, unique_water_years, durations)
-    num_events = pd.Series(number_events_sim(num_events1, num_events2))
+    # Number of event achievements per year
+    num_events_ach_1 = get_achievements(EWR_info, events1, unique_water_years, durations)
+    num_events_ach_2 = get_achievements(EWR_info, events2, unique_water_years, durations)
+    num_events_ach = pd.Series(get_achievements_sim(num_events_ach_1, num_events_ach_2))
+    NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_events_ach, index = unique_water_years)
+    PU_df = pd.concat([PU_df, NEA], axis = 1)
+    # Total number of event per year
+    num_events1 = get_number_events(EWR_info, events1, unique_water_years, durations)
+    num_events2 = get_number_events(EWR_info, events2, unique_water_years, durations)
+    num_events = pd.Series(get_number_events_sim(num_events1, num_events2))
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
     # Average length of events

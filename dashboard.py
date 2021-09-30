@@ -77,8 +77,10 @@ def on_gauge_button_clicked(b):
         gauges = get_gauges_to_pull()
 
         # Retrieve and convert dates:
-        dates = {'start_date': str(start_date.value).replace('-',''), 
-                 'end_date': str(end_date.value).replace('-','')}
+#         dates = {'start_date': str(start_date.value).replace('-',''), 
+#                  'end_date': str(end_date.value).replace('-','')}
+        dates = {'start_date': start_date.value, 
+                 'end_date': end_date.value}
         # Get allowances:
         MINT = (100 - min_threshold_allowance_s.value)/100
         MAXT = (100 + max_threshold_allowance_s.value)/100
@@ -101,6 +103,8 @@ def gauge_output_button_clicked(b):
         realtime_fileName = file_name_o.value # Gettng the user file name        
         writer = pd.ExcelWriter('Output_files/' + realtime_fileName + '.xlsx', engine='xlsxwriter')
         results_summary_o.to_excel(writer, sheet_name='Gauge_data_summary') 
+        PU_items = data_inputs.get_planning_unit_info()
+        PU_items.to_excel(writer, sheet_name='Planning unit metadata')
         
         get_index = results_summary_o.reset_index().set_index(['gauge', 'planning unit']).index.unique()
         for locPU in get_index:
@@ -114,7 +118,9 @@ def gauge_output_button_clicked(b):
                 df_to_add.columns = \
                 pd.MultiIndex.from_product([[str('observed')],df_to_add.columns])        
                 temp_df = pd.concat([temp_df, df_to_add], axis = 1)
-            temp_df.to_excel(writer, sheet_name=str(locPU))                
+                
+            PU_code = PU_items['PlanningUnitID'].loc[PU_items[PU_items['PlanningUnitName'] == locPU[1]].index[0]]
+            temp_df.to_excel(writer, sheet_name=str(PU_code))                
                 
         writer.save()
 #Run the analysis (from input tab):

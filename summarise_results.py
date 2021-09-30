@@ -136,6 +136,12 @@ def summarise(input_dict):
                         EWR_info = evaluate_EWRs.get_EWRs(PU_num, site, EWR, EWR_table, None, ['TF'])
                         TF = EWR_info['frequency']
                         df = allocate(df, TF, idx, site, PU, EWR, scenario, 'Target frequency')
+                    elif ('_numAchieved' in col):
+                        S = sum_events(site_results[PU][col])
+                        df = allocate(df, S, idx, site, PU, EWR, scenario, 'Achievement count')
+                        
+                        ME = get_average(site_results[PU][col])
+                        df = allocate(df, ME, idx, site, PU, EWR, scenario, 'Achievements per year')
                     elif ('_numEvents' in col):
                         S = sum_events(site_results[PU][col])
                         df = allocate(df, S, idx, site, PU, EWR, scenario, 'Event count')
@@ -153,6 +159,10 @@ def summarise(input_dict):
                         EWR_info = evaluate_EWRs.get_EWRs(PU_num, site, EWR, EWR_table, None, ['MIE'])
                         DB = count_exceedence(site_results[PU][col], EWR_info)
                         df = allocate(df, DB, idx, site, PU, EWR, scenario, 'Inter-event exceedence count')
+                        # Also save the max inter-event period to the data summary for reference
+                        EWR_info = evaluate_EWRs.get_EWRs(PU_num, site, EWR, EWR_table, None, ['MIE'])
+                        MIE = EWR_info['max_inter-event']
+                        df = allocate(df, MIE, idx, site, PU, EWR, scenario, 'Max inter event period (years)')
                     elif ('_missingDays' in col):
                         MD = sum_events(site_results[PU][col])
                         df = allocate(df, MD, idx, site, PU, EWR, scenario, 'No data days')

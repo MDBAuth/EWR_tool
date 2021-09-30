@@ -12,8 +12,8 @@ def observed_handler(gauges, dates, allowance, climate):
     # Classify gauges:
     flow_gauges, level_gauges = categorise_gauges(gauges)
     # Call state API for flow and level gauge data, then combine to single dataframe 
-    flows = gauge_getter.gauge_pull(flow_gauges, dates['start_date'], dates['end_date'], 'F')
-    levels = gauge_getter.gauge_pull(level_gauges, dates['start_date'], dates['end_date'], 'L')
+    flows = gauge_getter.gauge_pull(flow_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'F')
+    levels = gauge_getter.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'L')
     # Clean oberved data:
     df_F = observed_cleaner(flows, dates)
     df_L = observed_cleaner(flows, dates)
@@ -59,7 +59,8 @@ def categorise_gauges(gauges):
 
 def convert_date_type(d):
     ''' Converts input date to datetime format'''
-    new_date = pd.to_datetime(str(d[0:4] + '-' + d[4:6] + '-' + d[6:8]), format = '%Y-%m-%d')
+    new_date = pd.to_datetime(d, format = '%Y-%m-%d')
+#     new_date = pd.to_datetime(str(d[0:4] + '-' + d[4:6] + '-' + d[6:8]), format = '%Y-%m-%d')
     return new_date
 
 def remove_data_with_bad_QC(input_dataframe, qc_codes):

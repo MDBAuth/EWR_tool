@@ -253,7 +253,7 @@ def match_MDBA_nodes(input_df, model_metadata):
         col_clean = col.replace(' ', '')
         site = col_clean.split('-')[0]
         measure = col_clean.split('-')[1]
-        if ((measure in measurands) and (not (model_metadata[model_metadata['SITEID'].str.contains(site, na=False)]).empty)):
+        if ((measure in measurands) and (model_metadata['SITEID'] == site).any()):
             subset = model_metadata.query("SITEID==@site")
             gauge = subset["AWRC"].iloc[0]
             if gauge in flow_gauges and measure == '1':
