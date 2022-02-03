@@ -30,14 +30,19 @@ end_date = DatePicker(description='End date', value = date(2020,1,1), disabled=F
 
 # Catchment and site selection widgets:
 defaults_sites = {'layout': Layout(width="100%"), 'style': {'description_width':'initial'}}
-catchments_gauges = data_inputs.catchments_gauges_dict()
+
+
 def change_catchment(*args):
     '''Updates the sites displayed based on the user selection of the catchment'''
-    catchments_gauges = data_inputs.catchments_gauges_dict()
+    catchments_gauges = data_inputs.map_gauge_to_catchment()
     sites.options=list(catchments_gauges[catchment.value].values())
+    
+catchments_gauges = data_inputs.map_gauge_to_catchment()
+
 catchment = Select(options=list(catchments_gauges.keys()), 
                            description='Catchment: (select one)',
                            rows=len(catchments_gauges.keys()), **defaults_sites)
+
 sites = SelectMultiple(options=catchments_gauges[catchment.value].values(),
                                description='Sites: (shift to select multiple)',
                                rows=len(catchments_gauges[catchment.value].values()),
@@ -59,7 +64,7 @@ file_name_o = Text(value='Observed flow EWRs', placeholder='Enter file name',
 # Results tab--------------------------------------------------------------------------------------
 def get_gauges_to_pull():
     '''Convert sites selected to gauge numbers'''
-    catchments_gauges = data_inputs.catchments_gauges_dict()
+    catchments_gauges = data_inputs.map_gauge_to_catchment()
     gauges = []
     for gauge, name in catchments_gauges[catchment.value].items():
         if name in sites.value:
@@ -229,7 +234,7 @@ file_name_s = Text(
 
 def catchment_checker(catchment):
     '''Pass catchment name, returns list of gauges in this catchment'''
-    catchments_gauges = data_inputs.catchments_gauges_dict()
+    catchments_gauges = data_inputs.map_gauge_to_catchment()
     return list(catchments_gauges[catchment].keys()) 
     
 def view(x=''):
@@ -241,7 +246,7 @@ def view(x=''):
 def get_locations_from_scenarios(data_summary):
     '''Ingest a summary of results, look at the locations analysed, 
     return a list of catchments included in the analysis'''
-    catchments_gauges = data_inputs.catchments_gauges_dict()
+    catchments_gauges = data_inputs.map_gauge_to_catchment()
     location_list = set(data_summary_s.index.get_level_values(0))
     catchments_gauges_subset = copy.deepcopy(catchments_gauges)
     for catch in catchments_gauges.keys():

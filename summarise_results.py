@@ -25,13 +25,28 @@ def get_average(input_events):
         result = round(sum(events)/len(events),1)
     return result
 
-def get_event_length(input_events, num_events):
-    events = input_events.dropna()
-    if num_events == 0:
-        EL = 0
+def get_event_length(detailed_events):
+    '''Takes in the tuple of events calculates average event length over entire timeseries,'''
+    length, count = 0, 0
+    for index, tuple_ in enumerate(detailed_events):
+        for year in detailed_events[index]:
+            for event in detailed_events[index][year]:
+                length = length + len(event)
+                count += 1
+    if count == 0:
+        average_length = 0
     else:
-        EL = round(sum(events)/num_events,1)
-    return EL
+        average_length = length/count
+    return average_length
+
+def get_threshold_days(detailed_events):
+    '''Takes in the tuple of events calculates average event length over entire timeseries,'''
+    length = 0
+    for index, tuple_ in enumerate(detailed_events):
+        for year in detailed_events[index]:
+            for event in detailed_events[index][year]:
+                length = length + len(event)
+    return length
 
 def count_exceedence(input_events, EWR_info):
     events = input_events.copy(deep=True)
@@ -60,7 +75,6 @@ def initialise_summary_df_columns(input_dict):
     
     array_of_arrays =tuple(list_of_arrays)    
     multi_col_df = pd.MultiIndex.from_tuples(array_of_arrays, names = ['scenario', 'type'])
-
     return multi_col_df
     
 def initialise_summary_df_rows(input_dict):
@@ -105,11 +119,11 @@ def allocate(df, add_this, idx, site, PU, EWR, scenario, category):
     
     return df
     
-def summarise(input_dict):
+def summarise(input_dict, events):
     '''Ingests a dictionary with ewr pass/fails
     summarises these results and returns a single summary dataframe'''
     PU_items = data_inputs.get_planning_unit_info()
-    EWR_table, see_notes_ewrs, undefined_ewrs, noThresh_df, no_duration, DSF_ewrs = data_inputs.get_EWR_table()
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     # Initialise dataframe with multi level column heading and multi-index:
     multi_col_df = initialise_summary_df_columns(input_dict)
     index = initialise_summary_df_rows(input_dict)
@@ -149,10 +163,10 @@ def summarise(input_dict):
                         ME = get_average(site_results[PU][col])
                         df = allocate(df, ME, idx, site, PU, EWR, scenario, 'Events per year')
                     elif ('_eventLength' in col):
-                        EL = get_event_length(site_results[PU][col], S)
+                        EL = get_event_length(events[scenario][site][PU][EWR])
                         df = allocate(df, EL, idx, site, PU, EWR, scenario, 'Event length')
                     elif ('_totalEventDays' in col):
-                        AD = get_average(site_results[PU][col])
+                        AD = get_threshold_days(events[scenario][site][PU][EWR])
                         df = allocate(df, AD, idx, site, PU, EWR, scenario, 'Threshold days')
                     elif ('daysBetweenEvents' in col):
                         PU_num = PU_items['PlanningUnitID'].loc[PU_items[PU_items['PlanningUnitName'] == PU].index[0]]

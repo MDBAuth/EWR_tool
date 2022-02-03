@@ -1,0 +1,4 @@
+PlanningUnitID,PlanningUnitName,CompliancePoint/Node,gauge,code,start month,end month,frequency,events per year,duration,min event,flow threshold min,flow threshold max,max inter-event,within event gap tolerance,weirpool gauge,flow level volume,level threshold min,level threshold max,volume threshold,drawdown rate
+PU_0000128,Regulated Macquarie River – Burrendong Dam to Baroona,Macquarie River between Burrendong and Baroona as measured at Dubbo,421001,BF3,See note,See note,100,1,,1,200,,0,0,,F,,,,
+PU_0000128,Regulated Macquarie River – Burrendong Dam to Baroona,Macquarie River between Burrendong and Baroona as measured at Dubbo,421001,DSF,See note,See note,100,1,,,,,0,0,,F,,,,
+PU_0000129,Regulated Macquarie River – Baroona to Warren Weir,Warren Weir ,421004,VF,7,6,,1,,1,,,,0,,F,,,,
