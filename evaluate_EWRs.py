@@ -23,7 +23,7 @@ def component_pull(EWR_table, gauge, PU, EWR, component):
 def apply_correction(info, correction):
     '''Applies a correction to the EWR component (based on user request)'''
     return info*correction
-    get_EWRs(PU_num, site, EWR, EWR_table, None, ['TF'])
+    
 def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
     '''Pulls the relevant EWR componenets for each EWR, and applies any relevant corrections'''
     ewrs = {}
@@ -79,9 +79,12 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
         events_per_year = int(component_pull(EWR_table, gauge, PU, EWR, 'events per year'))
         ewrs['events_per_year'] = events_per_year       
     if 'ME' in components:
-#         min_event = int(component_pull(EWR_table, gauge, PU, EWR, 'min event'))
         min_event = int(component_pull(EWR_table, gauge, PU, EWR, 'min event'))
-        ewrs['min_event'] = min_event
+        if min_event != 1:
+            corrected = apply_correction(min_event, allowance['duration'])
+        else:
+            corrected = min_event
+        ewrs['min_event'] = int(corrected)
     if 'MD' in components:
         try: # There may not be a recommended drawdown rate
             max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'drawdown rate')
@@ -122,6 +125,7 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
             ewrs['max_inter-event'] = float(component_pull(EWR_table, gauge, PU, EWR, 'max inter-event'))
         except IndexError:
             ewrs['max_inter-event'] = None
+
     return ewrs
 
 #------------------------ Masking timeseries data to dates in EWR requirement --------------------#
