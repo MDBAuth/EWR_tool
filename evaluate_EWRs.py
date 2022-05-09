@@ -752,11 +752,7 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
 
 def date_check(date, masked_dates):
     '''Pass in a date, if the date is within the range of accepted dates, return True, else False'''
-    if date in masked_dates:
-        result = True
-    else:
-        result = False
-    return result
+    return True if data in masked_dates else False
 
 #------------------------------------ Calculation functions --------------------------------------#
 
