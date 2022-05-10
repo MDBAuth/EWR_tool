@@ -6,7 +6,7 @@ from datetime import time
 
 from tqdm import tqdm
 
-import data_inputs
+from . import data_inputs
 
 #----------------------------------- Getting EWRs from the database ------------------------------#
 

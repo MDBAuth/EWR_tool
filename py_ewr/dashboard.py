@@ -9,7 +9,7 @@ from tkinter import Tk, filedialog
 from datetime import datetime, date
 import xlsxwriter
 
-import data_inputs, scenario_handling, observed_handling
+from . import data_inputs, scenario_handling, observed_handling
 
 #-------------------------------------------------------------------------------------------------#
 #-----------------------------------Tab 1 - Observed flow widgets---------------------------------#

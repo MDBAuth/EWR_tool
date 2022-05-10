@@ -2,8 +2,9 @@ import pandas as pd
 from datetime import timedelta
 from tqdm import tqdm
 
-import data_inputs, evaluate_EWRs, summarise_results
+from . import data_inputs, evaluate_EWRs, summarise_results
 from MDBA_Gauge_Getter.mdba_gauge_getter import gauge_getter as gg
+# TODO make MDBA installable or a sub package
 
 def observed_handler(gauges, dates, allowance, climate):
     '''ingests a list of gauges and user defined parameters

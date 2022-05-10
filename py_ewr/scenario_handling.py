@@ -7,7 +7,7 @@ from datetime import datetime
 
 from tqdm import tqdm
 
-import data_inputs, evaluate_EWRs, summarise_results
+from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
 
 def scenario_handler(scenarios, model_format, allowance, climate):
