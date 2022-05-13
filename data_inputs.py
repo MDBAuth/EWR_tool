@@ -10,10 +10,10 @@ def get_climate_cats(climate_file):
     in which case this is used'''
     
     if climate_file == 'Standard - 1911 to 2018 climate categorisation':
-        climate_cats = pd.read_csv('Climate_data/climate_cats.csv', index_col = 0)
+        climate_cats = pd.read_csv('climate_data/climate_cats.csv', index_col = 0)
         
     elif climate_file  == 'NSW 10,000 year climate sequence':
-        climate_cats = pd.read_csv('Climate_data/climate_cats_10000year.csv', index_col = 0)
+        climate_cats = pd.read_csv('climate_data/climate_cats_10000year.csv', index_col = 0)
         
     return climate_cats
 
