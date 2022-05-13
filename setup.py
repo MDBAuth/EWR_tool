@@ -30,6 +30,7 @@ setup(
         "tqdm==4.59.0",
         "traitlets==4.3.3",
         "xlsxwriter==3.0.1",
+        "mdba-gauge-getter==0.2",
     ],
     python_requires=">=3.6",
 )
