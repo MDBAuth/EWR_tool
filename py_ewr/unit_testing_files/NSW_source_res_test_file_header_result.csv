@@ -1,5 +1,0 @@
-Field,Units,RunName,ScenarioName,ScenarioInputSetName,Name,Site,ElementName,WaterFeatureType,ElementType,Structure,Custom
-EOC,,,,,,,,,,,
-514,,,,,,,,,,,
-1,m,Latest Run,Yanco Acceleration,No_Change,049050_SILO_FAO56.csv,Data Sources,Data Sources,Data Sources,Miscellaneous,Data Sources@Climate Data@FAO56_res_csv@049050_SILO_FAO56.csv,0a6ba333-3066-4678-bc30-9ba8b52e2c46
-2,m,Latest Run,Yanco Acceleration,No_Change,049050_SILO_Mwet.csv,Data Sources,Data Sources,Data Sources,Miscellaneous,Data Sources@Climate Data@Mwet_res_csv@049050_SILO_Mwet.csv,0a6ba333-3066-4678-bc30-9ba8b52e2c46

@@ -4,38 +4,6 @@ from tqdm import tqdm
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 from mdba_gauge_getter import gauge_getter as gg
-# TODO make MDBA installable or a sub package
-
-def observed_handler(gauges, dates, allowance, climate):
-    '''ingests a list of gauges and user defined parameters
-    pulls gauge data using relevant states API, calcualtes and analyses EWRs
-    returns dictionary of raw data results and result summary
-    '''
-    
-    # Classify gauges:
-    flow_gauges, level_gauges = categorise_gauges(gauges)
-    # Call state API for flow and level gauge data, then combine to single dataframe
-    
-    flows = gg.gauge_pull(flow_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'F')
-    levels = gg.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'L')
-    # Clean oberved data:
-    df_F = observed_cleaner(flows, dates)
-    df_L = observed_cleaner(levels, dates)
-    # Calculate EWRs
-    detailed_results = {}
-    gauge_results = {}
-    gauge_events = {}
-    detailed_events = {}
-    all_locations = df_F.columns.to_list() + df_L.columns.to_list()
-    for gauge in all_locations:
-        gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate)
-        
-    detailed_results['observed'] = gauge_results
-    detailed_events['observed'] = gauge_events
-    # Summarise the results:
-    summary_results = summarise_results.summarise(detailed_results, detailed_events)
-
-    return detailed_results, summary_results
 
 def categorise_gauges(gauges):
     '''Seperate gauges into level, flow, or both'''
@@ -68,6 +36,38 @@ def categorise_gauges(gauges):
         unique_level_gauges = list(set(level_gauges))
             
     return unique_flow_gauges, unique_level_gauges
+
+def observed_handler(gauges, dates, allowance, climate):
+    '''ingests a list of gauges and user defined parameters
+    pulls gauge data using relevant states API, calcualtes and analyses EWRs
+    returns dictionary of raw data results and result summary
+    '''
+    
+    # Classify gauges:
+    flow_gauges, level_gauges = categorise_gauges(gauges)
+    # Call state API for flow and level gauge data, then combine to single dataframe
+    
+    flows = gg.gauge_pull(flow_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'F')
+    levels = gg.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'L')
+    # Clean oberved data:
+    df_F = observed_cleaner(flows, dates)
+    df_L = observed_cleaner(levels, dates)
+    # Calculate EWRs
+    detailed_results = {}
+    gauge_results = {}
+    gauge_events = {}
+    detailed_events = {}
+    all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+    for gauge in all_locations:
+        gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate)
+        
+    detailed_results['observed'] = gauge_results
+    detailed_events['observed'] = gauge_events
+    # Summarise the results:
+    summary_results = summarise_results.summarise(detailed_results, detailed_events)
+
+    return detailed_results, summary_results
+
 
 def remove_data_with_bad_QC(input_dataframe, qc_codes):
     '''Takes in a dataframe of flow and a list of bad qc codes, removes the poor quality data from 

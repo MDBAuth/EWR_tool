@@ -1,5 +1,0 @@
-Field,Precision,Infill,LastMonth,Site,Measurand,Quality,Name,Description,Units
-EOC,,,,,,,,,
-2,,,,,,,,,
-1,0,0,0,'SACHRES',287,'9','','SA Critical Human Needs Reserve (GL)',GL
-2,0,0,0,'JINGELL',1,'8','','JINGELL -401201 Flow (ML/d)',ML.day^-1

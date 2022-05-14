@@ -2,6 +2,9 @@ import io
 import requests
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+BASE_PATH = Path(__file__).resolve().parent
 
 # Importing the climate cat data - to be replaced by RAS data once available:
    
@@ -10,10 +13,10 @@ def get_climate_cats(climate_file):
     in which case this is used'''
     
     if climate_file == 'Standard - 1911 to 2018 climate categorisation':
-        climate_cats = pd.read_csv('climate_data/climate_cats.csv', index_col = 0)
+        climate_cats = pd.read_csv( BASE_PATH / 'climate_data/climate_cats.csv', index_col = 0)
         
     elif climate_file  == 'NSW 10,000 year climate sequence':
-        climate_cats = pd.read_csv('climate_data/climate_cats_10000year.csv', index_col = 0)
+        climate_cats = pd.read_csv(BASE_PATH / 'climate_data/climate_cats_10000year.csv', index_col = 0)
         
     return climate_cats
 
@@ -153,7 +156,7 @@ def get_MDBA_codes():
     Load MDBA model metadata file containing model nodes
     and gauges they correspond to
     '''
-    metadata = pd.read_csv('model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)
+    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)
 #     metadata = metadata.where(pd.notnull(metadata), None)
 
     return metadata
@@ -163,7 +166,7 @@ def get_NSW_codes():
     Load NSW model metadata file containing model nodes
     and gauges they correspond to
     '''
-    metadata = pd.read_csv('model_metadata/SiteID_NSW.csv', engine = 'python', dtype=str)
+    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_NSW.csv', engine = 'python', dtype=str)
     
     return metadata
 
