@@ -1,8 +1,5 @@
 import pandas as pd
-import re
 import numpy as np
-from datetime import date, timedelta
-from datetime import time
 
 from tqdm import tqdm
 
@@ -305,11 +302,12 @@ def level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance):
 def weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
     '''For handling weirpool type EWRs'''
     # Get information about EWR (changes depending on the weirpool type):
-    weirpool_type = data_inputs.weirpool_type(EWR)
-    if weirpool_type == 'raising':
-        pull = data_inputs.get_EWR_components('weirpool-raising')
-    elif weirpool_type == 'falling':
-        pull = data_inputs.get_EWR_components('weirpool-falling')
+    # weirpool_type = data_inputs.weirpool_type(EWR)
+    # if weirpool_type == 'raising':
+    #     pull = data_inputs.get_EWR_components('weirpool-raising')
+    # elif weirpool_type == 'falling':
+    #     pull = data_inputs.get_EWR_components('weirpool-falling')
+    pull = data_inputs.weirpool_type(EWR)
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates for both the flow and level dataframes:
     masked_dates = mask_dates(EWR_info, df_F)
@@ -752,7 +750,11 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
 
 def date_check(date, masked_dates):
     '''Pass in a date, if the date is within the range of accepted dates, return True, else False'''
-    return True if data in masked_dates else False
+    if date in masked_dates:
+        result = True
+    else:
+        result = False
+    return result
 
 #------------------------------------ Calculation functions --------------------------------------#
 
@@ -1940,22 +1942,20 @@ def get_total_series_days(water_years):
     returns the percentage of data available for each year
     '''
     unique, counts = np.unique(water_years, return_counts=True)
-    intoSeries = pd.Series(index=unique, data=counts)
+    return pd.Series(index=unique, data=counts)
     
-    return intoSeries
-
 def event_years_sim(events1, events2):
     '''add the event lists, event only occurs when both are met'''
     added = np.array(list(events1)) + np.array(list(events2))
     mask = added == 2
-    results = mask*1
-    return results
+    return mask * 1
 
 def get_achievements_sim(events1, events2):
     '''get the minimum number of events for simultaneous EWRs'''
     e1 = np.array(list(events1))
     e2 = np.array(list(events2))
     results = []
+    # TODO Discuss zip
     for i, event in enumerate(e1):
         results.append(min([event, e2[i]]))
     return results
@@ -1982,26 +1982,32 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     years_with_events = get_event_years(EWR_info, events, unique_water_years, durations, min_events)
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
+
     # Number of event achievements:
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations, min_events)
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
     PU_df = pd.concat([PU_df, NEA], axis = 1)
+    
     # Total number of events
     num_events = get_number_events(EWR_info, events, unique_water_years, durations, min_events)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
+    
     # Average length of events
     av_length = get_average_event_length(events, unique_water_years)
     AL = pd.Series(name = str(EWR + '_eventLength'), data = av_length, index = unique_water_years)
     PU_df = pd.concat([PU_df, AL], axis = 1)
+    
     # Total event days
     total_days = get_total_days(events, unique_water_years)
     TD = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
     PU_df = pd.concat([PU_df, TD], axis = 1)
+    
     # Days between events
     days_between = get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
     DB = pd.Series(name = str(EWR + '_daysBetweenEvents'), data = days_between, index = unique_water_years)
     PU_df = pd.concat([PU_df, DB], axis = 1)
+    
     # Append information around available and missing data:
     yearly_gap = get_data_gap(df, water_years, gauge)
     total_days = get_total_series_days(water_years)
@@ -2021,35 +2027,41 @@ def event_stats_sim(df, PU_df, gauge1, gauge2, EWR, EWR_info, events1, events2, 
     years_with_events = event_years_sim(years_with_events1, years_with_events2)
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
+    
     # Number of event achievements per year
     num_events_ach_1 = get_achievements(EWR_info, events1, unique_water_years, durations, min_events)
     num_events_ach_2 = get_achievements(EWR_info, events2, unique_water_years, durations, min_events)
     num_events_ach = get_achievements_sim(num_events_ach_1, num_events_ach_2)
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_events_ach, index = unique_water_years)
     PU_df = pd.concat([PU_df, NEA], axis = 1)
+    
     # Total number of event per year
     num_events1 = get_number_events(EWR_info, events1, unique_water_years, durations, min_events)
     num_events2 = get_number_events(EWR_info, events2, unique_water_years, durations, min_events)
     num_events = get_number_events_sim(num_events1, num_events2)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
+    
     # Average length of events
     av_length1 = get_average_event_length(events1, unique_water_years)
     av_length2 = get_average_event_length(events2, unique_water_years)  
     av_length = average_event_length_sim(av_length1, av_length2)
     AL = pd.Series(name = str(EWR + '_eventLength'), data = av_length, index = unique_water_years)
     PU_df = pd.concat([PU_df, AL], axis = 1)
+    
     # Total event days
     total_days1 = get_total_days(events1, unique_water_years)
     total_days2 = get_total_days(events2, unique_water_years)
     av_total_days = average_event_length_sim(total_days1, total_days2)
     TD = pd.Series(name = str(EWR + '_totalEventDays'), data = av_total_days, index = unique_water_years)
     PU_df = pd.concat([PU_df, TD], axis = 1)
+    
     # Days between events
     days_between1 = get_days_between(years_with_events1, no_events1, EWR, EWR_info, unique_water_years, water_years)
 #     days_between2 = pd.Series(get_days_between(no_events2, unique_water_years, water_years)
     DB = pd.Series(name = str(EWR + '_daysBetweenEvents'), data = days_between1, index = unique_water_years)
     PU_df = pd.concat([PU_df, DB], axis = 1) # Only adding the main gauge
+   
     # Append information around available and missing data:
     yearly_gap = get_data_gap(df, water_years, gauge1) # Only adding data gap for main gauge
     total_days = get_total_series_days(water_years)
@@ -2141,7 +2153,8 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate):
             else:
                 continue
             # Add the events to the dictionary:
-            if events != {}:
+            # TODO Explain if <<true>>
+            if events:
                 PU_events[str(EWR)]=events
             
         PU_name = PU_items['PlanningUnitName'].loc[PU_items[PU_items['PlanningUnitID'] == PU].index[0]]
