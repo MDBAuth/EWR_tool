@@ -657,7 +657,7 @@ def lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no
     no event dictionary.
     '''
     
-    if ((flow >= EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
+    if ((flow > EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
         event.append(flow)
         if no_event > 0:
             ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
