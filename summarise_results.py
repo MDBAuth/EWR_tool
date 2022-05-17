@@ -20,47 +20,41 @@ def get_average(input_events):
     '''Returns overall average length of events'''
     events = input_events.dropna()
     if len(events) == 0:
-        result = 0
-    else:    
-        result = round(sum(events)/len(events),1)
-    return result
-
+        return 0
+    return round(sum(events)/len(events),1)
+    
 def get_event_length(detailed_events):
     '''Takes in the tuple of events calculates average event length over entire timeseries,'''
-    length, count = 0, 0
-    for index, tuple_ in enumerate(detailed_events):
-        for year in detailed_events[index]:
-            for event in detailed_events[index][year]:
-                length = length + len(event)
-                count += 1
-    if count == 0:
-        average_length = 0
-    else:
-        average_length = length/count
-    return average_length
+    event_lengths = []
+    for detailed_event in detailed_events.values(): # TODO seems to be expecting a dictionary, currently a tuple
+        for events_by_year in detailed_event.values():
+            for event in events_by_year:
+                event_lengths.append(len(event))
+    return event_lengths / len(event_lengths)
 
 def get_threshold_days(detailed_events):
     '''Takes in the tuple of events calculates average event length over entire timeseries,'''
     length = 0
-    for index, tuple_ in enumerate(detailed_events):
-        for year in detailed_events[index]:
-            for event in detailed_events[index][year]:
-                length = length + len(event)
+    # TODO-PRE Simplify this
+    for detailed_event in detailed_events.values(): # TODO seems to be expecting a dictionary, currently a tuple
+        for events_by_year in detailed_event.values():
+            for event in events_by_year:
+                length += len(event)
     return length
 
 def count_exceedence(input_events, EWR_info):
     events = input_events.copy(deep=True)
     if EWR_info['max_inter-event'] == None:
         return 'N/A'
-    else:
-        masking = events.isna()
-        events[masking] = ''
-        total = 0
-        for year in events.index:
-            if list(events[year]) != '':
-                count = len(events[year])
-                total = total + count
-        return int(total)
+    masking = events.isna()
+    events[masking] = ''
+    total = 0
+    for year in events.index:
+        # TODO probably a bug, list(<any>) will never be a string so this will always compute to otrue
+        if list(events[year]) != '':
+            count = len(events[year])
+            total = total + count
+    return int(total)
 
 def initialise_summary_df_columns(input_dict):
     '''Ingest a dictionary of ewr yearly results and a list of statistical tests to perform
@@ -69,22 +63,17 @@ def initialise_summary_df_columns(input_dict):
     column_list = []
     list_of_arrays = []
     for scenario, scenario_results in input_dict.items():
+        # TODO this seems like a bug, it's just concatenating all keys for all analysis items
         for sub_col in analysis:
             column_list = tuple((scenario, sub_col))
             list_of_arrays.append(column_list)
-    
-    array_of_arrays =tuple(list_of_arrays)    
-    multi_col_df = pd.MultiIndex.from_tuples(array_of_arrays, names = ['scenario', 'type'])
+    multi_col_df = pd.MultiIndex.from_tuples(tuple(list_of_arrays), names = ['scenario', 'type'])
     return multi_col_df
     
 def initialise_summary_df_rows(input_dict):
     '''Ingests a dictionary of ewr yearly results
     pulls the location information and the assocaited ewrs at each location,
     saves these as respective indexes and return the multi-level index'''
-    
-    index_1 = list()
-    index_2 = list()
-    index_3 = list()
     combined_index = list()
     # Get unique col list:
     for scenario, scenario_results in input_dict.items():
@@ -95,28 +84,23 @@ def initialise_summary_df_rows(input_dict):
                     if '_' in col:
                         all_parts = col.split('_')
                         remove_end = all_parts[:-1]
-                        if len(remove_end) > 1:
-                            EWR_code = '_'.join(remove_end)
-                        else:
-                            EWR_code = remove_end[0]
+                        # TODO "_".join(foo) works with one item;)
+                        EWR_code = '_'.join(remove_end)
                     else:
                         EWR_code = col
-                    if EWR_code in site_list:
-                        continue
-                    else:
+                    if EWR_code not in site_list:
                         site_list.append(EWR_code)
-                        add_index = tuple((site, PU, EWR_code))
+                        add_index = (site, PU, EWR_code)
                         if add_index not in combined_index:
                             combined_index.append(add_index)
-    unique_index = tuple(combined_index)
-    multi_index = pd.MultiIndex.from_tuples(unique_index, names = ['gauge', 'planning unit', 'EWR'])
+
+    multi_index = pd.MultiIndex.from_tuples(tuple(combined_index), names = ['gauge', 'planning unit', 'EWR'])
 
     return multi_index
 
 def allocate(df, add_this, idx, site, PU, EWR, scenario, category):
     '''Save element to a location in the dataframe'''
     df.loc[idx[[site], [PU], [EWR]], idx[scenario, category]] = add_this
-    
     return df
     
 def summarise(input_dict, events):

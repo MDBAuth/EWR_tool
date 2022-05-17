@@ -8,7 +8,7 @@ import copy
 from tkinter import Tk, filedialog
 from datetime import datetime, date
 import xlsxwriter
-
+from typing import List, Dict, Set, Tuple
 import data_inputs, scenario_handling, observed_handling
 
 #-------------------------------------------------------------------------------------------------#
@@ -62,12 +62,12 @@ file_name_o = Text(value='Observed flow EWRs', placeholder='Enter file name',
                            description='Output file name:', disabled=False, 
                            style= {'description_width':'initial'})
 # Results tab--------------------------------------------------------------------------------------
-def get_gauges_to_pull():
+def get_gauges_to_pull(catchment_val: str, sites_val: List) -> List:
     '''Convert sites selected to gauge numbers'''
     catchments_gauges = data_inputs.map_gauge_to_catchment()
     gauges = []
-    for gauge, name in catchments_gauges[catchment.value].items():
-        if name in sites.value:
+    for gauge, name in catchments_gauges[catchment_val].items():
+        if name in sites_val:
             gauges.append(gauge)
     return gauges
     
@@ -79,7 +79,7 @@ def on_gauge_button_clicked(b):
         global raw_data_o, results_summary_o
         raw_data_o, results_summary_o = None, None
         # Get gauge list:
-        gauges = get_gauges_to_pull()
+        gauges = get_gauges_to_pull(catchment.value, sites.value)
 
         # Retrieve and convert dates:
 #         dates = {'start_date': str(start_date.value).replace('-',''), 
@@ -283,21 +283,31 @@ def on_model_button_clicked(b):
             modelFiles = load_model_files.files
         else:
             modelFiles = []
-            if path_box_1.value != '':
-                PB1 = path_box_1.value.strip()
-                modelFiles.append(PB1)
-            if path_box_2.value != '':
-                PB2 = path_box_2.value.strip()
-                modelFiles.append(PB2)
-            if path_box_3.value != '':
-                PB3 = path_box_3.value.strip()
-                modelFiles.append(PB3)
-            if path_box_4.value != '':
-                PB4 = path_box_4.value.strip()
-                modelFiles.append(PB4)
-            if path_box_5.value != '':
-                PB5 = path_box_5.value.strip()
-                modelFiles.append(PB5)
+
+            # DONE: Converted if bomb to list iteration
+
+            path_boxes: List = [path_box_1, path_box_2, path_box_3, path_box_4, path_box_5]
+
+            for path_box in path_boxes:
+                if path_box.value:
+                    modelFiles.append(path_box.value.strip())
+
+            # if path_box_1.value != '':
+            #     PB1 = path_box_1.value.strip()
+            #     modelFiles.append(PB1)
+            # if path_box_2.value != '':
+            #     PB2 = path_box_2.value.strip()
+            #     modelFiles.append(PB2)
+            # if path_box_3.value != '':
+            #     PB3 = path_box_3.value.strip()
+            #     modelFiles.append(PB3)
+            # if path_box_4.value != '':
+            #     PB4 = path_box_4.value.strip()
+            #     modelFiles.append(PB4)
+            # if path_box_5.value != '':
+            #     PB5 = path_box_5.value.strip()
+            #     modelFiles.append(PB5)
+
         file_locations = get_file_names(modelFiles)
         # Get tolerance:
         minThreshold_tolerance = (100 - min_threshold_allowance_s.value)/100

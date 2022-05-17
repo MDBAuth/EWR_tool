@@ -192,12 +192,10 @@ def build_NSW_columns(input_data, input_header):
     '''Takes in the header data file, trims it, and then renames the column headings with the full reference code
     returns a the dataframe with updated column headers'''
     # Extract unique column ID's from the header:
-    
     new_cols = input_header['Name'].to_list()
     new_cols = new_cols[2:]
     new_cols.insert(0, 'Date')
     input_data.columns = new_cols
-    
     return input_data
 
 def cleaner_MDBA(input_df):
@@ -261,14 +259,10 @@ def cleaner_IQQM_10000yr(input_df):
 
 def extract_gauge_from_string(input_string):
     '''Takes in a string, pulls out the gauge number from this string'''
-    found = re.findall(r'\d+\w', input_string)
-    if found:
-        for i in found:
-            if len(i) >= 6:
-                gauge = i
-                return gauge
-    else:
-        return None
+    # TODO this smells
+    for i in re.findall(r'\d+\w', input_string):
+        if len(i) >= 6:
+            return i
 
 def match_MDBA_nodes(input_df, model_metadata):
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
