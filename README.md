@@ -1,3 +1,6 @@
+[![CI](https://github.com/agile-analytics-au/EWR_tool/actions/workflows/tox-test.yml/badge.svg)]()
+
+
 ### **EWR tool beta 0.0.6 README**
 
 **Purpose**

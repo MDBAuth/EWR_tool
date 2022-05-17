@@ -1,1 +1,0 @@
-output_files is a folder where ewrTool output files are saved to.
