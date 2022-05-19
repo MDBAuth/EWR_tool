@@ -156,7 +156,7 @@ def get_MDBA_codes():
     Load MDBA model metadata file containing model nodes
     and gauges they correspond to
     '''
-    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)
+    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str, encoding='windows-1252')
 #     metadata = metadata.where(pd.notnull(metadata), None)
 
     return metadata
