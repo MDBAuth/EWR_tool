@@ -20,7 +20,7 @@ def get_climate_cats(climate_file):
         
     return climate_cats
 
-def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv'):
+def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'):
     
     ''' Loads ewr table from blob storage, seperates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
@@ -72,7 +72,7 @@ def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-pub
     return okay_EWRs, bad_EWRs
 
 
-def map_gauge_to_catchment(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv'):
+def map_gauge_to_catchment(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'):
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
     first three numbers for each gauge '''
     
