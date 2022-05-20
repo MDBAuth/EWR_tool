@@ -1886,11 +1886,11 @@ def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_y
     
     CTF_EWR = 'CF' in EWR
     LOWFLOW_EWR = 'VF' in EWR or 'BF' in EWR
-    YEARLY_INTEREVENT = EWR_info['max_inter-event'] >= 1
     if EWR_info['max_inter-event'] == None:
         # If there is no max interevent period defined in the EWR, return all interevent periods:
         return list(no_events.values())
     else:
+        YEARLY_INTEREVENT = EWR_info['max_inter-event'] >= 1
         max_interevent = data_inputs.convert_max_interevent(unique_water_years, water_years, EWR_info)
         # If its a cease to flow/low flow/level EWR and has an interevent duration of equal to or more than a year,
         # This one will need to be worked out on an annual basis, looking at the total days between the years with events,
