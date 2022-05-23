@@ -83,7 +83,6 @@ def test_categorise_gauges():
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
     
-@pytest.mark.xfail(raises=AssertionError)    
 def test_observed_handler():
     '''
     1. Test each part of the function are working correctly and producing an overall expected output
