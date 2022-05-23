@@ -18,7 +18,7 @@ def component_pull(EWR_table, gauge, PU, EWR, component):
                            (EWR_table['code'] == EWR) &
                            (EWR_table['PlanningUnitID'] == PU)
                           )][component])[0]
-    return component
+    return component if component else 0
 
 def apply_correction(info, correction):
     '''Applies a correction to the EWR component (based on user request)'''
