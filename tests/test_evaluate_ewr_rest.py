@@ -375,7 +375,7 @@ def test_lowflow_check():
         flow = 5
         water_year = 2015
         event = [5]*9
-        iteration = 365+365+365+100
+        iteration = 365+365+365+100 
         all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
                         2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
         no_event = 0
@@ -384,10 +384,10 @@ def test_lowflow_check():
         water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
         event, all_events, no_event, all_no_events = evaluate_EWRs.lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years)
         # Set up expected output and test
-        expected_event = [5]*10
+        expected_event = []
         expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
-                                2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-        expected_no_event = 0
+                                2014:[[10]*10, [15]*15, [10]*20], 2015:[[5]*9]}
+        expected_no_event = 1
         expected_all_no_events = {2012:[[25], [2]], 2013:[[250]],
                                         2014:[[400], [2], [25]], 2015:[[450]]}
         assert event == expected_event
@@ -568,8 +568,8 @@ def test_lowflow_calc():
         dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
         masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
         # Set up expected output data
-        expected_all_events = {2012: [[5]*295, [10]*45], 2013: [], 2014: [[10]*10], 2015: [[5]*295, [10]*46]}
-        expected_all_no_events = {2012: [[25]], 2013: [], 2014: [[720]], 2015: [[25]]}
+        expected_all_events = {2012: [ [10]*45], 2013: [], 2014: [[10]*10], 2015: [[10]*46]}
+        expected_all_no_events = {2012: [[320]], 2013: [], 2014: [[720]], 2015: [[320]]}
         expected_durations = [300,300,10,300] # adding in a very dry year climate year
         expected_min_events = [1,1,1,1]
         # Send inputs to test function and test
@@ -578,7 +578,7 @@ def test_lowflow_calc():
                 assert len(all_events[year]) == len(expected_all_events[year])
                 
                 for i, event in enumerate(all_events[year]):
-                        assert event == expected_all_events[year][i]
+                        assert event == expected_all_events[year][i]             
         for year in all_no_events:
                 assert len(all_no_events[year]) ==len(expected_all_no_events[year])
                 for i, no_event in enumerate(all_no_events[year]):
@@ -597,12 +597,13 @@ def test_lowflow_calc():
         masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
         masked_dates = masked_dates[((masked_dates.month >= 7) & (masked_dates.month <= 12))] # Just want the dates in the date range
         # Set up expected output data
-        expected_all_events = {2012: [[10]*5, [5]*5], 2013: [], 2014: [[10]*10], 2015: [[5]*184]}
-        expected_all_no_events = {2012: [[35]], 2013: [[685]], 2014: [[355]], 2015: [[181]]}
+        expected_all_events = {2012: [[10]*5], 2013: [], 2014: [[10]*10], 2015: []}
+        expected_all_no_events = {2012: [], 2013: [[725]], 2014: [], 2015: [[720]]}
         expected_durations = [10,10,5,10] # adding in a very dry year climate year
         expected_min_events = [1,1,1,1]
         # Send to test function and test
         all_events, all_no_events, durations, min_events = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+        print(all_no_events)
         for year in all_events:
                 assert len(all_events[year]) == len(expected_all_events[year])
                 for i, event in enumerate(all_events[year]):
@@ -657,12 +658,12 @@ def test_ctf_calc():
         masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
         masked_dates = masked_dates[((masked_dates.month >= 7) & (masked_dates.month <= 12))] # Just want the dates in the date range
         # Set up expected output data
-        expected_all_events = {2012: [[10]*5, [5]*5], 2013: [], 2014: [[10]*10], 2015: [[5]*184]}
-        expected_all_no_events = {2012: [[35]], 2013: [[685]], 2014: [[355]], 2015: [[181]]}
+        expected_all_events = {2012: [[10]*5], 2013: [], 2014: [[10]*10], 2015: []}
+        expected_all_no_events = {2012: [], 2013: [[725]], 2014: [], 2015: [[720]]}
         expected_durations = [10,10,5,10] # adding in a very dry year climate year
         expected_min_events = [1,1,1,1]
         # Send to test function and then test
-        all_events, all_no_events, durations, min_events = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+        all_events, all_no_events, durations, min_events = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates) # Testing low flow???
         for year in all_events:
                 assert len(all_events[year]) ==len(expected_all_events[year])
                 for i, event in enumerate(all_events[year]):
@@ -1069,16 +1070,15 @@ def test_lowflow_calc_sim():
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	# Set up expected output data
-	expected_all_events1 = {2012: [[10]*1, [10]*9], 2013: [[10]*5], 2014: [[10]*10, [10]*10], 2015: [[10]*10]}
+	expected_all_events1 = {2012: [], 2013: [], 2014: [], 2015: []}
 	expected_all_events2 = {2012: [[25]*1, [30]*9], 2013: [[30]*5], 2014: [[30]*10], 2015: [[30]*10]}
-	expected_all_no_events1 = {2012: [[350]], 2013: [[365]], 2014: [[345]], 2015: [[356]]}
+	expected_all_no_events1 = {2012: [], 2013: [], 2014: [], 2015: [[1461]]}
 	expected_all_no_events2 = {2012: [[350]], 2013: [[365]], 2014: [], 2015: [[711]]}
 	expected_durations = [10,5,10,10]
 	expected_min_events = [1,1,1,1]
 	# Send inputs to function and then test:
-	all_events1, all_events2, all_no_events1, all_no_events2, durations, min_events = evaluate_EWRs.lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, dates, masked_dates)
-#         print(all_events1)
-#         print(expected_all_events1)
+	all_events1, all_events2, all_no_events1, all_no_events2, durations, min_events = evaluate_EWRs.lowflow_calc_sim(EWR_info1, EWR_info2, flows1,
+         flows2, water_years, climates, dates, masked_dates)
 	for year in all_events1:
 		assert len(all_events1[year]) == len(expected_all_events1[year])
 		for i, event in enumerate(all_events1[year]):

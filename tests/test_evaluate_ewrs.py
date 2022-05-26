@@ -62,8 +62,8 @@ def test_lowflow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output data - PU_df, and testing
-    data = {'BF1_eventYears': [0,0,1,1], 'BF1_numAchieved': [0,0,1,1], 'BF1_numEvents': [0,0,1,1], 'BF1_eventLength': [350.0,0.0,181.0,361.0], 'BF1_totalEventDays': [350,0,362,361], 
-            'BF1_daysBetweenEvents': [[],[],[381],[]],
+    data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [0.0,0.0,0.0,0.0], 'BF1_totalEventDays': [0,0,0,0], 
+            'BF1_daysBetweenEvents': [[],[],[],[1461]],
             'BF1_missingDays': [0,0,0,0], 'BF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -73,7 +73,7 @@ def test_lowflow_handle():
     assert_frame_equal(PU_df, expected_PU_df)
 
     # Setting up expected output - events, and testing
-    expected_events = {2012:[[250]*350], 2013:[], 2014:[[250]*345, [250]*17], 2015:[[250]*351+[250]*10]}
+    expected_events = {2012:[], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -193,7 +193,6 @@ def test_level_handle():
                 assert event == expected_events[index][year][i] 
 
 
-@pytest.mark.xfail(raises=IndexError)
 def test_weirpool_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -368,8 +367,8 @@ def test_lowflow_handle_multi():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
-    data = {'BF1_eventYears': [0,0,1,0], 'BF1_numAchieved': [0,0,1,0], 'BF1_numEvents': [0,0,1,0], 'BF1_eventLength': [310.0,3.0,157.5,29.5], 'BF1_totalEventDays': [310,3,315,59],
-            'BF1_daysBetweenEvents': [[],[362],[],[77, 230]],
+    data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_totalEventDays': [5, 0, 0, 0],
+            'BF1_daysBetweenEvents': [[76], [], [], [1380]],
             'BF1_missingDays': [0,0,0,0], 'BF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -378,7 +377,7 @@ def test_lowflow_handle_multi():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[100]*76+[2500]*5+[100]*229], 2013:[[100]*3], 2014:[[100]*75, [100]*230+[100]*10], 2015:[[100]*4, [100]*55]}
+    expected_events = {2012:[[2500]*5], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -386,7 +385,6 @@ def test_lowflow_handle_multi():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=AssertionError, reason="column name=CF_eventYears are different")
 def test_ctf_handle_multi():
     '''
     1. Ensure all parts of the function generate expected output
@@ -428,7 +426,6 @@ def test_ctf_handle_multi():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError)
 def test_cumulative_handle_multi():
     '''
     1. Ensure all parts of the function generate expected output
@@ -470,7 +467,6 @@ def test_cumulative_handle_multi():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError)
 def test_flow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -512,7 +508,7 @@ def test_flow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError)
+@pytest.mark.xfail(raises=AssertionError, reason='column name="BF1_eventYears"')
 def test_lowflow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -554,7 +550,6 @@ def test_lowflow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError)
 def test_ctf_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
