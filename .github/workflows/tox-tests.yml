@@ -1,7 +1,7 @@
 name: Tox
 
 on:
-  - push
+  - workflow_call
 
 jobs:
   test:
