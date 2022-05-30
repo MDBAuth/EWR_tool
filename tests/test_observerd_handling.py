@@ -5,6 +5,7 @@ import re
 
 import pandas as pd
 from pandas._testing import assert_frame_equal
+import pytest
 
 from py_ewr import observed_handling, data_inputs
 
@@ -81,7 +82,6 @@ def test_categorise_gauges():
     expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
-    
     
 def test_observed_handler():
     '''
