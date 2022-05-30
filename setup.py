@@ -5,10 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="py_ewr",
-    version="0.0.6",
+    version="0.0.8",
     author="Martin Job",
     author_email="Martin.Job@mdba.gov.au",
-    description="NSW Environmental Water Requirement calculator",
+    description="Environmental Water Requirement calculator",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/MDBAuth/EWR_tool",
@@ -17,7 +17,7 @@ setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Creative Commons",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
         "Operating System :: OS Independent",
         'Development Status :: 4 - Beta',
         'Programming Language :: Python',
@@ -35,8 +35,7 @@ setup(
         "pandas==1.4.2",
         "requests==2.25.1",
         "tqdm==4.64.0",
-        "traitlets==5.2.0",
-        "mdba-gauge-getter==0.2",
+        "mdba-gauge-getter==0.3.1",
     ],
     package_data={'': ['climate_data/*.csv',"model_metadata/*.csv"]},
 )
