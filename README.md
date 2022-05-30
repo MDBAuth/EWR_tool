@@ -1,7 +1,24 @@
-[![CI](https://github.com/agile-analytics-au/EWR_tool/actions/workflows/tox-test.yml/badge.svg)]()
+[![CI](https://github.com/MDBAuth/EWR_tool/actions/workflows/test-release.yml/badge.svg)]()
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-ewr)](https://pypi.org/project/py-ewr/)
+[![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 
 
-### **EWR tool beta 0.0.6 README**
+
+### **EWR tool beta 0.0.8 README**
+
+**Installation**
+
+Step 1. 
+Upgrade pip
+```bash
+python -m pip install –-upgrade pip
+```
+
+Step 2.
+```bash
+pip install py-ewr
+``` 
+
 
 **Purpose**
 This tool has two purposes:
