@@ -25,8 +25,9 @@ def test_ctf_handle():
     # Send input data to test function:
     PU_df, events = evaluate_EWRs.ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df
-    data = {'CF1_eventYears': [0,0,0,1], 'CF1_numAchieved': [0,0,0,1], 'CF1_numEvents': [0,0,0,1], 'CF1_eventLength': [0.0,0.0,0.0,1461.0], 'CF1_totalEventDays': [0,0,0,1461], 'CF1_daysBetweenEvents': [[],[],[],[]], 
-            'CF1_missingDays': [0,0,0,0], 'CF1_totalPossibleDays': [365,365,365,366]}
+    data = {'CF1_eventYears': [0,0,0,1], 'CF1_numAchieved': [0,0,0,1], 'CF1_numEvents': [0,0,0,1], 'CF1_eventLength': [0.0,0.0,0.0,1461.0], 
+    'CF1_totalEventDays': [0,0,0,1461], 'CF1_maxEventDays': [0,0,0,1461], 'CF1_daysBetweenEvents': [[],[],[],[]],'CF1_missingDays': [0,0,0,0], 
+    'CF1_totalPossibleDays': [365,365,365,366]} 
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
@@ -62,8 +63,8 @@ def test_lowflow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output data - PU_df, and testing
-    data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [0.0,0.0,0.0,0.0], 'BF1_totalEventDays': [0,0,0,0], 
-            'BF1_daysBetweenEvents': [[],[],[],[1461]],
+    data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [0.0,0.0,0.0,0.0], 'BF1_totalEventDays': [0,0,0,0],
+            'BF1_maxEventDays': [0,0,0,0], 'BF1_daysBetweenEvents': [[],[],[],[1461]],
             'BF1_missingDays': [0,0,0,0], 'BF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -101,7 +102,7 @@ def test_flow_handle():
     PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'SF1_S_eventYears': [0,0,1,1], 'SF1_S_numAchieved': [0,0,1,1], 'SF1_S_numEvents': [1,0,2,3], 'SF1_S_eventLength': [10.0,0.0,12.0,10.0], 'SF1_S_totalEventDays': [10,0,24,30], 
-            'SF1_S_daysBetweenEvents': [[],[],[],[]],
+            'SF1_S_maxEventDays': [10, 0, 14, 10],'SF1_S_daysBetweenEvents': [[],[],[],[]],
             'SF1_S_missingDays': [0,0,0,0], 'SF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -138,7 +139,7 @@ def test_cumulative_handle():
     PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB3_S_eventYears': [1,0,0,1], 'OB3_S_numAchieved': [1,0,0,1], 'OB3_S_numEvents': [1,0,0,1], 'OB3_S_eventLength': [5.0,0.0,0.0,5.0], 'OB3_S_totalEventDays': [5,0,0,5], 
-            'OB3_S_daysBetweenEvents': [[],[],[],[]],
+            'OB3_S_maxEventDays': [5,0,0,5],'OB3_S_daysBetweenEvents': [[],[],[],[]],
             'OB3_S_missingDays': [0,0,0,0], 'OB3_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -175,7 +176,7 @@ def test_level_handle():
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
     # Setting up expected output - PU_df and test
     data = {'LLLF_eventYears': [1,0,0,0], 'LLLF_numAchieved': [1,0,0,0], 'LLLF_numEvents': [1,0,0,0], 'LLLF_eventLength': [90.0,0.0,0.0,0], 'LLLF_totalEventDays': [90,0,0,0], 
-            'LLLF_daysBetweenEvents': [[],[],[],[1110]],
+            'LLLF_maxEventDays': [90,0,0,0], 'LLLF_daysBetweenEvents': [[],[],[],[1110]],
             'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -228,7 +229,7 @@ def test_weirpool_handle():
     PU_df, events = evaluate_EWRs.weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # Setting up expected output data - PU_df - and testing
     data = {'WP1_eventYears': [1,0,1,0], 'WP1_numAchieved': [1,0,1,0], 'WP1_numEvents': [1,0,1,0], 'WP1_eventLength': [90.0,0.0,90.0,0.0], 'WP1_totalEventDays': [90,0,90,0], 
-            'WP1_daysBetweenEvents': [[],[],[],[]],
+            'WP1_maxEventDays':[90,0,90,0],'WP1_daysBetweenEvents': [[],[],[],[]],
             'WP1_missingDays': [0,0,0,0], 'WP1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -286,7 +287,7 @@ def test_nest_handle():
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_eventLength': [60.0,0.0,0.0,0.0], 'NestS1_totalEventDays': [60,0,0,0],
-            'NestS1_daysBetweenEvents': [[],[],[],[1325]],
+            'NestS1_maxEventDays':[60,0,0,0],'NestS1_daysBetweenEvents': [[],[],[],[1325]],
             'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -327,7 +328,7 @@ def test_flow_handle_multi():
     PU_df, events = evaluate_EWRs.flow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,2,0], 'LF1_numEvents': [1,0,2,0], 'LF1_eventLength': [5.0,0.0,5.5,0.0], 'LF1_totalEventDays': [5,0,11,0],
-            'LF1_daysBetweenEvents': [[],[],[],[]],
+            'LF1_maxEventDays':[5, 0, 6, 0],'LF1_daysBetweenEvents': [[],[],[],[]],
             'LF1_missingDays': [0,0,0,0], 'LF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -368,7 +369,7 @@ def test_lowflow_handle_multi():
     PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
     data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_totalEventDays': [5, 0, 0, 0],
-            'BF1_daysBetweenEvents': [[76], [], [], [1380]],
+            'BF1_maxEventDays':[5, 0, 0, 0],'BF1_daysBetweenEvents': [[76], [], [], [1380]],
             'BF1_missingDays': [0,0,0,0], 'BF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -409,7 +410,7 @@ def test_ctf_handle_multi():
     PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
     data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_totalEventDays': [15,0,16,366],
-            'CF_daysBetweenEvents': [[350],[360],[345,9],[]],
+            'CF_maxEventDays':[14, 0, 15, 366],'CF_daysBetweenEvents': [[350],[360],[345,9],[]],
             'CF_missingDays': [0,0,0,0], 'CF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -450,7 +451,7 @@ def test_cumulative_handle_multi():
     PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB/WS1_S_eventYears': [1,1,1,1], 'OB/WS1_S_numAchieved': [1,1,1,2], 'OB/WS1_S_numEvents': [1,1,1,2], 'OB/WS1_S_eventLength': [90,90.0,90.0,90.0], 'OB/WS1_S_totalEventDays': [90,90,90,180],
-            'OB/WS1_S_daysBetweenEvents': [[],[],[],[]],
+            'OB/WS1_S_maxEventDays':[90,90,90,90],'OB/WS1_S_daysBetweenEvents': [[],[],[],[]],
             'OB/WS1_S_missingDays': [0,0,0,0], 'OB/WS1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -491,7 +492,7 @@ def test_flow_handle_sim():
     PU_df, events = evaluate_EWRs.flow_handle_sim(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'LF1_S_eventYears': [1,0,1,0], 'LF1_S_numAchieved': [1,0,2,0], 'LF1_S_numEvents': [1,0,2,0], 'LF1_S_eventLength': [5.0,0.0,5.5,0.0], 'LF1_S_totalEventDays': [5,0,11,0],
-            'LF1_S_daysBetweenEvents': [[],[],[],[]],
+            'LF1_S_maxEventDays':[5, 0, 6, 0],'LF1_S_daysBetweenEvents': [[],[],[],[]],
             'LF1_S_missingDays': [0,0,0,0], 'LF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -616,7 +617,7 @@ def test_complex_handle():
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB2a_S_eventYears': [1,0,1,1], 'OB2a_S_numAchieved': [1,0,1,2], 'OB2a_S_numEvents': [1,0,1,2], 'OB2a_S_eventLength': [150.0,0.0,150.0,150.0], 'OB2a_S_totalEventDays': [150,0,150,300],
-            'OB2a_S_daysBetweenEvents': [[],[],[],[]],
+            'OB2a_S_maxEventDays':[150, 0, 150, 150],'OB2a_S_daysBetweenEvents': [[],[],[],[]],
             'OB2a_S_missingDays': [0,0,0,0], 'OB2a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -651,7 +652,7 @@ def test_complex_handle():
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB3a_S_eventYears': [1,0,1,1], 'OB3a_S_numAchieved': [1,0,2,2], 'OB3a_S_numEvents': [1,0,2,2], 'OB3a_S_eventLength': [111.0,0.0,111.0,111.0], 'OB3a_S_totalEventDays': [111,0,222,222],
-            'OB3a_S_daysBetweenEvents': [[],[],[],[]],
+            'OB3a_S_maxEventDays':[111, 0, 111, 111],'OB3a_S_daysBetweenEvents': [[],[],[],[]],
             'OB3a_S_missingDays': [0,0,0,0], 'OB3a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)

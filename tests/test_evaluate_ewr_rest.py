@@ -307,6 +307,17 @@ def test_get_total_days():
         expected_total_days = [18,20,26,0]
         assert total_days == expected_total_days
 
+def test_get_max_event_days():
+        '''
+        1. Given events in a year test return the max event days for each year
+        '''
+        events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
+                        2014: [], 2015: [[5]*5,[5]*5]}
+        unique_water_years = [2012, 2013, 2014, 2015]
+        total_days = evaluate_EWRs.get_max_event_days(events, unique_water_years)
+        expected_total_days = [8,20,0,5]
+        assert total_days == expected_total_days
+
 def test_get_data_gap():
         '''
         1. Check event gaps are accurate
