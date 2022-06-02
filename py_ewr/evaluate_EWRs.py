@@ -1880,6 +1880,24 @@ def get_total_days(events, unique_water_years):
             
     return total_days
 
+def get_max_event_days(events:dict, unique_water_years:set)-> list:
+    """Given the events in the yearly time series calculates what was the event
+    in each year with the maximum number of days and appends to a list.
+
+    Args:
+        events (dict): Dict of lists with events flow/level
+        unique_water_years (set): Set of unique water years for the events 
+
+    Returns:
+        list: List with the max event days per year
+    """
+    max_events = []
+    for year in unique_water_years:
+        events_length = [len(e) for e in events[year]]
+        max_event =  max(events_length) if events_length else 0
+        max_events.append(max_event)
+    return max_events
+
 def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years):
     '''Calculates the days/years between events. For certain EWRs (cease to flow, lowflow, 
     and level EWRs), event gaps are calculated on an annual basis, others will calculate on a daily basis'''
@@ -1998,6 +2016,10 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     total_days = get_total_days(events, unique_water_years)
     TD = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
     PU_df = pd.concat([PU_df, TD], axis = 1)
+    # Max event days
+    max_days = get_max_event_days(events, unique_water_years)
+    MD = pd.Series(name = str(EWR + '_maxEventDays'), data = max_days, index = unique_water_years)
+    PU_df = pd.concat([PU_df, MD], axis = 1)
     # Days between events
     days_between = get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
     DB = pd.Series(name = str(EWR + '_daysBetweenEvents'), data = days_between, index = unique_water_years)
