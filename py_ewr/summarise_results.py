@@ -117,6 +117,7 @@ def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
         ewr_df["gauge"] = gauge
         ewr_df["pu"] = pu
         ewr_df["daysBetweenEvents"] = ewr_df["daysBetweenEvents"].agg(len)
+        ewr_df = ewr_df.loc[:,~ewr_df.columns.duplicated()]
         returned_dfs.append(ewr_df)
     return pd.concat(returned_dfs, ignore_index=True)
 
@@ -289,8 +290,7 @@ def summarise(input_dict:Dict , events:Dict)-> pd.DataFrame:
     final_summary_output = final_summary_output.merge(ewr_event_stats, 
                                                       'left',
                                                       left_on=['gauge','pu','ewrCode'], 
-                                                      right_on=['gauge','pu',"ewrCode"],
-                                                      validate ='1:1')
+                                                      right_on=['gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
     
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
@@ -300,8 +300,7 @@ def summarise(input_dict:Dict , events:Dict)-> pd.DataFrame:
     final_summary_output = final_summary_output.merge(EWR_table, 
                                                   'left',
                                                   left_on=['gauge','pu','ewrCode'], 
-                                                  right_on=['gauge','PlanningUnitName','code'],
-                                                  validate ='1:1')
+                                                  right_on=['gauge','PlanningUnitName','code'])
     
     
     selected_columns = [ "scenario",'gauge',
