@@ -74,11 +74,17 @@ def event_item_to_process():
                 "gauge" : '419001',
                 "pu" : 'Keepit to Boggabri',
                 "ewr": 'CF1_a',
-                "ewr_events" : ( {  2010: [],
+                "ewr_events" :  {  2010: [],
                                     2011: [],
                                     2012: [],
                                     2013: [],
-                                    2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
+                                    2014: [[(date(2020, 11, 30), 0.0),
+                                            (date(2020, 12, 1), 0.0),
+                                            (date(2020, 12, 2), 0.0),
+                                            (date(2020, 12, 3), 0.0),
+                                            (date(2020, 12, 4), 0.0),
+                                            (date(2020, 12, 5), 0.0),]]}
+                                            }
 
 @pytest.fixture(scope="function")
 def event_items_to_process():
@@ -86,20 +92,32 @@ def event_items_to_process():
                 "gauge" : '419001',
                 "pu" : 'Keepit to Boggabri',
                 "ewr": 'CF1_a',
-                "ewr_events" : ( {  2010: [],
+                "ewr_events" :  {  2010: [],
                                     2011: [],
                                     2012: [],
                                     2013: [],
-                                    2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)},
+                                    2014: [[(date(2020, 11, 30), 0.0),
+                                            (date(2020, 12, 1), 0.0),
+                                            (date(2020, 12, 2), 0.0),
+                                            (date(2020, 12, 3), 0.0),
+                                            (date(2020, 12, 4), 0.0),
+                                            (date(2020, 12, 5), 0.0),]]}
+                                    },
                 {  "scenario" : 'observed',
                 "gauge" : '419002',
                 "pu" : 'Keepit to Boggabri',
                 "ewr": 'CF1_a',
-                "ewr_events" : ( {  2010: [],
+                "ewr_events" : {  2010: [],
                                     2011: [],
                                     2012: [],
                                     2013: [],
-                                    2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
+                                    2014: [[(date(2020, 11, 30), 0.0),
+                                            (date(2020, 12, 1), 0.0),
+                                            (date(2020, 12, 2), 0.0),
+                                            (date(2020, 12, 3), 0.0),
+                                            (date(2020, 12, 4), 0.0),
+                                            (date(2020, 12, 5), 0.0),]]}
+                                    }
                                     ]
 
 @pytest.fixture(scope="function")

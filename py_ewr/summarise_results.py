@@ -174,7 +174,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                     item["gauge"] = gauge
                     item["pu"] = pu
                     item["ewr"] = ewr
-                    item["ewr_events"] = gauge_events[scenario][gauge][pu][ewr]
+                    item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
                     items_to_process.append(item)
     return items_to_process
 
@@ -205,7 +205,7 @@ def sum_events(yearly_events:dict)-> int:
     return len(list(chain(*flattened_events)))
 
 
-def process_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: tuple)-> pd.DataFrame:
+def process_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: Dict)-> pd.DataFrame:
     """process each item for the gauge and return the statistics in a DataFrame
 
     Args:
@@ -213,13 +213,13 @@ def process_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: 
         gauge (str): gauge name metadata
         pu (str): planning unit name metadata
         ewr (str): DataFrame to be transformed
-        pu_df (tuple): tuple with events list
+        ewr_events (Dict): Dict with all yearly events list with date and flow/level 
 
     Returns:
         pd.DataFrame: DataFrame with events statistics
     """
     row_data = defaultdict(list)
-    yearly_events, = ewr_events
+    yearly_events = ewr_events
     total_events = count_events(yearly_events)
     total_event_days = sum_events(yearly_events)
     average_event_length = total_event_days/total_events if total_events else 0
@@ -247,6 +247,54 @@ def process_ewr_events_stats(events_to_process: List[Dict])-> pd.DataFrame:
     for item in events_to_process:
         row_data = process_yearly_events(**item)
         returned_dfs.append(row_data)
+    return pd.concat(returned_dfs, ignore_index=True)
+
+def process_all_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: Dict)-> pd.DataFrame():
+    """process each item for the gauge and return all events. Each event is a row with a start and end date
+    duration and event length
+
+    Args:
+        scenario (str): scenario name metadata
+        gauge (str): gauge name metadata
+        pu (str): planning unit name metadata
+        ewr (str): DataFrame to be transformed
+        ewr_events (Dict): Dict with all yearly events list with date and flow/level
+        
+
+    Returns:
+        pd.DataFrame: DataFrame with all events of Pu-ewr-gauge combination
+    """
+    df_data = defaultdict(list)
+    for year in ewr_events:
+        for i, ev in enumerate(ewr_events[year]):
+            start_date, _ = ev[0]
+            end_date, _ = ev[-1]
+            df_data["scenario"].append(scenario)
+            df_data["gauge"].append(gauge)
+            df_data["pu"].append(pu)
+            df_data["ewr"].append(ewr)
+            df_data["waterYear"].append(year)
+            df_data["startDate"].append(start_date )
+            df_data["endDate"].append(end_date)
+            df_data["eventDuration"].append((end_date - start_date).days + 1)
+            df_data["eventLength"].append(len(ev))          
+    
+    return pd.DataFrame(df_data)
+
+def process_all_events_results(results_to_process: List[Dict])-> pd.DataFrame:
+    """Manage the processing of yearly events and concatenate into a
+    single dataframe with the results of all ewr calculations.
+
+    Args:
+        results_to_process (List[Dict]):List with all items to process.
+
+    Returns:
+        pd.DataFrame: Single DataFrame with all the ewr events
+    """
+    returned_dfs = []
+    for item in results_to_process:
+        df = process_all_yearly_events(**item)
+        returned_dfs.append(df)
     return pd.concat(returned_dfs, ignore_index=True)
 
 

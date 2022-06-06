@@ -1,4 +1,4 @@
-from unittest import result
+from datetime import date
 import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
@@ -81,20 +81,21 @@ def test_get_events_to_process(gauge_events):
                           "gauge" : '419001',
                           "pu" : 'Keepit to Boggabri',
                           "ewr": 'CF1_a',
-                          "ewr_events" : ({2010: [],
+                          "ewr_events" : {2010: [],
                             2011: [],
                             2012: [],
                             2013: [],
-                            2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)},
+                            2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}
+                            },
                        {"scenario" : 'observed',
                           "gauge" : '419002',
                           "pu" : 'Keepit to Boggabri',
                           "ewr": 'CF1_a',
-                          "ewr_events" : ({2010: [],
+                          "ewr_events" : {2010: [],
                             2011: [],
                             2012: [],
                             2013: [],
-                            2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}    
+                            2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}}    
                        ]
 
 def test_count_events(yearly_events):
@@ -131,3 +132,28 @@ def test_process_ewr_events_stats(event_items_to_process):
 def test_summarise(detailed_results, gauge_events):
     result = summarise_results.summarise(input_dict=detailed_results, events=gauge_events)
     assert type(result) == pd.DataFrame
+
+   
+def test_process_all_yearly_events(event_item_to_process):
+    result = summarise_results.process_all_yearly_events(**event_item_to_process)
+    assert result.to_dict() == {'scenario': {0: 'observed'},
+                                'gauge': {0: '419001'},
+                                'pu': {0: 'Keepit to Boggabri'},
+                                'ewr': {0: 'CF1_a'},
+                                'waterYear': {0: 2014},
+                                'startDate': {0: date(2020, 11, 30)},
+                                'endDate': {0:   date(2020, 12, 5)},
+                                'eventDuration': {0: 6},
+                                'eventLength': {0: 6}}
+
+def test_process_all_events_results(event_items_to_process):
+    result = summarise_results.process_all_events_results(event_items_to_process)
+    assert result.to_dict() == {'scenario': {0: 'observed', 1: 'observed'},
+                                'gauge': {0: '419001', 1: '419002'},
+                                'pu': {0: 'Keepit to Boggabri', 1: 'Keepit to Boggabri'},
+                                'ewr': {0: 'CF1_a', 1: 'CF1_a'},
+                                'waterYear': {0: 2014, 1: 2014},
+                                'startDate': {0: date(2020, 11, 30), 1: date(2020, 11, 30)},
+                                'endDate': {0: date(2020, 12, 5), 1: date(2020, 12, 5)},
+                                'eventDuration': {0: 6, 1: 6},
+                                'eventLength': {0: 6, 1: 6}}
