@@ -120,3 +120,57 @@ def test_observed_handler():
                 expected_detailed_results[col].iloc[i] = new_list
     
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
+
+
+def test_observed_handler_class(observed_handler_expected_detail):
+
+    # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+
+    ewr_or.process_gauges()
+
+    detailed = ewr_or.pu_ewr_statistics
+    
+    assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], observed_handler_expected_detail)
+
+def test_get_all_events():
+        # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+
+    all_events = ewr_or.get_all_events()
+    print(all_events.head())
+
+def test_get_yearly_ewr_results():
+        # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+
+    yearly_results = ewr_or.get_yearly_ewr_results()
+    print(yearly_results.head())
+
+def test_get_ewr_results():
+        # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+
+    ewr_results = ewr_or.get_ewr_results()
+
+    print(ewr_results.head())

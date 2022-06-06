@@ -4,7 +4,7 @@ from collections import defaultdict
 
 import pandas as pd
 
-from . import data_inputs, evaluate_EWRs
+from . import data_inputs
 #--------------------------------------------------------------------------------------------------
 
 
