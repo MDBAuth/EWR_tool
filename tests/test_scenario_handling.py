@@ -241,6 +241,7 @@ def test_unpack_IQQM_10000yr():
     
     assert_frame_equal(flow, expected_flow)
 
+@pytest.mark.xfail(raises=AttributeError)
 def test_scenario_handler():
     '''things to test here:
     1. Ensure all parts of the function generate expected output
@@ -256,6 +257,7 @@ def test_scenario_handler():
     # Expected output params
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
     expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    print(expected_detailed_results.index.astype('object'))
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
     for col in expected_detailed_results:

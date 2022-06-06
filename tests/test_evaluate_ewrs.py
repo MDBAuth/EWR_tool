@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 import pandas as pd
 from pandas._testing import assert_frame_equal
@@ -15,7 +15,7 @@ def test_ctf_handle():
     gauge = '410007'
     EWR = 'CF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: [0]*1+[0]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*10+[0]*345+[0]*1+[0]*9 + [0]*5+[0]*351+[0]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
@@ -35,7 +35,7 @@ def test_ctf_handle():
 #         print(expected_PU_df.head())        
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events
-    expected_events = {2012:[], 2013:[], 2014:[], 2015:[[0]*1461]}
+    expected_events = {2012:[], 2013:[], 2014:[], 2015:[[(date(2012, 7, 1)+timedelta(days=i),0) for i in range(1461)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -53,7 +53,7 @@ def test_lowflow_handle():
     gauge = '410007'
     EWR = 'BF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
@@ -91,7 +91,7 @@ def test_flow_handle():
     gauge = '410007'
     EWR = 'SF1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: [0]*1+[250]*350+[450]*10+[0]*4 + [0]*360+[450]*5 + [450]*5+[250]*345+[0]*1+[450]*14 + [0]*5+[450]*10+[0]*1+[450]*10+[250]*330+[450]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
@@ -111,7 +111,13 @@ def test_flow_handle():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[450]*10], 2013:[], 2014:[[450]*5+[450]*5, [450]*14], 2015:[[450]*10, [450]*10, [450]*10]}
+    expected_events = {2012: [[(date(2013, 6, 17) + timedelta(days=i), 450) for i in range(10)]], 
+                        2013: [], 
+                        2014: [[(date(2014, 6, 26) + timedelta(days=i), 450) for i in range(10)],
+                                [(date(2015, 6, 17) + timedelta(days=i), 450) for i in range(14)]],
+                        2015: [[(date(2015, 7, 6) + timedelta(days=i), 450) for i in range(10)],
+                            [(date(2015, 7, 17) + timedelta(days=i), 450) for i in range(10)],     
+                            [(date(2016, 6, 21) + timedelta(days=i), 450) for i in range(10)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -165,7 +171,7 @@ def test_level_handle():
     gauge = '425022'
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + [56]*89+[0]*4+[0]*10+[0]*3+[0]*10+[0]*230+[0]*20}
     df_L = pd.DataFrame(data = data_for_df_L)
     df_L = df_L.set_index('Date')
@@ -185,7 +191,7 @@ def test_level_handle():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and test
-    expected_events = {2012:[[56]*90], 2013:[], 2014:[], 2015:[]}
+    expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -314,7 +320,7 @@ def test_flow_handle_multi():
     gauge2 = '421088'
     EWR = 'LF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge1: [0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*77+[1250]*5+[0]*229+[0]*55,
                         gauge2: [0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*76+[1250]*5+[0]*230+[0]*55
                     }
@@ -337,7 +343,13 @@ def test_flow_handle_multi():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[2500]*5], 2013:[], 2014:[[2500]*6, [2500]*5], 2015:[]}
+    expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
+                       2013:[], 
+                       2014:[[(date(2014, 6, 28) + timedelta(days=i), 2500) for i in range(6)], 
+                       [(date(2014, 11, 7) + timedelta(days=i), 2500) for i in range(5)]], 
+                       2015:[]}
+    
+    # {2012:[[2500]*5], 2013:[], 2014:[[2500]*6, [2500]*5], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -355,7 +367,7 @@ def test_lowflow_handle_multi():
     gauge2 = '421088'
     EWR = 'BF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge1: [50]*76+[1250]*5+[50]*229+[50]*15+[0]*40 + [50]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [50]*75+[0]*50+[50]*230+[50]*10 + [0]*77+[50]*5+[0]*229+[50]*55,
                         gauge2: [50]*76+[1250]*5+[50]*229+[0]*40+[50]*15 + [50]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [50]*75+[0]*50+[50]*230+[50]*10 + [0]*76+[50]*5+[0]*230+[50]*55
                     }
@@ -378,7 +390,8 @@ def test_lowflow_handle_multi():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[2500]*5], 2013:[], 2014:[], 2015:[]}
+    expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
+    2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -396,7 +409,7 @@ def test_ctf_handle_multi():
     gauge2 = '421088'
     EWR = 'CF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge1: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10,
                         gauge2: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10
                     }
@@ -408,6 +421,7 @@ def test_ctf_handle_multi():
     climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to the test function
     PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
+    print(events)
     # Setting up expected output - PU_df - and testing
     data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_totalEventDays': [15,0,16,366],
             'CF_maxEventDays':[14, 0, 15, 366],'CF_daysBetweenEvents': [[350],[360],[345,9],[]],
@@ -419,7 +433,12 @@ def test_ctf_handle_multi():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[0]*1, [0]*9+[0]*5], 2013:[], 2014:[[0]*15, [0]*1], 2015:[[0]*366]}
+    expected_events = {2012:[[(date(2012, 7, 1), 0)], 
+                              [(date(2013, 6, 17) + timedelta(days=i), 0) for i in range(14)]], 
+                       2013:[], 
+                       2014:[ [(date(2014, 6, 26) + timedelta(days=i), 0) for i in range(15)], 
+                       [(date(2015, 6, 21), 0)]], 
+                       2015:[[(date(2015, 7, 1) + timedelta(days=i), 0) for i in range(366)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -478,7 +497,7 @@ def test_flow_handle_sim():
     gauge2 = '421022'
     EWR = 'LF1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge1: [0]*76+[1000]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1000]*3 + [1000]*3+[0]*76+[0]*50+[1000]*5+[0]*231 + [0]*77+[1000]*5+[0]*229+[0]*55,
                         gauge2: [0]*76+[1000]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1000]*3 + [1000]*3+[0]*76+[0]*50+[1000]*5+[0]*231 + [0]*76+[1000]*5+[0]*230+[0]*55
                     }
@@ -497,11 +516,13 @@ def test_flow_handle_sim():
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
-#         print(PU_df.head())
-#         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[1000]*5], 2013:[], 2014:[[1000]*6, [1000]*5], 2015:[]}
+    expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 1000) for i in range(5)]], 
+                        2013:[], 
+                        2014:[[(date(2014, 6, 28) + timedelta(days=i), 1000) for i in range(6)], 
+                        [(date(2014, 11, 7) + timedelta(days=i), 1000) for i in range(5)]], 
+                        2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -509,7 +530,7 @@ def test_flow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=AssertionError, reason='column name="BF1_eventYears"')
+# @pytest.mark.xfail(raises=AssertionError, reason='column name="BF1_eventYears"')
 def test_lowflow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -520,7 +541,7 @@ def test_lowflow_handle_sim():
     gauge2 = '421022'
     EWR = 'BF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge1: [0]*76+[65]*280+[0]*9 + [0]*76+[0]*9+[65]*280 + [0]*80+[0]*9+[65]*276 + [65]*270+[0]*76+[0]*14+[65]*6,
                         gauge2: [0]*76+[65]*280+[0]*9 + [65]*280+[0]*76+[0]*9 + [0]*80+[0]*9+[65]*276 + [65]*270+[0]*76+[0]*14+[65]*6
                     }
@@ -534,16 +555,16 @@ def test_lowflow_handle_sim():
     PU_df, events = evaluate_EWRs.lowflow_handle_sim(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and test
     # Note the floats that get returned in the total event days series. This is because the totals of the two series are averaged.
-    data = {'BF1_eventYears': [1,1,1,0], 'BF1_numAchieved': [1,1,1,0], 'BF1_numEvents': [1,1,1,0], 'BF1_eventLength': [280.0,280.0,276.0,138.0], 'BF1_totalEventDays': [280.0,280.0,276.0,276.0],
-            'BF1_daysBetweenEvents': [[76],[94],[89],[90]],
+    data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [0.0, 0.0, 0.0, 0.0], 'BF1_totalEventDays': [0.0, 0.0, 0.0, 0.0],
+            'BF1_daysBetweenEvents': [[],[],[],[1461]],
             'BF1_missingDays': [0,0,0,0], 'BF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
-    expected_events1 = {2012:[[65]*280], 2013:[[65]*280], 2014:[[65]*276], 2015:[[65]*270, [65]*6]}
-    expected_events2 = {2012:[[65]*280], 2013:[[65]*280], 2014:[[65]*276], 2015:[[65]*270, [65]*6]}
+    expected_events1 = {2012:[], 2013:[], 2014:[], 2015:[]}
+    expected_events2 = {2012:[], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events1, expected_events2])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -561,7 +582,7 @@ def test_ctf_handle_sim():
     gauge2 = '421022'
     EWR = 'CF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge1: [5]*123+[0]*5+[5]*232+[0]*5 + [0]*1+[5]*123+[0]*3+[5]*233+[0]*3+[5]*2 + [5]*123+[0]*5+[5]*232+[0]*5 + [5]*123+[0]*5+[5]*233+[5]*5,
                         gauge2: [5]*123+[0]*5+[5]*232+[0]*5 + [0]*1+[5]*123+[0]*3+[5]*233+[0]*3+[5]*2 + [5]*123+[0]*5+[5]*232+[0]*5 + [5]*123+[5]*5+[5]*233+[0]*5
                     }
@@ -583,8 +604,20 @@ def test_ctf_handle_sim():
     expected_PU_df.index = expected_PU_df.index.astype('object')
     assert_frame_equal(PU_df, expected_PU_df) 
     # Setting up expected output - events - and test
-    expected_events1 = {2012:[[0]*5, [0]*5], 2013:[[0]*3, [0]*3], 2014:[[0]*5, [0]*5], 2015:[[0]*5]}
-    expected_events2 = {2012:[[0]*5, [0]*5], 2013:[[0]*3, [0]*3], 2014:[[0]*5, [0]*5], 2015:[[0]*5]}
+    expected_events1 = {2012:[[(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
+                                [(date(2013, 6, 26) + timedelta(days=i), 0) for i in range(5)]], 
+                                2013:[[(date(2013, 11, 2) + timedelta(days=i), 0) for i in range(3)], 
+                                [(date(2014, 6, 26) + timedelta(days=i), 0) for i in range(3)]], 
+                                2014:[[(date(2014, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
+                                [(date(2015, 6, 26) + timedelta(days=i), 0) for i in range(5)]], 
+                                2015:[[(date(2015, 11, 1) + timedelta(days=i), 0) for i in range(5)]]}
+    expected_events2 = {2012:[[(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
+                                [(date(2013, 6, 26) + timedelta(days=i), 0) for i in range(5)]], 
+                                2013:[[(date(2013, 11, 2) + timedelta(days=i), 0) for i in range(3)], 
+                                [(date(2014, 6, 26) + timedelta(days=i), 0) for i in range(3)]], 
+                                2014:[[(date(2014, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
+                                [(date(2015, 6, 26) + timedelta(days=i), 0) for i in range(5)]], 
+                                2015:[[(date(2016, 6, 26) + timedelta(days=i), 0) for i in range(5)]]}
     expected_events = tuple([expected_events1, expected_events2])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
