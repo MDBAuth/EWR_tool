@@ -1,5 +1,6 @@
-import pandas as pd
+from datetime import date, timedelta, datetime
 
+import pandas as pd
 import pytest
 
 
@@ -100,3 +101,21 @@ def event_items_to_process():
                                     2013: [],
                                     2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
                                     ]
+
+@pytest.fixture(scope="function")
+def stamp_index():
+    return pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+
+@pytest.fixture(scope="function")
+def period_index():
+    return pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+
+@pytest.fixture(scope="function")
+def stamp_date(stamp_index):
+    return stamp_index[0]
+
+@pytest.fixture(scope="function")
+def period_date(period_index):
+    return period_index[0]
+
+

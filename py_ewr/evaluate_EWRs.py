@@ -1,8 +1,10 @@
+from typing import Any
 import pandas as pd
 import re
 import numpy as np
 from datetime import date, timedelta
 from datetime import time
+import datetime
 
 from tqdm import tqdm
 
@@ -215,6 +217,10 @@ def wateryear_daily(input_df, ewrs):
         waterYears = np.vectorize(appenderStandard)(years, months)    
     
     return waterYears
+
+def get_index_date(date_index:Any)-> datetime.date:
+    return (date_index.date() if type(date_index) == pd._libs.tslibs.timestamps.Timestamp 
+            else date_index.to_timestamp().date())
 
 #----------------------------------- EWR handling functions --------------------------------------#
 
@@ -627,7 +633,7 @@ def flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_ev
     '''
 
     if ((flow >= EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
-        threshold_flow = (flow_date, flow)
+        threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
         gap_track = EWR_info['gap_tolerance'] # reset the gapTolerance after threshold is reached
@@ -659,7 +665,7 @@ def lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no
     '''
     
     if ((flow > EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
-        threshold_flow = (flow_date, flow)
+        threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         if no_event > 0:
             ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
@@ -681,7 +687,7 @@ def ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_eve
     '''
 
     if ((flow >= EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
-        threshold_flow = (flow_date, flow)
+        threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
     else:
         if len(event) > 0:
@@ -704,7 +710,7 @@ def level_check(EWR_info, iteration, level, level_change, event, all_events, no_
 
     if ((level >= EWR_info['min_level']) and (level <= EWR_info['max_level']) and\
         (level_change <= float(EWR_info['drawdown_rate']))):
-        threshold_level = tuple((level_date, level))
+        threshold_level = (get_index_date(level_date), level)
         event.append(threshold_level)
         no_event += 1
     else:
@@ -729,7 +735,7 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
 
     if ((flow1 >= EWR_info1['min_flow']) and (flow1 <= EWR_info1['max_flow']) and\
         (flow2 >= EWR_info2['min_flow']) and (flow2 <= EWR_info2['max_flow'])):
-        threshold_flow = (flow_date, flow1)
+        threshold_flow = (get_index_date(flow_date), flow1)
         event.append(threshold_flow)
         total_event += 1
         gap_track = EWR_info1['gap_tolerance'] # reset the gapTolerance after threshold is reached
@@ -811,7 +817,7 @@ def lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates):
     # Iterate over daily flow, sending to the lowflow_check function for each iteration 
     for i, flow in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
-            flow_date = dates[i].to_timestamp().date()
+            flow_date = dates[i]
             event, all_events, no_event, all_no_events = lowflow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
         else:
             no_event += 1
@@ -825,7 +831,7 @@ def lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates):
         
     # Check the final iteration, saving any ongoing events/event gaps to their spots in the dictionaries
     if dates[-1] in masked_dates:
-        flow_date = dates[-1].to_timestamp().date()
+        flow_date = dates[-1]
         event, all_events, no_event, all_no_events = lowflow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, water_years, flow_date)
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
@@ -852,14 +858,14 @@ def ctf_calc_anytime(EWR_info, flows, water_years, climates, dates):
     durations, min_events = [], []
     # Iterate over daily flow, sending to the ctf_check function each iteration:
     for i, flow in enumerate(flows[:-1]):
-        flow_date = dates[i].to_timestamp().date()
+        flow_date = dates[i]
         event, all_events, no_event, all_no_events = ctf_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
             durations.append(get_duration(climates[i], EWR_info))
             min_events.append(EWR_info['min_event'])
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
-    flow_date = dates[-1].to_timestamp().date()
+    flow_date = dates[-1]
     event, all_events, no_event, all_no_events = ctf_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, water_years, flow_date) 
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
@@ -888,7 +894,7 @@ def ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates):
     # Iterate over daily flow, sending to the ctf_check function each iteration:
     for i, flow in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
-            flow_date = dates[i].to_timestamp().date()
+            flow_date = dates[i]
             event, all_events, no_event, all_no_events = ctf_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
         else:
             no_event += 1
@@ -905,7 +911,7 @@ def ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates):
             min_events.append(EWR_info['min_event'])
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
-        flow_date = dates[-1].to_timestamp().date()
+        flow_date = dates[-1]
         event, all_events, no_event, all_no_events = ctf_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, water_years, flow_date) 
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
@@ -935,7 +941,7 @@ def flow_calc(EWR_info, flows, water_years, dates, masked_dates):
     # Iterate over flow timeseries, sending to the flow_check function each iteration:
     for i, flow in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
-            flow_date = dates[i].to_timestamp().date()
+            flow_date = dates[i]
             event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
         else:
             no_event += 1
@@ -954,7 +960,7 @@ def flow_calc(EWR_info, flows, water_years, dates, masked_dates):
         
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
-        flow_date = dates[-1].to_timestamp().date()
+        flow_date = dates[-1]
         event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event,flow_date)   
     if len(event) >= EWR_info['min_event']:
         all_events[water_years[-1]].append(event)
@@ -984,13 +990,13 @@ def flow_calc_anytime(EWR_info, flows, water_years, dates):
     gap_track = 0
     # Iterate over flows:
     for i, flow in enumerate(flows[:-1]):
-        flow_date = dates[i].to_timestamp().date()
+        flow_date = dates[i]
         event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)  
         if water_years[i] != water_years[i+1]:
             durations.append(EWR_info['duration'])
             min_events.append(EWR_info['min_event'])
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
-    flow_date = dates[-1].to_timestamp().date()
+    flow_date = dates[-1]
     event, all_events, no_event, all_no_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
     if len(event) >= EWR_info['min_event']:
         water_year = which_water_year(-1, total_event, water_years)
@@ -1022,7 +1028,7 @@ def lake_calc(EWR_info, levels, water_years, dates, masked_dates):
         if i == 0:
             level_change = 0
         if dates[i] in masked_dates:
-            level_date = dates[i].to_timestamp().date()
+            level_date = dates[i]
             level_change = levels[i-1]-levels[i]
             event, all_events, no_event, all_no_events = level_check(EWR_info, i, level, level_change, event, all_events, no_event, all_no_events, water_years, level_date)
         else:
@@ -1040,7 +1046,7 @@ def lake_calc(EWR_info, levels, water_years, dates, masked_dates):
             min_events.append(EWR_info['min_event'])
     if dates[-1] in masked_dates:
         level_change = levels[-2]-levels[-1]   
-        level_date = dates[-1].to_timestamp().date()     
+        level_date = dates[-1]     
         event, all_events, no_event, all_no_events = level_check(EWR_info, -1, levels[-1], level_change, event, all_events, no_event, all_no_events, water_years, level_date)
         
     if len(event) >= EWR_info['duration']:
@@ -1452,7 +1458,7 @@ def flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dat
     total_event = 0
     # Iterate over flows
     for i, flow in enumerate(flows1[:-1]):
-        flow_date = dates[i].to_timestamp().date()
+        flow_date = dates[i]
         # Each iteration send to a simultaneous flow check function, to see if both sites requirements are met:
         event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,
                                                                                EWR_info2, water_years,
@@ -1464,7 +1470,7 @@ def flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dat
             durations.append(EWR_info1['duration'])
             min_events.append(EWR_info1['min_event'])
     # Check final iteration:
-    flow_date = dates[-1].to_timestamp().date()
+    flow_date = dates[-1]
     event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,
                                                                            EWR_info2, water_years,
                                                                            flows1[-1], flows2[-1], event,
@@ -1501,7 +1507,7 @@ def flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, mask
     # Iterate over flows
     for i, flow in enumerate(flows1[:-1]):
         if dates[i] in masked_dates:
-            flow_date = dates[i].to_timestamp().date()
+            flow_date = dates[i]
             # Each iteration send to a simultaneous flow check function, to see if both sites requirements are met:
             event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,EWR_info2,
                                                                                    water_years, flow,
@@ -1525,7 +1531,7 @@ def flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, mask
         
     # Check final iteration:
     if dates[-1] in masked_dates:
-        flow_date = dates[-1].to_timestamp().date()
+        flow_date = dates[-1]
         event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_sim(i,EWR_info1,
                                                                                EWR_info2, water_years,
                                                                                flows1[-1], flows2[-1], event,
@@ -1560,7 +1566,7 @@ def lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates
     durations, min_events = [], []
     for i, flow in enumerate(flows1[:-1]):
         if dates[i] in masked_dates:
-            flow_date = dates[i].to_timestamp().date()
+            flow_date = dates[i]
             # Check flows at each site against their respective EWR requirements:
             event1, all_events1, no_event1, all_no_events1 = lowflow_check(EWR_info1, i, flow, event1, all_events1, no_event1, all_no_events1, water_years, flow_date)
             event2, all_events2, no_event2, all_no_events2 = lowflow_check(EWR_info2, i, flows2[i], event2, all_events2, no_event2, all_no_events2, water_years, flow_date)
@@ -1579,7 +1585,7 @@ def lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates
 
     # Check final iteration:
     if dates[-1] in masked_dates:
-        flow_date = dates[-1].to_timestamp().date()
+        flow_date = dates[-1]
         event1, all_events1, no_event1, all_no_events1 = lowflow_check(EWR_info1, -1, flows1[-1], event1, all_events1, no_event1, all_no_events1, water_years, flow_date)
         event2, all_events2, no_event2, all_no_events2 = lowflow_check(EWR_info2, -1, flows2[-1], event2, all_events2, no_event2, all_no_events2, water_years, flow_date)
     if len(event1) > 0:
@@ -1619,7 +1625,7 @@ def ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, da
     for i, flow in enumerate(flows1[:-1]):
         # Check flows at each site against their respective EWR requirements:
         if dates[i] in masked_dates:
-            flow_date = dates[i].to_timestamp().date()
+            flow_date = dates[i]
             event1, all_events1, no_event1, all_no_events1 = ctf_check(EWR_info1, i, flow, event1, all_events1, no_event1, all_no_events1, water_years, flow_date)
             event2, all_events2, no_event2, all_no_events2 = ctf_check(EWR_info2, i, flows2[i], event2, all_events2, no_event2, all_no_events2, water_years, flow_date)
             if water_years[i] != water_years[i+1]:
@@ -1643,7 +1649,7 @@ def ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, da
             no_event2 += 1
     # Check final iteration:
     if dates[-1] in masked_dates:
-        flow_date = dates[-1].to_timestamp().date()
+        flow_date = dates[-1]
         event1, all_events1, no_event1, all_no_events1 = ctf_check(EWR_info1, -1, flows1[-1], event1, all_events1, no_event1, all_no_events1, water_years, flow_date)
         event2, all_events2, no_event2, all_no_events2 = ctf_check(EWR_info2, -1, flows2[-1], event2, all_events2, no_event2, all_no_events2, water_years, flow_date)  
     if len(event1) > 0:

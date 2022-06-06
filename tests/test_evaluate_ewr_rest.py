@@ -5,6 +5,7 @@ import numpy as np
 
 from py_ewr import evaluate_EWRs, data_inputs, summarise_results
 
+
 def test_component_pull():
 	'''
 	1. Test correct value is pulled from EWR dataset
@@ -345,8 +346,10 @@ def test_check_flow():
 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10}
 	iteration = 50
 	flow = 5
-	flow_date = date(2012,1,10)
-	event = [(date(2012, 1, 1), 5), (date(2012, 1, 2), 5), (date(2012, 1, 3), 5), (date(2012, 1, 4), 5), (date(2012, 1, 5), 5), (date(2012, 1, 6), 5), (date(2012, 1, 7), 5), (date(2012, 1, 8), 5), (date(2012, 1, 1), 9)]
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flow_date = dates[iteration]
+	event_start = flow_date.date() - timedelta(days=9)
+	event = [(event_start + timedelta(days=i), 5) for i in range(9)]
 	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
 	no_event = 50
@@ -357,7 +360,7 @@ def test_check_flow():
 	total_event = 9
 	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
 	# Set up expected results and test
-	expected_event = [(date(2012, 1, 1), 5), (date(2012, 1, 2), 5), (date(2012, 1, 3), 5), (date(2012, 1, 4), 5), (date(2012, 1, 5), 5), (date(2012, 1, 6), 5), (date(2012, 1, 7), 5), (date(2012, 1, 8), 5), (date(2012, 1, 1), 9), (date(2012, 1, 10), 5)]
+	expected_event =  [(event_start + timedelta(days=i), 5) for i in range(10)]
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 							2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
 	expected_no_event = 51
@@ -836,7 +839,6 @@ def test_lake_calc():
 	# Send to test function and then test
 	all_events, all_no_events, durations, min_events = evaluate_EWRs.lake_calc(EWR_info, levels, water_years, dates, masked_dates)
 	print(all_events)
-#         print(expected_all_events)
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
@@ -1277,3 +1279,7 @@ def test_ctf_calc_sim():
 		for i, no_event in enumerate(all_no_events2[year]):
 			assert no_event == expected_all_no_events2[year][i]
 	assert durations == expected_durations
+
+
+def test_get_index_date(period_date, stamp_date):
+	assert evaluate_EWRs.get_index_date(period_date) == evaluate_EWRs.get_index_date(stamp_date)

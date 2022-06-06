@@ -241,7 +241,6 @@ def test_unpack_IQQM_10000yr():
     
     assert_frame_equal(flow, expected_flow)
 
-@pytest.mark.xfail(raises=AttributeError)
 def test_scenario_handler():
     '''things to test here:
     1. Ensure all parts of the function generate expected output
