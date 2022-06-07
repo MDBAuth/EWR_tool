@@ -4,6 +4,7 @@ import re
 import pandas as pd
 import pytest
 
+from py_ewr import observed_handling, scenario_handling
 
 @pytest.fixture(scope="function")
 def pu_df():
@@ -165,4 +166,62 @@ def observed_handler_expected_detail():
     
     return expected_detailed_results
 
+@pytest.fixture(scope="module")
+def scenario_handler_expected_detail():
+    # Expected output params
+    expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
+    expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    expected_detailed_results.index.astype('object')
+    cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
+    expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
+    for col in expected_detailed_results:
+        if 'daysBetweenEvents' in col:
+            for i, val in enumerate(expected_detailed_results[col]):
+                new = expected_detailed_results[col].iloc[i]
+                if new == '[]':
+                    new_list = []
+                else:
+                    new = re.sub('\[', '', new)
+                    new = re.sub('\]', '', new)
+                    new = new.split(',')
+                    new_list = []
+                    for days in new:
+                        new_days = days.strip()
+                        new_days = int(new_days)
+                        new_list.append(new_days)
+
+                expected_detailed_results[col].iloc[i] = new_list
+
+    return expected_detailed_results
+
+@pytest.fixture(scope="module")
+def observed_handler_instance():
+    # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+
+    ewr_oh.process_gauges()
+
+    return ewr_oh
+
+@pytest.fixture(scope="module")
+def scenario_handler_instance():
+    # Testing the MDBA bigmod format:
+    # Input params
+    scenarios =  ['unit_testing_files/Low_flow_EWRs_Bidgee_410007.csv']
+    model_format = 'Bigmod - MDBA'
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+    
+    # Pass to the class
+    
+    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format, allowance, climate)
+    
+    ewr_sh.process_scenarios()
+
+    return ewr_sh
 

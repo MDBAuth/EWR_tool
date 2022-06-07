@@ -122,55 +122,38 @@ def test_observed_handler():
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
 
 
-def test_observed_handler_class(observed_handler_expected_detail):
+def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
 
-    # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+    observed_handler_instance.process_gauges()
 
-    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+    detailed = observed_handler_instance.pu_ewr_statistics
 
-    ewr_or.process_gauges()
-
-    detailed = ewr_or.pu_ewr_statistics
-    
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], observed_handler_expected_detail)
 
-def test_get_all_events():
-        # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+def test_get_all_events(observed_handler_instance):
 
-    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+    all_events = observed_handler_instance.get_all_events()
+    assert type(all_events) == pd.DataFrame
+    assert all_events.shape == (56, 9)
+    assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                            'eventDuration', 'eventLength']
 
-    all_events = ewr_or.get_all_events()
-    print(all_events.head())
+def test_get_yearly_ewr_results(observed_handler_instance):
 
-def test_get_yearly_ewr_results():
-        # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+    yearly_results = observed_handler_instance.get_yearly_ewr_results()
+    assert type(yearly_results) == pd.DataFrame
+    assert yearly_results.shape == (24, 14)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'eventLength',
+       'totalEventDays', 'maxEventDays', 'daysBetweenEvents', 'missingDays',
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
 
-    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+def test_get_ewr_results(observed_handler_instance):
 
-    yearly_results = ewr_or.get_yearly_ewr_results()
-    print(yearly_results.head())
-
-def test_get_ewr_results():
-        # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
-
-    ewr_or = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
-
-    ewr_results = ewr_or.get_ewr_results()
-
-    print(ewr_results.head())
+    ewr_results = observed_handler_instance.get_ewr_results()
+    assert type(ewr_results) == pd.DataFrame
+    assert ewr_results.shape == (24, 18)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'EventYears',
+       'Frequency', 'TargetFrequency', 'AchievementCount',
+       'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
+       'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
+       'MaxInterEventYears', 'NoDataDays', 'TotalDays']
