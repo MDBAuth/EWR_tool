@@ -1,5 +1,7 @@
-import pandas as pd
 from datetime import timedelta
+from typing import Dict, List
+
+import pandas as pd
 from tqdm import tqdm
 
 from . import data_inputs, evaluate_EWRs, summarise_results
@@ -49,7 +51,7 @@ def observed_handler(gauges, dates, allowance, climate):
     
     flows = gg.gauge_pull(flow_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'F')
     levels = gg.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'L')
-    # Clean oberved data:
+    # Clean observed data:
     df_F = observed_cleaner(flows, dates)
     df_L = observed_cleaner(levels, dates)
     # Calculate EWRs
@@ -119,3 +121,72 @@ def observed_cleaner(input_df, dates):
     # Drop the non unique values:
     gauge_data_df = gauge_data_df[~gauge_data_df.index.duplicated(keep='first')]
     return gauge_data_df
+
+
+class ObservedHandler:
+    
+    def __init__(self, gauges:List, dates:Dict , allowance:Dict, climate:str):
+        self.gauges = gauges
+        self.dates = dates
+        self.allowance = allowance
+        self.climate = climate
+        self.EWR_TABLE = None
+        self.yearly_events = None
+        self.pu_ewr_statistics = None
+        self.summary_results = None
+
+    def process_gauges(self):
+        '''ingests a list of gauges and user defined parameters
+        pulls gauge data using relevant states API, calculates and analyses EWRs
+        returns dictionary of raw data results and result summary
+        '''
+        
+        # Classify gauges:
+        flow_gauges, level_gauges = categorise_gauges(self.gauges)
+        # Call state API for flow and level gauge data, then combine to single dataframe
+        
+        flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F')
+        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L')
+        # Clean observed data:
+        df_F = observed_cleaner(flows, self.dates)
+        df_L = observed_cleaner(levels, self.dates)
+        # Calculate EWRs
+        detailed_results = {}
+        gauge_results = {}
+        gauge_events = {}
+        detailed_events = {}
+        all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+        for gauge in all_locations:
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate)
+            
+        detailed_results['observed'] = gauge_results
+        detailed_events['observed'] = gauge_events
+        
+        self.pu_ewr_statistics = detailed_results
+        self.yearly_events = detailed_events
+
+
+    def get_all_events(self)-> pd.DataFrame:
+
+        if not self.yearly_events:
+            self.process_gauges()
+        
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events = summarise_results.process_all_events_results(events_to_process)
+        return all_events
+
+    def get_yearly_ewr_results(self)-> pd.DataFrame:
+
+        if not self.pu_ewr_statistics:
+            self.process_gauges()
+
+        to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
+        yearly_ewr_results = summarise_results.process_df_results(to_process)
+        return yearly_ewr_results
+
+    def get_ewr_results(self) -> pd.DataFrame:
+        
+        if not self.pu_ewr_statistics:
+            self.process_gauges()
+
+        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events)

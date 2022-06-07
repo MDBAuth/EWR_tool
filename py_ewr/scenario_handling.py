@@ -1,10 +1,11 @@
+from typing import Dict, List
 import csv
 import os
 import urllib
-import pandas as pd
 import re
 from datetime import datetime
 
+import pandas as pd
 from tqdm import tqdm
 
 from . import data_inputs, evaluate_EWRs, summarise_results
@@ -310,3 +311,89 @@ def match_NSW_nodes(input_df, model_metadata):
                 df_level[gauge] = input_df[col]
 
     return df_flow, df_level
+
+
+class ScenarioHandler:
+    
+    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str):
+        self.scenario_files = scenario_files
+        self.model_format = model_format
+        self.allowance = allowance
+        self.climate = climate
+        self.yearly_events = None
+        self.pu_ewr_statistics = None
+        self.summary_results = None
+
+    def _get_file_names(self, loaded_files):
+
+        file_locations = {}
+        for file in loaded_files:
+            full_name = file.split('/')
+            name_exclude_extension = full_name[-1].split('.csv')[0]
+            file_locations[str(name_exclude_extension)] = file
+            
+        return file_locations
+        
+    def process_scenarios(self):
+
+        scenarios = self._get_file_names(self.scenario_files)
+
+        # Analyse all scenarios for EWRs
+        detailed_results = {}
+        detailed_events = {}
+        for scenario in tqdm(scenarios, position = 0, leave = True, 
+                            bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
+                            desc= 'Evaluating scenarios'):
+        
+            if self.model_format == 'Bigmod - MDBA':
+                data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
+                data = build_MDBA_columns(data, header)
+                df_clean = cleaner_MDBA(data)
+                df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes())
+
+            elif self.model_format == 'IQQM - NSW 10,000 years':
+                df_unpacked = unpack_IQQM_10000yr(scenarios[scenario])
+                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked)
+
+            elif self.model_format == 'Source - NSW (res.csv)':
+                data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')
+                data = build_NSW_columns(data, header)
+                df_clean = cleaner_NSW(data)
+                df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes())
+            
+            gauge_results = {}
+            gauge_events = {}
+            all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+            for gauge in all_locations:
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate)
+            detailed_results[scenario] = gauge_results
+            detailed_events[scenario] = gauge_events
+
+            self.pu_ewr_statistics = detailed_results
+            self.yearly_events = detailed_events
+
+
+    def get_all_events(self)-> pd.DataFrame:
+
+        if not self.yearly_events:
+            self.process_scenarios()
+        
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events = summarise_results.process_all_events_results(events_to_process)
+        return all_events
+
+    def get_yearly_ewr_results(self)-> pd.DataFrame:
+
+        if not self.pu_ewr_statistics:
+            self.process_scenarios()
+
+        to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
+        yearly_ewr_results = summarise_results.process_df_results(to_process)
+        return yearly_ewr_results
+
+    def get_ewr_results(self) -> pd.DataFrame:
+        
+        if not self.pu_ewr_statistics:
+            self.process_scenarios()
+
+        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events)

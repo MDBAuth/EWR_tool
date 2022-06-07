@@ -82,7 +82,7 @@ def test_categorise_gauges():
     expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
-    
+  
 def test_observed_handler():
     '''
     1. Test each part of the function are working correctly and producing an overall expected output
@@ -120,3 +120,40 @@ def test_observed_handler():
                 expected_detailed_results[col].iloc[i] = new_list
     
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
+
+
+def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
+
+    observed_handler_instance.process_gauges()
+
+    detailed = observed_handler_instance.pu_ewr_statistics
+
+    assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], observed_handler_expected_detail)
+
+def test_get_all_events(observed_handler_instance):
+
+    all_events = observed_handler_instance.get_all_events()
+    assert type(all_events) == pd.DataFrame
+    assert all_events.shape == (56, 9)
+    assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                            'eventDuration', 'eventLength']
+
+def test_get_yearly_ewr_results(observed_handler_instance):
+
+    yearly_results = observed_handler_instance.get_yearly_ewr_results()
+    assert type(yearly_results) == pd.DataFrame
+    assert yearly_results.shape == (24, 14)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'eventLength',
+       'totalEventDays', 'maxEventDays', 'daysBetweenEvents', 'missingDays',
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
+
+def test_get_ewr_results(observed_handler_instance):
+
+    ewr_results = observed_handler_instance.get_ewr_results()
+    assert type(ewr_results) == pd.DataFrame
+    assert ewr_results.shape == (24, 18)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'EventYears',
+       'Frequency', 'TargetFrequency', 'AchievementCount',
+       'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
+       'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
+       'MaxInterEventYears', 'NoDataDays', 'TotalDays']

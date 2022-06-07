@@ -256,6 +256,7 @@ def test_scenario_handler():
     # Expected output params
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
     expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    print(expected_detailed_results.index.astype('object'))
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
     for col in expected_detailed_results:
@@ -277,3 +278,41 @@ def test_scenario_handler():
                 expected_detailed_results[col].iloc[i] = new_list
     # Test
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], expected_detailed_results)
+
+
+def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
+   
+    detailed = scenario_handler_instance.pu_ewr_statistics
+    
+    # Test
+    assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
+
+
+@pytest.mark.xfail(raises=TypeError, reason="yearly events on Nest ewr missing the date")
+def test_get_all_events(scenario_handler_instance):
+
+    all_events = scenario_handler_instance.get_all_events()
+    assert type(all_events) == pd.DataFrame
+    # assert all_events.shape == (56, 9)
+    assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                            'eventDuration', 'eventLength']
+
+def test_get_yearly_ewr_results(scenario_handler_instance):
+
+    yearly_results = scenario_handler_instance.get_yearly_ewr_results()
+    assert type(yearly_results) == pd.DataFrame
+    assert yearly_results.shape == (114, 14)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'eventLength',
+       'totalEventDays', 'maxEventDays', 'daysBetweenEvents', 'missingDays',
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
+
+def test_get_ewr_results(scenario_handler_instance):
+
+    ewr_results = scenario_handler_instance.get_ewr_results()
+    assert type(ewr_results) == pd.DataFrame
+    assert ewr_results.shape == (19, 18)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'EventYears',
+       'Frequency', 'TargetFrequency', 'AchievementCount',
+       'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
+       'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
+       'MaxInterEventYears', 'NoDataDays', 'TotalDays']
