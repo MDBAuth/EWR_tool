@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 from py_ewr import evaluate_EWRs, data_inputs, summarise_results
+import pytest
 
 
 def test_component_pull():
@@ -801,6 +802,141 @@ def test_flow_calc_anytime():
 	print(all_events)
 	for year in all_events:
 		# assert len(all_events[year]) == len(expected_all_events[year])
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
+	for year in all_no_events:
+		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+		for i, no_event in enumerate(all_no_events[year]):
+			assert no_event == expected_all_no_events[year][i]
+	assert durations == expected_durations
+	assert min_events == expected_min_events
+
+@pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
+						 [
+							 (np.array([0]*365  
+									+ [0]*365  	
+									+ [0]*355 + [6]*10 
+									+ [6]*6 + [0]*360),
+							{2012: [], 
+							 2013: [], 
+							 2014: [ [(date(2015, 6, 21)+timedelta(days=i), 6) for i in range(10)]], 
+							 2015: [[(date(2015, 6, 21)+timedelta(days=i), 6) for i in range(16)]]}	,
+							{2012: [], 2013: [], 2014: [[1085]], 2015: [[360]]}
+							 ),
+							 (np.array([0]*365  
+									+ [0]*365  	
+									+ [0]*355 + [6]*9 + [0]*1 
+									+ [0]*0 + [0]*366),
+							{2012: [], 
+							 2013: [], 
+							 2014: [ [(date(2015, 6, 21)+timedelta(days=i), 6) for i in range(9)]], 
+							 2015: []}	,
+							{2012: [], 2013: [], 2014: [[1085]], 2015: [[367]]}
+							 ),
+							  (np.array([0]*365  
+									+ [0]*365  	
+									+ [0]*355 + [6]*10 
+									+ [0]*0 + [0]*366),
+							{2012: [], 
+							 2013: [], 
+							 2014: [ [(date(2015, 6, 21)+timedelta(days=i), 6) for i in range(10)]], 
+							 2015: []}	,
+							{2012: [], 2013: [], 2014: [[1085]], 2015: [[366]]}
+							 ),
+							   (np.array([6]*365  
+									+ [6]*365  	
+									+ [6]*365 
+									+ [6]*6 + [0]*360),
+							{2012: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365)]], 
+							 2013: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365+365)]], 
+							 2014: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365+365+365)]], 
+							 2015: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365+365+365+6)]]}	,
+							{2012: [], 2013: [], 2014: [], 2015: [[360]]}
+							 ),
+							 (np.array([6]*365  
+									+ [6]*365  	
+									+ [6]*365 
+									+ [6]*366),
+							{2012: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365)]], 
+							 2013: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365+365)]], 
+							 2014: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365+365+365)]], 
+							 2015: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(365+365+365+366)]]}	,
+							{2012: [], 2013: [], 2014: [], 2015: []}
+							 ),
+							 (np.array([0]*365  
+									+ [0]*365  	
+									+ [0]*365 
+									+ [0]*366),
+							{2012: [], 
+							 2013: [], 
+							 2014: [], 
+							 2015: []}	,
+							{2012: [], 2013: [], 2014: [], 2015: [[1461]]}
+							 ),
+							 (np.array([6]*100+[0]*1+[6]*264  
+									+ [6]*100+[0]*1+[6]*264 	
+									+ [6]*100+[0]*1+[6]*264 
+									+ [6]*100+[0]*1+[6]*265),
+							{2012: [[(date(2012, 7, 1)+timedelta(days=i), 6) for i in range(100)],
+									[(date(2012, 10, 10)+timedelta(days=i), 6) for i in range(264)]], 
+							 2013: [[(date(2012, 10, 10)+timedelta(days=i), 6) for i in range(264+100)],
+							 		[(date(2013, 10, 10)+timedelta(days=i), 6) for i in range(264)]	
+									 ], 
+							 2014: [[(date(2013, 10, 10)+timedelta(days=i), 6) for i in range(264+100)],
+							 		[(date(2014, 10, 10)+timedelta(days=i), 6) for i in range(264)]], 
+							 2015: [[(date(2014, 10, 10)+timedelta(days=i), 6) for i in range(264+100)],
+							 		[(date(2015, 10, 10)+timedelta(days=i), 6) for i in range(265)]]}	,
+							{2012: [[1]], 2013: [[1]], 2014: [[1]], 2015: [[1]]}
+							 )],)
+def test_flow_calc_anytime_ltwp(flows, expected_all_events, expected_all_no_events):
+	"""
+	0: when event start and finish goes beyond boundary of 2 water years 
+	   then : first year records the event up to the last of day of the water year
+	   		  second year records the whole event
+	1: when event start and finish within water year 
+	   then : it records the water year
+	2: when event start and finish the same water year on the last day of the water year 30-Jun 
+	   then : first year records the event up to the last of day of the water year
+	3: when event start and finish goes beyond boundary of 4 water years and finished within the 4th year. Event last for the whole
+		duration od 1st, 2nd and 3rd year.
+	   then : first year records the event up to the last of day of the water year (365 days)
+	   		  second year records the event up to the last of day of the water year (365+365 days)
+			  third year records the event up to the last of day of the water year (365+365+365 days)
+			  forth year records the whole event  (365+365+365+ n days)
+	4: when event start and finish goes beyond boundary of 4 water years and finished on the last day of year 4. Event last for the whole
+		duration od 1st, 2nd, 3rd and 4th year.
+	   then : first year records the event up to the last of day of the water year (365 days)
+	   		  second year records the event up to the last of day of the water year (365+365 days)
+			  third year records the event up to the last of day of the water year (365+365+365 days)
+			  forth year records the whole event  (365+365+365+366)
+	5: when no day in 4 year meets threshold
+	   then : no events are recorded
+	6: when event start and finish goes beyond boundary of 4 water years and each year the first event drops below threshold for 1 day after 100 days.
+		example flows:
+			                    year 1: 100 days above threshold + 1 day below + 264 days above threshold
+			                    year 2: 100 days above threshold + 1 day below + 264 days above threshold
+			                    year 3: 100 days above threshold + 1 day below + 264 days above threshold
+			                    year 4: 100 days above threshold + 1 day below + 265 days above threshold
+	   then : first year records 1 event of 100 days and 1 event of 264 days
+	   		  second year records 1 event of 264+100 days and 1 event of 264 days	
+	   		  second year records 1 event of 264+100 days and 1 event of 264 days	
+	   		  second year records 1 event of 264+100 days and 1 event of 264 days	
+	"""
+	# Set up input data
+	EWR_info = {'min_flow': 5, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':5, 'duration': 5}
+	
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	expected_durations = [5]*4
+	expected_min_events = [5]*4
+	# Send to test function and then test
+	dates = 1
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	all_events, all_no_events, durations, min_events = evaluate_EWRs.flow_calc_anytime_ltwp(EWR_info, flows, water_years, dates)
+	# print(all_events)
+	print(all_no_events)
+	for year in all_events:
+		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
 	for year in all_no_events:

@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Any
 import pandas as pd
 import re
@@ -270,7 +271,7 @@ def flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D, ME = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
+        E, NE, D, ME = flow_calc_anytime_ltwp(EWR_info, df_F[gauge].values, water_years, df_F.index)
     else:
         E, NE, D, ME = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
@@ -658,6 +659,43 @@ def flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_ev
         
     return event, all_events, no_event, all_no_events, gap_track, total_event
 
+def flow_check_ltwp(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, gap_track, 
+               water_years, total_event, flow_date: date):
+    '''Checks daily flow against EWR threshold. Builds on event lists and no event counters.
+    At the end of the event, if it was long enough, the event is saved against the relevant
+    water year in the event dictionary. All event gaps are saved against the relevant water 
+    year in the no event dictionary
+    '''
+
+    iteration_date = get_index_date(flow_date)
+    if ((flow >= EWR_info['min_flow']) and (flow <= EWR_info['max_flow'])):
+        threshold_flow = (iteration_date, flow)
+        event.append(threshold_flow)
+        total_event += 1
+        gap_track = EWR_info['gap_tolerance'] # reset the gapTolerance after threshold is reached
+        no_event += 1
+    else:
+        if gap_track > 0:
+            gap_track = gap_track - 1
+            total_event += 1
+        else:
+            if len(event) >= EWR_info['min_event']:
+                if (iteration_date.month == 7 and iteration_date.day ==1):
+                    pass
+                else:
+                    all_events[water_years[iteration]].append(event)
+                total_event_gap = no_event - total_event
+                if total_event_gap > 0:
+                    ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
+                    all_no_events[ne_water_year].append([total_event_gap])
+                no_event = 0
+                total_event = 0
+                
+            event = []
+        no_event += 1
+        
+    return event, all_events, no_event, all_no_events, gap_track, total_event
+
 def lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years,  flow_date: date):
     '''Checks daily flow against the EWR threshold. Saves all events to the relevant water year
     in the event tracking dictionary. Saves all event gaps to the relevant water year in the 
@@ -1001,6 +1039,53 @@ def flow_calc_anytime(EWR_info, flows, water_years, dates):
     if len(event) >= EWR_info['min_event']:
         water_year = which_water_year(-1, total_event, water_years)
         all_events[water_year].append(event)
+        total_event_gap = no_event-total_event
+        if total_event_gap > 0:
+            ne_water_year = which_water_year_no_event(-1, total_event, water_years)
+            all_no_events[ne_water_year].append([total_event_gap])
+        no_event = 0
+    if no_event > 0:
+        all_no_events[water_years[-1]].append([no_event]) # No event so add to the final year
+    durations.append(EWR_info['duration'])
+    min_events.append(EWR_info['min_event'])
+
+    return all_events, all_no_events, durations, min_events
+
+def flow_calc_anytime_ltwp(EWR_info, flows, water_years, dates):
+    '''For calculating flow EWRs with a time constraint within their requirements. Events are
+    therefore reset at the end of each water year.
+    '''
+    # Declare variables:
+    event = []
+    total_event = 0
+    no_event = 0
+    all_events = construct_event_dict(water_years)
+    all_no_events = construct_event_dict(water_years)
+    durations, min_events = [], []
+    gap_track = 0
+    # Iterate over flow timeseries, sending to the flow_check function each iteration:
+    for i, flow in enumerate(flows[:-1]):
+        flow_date = dates[i]
+        event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_ltwp(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
+        # At the end of each water year save ongoing event, however not resetting the list. Let the flow_check record the event when it finishes
+        if water_years[i] != water_years[i+1]:
+            if len(event) >= EWR_info['min_event']:
+                event_at_year_end = deepcopy(event)
+                all_events[water_years[i]].append(event_at_year_end)
+                if no_event - total_event > 0:
+                    ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                    all_no_events[ne_water_year].append([no_event-total_event])
+                no_event = 0
+                total_event = 0
+            durations.append(EWR_info['duration'])
+            min_events.append(EWR_info['min_event'])
+        
+    # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
+    flow_date = dates[-1]
+    event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_ltwp(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
+    if len(event) >= EWR_info['min_event']:
+        # water_year = which_water_year(-1, total_event, water_years)
+        all_events[water_years[-1]].append(event)
         total_event_gap = no_event-total_event
         if total_event_gap > 0:
             ne_water_year = which_water_year_no_event(-1, total_event, water_years)
