@@ -654,8 +654,8 @@ def flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_ev
                 if total_event_gap > 0:
                     ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                     all_no_events[ne_water_year].append([total_event_gap])
-                no_event = 0
-                total_event = 0
+            no_event = 0
+            total_event = 0
                 
             event = []
         no_event += 1
@@ -793,8 +793,7 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
                 ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                 if total_event_gap > 0:
                     all_no_events[ne_water_year].append([total_event_gap])
-                no_event = 0
-                total_event = 0
+            no_event = 0
                 
             event = []
             total_event = 0
