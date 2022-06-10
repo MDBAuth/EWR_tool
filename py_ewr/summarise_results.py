@@ -169,13 +169,17 @@ def get_events_to_process(gauge_events: dict)-> List:
         for gauge in gauge_events[scenario]:
             for pu in gauge_events[scenario][gauge]:
                 for ewr in gauge_events[scenario][gauge][pu]:
-                    item = {}
-                    item["scenario"] = scenario
-                    item["gauge"] = gauge
-                    item["pu"] = pu
-                    item["ewr"] = ewr
-                    item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
-                    items_to_process.append(item)
+                    try:
+                        item = {}
+                        item["scenario"] = scenario
+                        item["gauge"] = gauge
+                        item["pu"] = pu
+                        item["ewr"] = ewr
+                        item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
+                        items_to_process.append(item)
+                    except Exception as e:
+                        print(e)
+                        continue
     return items_to_process
 
 
@@ -293,8 +297,12 @@ def process_all_events_results(results_to_process: List[Dict])-> pd.DataFrame:
     """
     returned_dfs = []
     for item in results_to_process:
-        df = process_all_yearly_events(**item)
-        returned_dfs.append(df)
+        try:
+            df = process_all_yearly_events(**item)
+            returned_dfs.append(df)
+        except Exception as e:
+            print(f"could not process due to {e}")
+            continue
     return pd.concat(returned_dfs, ignore_index=True)
 
 

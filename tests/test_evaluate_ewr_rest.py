@@ -1,11 +1,18 @@
 from datetime import datetime, date, timedelta
+import re
 
 import pandas as pd
 import numpy as np
 
-from py_ewr import evaluate_EWRs, data_inputs, summarise_results
+from py_ewr import evaluate_EWRs, data_inputs
 import pytest
 
+# @pytest.mark.parametrize("input,expected_output",[
+# 	('1', 1.0), ('1.0', 1.0), ('1.5', 1.5)
+# ])
+# def test_cast_str_to_float(input,expected_output):
+# 	result = evaluate_EWRs.cast_str_to_float(input)
+# 	assert result == expected_output
 
 def test_component_pull():
 	'''
@@ -776,30 +783,63 @@ def test_ctf_calc_anytime():
 					assert no_event == expected_all_no_events[year][i]
 	assert durations == expected_durations
 	assert min_events == expected_min_events
-        
-def test_flow_calc_anytime():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows, ensure events overlapping water year edges are registered
-	'''
+
+@pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
+						 [ 
+							 (np.array([0]*350+[10]*15 + 
+	                                   [10]*11+ [0]*354 + 
+									   [0]*365 +
+									   [0]*366),
+							{2012: [[(date(2013, 6, 16)+timedelta(days=i),10) for i in range(15+11)]], 
+								2013: [], 
+								2014: [ ], 
+								2015: [] },
+
+							{2012: [[350]], 2013: [], 2014: [], 2015: [[1085]]}
+							 ),
+							  (np.array([0]*344+[10]*21 + 
+	                                   [10]*28+ [0]*337 + 
+									   [0]*365 +
+									   [0]*366),
+							{2012: [], 
+								2013: [[(date(2013, 6, 10) + timedelta(days=i), 10) for i in range(21+28)]], 
+								2014: [], 
+								2015: [] },
+
+							{2012: [[344]], 2013: [], 2014: [], 2015: [[1068]]}
+							 ),
+							  (np.array([0]*344+[10]*21 + 
+	                                   [10]*21+ [0]*344 + 
+									   [0]*365 +
+									   [0]*366),
+							{2012: [], 
+								2013: [[(date(2013, 6, 10) + timedelta(days=i), 10) for i in range(21+21)]], 
+								2014: [], 
+								2015: [] },
+
+							{2012: [[344]], 2013: [], 2014: [], 2015: [[1075]]}
+							 )]
+							 )        
+def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
+	"""
+	0: when event start and finish goes beyond boundary of 2 water years and there are more days in the first year
+	   then : whole event gets allocated to FIRST year
+	1: when event start and finish goes beyond boundary of 2 water years and there are more days in the second year
+	   then : whole event gets allocated to SECOND year
+	2: when event start and finish goes beyond boundary of 2 water years and there are same number of days in both years
+	   then : whole event gets allocated to SECOND year
+	"""
 	# Set up input data
 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
-	flows = np.array([0]*350+[10]*10+[0]*5 + 
-	                 [0]*355+[10]*10 + [10]*10+ [0]*345+[10]*10 + [10]*5+[0]*350+[10]*10+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	# Set up expected output data
-	expected_all_events = 	{2012: [[(date(2013, 6, 16)+timedelta(days=i),10) for i in range(10)]], 
-	2013: [], 
-	2014: [ [(date(2014, 6, 21)+timedelta(days=i),10) for i in range(20)] , 
-	         [(date(2015, 6, 21)+timedelta(days=i),10) for i in range(15)]], 
-	2015: [[(date(2016, 6, 20)+timedelta(days=i),10) for i in range(11)]]}
-	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [[345]], 2015: [[350]]}
 	expected_durations = [10]*4
 	expected_min_events = [10]*4
 	# Send to test function and then test
 	dates = 1
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	all_events, all_no_events, durations, min_events = evaluate_EWRs.flow_calc_anytime(EWR_info, flows, water_years, dates)
-	print(all_events)
+
 	for year in all_events:
 		# assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):

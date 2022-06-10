@@ -13,6 +13,9 @@ from . import data_inputs
 
 #----------------------------------- Getting EWRs from the database ------------------------------#
 
+# def cast_str_to_float(component:str)->int:
+#     return int(float(component))
+
 def component_pull(EWR_table, gauge, PU, EWR, component):
     '''Pass EWR details (planning unit, gauge, EWR, and EWR component) and the EWR table, 
     this function will then pull the component from the table
@@ -271,7 +274,7 @@ def flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D, ME = flow_calc_anytime_ltwp(EWR_info, df_F[gauge].values, water_years, df_F.index)
+        E, NE, D, ME = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
     else:
         E, NE, D, ME = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
@@ -327,7 +330,7 @@ def weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
         levels = df_L[EWR_info['weirpool_gauge']].values
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for {}'''.format(gauge, EWR, EWR_info['weirpool_gauge']))
+        also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow and level data against EWR requirements and then perform analysis on the results: 
     E, NE, D, ME = weirpool_calc(EWR_info, df_F[gauge].values, levels, water_years, weirpool_type, df_F.index, masked_dates)
@@ -361,7 +364,7 @@ def nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
                 levels = df_L[EWR_info['weirpool_gauge']].values
             except KeyError:
                 print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-                also needs data for {}'''.format(gauge, EWR, EWR_info['weirpool_gauge']))
+                also needs data for gauge'''.format(gauge, EWR))
                 return PU_df, None
             E, NE, D, ME = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
@@ -383,7 +386,7 @@ def flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for {}'''.format(gauge, EWR, EWR_info['second_gauge']))
+        also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results: 
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
@@ -411,7 +414,7 @@ def lowflow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, clim
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for {}'''.format(gauge, EWR, EWR_info['second_gauge']))
+        also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results: 
     E, NE, D, ME = lowflow_calc(EWR_info, flows, water_years, climates, df_F.index, masked_dates)       
@@ -462,7 +465,7 @@ def cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         flows = flows1 + flows2
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for {}'''.format(gauge, EWR, EWR_info['second_gauge']))
+        also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
@@ -489,7 +492,7 @@ def flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         flows2 = df_F[EWR_info1['second_gauge']].values
     except KeyError:
         print('''Cannot evaluate this ewr for {} {}, due to missing data.
-        Specifically, this EWR also needs data for {}'''.format(gauge, EWR, EWR_info1['second_gauge']))
+        Specifically, this EWR also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info1['start_month'] == 7) and (EWR_info1['end_month'] == 6)):
