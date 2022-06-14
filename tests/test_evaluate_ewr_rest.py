@@ -553,28 +553,93 @@ def test_flow_check_sim():
 			for i, no_event in enumerate(all_no_events[year]):
 					assert no_event == expected_all_no_events[year][i]
                 
-def test_flow_calc():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows (TO-TEST: flows overlapping water year edge)
-	2. TO-TEST: constrain timing window
-	'''
+@pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
+						 [ 
+				            (np.array([0]*350+[10]*15 + 
+	                                   [10]*11+ [0]*354 + 
+									   [0]*365 +
+									   [0]*366),
+							{2012: [[(date(2013, 6, 16)+timedelta(days=i),10) for i in range(15)]], 
+								2013: [[(date(2013, 7, 1)+timedelta(days=i),10) for i in range(11)]], 
+								2014: [ ], 
+								2015: [] },
+
+							{2012: [[350]], 2013: [], 2014: [], 2015: [[1085]]}
+							 ),
+							  (np.array([0]*356+[10]*9 + 
+	                                   [10]*11+ [0]*354 + 
+									   [0]*365 +
+									   [0]*366),
+							{  2012: [], 
+								2013: [[(date(2013, 7, 1)+timedelta(days=i),10) for i in range(11)]], 
+								2014: [ ], 
+								2015: [] },
+
+							{2012: [[356]], 2013: [], 2014: [], 2015: [[1085]]}
+							 ),
+							  (np.array([0]*356+[10]*9 + 
+	                                   [10]*9+ [0]*356 + 
+									   [0]*365 +
+									   [0]*366),
+							{  2012: [], 
+								2013: [], 
+								2014: [], 
+								2015: [] },
+
+							{2012: [], 2013: [], 2014: [], 2015: [[1461]]}
+							 ),
+							  (np.array([10]*365 + 
+	                                    [10]*365 + 
+									    [10]*365 +
+									    [10]*366),
+							{  2012:  [[(date(2012, 7, 1)+timedelta(days=i),10) for i in range(365)]], 
+								2013: [[(date(2013, 7, 1)+timedelta(days=i),10) for i in range(365)]], 
+								2014: [[(date(2014, 7, 1)+timedelta(days=i),10) for i in range(365)]], 
+								2015: [[(date(2015, 7, 1)+timedelta(days=i),10) for i in range(366)]] },
+
+							{2012: [], 2013: [], 2014: [], 2015: []}
+							 ),
+							  (np.array([10]*100 + [0]*1 + [10]*264 + 
+	                                    [10]*100 + [0]*1 + [10]*264 +
+									    [10]*100 + [0]*1 + [10]*264 +
+									    [10]*100 + [0]*1 + [10]*265),
+							{  2012:  [[(date(2012, 7, 1)+timedelta(days=i),10) for i in range(100)],
+							            [(date(2012, 10, 10)+timedelta(days=i),10) for i in range(264)]], 
+								2013: [[(date(2013, 7, 1)+timedelta(days=i),10) for i in range(100)],
+								       [(date(2013, 10, 10)+timedelta(days=i),10) for i in range(264)] ], 
+								2014: [[(date(2014, 7, 1)+timedelta(days=i),10) for i in range(100)],
+										[(date(2014, 10, 10)+timedelta(days=i),10) for i in range(264)]], 
+								2015: [[(date(2015, 7, 1)+timedelta(days=i),10) for i in range(100)],
+								        [(date(2015, 10, 10)+timedelta(days=i),10) for i in range(265)]] },
+
+							{2012: [[1]], 2013: [[1]], 2014: [[1]], 2015: [[1]]}
+							 )])
+def test_flow_calc(flows,expected_all_events,expected_all_no_events):
+	"""
+	0: when event start and finish goes beyond boundary of 2 water years and there are sufficient days in both years
+	   then : each year gets the part of the event as a separate event
+	1: when event start and finish goes beyond boundary of 2 water years and there are sufficient days only second year
+	   then : first year get no event, second year gets the part of the event as a separate event
+	2: when event start and finish goes beyond boundary of 2 water years and there not sufficient days in both years and total event meets sufficient days
+	   then : none of the years get the event
+	3: when event start and finish goes beyond boundary of 4 water years and there are sufficient days for all years
+	   then : all years get 1 event each with all days as event days
+	4: when 2 events start and finish within the boundary of the water year and both meets the sufficient days, however the second event of each year finishes at the last
+	 day of the year continuing into the next water year.
+	   then : all years get 2 event each with all days as event days excluding the event gaps.
+	"""
 	# Test 1
 	# Set up input data
 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
-	flows = np.array(  [0]*355+[10]*10 + [0]*355+[10]*10 + [0]*355+[10]*10 + [0]*355+[10]*10+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# Set up expected output data        
-	expected_all_events = { 2012: [ [(date(2013, 6, 21)+timedelta(days=i),10) for i in range(365-355)]], 
-							2013: [[(date(2014, 6, 21)+timedelta(days=i),10) for i in range(365-355)]], 
-							2014: [[(date(2015, 6, 21)+timedelta(days=i),10) for i in range(365-355)]], 
-							2015: [[(date(2016, 6, 20)+timedelta(days=i),10) for i in range(366-355)]]}
-	expected_all_no_events = {2012: [[355]], 2013: [[355]], 2014: [[355]], 2015: [[355]]}
 	expected_durations = [10]*4
 	expected_min_events = [10]*4
 	# Send inputs to test function and test
 	all_events, all_no_events, durations, min_events = evaluate_EWRs.flow_calc(EWR_info, flows, water_years, dates, masked_dates)
+	# print(all_events)
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):

@@ -273,10 +273,10 @@ def flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results:
-    if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D, ME = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
-    else:
-        E, NE, D, ME = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
+    #     E, NE, D, ME = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
+    # else:
+    E, NE, D, ME = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
 
@@ -654,7 +654,7 @@ def flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_ev
                 if total_event_gap > 0:
                     ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                     all_no_events[ne_water_year].append([total_event_gap])
-            no_event = 0
+                no_event = 0
             total_event = 0
                 
             event = []
@@ -793,7 +793,7 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
                 ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                 if total_event_gap > 0:
                     all_no_events[ne_water_year].append([total_event_gap])
-            no_event = 0
+                no_event = 0
                 
             event = []
             total_event = 0
