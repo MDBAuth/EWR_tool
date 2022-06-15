@@ -51,7 +51,7 @@ def test_lowflow_handle():
     # Set up input data
     PU = 'PU_0000283'
     gauge = '410007'
-    EWR = 'BF1'
+    EWR = 'BF1_a'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10}
@@ -63,9 +63,9 @@ def test_lowflow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output data - PU_df, and testing
-    data = {'BF1_eventYears': [0,0,0,0], 'BF1_numAchieved': [0,0,0,0], 'BF1_numEvents': [0,0,0,0], 'BF1_eventLength': [0.0,0.0,0.0,0.0], 'BF1_totalEventDays': [0,0,0,0],
-            'BF1_maxEventDays': [0,0,0,0], 'BF1_daysBetweenEvents': [[],[],[],[1461]],
-            'BF1_missingDays': [0,0,0,0], 'BF1_totalPossibleDays': [365,365,365,366]}
+    data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_eventLength': [0.0,0.0,0.0,0.0], 'BF1_a_totalEventDays': [0,0,0,0],
+            'BF1_a_maxEventDays': [0,0,0,0], 'BF1_a_daysBetweenEvents': [[],[],[],[1461]],
+            'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
