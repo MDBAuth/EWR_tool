@@ -4,7 +4,7 @@
 
 
 
-### **EWR tool beta version 0.1.2 README**
+### **EWR tool beta version 0.1.3 README**
 
 ### **Installation**
 
@@ -116,7 +116,7 @@ This tool has two purposes:
 For issues relating to the script, a tutorial, or feedback please contact Martin Job at martin.job@mdba.gov.au or Joel Bailey at joel.bailey@mdba.gov.au
 
 **Notes on development of the tool**
-This is the version 0.1.2 of the EWR tool. Testing is still being undertaken.
+This is the version 0.1.3 of the EWR tool. Testing is still being undertaken.
 
 **Disclaimer**
 Every effort has been taken to ensure the EWR database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the database and/or EWR tool. Please report any bugs to the issues tab under this GitHub project so we can investigate further. 
