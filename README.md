@@ -94,7 +94,7 @@ ewr_sh = ScenarioHandler(scenario_files = loaded_files,
                          climate = 'Standard - 1911 to 2018 climate categorisation' )
 
 
-# ObservedHandler methods
+# ScenarioHandler methods
 
 # returns a pandas DataFrame with ewr results for the timeseries
 ewr_results = ewr_sh.get_ewr_results()
