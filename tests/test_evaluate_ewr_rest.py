@@ -7,12 +7,6 @@ import numpy as np
 from py_ewr import evaluate_EWRs, data_inputs
 import pytest
 
-# @pytest.mark.parametrize("input,expected_output",[
-# 	('1', 1.0), ('1.0', 1.0), ('1.5', 1.5)
-# ])
-# def test_cast_str_to_float(input,expected_output):
-# 	result = evaluate_EWRs.cast_str_to_float(input)
-# 	assert result == expected_output
 
 def test_component_pull():
 	'''
@@ -1112,8 +1106,6 @@ def test_cumulative_calc():
 	expected_durations = [2]*4
 	expected_min_events = [2]*4
 	all_events, all_no_events, durations, min_events = evaluate_EWRs.cumulative_calc(EWR_info, flows, water_years, dates, masked_dates)
-#         print(all_events)
-#         print(expected_all_events)
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):

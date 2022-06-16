@@ -290,10 +290,10 @@ def cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results:
-    if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D, ME = cumulative_calc_anytime(EWR_info, df_F[gauge].values, water_years)
-    else:
-        E, NE, D, ME = cumulative_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
+    #     E, NE, D, ME = cumulative_calc_anytime(EWR_info, df_F[gauge].values, water_years)
+    # else:
+    E, NE, D, ME = cumulative_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
 
     return PU_df, tuple([E])
@@ -389,10 +389,10 @@ def flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results: 
-    if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D, ME = flow_calc_anytime(EWR_info, flows, water_years, df_F.index)
-    else:
-        E, NE, D, ME = flow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
+    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
+    #     E, NE, D, ME = flow_calc_anytime(EWR_info, flows, water_years, df_F.index)
+    # else:
+    E, NE, D, ME = flow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
 
@@ -468,10 +468,10 @@ def cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results:
-    if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E, NE, D, ME = cumulative_calc_anytime(EWR_info, flows, water_years)
-    else:
-        E, NE, D, ME = cumulative_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
+    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
+    #     E, NE, D, ME = cumulative_calc_anytime(EWR_info, flows, water_years)
+    # else:
+    E, NE, D, ME = cumulative_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)    
     return PU_df, tuple([E])
 
@@ -495,10 +495,10 @@ def flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         Specifically, this EWR also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
     # Check flow data against EWR requirements and then perform analysis on the results:
-    if ((EWR_info1['start_month'] == 7) and (EWR_info1['end_month'] == 6)):
-        E, NE, D, ME = flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index)
-    else:
-        E, NE, D, ME = flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index, masked_dates)
+    # if ((EWR_info1['start_month'] == 7) and (EWR_info1['end_month'] == 6)):
+    #     E, NE, D, ME = flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index)
+    # else:
+    E, NE, D, ME = flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info1, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
     
