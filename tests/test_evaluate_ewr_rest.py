@@ -235,6 +235,28 @@ def test_get_event_years():
 	expected_event_years = [1,0,1,0]
 	assert event_years == expected_event_years
 
+
+@pytest.mark.parametrize("events,unique_water_years,expected_event_years", [
+					 ( 
+					 {2012:[ [(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
+                			 [(date(2013, 6, 26) + timedelta(days=i), 0) for i in range(10)]], 
+            		  2013:[[(date(2013, 11, 2) + timedelta(days=i), 0) for i in range(3)], 
+                  			[(date(2014, 6, 26) + timedelta(days=i), 0) for i in range(3)]], 
+            		  2014:[[(date(2014, 11, 1) + timedelta(days=i), 0) for i in range(5)]], 
+            		  2015:[]},
+					  [2012, 2013, 2014, 2015],
+					  [1,1,1,0]),
+					  ]
+)
+def test_get_event_years_max_rolling_days(events, unique_water_years, expected_event_years):
+	'''
+	0: when there is evaluation of event years based on ANY duration achieved
+	   then : then check achievement against max rolling days. e.g. "CF1_a"
+
+	'''
+	event_years = evaluate_EWRs.get_event_years_max_rolling_days(events, unique_water_years)
+	assert event_years == expected_event_years
+
 def test_get_achievements():
 	'''
 	1. Testing 1 event per year requirement with four unique events per year ranges
@@ -809,25 +831,88 @@ def test_ctf_calc():
 	assert durations == expected_durations
 	assert min_events == expected_min_events
 
-def test_ctf_calc_anytime():
+@pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events", [
+					 (np.array([20]*350 + [0]*15 +
+					 [0]*10 + [20]*355+ 
+					 [20]*365+ 
+					 [20]*366), 
+					 {2012: [], 
+						   2013: [[(date(2013, 6, 16)+timedelta(days=i), 0) for i in range(25)]], 
+						   2014: [], 
+						   2015: []},
+					  {2012: [[350]], 2013: [], 2014: [], 2015: [[1086]]}),
+					  (np.array([20]*355 + [0]*10 +
+					 [0]*15 + [20]*350+ 
+					 [20]*365+ 
+					 [20]*366), 
+					 {2012: [], 
+						   2013: [[(date(2013, 6, 21)+timedelta(days=i), 0) for i in range(25)]], 
+						   2014: [], 
+						   2015: []},
+					  {2012: [[355]], 2013: [], 2014: [], 2015: [[1081]]}),
+					  (np.array([20]*355 + [0]*10 +
+					 [0]*365+ 
+					 [0]*15 + [20]*350+ 
+					 [20]*366), 
+					 {2012: [], 
+						   2013: [], 
+						   2014: [[(date(2013, 6, 21)+timedelta(days=i), 0) for i in range(390)]],
+						   2015: []},
+					  {2012: [[355]], 2013: [], 2014: [], 2015: [[716]]}),
+					  (np.array([20]*340 + [0]*21 + [20]*4 +
+					 [20]*365+ 
+					 [20]*365+
+					 [20]*366), 
+					 {2012: [[(date(2013, 6, 6)+timedelta(days=i), 0) for i in range(21)]], 
+						   2013: [], 
+						   2014: [],
+						   2015: []},
+					  {2012: [[340]], 2013: [], 2014: [], 2015: [[1100]]}),
+					  (np.array([20]*345 + [0]*20 +
+					 [0]*1 + [20]*364+ 
+					 [20]*365+ 
+					 [20]*366), 
+					 {2012: [], 
+						   2013: [[(date(2013, 6, 11)+timedelta(days=i), 0) for i in range(21)]], 
+						   2014: [], 
+						   2015: []},
+					  {2012: [[345]], 2013: [], 2014: [], 2015: [[1095]]}),
+					  (np.array([20]*344 + [0]*21 +
+					 [20]*365+ 
+					 [20]*365+ 
+					 [20]*366), 
+					 {2012: [[(date(2013, 6, 10)+timedelta(days=i), 0) for i in range(21)]], 
+						   2013: [], 
+						   2014: [], 
+						   2015: []},
+					  {2012: [[344]], 2013: [], 2014: [], 2015: [[1096]]}),			   
+														])
+def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows, ensure events overlapping water year edges are registered
+	1. Test functions ability to identify and save all events and event gaps for series of flows, 
+	ensure events overlapping water year edges are registered AT THE YEAR it ends
+
+	0: when event start and finish goes beyond boundary of 2 water years more days on the first year
+	   then : whole event gets allocated to year it ends i.e. SECOND
+	1: when event start and finish goes beyond boundary of 2 water years more days on the second year
+	   then : whole event gets allocated to year it ends i.e. SECOND
+	2: when event start and finish goes beyond boundary of 3 water years
+	   then : whole event gets allocated to year it ends i.e. THIRD
+	3: when event start and finish same water year
+	   then : whole event gets allocated to year it ends 
+	4: when event start and finish goes beyond boundary of 2 water years and finish first day of second year
+	   then : whole event gets allocated to year it ends i.e. SECOND
+	5: when event start and finish same water year and finished on the last day of the water year 30/June
+	   then : whole event gets allocated to year it ends i.e. FIRST
 	'''
 	# Set up input data
 	EWR_info = {'min_flow': 0, 'max_flow': 1, 'min_event':5, 'duration': 20, 'duration_VD': 10}
-	flows = np.array([5]*295+[0]*25+[10]*45 + [20]*355+[5000]*5+[0]*5 + [0]*355+[10]*10 + [1]*295+[20]*25+[0]*45+[0]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
+	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Wet']*365 + ['Dry']*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# Set up expected output data
-	expected_all_events = {2012: [[(date(2013, 4, 22)+timedelta(days=i), 0) for i in range(25)]], 
-						   2013: [], 
-						   2014: [[(date(2014, 6, 26)+timedelta(days=i), 0) for i in range(360)]], 
-						   2015: [[(date(2015, 7, 1)+timedelta(days=i), 1) for i in range(295)], 
-						   [(date(2016, 5, 16)+timedelta(days=i), 0) for i in range(46)]]}
-	expected_all_no_events = {2012: [[295]], 2013: [[405]], 2014: [], 2015: [[10], [25]]}
-	expected_durations = [20,20,10,20] # adding in a very dry year climate year
+	# expected_all_no_events = {2012: [[295]], 2013: [[405]], 2014: [], 2015: [[10], [25]]}
+	expected_durations = [20,20,20,20] # adding in a very dry year climate year
 	expected_min_events = [5,5,5,5]
 	# Send to test function and then test
 	all_events, all_no_events, durations, min_events = evaluate_EWRs.ctf_calc_anytime(EWR_info, flows, water_years, climates, dates)

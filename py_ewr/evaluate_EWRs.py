@@ -1,5 +1,6 @@
+from collections import defaultdict
 from copy import deepcopy
-from typing import Any
+from typing import Any, List, Dict
 import pandas as pd
 import re
 import numpy as np
@@ -732,8 +733,7 @@ def ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_eve
         event.append(threshold_flow)
     else:
         if len(event) > 0:
-            water_year = which_water_year(iteration, len(event), water_years)
-            all_events[water_year].append(event)
+            all_events[water_years[iteration-1]].append(event)
             if no_event > 0:
                 ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
                 all_no_events[ne_water_year].append([no_event])
@@ -1935,7 +1935,6 @@ def get_event_years(EWR_info, events, unique_water_years, durations, min_events)
     return event_years
 
 
-
 def get_achievements(EWR_info, events, unique_water_years, durations, min_events):
     '''Returns a list of number of events per year'''
     num_events = []
@@ -2015,6 +2014,126 @@ def get_max_event_days(events:dict, unique_water_years:set)-> list:
         max_event =  max(events_length) if events_length else 0
         max_events.append(max_event)
     return max_events
+
+def water_year(flow_date:date)-> int:
+    """given a date it returns the wateryear the date is in
+
+    Args:
+        flow_date (date): date
+
+    Returns:
+        int: water year. e.g. 2022 is the 2022-2023 year start 2022-07-01 end 2023-06-01
+    """
+    month = flow_date.month
+    return flow_date.year if month > 6 else flow_date.year -1
+
+def water_year_touches(start_date:date, end_date:date)->List[int]:
+    """given a start and end date of an event return a list of water years
+    that the events touches.
+
+    Args:
+        start_date (date): Event start date
+        end_date (date): Event end date
+
+    Returns:
+        list: List of years
+    """
+    start_wy = water_year(start_date)
+    end_wy = water_year(end_date)
+    span = end_wy - start_wy
+    return [start_wy + i for i in range(span + 1)]
+
+def return_events_list_info(gauge_events:dict)-> List[tuple]:
+    """It iterates through a gauge events dictionary and returns a list
+    with a summary information of the event in a tuple.
+    tuple contains 
+    start_date, end_date, length ans the water_years the event touches
+
+    Args:
+        gauge_events (dict): gauge events
+
+    Returns:
+        list: list of tuples with the information described above.
+    """
+    events_list = []
+    for year, events in gauge_events.items():
+        for i, event in enumerate(events):
+            start_date, _ = event[0]
+            end_date, _ = event[-1]
+            length = (end_date - start_date).days
+            water_years = water_year_touches(start_date, end_date)
+            event_info = (start_date, end_date, length+1, water_years)
+            events_list.append(event_info)
+    return events_list
+
+def lengths_to_years(events: list)-> defaultdict:
+    """iterates through the events_list_info and returns a dictionary
+    with all the events length to each year. It handles events that crosses
+    year boundary and assign to the year a rolling sum of event days from the
+    event start up to the end of the year boundary
+
+    Args:
+        events (list): events list info
+
+    Returns:
+        defaultdict: all events length for each water year
+    """
+    years_event_lengths = defaultdict(list)
+    for event in events:
+        start, _, length, wys = event
+        if len(wys) == 1:
+            years_event_lengths[wys[0]].append(length)
+        else:
+            for wy in wys[:-1]:
+                up_to_boundary = (date(wy+1,6,30) - start).days + 1
+                years_event_lengths[wy].append(up_to_boundary)
+            # last water year of the collection is always the total event length
+            years_event_lengths[wys[-1]].append(length)        
+    return years_event_lengths
+
+def get_max_consecutive_event_days(events:dict, unique_water_years:set)-> List:
+    """Given gauge events it calculates the max rolling event duration
+    at the end of each water year. If an event goes beyond an year it will count the 
+    days from the start of the event up to the last day that of the boundary cross i.e June 30th.
+
+    Args:
+        events (dict): Dict of lists with events flow/level
+        unique_water_years (set): Set of unique water years for the events 
+
+    Returns:
+        list: List with the max event days per year
+    """
+    events_list = return_events_list_info(events)
+    water_year_maxs = lengths_to_years(events_list)
+    max_consecutive_events = []
+    for year in unique_water_years:
+        maximum_event_length = max(water_year_maxs.get(year)) if water_year_maxs.get(year) else 0
+        max_consecutive_events.append(maximum_event_length)
+
+    return max_consecutive_events
+
+def get_event_years_max_rolling_days(events:Dict , unique_water_years:List[int]):
+    '''Returns a list of years with events (represented by a 1), where the max rolling duration passes the
+    test of ANY duration'''
+    try:
+        max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
+    except Exception as e:
+        max_consecutive_days = [0]*len(unique_water_years)
+        print(e)
+    return [1 if (max_rolling > 0) else 0 for max_rolling in max_consecutive_days]
+
+def get_max_rolling_duration_achievement(durations:List[int], max_consecutive_days:List[int])-> List[int]:
+    """test if in a given year the max rolling duration was equals or above the min duration.
+
+    Args:
+        durations (List[int]):  minimum days in a year to meet the requirement
+        max_consecutive_days (List[int]): max rolling duration
+
+    Returns:
+        List[int]: a list of 1 and 0 where 1 is achievement and 0 is no achievement.
+    """
+    return [1 if (max_rolling >= durations[index]) else 0 for index, max_rolling in enumerate(max_consecutive_days)]
+
 
 def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years):
     '''Calculates the days/years between events. For certain EWRs (cease to flow, lowflow, 
@@ -2116,6 +2235,10 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     unique_water_years = set(water_years)
     # Years with events
     years_with_events = get_event_years(EWR_info, events, unique_water_years, durations, min_events)
+    
+    if EWR_info['EWR_code'] in ['CF1_c','CF1_C']:
+        years_with_events = get_event_years_max_rolling_days(events, unique_water_years)
+
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
@@ -2138,6 +2261,20 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     max_days = get_max_event_days(events, unique_water_years)
     MD = pd.Series(name = str(EWR + '_maxEventDays'), data = max_days, index = unique_water_years)
     PU_df = pd.concat([PU_df, MD], axis = 1)
+    # Max rolling consecutive event days
+    try:
+        max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
+        MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
+        PU_df = pd.concat([PU_df, MR], axis = 1)
+    except Exception as e:
+        max_consecutive_days = [0]*len(unique_water_years)
+        MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
+        PU_df = pd.concat([PU_df, MR], axis = 1)
+        print(e)
+    # Max rolling duration achieved
+    achieved_max_rolling_duration = get_max_rolling_duration_achievement(durations, max_consecutive_days)
+    MRA = pd.Series(name = str(EWR + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
+    PU_df = pd.concat([PU_df, MRA], axis = 1)
     # Days between events
     days_between = get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
     DB = pd.Series(name = str(EWR + '_daysBetweenEvents'), data = days_between, index = unique_water_years)

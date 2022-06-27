@@ -5,7 +5,7 @@
 
 
 
-### **EWR tool beta version 0.2.0 README**
+### **EWR tool beta version 0.3.0 README**
 
 
 ### **Installation**
@@ -119,7 +119,7 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.2.0 of the EWR tool. Testing is still being undertaken.
+This is the version 0.3.0 of the EWR tool. Testing is still being undertaken.
 
 
 **Disclaimer**
@@ -129,7 +129,7 @@ Every effort has been taken to ensure the EWR database represents the original E
 **Notes on development of the database**
 The Environmental Assets & Functions Database (EAFD) migration to a machine readable format is underway. This migration may impact on the intricacies of the original EWRs. The MDBA has started working with NSW to ensure the translation from EWRs as they are written in the long term water plans to how they are interpreted by this tool is done in a scientifically robust manner.
 
-**Compatability**
+**Compatibility**
 The tool can currently evaluate most to all of EWRs in the following catchments. Evaluation of EWRs is largely dependent on the migration of the Environmental Assets & Functions Database (EAFD) database into a machine readable format.
 
 NSW:
