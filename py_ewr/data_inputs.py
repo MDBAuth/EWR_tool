@@ -33,7 +33,7 @@ def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-pub
                               'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
                               'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
                               'level threshold max', 'volume threshold', 'drawdown rate'],
-                     dtype='str'
+                     dtype='str', encoding='cp1252'
                     )
 
     df = df.replace('?','')
