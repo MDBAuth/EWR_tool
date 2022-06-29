@@ -5,7 +5,7 @@
 
 
 
-### **EWR tool beta version 0.3.0 README**
+### **EWR tool beta version 0.3.1 README**
 
 
 ### **Installation**
@@ -119,7 +119,7 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.3.0 of the EWR tool. Testing is still being undertaken.
+This is the version 0.3.1 of the EWR tool. Testing is still being undertaken.
 
 
 **Disclaimer**
