@@ -135,7 +135,7 @@ def test_get_all_events(observed_handler_instance):
 
     all_events = observed_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (56, 9)
+    assert all_events.shape == (54, 9)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                             'eventDuration', 'eventLength']
 

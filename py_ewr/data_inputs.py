@@ -32,7 +32,7 @@ def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-pub
                      usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
                               'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
                               'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                              'level threshold max', 'volume threshold', 'drawdown rate'],
+                              'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
                      dtype='str', encoding='cp1252'
                     )
 
@@ -306,7 +306,7 @@ def get_EWR_components(category):
     elif category == 'cease to flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'DURVD', 'MIE']
     elif category == 'cumulative':
-        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MIE']
+        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP']
     elif category == 'level':
         pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE']
     elif category == 'weirpool-raising':
@@ -324,7 +324,7 @@ def get_EWR_components(category):
     elif category == 'multi-gauge-cease to flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'DURVD', 'MG', 'MIE']
     elif category == 'multi-gauge-cumulative':
-        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MG', 'MIE']
+        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF','MG', 'MIE','AP','GP']
     elif category == 'simul-gauge-flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE']
     elif category == 'simul-gauge-low flow':
