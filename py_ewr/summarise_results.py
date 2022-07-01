@@ -134,8 +134,11 @@ def process_df_results(results_to_process: List[Dict])-> pd.DataFrame:
     """
     returned_dfs = []
     for item in results_to_process:
-        transformed_df = process_df(**item)
-        returned_dfs.append(transformed_df)
+        try:
+            transformed_df = process_df(**item)
+            returned_dfs.append(transformed_df)
+        except Exception as e:
+            print(f"Could not process due to {e}")
     return pd.concat(returned_dfs, ignore_index=True)
 
 def get_events_to_process(gauge_events: dict)-> List:
@@ -178,7 +181,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                         item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
                         items_to_process.append(item)
                     except Exception as e:
-                        print(e)
+                        print(f"fail to process events for {scenario}-{pu}-{ewr}-{gauge} with error {e}")
                         continue
     return items_to_process
 
@@ -305,6 +308,10 @@ def process_all_events_results(results_to_process: List[Dict])-> pd.DataFrame:
             continue
     return pd.concat(returned_dfs, ignore_index=True)
 
+def fill_empty(df, columns):
+    for col in columns:
+        df[col] = df[col].apply(lambda x: x if x != '' else '0')
+    return df
 
 def summarise(input_dict:Dict , events:Dict)-> pd.DataFrame:
     """orchestrate the processing of the pu_dfs items and the gauge events and join
@@ -350,6 +357,8 @@ def summarise(input_dict:Dict , events:Dict)-> pd.DataFrame:
     # Join Ewr parameter to summary
     
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+
+    EWR_table = fill_empty(EWR_table, ['frequency','max inter-event'])
     
     EWR_table = EWR_table[['gauge','PlanningUnitName','code','frequency','max inter-event']]
     

@@ -3,9 +3,15 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 
 
+### **EWR tool beta version 0.4.0 README**
 
+*************
+The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
 
-### **EWR tool beta version 0.2.0 README**
+The method within the code is based on the EWR assessment method created by Ian Burns (NSW DPE).
+
+We would like to thank Carmen Amos (NSW DPE), Markus Buerle (NSW DPE), Lara Palmer (MDBA), Ben Bradshaw (MDBA), Joel Bailey (MDBA) Dennis Stahl (Agile Analytics) and Blake Lawrence (Agile Analytics)  for their work on putting together the EWR dataset, refinement of the codebase, and input to the logic.
+*************
 
 
 ### **Installation**
@@ -119,7 +125,7 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.2.0 of the EWR tool. Testing is still being undertaken.
+This is the version 0.4.0 of the EWR tool. Testing is still being undertaken.
 
 
 **Disclaimer**
@@ -129,7 +135,7 @@ Every effort has been taken to ensure the EWR database represents the original E
 **Notes on development of the database**
 The Environmental Assets & Functions Database (EAFD) migration to a machine readable format is underway. This migration may impact on the intricacies of the original EWRs. The MDBA has started working with NSW to ensure the translation from EWRs as they are written in the long term water plans to how they are interpreted by this tool is done in a scientifically robust manner.
 
-**Compatability**
+**Compatibility**
 The tool can currently evaluate most to all of EWRs in the following catchments. Evaluation of EWRs is largely dependent on the migration of the Environmental Assets & Functions Database (EAFD) database into a machine readable format.
 
 NSW:
@@ -149,3 +155,5 @@ Consult the user manual for instructions on how to run the tool. Please email th
 
 **Climate sequence**
 NSW Long Term Watering Plans (LTWP) define climate using the Resource Availability Scenarios (RAS). However, until this process can be completed the climate categories defined using outputs from the AWRA-L model will be used.  
+
+
