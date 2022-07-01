@@ -3,9 +3,15 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 
 
+### **EWR tool beta version 0.4.0 README**
 
+*************
+The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
 
-### **EWR tool beta version 0.3.1 README**
+The method within the code is based on the EWR assessment method created by Ian Burns (NSW DPE).
+
+We would like to thank Carmen Amos (NSW DPE), Markus Buerle (NSW DPE), Lara Palmer (MDBA), Ben Bradshaw (MDBA), Joel Bailey (MDBA) Dennis Stahl (Agile Analytics) and Blake Lawrence (Agile Analytics)  for their work on putting together the EWR dataset, refinement of the codebase, and input to the logic.
+*************
 
 
 ### **Installation**
@@ -119,7 +125,7 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.3.1 of the EWR tool. Testing is still being undertaken.
+This is the version 0.4.0 of the EWR tool. Testing is still being undertaken.
 
 
 **Disclaimer**
@@ -149,3 +155,5 @@ Consult the user manual for instructions on how to run the tool. Please email th
 
 **Climate sequence**
 NSW Long Term Watering Plans (LTWP) define climate using the Resource Availability Scenarios (RAS). However, until this process can be completed the climate categories defined using outputs from the AWRA-L model will be used.  
+
+

@@ -134,8 +134,11 @@ def process_df_results(results_to_process: List[Dict])-> pd.DataFrame:
     """
     returned_dfs = []
     for item in results_to_process:
-        transformed_df = process_df(**item)
-        returned_dfs.append(transformed_df)
+        try:
+            transformed_df = process_df(**item)
+            returned_dfs.append(transformed_df)
+        except Exception as e:
+            print(f"Could not process due to {e}")
     return pd.concat(returned_dfs, ignore_index=True)
 
 def get_events_to_process(gauge_events: dict)-> List:
@@ -178,7 +181,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                         item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
                         items_to_process.append(item)
                     except Exception as e:
-                        print(e)
+                        print(f"fail to process events for {scenario}-{pu}-{ewr}-{gauge} with error {e}")
                         continue
     return items_to_process
 

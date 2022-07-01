@@ -135,7 +135,7 @@ def test_get_all_events(observed_handler_instance):
 
     all_events = observed_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (54, 9)
+    assert all_events.shape == (56, 9)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                             'eventDuration', 'eventLength']
 
@@ -143,8 +143,9 @@ def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 16)
-    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'eventLength',
+    assert yearly_results.shape == (24, 18)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 
+       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength',
        'totalEventDays', 'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
 

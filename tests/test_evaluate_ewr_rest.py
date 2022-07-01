@@ -1,3 +1,4 @@
+from cmath import exp
 from datetime import datetime, date, timedelta
 
 import pandas as pd
@@ -1684,7 +1685,6 @@ def test_cumulative_calc(EWR_info, flows, expected_all_events, expected_all_no_e
 	 ),	 
 ],)
 def test_volume_check(EWR_info,iteration,flows,event,all_events,all_no_events,expected_all_events,expected_event):
-	# (date(2012, 7, 2)+timedelta(days=i),0) for i in range(350) # event template
 	flow = 20
 	roller = 5
 	max_roller = EWR_info['accumulation_period']
@@ -1694,9 +1694,6 @@ def test_volume_check(EWR_info,iteration,flows,event,all_events,all_no_events,ex
 	no_event = 50
 	total_event = 9
 	gap_track = 0
-	# expected_all_no_events = {2012: [], 2013: [[724]], 2014: [[355]], 2015: [[362]]}
-	# expected_durations = [2]*4
-	# expected_min_events = [2]*4
 	event, all_events, no_event, all_no_events, gap_track, total_event, roller = evaluate_EWRs.volume_check(EWR_info, iteration, flow, event,
 	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, roller, max_roller, flows)
 
@@ -1714,3 +1711,64 @@ def test_volume_check(EWR_info,iteration,flows,event,all_events,all_no_events,ex
 def test_check_roller_reset_points(roller, flow_date, EWR_info,expected_roller):
 	result = evaluate_EWRs.check_roller_reset_points(roller, flow_date, EWR_info)
 	assert result == expected_roller
+
+@pytest.mark.parametrize("events,unique_water_years,expected_max_vols", [
+					 ( 
+					 {2012:[ [(date(2012, 11, 1) + timedelta(days=i), 5) for i in range(5)], 
+                			 [(date(2013, 6, 26) + timedelta(days=i), 10) for i in range(10)]], 
+            		  2013:[[(date(2013, 11, 2) + timedelta(days=i), 3) for i in range(3)], 
+                  			[(date(2014, 6, 26) + timedelta(days=i), 3) for i in range(3)]], 
+            		  2014:[[(date(2014, 11, 1) + timedelta(days=i), 5) for i in range(5)]], 
+            		  2015:[]},
+					  [2012, 2013, 2014, 2015],
+					  [10,3,5,0]),
+					  ]
+)
+def test_get_max_volume(events,unique_water_years,expected_max_vols):
+	max_vols = evaluate_EWRs.get_max_volume(events,unique_water_years)
+	assert max_vols == expected_max_vols
+
+
+@pytest.mark.parametrize("events,unique_water_years,expected_years_achieved", [
+					 ( 
+					 {2012:[ [(date(2012, 11, 1) + timedelta(days=i), 5) for i in range(5)], 
+                			 [(date(2013, 6, 26) + timedelta(days=i), 10) for i in range(10)]], 
+            		  2013:[[(date(2013, 11, 2) + timedelta(days=i), 3) for i in range(3)], 
+                  			[(date(2014, 6, 26) + timedelta(days=i), 3) for i in range(3)]], 
+            		  2014:[[(date(2014, 11, 1) + timedelta(days=i), 5) for i in range(5)]], 
+            		  2015:[]},
+					  [2012, 2013, 2014, 2015],
+					  [1,1,1,0]),
+					  ]
+)
+def test_get_event_years_volume_achieved(events,unique_water_years,expected_years_achieved):
+	max_vols = evaluate_EWRs.get_event_years_volume_achieved(events,unique_water_years)
+	assert max_vols == expected_years_achieved
+
+
+@pytest.mark.parametrize("all_no_events,unique_water_years,expected_result",[
+	({2012: [[92], [75]],
+	2013: [[112], [59]],
+	2014: [[187]],
+	2015: []},
+	[2012, 2013, 2014, 2015],
+	[92,112,187,0])
+])
+def test_get_max_inter_event_days(all_no_events,unique_water_years,expected_result):
+	result = evaluate_EWRs.get_max_inter_event_days(all_no_events,unique_water_years)
+	assert result == expected_result
+
+
+@pytest.mark.parametrize("EWR_info,no_events,unique_water_years,expected_results",[
+		({'max_inter-event':0.5},
+			
+		{2012: [[92], [75]],
+		2013: [[112], [59]],
+		2014: [[187]],
+		2015: []},
+		[2012, 2013, 2014, 2015],
+		[1,1,0,1])
+])
+def test_get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_years,expected_results):
+	result = evaluate_EWRs.get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_years)
+	assert result == expected_results
