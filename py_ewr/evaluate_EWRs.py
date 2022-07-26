@@ -1,5 +1,6 @@
+from collections import defaultdict
 from copy import deepcopy
-from typing import Any
+from typing import Any, List, Dict
 import pandas as pd
 import re
 import numpy as np
@@ -131,6 +132,12 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
             ewrs['max_inter-event'] = float(component_pull(EWR_table, gauge, PU, EWR, 'max inter-event'))
         except IndexError:
             ewrs['max_inter-event'] = None
+    if 'AP' in components:
+        accumulation_period = component_pull(EWR_table, gauge, PU, EWR, 'Accumulation period (Days)')
+        ewrs['accumulation_period'] = int(accumulation_period)
+    if 'FLV' in components:
+        flow_level_volume = component_pull(EWR_table, gauge, PU, EWR, 'flow level volume')
+        ewrs['flow_level_volume'] = flow_level_volume
 
     return ewrs
 
@@ -289,10 +296,6 @@ def cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
-    # Check flow data against EWR requirements and then perform analysis on the results:
-    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-    #     E, NE, D, ME = cumulative_calc_anytime(EWR_info, df_F[gauge].values, water_years)
-    # else:
     E, NE, D, ME = cumulative_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
 
@@ -732,8 +735,7 @@ def ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_eve
         event.append(threshold_flow)
     else:
         if len(event) > 0:
-            water_year = which_water_year(iteration, len(event), water_years)
-            all_events[water_year].append(event)
+            all_events[water_years[iteration-1]].append(event)
             if no_event > 0:
                 ne_water_year = which_water_year_no_event(iteration, len(event), water_years)
                 all_no_events[ne_water_year].append([no_event])
@@ -804,6 +806,78 @@ def flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, e
 def date_check(date, masked_dates):
     '''Pass in a date, if the date is within the range of accepted dates, return True, else False'''
     return True if date in masked_dates else False
+
+def check_roller_reset_points(roller:int, flow_date:date, EWR_info:Dict):
+    """given a date check if roller needs reset to 0
+    It happens either at the start of a water year or the start of a window check
+    period. Which ever comes first.
+
+    Args:
+        roller (int): how many days to look back on the volume checker window
+        flow_date (date): date of the current flow
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+
+    Returns:
+        (int): roller value either the same of a reset value
+    """
+    if flow_date.month == EWR_info['start_month'] and flow_date.day == 1:
+        roller = 0       
+    return roller
+
+def volume_check(EWR_info:Dict, iteration:int, flow:int, event:List, all_events:Dict, no_event:int, all_no_events:Dict, gap_track:int, 
+               water_years:List, total_event:int, flow_date:date, roller:int, max_roller:int, flows:List)-> tuple:
+    """Check in the current iteration of flows if the volume meet the ewr requirements.
+    It looks back in a window of the size of the Accumulation period in(Days)
+
+    Args:
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        iteration (int): current iteration
+        flow (int): current flow
+        event (List[float]): current event state
+        all_events (Dict): current all events state
+        no_event (List): current no_event state
+        all_no_events (Dict): current all no events state
+        gap_track (int): current gap_track state 
+        water_years (List): list of water year for every flow iteration
+        total_event (int): current total event state
+        flow_date (date): current flow date
+        roller (int): current roller state
+        max_roller (int): current EWR max roller window
+        flows (List): current list of all flows being iterated
+
+    Returns:
+        tuple: with the current state of the event, all_events, no_event, all_no_events, gap_track, total_event and roller
+    """
+    
+    flows_look_back = flows[iteration - roller:iteration+1]
+    if roller < max_roller-1:
+        roller += 1
+    valid_flows = filter(lambda x: (x >= EWR_info['min_flow']) and (x <= EWR_info['max_flow']) , flows_look_back)
+    volume = sum(valid_flows)
+    if volume > EWR_info['min_volume']:
+        threshold_flow = (get_index_date(flow_date), volume)
+        event.append(threshold_flow)
+        total_event += 1
+        no_event += 1
+        gap_track = EWR_info['gap_tolerance']
+    else:
+        if gap_track > 0:
+            gap_track = gap_track - 1
+            total_event += 1
+        else:
+            if len(event) >= EWR_info['min_event']+1:
+                all_events[water_years[iteration]].append(event)
+                total_event_gap = no_event - total_event
+                if total_event_gap > 0:
+                    ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
+                    all_no_events[ne_water_year].append([total_event_gap])
+                no_event = 0
+            total_event = 0
+
+            event = []
+        no_event += 1
+
+    return event, all_events, no_event, all_no_events, gap_track, total_event, roller
 
 #------------------------------------ Calculation functions --------------------------------------#
 
@@ -1149,62 +1223,66 @@ def lake_calc(EWR_info, levels, water_years, dates, masked_dates):
 
     return all_events, all_no_events, durations, min_events
 
-def cumulative_calc(EWR_info, flows, water_years, dates, masked_dates):
-    '''For calculating cumulative flow EWRs with time constraints. A 'window' is moved over the
-    flow timeseries for each year with a length of the EWR duration, these flows in the window
-    that are over the minimum flow threshold are summed together, and if this sum meets the min
-    volume requirement, and event is achieved. The program the skips over the flows included so
-    as to not double count'''
-    # Declare variables:
+def cumulative_calc(EWR_info:Dict, flows:List, water_years:List, dates:List, masked_dates:List)-> tuple:
+    """ Calculate and manage state of the Volume EWR calculations. It delegates to volume_check function
+    the record of events when they not end at the end of a water year, otherwise it resets the event at year boundary
+    adopting the hybrid method
+
+    Args:
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        flows (List): List with all the flows for the current calculated EWR
+        water_years (List): List of the water year of each day of the current calculated EWR
+        dates (List): List of the dates of the current calculated EWR
+        masked_dates (List): List of the dates that the EWR needs to be calculated i.e. the time window.
+
+    Returns:
+        tuple: final output with the calculation of volume all_events, all_no_events, durations and min_events
+    """
     event = []
+    total_event = 0
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
     durations, min_events = [], []
-    unique_water_years = sorted(set(water_years))
-    # Iterate over unique water years:
-    for year in unique_water_years:
-        mask = water_years == year
-        year_flows = flows[mask]
-        year_dates = dates[mask]
-        durations.append(EWR_info['duration'])
-        min_events.append(EWR_info['min_event'])
-        skip_lines = 0
-        # Within the water year, iterate over the flows, checking the future (duration length) of days for an event:
-        for i, flow in enumerate(year_flows[:-EWR_info['duration']]):
-            if year_dates[i] in masked_dates and year_dates[i+EWR_info['duration']] in masked_dates:
-                if skip_lines > 0:
-                    skip_lines -= 1
-                else:
-                    subset_flows = year_flows[i:i+EWR_info['duration']]
-                    large_enough_flows = subset_flows[subset_flows >= EWR_info['min_flow']]
-                    # If there are enough flows over the threshold to meet the volume requirement, save event and event gap:
-                    if sum(large_enough_flows) >= EWR_info['min_volume']:
-                        all_events[year].append(list(large_enough_flows))
-                        skip_lines = EWR_info['duration'] - 1
-                        if no_event > 0:
-                            all_no_events[year].append([no_event])
-                            no_event = 0
-                    else:
-                        no_event += 1
-            else:
-                no_event += 1
-                
-        if year_dates[-1] in masked_dates and skip_lines == 0:
-            final_subset_flows = year_flows[-EWR_info['duration']:]
-            final_large_enough_flows = final_subset_flows[final_subset_flows >= EWR_info['min_flow']]
-            # If there are enough flows over the threshold to meet the volume requirement, save event and event gap:
-            if sum(final_large_enough_flows) >= EWR_info['min_volume']:
-                all_events[year].append(list(final_large_enough_flows))
-                if no_event > 0:
-                    all_no_events[year].append([no_event])
-                    no_event = 0
-            else:
-                no_event = no_event + EWR_info['duration']
+    gap_track = 0
+    # Iterate over flow timeseries, sending to the flow_check function each iteration:
+    roller = 0
+    max_roller = EWR_info['accumulation_period']
+
+    for i, flow in enumerate(flows[:-1]):
+        if dates[i] in masked_dates:
+            roller = check_roller_reset_points(roller, dates[i], EWR_info)
+            flow_date = dates[i]
+            event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_check(EWR_info, i, flow, event, all_events, 
+                                                                                            no_event, all_no_events, gap_track, water_years, 
+                                                                                            total_event, flow_date, roller, max_roller, flows)
         else:
-            no_event = no_event + EWR_info['duration'] - skip_lines
-                
+            no_event += 1
+        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
+        if water_years[i] != water_years[i+1]:
+            if len(event) >= EWR_info['min_event']+1:
+                all_events[water_years[i]].append(event)
+                if no_event - total_event > 0:
+                    ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                    all_no_events[ne_water_year].append([no_event-total_event])
+                no_event = 0
+                total_event = 0
+            event = []
+            durations.append(EWR_info['duration'])
+            min_events.append(EWR_info['min_event'])
     
+    if dates[-1] in masked_dates:
+        roller = check_roller_reset_points(roller, dates[-1], EWR_info)
+        flow_date = dates[-1]
+        event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_check(EWR_info, i, flow, event, all_events, 
+                                                                                            no_event, all_no_events, gap_track, water_years, 
+                                                                                            total_event, flow_date, roller, max_roller, flows)   
+    if no_event > 0:
+        all_no_events[water_years[-1]].append([no_event])
+    durations.append(EWR_info['duration'])
+    min_events.append(EWR_info['min_event'])
+
+
     return all_events, all_no_events, durations, min_events
 
 def cumulative_calc_anytime(EWR_info, flows, water_years):
@@ -1935,7 +2013,6 @@ def get_event_years(EWR_info, events, unique_water_years, durations, min_events)
     return event_years
 
 
-
 def get_achievements(EWR_info, events, unique_water_years, durations, min_events):
     '''Returns a list of number of events per year'''
     num_events = []
@@ -2015,6 +2092,209 @@ def get_max_event_days(events:dict, unique_water_years:set)-> list:
         max_event =  max(events_length) if events_length else 0
         max_events.append(max_event)
     return max_events
+
+def get_max_volume(events:dict, unique_water_years:set)-> list:
+    """Given the events in the yearly time series calculates what was the maximum 
+    volume achieved in the year and appends to a list.
+
+    Args:
+        events (dict): Dict of lists with events flow/level
+        unique_water_years (set): Set of unique water years for the events 
+
+    Returns:
+        list: List with the max volume days per year
+    """
+    max_volumes = []
+    for year in unique_water_years:
+        max_volume = 0
+        year_events = events[year]
+        for event in year_events:
+            if event:
+                volumes = [vol for _ , vol in event]
+                event_max_vol = max(volumes)
+                if event_max_vol > max_volume:
+                    max_volume = event_max_vol
+        max_volumes.append(max_volume)
+    return max_volumes
+
+def get_max_inter_event_days(no_events:dict, unique_water_years:set)-> list:
+    """Given event gaps in a all no_event dict. return the maximum
+    gap each year
+
+    Args:
+        no_events (dict): Dict of lists with no_events gap
+        unique_water_years (set): Set of unique water years for the events 
+
+    Returns:
+        list: List with the max inter event gap
+    """
+    max_inter_event_gaps = []
+    for year in unique_water_years:
+        max_inter_event = 0
+        year_events = no_events[year]
+        for event in year_events:
+            if event:
+                if event[0] > max_inter_event:
+                    max_inter_event = event[0]
+        max_inter_event_gaps.append(max_inter_event)
+    return max_inter_event_gaps
+
+
+def water_year(flow_date:date)-> int:
+    """given a date it returns the wateryear the date is in
+
+    Args:
+        flow_date (date): date
+
+    Returns:
+        int: water year. e.g. 2022 is the 2022-2023 year start 2022-07-01 end 2023-06-01
+    """
+    month = flow_date.month
+    return flow_date.year if month > 6 else flow_date.year -1
+
+def water_year_touches(start_date:date, end_date:date)->List[int]:
+    """given a start and end date of an event return a list of water years
+    that the events touches.
+
+    Args:
+        start_date (date): Event start date
+        end_date (date): Event end date
+
+    Returns:
+        list: List of years
+    """
+    start_wy = water_year(start_date)
+    end_wy = water_year(end_date)
+    span = end_wy - start_wy
+    return [start_wy + i for i in range(span + 1)]
+
+def return_events_list_info(gauge_events:dict)-> List[tuple]:
+    """It iterates through a gauge events dictionary and returns a list
+    with a summary information of the event in a tuple.
+    tuple contains 
+    start_date, end_date, length ans the water_years the event touches
+
+    Args:
+        gauge_events (dict): gauge events
+
+    Returns:
+        list: list of tuples with the information described above.
+    """
+    events_list = []
+    for year, events in gauge_events.items():
+        for i, event in enumerate(events):
+            start_date, _ = event[0]
+            end_date, _ = event[-1]
+            length = (end_date - start_date).days
+            water_years = water_year_touches(start_date, end_date)
+            event_info = (start_date, end_date, length+1, water_years)
+            events_list.append(event_info)
+    return events_list
+
+def lengths_to_years(events: list)-> defaultdict:
+    """iterates through the events_list_info and returns a dictionary
+    with all the events length to each year. It handles events that crosses
+    year boundary and assign to the year a rolling sum of event days from the
+    event start up to the end of the year boundary
+
+    Args:
+        events (list): events list info
+
+    Returns:
+        defaultdict: all events length for each water year
+    """
+    years_event_lengths = defaultdict(list)
+    for event in events:
+        start, _, length, wys = event
+        if len(wys) == 1:
+            years_event_lengths[wys[0]].append(length)
+        else:
+            for wy in wys[:-1]:
+                up_to_boundary = (date(wy+1,6,30) - start).days + 1
+                years_event_lengths[wy].append(up_to_boundary)
+            # last water year of the collection is always the total event length
+            years_event_lengths[wys[-1]].append(length)        
+    return years_event_lengths
+
+def get_max_consecutive_event_days(events:dict, unique_water_years:set)-> List:
+    """Given gauge events it calculates the max rolling event duration
+    at the end of each water year. If an event goes beyond an year it will count the 
+    days from the start of the event up to the last day that of the boundary cross i.e June 30th.
+
+    Args:
+        events (dict): Dict of lists with events flow/level
+        unique_water_years (set): Set of unique water years for the events 
+
+    Returns:
+        list: List with the max event days per year
+    """
+    events_list = return_events_list_info(events)
+    water_year_maxs = lengths_to_years(events_list)
+    max_consecutive_events = []
+    for year in unique_water_years:
+        maximum_event_length = max(water_year_maxs.get(year)) if water_year_maxs.get(year) else 0
+        max_consecutive_events.append(maximum_event_length)
+
+    return max_consecutive_events
+
+def get_event_years_max_rolling_days(events:Dict , unique_water_years:List[int]):
+    '''Returns a list of years with events (represented by a 1), where the max rolling duration passes the
+    test of ANY duration'''
+    try:
+        max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
+    except Exception as e:
+        max_consecutive_days = [0]*len(unique_water_years)
+        print(e)
+    return [1 if (max_rolling > 0) else 0 for max_rolling in max_consecutive_days]
+
+def get_event_years_volume_achieved(events:Dict , unique_water_years:List[int])->List:
+    """Returns a list of years with events (represented by a 1), where the volume threshold was 
+    achieved
+
+    Args:
+        events (Dict): events dictionary
+        unique_water_years (List[int]): unique water years for the time series
+
+    Returns:
+        List: List of 1 and 0. 1 achieved and 0 not achieved
+    """
+    try:
+        max_volumes = get_max_volume(events, unique_water_years)
+    except Exception as e:
+        max_volumes = [0]*len(unique_water_years)
+        print(e)
+    return [1 if (max_vol > 0) else 0 for max_vol in max_volumes]
+
+def get_event_max_inter_event_achieved(EWR_info:Dict, no_events:Dict , unique_water_years:List[int])->List:
+    """Returns a list of years where the event gap was achieved (represented by a 1), 
+    Args:
+        no_events (Dict): no_events dictionary
+        unique_water_years (List[int]): unique water years for the time series
+
+    Returns:
+        List: List of 1 and 0. 1 achieved and 0 not achieved
+    """
+    try:
+        max_inter_event_achieved = get_max_inter_event_days(no_events, unique_water_years)
+    except Exception as e:
+        max_inter_event_achieved = [0]*len(unique_water_years)
+        print(e)
+    return [0 if (max_inter_event > EWR_info['max_inter-event']*365) else 1 for max_inter_event in max_inter_event_achieved]
+
+# annualEvents$spell_days>`Max gap (Days)`, 0, 1)
+
+def get_max_rolling_duration_achievement(durations:List[int], max_consecutive_days:List[int])-> List[int]:
+    """test if in a given year the max rolling duration was equals or above the min duration.
+
+    Args:
+        durations (List[int]):  minimum days in a year to meet the requirement
+        max_consecutive_days (List[int]): max rolling duration
+
+    Returns:
+        List[int]: a list of 1 and 0 where 1 is achievement and 0 is no achievement.
+    """
+    return [1 if (max_rolling >= durations[index]) else 0 for index, max_rolling in enumerate(max_consecutive_days)]
+
 
 def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years):
     '''Calculates the days/years between events. For certain EWRs (cease to flow, lowflow, 
@@ -2116,6 +2396,13 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     unique_water_years = set(water_years)
     # Years with events
     years_with_events = get_event_years(EWR_info, events, unique_water_years, durations, min_events)
+    
+    if EWR_info['EWR_code'] in ['CF1_c','CF1_C']:
+        years_with_events = get_event_years_max_rolling_days(events, unique_water_years)
+
+    if EWR_info['flow_level_volume'] == 'V':
+        years_with_events = get_event_years_volume_achieved(events, unique_water_years)
+
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
@@ -2126,6 +2413,14 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     num_events = get_number_events(EWR_info, events, unique_water_years, durations, min_events)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
+    # Max inter event period
+    max_inter_period = get_max_inter_event_days(no_events, unique_water_years)
+    MIP = pd.Series(name = str(EWR + '_maxInterEventDays'), data= max_inter_period, index = unique_water_years)
+    PU_df = pd.concat([PU_df, MIP], axis = 1)
+    # Max inter event period achieved
+    max_inter_period_achieved = get_event_max_inter_event_achieved(EWR_info, no_events, unique_water_years)
+    MIPA = pd.Series(name = str(EWR + '_maxInterEventDaysAchieved'), data= max_inter_period_achieved, index = unique_water_years)
+    PU_df = pd.concat([PU_df, MIPA], axis = 1)
     # Average length of events
     av_length = get_average_event_length(events, unique_water_years)
     AL = pd.Series(name = str(EWR + '_eventLength'), data = av_length, index = unique_water_years)
@@ -2138,6 +2433,20 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     max_days = get_max_event_days(events, unique_water_years)
     MD = pd.Series(name = str(EWR + '_maxEventDays'), data = max_days, index = unique_water_years)
     PU_df = pd.concat([PU_df, MD], axis = 1)
+    # Max rolling consecutive event days
+    try:
+        max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
+        MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
+        PU_df = pd.concat([PU_df, MR], axis = 1)
+    except Exception as e:
+        max_consecutive_days = [0]*len(unique_water_years)
+        MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
+        PU_df = pd.concat([PU_df, MR], axis = 1)
+        print(e)
+    # Max rolling duration achieved
+    achieved_max_rolling_duration = get_max_rolling_duration_achievement(durations, max_consecutive_days)
+    MRA = pd.Series(name = str(EWR + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
+    PU_df = pd.concat([PU_df, MRA], axis = 1)
     # Days between events
     days_between = get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
     DB = pd.Series(name = str(EWR + '_daysBetweenEvents'), data = days_between, index = unique_water_years)
@@ -2244,6 +2553,9 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate):
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
             MULTIGAUGE = PU in multi_gauges and gauge in multi_gauges[PU]
             SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
+            if MULTIGAUGE or COMPLEX or SIMULTANEOUS or EWR_NEST or EWR_LEVEL or EWR_WP:
+                print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
+                continue
             if CAT_FLOW and EWR_CTF and not VERYDRY:
                 if MULTIGAUGE:
                     PU_df, events = ctf_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
