@@ -123,25 +123,6 @@ def test_get_EWR_table():
     
     total_len = len(EWR_table)+len(bad_EWRs)
     assert (len(df), total_len)
-
-    #turned this test of since EWR parameter sheet still unstable and changing column and need to upload test table to server
-    # #-----------------------------------
-    # # Test 2
-    # # Send the dummy data through the function
-    # dummy_EWR_table = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/test_EWR_table_input.csv'
-    # good, bad = data_inputs.get_EWR_table(dummy_EWR_table)
-    
-    # # Load in expected output
-    # expected_good = pd.read_csv('unit_testing_files/test_EWR_table_good_output.csv', dtype = 'str', encoding='cp1252')
-    # expected_good = expected_good.fillna('')
-    # expected_good['flow threshold max'].replace({'':'1000000'}, inplace = True)
-    # expected_good['level threshold max'].replace({'':'1000000'}, inplace = True)
-    # expected_bad = pd.read_csv('unit_testing_files/test_EWR_table_bad_output.csv', dtype = 'str', encoding='cp1252')
-    # expected_bad = expected_bad.fillna('')
-    
-    # assert_frame_equal(expected_good.reset_index(drop=True), good.reset_index(drop=True))
-    # assert_frame_equal(expected_bad.reset_index(drop=True), bad.reset_index(drop=True))
-    
     
 def test_map_gauge_to_catchment():
     '''

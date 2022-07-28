@@ -44,8 +44,9 @@ def scenario_handler(scenarios, model_format, allowance, climate):
         gauge_results = {}
         gauge_events = {}
         all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+        EWR_table, bad_EWRs = data_inputs.get_EWR_table()
         for gauge in all_locations:
-            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate)
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table)
         detailed_results[scenario] = gauge_results
         detailed_events[scenario] = gauge_events
 
@@ -364,8 +365,9 @@ class ScenarioHandler:
             gauge_results = {}
             gauge_events = {}
             all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+            EWR_table, bad_EWRs = data_inputs.get_EWR_table()
             for gauge in all_locations:
-                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate)
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table)
             detailed_results[scenario] = gauge_results
             detailed_events[scenario] = gauge_events
 

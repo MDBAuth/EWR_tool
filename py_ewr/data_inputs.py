@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
+from cachetools import cached, TTLCache
+
 BASE_PATH = Path(__file__).resolve().parent
 
 # Importing the climate cat data - to be replaced by RAS data once available:
@@ -20,21 +22,31 @@ def get_climate_cats(climate_file):
         
     return climate_cats
 
-def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'):
+@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+def get_EWR_table(file_path = None):
     
     ''' Loads ewr table from blob storage, seperates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
     does some cleaning, including swapping out '?' in the frequency column with 0'''
     
-    proxies={} # Populate with your proxy settings
-    s = requests.get(my_url, proxies=proxies).text
-    df = pd.read_csv(io.StringIO(s),
-                     usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
-                              'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
-                              'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                              'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
-                     dtype='str', encoding='cp1252'
-                    )
+    if file_path:
+        df = pd.read_csv(file_path, usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
+                                    'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
+                                    'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
+                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
+                            dtype='str', encoding='cp1252')
+
+    if not file_path:
+        my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'
+        proxies={} # Populate with your proxy settings
+        s = requests.get(my_url, proxies=proxies).text
+        df = pd.read_csv(io.StringIO(s),
+                        usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
+                                'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
+                                'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
+                                'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
+                        dtype='str', encoding='cp1252'
+                        )
 
     df = df.replace('?','')
     df = df.fillna('')
@@ -71,7 +83,7 @@ def get_EWR_table(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-pub
     
     return okay_EWRs, bad_EWRs
 
-
+@cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def map_gauge_to_catchment(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'):
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
     first three numbers for each gauge '''

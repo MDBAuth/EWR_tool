@@ -60,8 +60,9 @@ def observed_handler(gauges, dates, allowance, climate):
     gauge_events = {}
     detailed_events = {}
     all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     for gauge in all_locations:
-        gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate)
+        gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table)
         
     detailed_results['observed'] = gauge_results
     detailed_events['observed'] = gauge_events
@@ -125,7 +126,7 @@ def observed_cleaner(input_df, dates):
 
 class ObservedHandler:
     
-    def __init__(self, gauges:List, dates:Dict , allowance:Dict, climate:str):
+    def __init__(self, gauges:List, dates:Dict , allowance:Dict, climate:str, parameter_sheet:str = None):
         self.gauges = gauges
         self.dates = dates
         self.allowance = allowance
@@ -134,6 +135,7 @@ class ObservedHandler:
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
+        self.parameter_sheet = parameter_sheet
 
     def process_gauges(self):
         '''ingests a list of gauges and user defined parameters
@@ -156,8 +158,9 @@ class ObservedHandler:
         gauge_events = {}
         detailed_events = {}
         all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+        EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
         for gauge in all_locations:
-            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate)
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table)
             
         detailed_results['observed'] = gauge_results
         detailed_events['observed'] = gauge_events
