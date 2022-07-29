@@ -30,10 +30,11 @@ def get_EWR_table(file_path = None):
     does some cleaning, including swapping out '?' in the frequency column with 0'''
     
     if file_path:
-        df = pd.read_csv(file_path, usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
+        df = pd.read_csv(file_path,
+         usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
                                     'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
                                     'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
+                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge'],
                             dtype='str', encoding='cp1252')
 
     if not file_path:
@@ -44,7 +45,7 @@ def get_EWR_table(file_path = None):
                         usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
                                 'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
                                 'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
+                                'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge'],
                         dtype='str', encoding='cp1252'
                         )
 

@@ -39,7 +39,7 @@ def categorise_gauges(gauges):
             
     return unique_flow_gauges, unique_level_gauges
 
-def observed_handler(gauges, dates, allowance, climate):
+def observed_handler(gauges, dates, allowance, climate, parameter_sheet:str = None):
     '''ingests a list of gauges and user defined parameters
     pulls gauge data using relevant states API, calcualtes and analyses EWRs
     returns dictionary of raw data results and result summary
@@ -60,7 +60,7 @@ def observed_handler(gauges, dates, allowance, climate):
     gauge_events = {}
     detailed_events = {}
     all_locations = df_F.columns.to_list() + df_L.columns.to_list()
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table(parameter_sheet)
     for gauge in all_locations:
         gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table)
         
@@ -131,7 +131,6 @@ class ObservedHandler:
         self.dates = dates
         self.allowance = allowance
         self.climate = climate
-        self.EWR_TABLE = None
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
@@ -176,6 +175,15 @@ class ObservedHandler:
         
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events = summarise_results.process_all_events_results(events_to_process)
+
+        all_events = summarise_results.join_ewr_parameters(cols_to_add=['multigauge'],
+                                left_table=all_events,
+                                left_on=['gauge','pu','ewr'],
+                                selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                        'eventDuration', 'eventLength', 
+                                        'multigauge'],
+                                parameter_sheet_path=self.parameter_sheet)
+
         return all_events
 
     def get_yearly_ewr_results(self)-> pd.DataFrame:
@@ -185,6 +193,17 @@ class ObservedHandler:
 
         to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
         yearly_ewr_results = summarise_results.process_df_results(to_process)
+
+        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['multigauge'],
+                                left_table=yearly_ewr_results,
+                                left_on=['gauge','pu','ewrCode'],
+                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'maxInterEventDays',
+                                            'maxInterEventDaysAchieved', 'eventLength', 'totalEventDays',
+                                            'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
+                                            'daysBetweenEvents', 'missingDays', 'totalPossibleDays', 'ewrCode',
+                                            'scenario', 'gauge', 'pu', 'multigauge'],
+                                parameter_sheet_path=self.parameter_sheet)
+
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:
