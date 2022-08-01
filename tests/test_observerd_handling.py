@@ -95,7 +95,7 @@ def test_observed_handler():
     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     climate = 'Standard - 1911 to 2018 climate categorisation'
 
-    detailed, summary = observed_handling.observed_handler(gauges, dates, allowance, climate)
+    detailed, summary = observed_handling.observed_handler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
     
     # Load and format expected results
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_observed.csv', index_col = 0)
@@ -135,26 +135,26 @@ def test_get_all_events(observed_handler_instance):
 
     all_events = observed_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (56, 9)
+    assert all_events.shape == (56, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
-                                            'eventDuration', 'eventLength']
+                                     'eventDuration', 'eventLength', 'multigauge']
 
 def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 18)
+    assert yearly_results.shape == (24, 19)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength',
        'totalEventDays', 'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'multigauge']
 
 def test_get_ewr_results(observed_handler_instance):
 
     ewr_results = observed_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (24, 18)
-    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'EventYears',
+    assert ewr_results.shape == (24, 19)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
        'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',

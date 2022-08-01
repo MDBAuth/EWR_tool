@@ -30,6 +30,22 @@ def component_pull(EWR_table, gauge, PU, EWR, component):
 def apply_correction(info, correction):
     '''Applies a correction to the EWR component (based on user request)'''
     return info*correction
+
+def get_second_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> str:
+    """get the second gauge number for a multiguage
+
+    Args:
+        parameter_sheet (pd.DataFrame): parameter sheet used in the calculation
+        gauge (float): gauge number
+        ewr (str): ewr code
+        pu (str): planning unit code
+
+    Returns:
+        bool: second gauge code
+    """
+    item = parameter_sheet[(parameter_sheet['gauge']==gauge) & (parameter_sheet['code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
+    gauge_number = item['multigauge'].to_list()[0]
+    return gauge_number
     
 def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
     '''Pulls the relevant EWR componenets for each EWR, and applies any relevant corrections'''
@@ -115,9 +131,8 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
     if 'WPG' in components:
         weirpool_gauge = component_pull(EWR_table, gauge, PU, EWR, 'weirpool gauge')
         ewrs['weirpool_gauge'] =str(weirpool_gauge)
-    if 'MG' in components:
-        multiGaugeDict = data_inputs.get_multi_gauges('all')
-        ewrs['second_gauge'] = multiGaugeDict[PU][gauge]        
+    if 'MG' in components:       
+        ewrs['second_gauge'] = get_second_multigauge(EWR_table, gauge, EWR, PU)    
     if 'SG' in components:
         simultaneousGaugeDict = data_inputs.get_simultaneous_gauges('all')
         ewrs['second_gauge'] = simultaneousGaugeDict[PU][gauge]
@@ -140,6 +155,26 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
         ewrs['flow_level_volume'] = flow_level_volume
 
     return ewrs
+
+def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
+    """check in the parameter sheet if currently iterated EWR is a multigauge
+
+    Args:
+        parameter_sheet (pd.DataFrame): parameter sheet used in the calculation
+        gauge (float): gauge number
+        ewr (str): ewr code
+        pu (str): planning unit code
+
+    Returns:
+        bool: returns True if it is a multigauge and False if not
+    """
+    item = parameter_sheet[(parameter_sheet['gauge']==gauge) & (parameter_sheet['code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
+    mg = item['multigauge'].to_list()
+    if not mg:
+        return False
+    if mg[0] == '':
+        return False
+    return int(mg[0]) > 0
 
 #------------------------ Masking timeseries data to dates in EWR requirement --------------------#
 
@@ -391,10 +426,7 @@ def flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
         also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
-    # Check flow data against EWR requirements and then perform analysis on the results: 
-    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-    #     E, NE, D, ME = flow_calc_anytime(EWR_info, flows, water_years, df_F.index)
-    # else:
+
     E, NE, D, ME = flow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
@@ -470,10 +502,6 @@ def cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
         also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
-    # Check flow data against EWR requirements and then perform analysis on the results:
-    # if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-    #     E, NE, D, ME = cumulative_calc_anytime(EWR_info, flows, water_years)
-    # else:
     E, NE, D, ME = cumulative_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)    
     return PU_df, tuple([E])
@@ -497,10 +525,7 @@ def flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance):
         print('''Cannot evaluate this ewr for {} {}, due to missing data.
         Specifically, this EWR also needs data for gauge'''.format(gauge, EWR))
         return PU_df, None
-    # Check flow data against EWR requirements and then perform analysis on the results:
-    # if ((EWR_info1['start_month'] == 7) and (EWR_info1['end_month'] == 6)):
-    #     E, NE, D, ME = flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index)
-    # else:
+        
     E, NE, D, ME = flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info1, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
@@ -818,7 +843,7 @@ def check_roller_reset_points(roller:int, flow_date:date, EWR_info:Dict):
         EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
 
     Returns:
-        (int): roller value either the same of a reset value
+        (int): roller value either the same or a reset value
     """
     if flow_date.month == EWR_info['start_month'] and flow_date.day == 1:
         roller = 0       
@@ -2511,13 +2536,11 @@ def event_stats_sim(df, PU_df, gauge1, gauge2, EWR, EWR_info, events1, events2, 
 
 #---------------------------- Sorting and distributing to handling functions ---------------------#
 
-def calc_sorter(df_F, df_L, gauge, allowance, climate):
+def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
     '''Sends to handling functions to get calculated depending on the type of EWR''' 
     # Get ewr tables:
     PU_items = data_inputs.get_planning_unit_info()
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     menindee_gauges, wp_gauges = data_inputs.get_level_gauges()
-    multi_gauges = data_inputs.get_multi_gauges('all')
     simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
     complex_EWRs = data_inputs.get_complex_calcs()
     # Extract relevant sections of the EWR table:
@@ -2551,9 +2574,9 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate):
             EWR_LEVEL = 'LLLF' in EWR or 'MLLF' in EWR or 'HLLF' in EWR or 'VHLL' in EWR
             # Determine if its classified as a complex EWR:
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
-            MULTIGAUGE = PU in multi_gauges and gauge in multi_gauges[PU]
+            MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
             SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
-            if MULTIGAUGE or COMPLEX or SIMULTANEOUS or EWR_NEST or EWR_LEVEL or EWR_WP:
+            if COMPLEX or SIMULTANEOUS or EWR_NEST or EWR_LEVEL or EWR_WP:
                 print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
                 continue
             if CAT_FLOW and EWR_CTF and not VERYDRY:

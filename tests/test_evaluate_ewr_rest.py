@@ -1772,3 +1772,20 @@ def test_get_max_inter_event_days(all_no_events,unique_water_years,expected_resu
 def test_get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_years,expected_results):
 	result = evaluate_EWRs.get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_years)
 	assert result == expected_results
+
+@pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
+	("421004", "CF" , "PU_0000129", False),
+	("421090", "CF" , "PU_0000130", True),
+	("11111", "XX" , "DD", False),
+],)
+def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
+	result = evaluate_EWRs.is_multigauge(parameter_sheet, gauge, ewr, pu)
+	assert result == expected_result
+
+@pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
+	("421090", "CF" , "PU_0000130", "421088"),
+	("423001", "WL2" , "PU_0000251", "423002"),
+],)
+def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
+	result = evaluate_EWRs.get_second_multigauge(parameter_sheet, gauge, ewr, pu)
+	assert result == expected_result

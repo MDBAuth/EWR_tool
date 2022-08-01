@@ -313,7 +313,34 @@ def fill_empty(df, columns):
         df[col] = df[col].apply(lambda x: x if x != '' else '0')
     return df
 
-def summarise(input_dict:Dict , events:Dict)-> pd.DataFrame:
+def join_ewr_parameters(cols_to_add:List, left_table:pd.DataFrame, left_on:List, 
+                        selected_columns:List = None, renamed_columns:List = None,
+                        parameter_sheet_path:str = None)-> pd.DataFrame:
+    
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table(parameter_sheet_path)
+
+    EWR_table = fill_empty(EWR_table, ['frequency','max inter-event'])
+
+    columns_right_table = ['gauge','PlanningUnitName','code']
+
+    columns_right_table += cols_to_add
+    
+    EWR_table = EWR_table[columns_right_table]
+    
+    output_table = left_table.merge(EWR_table, 
+                                                  'left',
+                                                  left_on=left_on, 
+                                                  right_on=['gauge','PlanningUnitName','code'])
+    
+    if selected_columns:
+        output_table = output_table[selected_columns]
+
+    if renamed_columns:    
+        output_table.columns = renamed_columns
+
+    return output_table
+
+def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> pd.DataFrame:
     """orchestrate the processing of the pu_dfs items and the gauge events and join
     in one summary DataFrame and join with EWR parameters for comparison
 
@@ -355,44 +382,32 @@ def summarise(input_dict:Dict , events:Dict)-> pd.DataFrame:
                                                       left_on=['gauge','pu','ewrCode'], 
                                                       right_on=['gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
-    
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
 
-    EWR_table = fill_empty(EWR_table, ['frequency','max inter-event'])
+    final_merged = join_ewr_parameters(cols_to_add=['frequency','max inter-event','multigauge'],
+                                left_table=final_summary_output,
+                                left_on=['gauge','pu','ewrCode'],
+                                selected_columns=["scenario",'gauge',
+                                                    'pu', 
+                                                    'ewrCode',
+                                                    'multigauge',
+                                                    'EventYears',
+                                                    'Frequency',
+                                                    'frequency',
+                                                    'AchievementCount',
+                                                    'AchievementPerYear',
+                                                    'EventCount',
+                                                    'totalEvents',
+                                                    'EventsPerYear',
+                                                    'averageEventLength',
+                                                    'ThresholdDays',
+                                                    'InterEventExceedingCount',
+                                                    'max inter-event',
+                                                    'NoDataDays',
+                                                    'TotalDays'],
+                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
+                                    'AchievementCount', 'AchievementPerYear', 'EventCount', 'totalEvents','EventsPerYear',
+                                    'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
+                                    'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
+                                    parameter_sheet_path=parameter_sheet_path)
     
-    EWR_table = EWR_table[['gauge','PlanningUnitName','code','frequency','max inter-event']]
-    
-    final_summary_output = final_summary_output.merge(EWR_table, 
-                                                  'left',
-                                                  left_on=['gauge','pu','ewrCode'], 
-                                                  right_on=['gauge','PlanningUnitName','code'])
-    
-    
-    selected_columns = [ "scenario",'gauge',
-     'pu', 
-     'ewrCode',
-     'EventYears',
-     'Frequency',
-     'frequency',
-     'AchievementCount',
-     'AchievementPerYear',
-     'EventCount',
-     'totalEvents',
-     'EventsPerYear',
-     'averageEventLength',
-     'ThresholdDays',
-     'InterEventExceedingCount',
-     'max inter-event',
-     'NoDataDays',
-     'TotalDays']
-    
-    final_summary_output = final_summary_output[selected_columns]
-    
-    renamed_columns = ['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'EventYears', 'Frequency', 'TargetFrequency',
-       'AchievementCount', 'AchievementPerYear', 'EventCount', 'totalEvents','EventsPerYear',
-       'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
-       'MaxInterEventYears', 'NoDataDays', 'TotalDays']
-        
-    final_summary_output.columns = renamed_columns
-    
-    return final_summary_output
+    return final_merged

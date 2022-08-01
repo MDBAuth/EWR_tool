@@ -4,7 +4,7 @@ import re
 import pandas as pd
 import pytest
 
-from py_ewr import observed_handling, scenario_handling
+from py_ewr import observed_handling, scenario_handling, data_inputs
 
 @pytest.fixture(scope="function")
 def pu_df():
@@ -202,7 +202,7 @@ def observed_handler_instance():
     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     climate = 'Standard - 1911 to 2018 climate categorisation'
 
-    ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate)
+    ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
 
     ewr_oh.process_gauges()
 
@@ -224,4 +224,9 @@ def scenario_handler_instance():
     ewr_sh.process_scenarios()
 
     return ewr_sh
+
+@pytest.fixture(scope="function")
+def parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/parameter_sheet.csv")
+    return EWR_table
 

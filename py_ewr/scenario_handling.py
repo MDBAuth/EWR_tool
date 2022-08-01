@@ -11,7 +11,7 @@ from tqdm import tqdm
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
 
-def scenario_handler(scenarios, model_format, allowance, climate):
+def scenario_handler(scenarios, model_format, allowance, climate, parameter_sheet:str = None):
     '''Takes in scenarios, send to functions to clean, calculate ewrs, and
     summarise results, returns a results summary as a dataframe and a 
     dictionary with yearly results.
@@ -44,8 +44,9 @@ def scenario_handler(scenarios, model_format, allowance, climate):
         gauge_results = {}
         gauge_events = {}
         all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+        EWR_table, bad_EWRs = data_inputs.get_EWR_table(parameter_sheet)
         for gauge in all_locations:
-            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate)
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table)
         detailed_results[scenario] = gauge_results
         detailed_events[scenario] = gauge_events
 
@@ -315,7 +316,7 @@ def match_NSW_nodes(input_df, model_metadata):
 
 class ScenarioHandler:
     
-    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str):
+    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None):
         self.scenario_files = scenario_files
         self.model_format = model_format
         self.allowance = allowance
@@ -323,6 +324,7 @@ class ScenarioHandler:
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
+        self.parameter_sheet = parameter_sheet
 
     def _get_file_names(self, loaded_files):
 
@@ -364,8 +366,9 @@ class ScenarioHandler:
             gauge_results = {}
             gauge_events = {}
             all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+            EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
             for gauge in all_locations:
-                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate)
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table)
             detailed_results[scenario] = gauge_results
             detailed_events[scenario] = gauge_events
 
@@ -380,6 +383,15 @@ class ScenarioHandler:
         
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events = summarise_results.process_all_events_results(events_to_process)
+
+        all_events = summarise_results.join_ewr_parameters(cols_to_add=['multigauge'],
+                        left_table=all_events,
+                        left_on=['gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                'eventDuration', 'eventLength', 
+                                'multigauge'],
+                        parameter_sheet_path=self.parameter_sheet)
+
         return all_events
 
     def get_yearly_ewr_results(self)-> pd.DataFrame:
@@ -389,6 +401,17 @@ class ScenarioHandler:
 
         to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
         yearly_ewr_results = summarise_results.process_df_results(to_process)
+
+        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['multigauge'],
+                                left_table=yearly_ewr_results,
+                                left_on=['gauge','pu','ewrCode'],
+                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'maxInterEventDays',
+                                            'maxInterEventDaysAchieved', 'eventLength', 'totalEventDays',
+                                            'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
+                                            'daysBetweenEvents', 'missingDays', 'totalPossibleDays', 'ewrCode',
+                                            'scenario', 'gauge', 'pu', 'multigauge'],
+                                parameter_sheet_path=self.parameter_sheet)
+                                
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:
