@@ -218,7 +218,6 @@ def test_level_handle():
                 assert event == expected_events[index][year][i] 
 
 
-# @pytest.mark.xfail(raises=AssertionError, reason='DataFrame.iloc[:, 0] (column name="WP1_eventYears") are different')
 def test_weirpool_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -254,9 +253,9 @@ def test_weirpool_handle():
     PU_df, events = evaluate_EWRs.weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # Setting up expected output data - PU_df - and testing
     data = {'WP1_eventYears': [1,0,1,0], 'WP1_numAchieved': [1,0,1,0], 'WP1_numEvents': [1,0,1,0], 
-            'WP1_maxInterEventDays': [187, 0, 640, 454], 
-            'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0,0.0,90.0,0.0], 'WP1_totalEventDays': [90,0,90,0], 
-            'WP1_maxEventDays':[90,0,90,0], 'WP1_maxRollingEvents': [0, 0, 0, 0], 'WP1_maxRollingAchievement': [0, 0, 0, 0],
+            'WP1_maxInterEventDays': [187, 0, 640, 265], 
+            'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0, 0.0, 100.0, 1.0], 'WP1_totalEventDays': [90,0,100,1], 
+            'WP1_maxEventDays':[90,0,100,1], 'WP1_maxRollingEvents': [90, 0, 100, 1], 'WP1_maxRollingAchievement': [1, 0, 1, 0],
             'WP1_daysBetweenEvents': [[],[],[],[]],'WP1_missingDays': [0,0,0,0], 'WP1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -265,7 +264,10 @@ def test_weirpool_handle():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[2500]*90], 2013:[], 2014:[[2500]*90], 2015:[]}
+    expected_events = {2012:[[(date(2013, 1, 4) + timedelta(days=i), 2500) for i in range(90)]], 
+                       2013:[], 
+                       2014:[[(date(2015, 1, 4) + timedelta(days=i), 2500) for i in range(100)]], 
+                       2015:[[(date(2016, 1, 4), 2500)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -273,7 +275,6 @@ def test_weirpool_handle():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-# @pytest.mark.xfail(raises=AssertionError, reason="DataFrame.iloc[:, 0] (column name='NestS1_eventYears') are different")
 def test_nest_handle():
     '''
     1. Ensure all parts of the function generate expected output

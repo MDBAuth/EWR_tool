@@ -751,12 +751,7 @@ def test_lowflow_calc():
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	# for year in all_no_events:
-	# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-	# 		for i, no_event in enumerate(all_no_events[year]):
-	# 				assert no_event == expected_all_no_events[year][i]
-	# assert durations == expected_durations
-	# assert min_events == expected_min_events
+
 
 def test_ctf_calc():          
 	'''
@@ -1300,71 +1295,71 @@ def test_nest_calc_percent_trigger():
 	assert durations == expected_durations
 	assert min_events == expected_min_events
 	
-def test_weirpool_calc():
-	'''
-	1. Test weirpool drawdown
-	2. Test weirpool raising
+# def test_weirpool_calc():
+# 	'''
+# 	1. Test weirpool drawdown
+# 	2. Test weirpool raising
 	
-	For the above two tests: Test functions ability to identify and save all events and event gaps for series of flows and levels, ensure events cannot overlap water years. Other tests:
-		- check if event exluded when flow requirement is passed but the level requirement is not passed
-		- check if event is excluded when flow and level requirements are passed but the drawdown rate is exceeded
-		- TO-TEST: check if event exluded when flow requirement is not passed but the level requirement is passed
-	'''
-	# Test 1
-	# Set up input data
-	EWR_info = {'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10}
-	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[8]*5+[0]*346+[10]*10)
-	levels = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[1]*1 + [11]*5+[10]*5+[0]*346+[11]*1+[10]*9)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	# Set up expected output data
-	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: []}
-	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[721]]}
-	expected_durations = [10]*4
-	expected_min_events = [10]*4
-	weirpool_type = 'falling'
-	# Send to test function and then test
-	all_events, all_no_events, durations, min_events = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
+# 	For the above two tests: Test functions ability to identify and save all events and event gaps for series of flows and levels, ensure events cannot overlap water years. Other tests:
+# 		- check if event exluded when flow requirement is passed but the level requirement is not passed
+# 		- check if event is excluded when flow and level requirements are passed but the drawdown rate is exceeded
+# 		- TO-TEST: check if event exluded when flow requirement is not passed but the level requirement is passed
+# 	'''
+# 	# Test 1
+# 	# Set up input data
+# 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10}
+# 	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[8]*5+[0]*346+[10]*10)
+# 	levels = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[1]*1 + [11]*5+[10]*5+[0]*346+[11]*1+[10]*9)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+# 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+# 	# Set up expected output data
+# 	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: []}
+# 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[721]]}
+# 	expected_durations = [10]*4
+# 	expected_min_events = [10]*4
+# 	weirpool_type = 'falling'
+# 	# Send to test function and then test
+# 	all_events, all_no_events, durations, min_events = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
 
-	for year in all_events:
-		assert len(all_events[year]) == len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
+# 	for year in all_events:
+# 		assert len(all_events[year]) == len(expected_all_events[year])
+# 		for i, event in enumerate(all_events[year]):
+# 			assert event == expected_all_events[year][i]
 
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
-	assert min_events == expected_min_events
-	#--------------------------------------------------
-	# Test 2
-	# Set up input data
-	EWR_info = {'min_flow': 5, 'max_flow': 20, 'min_level': 10, 'max_level': 20, 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10}
-	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[8]*5+[0]*346+[10]*10)
-	levels = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[1]*1 + [11]*5+[10.96]*5+[0]*346+[10]*9+[9.96]*1)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	# Set up expected output data
-	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: [[10]*5+[8]*5]}
-	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[355], [356]]}
-	expected_durations = [10]*4
-	expected_min_event = [10]*4
-	weirpool_type = 'raising'
-	# Send to test function and then test
-	all_events, all_no_events, durations, min_events = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
-	for year in all_events:
-		assert len(all_events[year]) == len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event ==expected_all_no_events[year][i]
-	assert durations == expected_durations
-	assert min_events == expected_min_events
+# 	for year in all_no_events:
+# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+# 		for i, no_event in enumerate(all_no_events[year]):
+# 			assert no_event == expected_all_no_events[year][i]
+# 	assert durations == expected_durations
+# 	assert min_events == expected_min_events
+# 	#--------------------------------------------------
+# 	# Test 2
+# 	# Set up input data
+# 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'min_level': 10, 'max_level': 20, 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10}
+# 	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[8]*5+[0]*346+[10]*10)
+# 	levels = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[1]*1 + [11]*5+[10.96]*5+[0]*346+[10]*9+[9.96]*1)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+# 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+# 	# Set up expected output data
+# 	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: [[10]*5+[8]*5]}
+# 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[355], [356]]}
+# 	expected_durations = [10]*4
+# 	expected_min_event = [10]*4
+# 	weirpool_type = 'raising'
+# 	# Send to test function and then test
+# 	all_events, all_no_events, durations, min_events = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
+# 	for year in all_events:
+# 		assert len(all_events[year]) == len(expected_all_events[year])
+# 		for i, event in enumerate(all_events[year]):
+# 			assert event == expected_all_events[year][i]
+# 	for year in all_no_events:
+# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+# 		for i, no_event in enumerate(all_no_events[year]):
+# 			assert no_event ==expected_all_no_events[year][i]
+# 	assert durations == expected_durations
+# 	assert min_events == expected_min_events
 	
 def test_flow_calc_anytime_sim():
 	'''
@@ -1697,7 +1692,6 @@ def test_volume_check(EWR_info,iteration,flows,event,all_events,all_no_events,ex
 	event, all_events, no_event, all_no_events, gap_track, total_event, roller = evaluate_EWRs.volume_check(EWR_info, iteration, flow, event,
 	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, roller, max_roller, flows)
 
-	print(event)
 	assert event == expected_event
 	assert expected_all_events != None
 																						
@@ -1789,3 +1783,249 @@ def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	result = evaluate_EWRs.get_second_multigauge(parameter_sheet, gauge, ewr, pu)
 	assert result == expected_result
+
+
+@pytest.mark.parametrize("weirpool_type,level,EWR_info,expected_result",[
+	("raising", 5 , {'min_level': 5, 'max_level': 10}, True),
+	("raising", 4 , {'min_level': 5, 'max_level': 10}, False),
+	("falling", 4 , {'min_level': 5, 'max_level': 10}, True),
+	("falling", 11 , {'min_level': 5, 'max_level': 10}, False),
+],)
+def test_check_wp_level(weirpool_type, level, EWR_info,expected_result):
+	result = evaluate_EWRs.check_wp_level(weirpool_type, level, EWR_info)
+	assert result == expected_result
+
+
+@pytest.mark.parametrize("level_change,EWR_info,expected_result",[
+	(0.04, {'drawdown_rate': 0.04}, True),
+	(0.05, {'drawdown_rate': 0.04}, False),
+	(-1000, {'drawdown_rate': 0.04}, True),
+	(0.03, {'drawdown_rate': 0.04}, True),
+	(0.03, {'drawdown_rate': 0.0}, True),
+	(-1, {'drawdown_rate': 0.0}, True),
+	(1000000, {'drawdown_rate': 0.0}, True),
+],)
+def test_check_draw_down(level_change, EWR_info, expected_result):
+	result = evaluate_EWRs.check_draw_down(level_change, EWR_info)
+	assert result == expected_result
+
+
+@pytest.mark.parametrize("EWR_info,iteration,flow,level,event,all_events,all_no_events,weirpool_type,level_change,total_event,expected_all_events,expected_event",
+[
+	({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'drawdown_rate': 0.04, 
+	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
+     0,	
+	 50,
+	 5,
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	 "raising",
+	 0.04,
+	 0,
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[(date(2012, 7, 1), 50)],	
+	 ),
+	 ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'drawdown_rate': 0.04, 
+	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
+     1,	
+	 50,
+	 5,
+	[(date(2012, 7, 1), 50)],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	 "raising",
+	 0.04,
+	 1,
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[(date(2012, 7, 1), 50),(date(2012, 7, 2), 50)],	
+	 ),
+	({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'drawdown_rate': 0.04, 
+	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
+     2,	
+	 4,
+	 5,
+	[(date(2012, 7, 1), 50),(date(2012, 7, 2), 50)],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	 "raising",
+	 0.04,
+	 2,
+	{ 2012: [[(date(2012, 7, 1), 50), (date(2012, 7, 2), 50)]], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
+	 ),
+],)
+def test_weirpool_check(EWR_info, iteration, flow, level, event, all_events, all_no_events, weirpool_type, level_change,total_event,
+	expected_all_events, expected_event):
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flow_date = dates[iteration]
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	no_event = 0
+	gap_track = 0
+	
+	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.weirpool_check(EWR_info, iteration, flow, level, event, all_events, no_event, all_no_events, gap_track, 
+               water_years, total_event, flow_date, weirpool_type, level_change)
+	assert event == expected_event
+	assert all_events == expected_all_events
+
+@pytest.mark.parametrize("EWR_info,flows,levels,weirpool_type,expected_all_events,expected_all_no_events", [
+	({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
+	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10},
+	 np.array([5]*2+[0]*363 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	np.array([8]*2+[0]*363 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+		'falling',
+	 {2012: [[(date(2012, 7, 1), 5), (date(2012, 7, 2), 5)]], 
+	  2013: [], 
+	  2014: [], 
+	  2015: []},
+	 {2012: [], 2013: [], 2014: [], 2015: [[1459]]}
+	 ),
+	 ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
+	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10},
+	 np.array([5]*4+[0]*361 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	np.array([8]*3+[11]*1 +[0]*361 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+		'falling',
+	 {2012: [[(date(2012, 7, 1), 5), (date(2012, 7, 2), 5), (date(2012, 7, 3), 5)]], 
+	  2013: [], 
+	  2014: [], 
+	  2015: []},
+	 {2012: [], 2013: [], 2014: [], 2015: [[1458]]}
+	 ),
+	  ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
+	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10},
+	 np.array([5]*3+[4]*1+[0]*361 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	np.array([8]*4 +[0]*361 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+		'falling',
+	 {2012: [[(date(2012, 7, 1), 5), (date(2012, 7, 2), 5), (date(2012, 7, 3), 5)]], 
+	  2013: [], 
+	  2014: [], 
+	  2015: []},
+	 {2012: [], 2013: [], 2014: [], 2015: [[1458]]}
+	 ),
+	 ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
+	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10},
+	 np.array([5]*4+[0]*361 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	np.array([8] + [7.98] + [7.90] + [7.80] +[0]*361 + 
+	 			[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+		'falling',
+	 {2012: [[(date(2012, 7, 1), 5), (date(2012, 7, 2), 5)]], 
+	  2013: [], 
+	  2014: [], 
+	  2015: []},
+	 {2012: [], 2013: [], 2014: [], 2015: [[1459]]}
+	 ),
+	  ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
+	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10},
+	 np.array(  [0]*350 + [5]*15 + 
+	 			[5]*15 + [0]*350 + 
+				[0]*365 + 
+				[0]*366),
+	np.array(   [0]*350 + [8]*15 + 
+	 			[8]*15 + [0]*350 + 
+				[0]*365 + 
+				[0]*366),
+		'falling',
+	 {2012: [[(date(2013, 6, 16) + timedelta(days=i), 5) for i in range(15)]], 
+	  2013: [[(date(2013, 7, 1) + timedelta(days=i), 5) for i in range(15)]], 
+	  2014: [], 
+	  2015: []},
+	 {2012: [[350]], 2013: [], 2014: [], 2015: [[1081]]}
+	 ),
+	 ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
+	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10},
+	 np.array(  [0]*345 + [5]*15 + [0]*5 + 
+	 			[0]*345 + [5]*15 + [0]*5 +
+				[0]*345 + [5]*15 + [0]*5 + 
+				[0]*345 + [5]*15 + [0]*6),
+	np.array(  [0]*345 + [11]*15 + [0]*5 + 
+	 			[0]*345 + [11]*15 + [0]*5 +
+				[0]*345 + [11]*15 + [0]*5 + 
+				[0]*345 + [11]*15 + [0]*6),
+		'raising',
+	 {2012: [[(date(2013, 6, 11) + timedelta(days=i), 5) for i in range(15)]], 
+	  2013: [[(date(2014, 6, 11) + timedelta(days=i), 5) for i in range(15)]], 
+	  2014: [[(date(2015, 6, 11) + timedelta(days=i), 5) for i in range(15)]], 
+	  2015: [[(date(2016, 6, 10) + timedelta(days=i), 5) for i in range(15)]]},
+	 {2012: [[345]], 2013: [[350]], 2014: [[350]], 2015: [[350],[6]]}
+	 ),
+],)
+def test_weirpool_calc(EWR_info, flows, levels, weirpool_type, expected_all_events, expected_all_no_events):
+	"""
+	1. test flow and level outside requirements at the same time
+	2. test flow meeting and level not meeting requirements at the same time
+	3. test flow not meeting and level meeting requirements at the same time 
+	4. test drawdown not meeting requirements and event ending 
+	5. test event across water year boundary
+	6. test multiple events in a year in more than a year with raising type
+	"""
+	# non changing parameters
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	
+	all_events, all_no_events, _, _ = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
+
+	print(all_events)
+	print(all_no_events)
+
+	for year in all_events:
+		assert len(all_events[year]) == len(expected_all_events[year])
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
+
+	for year in all_no_events:
+		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+		for i, no_event in enumerate(all_no_events[year]):
+			assert no_event == expected_all_no_events[year][i]
+
+	
