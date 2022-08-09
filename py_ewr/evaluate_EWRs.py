@@ -2541,7 +2541,7 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
     # Get ewr tables:
     PU_items = data_inputs.get_planning_unit_info()
     menindee_gauges, wp_gauges = data_inputs.get_level_gauges()
-    simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
+    # simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
     complex_EWRs = data_inputs.get_complex_calcs()
     # Extract relevant sections of the EWR table:
     gauge_table = EWR_table[EWR_table['gauge'] == gauge]
@@ -2575,8 +2575,9 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
             # Determine if its classified as a complex EWR:
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
-            SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
-            if COMPLEX or SIMULTANEOUS or EWR_NEST or EWR_LEVEL or EWR_WP:
+            # SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
+            SIMULTANEOUS = False
+            if COMPLEX or EWR_NEST or EWR_LEVEL:
                 print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
                 continue
             if CAT_FLOW and EWR_CTF and not VERYDRY:
