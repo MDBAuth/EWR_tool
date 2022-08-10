@@ -95,7 +95,7 @@ def test_observed_handler():
     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     climate = 'Standard - 1911 to 2018 climate categorisation'
 
-    detailed, summary = observed_handling.observed_handler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
+    detailed, summary = observed_handling.observed_handler(gauges, dates, allowance, climate)
     
     # Load and format expected results
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_observed.csv', index_col = 0)
@@ -122,7 +122,6 @@ def test_observed_handler():
     
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
 
-# @pytest.mark.xfail
 def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
 
     observed_handler_instance.process_gauges()

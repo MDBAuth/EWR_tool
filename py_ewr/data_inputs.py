@@ -323,9 +323,9 @@ def get_EWR_components(category):
     elif category == 'level':
         pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV']
     elif category == 'weirpool-raising':
-        pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV']
+        pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'weirpool-falling':
-        pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV']
+        pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'nest-level':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV']
     elif category == 'nest-percent':
@@ -378,12 +378,8 @@ def analysis():
 
 def weirpool_type(EWR):
     '''Returns the type of Weirpool EWR. Currently only WP2 EWRs are classified as weirpool raisings'''
-    if EWR == 'WP2':
-        weirpool_type = 'raising'
-    else:
-        weirpool_type = 'falling'
 
-    return weirpool_type
+    return 'raising' if EWR == 'WP2' else 'falling'
 
 def convert_max_interevent(unique_water_years, water_years, EWR_info):
     '''Max interevent is saved in the database as years, we want to convert it to days.'''
