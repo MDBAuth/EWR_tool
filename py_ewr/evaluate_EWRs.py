@@ -1276,6 +1276,68 @@ def flow_calc_anytime_ltwp(EWR_info, flows, water_years, dates):
 
     return all_events, all_no_events, durations, min_events
 
+def lake_calc_ltwp(EWR_info:Dict, levels:List, water_years:List, dates:List, masked_dates:List)-> tuple:
+    """For calculating lake level EWR without time constraint (anytime) all level ewrs.
+     At the end of each water year save ongoing event, however not resetting the list. 
+     Let the level_check_ltwp record the event when it finishes
+
+    Args:
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        levels (List): List with all the levels for the current calculated EWR
+        water_years (List): List of the water year of each day of the current calculated EWR
+        dates (List): List of the dates of the current calculated EWR
+        masked_dates (List): List of the dates that the EWR needs to be calculated i.e. the time window.
+
+    Returns:
+        tuple: final output with the calculation of volume all_events, all_no_events, durations and min_events
+    """
+
+    # Declare variables:
+    event = []
+    total_event = 0
+    no_event = 0
+    all_events = construct_event_dict(water_years)
+    all_no_events = construct_event_dict(water_years)
+    durations, min_events = [], []
+    gap_track = 0
+    # Iterate over flow timeseries, sending to the flow_check function each iteration:
+    for i, level in enumerate(levels[:-1]):
+        if dates[i] in masked_dates:
+            level_date = dates[i]
+            level_change = levels[i-1]-levels[i]
+             # use the same logic as WP
+            event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_ltwp(EWR_info, i, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
+        # At the end of each water year save ongoing event, however not resetting the list. Let the flow_check record the event when it finishes
+        if water_years[i] != water_years[i+1]:
+            if len(event) >= EWR_info['min_event']:
+                event_at_year_end = deepcopy(event)
+                all_events[water_years[i]].append(event_at_year_end)
+                if no_event - total_event > 0:
+                    ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                    all_no_events[ne_water_year].append([no_event-total_event])
+                no_event = 0
+                total_event = 0
+            durations.append(EWR_info['duration'])
+            min_events.append(EWR_info['min_event'])
+        
+    # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
+    flow_date = dates[-1]
+    event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_ltwp(EWR_info, -1, flows[-1], event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
+    if len(event) >= EWR_info['min_event']:
+        # water_year = which_water_year(-1, total_event, water_years)
+        all_events[water_years[-1]].append(event)
+        total_event_gap = no_event-total_event
+        if total_event_gap > 0:
+            ne_water_year = which_water_year_no_event(-1, total_event, water_years)
+            all_no_events[ne_water_year].append([total_event_gap])
+        no_event = 0
+    if no_event > 0:
+        all_no_events[water_years[-1]].append([no_event]) # No event so add to the final year
+    durations.append(EWR_info['duration'])
+    min_events.append(EWR_info['min_event'])
+
+    return all_events, all_no_events, durations, min_events
+
 def lake_calc(EWR_info, levels, water_years, dates, masked_dates):
     '''For calculating lake level EWRs. The EWRs are checked on an annual basis, events and
     event gaps are therefore reset at the end of each water year.
@@ -2690,7 +2752,7 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
     # Get ewr tables:
     PU_items = data_inputs.get_planning_unit_info()
     menindee_gauges, wp_gauges = data_inputs.get_level_gauges()
-    simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
+    # simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
     complex_EWRs = data_inputs.get_complex_calcs()
     # Extract relevant sections of the EWR table:
     gauge_table = EWR_table[EWR_table['gauge'] == gauge]
@@ -2724,8 +2786,9 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
             # Determine if its classified as a complex EWR:
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
-            SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
-            if COMPLEX or SIMULTANEOUS or EWR_NEST or EWR_LEVEL:
+            # SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
+            SIMULTANEOUS = False
+            if COMPLEX or EWR_NEST:
                 print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
                 continue
             if CAT_FLOW and EWR_CTF and not VERYDRY:
