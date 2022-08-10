@@ -528,7 +528,7 @@ def test_cumulative_handle_multi():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
+# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_flow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -575,7 +575,7 @@ def test_flow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
+# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_lowflow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -618,7 +618,7 @@ def test_lowflow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
+# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_ctf_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
