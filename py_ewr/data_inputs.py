@@ -25,7 +25,7 @@ def get_climate_cats(climate_file):
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_EWR_table(file_path = None):
     
-    ''' Loads ewr table from blob storage, seperates out the readable ewrs from the 
+    ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
     does some cleaning, including swapping out '?' in the frequency column with 0'''
     
@@ -45,7 +45,7 @@ def get_EWR_table(file_path = None):
                         usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
                                 'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
                                 'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge'],
+                                'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge', 'max_duration'],
                         dtype='str', encoding='cp1252'
                         )
 
@@ -321,7 +321,7 @@ def get_EWR_components(category):
     elif category == 'cumulative':
         pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV']
     elif category == 'level':
-        pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV']
+        pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV', 'MAXD']
     elif category == 'weirpool-raising':
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'weirpool-falling':
