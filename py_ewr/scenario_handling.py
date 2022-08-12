@@ -257,7 +257,7 @@ def cleaner_IQQM_10000yr(input_df):
     for gauge in cleaned_df.columns:
         if gauge in flow_gauges:
             df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
-        elif gauge in level_gauges:
+        if gauge in level_gauges:
             df_level[gauge] = cleaned_df[gauge].copy(deep=True)
     return df_flow, df_level
 
@@ -290,7 +290,7 @@ def match_MDBA_nodes(input_df, model_metadata):
             gauge = subset["AWRC"].iloc[0]
             if gauge in flow_gauges and measure == '1':
                 df_flow[gauge] = input_df[col]
-            elif gauge in level_gauges and measure == '35':
+            if gauge in level_gauges and measure == '35':
                 df_level[gauge] = input_df[col]
 
     return df_flow, df_level
@@ -308,7 +308,7 @@ def match_NSW_nodes(input_df, model_metadata):
             gauge = subset["AWRC"].iloc[0]
             if gauge in flow_gauges:
                 df_flow[gauge] = input_df[col]
-            elif gauge in level_gauges:
+            if gauge in level_gauges:
                 df_level[gauge] = input_df[col]
 
     return df_flow, df_level
