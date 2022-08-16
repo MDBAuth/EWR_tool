@@ -50,7 +50,7 @@ def observed_handler(gauges, dates, allowance, climate, parameter_sheet:str = No
     # Call state API for flow and level gauge data, then combine to single dataframe
     
     flows = gg.gauge_pull(flow_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'F')
-    levels = gg.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'L')
+    levels = gg.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'LL')
     # Clean observed data:
     df_F = observed_cleaner(flows, dates)
     df_L = observed_cleaner(levels, dates)
@@ -147,7 +147,7 @@ class ObservedHandler:
         # Call state API for flow and level gauge data, then combine to single dataframe
         
         flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F')
-        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L')
+        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'LL')
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
