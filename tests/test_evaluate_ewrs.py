@@ -188,7 +188,10 @@ def test_level_handle():
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-                        gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + [56]*89+[0]*4+[0]*10+[0]*3+[0]*10+[0]*230+[0]*20}
+                        gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
+                               [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
+                               [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + 
+                               [56]*89+[0]*4+[0]*10+[0]*3+[0]*10+[0]*230+[0]*20}
     df_L = pd.DataFrame(data = data_for_df_L)
     df_L = df_L.set_index('Date')
     PU_df = pd.DataFrame()
@@ -196,12 +199,13 @@ def test_level_handle():
     climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+    # print(events)
     # Setting up expected output - PU_df and test
-    data = {'LLLF_eventYears': [1,0,0,0], 'LLLF_numAchieved': [1,0,0,0], 'LLLF_numEvents': [1,0,0,0], 
-            'LLLF_maxInterEventDays': [261, 0, 0, 1110], 
-            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 0],'LLLF_eventLength': [90.0,0.0,0.0,0], 'LLLF_totalEventDays': [90,0,0,0], 
-            'LLLF_maxEventDays': [90,0,0,0], 'LLLF_maxRollingEvents': [90, 0, 0, 0],'LLLF_maxRollingAchievement': [1, 0, 0, 0],
-            'LLLF_daysBetweenEvents': [[],[],[],[1110]],'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
+    data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 
+            'LLLF_maxInterEventDays': [261, 0, 652, 277], 
+            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_totalEventDays': [90,0,0,90], 
+            'LLLF_maxEventDays': [90,0,0,90], 'LLLF_maxRollingEvents': [90, 0, 1, 90],'LLLF_maxRollingAchievement': [1, 0, 0, 1],
+            'LLLF_daysBetweenEvents': [[],[],[],[]],'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
@@ -209,7 +213,10 @@ def test_level_handle():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and test
-    expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 2013:[], 2014:[], 2015:[]}
+    expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 
+                        2013:[], 
+                        2014:[], 
+                        2015:[[(date(2015, 6, 30) + timedelta(days=i), 56) for i in range(90)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -847,6 +854,31 @@ def test_return_events_list_info(gauge_events, events_info):
 def test_lengths_to_years(events_info,water_year_maxs):
     result = evaluate_EWRs.lengths_to_years(events_info)
     assert result == water_year_maxs
+
+@pytest.mark.parametrize("event,expected_event_info",[
+    ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(11)],
+    (date(2012, 6, 25), date(2012, 7, 5), 11, [2011, 2012])),
+    ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(376)],
+    (date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013])),
+    ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(5)],
+    (date(2012, 6, 25), date(2012, 6, 29), 5, [2011])),
+],)
+def test_return_event_info(event, expected_event_info):
+    result = evaluate_EWRs.return_event_info(event)
+    assert result == expected_event_info
+
+
+@pytest.mark.parametrize("event_info,expected_years_lengths_list",[
+    ((date(2012, 6, 25), date(2012, 7, 5), 11, [2011, 2012]),
+    [6,5]),
+    ((date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013]),
+    [6,371,5]),
+    ((date(2012, 6, 25), date(2012, 7, 29), 5, [2011]),
+    [5]),
+],)
+def test_years_lengths(event_info, expected_years_lengths_list):
+    result = evaluate_EWRs.years_lengths(event_info)
+    assert result == expected_years_lengths_list
 
 @pytest.mark.parametrize("gauge_events,unique_water_years,max_consecutive_events",
         [ ( {2012:[ [(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
