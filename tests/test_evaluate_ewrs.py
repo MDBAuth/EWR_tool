@@ -927,4 +927,41 @@ def test_get_max_rolling_duration_achievement(durations, max_consecutive_days,du
     result = evaluate_EWRs.get_max_rolling_duration_achievement(durations, max_consecutive_days)
     assert result == duration_achievement
 
+@pytest.mark.parametrize("iteration,flows,expected_result",[
+    (1,[100,80],-20),
+    (1,[0,80], 0),
+    (0,[80,50], 0),
+    (1,[100,120], 20),
 
+],)
+def test_calc_flow_percent_change(iteration, flows, expected_result):
+    result = evaluate_EWRs.calc_flow_percent_change(iteration,flows)
+    print(result)
+    assert result == pytest.approx(expected_result)
+
+
+@pytest.mark.parametrize("flow_percent_change,flow,expected_result",[
+    (-10,5, True),
+    (-20, 10, False),
+    (-40, 11, True),
+    (-40, 9, False),
+    (10, 10,True),
+
+],)
+def test_check_nest_percent_drawdown(flow_percent_change, flow, expected_result):
+    EWR_info = {'max_flow':10, 'drawdown_rate':"15%"}
+
+    result = evaluate_EWRs.check_nest_percent_drawdown(flow_percent_change, EWR_info, flow)
+    assert result == expected_result
+
+
+@pytest.mark.parametrize("EWR_info,iteration,expected_result",[
+    ({'end_month': 10}, 0, date(2012, 10, 31)),
+    ({'end_month': 9}, 0, date(2012, 9, 30)),
+    ({'end_month': 12}, 0, date(2012, 12, 31)),
+    ({'end_month': 4}, 366, date(2013, 4, 30)),
+],)
+def test_calc_nest_cut_date(EWR_info, iteration,expected_result):
+    dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+    result = evaluate_EWRs.calc_nest_cut_date(EWR_info,iteration, dates)
+    assert result == expected_result

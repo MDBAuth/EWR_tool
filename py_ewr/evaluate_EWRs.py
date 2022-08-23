@@ -4,8 +4,8 @@ from typing import Any, List, Dict
 import pandas as pd
 import numpy as np
 from datetime import date, timedelta
-from datetime import time
 import datetime
+import calendar
 
 from tqdm import tqdm
 
@@ -154,7 +154,25 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
         ewrs['flow_level_volume'] = flow_level_volume
     if 'MAXD' in components:
         max_duration = component_pull(EWR_table, gauge, PU, EWR, 'max_duration')
-        ewrs['max_duration'] = int(max_duration) if max_duration else 1_000_000 
+        ewrs['max_duration'] = int(max_duration) if max_duration else 1_000_000
+    if 'TD' in components:
+        trigger_day = component_pull(EWR_table, gauge, PU, EWR, 'TriggerDay')
+        ewrs['trigger_day'] = int(trigger_day)
+    if 'TM' in components:
+        trigger_month = component_pull(EWR_table, gauge, PU, EWR, 'TriggerMonth')
+        ewrs['trigger_month'] = int(trigger_month)
+    if 'WDD' in components:
+        try: # There may not be a recommended drawdown rate
+            drawdown_rate_week = component_pull(EWR_table, gauge, PU, EWR, 'DrawDownRateWeek')
+            if '%' in str(drawdown_rate_week):
+                value_only = int(drawdown_rate_week.replace('%', ''))
+                corrected = apply_correction(value_only, allowance['drawdown'])
+                ewrs['drawdown_rate_week'] = str(int(corrected))+'%'
+            else:
+                corrected = apply_correction(float(drawdown_rate_week), allowance['drawdown'])
+                ewrs['drawdown_rate_week'] = str(corrected/100)
+        except ValueError: # In this case set a large number
+            ewrs['drawdown_rate_week'] = str(1000000)   
 
     return ewrs
 
@@ -369,8 +387,8 @@ def weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
     try:
         levels = df_L[EWR_info['weirpool_gauge']].values
     except KeyError:
-        print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for level gauge'''.format(gauge, EWR))
+        print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing data. Specifically this EWR 
+        also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
         return PU_df, None
     # Check flow and level data against EWR requirements and then perform analysis on the results: 
     E, NE, D, ME = weirpool_calc(EWR_info, df_F[gauge].values, levels, water_years, weirpool_type, df_F.index, masked_dates)
@@ -386,27 +404,29 @@ def nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
     else:
         pull = data_inputs.get_EWR_components('nest-percent')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
-    EWR_info = data_inputs.additional_nest_pull(EWR_info, gauge, EWR, allowance)
-    # Mask dates for both the flow and level dataframes:
+    # EWR_info = data_inputs.additional_nest_pull(EWR_info, gauge, EWR, allowance) # switch this of and get data from parameter sheet
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
     water_years = wateryear_daily(df_F, EWR_info)
-    # Check flow/level data against EWR requirements and then perform analysis on the results: 
-    if ((EWR_info['trigger_day'] != None) and (EWR_info['trigger_month'] != None)):
-        # If a trigger requirement for EWR (i.e. flows must be between x and y on Z day of year)
+    # there are 2 types of Nesting. 1. with trigger date with daily % drawdown rate and 2. Weirpool. 
+    # no longer required a non-trigger version
+    if not requires_weirpool_gauge:
+        # calculate based on a trigger date and % drawdown drop
         E, NE, D, ME = nest_calc_percent_trigger(EWR_info, df_F[gauge].values, water_years, df_F.index)
-    elif ((EWR_info['trigger_day'] == None) and (EWR_info['trigger_month'] == None)):
-        if '%' in EWR_info['drawdown_rate']:
-            E, NE, D, ME = nest_calc_percent(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
-        else:
-            try:
-                # If its a nest with a weirpool requirement, do not analyse without the level data:
-                levels = df_L[EWR_info['weirpool_gauge']].values
-            except KeyError:
-                print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-                also needs data for gauge'''.format(gauge, EWR))
-                return PU_df, None
-            E, NE, D, ME = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
+    
+    # elif ((EWR_info['trigger_day'] == None) and (EWR_info['trigger_month'] == None)):
+    #     if '%' in EWR_info['drawdown_rate']:
+    #         E, NE, D, ME = nest_calc_percent(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+    else:
+        try:
+            # If its a nest with a weirpool requirement, do not analyses without the level data:
+            levels = df_L[EWR_info['weirpool_gauge']].values
+        except KeyError:
+            print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing data. Specifically this EWR 
+            also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
+            return PU_df, None
+        pass
+        # E, NE, D, ME = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
 
@@ -964,6 +984,61 @@ def level_check_ltwp_alt(EWR_info: Dict, iteration: int, level:float, level_chan
         
     return event, all_events, no_event, all_no_events, gap_track, total_event
 
+def nest_flow_check(EWR_info: Dict, iteration: int, flow:float, event: List, all_events: Dict, 
+                         no_event:List, all_no_events:Dict, gap_track:int, 
+                        water_years:List, total_event:int, flow_date:date, flow_percent_change:float, iteration_no_event:int)-> tuple:
+    """Checks daily flows against EWR threshold. Builds on event lists and no_event counters.
+    At the end of the event, if it was long enough, the event is saved against the relevant
+    water year in the event dictionary. All event gaps are saved against the relevant water 
+    year in the no event dictionary.
+
+
+    Args:
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        iteration (int): current iteration
+        flow (float): current flow
+        event (List): current event state
+        all_events (Dict): current all events state
+        no_event (List): current no_event state
+        all_no_events (Dict): current all no events state
+        gap_track (int): current gap_track state
+        water_years (List): list of water year for every flow iteration
+        total_event (int): current total event state
+        flow_date (date): current flow date
+        flow_percent_change (float): change from previous day to current day
+        iteration_no_event (int): iteration_no_event count
+
+    Returns:
+        tuple: the current state of the event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event
+    """
+
+    iteration_date = get_index_date(flow_date)
+    if flow >= EWR_info['min_flow'] and check_nest_percent_drawdown(flow_percent_change, EWR_info, flow):
+        threshold_flow = (iteration_date, flow)
+        event.append(threshold_flow)
+        total_event += 1
+        gap_track = EWR_info['gap_tolerance'] # reset the gapTolerance after threshold is reached
+        no_event += 1
+    else:
+        if gap_track > 0:
+            gap_track = gap_track - 1
+            total_event += 1
+        else:
+            iteration_no_event = 1 
+            if len(event) >= EWR_info['min_event']:
+                all_events[water_years[iteration]].append(event)
+                total_event_gap = no_event - total_event
+                if total_event_gap > 0:
+                    ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
+                    all_no_events[ne_water_year].append([total_event_gap])
+                no_event = 0
+            total_event = 0    
+            event = []
+        no_event += 1
+        
+    return event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event
+
+
 def lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years,  flow_date: date):
     '''Checks daily flow against the EWR threshold. Saves all events to the relevant water year
     in the event tracking dictionary. Saves all event gaps to the relevant water year in the 
@@ -1143,7 +1218,7 @@ def volume_check(EWR_info:Dict, iteration:int, flow:int, event:List, all_events:
 
 def weirpool_check(EWR_info:Dict, iteration:int, flow:float, level:float, event:List, all_events:Dict, no_event:int, all_no_events:Dict, gap_track:int, 
                water_years:List, total_event:int, flow_date:date, weirpool_type: str, level_change:float)-> tuple:
-    """_summary_
+    """Check weirpool flow and level if meet condition and update state of the events
 
     Args:
         EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
@@ -1250,7 +1325,59 @@ def check_draw_down(level_change:float, EWR_info:dict)-> bool:
     Returns:
         bool: if pass test returns True and fail return False
     """
-    return level_change <= float(EWR_info['drawdown_rate']) if float(EWR_info['drawdown_rate']) else True 
+    return level_change <= float(EWR_info['drawdown_rate']) if float(EWR_info['drawdown_rate']) else True
+
+def calc_flow_percent_change(iteration:int, flows:List)-> float:
+    """Calculate the percentage change in flow from yesterday to today
+
+    Args:
+        iteration (int): current iteration
+        flows (List): flows timeseries values
+
+    Returns:
+        float: returns value
+    """
+    if iteration == 0:
+        return .0
+    if iteration > 0:
+        return ( ( float(flows[iteration]) / float(flows[iteration -1]) ) -1 )*100 if flows[iteration -1] != .0 else .0
+
+
+def check_nest_percent_drawdown(flow_percent_change:float, EWR_info:Dict, flow:float)->bool:
+    """check if current flow sustain a nest event based on the flow_percent_change
+    if it is within the flow band and the drop is greater than the max_drawdown
+    then it does not meet
+
+    Args:
+        flow_percent_change (float): flow percent change
+        EWR_info (Dict): EWR parameters
+        flow (float): current flow
+
+    Returns:
+        bool: True if meets condition otherwise False
+    """
+    percent_drawdown = float(EWR_info['drawdown_rate'][:-1])
+    
+    if flow > EWR_info['max_flow']:
+        return True
+    if flow_percent_change < - percent_drawdown:
+        return False 
+    else:
+        return True
+
+
+def calc_nest_cut_date(EWR_info:Dict, iteration:int, dates:List)->date:
+    """Calculates the last date (date of the month) the nest EWR event is valid
+
+    Args:
+        EWR_info (Dict): EWR parameters
+        iteration (int): current iteration
+        dates (List): time series dates
+
+    Returns:
+        date: cut date for the current iteration
+    """
+    return date(dates[iteration].year, EWR_info['end_month'], calendar.monthrange(dates[0].year,EWR_info['end_month'])[1])
 
 def next_water_year():
     '''When moving to the next water year, this function calculates the missing days and returns'''
@@ -1957,53 +2084,174 @@ def nest_calc_percent(EWR_info, flows, water_years, dates, masked_dates):
     
     return all_events, all_no_events, durations, min_events
 
-def nest_calc_percent_trigger(EWR_info, flows, water_years, dates):
-    ''' For calculating Nest type EWRs with a percentage drawdown requirement and a trigger day.
-    A trigger day is when there is required to be a flow between x and y on DD/MM for the EWR to be
-    checked. The requirements for flow and drawdown rate at the flow gauge are all required 
-    to be met.'''
-    # Declare variables:
+#old function 
+
+# def nest_calc_percent_trigger(EWR_info, flows, water_years, dates):
+#     ''' For calculating Nest type EWRs with a percentage drawdown requirement and a trigger day.
+#     A trigger day is when there is required to be a flow between x and y on DD/MM for the EWR to be
+#     checked. The requirements for flow and drawdown rate at the flow gauge are all required 
+#     to be met.'''
+#     # Declare variables:
+#     event = []
+#     no_event = 0
+#     all_events = construct_event_dict(water_years)
+#     all_no_events = construct_event_dict(water_years)
+#     durations, min_events = [], []
+#     durations = len(set(water_years))*[EWR_info['duration']]
+#     min_events = len(set(water_years))*[EWR_info['min_event']]
+#     skip_lines = 0
+#     drawdown_rate = int(EWR_info['drawdown_rate'][:-1])
+#     days = dates.day.values
+#     months = dates.month.values
+#     # Iterate over flows
+#     for i, flow in enumerate(flows[:-EWR_info['duration']]):
+#         if skip_lines > 0:
+#             skip_lines -= 1
+#         else:
+#             # Only perform check on trigger day, looking ahead to see if there is an event:
+#             trigger_day = days[i] == EWR_info['trigger_day']
+#             trigger_month = months[i] == EWR_info['trigger_month']
+#             if trigger_day and trigger_month:
+#                 subset_flows = flows[i:i+EWR_info['duration']]
+#                 min_flow_check = subset_flows >= EWR_info['min_flow']
+#                 max_flow_check = subset_flows <= EWR_info['max_flow']
+                
+#                 flow_change = np.array(np.diff(subset_flows),dtype=float)
+#                 divide_flows = subset_flows[:-1]
+#                 difference = np.divide(flow_change, divide_flows, out=np.zeros_like(flow_change), where=divide_flows!=0)*100
+#                 flow_change_check = difference >= -drawdown_rate
+#                 checks_passed = check_requirements([min_flow_check, max_flow_check, flow_change_check])
+#                 if checks_passed:
+#                     all_events[water_years[i]].append(list(subset_flows))
+#                     if no_event > 0:
+#                         all_no_events[water_years[i]].append([no_event])
+#                     no_event = 0
+#                     skip_lines = EWR_info['duration'] -1
+#                 else:
+#                     no_event = no_event + 1
+#             else:
+#                 no_event = no_event + 1
+#     if no_event > 0:
+#         all_no_events[water_years[-1]].append([no_event+EWR_info['duration']])
+#     return all_events, all_no_events, durations, min_events
+
+def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates:List)->tuple:
+    """Do the calculation of the nesting EWR with trigger and % drawdown
+    To start and event it needs to be in a trigger window
+    To sustain the EWR needs to 
+    - Be above the flow (min threshold)
+    - Does not fall more than the % in a day if between the min and max flow i.e If it is above max flow threshold, percent drawn 
+    down rate does not matter 
+    - Days above max threshold count towards the duration count for the event
+    Event ends if:
+    - fall below min flow threshold
+    - drop more than the % drawdown rate when in the flow band 
+    - When timing window ends 
+
+
+    Args:
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        flows (List):  List with all the flows measurements for the current calculated EWR
+        water_years (List): List of the water year of each day of the current calculated EWR
+        dates (List): List of the dates of the current calculated EWR
+        masked_dates (List): List of the dates that the EWR needs to be calculated i.e. the time window.
+
+    Returns:
+        tuple: final output with the calculation of volume all_events, all_no_events, durations and min_events
+    """
     event = []
+    total_event = 0
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
     durations, min_events = [], []
-    durations = len(set(water_years))*[EWR_info['duration']]
-    min_events = len(set(water_years))*[EWR_info['min_event']]
-    skip_lines = 0
-    drawdown_rate = int(EWR_info['drawdown_rate'][:-1])
-    days = dates.day.values
-    months = dates.month.values
-    # Iterate over flows
-    for i, flow in enumerate(flows[:-EWR_info['duration']]):
-        if skip_lines > 0:
-            skip_lines -= 1
-        else:
-            # Only perform check on trigger day, looking ahead to see if there is an event:
-            trigger_day = days[i] == EWR_info['trigger_day']
-            trigger_month = months[i] == EWR_info['trigger_month']
-            if trigger_day and trigger_month:
-                subset_flows = flows[i:i+EWR_info['duration']]
-                min_flow_check = subset_flows >= EWR_info['min_flow']
-                max_flow_check = subset_flows <= EWR_info['max_flow']
-                
-                flow_change = np.array(np.diff(subset_flows),dtype=float)
-                divide_flows = subset_flows[:-1]
-                difference = np.divide(flow_change, divide_flows, out=np.zeros_like(flow_change), where=divide_flows!=0)*100
-                flow_change_check = difference >= -drawdown_rate
-                checks_passed = check_requirements([min_flow_check, max_flow_check, flow_change_check])
-                if checks_passed:
-                    all_events[water_years[i]].append(list(subset_flows))
-                    if no_event > 0:
-                        all_no_events[water_years[i]].append([no_event])
-                    no_event = 0
-                    skip_lines = EWR_info['duration'] -1
+    gap_track = 0
+    for i, flow in enumerate(flows[:-1]):   
+            flow_date = dates[i]
+            flow_percent_change = calc_flow_percent_change(i, flows)
+            trigger_day = pd.Timestamp(date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"]))
+            cut_date = calc_nest_cut_date(EWR_info, i, dates)
+            is_in_trigger_window = dates[i] >= trigger_day - timedelta(days=7) \
+            and dates[i] <= trigger_day + timedelta(days=7)
+            iteration_no_event = 0
+            
+            ## if there IS an ongoing event check if we are on the trigger season window 
+            # if yes then check the current flow
+            if total_event > 0:
+                if (dates[i] >= pd.Timestamp(trigger_day) - timedelta(days=7)) and (dates[i] <= pd.Timestamp(cut_date)):
+                    event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, no_event, 
+                                                        all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
+
+                # this path will only be executed if an event extends beyond the cut date    
                 else:
-                    no_event = no_event + 1
-            else:
-                no_event = no_event + 1
+                    if len(event) >= EWR_info['min_event']:
+                        all_events[water_years[i]].append(event)
+                        total_event_gap = no_event - total_event
+                        if total_event_gap > 0:
+                            ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                            all_no_events[ne_water_year].append([total_event_gap])
+                        no_event = 0
+                        total_event = 0
+                    event = []
+                    no_event += 1
+                    iteration_no_event = 1    
+            ## if there is NOT an ongoing event check if we are on the trigger window before sending to checker
+            if total_event == 0:
+                if is_in_trigger_window and iteration_no_event == 0:
+                    event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, no_event, 
+                                                        all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
+
+                else:
+                    # only add an extra no_event count if this iteration_no_event = 0
+                    if iteration_no_event == 0: 
+                        no_event += 1
+                    
+            # at end of water year record duration and min event values
+            if water_years[i] != water_years[i+1]:
+                durations.append(EWR_info['duration'])
+                min_events.append(EWR_info['min_event'])
+    
+    # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
+    # reset all variable to last flow
+    flow_date = dates[-1]
+    flow_percent_change = calc_flow_percent_change(-1, flows)
+    trigger_day = pd.Timestamp(date(dates[-1].year,EWR_info["trigger_month"], EWR_info["trigger_day"]))
+    cut_date = calc_nest_cut_date(EWR_info, -1, dates)
+    is_in_trigger_window = dates[-1] >= trigger_day - timedelta(days=7) \
+    and dates[-1] <= trigger_day + timedelta(days=7)
+    iteration_no_event = 0
+
+    if total_event > 0:
+
+        if (flow_date >= pd.Timestamp(trigger_day) - timedelta(days=7)) \
+            and (flow_date <= pd.Timestamp(cut_date)):
+            event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, 
+                                                            all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
+        else:
+            no_event += 1
+
+    if total_event == 0:
+        if is_in_trigger_window and iteration_no_event == 0:
+            event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, no_event, 
+                                                all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
+        else:
+        # only add an extra no_event count if this iteration_no_event = 0
+            if iteration_no_event == 0: 
+                no_event += 1
+
+    if len(event) > 0:
+        all_events[water_years[-1]].append(event)
+        if no_event - total_event > 0:
+            ne_water_year = which_water_year_no_event(i, total_event, water_years)
+            all_no_events[ne_water_year].append([no_event-total_event])
+        no_event = 0
+        total_event = 0
+        
     if no_event > 0:
-        all_no_events[water_years[-1]].append([no_event+EWR_info['duration']])
+        all_no_events[water_years[-1]].append([no_event])
+    durations.append(EWR_info['duration'])
+    min_events.append(EWR_info['min_event'])
+    
     return all_events, all_no_events, durations, min_events
        
 
@@ -2225,13 +2473,13 @@ def lowflow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates
     if len(event1) > 0:
         all_events1[water_years[-1]].append(event1)
         if no_event1 > 0:
-            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            ne_water_year = which_water_year_no_event(-1, len(event1), water_years)
             all_no_events1[ne_water_year].append([no_event1])
         no_event1 = 0
     if len(event2) > 0:
         all_events2[water_years[-1]].append(event2)
         if no_event2 > 0:
-            ne_water_year = which_water_year_no_event(-1, len(event), water_years)
+            ne_water_year = which_water_year_no_event(-1, len(event2), water_years)
             all_no_events2[ne_water_year].append([no_event2])
         no_event2 = 0
     durations.append(get_duration(climates[-1], EWR_info1))
@@ -2970,7 +3218,7 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
             # SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
             SIMULTANEOUS = False
-            if COMPLEX or EWR_NEST:
+            if COMPLEX:
                 print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
                 continue
             if CAT_FLOW and EWR_CTF and not VERYDRY:
