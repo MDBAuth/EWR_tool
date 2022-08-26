@@ -329,9 +329,9 @@ def get_EWR_components(category):
     elif category == 'weirpool-falling':
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'nest-level':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV','WDD']
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV','WDD','GP']
     elif category == 'nest-percent':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'MIE', 'FLV','TD','TM']
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'MIE', 'FLV','TD','TM','GP']
     elif category == 'multi-gauge-flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MG', 'MIE', 'FLV']
     elif category == 'multi-gauge-low flow':
