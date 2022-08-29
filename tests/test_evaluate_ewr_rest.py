@@ -1439,8 +1439,8 @@ def test_nest_calc_percent():
 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'drawdown_rate': '10%', 'min_event': 10, 'duration': 10}
 	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[8]*1 + [10]*9+[9]*1+[0]*346+[10]*10)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# Set up expected output data
 	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: [[10]*9+[9]*1, [10]*10]}
 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[355], [346]]}
@@ -1461,35 +1461,35 @@ def test_nest_calc_percent():
 	assert durations == expected_durations
 	assert min_events == expected_min_events
 	
-def test_nest_calc_percent_trigger():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows, ensure events cannot overlap water years. Other tests:
-		- check if event exluded when flow requirement is passed but the drawdown rate is exceeded
-	'''
-	# Set up input data
-	EWR_info = {'min_flow': 5, 'max_flow': 20, 'drawdown_rate': '10%', 'min_event': 10, 'duration': 10, 'trigger_day': 15, 'trigger_month': 10}
-	flows = np.array([0]*106+[11]*1+[10]*9+[0]*249 + [0]*106+[9]*1+[10]*9+[0]*249 + [0]*106+[10]*9+[9]*1+[0]*249 + [0]*106+[10]*9+[8]*1+[0]*250)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	# Set up expected output data
-	expected_all_events = {2012: [[11]*1+[10]*9], 2013: [[9]*1+[10]*9], 2014: [[10]*9+[9]*1], 2015: []}
-	expected_all_no_events = {2012: [[106]], 2013: [[355]], 2014: [[355]], 2015: [[615]]}
-	expected_durations = [10]*4
-	expected_min_events = [10]*4
-	# Send input data to test function and then test
-	all_events, all_no_events, durations, min_events = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
+# def test_nest_calc_percent_trigger():
+# 	'''
+# 	1. Test functions ability to identify and save all events and event gaps for series of flows, ensure events cannot overlap water years. Other tests:
+# 		- check if event exluded when flow requirement is passed but the drawdown rate is exceeded
+# 	'''
+# 	# Set up input data
+# 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'drawdown_rate': '10%', 'min_event': 10, 'duration': 10, 'trigger_day': 15, 'trigger_month': 10}
+# 	flows = np.array([0]*106+[11]*1+[10]*9+[0]*249 + [0]*106+[9]*1+[10]*9+[0]*249 + [0]*106+[10]*9+[9]*1+[0]*249 + [0]*106+[10]*9+[8]*1+[0]*250)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	# Set up expected output data
+# 	expected_all_events = {2012: [[11]*1+[10]*9], 2013: [[9]*1+[10]*9], 2014: [[10]*9+[9]*1], 2015: []}
+# 	expected_all_no_events = {2012: [[106]], 2013: [[355]], 2014: [[355]], 2015: [[615]]}
+# 	expected_durations = [10]*4
+# 	expected_min_events = [10]*4
+# 	# Send input data to test function and then test
+# 	all_events, all_no_events, durations, min_events = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
 
-	for year in all_events:
-		assert len(all_events[year]) == len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
+# 	for year in all_events:
+# 		assert len(all_events[year]) == len(expected_all_events[year])
+# 		for i, event in enumerate(all_events[year]):
+# 			assert event == expected_all_events[year][i]
 
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
-	assert min_events == expected_min_events
+# 	for year in all_no_events:
+# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+# 		for i, no_event in enumerate(all_no_events[year]):
+# 			assert no_event == expected_all_no_events[year][i]
+# 	assert durations == expected_durations
+# 	assert min_events == expected_min_events
 	
 	
 def test_flow_calc_anytime_sim():
@@ -3149,7 +3149,7 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 	"""
 	# non changing parameters
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	
 	all_events, all_no_events, _ , _ = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
 	

@@ -381,8 +381,14 @@ def level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance):
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)  
-    # Check flow data against EWR requirements and then perform analysis on the results: 
-    E, NE, D, ME = lake_calc_ltwp_alt(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+    # Check flow data against EWR requirements and then perform analysis on the results:
+    try:    
+        E, NE, D, ME = lake_calc_ltwp_alt(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+    except ValueError:
+        print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due wrong value in the parameter sheet 
+        give level drawdown in cm not in % {EWR_info.get('drawdown_rate', 'no drawdown rate')}''')
+        return PU_df, None
+
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
 
@@ -443,7 +449,14 @@ def nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance):
             print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing data. Specifically this EWR 
             also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
             return PU_df, None
-        E, NE, D, ME = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
+        # handle any error in missing values in parameter sheet
+        try:
+            E, NE, D, ME = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
+        except KeyError:
+            print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing parameter data. Specifically this EWR 
+            also needs data for level threshold min or level threshold max''')
+            return PU_df, None
+        
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, ME, water_years)
     return PU_df, tuple([E])
 
@@ -2336,16 +2349,16 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     for i, flow in enumerate(flows[:-1]):   
             flow_date = dates[i]
             flow_percent_change = calc_flow_percent_change(i, flows)
-            trigger_day = pd.Timestamp(date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"]))
+            trigger_day = date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
             cut_date = calc_nest_cut_date(EWR_info, i, dates)
-            is_in_trigger_window = dates[i] >= trigger_day - timedelta(days=7) \
-            and dates[i] <= trigger_day + timedelta(days=7)
+            is_in_trigger_window = dates[i].to_timestamp().date() >= trigger_day - timedelta(days=7) \
+            and dates[i].to_timestamp().date() <= trigger_day + timedelta(days=7)
             iteration_no_event = 0
             
             ## if there IS an ongoing event check if we are on the trigger season window 
             # if yes then check the current flow
             if total_event > 0:
-                if (dates[i] >= pd.Timestamp(trigger_day) - timedelta(days=7)) and (dates[i] <= pd.Timestamp(cut_date)):
+                if (dates[i].to_timestamp().date() >= trigger_day - timedelta(days=7)) and (dates[i].to_timestamp().date() <= cut_date):
                     event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, no_event, 
                                                         all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 
@@ -2380,18 +2393,18 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     # reset all variable to last flow
-    flow_date = dates[-1]
+    flow_date = dates[-1].to_timestamp().date()
     flow_percent_change = calc_flow_percent_change(-1, flows)
-    trigger_day = pd.Timestamp(date(dates[-1].year,EWR_info["trigger_month"], EWR_info["trigger_day"]))
+    trigger_day = date(dates[-1].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
     cut_date = calc_nest_cut_date(EWR_info, -1, dates)
-    is_in_trigger_window = dates[-1] >= trigger_day - timedelta(days=7) \
+    is_in_trigger_window = dates[-1].to_timestamp().date() >= trigger_day - timedelta(days=7) \
     and dates[-1] <= trigger_day + timedelta(days=7)
     iteration_no_event = 0
 
     if total_event > 0:
 
-        if (flow_date >= pd.Timestamp(trigger_day) - timedelta(days=7)) \
-            and (flow_date <= pd.Timestamp(cut_date)):
+        if (flow_date >= trigger_day - timedelta(days=7)) \
+            and (flow_date <= cut_date):
             event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, 
                                                             all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
         else:

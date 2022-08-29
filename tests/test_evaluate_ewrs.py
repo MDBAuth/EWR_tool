@@ -178,7 +178,7 @@ def test_cumulative_handle():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail(raises=ValueError, reason="could not convert string to float: '4%'")
+@pytest.mark.xfail
 def test_level_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -323,7 +323,7 @@ def test_nest_handle():
         threshold_flows[i] = threshold_flows[i-1]-(reduction_max/100*threshold_flows[i-1])
     threshold_flows = threshold_flows + [5300]*50
     # input data for df_F:
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: ([0]*76+acceptable_flows+[0]*229 + 
                                 [0]*76+unnacceptable_flows+[0]*229 + 
                                 [0]*76+threshold_flows+[0]*229 + 
