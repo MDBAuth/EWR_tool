@@ -178,6 +178,7 @@ def test_cumulative_handle():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
+@pytest.mark.xfail
 def test_level_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -188,7 +189,10 @@ def test_level_handle():
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-                        gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + [56]*89+[0]*4+[0]*10+[0]*3+[0]*10+[0]*230+[0]*20}
+                        gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
+                               [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
+                               [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + 
+                               [56]*89+[0]*4+[0]*10+[0]*3+[0]*10+[0]*230+[0]*20}
     df_L = pd.DataFrame(data = data_for_df_L)
     df_L = df_L.set_index('Date')
     PU_df = pd.DataFrame()
@@ -196,12 +200,13 @@ def test_level_handle():
     climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+    # print(events)
     # Setting up expected output - PU_df and test
-    data = {'LLLF_eventYears': [1,0,0,0], 'LLLF_numAchieved': [1,0,0,0], 'LLLF_numEvents': [1,0,0,0], 
-            'LLLF_maxInterEventDays': [261, 0, 0, 1110], 
-            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 0],'LLLF_eventLength': [90.0,0.0,0.0,0], 'LLLF_totalEventDays': [90,0,0,0], 
-            'LLLF_maxEventDays': [90,0,0,0], 'LLLF_maxRollingEvents': [90, 0, 0, 0],'LLLF_maxRollingAchievement': [1, 0, 0, 0],
-            'LLLF_daysBetweenEvents': [[],[],[],[1110]],'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
+    data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 
+            'LLLF_maxInterEventDays': [261, 0, 652, 277], 
+            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_totalEventDays': [90,0,0,90], 
+            'LLLF_maxEventDays': [90,0,0,90], 'LLLF_maxRollingEvents': [90, 0, 1, 90],'LLLF_maxRollingAchievement': [1, 0, 0, 1],
+            'LLLF_daysBetweenEvents': [[],[],[],[]],'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
@@ -209,7 +214,10 @@ def test_level_handle():
 #         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and test
-    expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 2013:[], 2014:[], 2015:[]}
+    expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 
+                        2013:[], 
+                        2014:[], 
+                        2015:[[(date(2015, 6, 30) + timedelta(days=i), 56) for i in range(90)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -218,7 +226,6 @@ def test_level_handle():
                 assert event == expected_events[index][year][i] 
 
 
-# @pytest.mark.xfail(raises=AssertionError, reason='DataFrame.iloc[:, 0] (column name="WP1_eventYears") are different')
 def test_weirpool_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -238,8 +245,12 @@ def test_weirpool_handle():
     reduction_max = 0.05
     for i, level in enumerate(exceeding_levels):
         exceeding_levels[i] = exceeding_levels[i-1]-reduction_max # Levels exceeding the acceptable rate: 
+    
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-                        wp_gauge: [0]*187+[47.3]*90+[0]*88 + [47.3]*90+[0]*275 + [0]*187+levels+[0]*78 + [0]*187+exceeding_levels+[0]*79}
+                        wp_gauge: ([0]*187+[47.3]*90+[0]*88 + 
+                                  [47.3]*90+[0]*275 + 
+                                  [0]*187+ levels+[0]*78 + 
+                                  [0]*187 + exceeding_levels + [0]*79 ) }
     df_L = pd.DataFrame(data = data_for_df_L)
     df_L = df_L.set_index('Date')
     # input data for df_F:
@@ -252,28 +263,37 @@ def test_weirpool_handle():
     climate = 'Standard - 1911 to 2018 climate categorisation'
     # Passing input data to test function
     PU_df, events = evaluate_EWRs.weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+    
+    # print(events)
+
     # Setting up expected output data - PU_df - and testing
-    data = {'WP1_eventYears': [1,0,1,0], 'WP1_numAchieved': [1,0,1,0], 'WP1_numEvents': [1,0,1,0], 
-            'WP1_maxInterEventDays': [187, 0, 640, 454], 
-            'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0,0.0,90.0,0.0], 'WP1_totalEventDays': [90,0,90,0], 
-            'WP1_maxEventDays':[90,0,90,0], 'WP1_maxRollingEvents': [0, 0, 0, 0], 'WP1_maxRollingAchievement': [0, 0, 0, 0],
+    data = {'WP1_eventYears': [1,0,1,1], 'WP1_numAchieved': [1,0,1,1], 'WP1_numEvents': [1,0,1,1], 
+            'WP1_maxInterEventDays': [187, 0, 640, 265], 
+            'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0, 0.0, 100.0, 100.0], 'WP1_totalEventDays': [90,0,100,100], 
+            'WP1_maxEventDays':[90,0,100,100], 'WP1_maxRollingEvents': [90, 0, 100, 100], 'WP1_maxRollingAchievement': [1, 0, 1, 1],
             'WP1_daysBetweenEvents': [[],[],[],[]],'WP1_missingDays': [0,0,0,0], 'WP1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
-#         print(PU_df.head())
-#         print(expected_PU_df.head())
+
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[2500]*90], 2013:[], 2014:[[2500]*90], 2015:[]}
+    expected_events = {2012:[[(date(2013, 1, 4) + timedelta(days=i), 2500) for i in range(90)]], 
+                       2013:[], 
+                       2014:[[(date(2015, 1, 4) + timedelta(days=i), 2500) for i in range(100)]], 
+                       2015:[[(date(2016, 1, 4) + timedelta(days=i), 2500) for i in range(100)]]}
+
+                        
+
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
+            if year == 2015:
+                print(events[index][year])
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-# @pytest.mark.xfail(raises=AssertionError, reason="DataFrame.iloc[:, 0] (column name='NestS1_eventYears') are different")
 def test_nest_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -303,8 +323,11 @@ def test_nest_handle():
         threshold_flows[i] = threshold_flows[i-1]-(reduction_max/100*threshold_flows[i-1])
     threshold_flows = threshold_flows + [5300]*50
     # input data for df_F:
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-                        gauge: [0]*76+acceptable_flows+[0]*229 + [0]*76+unnacceptable_flows+[0]*229 + [0]*76+threshold_flows+[0]*229 + [0]*77+threshold_flows+[0]*229}
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: ([0]*76+acceptable_flows+[0]*229 + 
+                                [0]*76+unnacceptable_flows+[0]*229 + 
+                                [0]*76+threshold_flows+[0]*229 + 
+                                [0]*77+threshold_flows+[0]*229)}
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
     df_L = pd.DataFrame()
@@ -313,20 +336,21 @@ def test_nest_handle():
     climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to test function:
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+    print(events)
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 
             'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
             'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0,0.0,0.0,0.0], 'NestS1_totalEventDays': [60,0,0,0],
-            'NestS1_maxEventDays':[60,0,0,0],'NestS1_maxRollingEvents': [0, 0, 0, 0], 'NestS1_maxRollingAchievement': [0, 0, 0, 0],
+            'NestS1_maxEventDays':[60,0,0,0],'NestS1_maxRollingEvents': [60, 0, 0, 0], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
             'NestS1_daysBetweenEvents': [[],[],[],[1325]],'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
-#         print(PU_df.head())
-#         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)
-    # Setting up expected output - events - and testing
-    expected_events = {2012:[acceptable_flows], 2013:[], 2014:[], 2015:[]}
+
+    acceptable_flows_results = [(date(2012, 9, 15) + timedelta(days=i), f) for i, f in enumerate(acceptable_flows)]
+
+    expected_events = {2012:[acceptable_flows_results], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
@@ -528,6 +552,7 @@ def test_cumulative_handle_multi():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
+# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_flow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -574,6 +599,7 @@ def test_flow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
+# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_lowflow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -616,6 +642,7 @@ def test_lowflow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
+# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_ctf_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -844,6 +871,31 @@ def test_lengths_to_years(events_info,water_year_maxs):
     result = evaluate_EWRs.lengths_to_years(events_info)
     assert result == water_year_maxs
 
+@pytest.mark.parametrize("event,expected_event_info",[
+    ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(11)],
+    (date(2012, 6, 25), date(2012, 7, 5), 11, [2011, 2012])),
+    ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(376)],
+    (date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013])),
+    ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(5)],
+    (date(2012, 6, 25), date(2012, 6, 29), 5, [2011])),
+],)
+def test_return_event_info(event, expected_event_info):
+    result = evaluate_EWRs.return_event_info(event)
+    assert result == expected_event_info
+
+
+@pytest.mark.parametrize("event_info,expected_years_lengths_list",[
+    ((date(2012, 6, 25), date(2012, 7, 5), 11, [2011, 2012]),
+    [6,5]),
+    ((date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013]),
+    [6,371,5]),
+    ((date(2012, 6, 25), date(2012, 7, 29), 5, [2011]),
+    [5]),
+],)
+def test_years_lengths(event_info, expected_years_lengths_list):
+    result = evaluate_EWRs.years_lengths(event_info)
+    assert result == expected_years_lengths_list
+
 @pytest.mark.parametrize("gauge_events,unique_water_years,max_consecutive_events",
         [ ( {2012:[ [(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
                     [(date(2013, 6, 26) + timedelta(days=i), 0) for i in range(5)]], 
@@ -891,4 +943,55 @@ def test_get_max_rolling_duration_achievement(durations, max_consecutive_days,du
     result = evaluate_EWRs.get_max_rolling_duration_achievement(durations, max_consecutive_days)
     assert result == duration_achievement
 
+@pytest.mark.parametrize("iteration,flows,expected_result",[
+    (1,[100,80],-20),
+    (1,[0,80], 0),
+    (0,[80,50], 0),
+    (1,[100,120], 20),
 
+],)
+def test_calc_flow_percent_change(iteration, flows, expected_result):
+    result = evaluate_EWRs.calc_flow_percent_change(iteration,flows)
+    print(result)
+    assert result == pytest.approx(expected_result)
+
+
+@pytest.mark.parametrize("flow_percent_change,flow,expected_result",[
+    (-10,5, True),
+    (-20, 10, False),
+    (-40, 11, True),
+    (-40, 9, False),
+    (10, 10,True),
+
+],)
+def test_check_nest_percent_drawdown(flow_percent_change, flow, expected_result):
+    EWR_info = {'max_flow':10, 'drawdown_rate':"15%"}
+
+    result = evaluate_EWRs.check_nest_percent_drawdown(flow_percent_change, EWR_info, flow)
+    assert result == expected_result
+
+
+@pytest.mark.parametrize("EWR_info,iteration,expected_result",[
+    ({'end_month': 10}, 0, date(2012, 10, 31)),
+    ({'end_month': 9}, 0, date(2012, 9, 30)),
+    ({'end_month': 12}, 0, date(2012, 12, 31)),
+    ({'end_month': 4}, 366, date(2013, 4, 30)),
+],)
+def test_calc_nest_cut_date(EWR_info, iteration,expected_result):
+    dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+    result = evaluate_EWRs.calc_nest_cut_date(EWR_info,iteration, dates)
+    assert result == expected_result
+
+
+@pytest.mark.parametrize("levels,EWR_info,iteration,event_length,expected_result",[
+    ( [10, 10, 9.3], {"drawdown_rate_week" : "0.3"},2, 2,False),
+    ( [10, 10], {"drawdown_rate_week" : "0.3"},1, 1, True),
+    ( [10, 10, 10, 10, 9.8, 9.7, 9.65], {"drawdown_rate_week" : "0.3"}, 6, 6, False),
+    ( [10, 10, 10, 10, 9.8, 9.7, 9.7], {"drawdown_rate_week" : "0.3"}, 6, 6, False),
+    ( [10, 10, 10, 9.8, 9.7, 9.7], {"drawdown_rate_week" : "0.3"}, 5, 5, False),
+    ( [10 , 10, 10, 10, 10, 10, 9.8, 9.7, 9.8], {"drawdown_rate_week" : "0.3"}, 8, 8, True),
+    ( [10], {"drawdown_rate_week" : "0.3"}, 0, 0, True),
+],)
+def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expected_result):
+    result = evaluate_EWRs.check_weekly_drawdown(levels, EWR_info, iteration, event_length)
+    assert result == expected_result
