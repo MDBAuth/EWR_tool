@@ -2398,7 +2398,7 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     trigger_day = date(dates[-1].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
     cut_date = calc_nest_cut_date(EWR_info, -1, dates)
     is_in_trigger_window = dates[-1].to_timestamp().date() >= trigger_day - timedelta(days=7) \
-    and dates[-1] <= trigger_day + timedelta(days=7)
+    and dates[-1].to_timestamp().date() <= trigger_day + timedelta(days=7)
     iteration_no_event = 0
 
     if total_event > 0:
