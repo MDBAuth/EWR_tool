@@ -178,7 +178,6 @@ def test_cumulative_handle():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-@pytest.mark.xfail
 def test_level_handle():
     '''
     1. Ensure all parts of the function generate expected output

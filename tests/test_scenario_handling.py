@@ -163,7 +163,7 @@ def test_cleaner_MDBA():
     
     df_clean = scenario_handling.cleaner_MDBA(df)
     # Set up expected output data and test:
-    data_expected_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    data_expected_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                             'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                             'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
                             }
@@ -294,7 +294,7 @@ def test_get_all_events(scenario_handler_instance):
 
     all_events = scenario_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (22, 10)
+    assert all_events.shape == (24, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'multigauge']
 
@@ -302,7 +302,7 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
 
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (114, 19)
+    assert yearly_results.shape == (126, 19)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength',
        'totalEventDays', 'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
@@ -312,7 +312,10 @@ def test_get_ewr_results(scenario_handler_instance):
 
     ewr_results = scenario_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (19, 19)
+    print(ewr_results.columns)
+    print(ewr_results.head())
+    print(ewr_results.tail())
+    assert ewr_results.shape == (21, 19)
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge', 
         'EventYears','Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',

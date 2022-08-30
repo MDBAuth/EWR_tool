@@ -1920,7 +1920,7 @@ def test_is_weirpool_gauge(parameter_sheet, gauge, ewr, pu, expected_result):
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
 	("421090", "CF" , "PU_0000130", "421088"),
-	# ("423001", "WL2" , "PU_0000251", "423002"), TODO change parameter sheet to remove format
+	# ("423001", "WL2" , "PU_0000251", "423002"), # c423001,423002 fix this ena put separate in a column...
 ],)
 def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	result = evaluate_EWRs.get_second_multigauge(parameter_sheet, gauge, ewr, pu)
