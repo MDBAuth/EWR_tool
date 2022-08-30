@@ -34,7 +34,8 @@ def get_EWR_table(file_path = None):
          usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
                                     'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
                                     'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge'],
+                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge',
+                                     'max_duration','TriggerDay','TriggerMonth','DrawDownRateWeek'],
                             dtype='str', encoding='cp1252')
 
     if not file_path:
@@ -42,10 +43,11 @@ def get_EWR_table(file_path = None):
         proxies={} # Populate with your proxy settings
         s = requests.get(my_url, proxies=proxies).text
         df = pd.read_csv(io.StringIO(s),
-                        usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
-                                'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
-                                'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge', 'max_duration'],
+            usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
+                                    'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
+                                    'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
+                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge',
+                                     'max_duration','TriggerDay','TriggerMonth','DrawDownRateWeek'],
                         dtype='str', encoding='cp1252'
                         )
 
@@ -327,9 +329,9 @@ def get_EWR_components(category):
     elif category == 'weirpool-falling':
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'nest-level':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV']
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV','WDD','GP']
     elif category == 'nest-percent':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'MIE', 'FLV']
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'MIE', 'FLV','TD','TM','GP']
     elif category == 'multi-gauge-flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MG', 'MIE', 'FLV']
     elif category == 'multi-gauge-low flow':
