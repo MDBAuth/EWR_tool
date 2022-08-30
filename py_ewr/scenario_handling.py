@@ -208,6 +208,7 @@ def cleaner_MDBA(input_df):
     
     cleaned_df = input_df.rename(columns={'Mn': 'Month', 'Dy': 'Day'})
     cleaned_df['Date'] = pd.to_datetime(cleaned_df[['Year', 'Month', 'Day']], format = '%Y-%m-%d')
+    cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
     cleaned_df = cleaned_df.drop(['Day', 'Month', 'Year'], axis = 1)
     cleaned_df = cleaned_df.set_index('Date')
     
