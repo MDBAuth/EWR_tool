@@ -1,11 +1,13 @@
 from collections import defaultdict
 from copy import deepcopy
+from enum import unique
 from typing import Any, List, Dict
 import pandas as pd
 import numpy as np
 from datetime import date, timedelta
 import datetime
 import calendar
+from itertools import chain
 
 from tqdm import tqdm
 
@@ -3032,8 +3034,6 @@ def get_event_max_inter_event_achieved(EWR_info:Dict, no_events:Dict , unique_wa
         print(e)
     return [0 if (max_inter_event > EWR_info['max_inter-event']*365) else 1 for max_inter_event in max_inter_event_achieved]
 
-# annualEvents$spell_days>`Max gap (Days)`, 0, 1)
-
 def get_max_rolling_duration_achievement(durations:List[int], max_consecutive_days:List[int])-> List[int]:
     """test if in a given year the max rolling duration was equals or above the min duration.
 
@@ -3046,6 +3046,46 @@ def get_max_rolling_duration_achievement(durations:List[int], max_consecutive_da
     """
     return [1 if (max_rolling >= durations[index]) else 0 for index, max_rolling in enumerate(max_consecutive_days)]
 
+def get_all_events(yearly_events:dict)-> List:
+    """count the events in a collection of years
+
+    Args:
+        yearly_events (dict): ewr yearly events dictionary of lists of lists
+
+    Returns:
+        List: total event count per year in order
+    """
+    return [len(yearly_events[year]) for year in sorted(yearly_events.keys())]
+
+def get_all_event_days(yearly_events:dict)-> List:
+    """count the events in a collection of years
+
+    Args:
+        yearly_events (dict): ewr yearly events dictionary of lists of lists
+
+    Returns:
+        List: total event days count per year in order
+    """
+    return [len(list(chain(*yearly_events[year]))) for year in sorted(yearly_events.keys())]
+
+def get_achieved_event_days(EWR_info:Dict, yearly_events:dict)-> List:
+    """count the events days in a collection of years. Filter events below min_event
+
+    Args:
+        yearly_events (dict): ewr yearly events dictionary of lists of lists
+
+    Returns:
+        List: total event days count per year in order
+    """
+    filtered_events = filter_min_events(EWR_info, yearly_events)
+    return [len(list(chain(*filtered_events[year]))) for year in sorted(filtered_events.keys())]
+
+def get_average_event_length_achieved(EWR_info:Dict, events:Dict)-> List:
+    '''Returns a list of average event length per year of achieved events'''
+    filtered_events = filter_min_events(EWR_info, events)
+    events_length = [[float(len(event)) for event in filtered_events[year]] for year in sorted(filtered_events.keys())]
+    year_average_lengths = [sum(year) / len(year) if len(year) != 0 else 0 for year in events_length]
+    return year_average_lengths
 
 def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years):
     '''Calculates the days/years between events. For certain EWRs (cease to flow, lowflow, 

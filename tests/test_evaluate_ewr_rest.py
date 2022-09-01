@@ -267,6 +267,78 @@ def test_get_event_years_max_rolling_days(events, unique_water_years, expected_e
 	event_years = evaluate_EWRs.get_event_years_max_rolling_days(events, unique_water_years)
 	assert event_years == expected_event_years
 
+@pytest.mark.parametrize("events,expected_results",[
+	({ 2012: [[5]*5, [10]*5, [20]*8], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2015: []},
+	   [3,1,4,0]),
+	({ 2015: [[5]*5, [10]*5, [20]*8], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2012: []},
+	   [0,4,1,3]),
+],)
+def test_get_all_events(events, expected_results):
+	result = evaluate_EWRs.get_all_events(events)
+	assert result == expected_results
+
+@pytest.mark.parametrize("events,expected_results",[
+	({ 2012: [[5]*5, [10]*5, [20]*8], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2015: []},
+	   [18,20,26,0]),
+	({ 2015: [[5]*5, [10]*5, [20]*8], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2012: []},
+	   [0,26,20,18]),
+],)
+def test_get_all_event_days(events, expected_results):
+	result = evaluate_EWRs.get_all_event_days(events)
+	assert result == expected_results
+
+
+@pytest.mark.parametrize("EWR_info,events,expected_results",[
+	(	{'min_event':6},
+		{ 2012: [[5]*5, [10]*5, [20]*8], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2015: []},
+	   [8,20,16,0]),
+	(	{'min_event':6},
+		{ 2015: [[5]*5, [10]*5, [20]*8], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2012: []},
+	   [0,16,20,8]),
+],)
+def test_get_achieved_event_days(EWR_info, events, expected_results):
+	result = evaluate_EWRs.get_achieved_event_days(EWR_info, events)
+	assert result == expected_results
+
+
+@pytest.mark.parametrize("EWR_info,events,expected_results",[
+	(	{'min_event':6},
+		{ 2012: [[5]*5, [10]*5, [20]*10, [20]*20], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*10], 
+	   2015: []},
+	   [15.,20.,9.,0]),
+	(	{'min_event':6},
+		{ 2015: [[5]*5, [10]*5, [20]*10, [20]*20], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*10], 
+	   2012: []},
+	   [0,9.,20.,15.]),
+
+],)
+def test_get_average_event_length_achieved(EWR_info, events, expected_results):
+	result = evaluate_EWRs.get_average_event_length_achieved(EWR_info, events)
+	assert result == expected_results
+	
+
 def test_get_achievements():
 	'''
 	1. Testing 1 event per year requirement with four unique events per year ranges
