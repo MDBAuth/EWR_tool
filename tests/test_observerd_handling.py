@@ -83,7 +83,6 @@ def test_categorise_gauges():
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
 
-@pytest.mark.xfail  
 def test_observed_handler():
     '''
     1. Test each part of the function are working correctly and producing an overall expected output
@@ -122,7 +121,6 @@ def test_observed_handler():
     
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
 
-@pytest.mark.xfail
 def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
 
     observed_handler_instance.process_gauges()
