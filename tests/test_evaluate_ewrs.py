@@ -111,8 +111,8 @@ def test_flow_handle():
     # Setting up expected output - PU_df - and testing
     data = {'SF1_S_eventYears': [0,0,0,1], 'SF1_S_numAchieved': [0,0,0,1], 'SF1_S_numEvents': [1,0,1,3],
            'SF1_S_maxInterEventDays': [351, 0, 720, 330], 
-           'SF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1], 'SF1_S_eventLength': [10.0,0.0,14.0,10.0], 'SF1_S_totalEventDays': [10,0,14,30], 
-            'SF1_S_maxEventDays': [10, 0, 14, 10], 'SF1_S_maxRollingEvents': [10, 0, 14, 10], 'SF1_S_maxRollingAchievement': [1, 0, 1, 1],
+           'SF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1], 'SF1_S_eventLength': [10.0, 5.0, 9.5, 10.0], 'SF1_S_totalEventDays': [10, 5, 19, 30], 
+            'SF1_S_maxEventDays': [10, 5, 14, 10], 'SF1_S_maxRollingEvents': [10, 5, 14, 10], 'SF1_S_maxRollingAchievement': [1, 0, 1, 1],
             'SF1_S_daysBetweenEvents': [[],[],[720],[]],'SF1_S_missingDays': [0,0,0,0], 'SF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -122,8 +122,8 @@ def test_flow_handle():
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
     expected_events = {2012: [[(date(2013, 6, 17) + timedelta(days=i), 450) for i in range(10)]], 
-                        2013: [], 
-                        2014: [
+                        2013: [[(date(2014, 6, 26) + timedelta(days=i), 450) for i in range(5)]], 
+                        2014: [[(date(2014, 7, 1) + timedelta(days=i), 450) for i in range(5)],
                                 [(date(2015, 6, 17) + timedelta(days=i), 450) for i in range(14)]],
                         2015: [[(date(2015, 7, 6) + timedelta(days=i), 450) for i in range(10)],
                             [(date(2015, 7, 17) + timedelta(days=i), 450) for i in range(10)],     
@@ -131,6 +131,7 @@ def test_flow_handle():
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
+            print(year)
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i] 
@@ -322,6 +323,11 @@ def test_nest_handle():
         threshold_flows[i] = threshold_flows[i-1]-(reduction_max/100*threshold_flows[i-1])
     threshold_flows = threshold_flows + [5300]*50
     # input data for df_F:
+
+    print(unnacceptable_flows)
+    print()
+    print(threshold_flows)
+    print()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: ([0]*76+acceptable_flows+[0]*229 + 
                                 [0]*76+unnacceptable_flows+[0]*229 + 
@@ -335,12 +341,12 @@ def test_nest_handle():
     climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to test function:
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
-    print(events)
+    # print(events)
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 
             'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
-            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0,0.0,0.0,0.0], 'NestS1_totalEventDays': [60,0,0,0],
-            'NestS1_maxEventDays':[60,0,0,0],'NestS1_maxRollingEvents': [60, 0, 0, 0], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
+            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 1.0, 1.25, 1.25], 'NestS1_totalEventDays': [60,1,5,5],
+            'NestS1_maxEventDays':[60,1,2,2],'NestS1_maxRollingEvents': [60, 1, 2, 2], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
             'NestS1_daysBetweenEvents': [[],[],[],[1325]],'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -348,14 +354,26 @@ def test_nest_handle():
     assert_frame_equal(PU_df, expected_PU_df)
 
     acceptable_flows_results = [(date(2012, 9, 15) + timedelta(days=i), f) for i, f in enumerate(acceptable_flows)]
+    unnacceptable_flows_results = [(date(2013, 9, 15) + timedelta(days=i), f) for i, f in enumerate(unnacceptable_flows)]
+    threshold_flows_results_1 = [(date(2014, 9, 15) + timedelta(days=i), f) for i, f in enumerate(threshold_flows)]
+    threshold_flows_results_2 = [(date(2015, 9, 15) + timedelta(days=i), f) for i, f in enumerate(threshold_flows)]
 
-    expected_events = {2012:[acceptable_flows_results], 2013:[], 2014:[], 2015:[]}
+    expected_events = {2012:[acceptable_flows_results], 
+                       2013:[[(date(2013, 9, 15), 9300.0)]], 
+                       2014:[[(date(2014, 9, 15), 9400.0)], [(date(2014, 9, 17), 8305.84)],
+                        [(date(2014, 9, 19), 7339.040224)], [(date(2014, 9, 21), 6484.7759419264), 
+                        (date(2014, 9, 22), 6095.689385410817)]], 
+                       2015:[[(date(2015, 9, 16), 9400.0)], [(date(2015, 9, 18), 8305.84)], 
+                       [(date(2015, 9, 20), 7339.040224)], [(date(2015, 9, 22), 6484.7759419264), 
+                       (date(2015, 9, 23), 6095.689385410817)]]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
+            print(events[index][year])
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
+
 
 def test_flow_handle_multi():
     '''
@@ -384,8 +402,8 @@ def test_flow_handle_multi():
     # Setting up expected output - PU_df - and testing
     data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,1,0], 'LF1_numEvents': [1,0,1,0], 
             'LF1_maxInterEventDays': [76, 0, 778, 597], 
-            'LF1_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_eventLength': [5.0,0.0,5.0,0.0], 'LF1_totalEventDays': [5,0,5,0],
-            'LF1_maxEventDays':[5, 0, 5, 0], 'LF1_maxRollingEvents': [5, 0, 5, 0], 'LF1_maxRollingAchievement': [1, 0, 1, 0],
+            'LF1_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_eventLength': [5.0, 3.0, 4.0, 4.0], 'LF1_totalEventDays': [5,3,8,4],
+            'LF1_maxEventDays':[5, 3, 5, 4], 'LF1_maxRollingEvents': [5, 3, 5, 4], 'LF1_maxRollingAchievement': [1, 0, 1, 0],
             'LF1_daysBetweenEvents': [[],[],[778],[]],'LF1_missingDays': [0,0,0,0], 'LF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -393,13 +411,14 @@ def test_flow_handle_multi():
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
-                       2013:[], 
-                       2014:[ [(date(2014, 11, 7) + timedelta(days=i), 2500) for i in range(5)]], 
-                       2015:[]}
+                       2013:[[(date(2014, 6, 28) + timedelta(days=i), 2500) for i in range(3)]], 
+                       2014:[ [(date(2014, 7, 1) + timedelta(days=i), 2500) for i in range(3)], [(date(2014, 11, 7) + timedelta(days=i), 2500) for i in range(5)]], 
+                       2015:[[(date(2015, 9, 16) + timedelta(days=i), 2500) for i in range(4)]]}
     
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
+            print(events[index][year])
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
