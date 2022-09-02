@@ -25,12 +25,13 @@ def test_ctf_handle():
     # Send input data to test function:
     PU_df, events = evaluate_EWRs.ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df
-    data = {'CF1_eventYears': [0,0,0,1], 'CF1_numAchieved': [0,0,0,1], 'CF1_numEvents': [0,0,0,1], 
-      'CF1_maxInterEventDays': [0,0,0,0],  'CF1_maxInterEventDaysAchieved': [1,1,1,1],                                                               'CF1_eventLength': [0.0,0.0,0.0,1461.0], 
-    'CF1_totalEventDays': [0,0,0,1461], 'CF1_maxEventDays': [0,0,0,1461], 'CF1_maxRollingEvents': [365, 730, 1095, 1461], 'CF1_maxRollingAchievement': [1, 1, 1, 1],
+    data = {'CF1_eventYears': [0,0,0,1], 'CF1_numAchieved': [0,0,0,1], 'CF1_numEvents': [0,0,0,1], 'CF1_numEventsAll': [0,0,0,1], 
+      'CF1_maxInterEventDays': [0,0,0,0],  'CF1_maxInterEventDaysAchieved': [1,1,1,1], 'CF1_eventLength': [0.0,0.0,0.0,1461.0], 'CF1_eventLengthAchieved': [0.0,0.0,0.0,1461.0], 
+    'CF1_totalEventDays': [0,0,0,1461], 'CF1_totalEventDaysAchieved': [0,0,0,1461], 'CF1_maxEventDays': [0,0,0,1461], 'CF1_maxRollingEvents': [365, 730, 1095, 1461], 'CF1_maxRollingAchievement': [1, 1, 1, 1],
     'CF1_daysBetweenEvents': [[],[],[],[]],'CF1_missingDays': [0,0,0,0], 'CF1_totalPossibleDays': [365,365,365,366]} 
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
+    print(expected_PU_df.columns)
     expected_PU_df.index = expected_PU_df.index.astype('object')
 #         print(PU_df.head())
 #         print(expected_PU_df.head())        
@@ -64,9 +65,11 @@ def test_lowflow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output data - PU_df, and testing
-    data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_maxInterEventDays': [0,0,0,1461], 
+    data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [0,0,0,0],
+            'BF1_a_maxInterEventDays': [0,0,0,1461], 
            'BF1_a_maxInterEventDaysAchieved': [1,1,1,0],  
-            'BF1_a_eventLength': [0.0,0.0,0.0,0.0], 'BF1_a_totalEventDays': [0,0,0,0], 
+            'BF1_a_eventLength': [0.0,0.0,0.0,0.0], 'BF1_a_eventLengthAchieved': [0.0,0.0,0.0,0.0],
+            'BF1_a_totalEventDays': [0,0,0,0], 'BF1_a_totalEventDaysAchieved': [0,0,0,0],  
             'BF1_a_maxEventDays': [0,0,0,0], 'BF1_a_maxRollingEvents': [0, 0, 0, 0], 'BF1_a_maxRollingAchievement': [0, 0, 0, 0],
             'BF1_a_daysBetweenEvents': [[],[],[],[1461]],
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
@@ -109,9 +112,10 @@ def test_flow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'SF1_S_eventYears': [0,0,0,1], 'SF1_S_numAchieved': [0,0,0,1], 'SF1_S_numEvents': [1,0,1,3],
+    data = {'SF1_S_eventYears': [0,0,0,1], 'SF1_S_numAchieved': [0,0,0,1], 'SF1_S_numEvents': [1,0,1,3], 'SF1_S_numEventsAll': [1,1,2,3],
            'SF1_S_maxInterEventDays': [351, 0, 720, 330], 
-           'SF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1], 'SF1_S_eventLength': [10.0, 5.0, 9.5, 10.0], 'SF1_S_totalEventDays': [10, 5, 19, 30], 
+           'SF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1], 'SF1_S_eventLength': [10.0, 5.0, 9.5, 10.0], 'SF1_S_eventLengthAchieved': [10.0, 0.0, 14., 10.0], 
+           'SF1_S_totalEventDays': [10, 5, 19, 30], 'SF1_S_totalEventDaysAchieved': [10, 0, 14, 30], 
             'SF1_S_maxEventDays': [10, 5, 14, 10], 'SF1_S_maxRollingEvents': [10, 5, 14, 10], 'SF1_S_maxRollingAchievement': [1, 0, 1, 1],
             'SF1_S_daysBetweenEvents': [[],[],[720],[]],'SF1_S_missingDays': [0,0,0,0], 'SF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -159,10 +163,10 @@ def test_cumulative_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB3_S_eventYears': [0,0,0,0], 'OB3_S_numAchieved': [0,0,0,0], 'OB3_S_numEvents': [0,0,0,0], 
+    data = {'OB3_S_eventYears': [0,0,0,0], 'OB3_S_numAchieved': [0,0,0,0], 'OB3_S_numEvents': [0,0,0,0], 'OB3_S_numEventsAll': [0,0,0,0], 
             'OB3_S_maxInterEventDays': [0, 0, 0, 1461], 
-           'OB3_S_maxInterEventDaysAchieved': [1, 1, 1, 0],'OB3_S_eventLength': [0,0.0,0.0,0.0], 
-            'OB3_S_totalEventDays': [0,0,0,0], 'OB3_S_maxEventDays': [0,0,0,0],'OB3_S_maxRollingEvents': [0, 0, 0, 0], 
+           'OB3_S_maxInterEventDaysAchieved': [1, 1, 1, 0],'OB3_S_eventLength': [0,0.0,0.0,0.0], 'OB3_S_eventLengthAchieved': [0,0.0,0.0,0.0], 
+            'OB3_S_totalEventDays': [0,0,0,0], 'OB3_S_totalEventDaysAchieved': [0,0,0,0], 'OB3_S_maxEventDays': [0,0,0,0],'OB3_S_maxRollingEvents': [0, 0, 0, 0], 
             'OB3_S_maxRollingAchievement': [0, 0, 0, 0],'OB3_S_daysBetweenEvents': [[],[],[],[1461]],'OB3_S_missingDays': [0,0,0,0], 
             'OB3_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -172,7 +176,6 @@ def test_cumulative_handle():
     # Setting up expected output - events - and testing 
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
-    print(events)
     for index, tuple_ in enumerate(events):
         for year in events[index]:
             assert len(events[index][year]) == len(expected_events[index][year])
@@ -202,9 +205,10 @@ def test_level_handle():
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
     # print(events)
     # Setting up expected output - PU_df and test
-    data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 
+    data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 'LLLF_numEventsAll': [1,0,0,1], 
             'LLLF_maxInterEventDays': [261, 0, 652, 277], 
-            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_totalEventDays': [90,0,0,90], 
+            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
+            'LLLF_totalEventDays': [90,0,0,90], 'LLLF_totalEventDaysAchieved': [90,0,0,90], 
             'LLLF_maxEventDays': [90,0,0,90], 'LLLF_maxRollingEvents': [90, 0, 1, 90],'LLLF_maxRollingAchievement': [1, 0, 0, 1],
             'LLLF_daysBetweenEvents': [[],[],[],[]],'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -264,12 +268,11 @@ def test_weirpool_handle():
     # Passing input data to test function
     PU_df, events = evaluate_EWRs.weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     
-    # print(events)
-
     # Setting up expected output data - PU_df - and testing
-    data = {'WP1_eventYears': [1,0,1,1], 'WP1_numAchieved': [1,0,1,1], 'WP1_numEvents': [1,0,1,1], 
+    data = {'WP1_eventYears': [1,0,1,1], 'WP1_numAchieved': [1,0,1,1], 'WP1_numEvents': [1,0,1,1], 'WP1_numEventsAll': [1,0,1,1], 
             'WP1_maxInterEventDays': [187, 0, 640, 265], 
-            'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0, 0.0, 100.0, 100.0], 'WP1_totalEventDays': [90,0,100,100], 
+            'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0, 0.0, 100.0, 100.0], 'WP1_eventLengthAchieved': [90.0, 0.0, 100.0, 100.0], 
+            'WP1_totalEventDays': [90,0,100,100], 'WP1_totalEventDaysAchieved': [90,0,100,100], 
             'WP1_maxEventDays':[90,0,100,100], 'WP1_maxRollingEvents': [90, 0, 100, 100], 'WP1_maxRollingAchievement': [1, 0, 1, 1],
             'WP1_daysBetweenEvents': [[],[],[],[]],'WP1_missingDays': [0,0,0,0], 'WP1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -324,10 +327,6 @@ def test_nest_handle():
     threshold_flows = threshold_flows + [5300]*50
     # input data for df_F:
 
-    print(unnacceptable_flows)
-    print()
-    print(threshold_flows)
-    print()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: ([0]*76+acceptable_flows+[0]*229 + 
                                 [0]*76+unnacceptable_flows+[0]*229 + 
@@ -343,9 +342,10 @@ def test_nest_handle():
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # print(events)
     # Setting up expected output - PU_df - and testing
-    data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 
+    data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,1,4,4], 
             'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
-            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 1.0, 1.25, 1.25], 'NestS1_totalEventDays': [60,1,5,5],
+            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 1.0, 1.25, 1.25], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
+            'NestS1_totalEventDays': [60,1,5,5], 'NestS1_totalEventDaysAchieved': [60, 0, 0, 0],
             'NestS1_maxEventDays':[60,1,2,2],'NestS1_maxRollingEvents': [60, 1, 2, 2], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
             'NestS1_daysBetweenEvents': [[],[],[],[1325]],'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -400,9 +400,10 @@ def test_flow_handle_multi():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.flow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,1,0], 'LF1_numEvents': [1,0,1,0], 
+    data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,1,0], 'LF1_numEvents': [1,0,1,0], 'LF1_numEventsAll': [1, 1, 2, 1], 
             'LF1_maxInterEventDays': [76, 0, 778, 597], 
-            'LF1_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_eventLength': [5.0, 3.0, 4.0, 4.0], 'LF1_totalEventDays': [5,3,8,4],
+            'LF1_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_eventLength': [5.0, 3.0, 4.0, 4.0], 'LF1_eventLengthAchieved': [5.0, 0.0, 5.0, 0.0], 
+            'LF1_totalEventDays': [5,3,8,4], 'LF1_totalEventDaysAchieved': [5, 0, 5, 0],
             'LF1_maxEventDays':[5, 3, 5, 4], 'LF1_maxRollingEvents': [5, 3, 5, 4], 'LF1_maxRollingAchievement': [1, 0, 1, 0],
             'LF1_daysBetweenEvents': [[],[],[778],[]],'LF1_missingDays': [0,0,0,0], 'LF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -446,9 +447,10 @@ def test_lowflow_handle_multi():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
-    data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 
+    data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [1,0,0,0], 
             'BF1_a_maxInterEventDays': [76, 0, 0, 1380], 
-            'BF1_a_maxInterEventDaysAchieved': [0, 1, 1, 0],'BF1_a_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_a_totalEventDays': [5, 0, 0, 0],
+            'BF1_a_maxInterEventDaysAchieved': [0, 1, 1, 0],'BF1_a_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_a_eventLengthAchieved': [5.0, 0.0, 0.0, 0.0], 
+            'BF1_a_totalEventDays': [5, 0, 0, 0], 'BF1_a_totalEventDaysAchieved': [5, 0, 0, 0],
             'BF1_a_maxEventDays':[5, 0, 0, 0], 'BF1_a_maxRollingEvents': [5, 0, 0, 0], 'BF1_a_maxRollingAchievement': [0, 0, 0, 0],
             'BF1_a_daysBetweenEvents': [[76], [], [], [1380]],'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -490,16 +492,15 @@ def test_ctf_handle_multi():
     # Pass input data to the test function
     PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
-    data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1],
+    data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_numEventsAll': [2,0,2,1],
             'CF_maxInterEventDays': [350, 360, 345, 0], 
-            'CF_maxInterEventDaysAchieved': [0, 0, 0, 1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_totalEventDays': [15,0,16,366],
+            'CF_maxInterEventDaysAchieved': [0, 0, 0, 1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_eventLengthAchieved': [7.5,0.0,8.0,366.0], 
+            'CF_totalEventDays': [15,0,16,366], 'CF_totalEventDaysAchieved': [15,0,16,366],
             'CF_maxEventDays':[14, 0, 15, 366], 'CF_maxRollingEvents': [14, 5, 15, 366], 'CF_maxRollingAchievement': [1, 1, 1, 1],
             'CF_daysBetweenEvents': [[350],[360],[345,9],[]], 'CF_missingDays': [0,0,0,0], 'CF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
-#         print(PU_df.head())
-#         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 7, 1), 0)], 
@@ -546,17 +547,16 @@ def test_cumulative_handle_multi():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB/WS1_S_eventYears': [1,0,0,1], 'OB/WS1_S_numAchieved': [1,0,0,1], 'OB/WS1_S_numEvents': [1,0,0,1],
+    data = {'OB/WS1_S_eventYears': [1,0,0,1], 'OB/WS1_S_numAchieved': [1,0,0,1], 'OB/WS1_S_numEvents': [1,0,0,1], 'OB/WS1_S_numEventsAll': [1,0,0,1],
             'OB/WS1_S_maxInterEventDays': [350, 0, 0, 768], 
-            'OB/WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 0], 'OB/WS1_S_eventLength': [1,0.0,0.0,233.0], 
-            'OB/WS1_S_totalEventDays': [1,0,0,233], 'OB/WS1_S_maxEventDays':[1,0,0,233], 'OB/WS1_S_maxRollingEvents':  [1,0,0,233],
+            'OB/WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 0], 'OB/WS1_S_eventLength': [1,0.0,0.0,233.0], 'OB/WS1_S_eventLengthAchieved': [1,0.0,0.0,233.0], 
+            'OB/WS1_S_totalEventDays': [1,0,0,233], 'OB/WS1_S_totalEventDaysAchieved': [1,0,0,233], 
+            'OB/WS1_S_maxEventDays':[1,0,0,233], 'OB/WS1_S_maxRollingEvents':  [1,0,0,233],
             'OB/WS1_S_maxRollingAchievement': [1,1,1,1],
             'OB/WS1_S_daysBetweenEvents': [[],[],[],[768]],'OB/WS1_S_missingDays': [0,0,0,0], 'OB/WS1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
-#         print(PU_df.head())
-#         print(expected_PU_df.head())
     assert_frame_equal(PU_df, expected_PU_df)   
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2013, 6, 16), 60120)]], 
@@ -570,7 +570,6 @@ def test_cumulative_handle_multi():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_flow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -594,10 +593,10 @@ def test_flow_handle_sim():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.flow_handle_sim(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'LF1_S_eventYears': [1,0,1,0], 'LF1_S_numAchieved': [1,0,1,0], 'LF1_S_numEvents': [1,0,1,0], 
+    data = {'LF1_S_eventYears': [1,0,1,0], 'LF1_S_numAchieved': [1,0,1,0], 'LF1_S_numEvents': [1,0,1,0], 'LF1_S_numEventsAll': [1,0,1,0], 
             'LF1_S_maxInterEventDays': [76, 0, 778, 597], 
-            'LF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_S_eventLength': [5.0,0.0,5.0,0.0], 
-            'LF1_S_totalEventDays': [5,0,5,0],
+            'LF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_S_eventLength': [5.0,0.0,5.0,0.0], 'LF1_S_eventLengthAchieved': [5.0,0.0,5.0,0.0], 
+            'LF1_S_totalEventDays': [5,0,5,0], 'LF1_S_totalEventDaysAchieved': [5,0,5,0],
             'LF1_S_maxEventDays':[5, 0, 5, 0],'LF1_S_maxRollingEvents':  [5, 0, 5, 0],  'LF1_S_maxRollingAchievement': [1, 0, 1, 0],
             'LF1_S_daysBetweenEvents': [[],[],[778],[]],'LF1_S_missingDays': [0,0,0,0], 'LF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -617,7 +616,6 @@ def test_flow_handle_sim():
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
 
-# @pytest.mark.xfail(raises=IndexError, reason="data missing parameter sheet")
 def test_lowflow_handle_sim():
     '''
     1. Ensure all parts of the function generate expected output
@@ -742,9 +740,10 @@ def test_complex_handle():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB2a_S_eventYears': [1,0,1,1], 'OB2a_S_numAchieved': [1,0,1,2], 'OB2a_S_numEvents': [1,0,1,2], 
+    data = {'OB2a_S_eventYears': [1,0,1,1], 'OB2a_S_numAchieved': [1,0,1,2], 'OB2a_S_numEvents': [1,0,1,2], 'OB2a_S_numEventsAll': [1,0,1,2], 
             'OB2a_S_maxInterEventDays': [1, 0, 580, 94], 
-            'OB2a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB2a_S_eventLength': [150.0,0.0,150.0,150.0], 'OB2a_S_totalEventDays': [150,0,150,300],
+            'OB2a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB2a_S_eventLength': [150.0,0.0,150.0,150.0], 'OB2a_S_eventLengthAchieved': [150.0,0.0,150.0,150.0], 
+            'OB2a_S_totalEventDays': [150,0,150,300], 'OB2a_S_totalEventDaysAchieved': [150,0,150,300],
             'OB2a_S_maxEventDays':[150, 0, 150, 150], 'OB2a_S_maxRollingEvents':[0, 0, 0, 0], 'OB2a_S_maxRollingAchievement': [0, 0, 0, 0],
             'OB2a_S_daysBetweenEvents': [[],[],[],[]],'OB2a_S_missingDays': [0,0,0,0], 'OB2a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
@@ -779,9 +778,10 @@ def test_complex_handle():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB3a_S_eventYears': [1,0,1,1], 'OB3a_S_numAchieved': [1,0,2,2], 'OB3a_S_numEvents': [1,0,2,2], 
+    data = {'OB3a_S_eventYears': [1,0,1,1], 'OB3a_S_numAchieved': [1,0,2,2], 'OB3a_S_numEvents': [1,0,2,2], 'OB3a_S_numEventsAll': [1,0,2,2], 
             'OB3a_S_maxInterEventDays': [1, 0, 751, 379], 
-            'OB3a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3a_S_eventLength': [111.0,0.0,111.0,111.0], 'OB3a_S_totalEventDays': [111,0,222,222],
+            'OB3a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3a_S_eventLength': [111.0,0.0,111.0,111.0], 'OB3a_S_eventLengthAchieved': [111.0,0.0,111.0,111.0], 
+            'OB3a_S_totalEventDays': [111,0,222,222], 'OB3a_S_totalEventDaysAchieved': [111,0,222,222],
             'OB3a_S_maxEventDays':[111, 0, 111, 111], 'OB3a_S_maxRollingEvents':[0, 0, 0, 0], 'OB3a_S_maxRollingAchievement': [0, 0, 0, 0],
             'OB3a_S_daysBetweenEvents': [[],[],[],[]],'OB3a_S_missingDays': [0,0,0,0], 'OB3a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]

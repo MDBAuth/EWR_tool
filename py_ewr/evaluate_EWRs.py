@@ -3084,7 +3084,7 @@ def get_average_event_length_achieved(EWR_info:Dict, events:Dict)-> List:
     '''Returns a list of average event length per year of achieved events'''
     filtered_events = filter_min_events(EWR_info, events)
     events_length = [[float(len(event)) for event in filtered_events[year]] for year in sorted(filtered_events.keys())]
-    year_average_lengths = [sum(year) / len(year) if len(year) != 0 else 0 for year in events_length]
+    year_average_lengths = [sum(year) / len(year) if len(year) != 0 else float(0) for year in events_length]
     return year_average_lengths
 
 def get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years):
@@ -3200,10 +3200,14 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations, min_events)
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
     PU_df = pd.concat([PU_df, NEA], axis = 1)
-    # Total number of events
+    # Total number of events THIS ONE IS ONLY ACHIEVED due to Filter Applied
     num_events = get_number_events(EWR_info, events, unique_water_years, durations, min_events)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
+    # Total number of events THIS ONE IS ALL EVENTS
+    num_events_all = get_all_events(events)
+    NEALL = pd.Series(name = str(EWR + '_numEventsAll'), data= num_events_all, index = unique_water_years)
+    PU_df = pd.concat([PU_df, NEALL], axis = 1)
     # Max inter event period
     max_inter_period = get_max_inter_event_days(no_events, unique_water_years)
     MIP = pd.Series(name = str(EWR + '_maxInterEventDays'), data= max_inter_period, index = unique_water_years)
@@ -3216,10 +3220,18 @@ def event_stats(df, PU_df, gauge, EWR, EWR_info, events, no_events, durations, m
     av_length = get_average_event_length(events, unique_water_years)
     AL = pd.Series(name = str(EWR + '_eventLength'), data = av_length, index = unique_water_years)
     PU_df = pd.concat([PU_df, AL], axis = 1)
+    # Average length of events ONLY the ACHIEVED
+    av_length_achieved = get_average_event_length_achieved(EWR_info, events)
+    ALA = pd.Series(name = str(EWR + '_eventLengthAchieved' ), data = av_length_achieved, index = unique_water_years)
+    PU_df = pd.concat([PU_df, ALA], axis = 1)
     # Total event days
     total_days = get_total_days(events, unique_water_years)
     TD = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
     PU_df = pd.concat([PU_df, TD], axis = 1)
+    # Total event days ACHIEVED
+    total_days_achieved = get_achieved_event_days(EWR_info, events)
+    TDA = pd.Series(name = str(EWR + '_totalEventDaysAchieved'), data = total_days_achieved, index = unique_water_years)
+    PU_df = pd.concat([PU_df, TDA], axis = 1)
     # Max event days
     max_days = get_max_event_days(events, unique_water_years)
     MD = pd.Series(name = str(EWR + '_maxEventDays'), data = max_days, index = unique_water_years)
