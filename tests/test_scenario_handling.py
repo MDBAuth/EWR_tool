@@ -300,10 +300,10 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
 
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (126, 19)
-    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 
-       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength',
-       'totalEventDays', 'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
+    assert yearly_results.shape == (126, 22)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
+       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
+       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'multigauge']
 
 def test_get_ewr_results(scenario_handler_instance):
@@ -313,9 +313,9 @@ def test_get_ewr_results(scenario_handler_instance):
     print(ewr_results.columns)
     print(ewr_results.head())
     print(ewr_results.tail())
-    assert ewr_results.shape == (21, 19)
-    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge', 
-        'EventYears','Frequency', 'TargetFrequency', 'AchievementCount',
-       'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
+    assert ewr_results.shape == (21, 20)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
+       'Frequency', 'TargetFrequency', 'AchievementCount',
+       'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
