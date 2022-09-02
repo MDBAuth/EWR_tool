@@ -24,6 +24,7 @@ def test_observed_cleaner():
     output_df = 'unit_testing_files/observed_flows_test_output.csv'
     expected_result = pd.read_csv(output_df, index_col = 'Date')
     expected_result.index = pd.to_datetime(expected_result.index, format='%Y-%m-%d')
+    expected_result.index = expected_result.index.to_period()
     expected_result.columns = ['419039']
     assert_frame_equal(result, expected_result)
 

@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, date, datetime
 from typing import Dict, List
 
 import pandas as pd
@@ -98,16 +98,20 @@ def observed_cleaner(input_df, dates):
     returns a dataframe with a date index and one flow column per gauge location.'''
     
     
-    df_index = pd.date_range(dates['start_date'],dates['end_date']-timedelta(days=1),freq='d')
+    start_date = datetime(dates['start_date'].year, dates['start_date'].month, dates['start_date'].day)
+    end_date = datetime(dates['end_date'].year, dates['end_date'].month, dates['end_date'].day)
+    
+    df_index = pd.date_range(start=start_date,end=end_date - timedelta(days=1)).to_period()
     gauge_data_df = pd.DataFrame()
     gauge_data_df['Date'] = df_index
-    gauge_data_df['Date'] = pd.to_datetime(gauge_data_df['Date'], format = '%Y-%m-%d')
     gauge_data_df = gauge_data_df.set_index('Date')
 
     input_df["VALUE"] = pd.to_numeric(input_df["VALUE"])#, downcast="float")
     
     
     input_df['Date'] = pd.to_datetime(input_df['DATETIME'], format = '%Y-%m-%d')
+    input_df['Date'] = input_df['Date'].apply(lambda x: x.to_period(freq='D'))
+
     # Check with states for more codes:
     bad_data_codes = data_inputs.get_bad_QA_codes()
     input_df = remove_data_with_bad_QC(input_df, bad_data_codes)
