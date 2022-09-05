@@ -235,7 +235,7 @@ def test_get_event_years():
 	Year 3: check 1 is returned when there are 4 events with 2 required per year
 	Year 4: check 0 is returned when there are 0 events with 2 required per year
 	'''
-	EWR_info = {'events_per_year': 2}
+	EWR_info = {'events_per_year': 2,'min_event': 5}
 	events = {2012: [[5]*5, [10]*5, [20*8]], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20*8], [20*8]], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -267,12 +267,84 @@ def test_get_event_years_max_rolling_days(events, unique_water_years, expected_e
 	event_years = evaluate_EWRs.get_event_years_max_rolling_days(events, unique_water_years)
 	assert event_years == expected_event_years
 
+@pytest.mark.parametrize("events,expected_results",[
+	({ 2012: [[5]*5, [10]*5, [20]*8], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2015: []},
+	   [3,1,4,0]),
+	({ 2015: [[5]*5, [10]*5, [20]*8], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2012: []},
+	   [0,4,1,3]),
+],)
+def test_get_all_events(events, expected_results):
+	result = evaluate_EWRs.get_all_events(events)
+	assert result == expected_results
+
+@pytest.mark.parametrize("events,expected_results",[
+	({ 2012: [[5]*5, [10]*5, [20]*8], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2015: []},
+	   [18,20,26,0]),
+	({ 2015: [[5]*5, [10]*5, [20]*8], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2012: []},
+	   [0,26,20,18]),
+],)
+def test_get_all_event_days(events, expected_results):
+	result = evaluate_EWRs.get_all_event_days(events)
+	assert result == expected_results
+
+
+@pytest.mark.parametrize("EWR_info,events,expected_results",[
+	(	{'min_event':6},
+		{ 2012: [[5]*5, [10]*5, [20]*8], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2015: []},
+	   [8,20,16,0]),
+	(	{'min_event':6},
+		{ 2015: [[5]*5, [10]*5, [20]*8], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
+	   2012: []},
+	   [0,16,20,8]),
+],)
+def test_get_achieved_event_days(EWR_info, events, expected_results):
+	result = evaluate_EWRs.get_achieved_event_days(EWR_info, events)
+	assert result == expected_results
+
+
+@pytest.mark.parametrize("EWR_info,events,expected_results",[
+	(	{'min_event':6},
+		{ 2012: [[5]*5, [10]*5, [20]*10, [20]*20], 
+	   2013: [[50]*20],
+	   2014: [[5]*5, [10]*5, [20]*8, [20]*10], 
+	   2015: []},
+	   [15.,20.,9.,0]),
+	(	{'min_event':6},
+		{ 2015: [[5]*5, [10]*5, [20]*10, [20]*20], 
+	   2014: [[50]*20],
+	   2013: [[5]*5, [10]*5, [20]*8, [20]*10], 
+	   2012: []},
+	   [0,9.,20.,15.]),
+
+],)
+def test_get_average_event_length_achieved(EWR_info, events, expected_results):
+	result = evaluate_EWRs.get_average_event_length_achieved(EWR_info, events)
+	assert result == expected_results
+	
+
 def test_get_achievements():
 	'''
 	1. Testing 1 event per year requirement with four unique events per year ranges
 	2. Testing 2 events per year requirement with four unique events per year ranges
 	'''
-	EWR_info = {'events_per_year': 1}
+	EWR_info = {'events_per_year': 1, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -283,7 +355,7 @@ def test_get_achievements():
 	assert num_events == expected_num_events
 	#-------------------------------------------------
 	# Test 2
-	EWR_info = {'events_per_year': 2}
+	EWR_info = {'events_per_year': 2, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -299,7 +371,7 @@ def test_get_number_events():
 	2. Testing 2 events per year requirement with four unique events per year ranges
 	'''
 	# Test 1
-	EWR_info = {'events_per_year': 1}
+	EWR_info = {'events_per_year': 1, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -310,7 +382,7 @@ def test_get_number_events():
 	assert num_events == expected_num_events
 	#--------------------------------------------------
 	# Test 2
-	EWR_info = {'events_per_year': 2}
+	EWR_info = {'events_per_year': 2, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -707,19 +779,19 @@ def test_flow_check_sim():
 	                                   [10]*11+ [0]*354 + 
 									   [0]*365 +
 									   [0]*366),
-							{  2012: [], 
+							{  2012: [[(date(2013, 6, 22)+timedelta(days=i),10) for i in range(9)]],
 								2013: [[(date(2013, 7, 1)+timedelta(days=i),10) for i in range(11)]], 
 								2014: [ ], 
 								2015: [] },
 
-							{2012: [[356]], 2013: [], 2014: [], 2015: [[1085]]}
+							{2012: [], 2013: [[365]], 2014: [], 2015: [[1085]]}
 							 ),
 							  (np.array([0]*356+[10]*9 + 
 	                                   [10]*9+ [0]*356 + 
 									   [0]*365 +
 									   [0]*366),
-							{  2012: [], 
-								2013: [], 
+							{  2012: [[(date(2013, 6, 22)+timedelta(days=i),10) for i in range(9)]], 
+								2013: [[(date(2013, 7, 1)+timedelta(days=i),10) for i in range(9)]], 
 								2014: [], 
 								2015: [] },
 
@@ -776,7 +848,8 @@ def test_flow_calc(flows,expected_all_events,expected_all_no_events):
 	expected_min_events = [10]*4
 	# Send inputs to test function and test
 	all_events, all_no_events, durations, min_events = evaluate_EWRs.flow_calc(EWR_info, flows, water_years, dates, masked_dates)
-	# print(all_events)
+	print(all_events)
+	print(all_no_events)
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -2928,7 +3001,7 @@ def test_component_pull_nest(gauge, PU, EWR, component, expected_result):
 	 2013: [], 
 	 2015:[]},
 	 0,
-	{ 2012: [], 
+	{ 2012: [[(date(2012, 9, 9) + timedelta(days=i), 6) for i in range(26)]], 
 		2013: [], 
 		2014: [], 
 		2015: []},
@@ -2950,7 +3023,7 @@ def test_component_pull_nest(gauge, PU, EWR, component, expected_result):
 	 2013: [], 
 	 2015:[]},
 	 0,
-	{ 2012: [], 
+	{ 2012: [[(date(2012, 9, 9) + timedelta(days=i), 6) for i in range(26)] + [(date(2012, 10, 5) , 10)]], 
 		2013: [], 
 		2014: [], 
 		2015: []},
@@ -3002,7 +3075,12 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 																		event, all_events, no_event, all_no_events, gap_track, 
                         													water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 	
+	# print(event)
+	# print(all_events)
 	assert event == expected_event
+
+	print(expected_all_events)
+	print(all_events)
 
 	for year in all_events:
 		for i, event in enumerate(all_events[year]):
@@ -3028,7 +3106,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 				[0]*365 + 
 				[0]*365 + 
 				[0]*366),
-	 {2012: [], 
+	 {2012: [[(date(2012,9,8) + timedelta(days=i), 10) for i in range(29)]], 
 	  2013: [], 
 	  2014: [], 
 	  2015: []},
@@ -3113,7 +3191,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 				[0]*365 + 
 				[0]*365 + 
 				[0]*366),
-	 {2012: [], 
+	 {2012: [[(date(2012,9,8) + timedelta(days=i), 10) for i in range(5)],[(date(2012,9,14) + timedelta(days=i), 10) for i in range(5)]], 
 	  2013: [], 
 	  2014: [], 
 	  2015: []},
@@ -3125,7 +3203,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 				[0]*365 + 
 				[0]*365 + 
 				[0]*366),
-	 {2012: [[(date(2012,9,14) + timedelta(days=i), 10) for i in range(35)]], 
+	 {2012: [[(date(2012,9,8) + timedelta(days=i), 10) for i in range(5)], [(date(2012,9,14) + timedelta(days=i), 10) for i in range(35)]], 
 	  2013: [], 
 	  2014: [], 
 	  2015: []},
@@ -3135,7 +3213,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 ],)  
 def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expected_all_no_events):
 	"""
-	0: Event triggered and above min_event
+	0: Event triggered and above min_event 
 	1: Event triggered and below min_event
 	2: Event miss the trigger - Failing
 	3: Event triggered and extend to the cut date
@@ -3144,7 +3222,7 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 	6: Event triggered drawdown is above drawdown rate and flow is above the range
 	7: Flow never reaches min flow threshold - Failing
 	8: Event Start-Finish and Start-Finish within the trigger window - Failing
-	9: Event Start-Finish and Start within the trigger window - Failing
+	9: Event Start-Finish and Fail length and another Start within the trigger window and Succeed 
 	
 	"""
 	# non changing parameters
@@ -3153,6 +3231,7 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 	
 	all_events, all_no_events, _ , _ = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
 	
+	print(all_events)
 								
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
@@ -3408,3 +3487,20 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
 		for i, no_event in enumerate(all_no_events[year]):
 			assert no_event == expected_all_no_events[year][i]
+
+@pytest.mark.parametrize("EWR_info,events,expected_result",[
+	({'min_event': 10},
+	{2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(10)]], 
+	  2013: [[(date(2013,9,1) + timedelta(days=i), 5) for i in range(5)]], 
+	  2014: [[(date(2014,9,1) + timedelta(days=i), 5) for i in range(10)],[(date(2014,10,1) + timedelta(days=i), 5) for i in range(5)]], 
+	  2015: [[(date(2015,9,1) + timedelta(days=i), 5) for i in range(15)]]},
+
+	  {2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(10)]], 
+	  2013: [], 
+	  2014: [[(date(2014,9,1) + timedelta(days=i), 5) for i in range(10)]], 
+	  2015: [[(date(2015,9,1) + timedelta(days=i), 5) for i in range(15)]]}
+	  ),
+],)
+def test_filter_min_events(EWR_info,events,expected_result):
+	result = evaluate_EWRs.filter_min_events(EWR_info, events)
+	assert result == expected_result

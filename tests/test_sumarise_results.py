@@ -62,18 +62,18 @@ def test_pu_dfs_to_process(detailed_results, pu_df):
 def test_process_df(item_to_process):
     result = summarise_results.process_df(**item_to_process)
     columns = result.columns.to_list()
-    assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'eventLength',
-       'totalEventDays', 'daysBetweenEvents', 'missingDays',
+    assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
+       'totalEventDays', 'totalEventDaysAchieved','daysBetweenEvents', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
-    assert result.shape == (2, 13)
+    assert result.shape == (2, 16)
 
 def test_process_df_results(items_to_process):
     result = summarise_results.process_df_results(items_to_process)
     columns = result.columns.to_list()
-    assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'eventLength',
-       'totalEventDays', 'daysBetweenEvents', 'missingDays',
+    assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
+       'totalEventDays', 'totalEventDaysAchieved','daysBetweenEvents', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
-    assert result.shape == (4, 13)
+    assert result.shape == (4, 16)
 
 def test_get_events_to_process(gauge_events):
     result = summarise_results.get_events_to_process(gauge_events)

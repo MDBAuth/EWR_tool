@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="py_ewr",
-    version="0.7.4",
+    version="0.8.0",
     author="Martin Job",
     author_email="Martin.Job@mdba.gov.au",
     description="Environmental Water Requirement calculator",
