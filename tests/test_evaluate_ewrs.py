@@ -3,6 +3,7 @@ from datetime import datetime, date, timedelta
 import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
+import numpy as np
 
 from py_ewr import evaluate_EWRs, data_inputs
 
@@ -1013,3 +1014,99 @@ def test_calc_nest_cut_date(EWR_info, iteration,expected_result):
 def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expected_result):
     result = evaluate_EWRs.check_weekly_drawdown(levels, EWR_info, iteration, event_length)
     assert result == expected_result
+
+
+@pytest.mark.parametrize("gauge",[
+    ("425010"),
+],)
+def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, gauge):
+
+    minThreshold_tolerance = (100 - 0)/100
+    maxThreshold_tolerance = (100 + 0)/100
+    duration_tolerance = (100 - 0)/100
+    drawdown_tolerance = (100 - 0)/100
+
+    allowanceDict ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance, 
+                    'duration': duration_tolerance, 'drawdown': drawdown_tolerance}
+
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+    
+    df_F, df_L = wp_df_F_df_L
+
+    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowanceDict, climate, wp_EWR_table)
+
+    pu_df = location_results['Murray River - Lock 10 to Lock 9']
+
+    data_result =  pu_df.to_dict()
+
+    assert data_result['SF_WP/WP3_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
+    assert data_result['LF2_WP/WP4_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
+
+
+@pytest.mark.parametrize("wp_freshes,freshes_eventYears,wp_eventYears,merged_eventYears",[
+    (["SF_WP","LF2_WP"],
+    {
+    'SF_WP_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
+    'LF2_WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}
+    },
+    {
+    'WP3_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
+    'WP4_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}
+    },
+    {
+    'SF_WP/WP3_eventYears': [1,1,0,0], 
+    'LF2_WP/WP4_eventYears': [0,0,1,1]
+    }
+    ),
+    (["SF_WP"],
+    {
+    'SF_WP_eventYears': {1896: 0, 1897: 0, 1898: 0, 1895: 0}, 
+    'LF2_WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}
+    },
+    {
+    'WP3_eventYears': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+    'WP4_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}
+    },
+    {
+    'SF_WP/WP3_eventYears': [1,1,1,1], 
+    'LF2_WP/WP4_eventYears': [0,0,1,1]
+    }
+    ),
+],)
+def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, wp_eventYears, merged_eventYears):
+    weirpool_pair = {'SF_WP':'WP3',
+                      'LF2_WP': 'WP4' }
+
+    pu_df_data = PU_df_wp.to_dict()
+
+    test_pu_data = {**pu_df_data, **freshes_eventYears, **wp_eventYears}
+
+    expeted_pu_df = evaluate_EWRs.merge_weirpool_with_freshes(wp_freshes, pd.DataFrame(test_pu_data))
+
+    for fresh in wp_freshes:
+        merged_column = f"{fresh}/{weirpool_pair[fresh]}_eventYears"
+        assert merged_column in expeted_pu_df.columns
+        assert  expeted_pu_df[merged_column].to_list() == merged_eventYears[merged_column]
+    
+    assert expeted_pu_df.shape[0] == PU_df_wp.shape[0] 
+    
+@pytest.mark.parametrize("wp_freshes",[
+    (
+        ["SF_WP"]
+    ),
+],)
+def test_missing_wp_calculation(PU_df_wp, wp_freshes,capsys):
+    weirpool_pair = {'SF_WP':'WP3',
+                      'LF2_WP': 'WP4' }
+
+    # drop all columns for current freshes
+    for fresh in wp_freshes:
+        columns_to_drop = [col for col in PU_df_wp.columns if weirpool_pair[fresh] in col]
+        PU_df_wp.drop(columns=columns_to_drop, inplace= True)
+    
+    evaluate_EWRs.merge_weirpool_with_freshes(wp_freshes, PU_df_wp)
+
+    captured = capsys.readouterr()
+
+    assert captured.out == "While trying to calculate SF_WP/WP3 there is missing data for WP3\n"
+
