@@ -24,6 +24,7 @@ def test_observed_cleaner():
     output_df = 'unit_testing_files/observed_flows_test_output.csv'
     expected_result = pd.read_csv(output_df, index_col = 'Date')
     expected_result.index = pd.to_datetime(expected_result.index, format='%Y-%m-%d')
+    expected_result.index = expected_result.index.to_period()
     expected_result.columns = ['419039']
     assert_frame_equal(result, expected_result)
 
@@ -83,7 +84,6 @@ def test_categorise_gauges():
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
 
-# @pytest.mark.xfail  
 def test_observed_handler():
     '''
     1. Test each part of the function are working correctly and producing an overall expected output
@@ -134,7 +134,7 @@ def test_get_all_events(observed_handler_instance):
 
     all_events = observed_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (56, 10)
+    assert all_events.shape == (76, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'multigauge']
 
@@ -142,19 +142,19 @@ def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 19)
-    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 
-       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength',
-       'totalEventDays', 'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
+    assert yearly_results.shape == (24, 22)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
+       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
+       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'multigauge']
 
 def test_get_ewr_results(observed_handler_instance):
 
     ewr_results = observed_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (24, 19)
+    assert ewr_results.shape == (24, 20)
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
-       'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
+       'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']

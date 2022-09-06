@@ -11,8 +11,11 @@ def pu_df():
     df_data = {'CF1_a_eventYears': {2016: 0, 2017: 0},
                 'CF1_a_numAchieved': {2016: 0, 2017: 0},
                 'CF1_a_numEvents': {2016: 0, 2017: 0},
+                'CF1_a_numEventsAll': {2016: 0, 2017: 0},
                 'CF1_a_eventLength': {2016: 0.0, 2017: 0.0},
+                'CF1_a_eventLengthAchieved': {2016: 0.0, 2017: 0.0},
                 'CF1_a_totalEventDays': {2016: 0, 2017: 0},
+                'CF1_a_totalEventDaysAchieved': {2016: 0, 2017: 0},
                 'CF1_a_daysBetweenEvents': {2016: [], 2017: []},
                 'CF1_a_missingDays': {2016: 0, 2017: 0},
                 'CF1_a_totalPossibleDays': {2016: 365, 2017: 365}}

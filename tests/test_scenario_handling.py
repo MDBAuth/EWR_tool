@@ -241,7 +241,6 @@ def test_unpack_IQQM_10000yr():
     
     assert_frame_equal(flow, expected_flow)
 
-# @pytest.mark.xfail
 def test_scenario_handler():
     '''things to test here:
     1. Ensure all parts of the function generate expected output
@@ -280,7 +279,6 @@ def test_scenario_handler():
     # Test
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], expected_detailed_results)
 
-# @pytest.mark.xfail
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
    
     detailed = scenario_handler_instance.pu_ewr_statistics
@@ -294,7 +292,7 @@ def test_get_all_events(scenario_handler_instance):
 
     all_events = scenario_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (24, 10)
+    assert all_events.shape == (26, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'multigauge']
 
@@ -302,10 +300,10 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
 
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (126, 19)
-    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 
-       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength',
-       'totalEventDays', 'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
+    assert yearly_results.shape == (126, 22)
+    assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
+       'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
+       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'multigauge']
 
 def test_get_ewr_results(scenario_handler_instance):
@@ -315,9 +313,9 @@ def test_get_ewr_results(scenario_handler_instance):
     print(ewr_results.columns)
     print(ewr_results.head())
     print(ewr_results.tail())
-    assert ewr_results.shape == (21, 19)
-    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge', 
-        'EventYears','Frequency', 'TargetFrequency', 'AchievementCount',
-       'AchievementPerYear', 'EventCount', 'totalEvents', 'EventsPerYear',
+    assert ewr_results.shape == (21, 20)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
+       'Frequency', 'TargetFrequency', 'AchievementCount',
+       'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
