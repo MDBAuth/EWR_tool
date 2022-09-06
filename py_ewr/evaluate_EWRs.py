@@ -1,6 +1,7 @@
 from collections import defaultdict
 from copy import deepcopy
 from enum import unique
+import sunau
 from typing import Any, List, Dict
 import pandas as pd
 import numpy as np
@@ -11,7 +12,7 @@ from itertools import chain
 
 from tqdm import tqdm
 
-from . import data_inputs
+from . import data_inputs, summarise_results
 
 #----------------------------------- Getting EWRs from the database ------------------------------#
 
@@ -3314,25 +3315,36 @@ def event_stats_sim(df, PU_df, gauge1, gauge2, EWR, EWR_info, events1, events2, 
 
 #-----------------------------Post processing-----------------------------------------------------#
 
-def merge_weirpool_with_freshes():
-    
-    # 1. unpack the PU_DF 
-        # a. fresh_eventYears column
-        # b. weirpool_eventYears column
-    # 2. merge the columns
-        # Max 
-    
-    # 3. add merges column
+def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFrame:
+    """Perform the post processing of WP2 and WP3 with equivalent freshes
 
-    # 4. Add other 12(x) columns with N/A
+    Args:
+        wp_freshes (List): freshed that need to be proceed to produced merged EWR
+        PU_df (pd.DataFrame): Dataframe with all the statistics so for this calculation run
 
-    # 5. return puDF with extra columns
-
-
-    # PU_df['SF_WP3'] = new_coolumn
+    Returns:
+        pd.DataFrame: Return Dataframe with the statistics of the merged EWR
+    """
     
-    
-    pass
+    weirpool_pair = {'SF_WP':'WP3',
+                      'LF2_WP': 'WP4' }
+    # iterate wp_freshes
+    for fresh in wp_freshes:
+        fresh_event_year = PU_df[f"{fresh}_eventYears"].values
+        try:    
+            weirpool_event_year = PU_df[f"{weirpool_pair[fresh]}_eventYears"].values
+            merged_ewr_event_year = np.maximum(fresh_event_year, weirpool_event_year)
+            # add merged results
+            PU_df[f"{fresh}/{weirpool_pair[fresh]}_eventYears"] = merged_ewr_event_year
+            # add remaninig columns with N/As
+            column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col ]))
+            for col in column_attributes:
+                PU_df[f"{fresh}/{weirpool_pair[fresh]}_{col}"] = np.nan
+        except KeyError as err:
+            print(f"While trying to calculate {fresh}/{weirpool_pair[fresh]} there is missing data for {weirpool_pair[fresh]}")
+            continue
+
+    return PU_df
 
 
 #---------------------------- Sorting and distributing to handling functions ---------------------#
@@ -3376,6 +3388,7 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
             # Determine if its classified as a complex EWR:
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
+            # SIMULTANEOUS calculations is switched off
             # SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
             SIMULTANEOUS = False
             if COMPLEX:
@@ -3420,8 +3433,11 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
             # Add the events to the dictionary:
             if events != {}:
                 PU_events[str(EWR)]=events
-        # if SF_WP in EWR_codes or LF_WP in EWR_codes:
-            # PU_df = merge_weirpool_with_freshes(PU_df)
+        
+        wp_freshes = [ewr for ewr in EWR_codes if ewr in ["SF_WP","LF2_WP"]]
+        if wp_freshes:
+            PU_df = merge_weirpool_with_freshes(wp_freshes, PU_df)
+            
 
         PU_name = PU_items['PlanningUnitName'].loc[PU_items[PU_items['PlanningUnitID'] == PU].index[0]]
         

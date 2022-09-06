@@ -233,3 +233,47 @@ def parameter_sheet():
     EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/parameter_sheet.csv")
     return EWR_table
 
+
+@pytest.fixture(scope="function")
+def wp_df_F_df_L():
+
+    murray_IQQM_df_wp = pd.read_csv("unit_testing_files/murray_IQQM_df_wp.csv", index_col = 'Date')
+    df_F, df_L = scenario_handling.cleaner_IQQM_10000yr(murray_IQQM_df_wp)
+
+    return df_F, df_L
+
+@pytest.fixture(scope="function")
+def wp_EWR_table(parameter_sheet):
+
+    wp_flow_level_gauges = ['414203', '414209', '425010', '4260501' ]
+
+
+    return parameter_sheet[(parameter_sheet["gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["code"].isin(["WP3","WP4","LF2_WP","SF_WP"]))] 
+
+
+@pytest.fixture(scope="function")
+def PU_df_wp():
+    df_data = {
+              'WP3_eventYears': {1896: 1, 1897: 0, 1898: 1, 1895: 0}, 
+              'WP3_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'WP3_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'WP3_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
+              
+              'WP4_eventYears': {1896: 0, 1897: 1, 1898: 0, 1895: 1}, 
+              'WP4_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'WP4_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'WP4_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
+              
+              'SF_WP_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
+              'SF_WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'SF_WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'SF_WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
+              
+              'LF2_WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}, 
+              'LF2_WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'LF2_WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'LF2_WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1}
+              } 
+
+    return pd.DataFrame(df_data)
+
