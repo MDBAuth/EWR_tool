@@ -304,8 +304,12 @@ def wateryear_daily(input_df, ewrs):
     return waterYears
 
 def get_index_date(date_index:Any)-> datetime.date:
-    return (date_index.date() if type(date_index) == pd._libs.tslibs.timestamps.Timestamp 
-            else date_index.to_timestamp().date())
+    if type(date_index) == pd._libs.tslibs.timestamps.Timestamp:
+        return date_index.date()
+    if type(date_index) == pd._libs.tslibs.period.Period:
+        return date_index.to_timestamp().date()
+    else:
+        return date_index
 
 #----------------------------------- EWR handling functions --------------------------------------#
 

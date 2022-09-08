@@ -164,21 +164,22 @@ def test_cumulative_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB3_S_eventYears': [0,0,0,0], 'OB3_S_numAchieved': [0,0,0,0], 'OB3_S_numEvents': [0,0,0,0], 'OB3_S_numEventsAll': [0,0,0,0], 
-            'OB3_S_maxInterEventDays': [0, 0, 0, 1461], 
-           'OB3_S_maxInterEventDaysAchieved': [1, 1, 1, 0],'OB3_S_eventLength': [0,0.0,0.0,0.0], 'OB3_S_eventLengthAchieved': [0,0.0,0.0,0.0], 
-            'OB3_S_totalEventDays': [0,0,0,0], 'OB3_S_totalEventDaysAchieved': [0,0,0,0], 'OB3_S_maxEventDays': [0,0,0,0],'OB3_S_maxRollingEvents': [0, 0, 0, 0], 
-            'OB3_S_maxRollingAchievement': [0, 0, 0, 0],'OB3_S_daysBetweenEvents': [[],[],[],[1461]],'OB3_S_missingDays': [0,0,0,0], 
+    data = {'OB3_S_eventYears': [1,0,0,0], 'OB3_S_numAchieved': [1,0,0,0], 'OB3_S_numEvents': [1,0,0,0], 'OB3_S_numEventsAll': [1,0,0,0], 
+            'OB3_S_maxInterEventDays': [355, 0, 0, 1105], 
+           'OB3_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3_S_eventLength': [1.0,0.0,0.0,0.0], 'OB3_S_eventLengthAchieved': [1.0,0.0,0.0,0.0], 
+            'OB3_S_totalEventDays': [1,0,0,0], 'OB3_S_totalEventDaysAchieved': [1,0,0,0], 'OB3_S_maxEventDays': [1,0,0,0],'OB3_S_maxRollingEvents': [1, 0, 0, 0], 
+            'OB3_S_maxRollingAchievement': [1, 1, 1, 1],'OB3_S_daysBetweenEvents': [[],[],[],[]],'OB3_S_missingDays': [0,0,0,0], 
             'OB3_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing 
-    expected_events = {2012:[], 2013:[], 2014:[], 2015:[]}
+    expected_events = {2012:[[(date(2013, 6, 21), 22000)]], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
+            # print(year)
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
