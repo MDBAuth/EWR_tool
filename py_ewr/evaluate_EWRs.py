@@ -1453,7 +1453,7 @@ def calc_flow_percent_change(iteration:int, flows:List)-> float:
     """
     if iteration == 0:
         return .0
-    if iteration > 0:
+    if iteration != 0:
         return ( ( float(flows[iteration]) / float(flows[iteration -1]) ) -1 )*100 if flows[iteration -1] != .0 else .0
 
 
