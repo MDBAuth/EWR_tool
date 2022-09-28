@@ -139,11 +139,13 @@ def test_cleaner_NSW():
     df = pd.DataFrame(data = data_df)
     df_clean = scenario_handling.cleaner_NSW(df)
     # Set up expected output data and test:
-    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    expected_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+    data_expected_df_F = {'Date': expected_dates,
                             'Gauge: YCB_410134_BillabongCreek@Darlot: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                             'Gauge: YCB_410016 Billabong Creek @ Jerilderie: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
                             }
     expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F['Date'] = expected_df_F['Date'].apply(lambda x: x.to_period(freq='D'))
     expected_df_F = expected_df_F.set_index('Date')
     assert_frame_equal(df_clean, expected_df_F)
     
