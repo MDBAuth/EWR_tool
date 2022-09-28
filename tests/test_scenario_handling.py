@@ -145,7 +145,7 @@ def test_cleaner_NSW():
                             'Gauge: YCB_410016 Billabong Creek @ Jerilderie: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
                             }
     expected_df_F = pd.DataFrame(data_expected_df_F)
-    expected_df_F = expected_df_F['Date'] = expected_df_F['Date'].apply(lambda x: x.to_period(freq='D'))
+    expected_df_F['Date'] = expected_df_F['Date'].apply(lambda x: x.to_period(freq='D'))
     expected_df_F = expected_df_F.set_index('Date')
     assert_frame_equal(df_clean, expected_df_F)
     
