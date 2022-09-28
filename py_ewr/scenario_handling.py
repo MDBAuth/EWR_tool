@@ -216,18 +216,23 @@ def cleaner_MDBA(input_df):
 
 def cleaner_NSW(input_df):
     '''Convert dates to datetime format, save this to the dataframe index'''
+    
+    cleaned_df = input_df.copy(deep=True)
+    
     try:
-        input_df['Date'] = pd.to_datetime(input_df['Date'], format = '%d/%m/%Y')
+        cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%d/%m/%Y')
+        cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
     except ValueError:
         print('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
         try:
-            input_df['Date'] = pd.to_datetime(input_df['Date'], format = '%Y-%m-%d')
+            cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%Y-%m-%d')
+            cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
         except ValueError:
             raise ValueError('New date format detected. Cannot read in data')
         print('successfully read in data with yyyy-mm-dd formatting')
-    input_df = input_df.set_index('Date')
+    cleaned_df = cleaned_df.set_index('Date')
     
-    return input_df
+    return cleaned_df
 
 def cleaner_IQQM_10000yr(input_df):
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level'''
