@@ -4,7 +4,7 @@ import re
 import pandas as pd
 import pytest
 
-from .py_ewr import observed_handling, scenario_handling, data_inputs
+from py_ewr import observed_handling, scenario_handling, data_inputs
 
 @pytest.fixture(scope="function")
 def pu_df():
