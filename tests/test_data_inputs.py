@@ -5,6 +5,7 @@ import pandas as pd
 from pandas._testing import assert_frame_equal
 import numpy as np
 import requests
+from datetime import datetime
 
 from py_ewr import data_inputs
 
@@ -44,7 +45,7 @@ def test_wy_to_climate():
     '''
     # Setting up input data 
     data = {'418026': list(range(0,730,1)), '425012': list(range(0,1460,2))}
-    index = pd.date_range(start='1/1/2017', end='31/12/2018')
+    index = pd.date_range(start=datetime.strptime('2017-01-01', '%Y-%m-%d'), end=datetime.strptime('2018-12-31', '%Y-%m-%d'))
     df = pd.DataFrame(data = data, index = index)
     water_years = np.array([2017]*365+[2018]*365)
     climate_daily = data_inputs.wy_to_climate(water_years, 'Gwydir', 'Standard - 1911 to 2018 climate categorisation')
@@ -111,10 +112,11 @@ def test_get_EWR_table():
     my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'
     s = requests.get(my_url, proxies=proxies).text
     df = pd.read_csv(io.StringIO(s),
-                        usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
-                              'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
-                              'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                              'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)'],
+                        usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+                              'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
+                              'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
                      dtype='str', encoding='cp1252'
                     )
     
@@ -122,7 +124,7 @@ def test_get_EWR_table():
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     
     total_len = len(EWR_table)+len(bad_EWRs)
-    assert (len(df), total_len)
+    assert len(df), total_len
     
 def test_map_gauge_to_catchment():
     '''

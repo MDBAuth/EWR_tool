@@ -31,11 +31,11 @@ def get_EWR_table(file_path = None):
     
     if file_path:
         df = pd.read_csv(file_path,
-         usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
-                                    'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
-                                    'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge',
-                                     'max_duration','TriggerDay','TriggerMonth','DrawDownRateWeek'],
+         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+                              'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
+                              'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
                             dtype='str', encoding='cp1252')
 
     if not file_path:
@@ -43,11 +43,11 @@ def get_EWR_table(file_path = None):
         proxies={} # Populate with your proxy settings
         s = requests.get(my_url, proxies=proxies).text
         df = pd.read_csv(io.StringIO(s),
-            usecols=['PlanningUnitID', 'PlanningUnitName',  'CompliancePoint/Node', 'gauge', 'code', 'start month',
-                                    'end month', 'frequency', 'events per year', 'duration', 'min event', 'flow threshold min', 'flow threshold max',
-                                    'max inter-event', 'within event gap tolerance', 'weirpool gauge', 'flow level volume', 'level threshold min',
-                                    'level threshold max', 'volume threshold', 'drawdown rate', 'Accumulation period (Days)','multigauge',
-                                     'max_duration','TriggerDay','TriggerMonth','DrawDownRateWeek'],
+            usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+                              'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
+                              'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
                         dtype='str', encoding='cp1252'
                         )
 
@@ -55,25 +55,25 @@ def get_EWR_table(file_path = None):
     df = df.fillna('')
 
     # removing the 'See notes'
-    okay_EWRs = df.loc[(df["start month"] != 'See note') & (df["end month"] != 'See note')]
-    see_notes = df.loc[(df["start month"] == 'See note') & (df["end month"] == 'See note')]
+    okay_EWRs = df.loc[(df["StartMonth"] != 'See note') & (df["EndMonth"] != 'See note')]
+    see_notes = df.loc[(df["StartMonth"] == 'See note') & (df["EndMonth"] == 'See note')]
 
     # Filtering those with no flow/level/volume thresholds
-    noThresh_df = okay_EWRs.loc[(okay_EWRs["flow threshold min"] == '') & (okay_EWRs["flow threshold max"] == '') &\
-                             (okay_EWRs["volume threshold"] == '') &\
-                             (okay_EWRs["level threshold min"] == '') & (okay_EWRs["level threshold max"] == '')]
-    okay_EWRs = okay_EWRs.loc[(okay_EWRs["flow threshold min"] != '') | (okay_EWRs["flow threshold max"] != '') |\
-                        (okay_EWRs["volume threshold"] != '') |\
-                        (okay_EWRs["level threshold min"] != '') | (okay_EWRs["level threshold max"] != '')]
+    noThresh_df = okay_EWRs.loc[(okay_EWRs["FlowThresholdMin"] == '') & (okay_EWRs["FlowThresholdMax"] == '') &\
+                             (okay_EWRs["VolumeThreshold"] == '') &\
+                             (okay_EWRs["LevelThresholdMin"] == '') & (okay_EWRs["LevelThresholdMax"] == '')]
+    okay_EWRs = okay_EWRs.loc[(okay_EWRs["FlowThresholdMin"] != '') | (okay_EWRs["FlowThresholdMax"] != '') |\
+                        (okay_EWRs["VolumeThreshold"] != '') |\
+                        (okay_EWRs["LevelThresholdMin"] != '') | (okay_EWRs["LevelThresholdMax"] != '')]
 
     # Filtering those with no durations
-    okay_EWRs = okay_EWRs.loc[(okay_EWRs["duration"] != '')]
-    no_duration = df.loc[(df["duration"] == '')]
+    okay_EWRs = okay_EWRs.loc[(okay_EWRs["Duration"] != '')]
+    no_duration = df.loc[(df["Duration"] == '')]
 
     # FIltering DSF EWRs
-    condDSF = df['code'].str.startswith('DSF')
+    condDSF = df['Code'].str.startswith('DSF')
     DSF_ewrs = df[condDSF]
-    condDSF_inv = ~(okay_EWRs['code'].str.startswith('DSF'))
+    condDSF_inv = ~(okay_EWRs['Code'].str.startswith('DSF'))
     okay_EWRs = okay_EWRs[condDSF_inv]
 
     # Combine the unuseable EWRs into a dataframe and drop dups:
@@ -81,8 +81,8 @@ def get_EWR_table(file_path = None):
     bad_EWRs = bad_EWRs.drop_duplicates()
 
     # Changing the flow and level max threshold to a high value when there is none available:
-    okay_EWRs['flow threshold max'].replace({'':'1000000'}, inplace = True)
-    okay_EWRs['level threshold max'].replace({'':'1000000'}, inplace = True)
+    okay_EWRs['FlowThresholdMax'].replace({'':'1000000'}, inplace = True)
+    okay_EWRs['LevelThresholdMax'].replace({'':'1000000'}, inplace = True)
     
     return okay_EWRs, bad_EWRs
 
@@ -98,7 +98,7 @@ def map_gauge_to_catchment(my_url = 'https://az3mdbastg001.blob.core.windows.net
     
     EWR_table, bad_EWRs =  get_EWR_table(my_url)
     
-    gauge_number = EWR_table['gauge'].values
+    gauge_number = EWR_table['Gauge'].values
     gauge_name = EWR_table['CompliancePoint/Node'].values
     
     gauge_to_name = dict()
@@ -300,9 +300,9 @@ def get_gauges(category):
     multi_gauges = list(multi_gauges.values())
     simul_gauges = list(simul_gauges.values())
     if category == 'all gauges':
-        return set(EWR_table['gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges)
+        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges)
     elif category == 'flow gauges':
-        return set(EWR_table['gauge'].to_list() + multi_gauges + simul_gauges)
+        return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges)
     elif category == 'level gauges':
         return set(menindee_gauges + wp_gauges)
     else:

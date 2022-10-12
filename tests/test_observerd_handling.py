@@ -102,15 +102,15 @@ def test_observed_handler():
     expected_detailed_results.index = expected_detailed_results.index.astype('object')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
-    for col in expected_detailed_results:
+    for i_col, col in enumerate(expected_detailed_results):
         if 'daysBetweenEvents' in col:
             for i, val in enumerate(expected_detailed_results[col]):
                 new = expected_detailed_results[col].iloc[i]
                 if new == '[]':
                     new_list = []
                 else:
-                    new = re.sub('\[', '', new)
-                    new = re.sub('\]', '', new)
+                    new = re.sub(r'\[', '', new)
+                    new = re.sub(r'\]', '', new)
                     new = new.split(',')
                     new_list = []
                     for days in new:
@@ -118,7 +118,7 @@ def test_observed_handler():
                         new_days = int(new_days)
                         new_list.append(new_days)
 
-                expected_detailed_results[col].iloc[i] = new_list
+                expected_detailed_results.iat[i, i_col] = new_list
     
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
 
@@ -136,7 +136,7 @@ def test_get_all_events(observed_handler_instance):
     assert type(all_events) == pd.DataFrame
     assert all_events.shape == (76, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
-                                     'eventDuration', 'eventLength', 'multigauge']
+                                     'eventDuration', 'eventLength', 'Multigauge']
 
 def test_get_yearly_ewr_results(observed_handler_instance):
 
@@ -146,7 +146,7 @@ def test_get_yearly_ewr_results(observed_handler_instance):
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'multigauge']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge']
 
 def test_get_ewr_results(observed_handler_instance):
 

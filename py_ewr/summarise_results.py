@@ -319,19 +319,19 @@ def join_ewr_parameters(cols_to_add:List, left_table:pd.DataFrame, left_on:List,
     
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(parameter_sheet_path)
 
-    EWR_table = fill_empty(EWR_table, ['frequency','max inter-event'])
+    EWR_table = fill_empty(EWR_table, ['TargetFrequency','MaxInter-event'])
 
-    columns_right_table = ['gauge','PlanningUnitName','code']
+    columns_right_table = ['Gauge','PlanningUnitName','Code']
 
     columns_right_table += cols_to_add
-    
+
     EWR_table = EWR_table[columns_right_table]
     
     output_table = left_table.merge(EWR_table, 
                                                   'left',
                                                   left_on=left_on, 
-                                                  right_on=['gauge','PlanningUnitName','code'])
-    
+                                                  right_on=['Gauge','PlanningUnitName','Code'])
+
     if selected_columns:
         output_table = output_table[selected_columns]
 
@@ -371,7 +371,6 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
           TotalDays = ("totalPossibleDays" , sum),
           )
     )
-    
     # summarize gauge events
     
     events_to_process = get_events_to_process(events)
@@ -385,16 +384,16 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                       right_on=['gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
 
-    final_merged = join_ewr_parameters(cols_to_add=['frequency','max inter-event','multigauge'],
+    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge'],
                                 left_table=final_summary_output,
                                 left_on=['gauge','pu','ewrCode'],
                                 selected_columns=["scenario",'gauge',
                                                     'pu', 
                                                     'ewrCode',
-                                                    'multigauge',
+                                                    'Multigauge',
                                                     'EventYears',
                                                     'Frequency',
-                                                    'frequency',
+                                                    'TargetFrequency', #TODO possible bug
                                                     'AchievementCount',
                                                     'AchievementPerYear',
                                                     'EventCount',
@@ -404,7 +403,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'averageEventLength',
                                                     'ThresholdDays',
                                                     'InterEventExceedingCount',
-                                                    'max inter-event',
+                                                    'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
                                 renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',

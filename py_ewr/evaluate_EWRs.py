@@ -23,8 +23,8 @@ def component_pull(EWR_table, gauge, PU, EWR, component):
     '''Pass EWR details (planning unit, gauge, EWR, and EWR component) and the EWR table, 
     this function will then pull the component from the table
     '''
-    component = list(EWR_table[((EWR_table['gauge'] == gauge) & 
-                           (EWR_table['code'] == EWR) &
+    component = list(EWR_table[((EWR_table['Gauge'] == gauge) & 
+                           (EWR_table['Code'] == EWR) &
                            (EWR_table['PlanningUnitID'] == PU)
                           )][component])[0]
     return component if component else 0
@@ -45,8 +45,8 @@ def get_second_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, p
     Returns:
         bool: second gauge code
     """
-    item = parameter_sheet[(parameter_sheet['gauge']==gauge) & (parameter_sheet['code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    gauge_array = item['multigauge'].to_list()
+    item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
+    gauge_array = item['Multigauge'].to_list()
     gauge_number = gauge_array[0] if gauge_array else ''
     return gauge_number
     
@@ -141,7 +141,7 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
         ewrs['second_gauge'] = simultaneousGaugeDict[PU][gauge]
     if 'TF' in components:
         try:
-            ewrs['frequency'] = component_pull(EWR_table, gauge, PU, EWR, 'Frequency')
+            ewrs['frequency'] = component_pull(EWR_table, gauge, PU, EWR, 'TargetFrequency')
             
         except IndexError:
             ewrs['frequency'] = None
@@ -154,10 +154,10 @@ def get_EWRs(PU, gauge, EWR, EWR_table, allowance, components):
         accumulation_period = component_pull(EWR_table, gauge, PU, EWR, 'AccumulationPeriod')
         ewrs['accumulation_period'] = int(accumulation_period)
     if 'FLV' in components:
-        flow_level_volume = component_pull(EWR_table, gauge, PU, EWR, 'flowLevelVolume')
+        flow_level_volume = component_pull(EWR_table, gauge, PU, EWR, 'FlowLevelVolume')
         ewrs['flow_level_volume'] = flow_level_volume
     if 'MAXD' in components:
-        max_duration = component_pull(EWR_table, gauge, PU, EWR, 'MaxDuration')
+        max_duration = component_pull(EWR_table, gauge, PU, EWR, 'MaxSpell')
         ewrs['max_duration'] = int(max_duration) if max_duration else 1_000_000
     if 'TD' in components:
         trigger_day = component_pull(EWR_table, gauge, PU, EWR, 'TriggerDay')
@@ -187,8 +187,8 @@ def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -
     Returns:
         bool: returns True if it is a multigauge and False if not
     """
-    item = parameter_sheet[(parameter_sheet['gauge']==gauge) & (parameter_sheet['code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    mg = item['multigauge'].to_list()
+    item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
+    mg = item['Multigauge'].to_list()
     if not mg:
         return False
     if mg[0] == '':
@@ -207,8 +207,8 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
     Returns:
         bool: returns True if it is a weirpool gauge and False if not
     """
-    item = parameter_sheet[(parameter_sheet['gauge']==gauge) & (parameter_sheet['code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    wp = item['weirpool gauge'].to_list()
+    item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
+    wp = item['WeirpoolGauge'].to_list()
     if not wp:
         return False
     if wp[0] == '':
@@ -390,7 +390,7 @@ def level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance):
     water_years = wateryear_daily(df_L, EWR_info)  
     # Check flow data against EWR requirements and then perform analysis on the results:
     try:    
-        E, NE, D, ME = lake_calc_ltwp_alt(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+        E, NE, D, ME = lake_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
     except ValueError:
         print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due wrong value in the parameter sheet 
         give level drawdown in cm not in % {EWR_info.get('drawdown_rate', 'no drawdown rate')}''')
@@ -1356,7 +1356,6 @@ def check_nest_percent_drawdown(flow_percent_change:float, EWR_info:Dict, flow:f
         bool: True if meets condition otherwise False
     """
     percent_drawdown = float(EWR_info['drawdown_rate'][:-1])
-    
     if flow >= EWR_info['max_flow']:
         return True
     if flow_percent_change < - percent_drawdown:
@@ -2958,14 +2957,14 @@ def calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table):
     # simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
     complex_EWRs = data_inputs.get_complex_calcs()
     # Extract relevant sections of the EWR table:
-    gauge_table = EWR_table[EWR_table['gauge'] == gauge]
+    gauge_table = EWR_table[EWR_table['Gauge'] == gauge]
     # save the planning unit dataframes to this dictionary:
     location_results = {}
     location_events = {}
     for PU in set(gauge_table['PlanningUnitID']):
         PU_table = gauge_table[gauge_table['PlanningUnitID'] == PU]
-        EWR_categories = PU_table['flow level volume'].values
-        EWR_codes = PU_table['code']
+        EWR_categories = PU_table['FlowLevelVolume'].values
+        EWR_codes = PU_table['Code']
         PU_df = pd.DataFrame()
         PU_events = {}
         for i, EWR in enumerate(tqdm(EWR_codes, position = 0, leave = False,

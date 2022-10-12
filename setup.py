@@ -1,11 +1,12 @@
 from setuptools import find_packages, setup
 
+
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name="py_ewr",
-    version="0.8.6",
+    version="0.8.7",
     author="Martin Job",
     author_email="Martin.Job@mdba.gov.au",
     description="Environmental Water Requirement calculator",

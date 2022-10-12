@@ -196,10 +196,11 @@ def test_build_MDBA_columns():
     input_file = 'unit_testing_files/MDBA_bigmod_test_file.csv'
     data, header = scenario_handling.unpack_model_file(input_file, 'Dy', 'Field')
     data = scenario_handling.build_MDBA_columns(data, header)
-    data = data.astype({'Dy': 'float64'})
+    data = data.astype({'Dy': 'int32', 'Mn': 'int32', 'Year': 'int32'})
     # Load expected output data, format, and test:
     expected_result = pd.read_csv('unit_testing_files/MDBA_bigmod_test_file_flow_result.csv')
-    expected_result = expected_result.astype({'Dy': 'float64'})
+    expected_result = expected_result.astype({'Dy': 'int32', 'Mn': 'int32', 'Year': 'int32'})
+
     assert_frame_equal(data, expected_result)        
 
 
@@ -258,18 +259,17 @@ def test_scenario_handler():
     # Expected output params
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
     expected_detailed_results.index = expected_detailed_results.index.astype('object')
-    print(expected_detailed_results.index.astype('object'))
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
-    for col in expected_detailed_results:
+    for i_col, col in enumerate(expected_detailed_results):
         if 'daysBetweenEvents' in col:
             for i, val in enumerate(expected_detailed_results[col]):
                 new = expected_detailed_results[col].iloc[i]
                 if new == '[]':
                     new_list = []
                 else:
-                    new = re.sub('\[', '', new)
-                    new = re.sub('\]', '', new)
+                    new = re.sub(r'\[', '', new)
+                    new = re.sub(r'\]', '', new)
                     new = new.split(',')
                     new_list = []
                     for days in new:
@@ -277,7 +277,7 @@ def test_scenario_handler():
                         new_days = int(new_days)
                         new_list.append(new_days)
 
-                expected_detailed_results[col].iloc[i] = new_list
+                expected_detailed_results.iat[i, i_col] = new_list
     # Test
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], expected_detailed_results)
 
@@ -296,7 +296,7 @@ def test_get_all_events(scenario_handler_instance):
     assert type(all_events) == pd.DataFrame
     assert all_events.shape == (26, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
-                                     'eventDuration', 'eventLength', 'multigauge']
+                                     'eventDuration', 'eventLength', 'Multigauge']
 
 def test_get_yearly_ewr_results(scenario_handler_instance):
 
@@ -306,15 +306,12 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'multigauge']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge']
 
 def test_get_ewr_results(scenario_handler_instance):
 
     ewr_results = scenario_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    print(ewr_results.columns)
-    print(ewr_results.head())
-    print(ewr_results.tail())
     assert ewr_results.shape == (21, 20)
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',

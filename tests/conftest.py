@@ -149,15 +149,15 @@ def observed_handler_expected_detail():
     expected_detailed_results.index = expected_detailed_results.index.astype('object')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
-    for col in expected_detailed_results:
+    for i_col, col in enumerate(expected_detailed_results):
         if 'daysBetweenEvents' in col:
             for i, val in enumerate(expected_detailed_results[col]):
                 new = expected_detailed_results[col].iloc[i]
                 if new == '[]':
                     new_list = []
                 else:
-                    new = re.sub('\[', '', new)
-                    new = re.sub('\]', '', new)
+                    new = re.sub(r'\[', '', new)
+                    new = re.sub(r'\]', '', new)
                     new = new.split(',')
                     new_list = []
                     for days in new:
@@ -165,7 +165,7 @@ def observed_handler_expected_detail():
                         new_days = int(new_days)
                         new_list.append(new_days)
 
-                expected_detailed_results[col].iloc[i] = new_list
+                expected_detailed_results.iat[i, i_col] = new_list
     
     return expected_detailed_results
 
@@ -177,15 +177,15 @@ def scenario_handler_expected_detail():
     expected_detailed_results.index.astype('object')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
-    for col in expected_detailed_results:
+    for i_col, col in enumerate(expected_detailed_results):
         if 'daysBetweenEvents' in col:
             for i, val in enumerate(expected_detailed_results[col]):
                 new = expected_detailed_results[col].iloc[i]
                 if new == '[]':
                     new_list = []
                 else:
-                    new = re.sub('\[', '', new)
-                    new = re.sub('\]', '', new)
+                    new = re.sub(r'\[', '', new)
+                    new = re.sub(r'\]', '', new)
                     new = new.split(',')
                     new_list = []
                     for days in new:
@@ -193,7 +193,7 @@ def scenario_handler_expected_detail():
                         new_days = int(new_days)
                         new_list.append(new_days)
 
-                expected_detailed_results[col].iloc[i] = new_list
+                expected_detailed_results.iat[i, i_col] = new_list
 
     return expected_detailed_results
 
@@ -248,7 +248,7 @@ def wp_EWR_table(parameter_sheet):
     wp_flow_level_gauges = ['414203', '414209', '425010', '4260501' ]
 
 
-    return parameter_sheet[(parameter_sheet["gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["code"].isin(["WP3","WP4","LF2_WP","SF_WP"]))] 
+    return parameter_sheet[(parameter_sheet["Gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2_WP","SF_WP"]))] 
 
 
 @pytest.fixture(scope="function")
