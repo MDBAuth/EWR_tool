@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 
 
-### **EWR tool beta version 0.8.9 README**
+### **EWR tool beta version 0.9.0 README**
 
 *************
 The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
@@ -113,6 +113,16 @@ yearly_ewr_results = ewr_sh.get_yearly_ewr_results()
 # returns a pandas DataFrame with all events of the timeseries
 all_events = ewr_sh.get_all_events()
 
+# returns a pandas DataFrame with all interEvents of the timeseries
+all_interEvents = ewr_sh.get_all_interEvents()
+
+# returns a pandas DataFrame with all successful events of the timeseries
+all_successfulEvents = ewr_sh.get_all_successful_events()
+
+# returns a pandas DataFrame with all interevent periods between the successful events of the timeseries
+all_successful_interEvents = ewr_sh.get_all_successful_interEvents()
+
+
 ```
 
 ### **Purpose**
@@ -125,7 +135,7 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.8.9 of the EWR tool. Testing is still being undertaken.
+This is the version 0.9.0 of the EWR tool. Testing is still being undertaken.
 
 
 **Disclaimer**
