@@ -16,7 +16,7 @@ def pu_df():
                 'CF1_a_eventLengthAchieved': {2016: 0.0, 2017: 0.0},
                 'CF1_a_totalEventDays': {2016: 0, 2017: 0},
                 'CF1_a_totalEventDaysAchieved': {2016: 0, 2017: 0},
-                'CF1_a_daysBetweenEvents': {2016: [], 2017: []},
+                'CF1_a_maxInterEventDaysAchieved': {2016: [], 2017: []},
                 'CF1_a_missingDays': {2016: 0, 2017: 0},
                 'CF1_a_totalPossibleDays': {2016: 365, 2017: 365}}
     return pd.DataFrame.from_dict(df_data)

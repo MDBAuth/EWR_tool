@@ -8,8 +8,15 @@ from . import data_inputs
 #--------------------------------------------------------------------------------------------------
 
 
-def get_frequency(events):
-    '''Returns the frequency of years they occur in'''
+def get_frequency(events: list) -> int:
+    '''Returns the frequency of years they occur in.
+    
+    Args:
+        events (list): a list of years with events (0 for no event, 1 for event)
+    Results:
+        int: Frequency of years with events
+    
+    '''
     if events.count() == 0:
         result = 0
     else:
@@ -116,7 +123,6 @@ def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
         ewr_df["scenario"] = scenario
         ewr_df["gauge"] = gauge
         ewr_df["pu"] = pu
-        ewr_df["daysBetweenEvents"] = ewr_df["daysBetweenEvents"].agg(len)
         ewr_df = ewr_df.loc[:,~ewr_df.columns.duplicated()]
         returned_dfs.append(ewr_df)
     return pd.concat(returned_dfs, ignore_index=True)
@@ -340,6 +346,21 @@ def join_ewr_parameters(cols_to_add:List, left_table:pd.DataFrame, left_on:List,
 
     return output_table
 
+def sum_0(series:pd.Series) -> int:
+    '''
+    Custom agg function for counting occurences of 0's in a series
+    
+    Args:
+        series (pd.Series): pandas series of 0s and 1s
+
+    Results:
+        int: sum of 0s
+    '''
+    return series[series==0].count()
+
+    # return series.value_counts()[0]
+
+
 def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> pd.DataFrame:
     """orchestrate the processing of the pu_dfs items and the gauge events and join
     in one summary DataFrame and join with EWR parameters for comparison
@@ -366,7 +387,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
           EventsPerYear = ("numEvents",'mean'),
           EventsPerYearAll = ("numEventsAll",'mean'),
           ThresholdDays = ("totalEventDays", sum),
-          InterEventExceedingCount = ("daysBetweenEvents" , sum),
+          InterEventExceedingCount = ("maxInterEventDaysAchieved", sum_0),
           NoDataDays =  ("missingDays" , sum),
           TotalDays = ("totalPossibleDays" , sum),
           )
@@ -393,7 +414,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'Multigauge',
                                                     'EventYears',
                                                     'Frequency',
-                                                    'TargetFrequency', #TODO possible bug
+                                                    'TargetFrequency',
                                                     'AchievementCount',
                                                     'AchievementPerYear',
                                                     'EventCount',

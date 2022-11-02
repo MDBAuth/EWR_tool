@@ -45,8 +45,8 @@ def test_match_NSW_nodes():
     # Set up input data and pass to test function:
     model_metadata = data_inputs.get_NSW_codes()
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-                'Gauge: YCB_410134_BillabongCreek@Darlot: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
-                'Gauge: YCB_410016 Billabong Creek @ Jerilderie: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                'Gauge: 410134 Billabong Creek at Darlot: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'Gauge: 410016 Billabong Creek at Jerilderie: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
                 }
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
@@ -244,47 +244,9 @@ def test_unpack_IQQM_10000yr():
     
     assert_frame_equal(flow, expected_flow)
 
-def test_scenario_handler():
-    '''things to test here:
-    1. Ensure all parts of the function generate expected output
-    '''
-    # Testing the MDBA bigmod format:
-    # Input params
-    scenarios = {'Low_flow_EWRs_Bidgee_410007': 'unit_testing_files/Low_flow_EWRs_Bidgee_410007.csv'}
-    model_format = 'Bigmod - MDBA'
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
-    # Pass to the function
-    detailed, summary = scenario_handling.scenario_handler(scenarios, model_format, allowance, climate)
-    # Expected output params
-    expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
-    expected_detailed_results.index = expected_detailed_results.index.astype('object')
-    cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
-    expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
-    for i_col, col in enumerate(expected_detailed_results):
-        if 'daysBetweenEvents' in col:
-            for i, val in enumerate(expected_detailed_results[col]):
-                new = expected_detailed_results[col].iloc[i]
-                if new == '[]':
-                    new_list = []
-                else:
-                    new = re.sub(r'\[', '', new)
-                    new = re.sub(r'\]', '', new)
-                    new = new.split(',')
-                    new_list = []
-                    for days in new:
-                        new_days = days.strip()
-                        new_days = int(new_days)
-                        new_list.append(new_days)
-
-                expected_detailed_results.iat[i, i_col] = new_list
-    # Test
-    assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], expected_detailed_results)
-
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
    
     detailed = scenario_handler_instance.pu_ewr_statistics
-    
     # Test
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
 
@@ -297,15 +259,15 @@ def test_get_all_events(scenario_handler_instance):
     assert all_events.shape == (26, 10)
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
-
+        
 def test_get_yearly_ewr_results(scenario_handler_instance):
 
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (126, 22)
+    assert yearly_results.shape == (126, 21)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
-       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
+       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge']
 
 def test_get_ewr_results(scenario_handler_instance):

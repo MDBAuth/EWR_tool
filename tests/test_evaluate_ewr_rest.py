@@ -168,64 +168,6 @@ def test_construct_event_dict():
 	expected_result = {2018:[], 2019:[]}
 	assert all_events == expected_result
 
-def test_get_days_between():
-	'''
-	1. Testing low flow with more than 1 year interevent requirement
-	2. Testing low flow with less than 1 year of interevent requirement
-	3. Testing non low flow EWR with more than 1 year requirement
-	4. Testing for EWR with only a subset of the water year available
-	'''
-	# Test 1
-	no_events = {2012: [[735], [50], [2]], 2013: [[35], [50], [365]],
-					2014: [[35], [50], [2]], 2015: [[35], [280], [2]]}
-	years_with_events = [0,0,0,1] # This will be used in the calculation
-	EWR = 'BF'
-	EWR_info = {'max_inter-event': 2}
-	unique_water_years = [2012, 2013, 2014, 2015]
-	water_years = [2012]*365+[2013]*365+[2014]*365+[2015]*365
-	days_between = evaluate_EWRs.get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
-	expected_days_between = [[], [], [], [1095]]
-	for i, v in enumerate(days_between):
-			assert days_between[i] == expected_days_between[i]
-	#--------------------------------------------------------------------
-	# Test 2
-	no_events = {2012: [[35], [50], [2]], 2013: [[35], [50], [2]],
-					2014: [[35], [50], [2]], 2015: [[35], [50], [2]]}
-	years_with_events = [0,0,0,1] #This will be ignored in this calculation
-	EWR = 'BF'
-	EWR_info = {'max_inter-event': 0.04} # Equates to about 14-15 days
-	unique_water_years = [2012, 2013, 2014, 2015]
-	water_years = [2012]*365+[2013]*365+[2014]*365+[2015]*365
-	days_between = evaluate_EWRs.get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
-	expected_days_between = [[35, 50], [35, 50], [35, 50], [35, 50]]
-	for i, v in enumerate(days_between):
-			assert days_between[i] == expected_days_between[i]
-	#--------------------------------------------------------------------
-	# Test 3
-	no_events = {2012: [[35], [50], [2]], 2013: [[35], [50], [2]],
-					2014: [[35], [50], [2]], 2015: [[735], [2]]}
-	years_with_events = [0,1,0,0] #This will be ignored in this calculation
-	EWR = 'LF'
-	EWR_info = {'max_inter-event': 2}
-	unique_water_years = [2012, 2013, 2014, 2015]
-	water_years = [2012]*365+[2013]*365+[2014]*365+[2015]*365
-	days_between = evaluate_EWRs.get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
-	expected_days_between = [[], [], [], [735]]
-	for i, v in enumerate(days_between):
-			assert days_between[i] == expected_days_between[i]
-	#--------------------------------------------------------------------
-	# Test 4
-	no_events = {2012: [[35], [122], [2]], 2013: [[35], [50], [2]],
-					2014: [[35], [50], [2]], 2015: [[730], [50], [121]]}
-	years_with_events = [0,0,0,1] #This will be ignored in this calculation
-	EWR = 'LF'
-	EWR_info = {'max_inter-event': 2}
-	unique_water_years = [2012, 2013, 2014, 2015]
-	water_years = [2012]*365+[2013]*365+[2014]*365+[2015]*365
-	days_between = evaluate_EWRs.get_days_between(years_with_events, no_events, EWR, EWR_info, unique_water_years, water_years)
-	expected_days_between = [[], [], [], [730]]
-	for i, v in enumerate(days_between):          
-			assert days_between[i] == expected_days_between[i]
 
 
 def test_get_event_years():
@@ -241,7 +183,7 @@ def test_get_event_years():
 	unique_water_years = [2012, 2013, 2014, 2015]
 	durations = [5,5,5,5]
 	min_events = [5,5,5,5]
-	event_years = evaluate_EWRs.get_event_years(EWR_info, events, unique_water_years, durations, min_events)
+	event_years = evaluate_EWRs.get_event_years(EWR_info, events, unique_water_years, durations)
 	expected_event_years = [1,0,1,0]
 	assert event_years == expected_event_years
 
@@ -350,7 +292,7 @@ def test_get_achievements():
 	unique_water_years = [2012, 2013, 2014, 2015]
 	durations = [5,5,5,5]
 	min_events = [5,5,5,5]
-	num_events = evaluate_EWRs.get_achievements(EWR_info, events, unique_water_years, durations, min_events)
+	num_events = evaluate_EWRs.get_achievements(EWR_info, events, unique_water_years, durations)
 	expected_num_events = [3,1,4,0]
 	assert num_events == expected_num_events
 	#-------------------------------------------------
@@ -361,7 +303,7 @@ def test_get_achievements():
 	unique_water_years = [2012, 2013, 2014, 2015]
 	durations = [5,5,5,5]
 	min_events = [5,5,5,5]
-	num_events = evaluate_EWRs.get_achievements(EWR_info, events, unique_water_years, durations, min_events)
+	num_events = evaluate_EWRs.get_achievements(EWR_info, events, unique_water_years, durations)
 	expected_num_events = [1,0,2,0]
 	assert num_events == expected_num_events
 
@@ -377,7 +319,7 @@ def test_get_number_events():
 	unique_water_years = [2012, 2013, 2014, 2015]
 	durations = [5,5,5,5]
 	min_events = [5,5,5,5]
-	num_events = evaluate_EWRs.get_number_events(EWR_info, events, unique_water_years, durations, min_events)
+	num_events = evaluate_EWRs.get_number_events(EWR_info, events, unique_water_years, durations)
 	expected_num_events = [3,1,4,0]
 	assert num_events == expected_num_events
 	#--------------------------------------------------
@@ -388,7 +330,7 @@ def test_get_number_events():
 	unique_water_years = [2012, 2013, 2014, 2015]
 	durations = [5,5,5,5]
 	min_events = [5,5,5,5]
-	num_events = evaluate_EWRs.get_number_events(EWR_info, events, unique_water_years, durations, min_events)
+	num_events = evaluate_EWRs.get_number_events(EWR_info, events, unique_water_years, durations)
 	expected_num_events = [3,1,4,0]
 	assert num_events == expected_num_events
 

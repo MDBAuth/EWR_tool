@@ -84,43 +84,7 @@ def test_categorise_gauges():
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
 
-def test_observed_handler():
-    '''
-    1. Test each part of the function are working correctly and producing an overall expected output
-    '''
-    
-    # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
 
-    detailed, summary = observed_handling.observed_handler(gauges, dates, allowance, climate)
-    
-    # Load and format expected results
-    expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_observed.csv', index_col = 0)
-    expected_detailed_results.index = expected_detailed_results.index.astype('object')
-    cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
-    expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
-    for i_col, col in enumerate(expected_detailed_results):
-        if 'daysBetweenEvents' in col:
-            for i, val in enumerate(expected_detailed_results[col]):
-                new = expected_detailed_results[col].iloc[i]
-                if new == '[]':
-                    new_list = []
-                else:
-                    new = re.sub(r'\[', '', new)
-                    new = re.sub(r'\]', '', new)
-                    new = new.split(',')
-                    new_list = []
-                    for days in new:
-                        new_days = days.strip()
-                        new_days = int(new_days)
-                        new_list.append(new_days)
-
-                expected_detailed_results.iat[i, i_col] = new_list
-    
-    assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], expected_detailed_results)
 
 def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
 
@@ -142,10 +106,10 @@ def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 22)
+    assert yearly_results.shape == (24, 21)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
-       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'daysBetweenEvents', 'missingDays',
+       'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge']
 
 def test_get_ewr_results(observed_handler_instance):

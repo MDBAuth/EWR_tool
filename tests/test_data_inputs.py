@@ -10,17 +10,6 @@ from datetime import datetime
 from py_ewr import data_inputs
 
 BASE_PATH = Path(__file__).resolve().parents[1]
-
-def test_convert_max_interevent():
-    '''
-    1. Test max interevent is converted from years to days
-    '''
-    # Test 1
-    unique_water_years = [2012, 2013, 2014, 2015]
-    water_years = [2012]*365+[2013]*365+[2014]*365+[2015]*365
-    EWR_info = {'max_inter-event': 1}
-    new_max_interevent = data_inputs.convert_max_interevent(unique_water_years, water_years, EWR_info)
-    assert new_max_interevent == 365
     
     
 def test_gauge_to_catchment():

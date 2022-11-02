@@ -10,9 +10,17 @@ BASE_PATH = Path(__file__).resolve().parent
 
 # Importing the climate cat data - to be replaced by RAS data once available:
    
-def get_climate_cats(climate_file):
+def get_climate_cats(climate_file:str) -> pd.DataFrame:
     '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
-    in which case this is used'''
+    in which case this is used
+    
+    Args:
+        climate_file (str): location of the climate categoration file
+
+    Returns:
+        pd.DataFrame: Returns a dataframe showing annual climate categories for catchments
+    
+    '''
     
     if climate_file == 'Standard - 1911 to 2018 climate categorisation':
         climate_cats = pd.read_csv( BASE_PATH / 'climate_data/climate_cats.csv', index_col = 0)
@@ -23,11 +31,17 @@ def get_climate_cats(climate_file):
     return climate_cats
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path = None):
+def get_EWR_table(file_path:str = None) -> dict:
     
     ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
-    does some cleaning, including swapping out '?' in the frequency column with 0'''
+    does some cleaning, including swapping out '?' in the frequency column with 0
+    
+    Args:
+        file_path (str): Location of the EWR dataset
+    Returns:
+        tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
+    '''
     
     if file_path:
         df = pd.read_csv(file_path,
@@ -87,9 +101,15 @@ def get_EWR_table(file_path = None):
     return okay_EWRs, bad_EWRs
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def map_gauge_to_catchment(my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'):
+def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv') -> dict:
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
-    first three numbers for each gauge '''
+    first three numbers for each gauge 
+    
+    Args:
+        my_url (str): location of the EWR dataset
+    Returns:
+        dict[dict]: Dictinoary of catchments, for each catchment a dictionary of gauge number and name key value pairs 
+    '''
     
     lower_darling_gauges = ['425054', '425010', '425011', '425052', '425013', '425056', '425007', 
                             '425057', '425005', '425050', '425048', '425019', '425014', '425023', 
@@ -166,42 +186,61 @@ def map_gauge_to_catchment(my_url = 'https://az3mdbastg001.blob.core.windows.net
                               })
     return gauge_to_catchment
 
-def get_MDBA_codes():
+def get_MDBA_codes() -> pd.DataFrame:
     '''
     Load MDBA model metadata file containing model nodes
     and gauges they correspond to
+
+    Returns:
+        pd.DataFrame: dataframe for linking MDBA model nodes to gauges
+
     '''
     metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str, encoding='windows-1252')
-#     metadata = metadata.where(pd.notnull(metadata), None)
 
     return metadata
   
-def get_NSW_codes():
+def get_NSW_codes() -> pd.DataFrame:
     '''
     Load NSW model metadata file containing model nodes
     and gauges they correspond to
+
+    Returns:
+        pd.DataFrame: dataframe for linking NSW model nodes to gauges
+
     '''
     metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_NSW.csv', engine = 'python', dtype=str)
     
     return metadata
 
-def gauge_to_catchment(input_gauge):
+def gauge_to_catchment(input_gauge:str) -> str:
     '''
     Takes in a gauge, maps it to the catchment
     returns the catchment
+
+    Args:
+        input_gauge (str): Gauge string
+    
+    Returns:
+        str: The catchment name that the input gauge is located in
+
     '''
     catchments_gauges = map_gauge_to_catchment()
     for catchment in catchments_gauges:
         if input_gauge in catchments_gauges[catchment]:
             return catchment
     
-def wy_to_climate(water_years, catchment, climate_file):
+def wy_to_climate(water_years: np.array, catchment: str, climate_file: str) -> np.array:
     '''
-    water_years = a daily water year value array
-    catchment = the catchment that the gauge is in
-    climate file = which climate data to use
-    
     The function assigns a climate categorisation for every day, depending on the water year and catchment in the climate file
+
+    Args:
+        water_years (np.array): Daily water year array
+        catchment (str): The catchment that the gauge is in
+        climate file (str) = Which climate data to use
+
+    Returns:
+        np.array: Daily climate categorisation
+    
     '''
     # Get the climate categorisation:
     climate_cats = get_climate_cats(climate_file)
@@ -221,9 +260,13 @@ def wy_to_climate(water_years, catchment, climate_file):
     
     return climateDaily
 
+def get_level_gauges() -> tuple:
+    '''Returning level gauges with EWRs
 
-def get_level_gauges():
-    '''Returning level gauges with EWRs'''
+    Returns:
+        tuple[list, dict]: list of lake level gauges, dictionary of weirpool gauges
+    
+    '''
     
     menindeeGauges = ['425020', '425022', '425023']
     
@@ -235,49 +278,62 @@ def get_level_gauges():
     return menindeeGauges, weirpoolGauges
 
 
-def get_multi_gauges(dataType):
+def get_multi_gauges(dataType: str) -> dict:
     '''
-    Call function to return a dictionary of multi gauges.
     Multi gauges are for EWRs that require the flow of two gauges to be added together
+
+    Args:
+        dataType (str): Pass 'all' to get multi gauges and their planning units, pass 'gauges' to get only the gauges.
+    Returns:
+        dict: if 'all' nested dict returned with a level for planning units
     '''
     
-    gauges = {'PU_0000130': {'421090': '421088', '421088': '421090'},
+    all = {'PU_0000130': {'421090': '421088', '421088': '421090'},
               'PU_0000131': {'421090': '421088', '421088': '421090'},
               'PU_0000132': {'421090': '421088', '421088': '421090'},
               'PU_0000133': {'421090': '421088', '421088': '421090'}
              }
     returnData = {}
     if dataType == 'all':
-        returnData = gauges
+        returnData = all
     if dataType == 'gauges':
-        for i in gauges:
-            returnData = {**returnData, **gauges[i]}
+        for i in all:
+            returnData = {**returnData, **all[i]}
     
     return returnData
 
-def get_simultaneous_gauges(dataType):
+def get_simultaneous_gauges(dataType: str) -> dict:
     '''
     Call function to return a dictionary of simultaneous gauges.
     Simultaneous gauges are for EWRs that need to be met simultaneously with EWRs at another location
+
+    Args:
+        dataType (str): Pass 'all' to get simultaneous gauges and their planning units, pass 'gauges' to get only gauges.
+    Returns:
+        dict: if 'all', nested dict returned with a level for planning units.
+
     '''
     
-    gauges = {'PU_0000131': {'421090': '421022', '421022': '421090'},
+    all = {'PU_0000131': {'421090': '421022', '421022': '421090'},
               'PU_0000132': {'421090': '421022', '421022': '421090'},
               'PU_0000133': {'421090': '421022', '421022': '421090'}
              }
     returnData = {}
     if dataType == 'all':
-        returnData = gauges
+        returnData = all
     if dataType == 'gauges':
-        for i in gauges:
-            returnData = {**returnData, **gauges[i]}
+        for i in all:
+            returnData = {**returnData, **all[i]}
         
     return returnData
 
-def get_complex_calcs():
+def get_complex_calcs() -> dict:
     '''
     Returns a dictionary of the complex EWRs, and the type of analysis that needs to be undertaken
     These EWRs cannot be calculated using the standard suite of functions
+
+    Returns:
+        dict[dict]
     '''
     complexCalcs = {'409025': {'OB2_S': 'flowDurPostReq', 'OB2_P': 'flowDurPostReq',
                               'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
@@ -285,11 +341,17 @@ def get_complex_calcs():
     return complexCalcs
 
 
-def get_gauges(category):
+def get_gauges(category: str) -> set:
     '''
     Gathers a list of either all gauges that have EWRs associated with them,
     a list of all flow type gauges that have EWRs associated with them,
     or a list of all level type gauges that have EWRs associated with them
+
+    Args:
+        category(str): options = 'all gauges', 'flow gauges', or 'level gauges'
+    Returns:
+        list: list of gauges in selected category.
+
     '''
     EWR_table, bad_EWRs = get_EWR_table()
     menindee_gauges, wp_gauges = get_level_gauges()
@@ -310,8 +372,16 @@ def get_gauges(category):
 
 def get_EWR_components(category):
     '''
-    Ingests an EWR type and a gauge, returns the components required to analyse for
-    this type of EWR. Each code stands for a component.    
+    Ingests EWR category, returns the components required to analyse this type of EWR. 
+    Each code represents a unique component in the EWR dataset.
+
+    Args:
+        category (str): options =   'flow', 'low flow', 'cease to flow', 'cumulative', 'level', 'weirpool-raising', 'weirpool-falling', 'nest-level', 'nest-percent',
+                                    'multi-gauge-flow', 'multi-gauge-low flow', 'multi-gauge-cease to flow', 'multi-gauge-cease to flow', 'multi-gauge-cumulative', 
+                                    'simul-gauge-flow', 'simul-gauge-low flow', 'simul-gauge-cease to flow', 'complex'
+
+    Returns:
+        list: Components needing to be pulled from the EWR dataset
     '''
 
     if category == 'flow':
@@ -349,50 +419,61 @@ def get_EWR_components(category):
     elif category == 'complex':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MIE', 'FLV']  
     return pull
+
+def get_bad_QA_codes() -> list:
+    '''NSW codes representing poor quality data.
     
-def get_bad_QA_codes():
-    '''These codes are NSW specific'''
+    Returns:
+        list: quality codes needing to be filtered out.
+
+    '''
     return [151, 152, 153, 155, 180, 201, 202, 204, 205, 207, 223, 255]
+
+def weirpool_type(EWR: str) -> str:
+    '''Returns the type of Weirpool EWR. Currently only WP2 EWRs are classified as weirpool raisings
     
+    Args:
+        EWR (str): WP2 is considered raising, the remaining WP EWRs are considered falling
 
-def additional_nest_pull(EWR_info, gauge, EWR, allowance):
-    '''Additional EWR information not yet included in the database has been hard coded'''
-    if ((gauge == '409025') and ('NestS1' in EWR)):
-        EWR_info['trigger_day'] = 15
-        EWR_info['trigger_month'] = 9
-    elif ((gauge == '409207') and ('NestS1' in EWR)):
-        EWR_info['trigger_day'] = 1
-        EWR_info['trigger_month'] = 10
-        EWR_info['start_month'] = 10
-        EWR_info['start_day'] = None
-    elif 'NestS1' in EWR:
-        EWR_info['trigger_day'] = None
-        EWR_info['trigger_month'] = None
-        
-    return EWR_info
-
-def analysis():
-    '''Returns a list of types of analysis to be shown in the summary table'''
+    Returns:
+        str: either 'raising' or 'falling'
     
-    return ['Event years','Frequency','Target frequency','Achievement count', 'Achievements per year', 'Event count','Events per year',
-            'Event length','Threshold days','Inter-event exceedence count', 'Max inter event period (years)', 'No data days',
-            'Total days']
-
-def weirpool_type(EWR):
-    '''Returns the type of Weirpool EWR. Currently only WP2 EWRs are classified as weirpool raisings'''
+    '''
 
     return 'raising' if EWR == 'WP2' else 'falling'
 
-def convert_max_interevent(unique_water_years, water_years, EWR_info):
-    '''Max interevent is saved in the database as years, we want to convert it to days.'''
-    new_max_interevent = 365 * EWR_info['max_inter-event']
+@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+def get_planning_unit_info() -> pd.DataFrame:
+    '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP.
     
-    return new_max_interevent
-
-def get_planning_unit_info():
-    '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP'''
+    Result:
+        pd.DataFrame: dataframe with planning units and their unique planning unit ID.
+    
+    '''
     EWR_table, bad_EWRs = get_EWR_table()
         
     planningUnits = EWR_table.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1) 
     
     return planningUnits
+
+
+
+# Function to pull out the EWR parameter information
+def ewr_parameter_grabber(EWR_TABLE: pd.DataFrame, GAUGE: str, PU: str, EWR: str, PARAMETER: str) -> str:
+    '''
+    Input an EWR table to pull data from, a gauge, planning unit, and EWR for the unique value, and a requested parameter
+
+    Args:
+        EWR_TABLE (pd.DataFrame): dataset of EWRs
+        GAUGE (str): Gauge string
+        PU (str): Planning unit name
+        EWR (str): EWR string
+    Results:
+        str: requested EWR component
+    
+    '''
+    component = list(EWR_TABLE[((EWR_TABLE['Gauge'] == GAUGE) & 
+                           (EWR_TABLE['Code'] == EWR) &
+                           (EWR_TABLE['PlanningUnitName'] == PU)
+                          )][PARAMETER])[0]
+    return component if component else 0

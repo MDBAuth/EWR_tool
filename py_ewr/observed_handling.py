@@ -7,8 +7,16 @@ from tqdm import tqdm
 from . import data_inputs, evaluate_EWRs, summarise_results
 from mdba_gauge_getter import gauge_getter as gg
 
-def categorise_gauges(gauges):
-    '''Seperate gauges into level, flow, or both'''
+def categorise_gauges(gauges: list) -> tuple:
+    '''Seperate gauges into level, flow, or both
+    
+    Args:
+        gauges (list): List of user defined gauges
+    
+    Results:
+        tuple[list, list]: A list of flow gauges; A list of water level gauges
+    
+    '''
     menindee_gauges, weirpool_gauges = data_inputs.get_level_gauges()
     multi_gauges = data_inputs.get_multi_gauges('gauges')
     simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
@@ -39,50 +47,33 @@ def categorise_gauges(gauges):
             
     return unique_flow_gauges, unique_level_gauges
 
-def observed_handler(gauges, dates, allowance, climate, parameter_sheet:str = None):
-    '''ingests a list of gauges and user defined parameters
-    pulls gauge data using relevant states API, calcualtes and analyses EWRs
-    returns dictionary of raw data results and result summary
-    '''
-    
-    # Classify gauges:
-    flow_gauges, level_gauges = categorise_gauges(gauges)
-    # Call state API for flow and level gauge data, then combine to single dataframe
-    
-    flows = gg.gauge_pull(flow_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'F')
-    levels = gg.gauge_pull(level_gauges, start_time_user = dates['start_date'], end_time_user = dates['end_date'], var = 'LL')
-    # Clean observed data:
-    df_F = observed_cleaner(flows, dates)
-    df_L = observed_cleaner(levels, dates)
-    # Calculate EWRs
-    detailed_results = {}
-    gauge_results = {}
-    gauge_events = {}
-    detailed_events = {}
-    all_locations = df_F.columns.to_list() + df_L.columns.to_list()
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table(parameter_sheet)
-    for gauge in all_locations:
-        gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowance, climate, EWR_table)
-        
-    detailed_results['observed'] = gauge_results
-    detailed_events['observed'] = gauge_events
-    # Summarise the results:
-    summary_results = summarise_results.summarise(detailed_results, detailed_events)
-
-    return detailed_results, summary_results
-
-
-def remove_data_with_bad_QC(input_dataframe, qc_codes):
+def remove_data_with_bad_QC(input_dataframe: pd.DataFrame, qc_codes: list) -> pd.DataFrame:
     '''Takes in a dataframe of flow and a list of bad qc codes, removes the poor quality data from 
-    the timeseries, returns this dataframe'''
+    the timeseries, returns this dataframe
+    
+    Args:
+        input_dataframe (pd.DataFrame): flow/water level dataframe
+        qc_codes (list): list of quality codes to filter out
+    Results:
+        pd.DataFrame: flow/water level dataframe with "None" assigned to the poor quality data days
+    
+    '''
     for qc in qc_codes:
         input_dataframe.loc[input_dataframe.QUALITYCODE == qc, 'VALUE'] = None
         
     return input_dataframe
 
-def one_gauge_per_column(input_dataframe, gauge_iter):
+def one_gauge_per_column(input_dataframe: pd.DataFrame, gauge_iter: str) -> pd.DataFrame:
     '''Takes in a dataframe and the name of a gauge, extracts this one location to a new dataframe, 
-    cleans this and returns the dataframe with only the selected gauge data'''
+    cleans this and returns the dataframe with only the selected gauge data
+    
+    Args:
+        input_dataframe (pd.DataFrame): Raw dataframe returned from water portal API
+        gauge_iter (str): unique gauge ID
+    Returns:
+        pd.DataFrame: A dataframe daily flow/water level data matching the gauge_iter
+    
+    '''
     
     is_in = input_dataframe['SITEID']== gauge_iter
     single_df = input_dataframe[is_in]
@@ -93,10 +84,17 @@ def one_gauge_per_column(input_dataframe, gauge_iter):
     
     return single_df
 
-def observed_cleaner(input_df, dates):
+def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
     '''Takes in raw dataframe consolidated from state websites, removes poor quality data.
-    returns a dataframe with a date index and one flow column per gauge location.'''
+    returns a dataframe with a date index and one flow column per gauge location.
     
+    Args:
+        input_df (pd.DataFrame): Raw dataframe returned from water portal API
+        dates (dict): Dictionary with the start and end dates from user request
+    Results:
+        pd.DataFrame: Daily flow/water level, gauges as the column ID's
+    
+    '''
     
     start_date = datetime(dates['start_date'].year, dates['start_date'].month, dates['start_date'].day)
     end_date = datetime(dates['end_date'].year, dates['end_date'].month, dates['end_date'].day)
@@ -204,10 +202,9 @@ class ObservedHandler:
                                 selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', 'maxInterEventDays',
                                             'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
-                                            'daysBetweenEvents', 'missingDays', 'totalPossibleDays', 'ewrCode',
+                                            'missingDays', 'totalPossibleDays', 'ewrCode',
                                             'scenario', 'gauge', 'pu', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
-
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:
