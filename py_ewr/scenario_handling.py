@@ -548,7 +548,6 @@ class ScenarioHandler:
 
             # Pull EWR minSpell value from EWR dataset
             minSpell = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell')
-            minSpell = int(float(minSpell)*365)
             # Filter out the events that fall under the minimum spell length
             df_subset = df_subset.drop(df_subset[df_subset.eventDuration <= minSpell].index)
 
@@ -595,7 +594,6 @@ class ScenarioHandler:
 
             # Pull EWR minSpell value from EWR dataset
             minSpell = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell')
-            minSpell = int(float(minSpell)*365)
             # Filter out the events that fall under the minimum spell length
             df_subset = df_subset.drop(df_subset[df_subset.eventDuration <= minSpell].index)
 
