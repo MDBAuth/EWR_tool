@@ -466,51 +466,12 @@ class ScenarioHandler:
         # Get start and end date of the timeseries.
         date0 = self.flow_data.index[0]
         date1 = self.flow_data.index[-1]
-
         start_date = date(date0.year, date0.month, date0.day)
         end_date = date(date1.year, date1.month, date1.day)
+        
+        all_interEvents = summarise_results.events_to_interevents(start_date, end_date, all_events_temp)
 
-        # Create the unique ID field
-        all_events_temp['ID'] = all_events_temp['scenario']+all_events_temp['gauge']+all_events_temp['pu']+all_events_temp['ewr']
-        unique_ID = set(all_events_temp['ID'])
-
-
-        all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'ID', 'startDate', 'endDate', 'interEventLength'])
-
-        # Iterate over the unique EWRs
-        for i in unique_ID:
-
-            contain_values = all_events_temp[all_events_temp['ID'].str.contains(i)]
-            new_ends = list(contain_values['startDate'])
-            new_starts = list(contain_values['endDate'])
-
-            new_ends = [d-timedelta(days=1) for d in new_ends]
-            new_starts = [d+timedelta(days=1) for d in new_starts]
-
-            new_ends = new_ends + [end_date]
-            new_starts = [start_date] + new_starts
-            
-            length = len(new_starts)
-
-            if length > 0:
-                # Create the columns for the new dataframe
-                new_scenario = [contain_values['scenario'].iloc[0]]*length
-                new_gauge = [contain_values['gauge'].iloc[0]]*length
-                new_pu = [contain_values['pu'].iloc[0]]*length
-                new_ewr = [contain_values['ewr'].iloc[0]]*length
-                new_ID = [contain_values['ID'].iloc[0]]*length
-
-                data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'ewr': new_ewr, 'ID': new_ID, 'startDate': new_starts, 'endDate': new_ends}
-
-                df_subset = pd.DataFrame(data=data)
-
-                df_subset['interEventLength'] = (df_subset['endDate'] - df_subset['startDate']).dt.days + 1
-
-                df_subset = df_subset.drop(df_subset[df_subset.interEventLength == 0].index)
-
-                all_interEvents = pd.concat([all_interEvents, df_subset], ignore_index=True)
-        all_interEvents.drop(['ID'], axis=1, inplace=True)
-        return all_interEvents
+        return all_interEvents        
 
     def get_all_successful_events(self)-> pd.DataFrame:
 
@@ -528,34 +489,9 @@ class ScenarioHandler:
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
 
-        all_events_temp1['ID'] = all_events_temp1['scenario']+all_events_temp1['gauge']+all_events_temp1['pu']+all_events_temp1['ewr']
-        unique_ID = set(all_events_temp1['ID'])
-
-        EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-
-        all_successfulEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
-
-        # Filter out unsuccesful events
-        # Iterate over the all_events dataframe
-        for i in unique_ID:
-            # Subset df with only 
-            df_subset = all_events_temp1[all_events_temp1['ID'].str.contains(i)]
-
-            gauge = df_subset['gauge'].iloc[0]
-            pu = df_subset['pu'].iloc[0]
-            ewr = df_subset['ewr'].iloc[0]  
-
-            # Pull EWR minSpell value from EWR dataset
-            minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
-            # Filter out the events that fall under the minimum spell length
-            df_subset = df_subset.drop(df_subset[df_subset.eventDuration <= minSpell].index)
-
-            # Append to master dataframe
-            all_successfulEvents = pd.concat([all_successfulEvents, df_subset], ignore_index=True)
-        all_successfulEvents.drop(['ID', 'multigaugeID'], axis=1, inplace=True)
         return all_successfulEvents
-
 
     def get_all_successful_interEvents(self)-> pd.DataFrame:
 
@@ -574,31 +510,7 @@ class ScenarioHandler:
                         parameter_sheet_path=self.parameter_sheet)
 
         # Part 1 - Get only the successful events:
-
-        all_events_temp2['ID'] = all_events_temp2['scenario']+all_events_temp2['gauge']+all_events_temp2['pu']+all_events_temp2['ewr']
-        unique_ID = set(all_events_temp2['ID'])
-
-        EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-
-        all_successfulEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
-
-        # Filter out unsuccesful events
-        # Iterate over the all_events dataframe
-        for i in unique_ID:
-            # Subset df with only 
-            df_subset = all_events_temp2[all_events_temp2['ID'].str.contains(i)]
-
-            gauge = df_subset['gauge'].iloc[0]
-            pu = df_subset['pu'].iloc[0]
-            ewr = df_subset['ewr'].iloc[0]  
-
-            # Pull EWR minSpell value from EWR dataset
-            minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
-            # Filter out the events that fall under the minimum spell length
-            df_subset = df_subset.drop(df_subset[df_subset.eventDuration <= minSpell].index)
-
-            # Append to master dataframe
-            all_successfulEvents = pd.concat([all_successfulEvents, df_subset], ignore_index=True)
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
 
         # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
         # Get start and end date of the timeseries.
@@ -608,42 +520,8 @@ class ScenarioHandler:
         start_date = date(date0.year, date0.month, date0.day)
         end_date = date(date1.year, date1.month, date1.day)
 
-        # Create the unique ID field
-        unique_ID = set(all_successfulEvents['ID'])
+        all_successful_interEvents = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
 
-        all_successful_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'ID', 'startDate', 'endDate', 'interEventLength'])
-
-        # Iterate over the unique EWRs
-        for i in unique_ID:
-
-            contain_values = all_successfulEvents[all_successfulEvents['ID'].str.contains(i)]
-            new_ends = list(contain_values['startDate'])
-            new_starts = list(contain_values['endDate'])
-            new_ends = [d-timedelta(days=1) for d in new_ends]
-            new_starts = [d+timedelta(days=1) for d in new_starts]
-            new_ends = new_ends + [end_date]
-            new_starts = [start_date] + new_starts
-            
-            length = len(new_starts)
-
-            if length > 0:
-                # Create the columns for the new dataframe
-                new_scenario = [contain_values['scenario'].iloc[0]]*length
-                new_gauge = [contain_values['gauge'].iloc[0]]*length
-                new_pu = [contain_values['pu'].iloc[0]]*length
-                new_ewr = [contain_values['ewr'].iloc[0]]*length
-                new_ID = [contain_values['ID'].iloc[0]]*length
-
-                data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'ewr': new_ewr, 'ID': new_ID, 'startDate': new_starts, 'endDate': new_ends}
-
-                df_subset = pd.DataFrame(data=data)
-
-                df_subset['interEventLength'] = (df_subset['endDate'] - df_subset['startDate']).dt.days + 1
-
-                df_subset = df_subset.drop(df_subset[df_subset.interEventLength == 0].index)
-
-                all_successful_interEvents = pd.concat([all_successful_interEvents, df_subset], ignore_index=True)
-        all_successful_interEvents.drop(['ID'], axis=1, inplace=True)
         return all_successful_interEvents
 
 
