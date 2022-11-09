@@ -631,7 +631,7 @@ def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
             return PU_df, None
         # handle any error in missing values in parameter sheet
         try:
-            E, NE, D, ME = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
+            E, NE, D = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
         except KeyError:
             print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing parameter data. Specifically this EWR 
             also needs data for level threshold min or level threshold max''')
@@ -1560,13 +1560,13 @@ def nest_weirpool_check(EWR_info: dict, iteration: int, flow: float, level: floa
         tuple: after the check return the current state of the event, all_events, no_event, all_no_events, gap_track, total_event
     """
 
-    if flow >= EWR_info['min_flow'] and check_wp_level(weirpool_type, level, EWR_info) and check_weekly_drawdown(levels, EWR_info, iteration, len(event)) :
+    if check_weekly_drawdown(levels, EWR_info, iteration, len(event)) :
         threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
         gap_track = EWR_info['gap_tolerance'] 
         no_event += 1
-     
+
     else:
         if gap_track > 0:
             gap_track = gap_track - 1
@@ -2160,7 +2160,7 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
     no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
-    durations, min_events = [], []
+    durations = []
     gap_track = 0
     # Iterate over flow timeseries, sending to the weirpool_check function each iteration:
     for i, flow in enumerate(flows[:-1]):
@@ -2183,7 +2183,6 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
             total_event = 0
             event = []
             durations.append(EWR_info['duration'])
-            min_events.append(EWR_info['min_event'])
         
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
@@ -2204,9 +2203,8 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
         no_event += 1
         all_no_events[water_years[-1]].append([no_event])
     durations.append(EWR_info['duration'])
-    min_events.append(EWR_info['min_event'])
 
-    return all_events, all_no_events, durations, min_events
+    return all_events, all_no_events, durations
 
 
 def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates:List)->tuple:
