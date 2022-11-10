@@ -22,7 +22,7 @@ def categorise_gauges(gauges: list) -> tuple:
         tuple[list, list]: A list of flow gauges; A list of water level gauges
     
     '''
-    menindee_gauges, weirpool_gauges = data_inputs.get_level_gauges()
+    _level_gauges, weirpool_gauges = data_inputs.get_level_gauges()
     multi_gauges = data_inputs.get_multi_gauges('gauges')
     simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
     
@@ -38,7 +38,7 @@ def categorise_gauges(gauges: list) -> tuple:
         if gauge in simultaneous_gauges:
             flow_gauges.append(gauge)
             flow_gauges.append(simultaneous_gauges[gauge])
-        if gauge in menindee_gauges:
+        if gauge in _level_gauges:
             level_gauges.append(gauge)
         if gauge in weirpool_gauges.keys(): # need level and flow gauges
             flow_gauges.append(gauge)
