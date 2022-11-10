@@ -145,16 +145,17 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
             corrected = min_event
         ewrs['min_event'] = int(corrected)
     if 'MD' in components:
-        try: # There may not be a recommended drawdown rate
-            max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
-            if '%' in str(max_drawdown):
-                value_only = int(max_drawdown.replace('%', ''))
-                corrected = apply_correction(value_only, allowance['drawdown'])
-                ewrs['drawdown_rate'] = str(int(corrected))+'%'
-            else:
-                corrected = apply_correction(float(max_drawdown), allowance['drawdown'])
-                ewrs['drawdown_rate'] = str(corrected/100)
-        except ValueError: # In this case set a large number
+        max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
+        if '%' in str(max_drawdown):
+            value_only = int(max_drawdown.replace('%', ''))
+            corrected = apply_correction(value_only, allowance['drawdown'])
+            ewrs['drawdown_rate'] = str(int(corrected))+'%'
+        else:
+            corrected = apply_correction(float(max_drawdown), allowance['drawdown'])
+            ewrs['drawdown_rate'] = str(corrected/100)
+        # If drawdown is 0, this means it was not set in the parameter sheet and therefore should not be used
+        if max_drawdown == 0:
+            # Large value set to ensure that drawdown check is always passed in this case
             ewrs['drawdown_rate'] = str(1000000)          
     if 'DURVD' in components:
         try: # There may not be a very dry duration available for this EWR
