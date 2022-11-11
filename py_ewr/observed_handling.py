@@ -1,11 +1,16 @@
 from datetime import timedelta, date, datetime
 from typing import Dict, List
+import logging
 
 import pandas as pd
 from tqdm import tqdm
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 from mdba_gauge_getter import gauge_getter as gg
+
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 def categorise_gauges(gauges: list) -> tuple:
     '''Seperate gauges into level, flow, or both
@@ -17,12 +22,14 @@ def categorise_gauges(gauges: list) -> tuple:
         tuple[list, list]: A list of flow gauges; A list of water level gauges
     
     '''
-    menindee_gauges, weirpool_gauges = data_inputs.get_level_gauges()
+    _level_gauges, weirpool_gauges = data_inputs.get_level_gauges()
     multi_gauges = data_inputs.get_multi_gauges('gauges')
     simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
     
     level_gauges = []
     flow_gauges = []
+    stage_gauges = []
+
     # Loop through once to get the special gauges:
     for gauge in gauges:
         if gauge in multi_gauges.keys():
@@ -31,21 +38,27 @@ def categorise_gauges(gauges: list) -> tuple:
         if gauge in simultaneous_gauges:
             flow_gauges.append(gauge)
             flow_gauges.append(simultaneous_gauges[gauge])
-        if gauge in menindee_gauges:
+        if gauge in _level_gauges:
             level_gauges.append(gauge)
         if gauge in weirpool_gauges.keys(): # need level and flow gauges
             flow_gauges.append(gauge)
             level_gauges.append(weirpool_gauges[gauge])
+
+            if '414209' in level_gauges:
+                # 414209 returns 100.00 instead of 130.00
+                level_gauges.remove('414209')
+                stage_gauges.append('414209')
+
     # Then loop through again and allocate remaining gauges to the flow category
     for gauge in gauges:
         if ((gauge not in level_gauges) and (gauge not in flow_gauges)):
             # Otherwise, assume its a flow gauge and add
             flow_gauges.append(gauge)
-        
-        unique_flow_gauges = list(set(flow_gauges))
-        unique_level_gauges = list(set(level_gauges))
-            
-    return unique_flow_gauges, unique_level_gauges
+
+    unique_flow_gauges = list(set(flow_gauges))
+    unique_level_gauges = list(set(level_gauges))
+
+    return unique_flow_gauges, unique_level_gauges, stage_gauges
 
 def remove_data_with_bad_QC(input_dataframe: pd.DataFrame, qc_codes: list) -> pd.DataFrame:
     '''Takes in a dataframe of flow and a list of bad qc codes, removes the poor quality data from 
@@ -145,14 +158,21 @@ class ObservedHandler:
         '''
         
         # Classify gauges:
-        flow_gauges, level_gauges = categorise_gauges(self.gauges)
+        flow_gauges, level_gauges, stage_gauges = categorise_gauges(self.gauges)
         # Call state API for flow and level gauge data, then combine to single dataframe
+
+        log.info(f'Including gauges: {flow_gauges} {level_gauges} {stage_gauges}')
         
         flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F')
         levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'LL')
+        stage = gg.gauge_pull(stage_gauges, start_time_user=self.dates['start_date'],
+                               end_time_user=self.dates['end_date'], var='L')
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
+        df_S = observed_cleaner(stage, self.dates)
+        # Append stage values to level df
+        df_L = pd.concat([df_L, df_S], axis=1)
         # Calculate EWRs
         detailed_results = {}
         gauge_results = {}

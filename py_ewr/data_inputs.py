@@ -140,6 +140,7 @@ def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows
     condamine_balonne = dict()
     warrego_catchment = dict()
     paroo_catchment = dict()
+    other_catchment = dict()
     
     for k, v in gauge_to_name.items():
         if k.startswith('419'):
@@ -168,7 +169,9 @@ def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows
         elif k.startswith('423'):
             warrego_catchment.update({k: v})
         elif k.startswith('424'):
-            paroo_catchment.update({k: v})            
+            paroo_catchment.update({k: v})
+        else:
+            other_catchment.update({k: v})
                 
     gauge_to_catchment.update({'Namoi': namoi_catchment, 
                                'Gwydir': gwydir_catchment,
@@ -182,7 +185,8 @@ def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows
                                'Moonie' : moonie_catchment,
                                'Condamine-Balonne': condamine_balonne,
                                'Warrego': warrego_catchment,
-                               'Paroo': paroo_catchment
+                               'Paroo': paroo_catchment,
+                               'Other': other_catchment
                               })
     return gauge_to_catchment
 
@@ -269,13 +273,17 @@ def get_level_gauges() -> tuple:
     '''
     
     menindeeGauges = ['425020', '425022', '425023']
+
+    lachlanGauges = ['412107']
+
+    levelGauges = menindeeGauges + lachlanGauges
     
     weirpoolGauges = {'414203': '414209', 
                       '425010': '4260501', 
                       '4260507': '4260508',
                       '4260505': '4260506'}
     
-    return menindeeGauges, weirpoolGauges
+    return levelGauges, weirpoolGauges
 
 
 def get_multi_gauges(dataType: str) -> dict:
@@ -291,7 +299,8 @@ def get_multi_gauges(dataType: str) -> dict:
     all = {'PU_0000130': {'421090': '421088', '421088': '421090'},
               'PU_0000131': {'421090': '421088', '421088': '421090'},
               'PU_0000132': {'421090': '421088', '421088': '421090'},
-              'PU_0000133': {'421090': '421088', '421088': '421090'}
+              'PU_0000133': {'421090': '421088', '421088': '421090'},
+              'PU_0000251': {'423001': '423002'}
              }
     returnData = {}
     if dataType == 'all':

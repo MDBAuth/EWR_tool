@@ -145,16 +145,17 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
             corrected = min_event
         ewrs['min_event'] = int(corrected)
     if 'MD' in components:
-        try: # There may not be a recommended drawdown rate
-            max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
-            if '%' in str(max_drawdown):
-                value_only = int(max_drawdown.replace('%', ''))
-                corrected = apply_correction(value_only, allowance['drawdown'])
-                ewrs['drawdown_rate'] = str(int(corrected))+'%'
-            else:
-                corrected = apply_correction(float(max_drawdown), allowance['drawdown'])
-                ewrs['drawdown_rate'] = str(corrected/100)
-        except ValueError: # In this case set a large number
+        max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
+        if '%' in str(max_drawdown):
+            value_only = int(max_drawdown.replace('%', ''))
+            corrected = apply_correction(value_only, allowance['drawdown'])
+            ewrs['drawdown_rate'] = str(int(corrected))+'%'
+        else:
+            corrected = apply_correction(float(max_drawdown), allowance['drawdown'])
+            ewrs['drawdown_rate'] = str(corrected/100)
+        # If drawdown is 0, this means it was not set in the parameter sheet and therefore should not be used
+        if max_drawdown == 0:
+            # Large value set to ensure that drawdown check is always passed in this case
             ewrs['drawdown_rate'] = str(1000000)          
     if 'DURVD' in components:
         try: # There may not be a very dry duration available for this EWR
@@ -1560,13 +1561,13 @@ def nest_weirpool_check(EWR_info: dict, iteration: int, flow: float, level: floa
         tuple: after the check return the current state of the event, all_events, no_event, all_no_events, gap_track, total_event
     """
 
-    if flow >= EWR_info['min_flow'] and check_wp_level(weirpool_type, level, EWR_info) and check_weekly_drawdown(levels, EWR_info, iteration, len(event)) :
+    if check_weekly_drawdown(levels, EWR_info, iteration, len(event)) :
         threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
         gap_track = EWR_info['gap_tolerance'] 
         no_event += 1
-     
+
     else:
         if gap_track > 0:
             gap_track = gap_track - 1
@@ -3543,7 +3544,7 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
             EWR_WP = 'WP' in EWR and 'SF' not in EWR and 'LF' not in EWR # added for the WP3 and WP4 dependencies
             EWR_NEST = 'Nest' in EWR
             EWR_CUMUL = 'LF' in EWR or 'OB' in EWR or 'WL' in EWR # Some LF and OB are cumulative
-            EWR_LEVEL = 'LLLF' in EWR or 'MLLF' in EWR or 'HLLF' in EWR or 'VHLL' in EWR
+            EWR_LEVEL = 'LLLF' in EWR or 'MLLF' in EWR or 'HLLF' in EWR or 'VHLL' in EWR or ('WL3_S' in EWR and CAT_LEVEL) or ('WL3_P' in EWR and CAT_LEVEL)
             # Determine if its classified as a complex EWR:
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
