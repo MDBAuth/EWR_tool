@@ -277,3 +277,28 @@ def PU_df_wp():
 
     return pd.DataFrame(df_data)
 
+@pytest.fixture(scope="function")
+def interEvent_item_to_process():
+    return {'scenario': ['example_scenario']*9,
+            'gauge': ['409025']*6+['410007']*3, 
+            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'waterYear': ['1901', '1901', '1904']*3, 
+            'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
+            'endDate': [date(1901, 8, 31), date(1901, 12, 15), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 10), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 2, 5)], 
+            'eventDuration': [31, 15, 61, 21, 10, 16, 6, 3, 6],
+            'eventLength': [31, 15, 61, 21, 10, 16, 6, 3, 6],
+            'Multigauge': ['']*9}
+
+@pytest.fixture(scope="function")
+def successfulEvent_item_to_process():
+    return {'scenario': ['example_scenario']*9,
+            'gauge': ['409025']*6+['410007']*3, 
+            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'waterYear': ['1901', '1901', '1904']*3, 
+            'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
+            'endDate': [date(1901, 8, 31), date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 9), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 3, 5)], 
+            'eventDuration': [31, 2, 61, 21, 9, 16, 6, 3, 34],
+            'eventLength': [31, 2, 61, 21, 9, 16, 6, 3, 34],
+            'Multigauge': ['']*9}

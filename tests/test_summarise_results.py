@@ -157,3 +157,41 @@ def test_process_all_events_results(event_items_to_process):
                                 'endDate': {0: date(2020, 12, 5), 1: date(2020, 12, 5)},
                                 'eventDuration': {0: 6, 1: 6},
                                 'eventLength': {0: 6, 1: 6}}
+
+
+def test_events_to_interevents(interEvent_item_to_process):
+
+    all_events_df = pd.DataFrame(data = interEvent_item_to_process)
+    start_date = date(1901,7,1)
+    end_date = date(1905,6,30)
+    all_interevents_df = summarise_results.events_to_interevents(start_date, end_date, all_events_df)
+
+    expected_data = {'scenario': ['example_scenario']*12, 
+                    'gauge': ['409025']*8+['410007']*4, 
+                    'pu': ['Murray River - Yarrawonga to Barmah']*8+['Upper Yanco Creek']*4, 
+                    'ewr': ['VF']*4+['LF2']*4+['SF2']*4,
+                    'startDate': [date(1901,7,1), date(1901, 9, 1), date(1901, 12, 16), date(1904, 4, 1), date(1901,7,1), date(1901, 8, 26), date(1901, 12, 11), date(1904, 2, 16), date(1901, 7, 1), date(1901, 8, 16), date(1901, 12, 9), date(1904, 2, 6)],
+                    'endDate': [date(1901, 7, 31), date(1901, 11, 30), date(1904, 1, 30), date(1905,6,30), date(1901, 8, 4), date(1901, 11, 30), date(1904, 1, 30), date(1905,6,30), date(1901, 8, 9), date(1901, 12, 5), date(1904, 1, 30), date(1905,6,30)],
+                    'interEventLength': [31, 91, 776, 456, 35, 97, 781, 501, 40, 112, 783, 511]
+    }
+    expected_all_interevents_df = pd.DataFrame(data = expected_data)
+
+    assert all_interevents_df.to_dict() == expected_all_interevents_df.to_dict()
+
+def test_filter_successful_events(successfulEvent_item_to_process):
+    all_events_df = pd.DataFrame(data = successfulEvent_item_to_process)
+    all_interevents_df = summarise_results.filter_successful_events(all_events_df)
+
+    expected_data = {'scenario': ['example_scenario']*6,
+            'gauge': ['409025']*5+['410007']*1, 
+            'pu': ['Murray River - Yarrawonga to Barmah']*5+['Upper Yanco Creek']*1, 
+            'ewr': ['VF']*3+['LF2']*2+['SF2']*1,
+            'waterYear': ['1901', '1901', '1904', '1901', '1904', '1904'], 
+            'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1904, 1, 31), date(1904, 1, 31)], 
+            'endDate': [date(1901, 8, 31), date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1904, 2, 15), date(1904, 3, 5)], 
+            'eventDuration': [31, 2, 61, 21, 16, 34],
+            'eventLength': [31, 2, 61, 21, 16, 34],
+            'Multigauge': ['']*6}
+    expected_all_interevents_df = pd.DataFrame(data = expected_data)
+
+    assert all_interevents_df.to_dict() == expected_all_interevents_df.to_dict()
