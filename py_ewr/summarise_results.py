@@ -1,11 +1,11 @@
 from typing import List, Dict
 from itertools import chain
 from collections import defaultdict, OrderedDict
-
+import numpy as np
 import pandas as pd
 from datetime import date, timedelta
 
-from . import data_inputs
+from . import data_inputs, evaluate_EWRs
 #--------------------------------------------------------------------------------------------------
 
 
@@ -535,3 +535,92 @@ def filter_successful_events(all_events: pd.DataFrame) -> pd.DataFrame:
     all_successfulEvents.drop(['ID', 'multigaugeID'], axis=1, inplace=True)
 
     return all_successfulEvents
+
+def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: date, yearly_df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Determines the rolling maximum interevent period for each year.
+    Args:
+        yearly_df (pd.DataFrame): used to get list of all EWRs.
+    Results:
+        pd.DataFrame: 
+    
+    '''
+
+    df['ID'] = df['scenario']+'TEMPORARY_ID_SPLIT'+df['gauge']+'TEMPORARY_ID_SPLIT'+df['pu']+'TEMPORARY_ID_SPLIT'+df['ewr']
+    yearly_df['ID'] = yearly_df['scenario']+'TEMPORARY_ID_SPLIT'+yearly_df['gauge']+'TEMPORARY_ID_SPLIT'+yearly_df['pu']+'TEMPORARY_ID_SPLIT'+yearly_df['ewrCode']
+    unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
+    
+    master_dict = dict()
+    # Load in EWR table to variable to access start and end dates of the EWR
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    for unique_EWR in unique_ID:
+        df_subset = df[df['ID'].str.contains(unique_EWR)]
+        yearly_df_subset = yearly_df[yearly_df['ID'].str.contains(unique_EWR)]
+        # Get EWR characteristics for current EWR
+        gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]
+        pu = unique_EWR.split('TEMPORARY_ID_SPLIT')[2]
+        ewr = unique_EWR.split('TEMPORARY_ID_SPLIT')[3]
+        # Get years:
+        unique_years = list(range(min(yearly_df_subset['Year']),max(yearly_df_subset['Year'])+1,1))
+        # Construct dictionary to save results to:
+        if gauge not in master_dict:
+            master_dict[gauge] = {}
+        if pu not in master_dict[gauge]:
+            master_dict[gauge][pu] = {}
+        if ewr not in master_dict[gauge][pu]:
+            master_dict[gauge][pu][ewr] = evaluate_EWRs.construct_event_dict(unique_years)
+
+        # Pull EWR start and end date from EWR dataset and clean TODO: functionalise this
+        EWR_info = {}
+        EWR_info['start_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'StartMonth')
+        EWR_info['end_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'EndMonth')
+        if '.' in EWR_info['start_date']:
+            EWR_info['start_day'] = int(EWR_info['start_date'].split('.')[1])
+            EWR_info['start_month'] = int(EWR_info['start_date'].split('.')[0])
+        else:
+            EWR_info['start_day'] = None
+            EWR_info['start_month'] = int(EWR_info['start_date'])
+
+        if '.' in EWR_info['end_date']:  
+            EWR_info['end_day'] = int(EWR_info['end_date'].split('.')[1])
+            EWR_info['end_month'] = int(EWR_info['end_date'].split('.')[0])
+        else:
+            EWR_info['end_day'] = None
+            EWR_info['end_month'] =int(EWR_info['end_date'])        
+
+        # Iterate over the interevent periods for this EWR
+        for i, row in df_subset.iterrows():
+            # Get the date range:
+            period = pd.date_range(df_subset.loc[i, 'startDate'],df_subset.loc[i, 'endDate'])
+            # Save to pd.df for function compatibility
+            dates_df = pd.DataFrame(index = period)
+            # Convert year to water year using the existing function
+            period_wy = evaluate_EWRs.wateryear_daily(dates_df, EWR_info)
+            # Iterate over the years:
+            for YEAR in period_wy:
+                master_dict[gauge][pu][ewr][YEAR].append(np.sum(period_wy<=YEAR))
+        # Iterate over the water years, keep only the maximum values from each year:
+        for yr, interevents in master_dict[gauge][pu][ewr].items():
+            master_dict[gauge][pu][ewr].update({yr: max(interevents, default=0)})
+    return master_dict
+
+def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) -> pd.DataFrame:
+    '''
+    Adds a column to the yearly results summary with the maximum rolling interevent period.
+
+    Args:
+        yearly_df (pd.DataFrame): Yearly results dataframe summary
+        yearly_dict (dict): Rolling maximum annual interevent period for every EWR
+    Returns:
+        pd.DataFrame: Yearly results dataframe summary with the new column
+    '''
+    yearly_df['rollingMaxInterEvent'] = None
+    for i, row in yearly_df.iterrows():
+        gauge = yearly_df.loc[i, 'gauge']
+        pu = yearly_df.loc[i, 'pu']
+        ewr = yearly_df.loc[i, 'ewrCode']
+        year = yearly_df.loc[i, 'Year']
+        value_to_add = yearly_dict[gauge][pu][ewr][year]
+        yearly_df.loc[i, 'rollingMaxInterEvent'] = value_to_add
+    
+    return yearly_df

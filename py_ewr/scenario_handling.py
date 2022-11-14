@@ -5,6 +5,7 @@ import os
 import urllib
 import re
 from datetime import datetime, date, timedelta
+from collections import OrderedDict
 
 import pandas as pd
 from tqdm import tqdm
@@ -473,69 +474,6 @@ class ScenarioHandler:
 
         return all_interEvents        
 
-# from collections import OrderedDict
-
-# def get_rolling_max_interEvents(self) -> pd.DataFrame:
-#     '''
-#     Determines the rolling maximum interevent period for each year.
-
-#     Results:
-#         pd.DataFrame: 
-    
-#     '''
-#     if not self.yearly_events:
-#         self.process_scenarios()
-    
-#     events_to_process = summarise_results.get_events_to_process(self.yearly_events)
-#     all_events_temp = summarise_results.process_all_events_results(events_to_process)
-
-#     all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
-#                     left_table=all_events_temp,
-#                     left_on=['gauge','pu','ewr'],
-#                     selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
-#                             'eventDuration', 'eventLength', 
-#                             'Multigauge'],
-#                     parameter_sheet_path=self.parameter_sheet)
-
-#     # Get start and end date of the timeseries.
-#     date0 = self.flow_data.index[0]
-#     date1 = self.flow_data.index[-1]
-#     start_date = date(date0.year, date0.month, date0.day)
-#     end_date = date(date1.year, date1.month, date1.day)
-    
-#     df = summarise_results.events_to_interevents(start_date, end_date, all_events_temp)   
-
-#     date0 = self.flow_data.index[0]
-#     date1 = self.flow_data.index[-1]
-
-#     df['ID'] = df['scenario']+df['gauge']+df['pu']+df['ewr']
-#     unique_ID = list(OrderedDict.fromkeys(df_events['ID']))
-#     df1 = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'ID', 
-#                                                 'startDate', 'endDate', 'interEventLength'])
-
-#     #Years to include
-#     unique_years = pd.date_range(date0,date1).year
-#     # Dictionary to save results to
-#     annual_tracker = evaluate_EWRs.construct_event_dict(unique_years)
-#     # Iterate over the interevent periods:
-#     for i, row in df.iterrows():
-#         # Get the date range:
-#         period = pd.date_range(df['startDate'][row],df['endDate'][row])
-#         # Convert year to water year using the existing function
-#         period_wy = evaluate_EWRs.wateryear_daily(period)
-#         # Iterate over the years:
-#         for YEAR in period_wy.year:
-#             annual_tracker[YEAR].append(sum(period_wy==YEAR))
-        
-#     # Return max of each water year, save this to dataframe
-
-
-
-
-
-
-
-
     def get_all_successful_events(self)-> pd.DataFrame:
 
         if not self.yearly_events:
@@ -594,6 +532,7 @@ class ScenarioHandler:
         if not self.pu_ewr_statistics:
             self.process_scenarios()
 
+        # Setting up the yearly results
         to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
         yearly_ewr_results = summarise_results.process_df_results(to_process)
                                 
@@ -607,7 +546,37 @@ class ScenarioHandler:
                                             'scenario', 'gauge', 'pu', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
 
+        # Setting up the dictionary of yearly rolling maximum interevent periods:
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events_temp = summarise_results.process_all_events_results(events_to_process)
+
+        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
+                        left_table=all_events_temp,
+                        left_on=['gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                'eventDuration', 'eventLength', 
+                                'Multigauge'],
+                        parameter_sheet_path=self.parameter_sheet)
+        #Filter out the unsuccessful events:
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
+
+        # Get start and end date of the timeseries.
+        date0 = self.flow_data.index[0]
+        date1 = self.flow_data.index[-1]
+        start_date = date(date0.year, date0.month, date0.day)
+        end_date = date(date1.year, date1.month, date1.day)
+
+        df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
+
+        rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results)
+
+        # Add the rolling max interevents to the yearly dataframe:
+        yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results, rolling_max_interevents_dict)
+        
         return yearly_ewr_results
+
+
+
 
     def get_ewr_results(self) -> pd.DataFrame:
         
