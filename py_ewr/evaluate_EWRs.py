@@ -3471,24 +3471,48 @@ def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFr
     Returns:
         pd.DataFrame: Return Dataframe with the statistics of the merged EWR
     """
-    
+
     weirpool_pair = {'SF_WP':'WP3',
                       'LF2_WP': 'WP4' }
-    # iterate wp_freshes
+
     for fresh in wp_freshes:
-        fresh_event_year = PU_df[f"{fresh}_eventYears"].values
-        try:    
+        try:
             weirpool_event_year = PU_df[f"{weirpool_pair[fresh]}_eventYears"].values
+            has_wp = True
+        except KeyError as e:
+            has_wp = False
+        try:
+            fresh_event_year = PU_df[f"{fresh}_eventYears"].values
+            has_fresh = True
+        except KeyError as e:
+            has_fresh = False
+
+        if has_wp and has_fresh:
+            # has both wp and fresh -> merge years
             merged_ewr_event_year = np.maximum(fresh_event_year, weirpool_event_year)
             # add merged results
             PU_df[f"{fresh}/{weirpool_pair[fresh]}_eventYears"] = merged_ewr_event_year
             # add remaninig columns with N/As
-            column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col ]))
+            column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col]))
             for col in column_attributes:
                 PU_df[f"{fresh}/{weirpool_pair[fresh]}_{col}"] = np.nan
-        except KeyError as err:
-            print(f"While trying to calculate {fresh}/{weirpool_pair[fresh]} there is missing data for {weirpool_pair[fresh]}")
-            continue
+        elif (not has_fresh) and has_wp:
+            # has wp -> report wp successes
+            PU_df[f"{fresh}/{weirpool_pair[fresh]}_eventYears"] = weirpool_event_year
+            column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col]))
+            for col in column_attributes:
+                PU_df[f"{fresh}/{weirpool_pair[fresh]}_{col}"] = np.nan
+        elif (not has_wp) and has_fresh:
+            # has fresh -> report fresh successes
+            PU_df[f"{fresh}/{weirpool_pair[fresh]}_eventYears"] = fresh_event_year
+            column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col]))
+            for col in column_attributes:
+                PU_df[f"{fresh}/{weirpool_pair[fresh]}_{col}"] = np.nan
+        else:
+            # has neither fresh nor wp -> set all columns to NA
+            column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col]))
+            for col in column_attributes:
+                PU_df[f"{fresh}/{weirpool_pair[fresh]}_{col}"] = np.nan
 
     return PU_df
 
