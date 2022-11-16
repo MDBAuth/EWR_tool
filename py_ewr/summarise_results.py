@@ -560,6 +560,11 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]
         pu = unique_EWR.split('TEMPORARY_ID_SPLIT')[2]
         ewr = unique_EWR.split('TEMPORARY_ID_SPLIT')[3]
+
+        # if merged ewr skip
+        if '/' in ewr:
+            continue
+
         # Get years:
         unique_years = list(range(min(yearly_df_subset['Year']),max(yearly_df_subset['Year'])+1,1))
         # Construct dictionary to save results to:
@@ -615,7 +620,8 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
         pd.DataFrame: Yearly results dataframe summary with the new column
     '''
     yearly_df['rollingMaxInterEvent'] = None
-    for i, row in yearly_df.iterrows():
+    # iterate yearly df, but ignore merged ewrs
+    for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/')].iterrows():
         gauge = yearly_df.loc[i, 'gauge']
         pu = yearly_df.loc[i, 'pu']
         ewr = yearly_df.loc[i, 'ewrCode']
