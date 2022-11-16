@@ -2230,8 +2230,7 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
             flow_percent_change = calc_flow_percent_change(i, flows)
             trigger_day = date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
             cut_date = calc_nest_cut_date(EWR_info, i, dates)
-            is_in_trigger_window = dates[i].to_timestamp().date() >= trigger_day - timedelta(days=7) \
-            and dates[i].to_timestamp().date() <= trigger_day + timedelta(days=7)
+            is_in_trigger_window = dates[i].to_timestamp().date() >= trigger_day + timedelta(days=14)
             iteration_no_event = 0
             
             ## if there IS an ongoing event check if we are on the trigger season window 
