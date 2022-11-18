@@ -621,15 +621,16 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
     Returns:
         pd.DataFrame: Yearly results dataframe summary with the new column
     '''
-    yearly_df['maxInterEventDaysRolling'] = None
-    for i, row in yearly_df.iterrows():
+    yearly_df['rollingMaxInterEvent'] = None
+    # iterate yearly df, but ignore merged ewrs
+    for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/')].iterrows():
         scenario = yearly_df.loc[i, 'scenario']
         gauge = yearly_df.loc[i, 'gauge']
         pu = yearly_df.loc[i, 'pu']
         ewr = yearly_df.loc[i, 'ewrCode']
         year = yearly_df.loc[i, 'Year']
         value_to_add = yearly_dict[scenario][gauge][pu][ewr][year]
-        yearly_df.loc[i, 'maxInterEventDaysRolling'] = value_to_add
+        yearly_df.loc[i, 'rollingMaxInterEvent'] = value_to_add
     
     return yearly_df
 
@@ -656,13 +657,13 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame) -> pd.DataFr
         ewr = yearly_df.loc[i, 'ewrCode']
         max_interevent_target = int(float(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MaxInter-event'))*365)
         
-        interevent_value = yearly_df.loc[i, 'maxInterEventDaysRolling']
+        interevent_value = yearly_df.loc[i, 'rollingMaxInterEvent']
         
         if interevent_value > max_interevent_target:
             result = 0
         else:
             result = 1
-        yearly_df.loc[i, 'maxInterEventDaysAchievedRolling'] = result
+        yearly_df.loc[i, 'rollingMaxInterEventAchieved'] = result
     
     return yearly_df
 
