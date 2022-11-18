@@ -225,6 +225,33 @@ class ObservedHandler:
                                             'missingDays', 'totalPossibleDays', 'ewrCode',
                                             'scenario', 'gauge', 'pu', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
+
+        # Setting up the dictionary of yearly rolling maximum interevent periods:
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events_temp = summarise_results.process_all_events_results(events_to_process)
+
+        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
+                                                                left_table=all_events_temp,
+                                                                left_on=['gauge', 'pu', 'ewr'],
+                                                                selected_columns=['scenario', 'gauge', 'pu', 'ewr',
+                                                                                  'waterYear', 'startDate', 'endDate',
+                                                                                  'eventDuration', 'eventLength',
+                                                                                  'Multigauge'],
+                                                                parameter_sheet_path=self.parameter_sheet)
+        # Filter out the unsuccessful events:
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
+
+        df = summarise_results.events_to_interevents(self.dates['start_date'], self.dates['end_date'], all_successfulEvents)
+
+        rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, self.dates['start_date'], self.dates['end_date'],
+                                                                                     yearly_ewr_results)
+
+        # Add the rolling max interevents to the yearly dataframe:
+        yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results,
+                                                                                rolling_max_interevents_dict)
+        # Drop temporary ID column
+
+        yearly_ewr_results.drop('ID', axis=1, inplace=True)
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:
