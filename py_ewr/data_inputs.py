@@ -477,6 +477,7 @@ def ewr_parameter_grabber(EWR_TABLE: pd.DataFrame, GAUGE: str, PU: str, EWR: str
         GAUGE (str): Gauge string
         PU (str): Planning unit name
         EWR (str): EWR string
+        PARAMETER (str): which parameter of the EWR to access
     Results:
         str: requested EWR component
     

@@ -557,6 +557,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         df_subset = df[df['ID'].str.contains(unique_EWR)]
         yearly_df_subset = yearly_df[yearly_df['ID'].str.contains(unique_EWR)]
         # Get EWR characteristics for current EWR
+        scenario = unique_EWR.split('TEMPORARY_ID_SPLIT')[0]
         gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]
         pu = unique_EWR.split('TEMPORARY_ID_SPLIT')[2]
         ewr = unique_EWR.split('TEMPORARY_ID_SPLIT')[3]
@@ -568,13 +569,14 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         # Get years:
         unique_years = list(range(min(yearly_df_subset['Year']),max(yearly_df_subset['Year'])+1,1))
         # Construct dictionary to save results to:
-        if gauge not in master_dict:
-            master_dict[gauge] = {}
-        if pu not in master_dict[gauge]:
-            master_dict[gauge][pu] = {}
-        if ewr not in master_dict[gauge][pu]:
-            master_dict[gauge][pu][ewr] = evaluate_EWRs.construct_event_dict(unique_years)
-
+        if scenario not in master_dict:
+            master_dict[scenario] = {}
+        if gauge not in master_dict[scenario]:
+            master_dict[scenario][gauge] = {}
+        if pu not in master_dict[scenario][gauge]:
+            master_dict[scenario][gauge][pu] = {}
+        if ewr not in master_dict[scenario][gauge][pu]:
+            master_dict[scenario][gauge][pu][ewr] = evaluate_EWRs.construct_event_dict(unique_years)
         # Pull EWR start and end date from EWR dataset and clean TODO: functionalise this
         EWR_info = {}
         EWR_info['start_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'StartMonth')
@@ -603,10 +605,15 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             period_wy = evaluate_EWRs.wateryear_daily(dates_df, EWR_info)
             # Iterate over the years:
             for YEAR in period_wy:
-                master_dict[gauge][pu][ewr][YEAR].append(np.sum(period_wy<=YEAR))
+                master_dict[scenario][gauge][pu][ewr][YEAR].append(np.sum(period_wy<=YEAR))
         # Iterate over the water years, keep only the maximum values from each year:
-        for yr, interevents in master_dict[gauge][pu][ewr].items():
-            master_dict[gauge][pu][ewr].update({yr: max(interevents, default=0)})
+        for yr, interevents in master_dict[scenario][gauge][pu][ewr].items():
+            # print(interevents)
+            master_dict[scenario][gauge][pu][ewr].update({yr: max(interevents, default=0)})
+    
+    df.drop(['ID'], axis=1, inplace=True)
+    yearly_df.drop(['ID'], axis=1, inplace=True)
+
     return master_dict
 
 def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) -> pd.DataFrame:
@@ -622,11 +629,47 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
     yearly_df['rollingMaxInterEvent'] = None
     # iterate yearly df, but ignore merged ewrs
     for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/')].iterrows():
+        scenario = yearly_df.loc[i, 'scenario']
         gauge = yearly_df.loc[i, 'gauge']
         pu = yearly_df.loc[i, 'pu']
         ewr = yearly_df.loc[i, 'ewrCode']
         year = yearly_df.loc[i, 'Year']
-        value_to_add = yearly_dict[gauge][pu][ewr][year]
+        value_to_add = yearly_dict[scenario][gauge][pu][ewr][year]
         yearly_df.loc[i, 'rollingMaxInterEvent'] = value_to_add
     
     return yearly_df
+
+def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    For each EWR, check to see if the rolling max interevent achieves the minimum requirement.
+
+    Args:
+        yearly_df (pd.DataFrame): 
+    Results:
+        pd.DataFrame: yearly_ewr_results dataframe with the new column
+    
+    '''
+
+    yearly_df['maxInterEventDaysAchievedRolling'] = None
+
+    # Load in EWR table to variable to access start and end dates of the EWR
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+
+    # Get EWR characteristics for current EWR
+    for i, row in yearly_df.iterrows():
+        gauge = yearly_df.loc[i, 'gauge']
+        pu = yearly_df.loc[i, 'pu']
+        ewr = yearly_df.loc[i, 'ewrCode']
+        max_interevent_target = int(float(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MaxInter-event'))*365)
+        
+        interevent_value = yearly_df.loc[i, 'rollingMaxInterEvent']
+        
+        if interevent_value > max_interevent_target:
+            result = 0
+        else:
+            result = 1
+        yearly_df.loc[i, 'rollingMaxInterEventAchieved'] = result
+    
+    return yearly_df
+
+
