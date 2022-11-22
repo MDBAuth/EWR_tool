@@ -446,6 +446,8 @@ class ScenarioHandler:
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
 
+        all_events = summarise_results.filter_duplicate_start_dates(all_events)
+
         return all_events
 
     def get_all_interEvents(self)-> pd.DataFrame:
@@ -463,6 +465,8 @@ class ScenarioHandler:
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
+
+        all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
 
         # Get start and end date of the timeseries.
         date0 = self.flow_data.index[0]
@@ -490,6 +494,8 @@ class ScenarioHandler:
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
 
+        all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
+
         all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
 
         return all_successfulEvents
@@ -509,6 +515,9 @@ class ScenarioHandler:
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
+
+        all_events_temp2 = summarise_results.filter_duplicate_start_dates(all_events_temp2)
+
 
         # Part 1 - Get only the successful events:
         all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
@@ -557,6 +566,9 @@ class ScenarioHandler:
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
+
+        all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
+
         #Filter out the unsuccessful events:
         all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
 

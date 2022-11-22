@@ -402,8 +402,8 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     
     final_summary_output = final_summary_output.merge(ewr_event_stats, 
                                                       'left',
-                                                      left_on=['gauge','pu','ewrCode'], 
-                                                      right_on=['gauge','pu',"ewrCode"])
+                                                      left_on=['scenario', 'gauge','pu','ewrCode'], 
+                                                      right_on=['scenario', 'gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
 
     final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge'],
@@ -436,6 +436,24 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     
     return final_merged
 
+def filter_duplicate_start_dates(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    For those events that are recorded on a rolling basis at the end of the year - remove the duplicates.
+    TODO: Make this filtering process more robust. Currently its just keeping the last one because
+    this will be the longest event, but if for some reason the dataframe is reordered this will be
+    tripped up.
+
+    Args:
+        events (pd.DataFrame): all events dataframe
+
+    Results:
+        pd.DataFrame: Updated all_events dataframe with duplicates removed
+
+    '''
+
+    df.drop_duplicates(subset = ['scenario', 'gauge', 'pu', 'ewr', 'startDate'], keep='last', inplace=True)
+
+    return df
 
 def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFrame) -> pd.DataFrame:
     '''
@@ -459,7 +477,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
                                                 'startDate', 'endDate', 'interEventLength'])
 
     for i in unique_ID:
-        contain_values = df_events[df_events['ID'].str.contains(i)]
+        contain_values = df_events[df_events['ID'].str.contains(i, regex= False)]
         # Get the new start and end dates as lists:
         new_ends = list(contain_values['startDate'])
         new_starts = list(contain_values['endDate'])
@@ -509,21 +527,22 @@ def filter_successful_events(all_events: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: Dataframe with only successful events
     
     '''
-    all_events['ID'] = all_events['scenario']+all_events['gauge']+all_events['pu']+all_events['ewr']
+
+    s = 'TEMPORARY_ID_SPLIT'
+
+    all_events['ID'] = all_events['scenario']+s+all_events['gauge']+s+all_events['pu']+s+all_events['ewr']
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-
     all_successfulEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
 
     # Filter out unsuccesful events
     # Iterate over the all_events dataframe
     for i in unique_ID:
         # Subset df with only 
-        df_subset = all_events[all_events['ID'].str.contains(i)]
-
-        gauge = df_subset['gauge'].iloc[0]
-        pu = df_subset['pu'].iloc[0]
-        ewr = df_subset['ewr'].iloc[0]  
+        df_subset = all_events[all_events['ID'].str.contains(i, regex=False)]
+        gauge = i.split('TEMPORARY_ID_SPLIT')[1]
+        pu = i.split('TEMPORARY_ID_SPLIT')[2]
+        ewr = i.split('TEMPORARY_ID_SPLIT')[3]       
 
         # Pull EWR minSpell value from EWR dataset
         minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
@@ -546,16 +565,18 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     
     '''
 
-    df['ID'] = df['scenario']+'TEMPORARY_ID_SPLIT'+df['gauge']+'TEMPORARY_ID_SPLIT'+df['pu']+'TEMPORARY_ID_SPLIT'+df['ewr']
-    yearly_df['ID'] = yearly_df['scenario']+'TEMPORARY_ID_SPLIT'+yearly_df['gauge']+'TEMPORARY_ID_SPLIT'+yearly_df['pu']+'TEMPORARY_ID_SPLIT'+yearly_df['ewrCode']
+    s = 'TEMPORARY_ID_SPLIT'
+
+    df['ID'] = df['scenario']+s+df['gauge']+s+df['pu']+s+df['ewr']
+    yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['gauge']+s+yearly_df['pu']+s+yearly_df['ewrCode']
     unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
-    
+    # yearly_df.to_csv('yearly_df_v1.csv')
     master_dict = dict()
     # Load in EWR table to variable to access start and end dates of the EWR
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     for unique_EWR in unique_ID:
-        df_subset = df[df['ID'].str.contains(unique_EWR)]
-        yearly_df_subset = yearly_df[yearly_df['ID'].str.contains(unique_EWR)]
+        df_subset = df[df['ID'].str.contains(unique_EWR,regex=False)]
+        yearly_df_subset = yearly_df[yearly_df['ID'].str.contains(unique_EWR, regex=False)]
         # Get EWR characteristics for current EWR
         scenario = unique_EWR.split('TEMPORARY_ID_SPLIT')[0]
         gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]
@@ -567,6 +588,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             continue
 
         # Get years:
+        # TODO this line creates a bug, change to get min and max years from actual events
         unique_years = list(range(min(yearly_df_subset['Year']),max(yearly_df_subset['Year'])+1,1))
         # Construct dictionary to save results to:
         if scenario not in master_dict:
@@ -601,14 +623,13 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             period = pd.date_range(df_subset.loc[i, 'startDate'],df_subset.loc[i, 'endDate'])
             # Save to pd.df for function compatibility
             dates_df = pd.DataFrame(index = period)
-            # Convert year to water year using the existing function
+            # Convert year to water year using the existing function            
             period_wy = evaluate_EWRs.wateryear_daily(dates_df, EWR_info)
             # Iterate over the years:
             for YEAR in period_wy:
                 master_dict[scenario][gauge][pu][ewr][YEAR].append(np.sum(period_wy<=YEAR))
         # Iterate over the water years, keep only the maximum values from each year:
         for yr, interevents in master_dict[scenario][gauge][pu][ewr].items():
-            # print(interevents)
             master_dict[scenario][gauge][pu][ewr].update({yr: max(interevents, default=0)})
     
     df.drop(['ID'], axis=1, inplace=True)
@@ -628,7 +649,7 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
     '''
     yearly_df['rollingMaxInterEvent'] = None
     # iterate yearly df, but ignore merged ewrs
-    for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/')].iterrows():
+    for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/', regex=False)].iterrows():
         scenario = yearly_df.loc[i, 'scenario']
         gauge = yearly_df.loc[i, 'gauge']
         pu = yearly_df.loc[i, 'pu']

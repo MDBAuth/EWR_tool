@@ -150,6 +150,8 @@ class ObservedHandler:
         self.pu_ewr_statistics = None
         self.summary_results = None
         self.parameter_sheet = parameter_sheet
+        self.flow_data = None
+        self.level_data = None
 
     def process_gauges(self):
         '''ingests a list of gauges and user defined parameters
@@ -189,6 +191,9 @@ class ObservedHandler:
         self.pu_ewr_statistics = detailed_results
         self.yearly_events = detailed_events
 
+        self.flow_data = df_F
+        self.level_data = df_L
+
 
     def get_all_events(self)-> pd.DataFrame:
 
@@ -206,7 +211,92 @@ class ObservedHandler:
                                         'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
 
+        all_events = summarise_results.filter_duplicate_start_dates(all_events)
+
         return all_events
+
+    def get_all_interEvents(self)-> pd.DataFrame:
+        
+        if not self.yearly_events:
+            self.process_gauges()
+        
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events_temp = summarise_results.process_all_events_results(events_to_process)
+
+        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
+                        left_table=all_events_temp,
+                        left_on=['gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                'eventDuration', 'eventLength', 
+                                'Multigauge'],
+                        parameter_sheet_path=self.parameter_sheet)
+                    
+        all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
+
+        # Get start and end date of the timeseries.
+        date0 = self.flow_data.index[0]
+        date1 = self.flow_data.index[-1]
+        start_date = date(date0.year, date0.month, date0.day)
+        end_date = date(date1.year, date1.month, date1.day)
+        
+        all_interEvents = summarise_results.events_to_interevents(start_date, end_date, all_events_temp)
+
+        return all_interEvents
+
+    def get_all_successful_events(self)-> pd.DataFrame:
+
+        if not self.yearly_events:
+            self.process_gauges()
+        
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events_temp1 = summarise_results.process_all_events_results(events_to_process)
+
+        all_events_temp1 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
+                        left_table=all_events_temp1,
+                        left_on=['gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                'eventDuration', 'eventLength', 
+                                'Multigauge'],
+                        parameter_sheet_path=self.parameter_sheet)
+
+        all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
+
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
+
+        return all_successfulEvents
+
+    def get_all_successful_interEvents(self)-> pd.DataFrame:
+
+        if not self.yearly_events:
+            self.process_gauges()
+        
+        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+        all_events_temp2 = summarise_results.process_all_events_results(events_to_process)
+
+        all_events_temp2 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
+                        left_table=all_events_temp2,
+                        left_on=['gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                'eventDuration', 'eventLength', 
+                                'Multigauge'],
+                        parameter_sheet_path=self.parameter_sheet)
+
+        all_events_temp2 = summarise_results.filter_duplicate_start_dates(all_events_temp2)
+
+        # Part 1 - Get only the successful events:
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
+
+        # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
+        # Get start and end date of the timeseries.
+        date0 = self.flow_data.index[0]
+        date1 = self.flow_data.index[-1]
+
+        start_date = date(date0.year, date0.month, date0.day)
+        end_date = date(date1.year, date1.month, date1.day)
+
+        all_successful_interEvents = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
+
+        return all_successful_interEvents
 
     def get_yearly_ewr_results(self)-> pd.DataFrame:
 
@@ -238,11 +328,21 @@ class ObservedHandler:
                                                                                   'eventDuration', 'eventLength',
                                                                                   'Multigauge'],
                                                                 parameter_sheet_path=self.parameter_sheet)
+        
+        all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
+
         # Filter out the unsuccessful events:
+        all_events_temp.to_csv('all_events_v1.csv')
         all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
-
-        df = summarise_results.events_to_interevents(self.dates['start_date'], self.dates['end_date'], all_successfulEvents)
-
+        
+        # Get start and end date of the timeseries.
+        date0 = self.flow_data.index[0]
+        date1 = self.flow_data.index[-1]
+        start_date = date(date0.year, date0.month, date0.day)
+        end_date = date(date1.year, date1.month, date1.day)
+        all_successfulEvents.to_csv('successful_events_v1.csv')
+        df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
+        df.to_csv('interevents_v1.csv')
         rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, self.dates['start_date'], self.dates['end_date'],
                                                                                      yearly_ewr_results)
 
@@ -251,7 +351,7 @@ class ObservedHandler:
                                                                                 rolling_max_interevents_dict)
         # Drop temporary ID column
 
-        yearly_ewr_results.drop('ID', axis=1, inplace=True)
+        # yearly_ewr_results.drop('ID', axis=1, inplace=True)
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:

@@ -195,3 +195,22 @@ def test_filter_successful_events(successfulEvent_item_to_process):
     expected_all_interevents_df = pd.DataFrame(data = expected_data)
 
     assert all_interevents_df.to_dict() == expected_all_interevents_df.to_dict()
+
+def test_filter_duplicate_start_dates(duplicate_event_item_to_process):
+    all_events_df = pd.DataFrame(data = duplicate_event_item_to_process)
+    df = summarise_results.filter_duplicate_start_dates(all_events_df)
+
+    expected_data = {'scenario': ['example_scenario']*7,
+            'gauge': ['409025']*5+['410007']*2, 
+            'pu': ['Murray River - Yarrawonga to Barmah']*5+['Upper Yanco Creek']*2, 
+            'ewr': ['VF']*2+['LF2']*3+['SF2']*2,
+            'waterYear': ['1901', '1904', '1901', '1901', '1904','1901', '1904'], 
+            'startDate': [date(1901, 8, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6)], 
+            'endDate': [date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 9), date(1904, 2, 15), date(1901, 8, 15), date(1904, 3, 5)], 
+            'eventDuration': [124, 61, 21, 9, 16, 6, 821],
+            'eventLength': [124, 61, 21, 9, 16, 6, 821],
+            'Multigauge': ['']*7}
+    
+    expected_df = pd.DataFrame(data=expected_data)
+
+    assert df.reset_index(drop=True).to_dict() == expected_df.reset_index(drop=True).to_dict()

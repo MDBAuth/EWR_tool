@@ -988,37 +988,37 @@ def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
 # 			assert no_event == expected_all_no_events[year][i]
 # 	assert durations == expected_durations
 			
-def test_nest_calc_weirpool():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows and levels, ensure events cannot overlap water years. Other tests:
-		- check if event exluded when flow requirement is passed but the level requirement is not passed
-		- TO-TEST: check if event exluded when flow requirement is not passed but the level requirement is passed
-		- TO-TEST: check if event is excluded when flow and level requirements are passed but the drawdown rate is exceeded
-	'''
-	# Set up input data
-	EWR_info = {'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10}
-	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[0]*351+[10]*10)
-	levels = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[1]*1 + [10]*5+[0]*351+[10]*10)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	# Set up expected output data
-	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: [[10]*10]}
-	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
-	expected_durations = [10]*4
-	# Send to test function and then test
-	all_events, all_no_events, durations = evaluate_EWRs.nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates)
+# def test_nest_calc_weirpool():
+# 	'''
+# 	1. Test functions ability to identify and save all events and event gaps for series of flows and levels, ensure events cannot overlap water years. Other tests:
+# 		- check if event exluded when flow requirement is passed but the level requirement is not passed
+# 		- TO-TEST: check if event exluded when flow requirement is not passed but the level requirement is passed
+# 		- TO-TEST: check if event is excluded when flow and level requirements are passed but the drawdown rate is exceeded
+# 	'''
+# 	# Set up input data
+# 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10}
+# 	flows = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[0]*351+[10]*10)
+# 	levels = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*9+[1]*1 + [10]*5+[0]*351+[10]*10)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+# 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+# 	# Set up expected output data
+# 	expected_all_events = {2012: [[10]*10], 2013: [[10]*10], 2014: [[10]*10], 2015: [[10]*10]}
+# 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
+# 	expected_durations = [10]*4
+# 	# Send to test function and then test
+# 	all_events, all_no_events, durations = evaluate_EWRs.nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates)
 
-	for year in all_events:
-		assert len(all_events[year]) == len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
+# 	for year in all_events:
+# 		assert len(all_events[year]) == len(expected_all_events[year])
+# 		for i, event in enumerate(all_events[year]):
+# 			assert event == expected_all_events[year][i]
 
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
+# 	for year in all_no_events:
+# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+# 		for i, no_event in enumerate(all_no_events[year]):
+# 			assert no_event == expected_all_no_events[year][i]
+# 	assert durations == expected_durations
         
 # def test_nest_calc_percent():
 # 	'''
@@ -2545,7 +2545,8 @@ def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events
 									event, all_events, no_event, all_no_events, gap_track, 
                						water_years, total_event, flow_date, weirpool_type, levels)
 	# print(event)
-	print(all_events)
+	print(event)
+	print(expected_event)
 	assert event == expected_event
 	assert all_events == expected_all_events
 

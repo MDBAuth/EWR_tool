@@ -156,7 +156,7 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
         # If drawdown is 0, this means it was not set in the parameter sheet and therefore should not be used
         if max_drawdown == 0:
             # Large value set to ensure that drawdown check is always passed in this case
-            ewrs['drawdown_rate'] = str(1000000)          
+            ewrs['drawdown_rate'] = int(1000000)          
     if 'DURVD' in components:
         try: # There may not be a very dry duration available for this EWR
             EWR_VD = str(EWR + '_VD')
@@ -205,7 +205,7 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
             corrected = apply_correction(float(drawdown_rate_week), allowance['drawdown'])
             ewrs['drawdown_rate_week'] = str(corrected/100)
         except ValueError: # In this case set a large number
-            ewrs['drawdown_rate_week'] = str(1000000)   
+            ewrs['drawdown_rate_week'] = int(1000000)   
 
     return ewrs
 
@@ -247,7 +247,11 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
         return False
     if wp[0] == '':
         return False
-    return int(wp[0]) > 0
+    # return int(wp[0]) > 0 
+    # Removed above line as new multigauge sites were causing program to break.
+    # TODO: Check logic to make sure below solution does not cause other issues.
+    else:
+        return True
 
 #------------------------ Masking timeseries data to dates in EWR requirement --------------------#
 
@@ -534,12 +538,12 @@ def level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: p
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)  
     # Check flow data against EWR requirements and then perform analysis on the results:
-    try:    
-        E, NE, D = lake_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
-    except ValueError:
-        print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due wrong value in the parameter sheet 
-        give level drawdown in cm not in % {EWR_info.get('drawdown_rate', 'no drawdown rate')}''')
-        return PU_df, None
+    # try:    
+    E, NE, D = lake_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+    # except ValueError:
+    #     print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due wrong value in the parameter sheet 
+    #     give level drawdown in cm not in % {EWR_info.get('drawdown_rate', 'no drawdown rate')}''')
+    #     return PU_df, None
 
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df, tuple([E])
@@ -1671,12 +1675,13 @@ def check_weekly_drawdown(levels: list, EWR_info: dict, iteration: int, event_le
         bool: if pass test returns True and fail return False
     """
     drawdown_rate_week = float(EWR_info["drawdown_rate_week"])
-    
+    print(drawdown_rate_week)
     if event_length < 6 :
         current_weekly_dd = levels[iteration - event_length] - levels[iteration]
     else:
         current_weekly_dd = levels[iteration - 6 ] - levels[iteration]
         
+    print(current_weekly_dd)
     return current_weekly_dd <= drawdown_rate_week
 
 def calc_flow_percent_change(iteration: int, flows: list) -> float:
