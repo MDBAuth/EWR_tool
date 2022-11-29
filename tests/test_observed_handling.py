@@ -72,17 +72,17 @@ def test_categorise_gauges():
     2. gauges outside cats
     '''
     
-    level = ['425020', '425022', '425023', '414209', '4260501', '4260508','4260506']
+    level = ['425020', '425022', '425023', '4260501', '4260508','4260506']
     flow = ['414203', '425010', '4260507', '4260505',  '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '409023', '409003']
     all_gauges = level + flow
     
-    f, l = observed_handling.categorise_gauges(all_gauges)
+    f, ll, l = observed_handling.categorise_gauges(all_gauges)
 
     expected_level = copy.deepcopy(level)
     expected_flow = copy.deepcopy(flow)
     expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
     assert set(f) == set(expected_flow)
-    assert set(l) == set(expected_level)
+    assert set(ll) == set(expected_level)
 
 
 
@@ -106,11 +106,11 @@ def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 21)
+    assert yearly_results.shape == (24, 22)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'maxInterEventDays', 'maxInterEventDaysAchieved', 'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 'rollingMaxInterEvent']
 
 def test_get_ewr_results(observed_handler_instance):
 

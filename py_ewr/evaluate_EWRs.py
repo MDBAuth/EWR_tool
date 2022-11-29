@@ -2234,13 +2234,14 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
             flow_percent_change = calc_flow_percent_change(i, flows)
             trigger_day = date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
             cut_date = calc_nest_cut_date(EWR_info, i, dates)
-            is_in_trigger_window = dates[i].to_timestamp().date() >= trigger_day + timedelta(days=14)
+            is_in_trigger_window = dates[i].to_timestamp().date() >= trigger_day \
+                                   and dates[i].to_timestamp().date() <= trigger_day + timedelta(days=14)
             iteration_no_event = 0
             
             ## if there IS an ongoing event check if we are on the trigger season window 
             # if yes then check the current flow
             if total_event > 0:
-                if (dates[i].to_timestamp().date() >= trigger_day - timedelta(days=7)) and (dates[i].to_timestamp().date() <= cut_date):
+                if (dates[i].to_timestamp().date() >= trigger_day) and (dates[i].to_timestamp().date() <= cut_date):
                     event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, no_event, 
                                                         all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 
@@ -2284,7 +2285,7 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
 
     if total_event > 0:
 
-        if (flow_date >= trigger_day - timedelta(days=7)) \
+        if (flow_date >= trigger_day ) \
             and (flow_date <= cut_date):
             event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, -1, flows[-1], event, all_events, no_event, 
                                                             all_no_events, gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
