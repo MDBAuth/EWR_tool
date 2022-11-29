@@ -51,7 +51,7 @@ def categorise_gauges(gauges: list) -> tuple:
 
     # Then loop through again and allocate remaining gauges to the flow category
     for gauge in gauges:
-        if ((gauge not in level_gauges) and (gauge not in flow_gauges)):
+        if ((gauge not in level_gauges) and (gauge not in stage_gauges) and (gauge not in flow_gauges)):
             # Otherwise, assume its a flow gauge and add
             flow_gauges.append(gauge)
 
