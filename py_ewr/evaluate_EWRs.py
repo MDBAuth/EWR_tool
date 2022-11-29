@@ -1565,7 +1565,7 @@ def nest_weirpool_check(EWR_info: dict, iteration: int, flow: float, level: floa
         tuple: after the check return the current state of the event, all_events, no_event, all_no_events, gap_track, total_event
     """
 
-    if check_weekly_drawdown(levels, EWR_info, iteration, len(event)) :
+    if flow >= EWR_info['min_flow'] and check_weekly_drawdown(levels, EWR_info, iteration, len(event)) :
         threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
@@ -1675,13 +1675,11 @@ def check_weekly_drawdown(levels: list, EWR_info: dict, iteration: int, event_le
         bool: if pass test returns True and fail return False
     """
     drawdown_rate_week = float(EWR_info["drawdown_rate_week"])
-    print(drawdown_rate_week)
     if event_length < 6 :
         current_weekly_dd = levels[iteration - event_length] - levels[iteration]
     else:
         current_weekly_dd = levels[iteration - 6 ] - levels[iteration]
-        
-    print(current_weekly_dd)
+
     return current_weekly_dd <= drawdown_rate_week
 
 def calc_flow_percent_change(iteration: int, flows: list) -> float:
@@ -2165,7 +2163,8 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
         else:
             no_event += 1
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
-        if water_years[i] != water_years[i+1]:
+        # if water_years[i] != water_years[i+1]:
+        if dates[i] in masked_dates and dates[i+1] not in masked_dates: #TODO: check to see if this logically holds
             if len(event) > 0:
                 all_events[water_years[i]].append(event)
                 if no_event - total_event > 0:
@@ -2188,7 +2187,7 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
         if no_event - total_event > 0:
             ne_water_year = which_water_year_no_event(i, total_event, water_years)
             all_no_events[ne_water_year].append([no_event-total_event])
-        no_event = 0
+            no_event = 0
         total_event = 0
         
     if no_event > 0:

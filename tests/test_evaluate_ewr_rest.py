@@ -785,7 +785,6 @@ def test_ctf_calc():
 	expected_durations = [10,10,5,10] # adding in a very dry year climate year
 	# Send to test function and then test
 	all_events, all_no_events, durations = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
-	print(all_no_events)
 	for year in all_events:
 			assert len(all_events[year]) ==len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -880,7 +879,6 @@ def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	expected_durations = [20,20,20,20] # adding in a very dry year climate year
 	# Send to test function and then test
 	all_events, all_no_events, durations = evaluate_EWRs.ctf_calc_anytime(EWR_info, flows, water_years, climates, dates)
-	print(all_events)
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -1081,7 +1079,6 @@ def test_flow_calc_anytime_sim():
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# Send to test function and then test
 	all_events, all_no_events, durations = evaluate_EWRs.flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates)
-	print(all_events)
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
@@ -2282,9 +2279,6 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	# print(all_events)
 	assert event == expected_event
 
-	print(expected_all_events)
-	print(all_events)
-
 	for year in all_events:
 		for i, event in enumerate(all_events[year]):
 				assert event == expected_all_events[year][i]
@@ -2433,8 +2427,6 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	
 	all_events, all_no_events, _ = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
-	
-	print(all_events)
 								
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
@@ -2544,13 +2536,10 @@ def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events
 	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.nest_weirpool_check(EWR_info, iteration, flow, level, 
 									event, all_events, no_event, all_no_events, gap_track, 
                						water_years, total_event, flow_date, weirpool_type, levels)
-	# print(event)
-	print(event)
-	print(expected_event)
 	assert event == expected_event
 	assert all_events == expected_all_events
 
-
+#TODO: delete the references to the minimum level requirements - they are no longer used.
 @pytest.mark.parametrize("EWR_info,flows,levels,weirpool_type,expected_all_events,expected_all_no_events", [
 	({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
 	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10, "drawdown_rate_week" : "0.3",
@@ -2618,11 +2607,11 @@ def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events
 				[0]*365 + 
 				[0]*366),
 		'raising',
-	 {2012: [], 
+	 {2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(30)]], 
 	  2013: [], 
 	  2014: [], 
 	  2015: []},
-	 {2012: [], 2013: [], 2014: [], 2015: [[1461]]}
+	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1369]]}
 	 ),
 	 ({'min_flow': 5, 'max_flow': 20, 'min_level': 5, 'max_level': 10, 'gap_tolerance':0,
 	 'drawdown_rate': 0.04, 'min_event': 10, 'duration': 10, "drawdown_rate_week" : "0.3",
@@ -2658,7 +2647,7 @@ def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events
 	  2013: [[(date(2013,9,1) + timedelta(days=i), 5) for i in range(122)]], 
 	  2014: [[(date(2014,9,1) + timedelta(days=i), 5) for i in range(122)]], 
 	  2015: [[(date(2015,9,1) + timedelta(days=i), 5) for i in range(122)]]},
-	 {2012: [[243]], 2013: [[243]], 2014: [[243]], 2015: [[243]]}
+	 {2012: [[62]], 2013: [[243]], 2014: [[243]], 2015: [[243], [182]]}
 	 ),
 ],)
 def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all_events, expected_all_no_events):
@@ -2666,7 +2655,7 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	0: test event meeting requirements outside time window
 	1: test event meeting requirements inside time window
 	2: test event meeting requirements inside time window flow not meeting requirements
-	3: test event meeting requirements inside time window level not meeting requirements
+	3: test event meeting requirements inside time window level not meeting requirements - this should still pass as level no longer considered
 	4: test event meeting requirements inside time window drawdown not meeting requirements
 	5. test meeting requirements all the time over water years. save any events at year boundary.
 	"""
@@ -2679,10 +2668,11 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	
 	all_events, all_no_events, _ = evaluate_EWRs.nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates, weirpool_type )
 
-	# print(all_events)
-	print(all_no_events)
-
 	for year in all_events:
+		print('events')
+		print(all_events[year])
+		print('expected events')
+		print(expected_all_events[year])
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
@@ -2690,6 +2680,7 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	for year in all_no_events:
 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
 		for i, no_event in enumerate(all_no_events[year]):
+			# print(year)
 			assert no_event == expected_all_no_events[year][i]
 
 @pytest.mark.parametrize("EWR_info,events,expected_result",[

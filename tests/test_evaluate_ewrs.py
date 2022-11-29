@@ -1075,25 +1075,4 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
         assert merged_column in expeted_pu_df.columns
         assert  expeted_pu_df[merged_column].to_list() == merged_eventYears[merged_column]
     
-    assert expeted_pu_df.shape[0] == PU_df_wp.shape[0] 
-    
-@pytest.mark.parametrize("wp_freshes",[
-    (
-        ["SF_WP"]
-    ),
-],)
-def test_missing_wp_calculation(PU_df_wp, wp_freshes,capsys):
-    weirpool_pair = {'SF_WP':'WP3',
-                      'LF2_WP': 'WP4' }
-
-    # drop all columns for current freshes
-    for fresh in wp_freshes:
-        columns_to_drop = [col for col in PU_df_wp.columns if weirpool_pair[fresh] in col]
-        PU_df_wp.drop(columns=columns_to_drop, inplace= True)
-    
-    evaluate_EWRs.merge_weirpool_with_freshes(wp_freshes, PU_df_wp)
-
-    captured = capsys.readouterr()
-
-    assert captured.out == "While trying to calculate SF_WP/WP3 there is missing data for WP3\n"
-
+    assert expeted_pu_df.shape[0] == PU_df_wp.shape[0]
