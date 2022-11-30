@@ -332,7 +332,6 @@ class ObservedHandler:
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
 
         # Filter out the unsuccessful events:
-        all_events_temp.to_csv('all_events_v1.csv')
         all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
         
         # Get start and end date of the timeseries.
@@ -340,9 +339,7 @@ class ObservedHandler:
         date1 = self.flow_data.index[-1]
         start_date = date(date0.year, date0.month, date0.day)
         end_date = date(date1.year, date1.month, date1.day)
-        all_successfulEvents.to_csv('successful_events_v1.csv')
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
-        df.to_csv('interevents_v1.csv')
         rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, self.dates['start_date'], self.dates['end_date'],
                                                                                      yearly_ewr_results)
 

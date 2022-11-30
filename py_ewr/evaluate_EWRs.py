@@ -1228,7 +1228,7 @@ def level_check(EWR_info: dict, iteration: int, level:float, level_change:float,
                     ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
                     all_no_events[ne_water_year].append([total_event_gap])
                 no_event = 0
-                total_event = 0
+            total_event = 0
                 
             event = []
         no_event += 1

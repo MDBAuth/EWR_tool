@@ -570,7 +570,6 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     df['ID'] = df['scenario']+s+df['gauge']+s+df['pu']+s+df['ewr']
     yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['gauge']+s+yearly_df['pu']+s+yearly_df['ewrCode']
     unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
-    # yearly_df.to_csv('yearly_df_v1.csv')
     master_dict = dict()
     # Load in EWR table to variable to access start and end dates of the EWR
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()

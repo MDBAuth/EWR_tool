@@ -201,8 +201,8 @@ def test_level_handle():
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
     # Setting up expected output - PU_df and test
     data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 'LLLF_numEventsAll': [1,0,0,1], 
-            'LLLF_maxInterEventDays': [261, 0, 652, 277], 
-            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
+            'LLLF_maxInterEventDays': [261, 0, 743, 277], 
+            'LLLF_maxInterEventDaysAchieved': [1, 1, 0, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
             'LLLF_totalEventDays': [90,0,0,90], 'LLLF_totalEventDaysAchieved': [90,0,0,90], 
             'LLLF_maxEventDays': [90,0,0,90], 'LLLF_maxRollingEvents': [90, 0, 1, 90],'LLLF_maxRollingAchievement': [1, 0, 0, 1],
             'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
@@ -332,7 +332,7 @@ def test_nest_handle():
     # Pass input data to test function:
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,1,4,4], 
+    data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,2,2,2], 
             'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
             'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 1.0, 1.25, 1.25], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
             'NestS1_totalEventDays': [60,1,5,5], 'NestS1_totalEventDaysAchieved': [60, 0, 0, 0],
