@@ -1731,7 +1731,10 @@ def calc_nest_cut_date(EWR_info: dict, iteration: int, dates: list) -> date:
     Returns:
         date: cut date for the current iteration
     """
-    return date(dates[iteration].year, EWR_info['end_month'], calendar.monthrange(dates[0].year,EWR_info['end_month'])[1])
+    d = date(dates[iteration].year, EWR_info['end_month'], calendar.monthrange(dates[0].year,EWR_info['end_month'])[1])
+    if EWR_info['end_day'] != None:
+        d = d.replace(day = EWR_info['end_day'])
+    return d
 
 def lowflow_calc(EWR_info: dict, flows: np.array, water_years: np.array, climates: np.array, dates: np.array, masked_dates: set) -> tuple:
     '''For calculating low flow ewrs. These have no consecutive requirement on their durations
@@ -2312,7 +2315,6 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     if no_event > 0:
         all_no_events[water_years[-1]].append([no_event])
     durations.append(EWR_info['duration'])
-    
     return all_events, all_no_events, durations
        
 

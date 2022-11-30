@@ -312,7 +312,7 @@ def test_nest_handle():
     unnacceptable_flows = unnacceptable_flows + [5300]*50
     # flows declining at acceptable rate but going below the threshold
     threshold_flows = [10000]*10
-    reduction_max = 6
+    reduction_max = 5
     for i, flow in enumerate(threshold_flows):
         threshold_flows[i] = threshold_flows[i-1]-(reduction_max/100*threshold_flows[i-1])
     threshold_flows = threshold_flows + [5300]*50
@@ -334,9 +334,9 @@ def test_nest_handle():
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,2,2,2], 
             'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
-            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 1.0, 1.25, 1.25], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
-            'NestS1_totalEventDays': [60,1,5,5], 'NestS1_totalEventDaysAchieved': [60, 0, 0, 0],
-            'NestS1_maxEventDays':[60,1,2,2],'NestS1_maxRollingEvents': [60, 1, 2, 2], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
+            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 25.5, 29.5, 29.5], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
+            'NestS1_totalEventDays': [60,51,59,59], 'NestS1_totalEventDaysAchieved': [60, 0, 0, 0],
+            'NestS1_maxEventDays':[60,50,49,49],'NestS1_maxRollingEvents': [60, 50, 49, 49], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
             'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
@@ -350,16 +350,26 @@ def test_nest_handle():
     threshold_flows_results_2 = [(date(2015, 9, 15) + timedelta(days=i), f) for i, f in enumerate(threshold_flows)]
 
     expected_events = {2012:[acceptable_flows_results], 
-                       2013:[[(date(2013, 9, 15), 9300.0)]], 
-                       2014:[[(date(2014, 9, 15), 9400.0)], [(date(2014, 9, 17), 8305.84)],
-                        [(date(2014, 9, 19), 7339.040224)], [(date(2014, 9, 21), 6484.7759419264), 
-                        (date(2014, 9, 22), 6095.689385410817)]], 
-                       2015:[[(date(2015, 9, 16), 9400.0)], [(date(2015, 9, 18), 8305.84)], 
-                       [(date(2015, 9, 20), 7339.040224)], [(date(2015, 9, 22), 6484.7759419264), 
-                       (date(2015, 9, 23), 6095.689385410817)]]}
+                       2013:[[(date(2013, 9, 15), 9300.0)], [(date(2013, 9, 25) + timedelta(days=i), 5300.0) for i in range(50)]], 
+                       2014:[[(date(2014, 9, 15), 9500.0), (date(2014, 9, 16), 9025.0), (date(2014, 9, 17), 8573.75), 
+                              (date(2014, 9, 18), 8145.0625), (date(2014, 9, 19), 7737.809375), (date(2014, 9, 20), 7350.91890625), 
+                              (date(2014, 9, 21), 6983.3729609375), (date(2014, 9, 22), 6634.204312890624), 
+                              (date(2014, 9, 23), 6302.494097246094), (date(2014, 9, 24), 5987.369392383789)],
+                              [(date(2014, 9, 26) + timedelta(days=i), 5300.0) for i in range(49)]
+                              ], 
+                       2015:[[(date(2015, 9, 16), 9500.0), (date(2015, 9, 17), 9025.0), (date(2015, 9, 18), 8573.75), 
+                              (date(2015, 9, 19), 8145.0625), (date(2015, 9, 20), 7737.809375), (date(2015, 9, 21), 7350.91890625), 
+                              (date(2015, 9, 22), 6983.3729609375), (date(2015, 9, 23), 6634.204312890624), 
+                              (date(2015, 9, 24), 6302.494097246094), (date(2015, 9, 25), 5987.369392383789)],
+                              [(date(2015, 9, 27) + timedelta(days=i), 5300.0) for i in range(49)]
+                              ]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
+            print('events')
+            print(events[index][year])
+            print('expected events')
+            print(expected_events[index][year])
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
@@ -978,10 +988,11 @@ def test_check_nest_percent_drawdown(flow_percent_change, flow, expected_result)
 
 
 @pytest.mark.parametrize("EWR_info,iteration,expected_result",[
-    ({'end_month': 10}, 0, date(2012, 10, 31)),
-    ({'end_month': 9}, 0, date(2012, 9, 30)),
-    ({'end_month': 12}, 0, date(2012, 12, 31)),
-    ({'end_month': 4}, 366, date(2013, 4, 30)),
+    ({'end_month': 10, 'end_day': None}, 0, date(2012, 10, 31)),
+    ({'end_month': 9, 'end_day': None}, 0, date(2012, 9, 30)),
+    ({'end_month': 12, 'end_day': None}, 0, date(2012, 12, 31)),
+    ({'end_month': 4, 'end_day': None}, 366, date(2013, 4, 30)),
+    ({'end_month': 4, 'end_day': 15}, 366, date(2013, 4, 15)),
 ],)
 def test_calc_nest_cut_date(EWR_info, iteration,expected_result):
     dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))

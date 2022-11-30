@@ -2286,7 +2286,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 
 @pytest.mark.parametrize("EWR_info,flows,expected_all_events,expected_all_no_events",[
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*30 +[0]*259 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2298,7 +2298,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [[76]], 2013: [], 2014: [], 2015: [[1355]]}
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*29 +[0]*260 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2310,7 +2310,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [], 2013: [], 2014: [], 2015: [[1461]]}
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*91 + [10]*31 +[0]*243 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2322,7 +2322,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [], 2013: [], 2014: [], 2015: [[1461]]} 
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*120 +[0]*169 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2334,7 +2334,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 	 {2012: [[76]], 2013: [], 2014: [], 2015: [[1277]]}
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*30 + [8] +[0]*258 + # 20% Drawdown
 				[0]*365 + 
 				[0]*365 + 
@@ -2347,7 +2347,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	),
 
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*30 + [9.5] +[0]*258 + # 5% Drawdown
 				[0]*365 + 
 				[0]*365 + 
@@ -2359,7 +2359,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [[76]], 2013: [], 2014: [], 2015: [[1354]]}
 	),
 	({'min_flow': 5, 'max_flow': 11, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*30 + [15] + [12] + [0]*257 + # 26% Drawdown above max flow
 				[0]*365 + 
 				[0]*365 + 
@@ -2371,7 +2371,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [[76]], 2013: [], 2014: [], 2015: [[1353]]}
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*365 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2383,7 +2383,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [], 2013: [], 2014: [], 2015: [[1461]]} 
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*5 +[0] + [10]*5 +[0]*278 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2395,7 +2395,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [], 2013: [], 2014: [], 2015: [[1461]]}
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30, 
-	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	   'gap_tolerance':0, "trigger_month": 9,"trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	np.array(   [0]*76 + [10]*5 +[0] +[10]*35 +[0]*248 +
 				[0]*365 + 
 				[0]*365 + 
@@ -2407,7 +2407,7 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	 {2012: [[82]], 2013: [], 2014: [], 2015: [[1344]]}
 	),
 	({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': "10%", 'min_event': 30, 'duration': 30,
-	  'gap_tolerance': 0, "trigger_month": 9, "trigger_day": 15, 'start_month': 9, 'end_month': 12},
+	  'gap_tolerance': 0, "trigger_month": 9, "trigger_day": 15, 'start_month': 9, 'end_month': 12, 'end_day': None},
 	 np.array([0] * 71 + [10]*35 + [0]*259 +   # event begins before trigger day
 			  [0] * 365 +
 			  [0] * 365 +
