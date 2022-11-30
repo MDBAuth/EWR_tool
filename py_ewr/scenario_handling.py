@@ -566,9 +566,7 @@ class ScenarioHandler:
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
-
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
-
         #Filter out the unsuccessful events:
         all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
 
@@ -577,9 +575,7 @@ class ScenarioHandler:
         date1 = self.flow_data.index[-1]
         start_date = date(date0.year, date0.month, date0.day)
         end_date = date(date1.year, date1.month, date1.day)
-
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
-
         rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results)
 
         # Add the rolling max interevents to the yearly dataframe:

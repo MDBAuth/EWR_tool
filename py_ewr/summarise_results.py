@@ -477,7 +477,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
                                                 'startDate', 'endDate', 'interEventLength'])
 
     for i in unique_ID:
-        contain_values = df_events[df_events['ID'].str.contains(i, regex= False)]
+        contain_values = df_events[df_events['ID'].str.fullmatch(i)]
         # Get the new start and end dates as lists:
         new_ends = list(contain_values['startDate'])
         new_starts = list(contain_values['endDate'])
@@ -534,12 +534,12 @@ def filter_successful_events(all_events: pd.DataFrame) -> pd.DataFrame:
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     all_successfulEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
-
+    
     # Filter out unsuccesful events
     # Iterate over the all_events dataframe
     for i in unique_ID:
         # Subset df with only 
-        df_subset = all_events[all_events['ID'].str.contains(i, regex=False)]
+        df_subset = all_events[all_events['ID'].str.fullmatch(i)]
         gauge = i.split('TEMPORARY_ID_SPLIT')[1]
         pu = i.split('TEMPORARY_ID_SPLIT')[2]
         ewr = i.split('TEMPORARY_ID_SPLIT')[3]       
@@ -574,8 +574,8 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     # Load in EWR table to variable to access start and end dates of the EWR
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     for unique_EWR in unique_ID:
-        df_subset = df[df['ID'].str.contains(unique_EWR,regex=False)]
-        yearly_df_subset = yearly_df[yearly_df['ID'].str.contains(unique_EWR, regex=False)]
+        df_subset = df[df['ID'].str.fullmatch(unique_EWR)]
+        yearly_df_subset = yearly_df[yearly_df['ID'].str.fullmatch(unique_EWR)]
         # Get EWR characteristics for current EWR
         scenario = unique_EWR.split('TEMPORARY_ID_SPLIT')[0]
         gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]
@@ -614,6 +614,8 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         else:
             EWR_info['end_day'] = None
             EWR_info['end_month'] =int(EWR_info['end_date'])        
+        # if ewr == "LF2_WP":
+        # if unique_EWR == "big10602.bmdTEMPORARY_ID_SPLIT425010TEMPORARY_ID_SPLITMurray River - Lock 10 to Lock 9TEMPORARY_ID_SPLITLF2_WP":
 
         # Iterate over the interevent periods for this EWR
         for i, row in df_subset.iterrows():
@@ -669,7 +671,7 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame) -> pd.DataFr
     
     '''
 
-    yearly_df['maxInterEventDaysAchievedRolling'] = None
+    yearly_df['rollingMaxInterEventAchieved'] = None
 
     # Load in EWR table to variable to access start and end dates of the EWR
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
@@ -679,6 +681,11 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame) -> pd.DataFr
         gauge = yearly_df.loc[i, 'gauge']
         pu = yearly_df.loc[i, 'pu']
         ewr = yearly_df.loc[i, 'ewrCode']
+
+        if '/' in ewr:
+            yearly_df.loc[i, 'rollingMaxInterEventAchieved'] = None
+            continue
+
         max_interevent_target = int(float(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MaxInter-event'))*365)
         
         interevent_value = yearly_df.loc[i, 'rollingMaxInterEvent']
