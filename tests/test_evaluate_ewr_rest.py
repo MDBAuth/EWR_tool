@@ -537,8 +537,6 @@ def test_flow_check_sim():
 	expected_total_event = 0
 	assert gap_track == expected_gap_track
 	assert event == expected_event
-	#         print(all_events)
-	#         print(expected_all_events)
 	for year in all_events:
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
@@ -1223,8 +1221,6 @@ def test_ctf_calc_sim():
 		assert len(all_events1[year]) == len(expected_all_events1[year])
 		for i, event in enumerate(all_events1[year]):
 			assert event == expected_all_events1[year][i]
-#         print(all_events2)
-#         print(expected_all_events2)
 	for year in all_events2:
 		assert len(all_events2[year]) == len(expected_all_events2[year])
 		for i, event in enumerate(all_events2[year]):
@@ -2275,8 +2271,6 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 																		event, all_events, no_event, all_no_events, gap_track, 
                         													water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 	
-	# print(event)
-	# print(all_events)
 	assert event == expected_event
 
 	for year in all_events:
@@ -2681,10 +2675,6 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	all_events, all_no_events, _ = evaluate_EWRs.nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates, weirpool_type )
 
 	for year in all_events:
-		print('events')
-		print(all_events[year])
-		print('expected events')
-		print(expected_all_events[year])
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
@@ -2692,7 +2682,6 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	for year in all_no_events:
 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
 		for i, no_event in enumerate(all_no_events[year]):
-			# print(year)
 			assert no_event == expected_all_no_events[year][i]
 
 @pytest.mark.parametrize("EWR_info,events,expected_result",[

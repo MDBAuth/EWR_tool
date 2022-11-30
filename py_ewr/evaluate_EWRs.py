@@ -247,9 +247,7 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
         return False
     if wp[0] == '':
         return False
-    # return int(wp[0]) > 0 
-    # Removed above line as new multigauge sites were causing program to break.
-    # TODO: Check logic to make sure below solution does not cause other issues.
+    # return int(wp[0]) > 0 Removed above line as new multigauge sites were causing program to break.
     else:
         return True
 
@@ -2166,8 +2164,8 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
         else:
             no_event += 1
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
-        # if water_years[i] != water_years[i+1]:
-        if dates[i] in masked_dates and dates[i+1] not in masked_dates: #TODO: check to see if this logically holds
+        # if water_years[i] != water_years[i+1]: # Swapped out because interevent periods were getting saved at the end of the year
+        if dates[i] in masked_dates and dates[i+1] not in masked_dates:
             if len(event) > 0:
                 all_events[water_years[i]].append(event)
                 if no_event - total_event > 0:

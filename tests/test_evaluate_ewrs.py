@@ -366,10 +366,6 @@ def test_nest_handle():
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
         for year in events[index]:
-            print('events')
-            print(events[index][year])
-            print('expected events')
-            print(expected_events[index][year])
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]

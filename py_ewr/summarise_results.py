@@ -587,7 +587,6 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             continue
 
         # Get years:
-        # TODO this line creates a bug, change to get min and max years from actual events
         unique_years = list(range(min(yearly_df_subset['Year']),max(yearly_df_subset['Year'])+1,1))
         # Construct dictionary to save results to:
         if scenario not in master_dict:
