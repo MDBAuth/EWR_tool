@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 
 
-### **EWR tool beta version 0.9.3 README**
+### **EWR tool beta version 0.9.4 README**
 
 *************
 The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
@@ -65,15 +65,17 @@ yearly_ewr_results = ewr_oh.get_yearly_ewr_results()
 # returns a pandas DataFrame with all events of the timeseries
 all_events = ewr_oh.get_all_events()
 
-# print DataFrame  head of the results
-# with the returned object you can use any pandas method like pd.DateFrame.to_csv() etc.
+# returns a pandas DataFrame with all interEvents of the timeseries
+all_interEvents = ewr_oh.get_all_interEvents()
 
-# print("ewr_results","\n")
-# print(ewr_results.head())
-# print("all_events""\n")
-# print(all_events.head())
-# print("yearly_ewr_results""\n")
-# print(yearly_ewr_results.head())
+# returns a pandas DataFrame with all successful events of the timeseries
+all_successfulEvents = ewr_oh.get_all_successful_events()
+
+# returns a pandas DataFrame with all interevent periods between the successful events of the timeseries
+all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
+
+
+# with the returned object you can use any pandas method like pd.DateFrame.to_csv() etc.
 
 ```
 
@@ -122,6 +124,7 @@ all_successfulEvents = ewr_sh.get_all_successful_events()
 # returns a pandas DataFrame with all interevent periods between the successful events of the timeseries
 all_successful_interEvents = ewr_sh.get_all_successful_interEvents()
 
+# with the returned object you can use any pandas method like pd.DateFrame.to_csv() etc.
 
 ```
 
@@ -135,7 +138,7 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.9.3 of the EWR tool. Testing is still being undertaken.
+This is the version 0.9.4 of the EWR tool. Testing is still being undertaken.
 
 
 **Disclaimer**
