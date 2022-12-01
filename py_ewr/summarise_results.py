@@ -388,7 +388,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
           EventsPerYear = ("numEvents",'mean'),
           EventsPerYearAll = ("numEventsAll",'mean'),
           ThresholdDays = ("totalEventDays", sum),
-          InterEventExceedingCount = ("maxInterEventDaysAchieved", sum_0),
+        #   InterEventExceedingCount = ("rollingMaxInterEventAchieved", sum_0),#"maxInterEventDaysAchieved"
           NoDataDays =  ("missingDays" , sum),
           TotalDays = ("totalPossibleDays" , sum),
           )
@@ -424,13 +424,13 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'EventsPerYearAll',
                                                     'averageEventLength',
                                                     'ThresholdDays',
-                                                    'InterEventExceedingCount',
+                                                    # 'InterEventExceedingCount',
                                                     'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
                                 renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
                                     'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
-                                    'AverageEventLength', 'ThresholdDays', 'InterEventExceedingCount',
+                                    'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
                                     'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
                                     parameter_sheet_path=parameter_sheet_path)
     
