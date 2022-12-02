@@ -571,6 +571,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['gauge']+s+yearly_df['pu']+s+yearly_df['ewrCode']
     unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
     master_dict = dict()
+    unique_years = list(range(min(yearly_df['Year']),max(yearly_df['Year'])+1,1))
     # Load in EWR table to variable to access start and end dates of the EWR
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     for unique_EWR in unique_ID:
@@ -585,9 +586,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         # if merged ewr skip
         if '/' in ewr:
             continue
-
-        # Get years:
-        unique_years = list(range(min(yearly_df_subset['Year']),max(yearly_df_subset['Year'])+1,1))
+        
         # Construct dictionary to save results to:
         if scenario not in master_dict:
             master_dict[scenario] = {}

@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 
 
-### **EWR tool beta version 0.9.4 README**
+### **EWR tool version 1.0.0 README**
 
 *************
 The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
@@ -97,7 +97,7 @@ DRAW = (100 -0 )/100
 
 allowance ={'minThreshold': MINT, 'maxThreshold': MAXT, 'duration': DUR, 'drawdown': DRAW}
 
-
+# Current model format options: 'Bigmod - MDBA', 'Source - NSW (res.csv)', 'IQQM - NSW 10,000 years' - see manual for formatting requirements
 ewr_sh = ScenarioHandler(scenario_files = loaded_files, 
                          model_format = 'IQQM - NSW 10,000 years', 
                          allowance = allowance, 
@@ -138,18 +138,17 @@ For issues relating to the script, a tutorial, or feedback please contact Martin
 
 **Notes on development of the tool**
 
-This is the version 0.9.4 of the EWR tool. Testing is still being undertaken.
+This is the version 1.0.0 of the EWR tool.
 
 
 **Disclaimer**
 Every effort has been taken to ensure the EWR database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the database and/or EWR tool. Please report any bugs to the issues tab under this GitHub project so we can investigate further. 
 
 
-**Notes on development of the database**
-The Environmental Assets & Functions Database (EAFD) migration to a machine readable format is underway. This migration may impact on the intricacies of the original EWRs. The MDBA has started working with NSW to ensure the translation from EWRs as they are written in the long term water plans to how they are interpreted by this tool is done in a scientifically robust manner.
+**Notes on development of the dataset of EWRs**
+The MDBA has worked with NSW to ensure scientific robustness of EWRs has been maintained when translating from raw EWRs in the LTWPs to the machine readable format found in the dataset used by this tool. 
 
 **Compatibility**
-The tool can currently evaluate most to all of EWRs in the following catchments. Evaluation of EWRs is largely dependent on the migration of the Environmental Assets & Functions Database (EAFD) database into a machine readable format.
 
 NSW:
 - All NSW catchments
@@ -167,6 +166,7 @@ Work is currently underway to migrate the EWRs in the remaining Basin catchments
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
 **Climate sequence**
-NSW Long Term Watering Plans (LTWP) define climate using the Resource Availability Scenarios (RAS). However, until this process can be completed the climate categories defined using outputs from the AWRA-L model will be used.  
+NSW Long Term Watering Plans (LTWP) define climate using the Resource Availability Scenarios (RAS). However, until this process can be completed the climate categories defined using outputs from the AWRA-L model will be used. 
+In the current version of the tool the climate sequence is not used.
 
 

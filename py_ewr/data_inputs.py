@@ -53,7 +53,7 @@ def get_EWR_table(file_path:str = None) -> dict:
                             dtype='str', encoding='cp1252')
 
     if not file_path:
-        my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv'
+        my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv'
         proxies={} # Populate with your proxy settings
         s = requests.get(my_url, proxies=proxies).text
         df = pd.read_csv(io.StringIO(s),
@@ -101,7 +101,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     return okay_EWRs, bad_EWRs
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE_DEV.csv') -> dict:
+def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv') -> dict:
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
     first three numbers for each gauge 
     
