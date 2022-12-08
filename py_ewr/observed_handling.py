@@ -346,9 +346,9 @@ class ObservedHandler:
         # Add the rolling max interevents to the yearly dataframe:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results,
                                                                                 rolling_max_interevents_dict)
-        # Drop temporary ID column
 
-        # yearly_ewr_results.drop('ID', axis=1, inplace=True)
+        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results)
+
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:
