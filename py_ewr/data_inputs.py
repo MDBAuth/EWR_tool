@@ -9,7 +9,7 @@ from cachetools import cached, TTLCache
 BASE_PATH = Path(__file__).resolve().parent
 
 # Importing the climate cat data - to be replaced by RAS data once available:
-# more like KATHLEEN's test
+
 def get_climate_cats(climate_file:str) -> pd.DataFrame:
     '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
     in which case this is used
