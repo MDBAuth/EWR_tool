@@ -106,11 +106,11 @@ def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 20) #22
+    assert yearly_results.shape == (24, 21) #22
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'eventLength', 'eventLengthAchieved',#'maxInterEventDays', 'maxInterEventDaysAchieved', 
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 'rollingMaxInterEvent']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
 
 def test_get_ewr_results(observed_handler_instance):
 
