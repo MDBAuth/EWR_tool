@@ -101,9 +101,9 @@ def test_get_EWR_table():
     '''
     # Test 1
     proxies={} # Populate with your proxy settings
-    my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv'
-    s = requests.get(my_url, proxies=proxies).text
-    df = pd.read_csv(io.StringIO(s),
+    my_url = "py_ewr/parameter_metadata/NSWEWR.csv"
+    #s = requests.get(my_url, proxies=proxies).text
+    df = pd.read_csv(my_url,#io.StringIO(s),
                         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
@@ -123,7 +123,7 @@ def test_map_gauge_to_catchment():
     1. Run test data (stored on MDBA public data repository) through to see if gauges are mapping correctly
     '''
     
-    EWR_table = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv'
+    EWR_table = "py_ewr/parameter_metadata/NSWEWR.csv"
     
     result = data_inputs.map_gauge_to_catchment(EWR_table)
     expected_result = {'419007': 'Namoi River downstream of Keepit Dam ',
