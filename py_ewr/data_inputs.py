@@ -279,9 +279,9 @@ def get_level_gauges() -> tuple:
     levelGauges = menindeeGauges + lachlanGauges
     
     weirpoolGauges = {'414203': '414209', 
-                      '425010': '4260501', 
-                      '4260507': '4260508',
-                      '4260505': '4260506'}
+                      '425010': 'A4260501',
+                      'A4260507': 'A4260508',
+                      'A4260505': 'A4260506'}
     
     return levelGauges, weirpoolGauges
 
