@@ -53,10 +53,10 @@ def get_EWR_table(file_path:str = None) -> dict:
                             dtype='str', encoding='cp1252')
 
     if not file_path:
-        my_url = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv'
+        my_url = "py_ewr/parameter_metadata/NSWEWR.csv"
         proxies={} # Populate with your proxy settings
-        s = requests.get(my_url, proxies=proxies).text
-        df = pd.read_csv(io.StringIO(s),
+        #s = requests.get(my_url, proxies=proxies).text
+        df = pd.read_csv(my_url,#io.StringIO(s),
             usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
@@ -101,7 +101,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     return okay_EWRs, bad_EWRs
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def map_gauge_to_catchment(my_url:str = 'https://az3mdbastg001.blob.core.windows.net/mdba-public-data/NSWEWR_LIVE.csv') -> dict:
+def map_gauge_to_catchment(my_url:str = "py_ewr/parameter_metadata/NSWEWR.csv") -> dict:
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
     first three numbers for each gauge 
     
