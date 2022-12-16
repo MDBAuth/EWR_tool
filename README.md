@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 1.0.3 README**
+### **EWR tool version 1.0.4 README**
 
 *************
 The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
