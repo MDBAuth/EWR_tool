@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import numpy as np
 from pathlib import Path
+import os
 
 from cachetools import cached, TTLCache
 
@@ -53,7 +54,7 @@ def get_EWR_table(file_path:str = None) -> dict:
                             dtype='str', encoding='cp1252')
 
     if not file_path:
-        my_url = "py_ewr/parameter_metadata/NSWEWR.csv"
+        my_url = os.path.join(BASE_PATH, "parameter_metadata/NSWEWR.csv")
         proxies={} # Populate with your proxy settings
         #s = requests.get(my_url, proxies=proxies).text
         df = pd.read_csv(my_url,#io.StringIO(s),
@@ -101,7 +102,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     return okay_EWRs, bad_EWRs
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def map_gauge_to_catchment(my_url:str = "py_ewr/parameter_metadata/NSWEWR.csv") -> dict:
+def map_gauge_to_catchment(my_url:str = "parameter_metadata/NSWEWR.csv") -> dict:
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
     first three numbers for each gauge 
     
@@ -116,7 +117,7 @@ def map_gauge_to_catchment(my_url:str = "py_ewr/parameter_metadata/NSWEWR.csv") 
                             '425012', '425044', '425049', '425001', '425022', '42510037', '42510036',
                             '425034', '425046', '425020', ]
     
-    EWR_table, bad_EWRs =  get_EWR_table(my_url)
+    EWR_table, bad_EWRs =  get_EWR_table(os.path.join(BASE_PATH, my_url))
     
     gauge_number = EWR_table['Gauge'].values
     gauge_name = EWR_table['CompliancePoint/Node'].values
@@ -151,7 +152,7 @@ def map_gauge_to_catchment(my_url:str = "py_ewr/parameter_metadata/NSWEWR.csv") 
             macquarie_catchment.update({k: v})
         elif k.startswith('412'):
             lachlan_catchment.update({k: v})
-        elif (k.startswith('401') or k.startswith('409') or k.startswith('426') or k.startswith('414')):
+        elif (k.startswith('401') or k.startswith('409') or k.startswith('A426') or k.startswith('414')):
             murray_catchment.update({k: v})
         elif k.startswith('425'):
             if k in lower_darling_gauges:
