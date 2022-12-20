@@ -2113,7 +2113,7 @@ def cumulative_calc(EWR_info: dict, flows: np.array, water_years: np.array, date
     if dates[-1] in masked_dates:
         roller = check_roller_reset_points(roller, dates[-1], EWR_info)
         flow_date = dates[-1]
-        event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_check(EWR_info, i, flow, event, all_events, 
+        event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_check(EWR_info, -1, flows[-1], event, all_events,
                                                                                             no_event, all_no_events, gap_track, water_years, 
                                                                                             total_event, flow_date, roller, max_roller, flows)   
     if no_event > 0:
