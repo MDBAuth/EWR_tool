@@ -39,5 +39,5 @@ setup(
         "mdba-gauge-getter==0.4.4",
         "cachetools==5.2.0",
     ],
-    package_data={'': ['climate_data/*.csv',"model_metadata/*.csv"]},
+    package_data={'': ['climate_data/*.csv', "model_metadata/*.csv", "parameter_metadata/*.csv"]},
 )
