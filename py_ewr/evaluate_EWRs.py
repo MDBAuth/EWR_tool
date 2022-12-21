@@ -3566,9 +3566,9 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
             CAT_CUMUL = EWR_categories[i] == 'V'
             CAT_LEVEL = EWR_categories[i] == 'L'
             # Get the specific type of EWR:
-            EWR_CTF = 'CF' in EWR or 'CTF' in EWR
+            EWR_CTF = 'CF' in EWR
             EWR_LOWFLOW = 'BF' in EWR or 'VF' in EWR
-            EWR_FLOW = 'SF' in EWR or 'LF' in EWR or 'BK' in EWR or 'OB' in EWR or 'AC' in EWR
+            EWR_FLOW = 'SF' in EWR or 'LF' in EWR or 'BK' in EWR or 'OB' in EWR or 'AC' in EWR or 'CTF' in EWR
             EWR_WP = 'WP' in EWR and 'SF' not in EWR and 'LF' not in EWR # added for the WP3 and WP4 dependencies
             EWR_NEST = 'Nest' in EWR
             EWR_CUMUL = 'LF' in EWR or 'OB' in EWR or 'WL' in EWR # Some LF and OB are cumulative
