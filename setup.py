@@ -31,7 +31,7 @@ setup(
     ],
     packages=find_packages(exclude=["tests"]),
     install_requires=[
-        "ipython==8.3.0",
+        "ipython==8.8.0",
         "ipywidgets==7.7.0",
         "pandas==1.4.2",
         "requests==2.25.1",
