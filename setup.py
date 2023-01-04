@@ -23,7 +23,6 @@ setup(
         'Development Status :: 4 - Beta',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
@@ -31,7 +30,7 @@ setup(
     ],
     packages=find_packages(exclude=["tests"]),
     install_requires=[
-        "ipython==8.3.0",
+        "ipython==8.8.0",
         "ipywidgets==7.7.0",
         "pandas==1.4.2",
         "requests==2.25.1",
