@@ -1,4 +1,4 @@
-cff-version: 1.0.4
+cff-version: 1.0.6
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: Job
@@ -19,6 +19,6 @@ authors:
     given-names: Benjamin
 
 title: "EWR_tool"
-version: 1.0.4
+version: 1.0.6
 doi: 10.5281/zenodo.7435847
 date-released: 2022-12-2
