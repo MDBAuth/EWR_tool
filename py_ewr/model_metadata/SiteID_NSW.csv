@@ -1,0 +1,22 @@
+SITEID,Name,Description,AWRC,StateID
+Gauge: 410001 Murrumbidgee River at Wagga Wagga: Downstream Flow,Wagga gauge,,410001,2
+Gauge: 410005 Murrumbidgee River at Narrandera: Downstream Flow,Narrandera gauge,,410005,2
+Gauge: 410006 Tumut River at Tumut: Downstream Flow,Tumut River (from Blowering Dam to junction with Murrumbidgee) (as measured at Tumut town gauge),,410006,2
+Gauge: 410008 Murrumbidgee River at DS Burrinjuck Dam: Downstream Flow,Tumut Junction as measured at downstream Burrinjuck gauge ,,410008,2
+Gauge: 410021 Murrumbidgee River at Darlington Point: Downstream Flow,Darlington Point gauge,,410021,2
+Gauge: 410040 Murrumbidgee River at DS Maude Weir: Downstream Flow,downstream Maude Weir - Maude gauge,,410040,2
+Gauge: 410093 Old Man Creek at Kywong_Topreeds: Downstream Flow,Old Man Creek at Kywong,,410093,2
+Gauge: 410130 Murrumbidgee River at DS Balranald Weir: Downstream Flow,Murrumbidgee River @ Balranald Weir,,410130,2
+Gauge: 410007 Yanco Creek at Offtake: Downstream Flow,Yanco Creek at Offtake,,410007,2
+Gauge: 410014 Colombo Creek at Morundah: Downstream Flow,Colombo Creek at Morundah,,410014,2
+Gauge: 410015 Yanco Creek at Morundah: Downstream Flow,Yanco Creek at Morundah,,410015,2
+Gauge: 410016 Billabong Creek at Jerilderie: Downstream Flow,Billabong Creek at Jerilderie ,,410016,2
+Gauge: 410134 Billabong Creek at Darlot: Downstream Flow,Billabong Creek at Darlot,,410134,4
+Environmental Flow: Eflow Nimmie-Caira: Downstream Flow,"Gayini/ Nimmie-Caira, combined Eulimbah and Nimmie Creek regulators",,"Eulimbah, Nimmie Creek",2
+Environmental Flow: Eflow Yanga: Downstream Flow,Yanga (South  Redbank),,Pumped from Yanga Lake,2
+Environmental Flow: Eflow Glen Dee: Downstream Flow,North Redbank,,Glen Dee,2
+Environmental Flow: Eflow Pattos Pipe: Downstream Flow,North Redbank,,Pattos Pipe,2
+Environmental Flow: Eflow Bills Pipe: Downstream Flow,North Redbank,,Bills Pipe,2
+Environmental Flow: LF3 Pump direct from river: Downstream Flow,"North Redbank, pumped direct from river",,Pump direct from river,2
+Environmental Flow: Eflow Glen Dee: Downstream Flow,"Western Lakes, Glenn Dee",,Glen Dee,2
+Environmental Flow: Eflow Yanga: Downstream Flow,Yanga (South  Redbank) 1AS,,1AS,2

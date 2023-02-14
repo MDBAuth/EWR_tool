@@ -1,0 +1,8 @@
+ipython
+ipywidgets
+mdba-gauge-getter
+numpy
+pandas
+requests
+tqdm
+traitlets
