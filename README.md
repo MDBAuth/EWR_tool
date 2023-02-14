@@ -16,6 +16,8 @@ We would like to thank Carmen Amos (NSW DPE), Markus Buerle (NSW DPE), Lara Palm
 
 ### **Installation**
 
+Note - requires Python 3.8 or newer
+
 Step 1. 
 Upgrade pip
 ```bash
@@ -134,7 +136,7 @@ This tool has two purposes:
 2. Planning: Comparing EWR success between scenarios (i.e. model runs)
 
 **Support**
-For issues relating to the script, a tutorial, or feedback please contact Martin Job at martin.job@mdba.gov.au or Joel Bailey at joel.bailey@mdba.gov.au
+For issues relating to the script, a tutorial, or feedback please contact Lara Palmer at lara.palmer@mdba.gov.au, Martin Job at martin.job@mdba.gov.au, or Joel Bailey at joel.bailey@mdba.gov.au
 
 
 **Disclaimer**
