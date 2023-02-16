@@ -3540,7 +3540,8 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
     
     ''' 
     # Get ewr tables:
-    PU_items = data_inputs.get_planning_unit_info()
+    # PU_items = data_inputs.get_planning_unit_info()
+    PU_items = EWR_table.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1)
     # menindee_gauges, wp_gauges = data_inputs.get_level_gauges()
     # simultaneous_gauges = data_inputs.get_simultaneous_gauges('all')
     complex_EWRs = data_inputs.get_complex_calcs()

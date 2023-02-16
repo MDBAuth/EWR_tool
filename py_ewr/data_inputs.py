@@ -352,7 +352,7 @@ def get_complex_calcs() -> dict:
     return complexCalcs
 
 
-def get_gauges(category: str) -> set:
+def get_gauges(category: str, ewr_table_path: str = None) -> set:
     '''
     Gathers a list of either all gauges that have EWRs associated with them,
     a list of all flow type gauges that have EWRs associated with them,
@@ -364,7 +364,7 @@ def get_gauges(category: str) -> set:
         list: list of gauges in selected category.
 
     '''
-    EWR_table, bad_EWRs = get_EWR_table()
+    EWR_table, bad_EWRs = get_EWR_table(file_path=ewr_table_path)
     menindee_gauges, wp_gauges = get_level_gauges()
     wp_gauges = list(wp_gauges.values())
     

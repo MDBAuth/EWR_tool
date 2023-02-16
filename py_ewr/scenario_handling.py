@@ -243,7 +243,7 @@ def cleaner_NSW(input_df: pd.DataFrame) -> pd.DataFrame:
     
     return cleaned_df
 
-def cleaner_IQQM_10000yr(input_df: pd.DataFrame) -> pd.DataFrame:
+def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
     
     Args:
@@ -273,8 +273,8 @@ def cleaner_IQQM_10000yr(input_df: pd.DataFrame) -> pd.DataFrame:
     cleaned_df = cleaned_df.set_index('Date')
     
     # Split gauges into flow and level, allocate to respective dataframe
-    flow_gauges = data_inputs.get_gauges('flow gauges')
-    level_gauges = data_inputs.get_gauges('level gauges')
+    flow_gauges = data_inputs.get_gauges('flow gauges',ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path)
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)
     for gauge in cleaned_df.columns:
@@ -406,7 +406,7 @@ class ScenarioHandler:
 
             elif self.model_format == 'IQQM - NSW 10,000 years':
                 df_unpacked = unpack_IQQM_10000yr(scenarios[scenario])
-                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked)
+                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked, self.parameter_sheet)
 
             elif self.model_format == 'Source - NSW (res.csv)':
                 data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')
@@ -496,7 +496,7 @@ class ScenarioHandler:
 
         all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
 
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1, self.parameter_sheet) 
 
         return all_successfulEvents
 
@@ -520,7 +520,7 @@ class ScenarioHandler:
 
 
         # Part 1 - Get only the successful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2, self.parameter_sheet) 
 
         # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
         # Get start and end date of the timeseries.
@@ -568,7 +568,7 @@ class ScenarioHandler:
                         parameter_sheet_path=self.parameter_sheet)
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
         #Filter out the unsuccessful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp, self.parameter_sheet)
 
         # Get start and end date of the timeseries.
         date0 = self.flow_data.index[0]
@@ -576,13 +576,13 @@ class ScenarioHandler:
         start_date = date(date0.year, date0.month, date0.day)
         end_date = date(date1.year, date1.month, date1.day)
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
-        rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results)
+        rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results, self.parameter_sheet)
 
         # Add the rolling max interevents to the yearly dataframe:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results, rolling_max_interevents_dict)
         
         # Calculate the rolling achievement of the interevent, append this to a new column
-        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results)
+        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)
 
         return yearly_ewr_results
 
