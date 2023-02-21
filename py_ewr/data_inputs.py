@@ -1,5 +1,6 @@
 import io
 import requests
+import json
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -30,6 +31,29 @@ def get_climate_cats(climate_file:str) -> pd.DataFrame:
         climate_cats = pd.read_csv(BASE_PATH / 'climate_data/climate_cats_10000year.csv', index_col = 0)
         
     return climate_cats
+
+@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+def get_ewr_calc_config(file_path:str = None) -> dict:
+    '''Loads the EWR calculation configuration file from repository or local file
+    system
+    
+    Args:
+        file_path (str): Location of the EWR calculation configuration file
+
+    Returns:
+        dict: Returns a dictionary of the EWR calculation configuration file
+    '''
+    
+    if file_path:
+        with open(file_path, 'r') as fp:
+            ewr_calc_config = json.load(fp)
+    
+    if not file_path:
+        repo_path = BASE_PATH / "parameter_metadata" / "ewr_calc_config.json"
+        with open(repo_path, 'r') as fp:
+            ewr_calc_config = json.load(fp)
+
+    return ewr_calc_config
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_EWR_table(file_path:str = None) -> dict:

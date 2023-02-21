@@ -365,7 +365,8 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
 
 class ScenarioHandler:
     
-    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None):
+    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None,
+                calc_config_path:str = None):
         self.scenario_files = scenario_files
         self.model_format = model_format
         self.allowance = allowance
@@ -374,6 +375,7 @@ class ScenarioHandler:
         self.pu_ewr_statistics = None
         self.summary_results = None
         self.parameter_sheet = parameter_sheet
+        self.calc_config_path = calc_config_path
         self.flow_data = None
         self.level_data = None
 
@@ -418,8 +420,10 @@ class ScenarioHandler:
             gauge_events = {}
             all_locations = df_F.columns.to_list() + df_L.columns.to_list()
             EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
+            calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
-                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table)
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, 
+                                                                                        EWR_table, calc_config)
             detailed_results[scenario] = gauge_results
             detailed_events[scenario] = gauge_events
 

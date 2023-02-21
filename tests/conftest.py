@@ -315,3 +315,8 @@ def duplicate_event_item_to_process():
             'eventDuration': [31, 124, 61, 21, 9, 16, 6, 3, 821],
             'eventLength': [31, 124, 61, 21, 9, 16, 6, 3, 821],
             'Multigauge': ['']*9}
+
+@pytest.fixture(scope="function")
+def ewr_calc_config():
+    ewr_calc_config = data_inputs.get_ewr_calc_config()
+    return ewr_calc_config

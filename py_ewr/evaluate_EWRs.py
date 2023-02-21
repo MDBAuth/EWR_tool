@@ -1,7 +1,6 @@
 from collections import defaultdict
 from copy import deepcopy
-from enum import unique
-import sunau
+import inspect
 from typing import Any, List, Dict
 import pandas as pd
 import numpy as np
@@ -3521,10 +3520,81 @@ def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFr
 
     return PU_df
 
+# make handling function available to process
+HANDLING_FUNCTIONS = {
+    'ctf_handle':ctf_handle,
+    'ctf_handle_multi': ctf_handle_multi,
+    'ctf_handle_sim': ctf_handle_sim,
+    'cumulative_handle': cumulative_handle,
+    'cumulative_handle_multi': cumulative_handle_multi,
+    'flow_handle': flow_handle,
+    'flow_handle_multi': flow_handle_multi,
+    'flow_handle_sim': flow_handle_sim,
+    'level_handle': level_handle,
+    'lowflow_handle': lowflow_handle,
+    'lowflow_handle_multi': lowflow_handle_multi,
+    'lowflow_handle_sim': lowflow_handle_sim,
+    'nest_handle': nest_handle,
+    'weirpool_handle' : weirpool_handle}
+
+def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:
+    """Get the gauge calculation type
+
+    Args:
+        complex (bool): is a complex gauge
+        multigauge (bool): is a multigauge
+        simultaneous (bool): is a simultaneous gauge
+
+    Returns:
+        str: gauge calculation type
+    """
+    if complex_:
+        return 'complex'
+    elif multigauge:
+        return 'multigauge'
+    elif simultaneous:
+        return 'simultaneous'
+    else:
+        return 'single'
+
+def get_ewr_prefix(ewr_code:str, prefixes:list)-> str:
+    """Get the EWR prefix by identifying the prefix in the EWR code
+
+    Args:
+        ewr_code (str): EWR code
+        prefixes (list): list of prefixes
+
+    Returns:
+        str: EWR prefix
+    """
+    
+    for prefix in prefixes:
+        if prefix in ewr_code:
+            return prefix
+    return 'unknown'
+
+def get_handle_function(category: str, ewr_prefix:str, gauge_calc_type:str, paramID_to_handling_function:dict)-> str:
+    paramID = f"{category}-{ewr_prefix}-{gauge_calc_type}"
+    handling_function_name = paramID_to_handling_function.get(paramID)
+    return HANDLING_FUNCTIONS[handling_function_name] if handling_function_name else None
+
+def build_args(args:dict, function:object)-> dict:
+    """Builds a dictionary of arguments for a function
+
+    Args:
+        args (dict): dictionary of arguments
+        function (object): function to build arguments for
+
+    Returns:
+        dict: dictionary of arguments for the function
+    """
+    func_object_info = inspect.getfullargspec(function)
+    return {k: v for k, v in args.items() if k in func_object_info.args}
 
 #---------------------------- Sorting and distributing to handling functions ---------------------#
 
-def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict, climate:str, EWR_table:pd.DataFrame) -> tuple:
+def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict, 
+                climate:str, EWR_table:pd.DataFrame, calc_config: dict) -> tuple:
     '''Sends to handling functions to get calculated depending on the type of EWR
     
     Args:
@@ -3560,66 +3630,44 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
                                      bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
                                      desc= str('Evaluating ewrs for '+ gauge))):
             events = {}
-            # Get the EWRs with the very dry year tag to exclude
-            VERYDRY = '_VD' in EWR
+
             # Get the overarching EWR category (flow/cumulative flow/level)
-            CAT_FLOW = EWR_categories[i] == 'F'
-            CAT_CUMUL = EWR_categories[i] == 'V'
-            CAT_LEVEL = EWR_categories[i] == 'L'
-            # Get the specific type of EWR:
-            EWR_CTF = 'CF' in EWR or 'CTF' in EWR
-            EWR_LOWFLOW = 'BF' in EWR or 'VF' in EWR
-            EWR_FLOW = 'SF' in EWR or 'LF' in EWR or 'BK' in EWR or 'OB' in EWR or 'AC' in EWR
-            EWR_WP = 'WP' in EWR and 'SF' not in EWR and 'LF' not in EWR # added for the WP3 and WP4 dependencies
-            EWR_NEST = 'Nest' in EWR
-            EWR_CUMUL = 'LF' in EWR or 'OB' in EWR or 'WL' in EWR # Some LF and OB are cumulative
-            EWR_LEVEL = 'LLLF' in EWR or 'MLLF' in EWR or 'HLLF' in EWR or 'VHLL' in EWR or ('WL3_S' in EWR and CAT_LEVEL) or ('WL3_P' in EWR and CAT_LEVEL)
             # Determine if its classified as a complex EWR:
             COMPLEX = gauge in complex_EWRs and EWR in complex_EWRs[gauge]
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)
             # SIMULTANEOUS calculations is switched off
             # SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
             SIMULTANEOUS = False
+            
+            ewr_prefixes = calc_config['ewr_prefixes']
+            paramID_to_handling_function = calc_config['paramID_to_handling_function']
+        
+            # Save dict with function arguments value
+            all_args = {"PU": PU, 
+            "gauge": gauge, 
+            "EWR": EWR, 
+            "EWR_table": EWR_table, 
+            "df_F": df_F, 
+            "df_L": df_L,
+            "PU_df": PU_df, 
+            "allowance": allowance, 
+            "climate": climate}
+
+            cat = EWR_categories[i]
+            gauge_calc_type = get_gauge_calc_type(COMPLEX, MULTIGAUGE, SIMULTANEOUS)
+            ewr_prefix = get_ewr_prefix(EWR, ewr_prefixes)
+            handle_function = get_handle_function(cat, ewr_prefix, gauge_calc_type, paramID_to_handling_function)
+            kwargs = build_args(all_args, handle_function)
+    
             if COMPLEX:
                 print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
                 continue
-            if CAT_FLOW and EWR_CTF and not VERYDRY:
-                if MULTIGAUGE:
-                    PU_df, events = ctf_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
-                elif SIMULTANEOUS:
-                    PU_df, events = ctf_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
-                else:
-                    PU_df, events = ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
-            elif CAT_FLOW and EWR_LOWFLOW and not VERYDRY:
-                if MULTIGAUGE:
-                    PU_df, events = lowflow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
-                elif SIMULTANEOUS:
-                    PU_df, events = lowflow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
-                else:
-                    PU_df, events = lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
-            elif CAT_FLOW and EWR_FLOW and not VERYDRY:
-                if COMPLEX:
-                    PU_df, events = complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
-                elif MULTIGAUGE:
-                    PU_df, events = flow_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
-                elif SIMULTANEOUS:
-                    PU_df, events = flow_handle_sim(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
-                else:
-                    PU_df, events = flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
-            elif CAT_FLOW and EWR_WP and not VERYDRY:
-                PU_df, events = weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
-            elif CAT_FLOW and EWR_NEST and not VERYDRY:
-                PU_df, events = nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
-            elif CAT_CUMUL and EWR_CUMUL and not VERYDRY:
-                if MULTIGAUGE:
-                    PU_df, events = cumulative_handle_multi(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
-                else:
-                    PU_df, events = cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
-            elif CAT_LEVEL and EWR_LEVEL and not VERYDRY:
-                PU_df, events = level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+
+            if handle_function:
+                PU_df, events = handle_function(**kwargs)
             else:
                 continue
-            # Add the events to the dictionary:
+
             if events != {}:
                 PU_events[str(EWR)]=events
         

@@ -2700,3 +2700,87 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 def test_filter_min_events(EWR_info,events,expected_result):
 	result = evaluate_EWRs.filter_min_events(EWR_info, events)
 	assert result == expected_result
+
+# TODO
+
+@pytest.mark.parametrize("complex_,multigauge,simultaneous,expected_result",[(
+	True, False, False, "complex"
+	),
+	(False, True, False, "multigauge"
+	),
+	(False, False, True, "simultaneous"
+	),
+	(False, False, False, "single"
+	),
+	(True, True, False, "complex"
+	),
+	(True, False, True, "complex"
+	),
+	(False, True, True, "multigauge"
+	),
+	(True, True, True, "complex"
+	),
+])
+def test_get_gauge_calc_type(complex_, multigauge, simultaneous,expected_result):
+	calc_type = evaluate_EWRs.get_gauge_calc_type(complex_, multigauge, simultaneous)
+	assert calc_type == expected_result
+
+@pytest.mark.parametrize("ewr_code,prefixes,expected_result",[
+	("CF_P", ["CF","LF"],"CF"),
+	("LF_S", ["CF","LF"],"LF"),
+	("Gluble_Ubble", ["CF","LF"],"unknown"),
+])
+def test_get_ewr_prefix(ewr_code, prefixes, expected_result):
+	result = evaluate_EWRs.get_ewr_prefix(ewr_code, prefixes)
+	assert result == expected_result
+
+@pytest.mark.parametrize("category,ewr_prefix,gauge_calc_type,expected_result",[
+	("F", "CF", "single",'ctf_handle'),
+	("F", "CF", "multigauge",'ctf_handle_multi'),
+])
+def test_get_handle_function(category, ewr_prefix, gauge_calc_type,expected_result, ewr_calc_config):
+	paramID_to_handling_function = ewr_calc_config["paramID_to_handling_function"]
+	result = evaluate_EWRs.get_handle_function(category, ewr_prefix, gauge_calc_type, paramID_to_handling_function)
+	assert result.__name__ == expected_result
+
+@pytest.mark.parametrize("args,function_name,expected_result",[
+	({"PU": "PU" , 
+	"gauge": "gauge", 
+	"EWR": "EWR", 
+	"EWR_table": "EWR_table", 
+	"df_F": "df_F", 
+	"df_L": "df_L",
+	"PU_df": "PU_df", 
+	"allowance": "allowance", 
+	"climate": "climate"}, 
+		'ctf_handle', 
+	{"PU": "PU" , 
+	"gauge": "gauge", 
+	"EWR": "EWR", 
+	"EWR_table": "EWR_table", 
+	"df_F": "df_F", 
+	"PU_df": "PU_df", 
+	"allowance": "allowance", 
+	"climate": "climate"}),
+	({"PU": "PU" , 
+	"gauge": "gauge", 
+	"EWR": "EWR", 
+	"EWR_table": "EWR_table", 
+	"df_F": "df_F", 
+	"df_L": "df_L",
+	"PU_df": "PU_df", 
+	"allowance": "allowance", 
+	"climate": "climate"}, 
+		'level_handle', 
+	{"PU": "PU" , 
+	"gauge": "gauge", 
+	"EWR": "EWR", 
+	"EWR_table": "EWR_table", 
+	"df_L": "df_L", 
+	"PU_df": "PU_df", 
+	"allowance": "allowance"}),
+])
+def test_build_args(args, function_name, expected_result):
+	function = evaluate_EWRs.HANDLING_FUNCTIONS[function_name]
+	result = evaluate_EWRs.build_args(args, function)
+	assert result == expected_result

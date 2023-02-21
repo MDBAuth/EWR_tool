@@ -138,3 +138,18 @@ def test_map_gauge_to_catchment():
                                    'Mooki River at Breeza ', '419032': 'Coxs Creek at Boggabri '}
     
     assert result["Namoi"] == expected_result      
+
+
+
+def test_get_ewr_calc_config():
+    '''
+    1. Test for correct return of EWR calculation config
+    assert it returns a dictionary
+    '''
+    # Test 1
+
+    ewr_calc_config = data_inputs.get_ewr_calc_config()
+
+    assert isinstance(ewr_calc_config, dict)
+    assert "ewr_prefixes" in ewr_calc_config.keys()
+    assert "paramID_to_handling_function" in ewr_calc_config.keys()

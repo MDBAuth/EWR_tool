@@ -1013,7 +1013,7 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
 @pytest.mark.parametrize("gauge",[
     ("425010"),
 ],)
-def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, gauge):
+def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
 
     minThreshold_tolerance = (100 - 0)/100
     maxThreshold_tolerance = (100 + 0)/100
@@ -1027,7 +1027,7 @@ def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, gauge):
     
     df_F, df_L = wp_df_F_df_L
 
-    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowanceDict, climate, wp_EWR_table)
+    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowanceDict, climate, wp_EWR_table, ewr_calc_config)
 
     pu_df = location_results['Murray River - Lock 10 to Lock 9']
 
