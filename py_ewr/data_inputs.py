@@ -49,7 +49,7 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
             ewr_calc_config = json.load(fp)
     
     if not file_path:
-        repo_path = BASE_PATH / "parameter_metadata" / "ewr_calc_config.json"
+        repo_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
         with open(repo_path, 'r') as fp:
             ewr_calc_config = json.load(fp)
 
