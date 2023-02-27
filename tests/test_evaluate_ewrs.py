@@ -1083,3 +1083,68 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
         assert  expeted_pu_df[merged_column].to_list() == merged_eventYears[merged_column]
     
     assert expeted_pu_df.shape[0] == PU_df_wp.shape[0]
+
+def test_flood_plains_handle(sa_parameter_sheet):
+    '''
+    1. Ensure all parts of the function generate expected output
+    '''
+    # Set up input data
+    PU = 'PU_0000028'
+    gauge = '4261001'
+    level_gauge = '9999999'	
+    EWR = 'FP1'
+
+    EWR_table = sa_parameter_sheet
+    # input data up df_L:
+    # flows declining at acceptable rate:
+
+    # manually create flows for df_F and df_L
+
+    # input data for df_F:
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: (
+                                [0]*31+ [0]*31 + [51000]*30 + [0]*273 + 
+                                [0]*365 + 
+                                [0]*365 + 
+                                [0]*366
+                        )} 
+    df_F = pd.DataFrame(data = data_for_df_F)
+    df_F = df_F.set_index('Date')
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        level_gauge: (
+                                [0]*31+ [0]*31 + [1]*30 + [0]*273 +
+                                [0]*365 + 
+                                [0]*365 + 
+                                [0]*366  
+                        )} 
+    df_L = pd.DataFrame(data = data_for_df_L)
+    PU_df = pd.DataFrame()
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # Pass input data to test function:
+    PU_df, events = evaluate_EWRs.flood_plains_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+    print(events)
+    # Setting up expected output - PU_df - and testing
+    data = {'FP1_eventYears': [1,0,0,0], 'FP1_numAchieved': [1,0,0,0], 'FP1_numEvents': [1,0,0,0], 'FP1_numEventsAll': [1,0,0,0], 
+            'FP1_maxInterEventDays': [62, 0, 0, 1368], 
+            'FP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'FP1_eventLength': [30.0, .0, .0, .0], 'FP1_eventLengthAchieved':  [30.0, .0, .0, .0], 
+            'FP1_totalEventDays': [30,0,0,0], 'FP1_totalEventDaysAchieved': [30, 0, 0, 0],
+            'FP1_maxEventDays':[30,0,0,0],'FP1_maxRollingEvents': [30, 0, 0, 0], 'FP1_maxRollingAchievement': [1, 0, 0, 0],
+            'FP1_missingDays': [0,0,0,0], 'FP1_totalPossibleDays': [365,365,365,366]}
+    index = [2012, 2013, 2014,2015]
+    expected_PU_df = pd.DataFrame(index = index, data = data)
+    expected_PU_df.index = expected_PU_df.index.astype('object')
+
+    assert_frame_equal(PU_df, expected_PU_df)
+    
+    # print(events)
+    expected_events = {2012:[[(date(2012,9,1) + timedelta(days=i), 51000) for i in range(30)]], 
+                       2013:[], 
+                       2014:[], 
+                       2015:[]}
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]

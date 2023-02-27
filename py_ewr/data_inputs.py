@@ -73,7 +73,7 @@ def get_EWR_table(file_path:str = None) -> dict:
          usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
                               'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
                             dtype='str', encoding='cp1252')
 
@@ -85,7 +85,7 @@ def get_EWR_table(file_path:str = None) -> dict:
             usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise', 'AccumulationPeriod',
                               'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
                         dtype='str', encoding='cp1252'
                         )
@@ -301,7 +301,9 @@ def get_level_gauges() -> tuple:
 
     lachlanGauges = ['412107']
 
-    levelGauges = menindeeGauges + lachlanGauges
+    SaGauges = ['9999999']
+
+    levelGauges = menindeeGauges + lachlanGauges + SaGauges
     
     weirpoolGauges = {'414203': '414209', 
                       '425010': 'A4260501',
@@ -452,7 +454,9 @@ def get_EWR_components(category):
     elif category == 'simul-gauge-cease to flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
     elif category == 'complex':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MIE', 'FLV']  
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MIE', 'FLV']
+    elif category == 'flood-plains':
+        pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
     return pull
 
 def get_bad_QA_codes() -> list:

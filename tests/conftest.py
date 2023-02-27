@@ -243,6 +243,11 @@ def wp_df_F_df_L():
     return df_F, df_L
 
 @pytest.fixture(scope="function")
+def sa_parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/sa_parameter_sheet.csv")
+    return EWR_table
+
+@pytest.fixture(scope="function")
 def wp_EWR_table(parameter_sheet):
 
     wp_flow_level_gauges = ['414203', '414209', '425010', '4260501' ]

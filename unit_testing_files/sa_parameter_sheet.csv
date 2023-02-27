@@ -1,0 +1,13 @@
+PlanningUnitID,PlanningUnitName,LTWPShortName,CompliancePoint/Node,Gauge,Code,StartMonth,EndMonth,TargetFrequency,TargetFrequencyMin,TargetFrequencyMax,EventsPerYear,Duration,MinSpell,FlowThresholdMin,FlowThresholdMax,MaxInter-event,WithinEventGapTolerance,WeirpoolGauge,FlowLevelVolume,LevelThresholdMin,LevelThresholdMax,VolumeThreshold,DrawdownRate,MaxLevelRise,AccumulationPeriod,Multigauge,MaxSpell,TriggerDay,TriggerMonth,DrawDownRateWeek,AnnualFlowSum
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC1,9,3,95,,,1,60,60,7000,12000,2,,,F,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC2,9,3,75,,,1,90,90,15000,20000,2,,,F,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC3,9,3,55,,,1,90,90,15000,25000,2,,,F,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC4,9,3,59,,,1,60,60,20000,30000,2,,,F,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC5,9,3,55,,,1,60,60,25000,35000,2,,,F,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC6,9,3,55,,,1,60,60,30000,40000,2,,,F,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC7,9,3,48,,,1,90,90,35000,45000,3,,,F,,,,,,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP1,9,12,63,,,1,30,30,50000,,5,,9999999,L,,,,0.025,0.05,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP2,9,12,50,,,1,30,30,60000,,5,,9999999,L,,,,0.025,0.05,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP3,9,12,38,,,1,30,30,70000,,5,,9999999,L,,,,0.025,0.05,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP4,9,12,28,,,1,30,30,80000,,5,,9999999,L,,,,0.025,0.05,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP5,9,12,13,,,1,60,60,80000,,8,,9999999,L,,,,0.025,0.05,,,,,,,
