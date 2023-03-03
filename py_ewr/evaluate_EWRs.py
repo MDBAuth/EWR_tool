@@ -151,7 +151,7 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
             ewrs['drawdown_rate'] = str(int(corrected))+'%'
         else:
             corrected = apply_correction(float(max_drawdown), allowance['drawdown'])
-            ewrs['drawdown_rate'] = str(corrected/100)
+            ewrs['drawdown_rate'] = str(corrected)
         # If drawdown is 0, this means it was not set in the parameter sheet and therefore should not be used
         if max_drawdown == 0:
             # Large value set to ensure that drawdown check is always passed in this case
@@ -208,7 +208,24 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
     if 'ML' in components:
         max_level = component_pull(EWR_table, gauge, PU, EWR, 'MaxLevelRise')
         ewrs['max_level_raise'] = float(max_level)
-
+    if 'ABF' in components:
+        annual_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'AnnualBarrageFlow')
+        ewrs['annual_barrage_flow'] = int(annual_barrage_flow)
+    if 'TYBF' in components:
+        three_years_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'ThreeYearsBarrageFlow')
+        ewrs['three_years_barrage_flow'] = int(three_years_barrage_flow)
+    if 'HRWS' in components:
+        high_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowStart')
+        ewrs['high_release_window_start'] = int(high_release_window_start)
+    if 'HRWE' in components:
+        high_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowEnd')
+        ewrs['high_release_window_end'] = int(high_release_window_end)
+    if 'LRWS' in components:
+        low_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowStart')
+        ewrs['low_release_window_start'] = int(low_release_window_start)
+    if 'LRWE' in components:
+        low_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowEnd')
+        ewrs['low_release_window_end'] = int(low_release_window_end)
     return ewrs
 
 def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
@@ -1002,6 +1019,48 @@ def flood_plains_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df, tuple([E])
 
+def barrage_flow_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, 
+                        PU_df: pd.DataFrame, allowance: dict) -> tuple:
+    """handle function to calculate barrage type EWRs
+
+    Args:
+        PU (str): Planning unit ID
+        gauge (str): Gauge number
+        EWR (str): EWR code
+        EWR_table (pd.DataFrame): EWR dataset 
+        df_F (pd.DataFrame): Daily flow data
+        PU_df (pd.DataFrame): EWR results for the current planning unit iteration
+        allowance (dict): How much to scale EWR components by (0-1)
+
+    Returns:
+        tuple[pd.DataFrame, tuple[dict]]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information
+    """
+    barrage_flow_gauges = data_inputs.get_barrage_flow_gauges()
+    all_required_gauges = barrage_flow_gauges.get(gauge)
+    if all_required_gauges:
+        all_required_gauges_in_df_F = all(gauge in df_F.columns for gauge in all_required_gauges)
+    # check if current gauge is the main barrage gauge
+        if all_required_gauges_in_df_F:
+            print(f'Calculating barrage flow for EWR: {EWR} for gauge: {gauge}')
+            pull = data_inputs.get_EWR_components('barrage-flow')
+            EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
+            # Mask dates for both the flow and level dataframes:
+            # Extract a daily timeseries for water years:
+            water_years = wateryear_daily(df_F, EWR_info)
+            # If there is no level data loaded in, let user know and skip the analysis
+            df = df_F.copy(deep=True)
+            df['combined_flow'] = df[all_required_gauges].sum(axis=1)
+            E, NE, D = barrage_flow_calc(EWR_info, df['combined_flow'], water_years, df_F.index)
+            PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+            return PU_df, tuple([E])
+    else:
+        print(f'skipping calculation because gauge {gauge} is not the main barrage flow gauge ')
+        return PU_df, None
+
+    
+    
+
+
 #---------------------------------------- Checking EWRs ------------------------------------------#
 
 def which_water_year_no_event(iteration: int, total_event: int, water_years: np.array) -> int:
@@ -1678,6 +1737,131 @@ def flow_level_check(EWR_info: dict, iteration: int, flow: float, level: float, 
         
     return event, all_events, no_event, all_no_events, gap_track, total_event
 
+def is_leap_year(year:int)-> bool:
+    """ check if the year is a leap year
+
+    Args:
+        year (int): year to check
+
+    Returns:
+        bool: True if the year is a leap year
+    """
+    if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+        return True
+    else:
+        return False
+
+def get_water_year(month: int, year:int) -> int:
+    """Get the water year for the given date
+
+    Args:
+        date (date): date to get the water year
+
+    Returns:
+        int: water year
+    """
+    return year if month <= 6 else year - 1
+
+def filter_high_release_window(flows: pd.Series, EWR_info: dict, flow_date: date) -> pd.Series:
+    """Filter the flows to only include the high release window
+
+    Args:
+        flows (pd.Series): series of flows
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        flow_date (date): current flow date
+
+    Returns:
+        pd.Series: series of flows filtered to only include the high release window
+    """
+    start_month = EWR_info["high_release_window_start"]
+    end_month = EWR_info["high_release_window_end"]
+    window_day_end = str(get_days_in_month(end_month, get_water_year(end_month, flow_date.year)))
+    high_release_window_mask = (flows.index >= f'{get_water_year(start_month, flow_date.year)}-{start_month:02d}-01') & \
+                               (flows.index <= f'{get_water_year(end_month, flow_date.year)}-{end_month:02d}-{window_day_end}')
+    
+    return flows[high_release_window_mask]
+
+def filter_low_release_window(flows: pd.Series, EWR_info: dict, flow_date: date) -> pd.Series:
+    """Filter the flows to only include the low release window
+
+    Args:
+        flows (pd.Series): series of flows
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        flow_date (date): current flow date
+
+    Returns:
+        pd.Series: series of flows filtered to only include the low release window
+    """
+    start_month = EWR_info["low_release_window_start"]
+    end_month = EWR_info["low_release_window_end"]
+    window_day_end = str(get_days_in_month(end_month, get_water_year(end_month, flow_date.year)))
+    low_release_window_mask_front = (flows.index >= f'{get_water_year(start_month, flow_date.year)}-{start_month:02d}-01') & \
+                               (flows.index <= f'{flow_date.year}-06-30')
+    low_release_window_mask_back = (flows.index >= f'{flow_date.year - 1}-07-01') & \
+                              (flows.index <= f'{flow_date.year - 1}-{end_month:02d}-{window_day_end}')
+                               
+    
+    return pd.concat([flows[low_release_window_mask_front],flows[low_release_window_mask_back]])
+
+def filter_last_year_flows(flows: pd.Series, EWR_info: dict, flow_date: date) -> pd.Series:
+    """Filter the flows to only include the last year
+
+    Args:
+        flows (pd.Series): series of flows
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        flow_date (date): current flow date
+
+    Returns:
+        pd.Series: series of flows filtered to only include the last year
+    """
+    last_year = flow_date.year - 1
+    last_year_start = f'{last_year}-07-01'
+    last_year_end = f'{flow_date.year}-06-30'
+    last_year_mask = (flows.index >= last_year_start) & (flows.index <= last_year_end)
+    
+    return flows[last_year_mask]
+
+def filter_last_three_years_flows(flows: pd.Series, EWR_info: dict, flow_date: date) -> pd.Series:
+    """Filter the flows to only include the last three years
+
+    Args:
+        flows (pd.Series): series of flows
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        flow_date (date): current flow date
+
+    Returns:
+        pd.Series: series of flows filtered to only include the last three years
+    """
+    last_three_years = flow_date.year - 3
+    last_three_years_start = f'{last_three_years}-07-01'
+    last_three_years_end = f'{flow_date.year}-06-30'
+    last_three_years_mask = (flows.index >= last_three_years_start) & (flows.index <= last_three_years_end)
+    
+    return flows[last_three_years_mask]
+
+def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events: dict, no_event: int, all_no_events: dict, flow_date: date) -> tuple:
+
+    cllmm_type = EWR_info['EWR_code'].split('_')[-1]
+    
+    if cllmm_type == 'a':
+        last_year_flows = filter_last_year_flows(flows, EWR_info, flow_date)
+        high_release_window_flows = filter_high_release_window(flows, EWR_info, flow_date)
+        low_release_window_flows = filter_low_release_window(flows, EWR_info, flow_date)
+        if last_year_flows.sum() > EWR_info['annual_barrage_flow'] and high_release_window_flows.sum() > low_release_window_flows.sum():
+            threshold_flow = (get_index_date(flow_date), last_year_flows.sum())
+            event.append(threshold_flow)
+            all_events[flow_date.year -1 ].append(event)
+    if cllmm_type == 'b':
+        last_year_flows = filter_last_year_flows(flows, EWR_info, flow_date)
+        last_three_years_flows = filter_last_three_years_flows(flows, EWR_info, flow_date)
+        if (last_year_flows.sum() > EWR_info['annual_barrage_flow'] and last_three_years_flows.sum() > EWR_info['three_years_barrage_flow']
+            and len(last_three_years_flows) >= 3*365 ):
+            threshold_flow = (get_index_date(flow_date), last_three_years_flows.sum())
+            event.append(threshold_flow)
+            all_events[flow_date.year -1 ].append(event)
+
+    return event, all_events, no_event, all_no_events
+
 #------------------------------------ Calculation functions --------------------------------------#
 
 def get_duration(climate: str, EWR_info: dict) -> int:
@@ -1755,7 +1939,7 @@ def check_daily_level_change(level_change: float, EWR_info: dict) -> bool:
         bool: if pass test returns True and fail return False
     """
     if level_change < 0:
-        return level_change*-1 <= float(EWR_info['drawdown_rate'])*100
+        return level_change*-1 <= float(EWR_info['drawdown_rate'])
     else:
         return level_change <= float(EWR_info['max_level_raise'])
 
@@ -1771,7 +1955,7 @@ def check_weekly_level_change(levels: list, EWR_info: dict, iteration: int, even
     Returns:
         bool: if pass test returns True and fail return False
     """
-    level_drop_week_max = float(EWR_info["drawdown_rate"])*100*7
+    level_drop_week_max = float(EWR_info["drawdown_rate"])*7
     level_raise_week_max = float(EWR_info["max_level_raise"])*7
 
     if event_length < 7 :
@@ -1840,6 +2024,19 @@ def check_nest_percent_drawdown(flow_percent_change: float, EWR_info: dict, flow
     else:
         return True
 
+
+def get_days_in_month(month: int, year: int = 2023) -> int:
+    """
+    Return the number of days in the given month and year.
+    """
+    # Check if the month is a valid integer between 1 and 12
+    if not 1 <= month <= 12:
+        raise ValueError("Invalid month number")
+
+    # Use the calendar module to get the number of days in the month
+    num_days = calendar.monthrange(year, month)[1]
+
+    return num_days
 
 def calc_nest_cut_date(EWR_info: dict, iteration: int, dates: list) -> date:
     """Calculates the last date (date of the month) the nest EWR event is valid
@@ -2772,6 +2969,47 @@ def flow_level_calc(EWR_info: Dict, flows: List, levels: List, water_years: List
     durations.append(EWR_info['duration'])
 
     return all_events, all_no_events, durations
+
+
+def barrage_flow_calc(EWR_info: Dict, flows: pd.Series, water_years: List, dates:List)-> tuple:
+    """iterate flow data for barrage combined flow and check at the end of each year
+    if barrage cumulative flow min threshold min is met
+    as well as the seasonal flow threshold
+
+    Args:
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        flows (List):  List with all the flows measurements for the current calculated EWR
+        water_years (List): List of the water year of each day of the current calculated EWR
+        dates (List): List of the dates of the current calculated EWR
+        masked_dates (List): List of the dates that the EWR needs to be calculated i.e. the time window.
+
+    Returns:
+        tuple: final output with the calculation of volume all_events, all_no_events, durations
+    """
+    # declare variables:
+    event = []
+    no_event = 0
+    all_events = construct_event_dict(water_years)
+    all_no_events = construct_event_dict(water_years)
+    durations = []
+
+    for i, _ in enumerate(flows.values[:-1]):
+        # At the end of each water year check last year barrage flow total if it above minimum threshold
+        if water_years[i] != water_years[i+1]:
+            flow_date = dates[i]
+            event, all_events, no_event, all_no_events = barrage_flow_check(EWR_info, flows, event,
+                                                                                all_events, no_event, all_no_events, flow_date)
+            event = []
+            durations.append(EWR_info['duration'])
+    
+    # check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
+    event, all_events, no_event, all_no_events = barrage_flow_check(EWR_info, flows, event,
+                                                                                all_events, no_event, all_no_events, dates[-1])
+    event = []
+    durations.append(EWR_info['duration'])
+    return  all_events, all_no_events, durations
+    
+
 
 def ctf_calc_sim(EWR_info1: dict, EWR_info2: dict, flows1: np.array, flows2: np.array, water_years: np.array, climates: np.array, dates: np.array, masked_dates: set) -> tuple:
     '''For calculating cease to flow ewrs. These have a consecutive requirement on their durations
@@ -3727,7 +3965,8 @@ HANDLING_FUNCTIONS = {
     'lowflow_handle_sim': lowflow_handle_sim,
     'nest_handle': nest_handle,
     'weirpool_handle' : weirpool_handle,
-    'flood_plains_handle': flood_plains_handle}
+    'flood_plains_handle': flood_plains_handle,
+    'barrage_flow_handle': barrage_flow_handle}
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:
     """Get the gauge calculation type

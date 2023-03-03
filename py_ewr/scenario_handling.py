@@ -294,7 +294,7 @@ def extract_gauge_from_string(input_string: str) -> str:
         str: Gauge number as a string if found, None if not found
     
     '''
-    found = re.findall(r'\d+\w', input_string)
+    found = re.findall(r'\w+\d+\w', input_string)
     if found:
         for i in found:
             if len(i) >= 6:
@@ -598,4 +598,4 @@ class ScenarioHandler:
         if not self.pu_ewr_statistics:
             self.process_scenarios()
 
-        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events)
+        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)

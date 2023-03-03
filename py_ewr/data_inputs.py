@@ -74,8 +74,10 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
-                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
-                            dtype='str', encoding='cp1252')
+                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek', 'AnnualFlowSum','AnnualBarrageFlow',
+                              'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
+                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd'],
+                               dtype='str', encoding='cp1252')
 
     if not file_path:
         my_url = os.path.join(BASE_PATH, "parameter_metadata/NSWEWR.csv")
@@ -86,7 +88,9 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise', 'AccumulationPeriod',
-                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
+                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualFlowSum','AnnualBarrageFlow',
+                              'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
+                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd'],
                         dtype='str', encoding='cp1252'
                         )
 
@@ -301,7 +305,7 @@ def get_level_gauges() -> tuple:
 
     lachlanGauges = ['412107']
 
-    SaGauges = ['9999999']
+    SaGauges = ['A9999999']
 
     levelGauges = menindeeGauges + lachlanGauges + SaGauges
     
@@ -312,6 +316,8 @@ def get_level_gauges() -> tuple:
     
     return levelGauges, weirpoolGauges
 
+def get_barrage_gauges()-> list:
+    return ['A2222222', 'A2222221']
 
 def get_multi_gauges(dataType: str) -> dict:
     '''
@@ -393,6 +399,7 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     EWR_table, bad_EWRs = get_EWR_table(file_path=ewr_table_path)
     menindee_gauges, wp_gauges = get_level_gauges()
     wp_gauges = list(wp_gauges.values())
+    barrage_gauges = get_barrage_gauges()
     
     multi_gauges = get_multi_gauges('gauges')
     simul_gauges = get_simultaneous_gauges('gauges')
@@ -401,7 +408,7 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     if category == 'all gauges':
         return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges)
     elif category == 'flow gauges':
-        return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges)
+        return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges + barrage_gauges)
     elif category == 'level gauges':
         return set(menindee_gauges + wp_gauges)
     else:
@@ -457,6 +464,8 @@ def get_EWR_components(category):
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MIE', 'FLV']
     elif category == 'flood-plains':
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
+    elif category == 'barrage-flow':
+        pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','ABF','TYBF','HRWS', 'HRWE', 'LRWS', 'LRWE']
     return pull
 
 def get_bad_QA_codes() -> list:
@@ -517,3 +526,23 @@ def ewr_parameter_grabber(EWR_TABLE: pd.DataFrame, GAUGE: str, PU: str, EWR: str
                            (EWR_TABLE['PlanningUnitName'] == PU)
                           )][PARAMETER])[0]
     return component if component else 0
+
+def get_barrage_flow_gauges()-> dict:
+    """Returns a dictionary of the flow gauges associated with each barrage.
+    Results:
+        dict: dictionary of flow gauges associated with each barrage.       	
+    """
+
+    flow_barrage_gauges = {'A2222222': ['A2222222','A2222221']}
+
+    return flow_barrage_gauges
+
+def get_barrage_level_gauges()-> dict:
+    """Returns a dictionary of the level gauges associated with each barrage.
+    Results:
+        dict: dictionary of level gauges associated with each barrage.
+    """
+
+    level_barrage_gauges = {'B3333333': ['B3333333','B3333331']}
+
+    return level_barrage_gauges

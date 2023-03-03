@@ -2787,25 +2787,25 @@ def test_build_args(args, function_name, expected_result):
 
 
 @pytest.mark.parametrize("level_change,EWR_info,expected_result",[
-	(0.1, {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, True),
-	(0.11, {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, False),
-	(0.2, {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, False),
-	(-0.45, {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, True),
-	(-0.5, {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, True),
-	(-0.6, {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, False),
+	(0.1, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, True),
+	(0.11, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, False),
+	(0.2, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, False),
+	(-0.45, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, True),
+	(-0.5, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, True),
+	(-0.6, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, False),
 ])
 def test_check_daily_level_change(level_change,EWR_info,expected_result):
 	result = evaluate_EWRs.check_daily_level_change(level_change,EWR_info)
 	assert result == expected_result
 
 @pytest.mark.parametrize("levels,EWR_info,iteration,event_length,expected_result",[
-	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, 5, 6, True),
-	([0.1,0.2,0.3,0.4,0.5,0.8,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, 5, 6, True),
-	([0.1,0.2,0.3,0.4,0.5,0.9,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, 5, 6, False),
-	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, 9, 10, True),
-	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.2], {'drawdown_rate': 0.005 ,'max_level_raise': 0.1}, 9, 10, False),
-	([1.0,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1], {'drawdown_rate': 0.001 ,'max_level_raise': 0.1}, 9, 10, True),
-	([1.0,0.9,0.8,0.9,0.6,0.5,0.4,0.3,0.2,0.1], {'drawdown_rate': 0.001 ,'max_level_raise': 0.1}, 9, 10, False),
+	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 5, 6, True),
+	([0.1,0.2,0.3,0.4,0.5,0.8,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 5, 6, True),
+	([0.1,0.2,0.3,0.4,0.5,0.9,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 5, 6, False),
+	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 9, 10, True),
+	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.2], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 9, 10, False),
+	([1.0,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1], {'drawdown_rate': 0.1 ,'max_level_raise': 0.1}, 9, 10, True),
+	([1.0,0.9,0.8,0.9,0.6,0.5,0.4,0.3,0.2,0.1], {'drawdown_rate': 0.1 ,'max_level_raise': 0.1}, 9, 10, False),
 ])
 def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, expected_result):
 	result = evaluate_EWRs.check_weekly_level_change(levels, EWR_info, iteration, event_length)
@@ -2815,7 +2815,7 @@ def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, ex
 
 @pytest.mark.parametrize("EWR_info,iteration,flow,level,event,all_events,all_no_events,level_change,levels,total_event,expected_all_events,expected_event",
 [
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.001, 'max_level_raise': 0.1,
+	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
 	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
      6,	
 	 5,
@@ -2841,7 +2841,7 @@ def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, ex
 		2015: []},
 	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(7)] ,	
 	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.001, 'max_level_raise': 0.1,
+	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
 	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
      6,	
 	 5,
@@ -2867,7 +2867,7 @@ def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, ex
 		2015: []},
 	[] ,	
 	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.001, 'max_level_raise': 0.1,
+	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
 	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
      6,	
 	 5,
@@ -2893,7 +2893,7 @@ def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, ex
 		2015: []},
 	[] ,	
 	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.001, 'max_level_raise': 0.1,
+	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
 	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
      6,	
 	 4,
@@ -2944,7 +2944,7 @@ def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, a
 
 @pytest.mark.parametrize("EWR_info,flows,levels,expected_all_events,expected_all_no_events", [
 	({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.001, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
+	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
 	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
 	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
 	 			[0]*365 + 
@@ -2961,7 +2961,7 @@ def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, a
 	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1391]]}
 	 ),
 	 ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.001, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
+	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
 	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
 	 np.array([0]*31+ [0]*31 + [4]*7 + [0]*296 + 
 	 			[0]*365 + 
@@ -2978,7 +2978,7 @@ def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, a
 	 {2012: [], 2013: [], 2014: [], 2015: [[1460]]}
 	 ),
 	  ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.001, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
+	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
 	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
 	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
 	 			[0]*365 + 
@@ -2995,7 +2995,7 @@ def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, a
 	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1392]]}
 	 ),
 	   ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.001, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
+	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
 	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
 	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
 	 			[0]*365 + 

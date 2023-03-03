@@ -18,7 +18,8 @@
         "WL3_S",
         "WP",
         "IC",
-        "FP"
+        "FP",
+        "CLLMM"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -60,6 +61,8 @@
         "L-WL3_S-single": "level_handle",
         "L-WL3_P-single": "level_handle",
         "F-IC-single": "flow_handle",
-        "L-FP-single": "flood_plains_handle"
+        "L-FP-single": "flood_plains_handle",
+        "F-CLLMM-single": "barrage_flow_handle",
+        "L-CLLMM-single": "barrage_level_handle"
     }
 }
