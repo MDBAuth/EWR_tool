@@ -153,3 +153,25 @@ def test_get_ewr_calc_config():
     assert isinstance(ewr_calc_config, dict)
     assert "ewr_prefixes" in ewr_calc_config.keys()
     assert "paramID_to_handling_function" in ewr_calc_config.keys()
+
+
+def test_get_barrage_flow_gauges():
+    result = data_inputs.get_barrage_flow_gauges()
+    assert isinstance(result, dict)
+    # there is only one key in the dictionary
+    assert len(result) == 1
+    ## all key main gauge belong to the list of gauges
+    for k, v in result.items():
+        assert isinstance(v, list)
+        assert k in v
+
+
+def test_get_barrage_level_gauges():
+    result = data_inputs.get_barrage_level_gauges()
+    assert isinstance(result, dict)
+    # there is only one key in the dictionary
+    assert len(result) == 1
+    ## all key main gauge belong to the list of gauges
+    for k, v in result.items():
+        assert isinstance(v, list)
+        assert k in v

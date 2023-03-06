@@ -1095,12 +1095,6 @@ def test_flood_plains_handle(sa_parameter_sheet):
     EWR = 'FP1'
 
     EWR_table = sa_parameter_sheet
-    # input data up df_L:
-    # flows declining at acceptable rate:
-
-    # manually create flows for df_F and df_L
-
-    # input data for df_F:
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: (
@@ -1122,8 +1116,9 @@ def test_flood_plains_handle(sa_parameter_sheet):
     PU_df = pd.DataFrame()
     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # Pass input data to test function:
+    
     PU_df, events = evaluate_EWRs.flood_plains_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
-    print(events)
+    
     # Setting up expected output - PU_df - and testing
     data = {'FP1_eventYears': [1,0,0,0], 'FP1_numAchieved': [1,0,0,0], 'FP1_numEvents': [1,0,0,0], 'FP1_numEventsAll': [1,0,0,0], 
             'FP1_maxInterEventDays': [62, 0, 0, 1368], 
@@ -1142,6 +1137,93 @@ def test_flood_plains_handle(sa_parameter_sheet):
                        2013:[], 
                        2014:[], 
                        2015:[]}
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("data_for_df_F,EWR,main_gauge,expected_events,pu_df_data", [
+    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        'A2222222': (
+                               [5000]*62 + [16500]*122 + [5000]*181 + 
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*182
+                        ),
+                        'A2222221': (
+                                [5000]*62 + [16500]*122 + [5000]*181 + 
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*182
+                        )},
+                        'CLLMM1_a',
+                        'A2222222' ,
+                        { 2012:[[(date(2013,6,30) , 6456000)]], 
+                        2013:[[(date(2014,6,30) , 6456000)]], 
+                        2014:[[(date(2015,6,30) , 6456000)]], 
+                        2015:[[(date(2016,6,30) , 6466000)]]},
+                        {'CLLMM1_a_eventYears': [1,1,1,1], 'CLLMM1_a_numAchieved': [1,1,1,1], 'CLLMM1_a_numEvents': [1,1,1,1], 
+                            'CLLMM1_a_numEventsAll': [1, 1, 1, 1], 'CLLMM1_a_maxInterEventDays': [0, 0, 0, 0], 
+                            'CLLMM1_a_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_a_eventLength': [1.0, 1.0, 1.0, 1.0], 
+                            'CLLMM1_a_eventLengthAchieved':  [1.0, 1.0, 1.0, 1.0], 'CLLMM1_a_totalEventDays': [1, 1, 1, 1], 
+                            'CLLMM1_a_totalEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_a_maxEventDays':[1, 1, 1, 1],
+                            'CLLMM1_a_maxRollingEvents': [1, 1, 1, 1], 'CLLMM1_a_maxRollingAchievement': [1, 1, 1, 1],
+                            'CLLMM1_a_missingDays': [0,0,0,0], 'CLLMM1_a_totalPossibleDays': [365,365,365,366]}
+                        ),
+    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        'A2222222': (
+                               [5000]*62 + [16500]*122 + [5000]*181 + 
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*182
+                        ),
+                        'A2222221': (
+                                [5000]*62 + [16500]*122 + [5000]*181 + 
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*182
+                        )},
+                        'CLLMM1_b',
+                        'A2222222' ,
+                        { 2012:[], 
+                        2013:[], 
+                        2014:[[(date(2015,6,30) , 19368000)]], 
+                        2015:[[(date(2016,6,30) , 19378000)]]},
+                        {'CLLMM1_b_eventYears': [0,0,1,1], 'CLLMM1_b_numAchieved': [0,0,1,1], 'CLLMM1_b_numEvents': [0,0,1,1], 
+                            'CLLMM1_b_numEventsAll': [0,0,1,1], 'CLLMM1_b_maxInterEventDays': [0, 0, 0, 0], 
+                            'CLLMM1_b_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_b_eventLength': [0.0, 0.0, 1.0, 1.0], 
+                            'CLLMM1_b_eventLengthAchieved':  [0.0, 0.0, 1.0, 1.0], 'CLLMM1_b_totalEventDays': [0, 0, 1, 1], 
+                            'CLLMM1_b_totalEventDaysAchieved': [0, 0, 1, 1],'CLLMM1_b_maxEventDays':[0, 0, 1, 1],
+                            'CLLMM1_b_maxRollingEvents': [0, 0, 1, 1], 'CLLMM1_b_maxRollingAchievement': [0, 0, 1, 1],
+                            'CLLMM1_b_missingDays': [0,0,0,0], 'CLLMM1_b_totalPossibleDays': [365,365,365,366]}
+                        ),
+])
+def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
+
+    # Set up input data
+    PU = 'PU_0000029'
+
+    EWR_table = sa_parameter_sheet
+	 
+    df_F = pd.DataFrame(data = data_for_df_F)
+    df_F = df_F.set_index('Date')
+
+    PU_df = pd.DataFrame()
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # Pass input data to test function:
+
+    PU_df, events = evaluate_EWRs.barrage_flow_handle(PU, main_gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    
+    # Setting up expected output - PU_df - and testing
+    index = [2012, 2013, 2014,2015]
+    expected_PU_df = pd.DataFrame(index = index, data = pu_df_data)
+    expected_PU_df.index = expected_PU_df.index.astype('object')
+
+    assert_frame_equal(PU_df, expected_PU_df)
+    
     expected_events = tuple([expected_events])
     for index, _ in enumerate(events):
         for year in events[index]:

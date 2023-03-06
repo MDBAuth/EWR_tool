@@ -1739,6 +1739,11 @@ def flow_level_check(EWR_info: dict, iteration: int, flow: float, level: float, 
 
 def is_leap_year(year:int)-> bool:
     """ check if the year is a leap year
+    A leap year occurs once every four years, except for years that are divisible 
+    by 100 but not divisible by 400. 
+    For example, 1900 was not a leap year because it is divisible by 100 
+    but not divisible by 400. However, 1904 was a leap year because it is divisible by 4 
+    and not divisible by 100, or it is divisible by 400.
 
     Args:
         year (int): year to check
@@ -1753,6 +1758,8 @@ def is_leap_year(year:int)-> bool:
 
 def get_water_year(month: int, year:int) -> int:
     """Get the water year for the given date
+    if month is 1st half then get current year
+    otherwise get previous year
 
     Args:
         date (date): date to get the water year
@@ -1803,7 +1810,7 @@ def filter_low_release_window(flows: pd.Series, EWR_info: dict, flow_date: date)
     
     return pd.concat([flows[low_release_window_mask_front],flows[low_release_window_mask_back]])
 
-def filter_last_year_flows(flows: pd.Series, EWR_info: dict, flow_date: date) -> pd.Series:
+def filter_last_year_flows(flows: pd.Series, flow_date: date) -> pd.Series:
     """Filter the flows to only include the last year
 
     Args:
@@ -1821,7 +1828,7 @@ def filter_last_year_flows(flows: pd.Series, EWR_info: dict, flow_date: date) ->
     
     return flows[last_year_mask]
 
-def filter_last_three_years_flows(flows: pd.Series, EWR_info: dict, flow_date: date) -> pd.Series:
+def filter_last_three_years_flows(flows: pd.Series, flow_date: date) -> pd.Series:
     """Filter the flows to only include the last three years
 
     Args:
@@ -1842,9 +1849,9 @@ def filter_last_three_years_flows(flows: pd.Series, EWR_info: dict, flow_date: d
 def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events: dict, no_event: int, all_no_events: dict, flow_date: date) -> tuple:
 
     cllmm_type = EWR_info['EWR_code'].split('_')[-1]
-    
+
     if cllmm_type == 'a':
-        last_year_flows = filter_last_year_flows(flows, EWR_info, flow_date)
+        last_year_flows = filter_last_year_flows(flows, flow_date)
         high_release_window_flows = filter_high_release_window(flows, EWR_info, flow_date)
         low_release_window_flows = filter_low_release_window(flows, EWR_info, flow_date)
         if last_year_flows.sum() > EWR_info['annual_barrage_flow'] and high_release_window_flows.sum() > low_release_window_flows.sum():
@@ -1852,8 +1859,8 @@ def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events
             event.append(threshold_flow)
             all_events[flow_date.year -1 ].append(event)
     if cllmm_type == 'b':
-        last_year_flows = filter_last_year_flows(flows, EWR_info, flow_date)
-        last_three_years_flows = filter_last_three_years_flows(flows, EWR_info, flow_date)
+        last_year_flows = filter_last_year_flows(flows, flow_date)
+        last_three_years_flows = filter_last_three_years_flows(flows, flow_date)
         if (last_year_flows.sum() > EWR_info['annual_barrage_flow'] and last_three_years_flows.sum() > EWR_info['three_years_barrage_flow']
             and len(last_three_years_flows) >= 3*365 ):
             threshold_flow = (get_index_date(flow_date), last_three_years_flows.sum())
@@ -2025,7 +2032,7 @@ def check_nest_percent_drawdown(flow_percent_change: float, EWR_info: dict, flow
         return True
 
 
-def get_days_in_month(month: int, year: int = 2023) -> int:
+def get_days_in_month(month: int, year: int) -> int:
     """
     Return the number of days in the given month and year.
     """
