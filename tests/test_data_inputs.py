@@ -170,7 +170,6 @@ def test_get_barrage_level_gauges():
     result = data_inputs.get_barrage_level_gauges()
     assert isinstance(result, dict)
     # there is only one key in the dictionary
-    assert len(result) == 1
     ## all key main gauge belong to the list of gauges
     for k, v in result.items():
         assert isinstance(v, list)

@@ -1090,8 +1090,8 @@ def test_flood_plains_handle(sa_parameter_sheet):
     '''
     # Set up input data
     PU = 'PU_0000028'
-    gauge = '4261001'
-    level_gauge = '9999999'	
+    gauge = 'A4261001'
+    level_gauge = 'A9999999'
     EWR = 'FP1'
 
     EWR_table = sa_parameter_sheet
@@ -1147,24 +1147,19 @@ def test_flood_plains_handle(sa_parameter_sheet):
 
 @pytest.mark.parametrize("data_for_df_F,EWR,main_gauge,expected_events,pu_df_data", [
     ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-                        'A2222222': (
+                        'A4261002': (
                                [5000]*62 + [16500]*122 + [5000]*181 + 
                                 [5000]*62 + [16500]*122 + [5000]*181 +
                                 [5000]*62 + [16500]*122 + [5000]*181 +
                                 [5000]*62 + [16500]*122 + [5000]*182
-                        ),
-                        'A2222221': (
-                                [5000]*62 + [16500]*122 + [5000]*181 + 
-                                [5000]*62 + [16500]*122 + [5000]*181 +
-                                [5000]*62 + [16500]*122 + [5000]*181 +
-                                [5000]*62 + [16500]*122 + [5000]*182
-                        )},
+                        )
+                        },
                         'CLLMM1_a',
-                        'A2222222' ,
-                        { 2012:[[(date(2013,6,30) , 6456000)]], 
-                        2013:[[(date(2014,6,30) , 6456000)]], 
-                        2014:[[(date(2015,6,30) , 6456000)]], 
-                        2015:[[(date(2016,6,30) , 6466000)]]},
+                        'A4261002' ,
+                        { 2012:[[(date(2013,6,30) , 3228000)]], 
+                        2013:[[(date(2014,6,30) , 3228000)]], 
+                        2014:[[(date(2015,6,30) , 3228000)]], 
+                        2015:[[(date(2016,6,30) , 3233000)]]},
                         {'CLLMM1_a_eventYears': [1,1,1,1], 'CLLMM1_a_numAchieved': [1,1,1,1], 'CLLMM1_a_numEvents': [1,1,1,1], 
                             'CLLMM1_a_numEventsAll': [1, 1, 1, 1], 'CLLMM1_a_maxInterEventDays': [0, 0, 0, 0], 
                             'CLLMM1_a_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_a_eventLength': [1.0, 1.0, 1.0, 1.0], 
@@ -1174,24 +1169,18 @@ def test_flood_plains_handle(sa_parameter_sheet):
                             'CLLMM1_a_missingDays': [0,0,0,0], 'CLLMM1_a_totalPossibleDays': [365,365,365,366]}
                         ),
     ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-                        'A2222222': (
+                        'A4261002': (
                                [5000]*62 + [16500]*122 + [5000]*181 + 
-                                [5000]*62 + [16500]*122 + [5000]*181 +
-                                [5000]*62 + [16500]*122 + [5000]*181 +
-                                [5000]*62 + [16500]*122 + [5000]*182
-                        ),
-                        'A2222221': (
-                                [5000]*62 + [16500]*122 + [5000]*181 + 
                                 [5000]*62 + [16500]*122 + [5000]*181 +
                                 [5000]*62 + [16500]*122 + [5000]*181 +
                                 [5000]*62 + [16500]*122 + [5000]*182
                         )},
                         'CLLMM1_b',
-                        'A2222222' ,
+                        'A4261002' ,
                         { 2012:[], 
                         2013:[], 
-                        2014:[[(date(2015,6,30) , 19368000)]], 
-                        2015:[[(date(2016,6,30) , 19378000)]]},
+                        2014:[[(date(2015,6,30) , 9684000)]], 
+                        2015:[[(date(2016,6,30) , 9689000)]]},
                         {'CLLMM1_b_eventYears': [0,0,1,1], 'CLLMM1_b_numAchieved': [0,0,1,1], 'CLLMM1_b_numEvents': [0,0,1,1], 
                             'CLLMM1_b_numEventsAll': [0,0,1,1], 'CLLMM1_b_maxInterEventDays': [0, 0, 0, 0], 
                             'CLLMM1_b_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_b_eventLength': [0.0, 0.0, 1.0, 1.0], 

@@ -316,8 +316,6 @@ def get_level_gauges() -> tuple:
     
     return levelGauges, weirpoolGauges
 
-def get_barrage_gauges()-> list:
-    return ['A2222222', 'A2222221']
 
 def get_multi_gauges(dataType: str) -> dict:
     '''
@@ -384,36 +382,6 @@ def get_complex_calcs() -> dict:
     return complexCalcs
 
 
-def get_gauges(category: str, ewr_table_path: str = None) -> set:
-    '''
-    Gathers a list of either all gauges that have EWRs associated with them,
-    a list of all flow type gauges that have EWRs associated with them,
-    or a list of all level type gauges that have EWRs associated with them
-
-    Args:
-        category(str): options = 'all gauges', 'flow gauges', or 'level gauges'
-    Returns:
-        list: list of gauges in selected category.
-
-    '''
-    EWR_table, bad_EWRs = get_EWR_table(file_path=ewr_table_path)
-    menindee_gauges, wp_gauges = get_level_gauges()
-    wp_gauges = list(wp_gauges.values())
-    barrage_gauges = get_barrage_gauges()
-    
-    multi_gauges = get_multi_gauges('gauges')
-    simul_gauges = get_simultaneous_gauges('gauges')
-    multi_gauges = list(multi_gauges.values())
-    simul_gauges = list(simul_gauges.values())
-    if category == 'all gauges':
-        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges)
-    elif category == 'flow gauges':
-        return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges + barrage_gauges)
-    elif category == 'level gauges':
-        return set(menindee_gauges + wp_gauges)
-    else:
-        raise ValueError('''No gauge category sent to the "get_gauges" function''')
-
 def get_EWR_components(category):
     '''
     Ingests EWR category, returns the components required to analyse this type of EWR. 
@@ -466,6 +434,8 @@ def get_EWR_components(category):
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'barrage-flow':
         pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','ABF','TYBF','HRWS', 'HRWE', 'LRWS', 'LRWE']
+    elif category == 'barrage-level':
+        pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','HRWS', 'HRWE', 'LRWS', 'LRWE','PLWS', 'PLWE', 'LLWS', 'LLWE','MINL','MAXL']
     return pull
 
 def get_bad_QA_codes() -> list:
@@ -533,7 +503,7 @@ def get_barrage_flow_gauges()-> dict:
         dict: dictionary of flow gauges associated with each barrage.       	
     """
 
-    flow_barrage_gauges = {'A2222222': ['A2222222','A2222221']}
+    flow_barrage_gauges = {'A4261002': ['A4261002']}
 
     return flow_barrage_gauges
 
@@ -543,6 +513,39 @@ def get_barrage_level_gauges()-> dict:
         dict: dictionary of level gauges associated with each barrage.
     """
 
-    level_barrage_gauges = {'B3333333': ['B3333333','B3333331']}
+    level_barrage_gauges = {'A4260527': ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575' ],
+                            'A4260633' : ['A4260633','A4261209', 'A4261165']}
 
     return level_barrage_gauges
+
+
+def get_gauges(category: str, ewr_table_path: str = None) -> set:
+    '''
+    Gathers a list of either all gauges that have EWRs associated with them,
+    a list of all flow type gauges that have EWRs associated with them,
+    or a list of all level type gauges that have EWRs associated with them
+
+    Args:
+        category(str): options = 'all gauges', 'flow gauges', or 'level gauges'
+    Returns:
+        list: list of gauges in selected category.
+
+    '''
+    EWR_table, bad_EWRs = get_EWR_table(file_path=ewr_table_path)
+    menindee_gauges, wp_gauges = get_level_gauges()
+    wp_gauges = list(wp_gauges.values())
+    flow_barrage_gauges = [ val for sublist in get_barrage_flow_gauges().values() for val in sublist]
+    level_barrage_gauges = [ val for sublist in get_barrage_level_gauges().values() for val in sublist]
+    
+    multi_gauges = get_multi_gauges('gauges')
+    simul_gauges = get_simultaneous_gauges('gauges')
+    multi_gauges = list(multi_gauges.values())
+    simul_gauges = list(simul_gauges.values())
+    if category == 'all gauges':
+        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges)
+    elif category == 'flow gauges':
+        return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges + flow_barrage_gauges)
+    elif category == 'level gauges':
+        return set(menindee_gauges + wp_gauges + level_barrage_gauges)
+    else:
+        raise ValueError('''No gauge category sent to the "get_gauges" function''')

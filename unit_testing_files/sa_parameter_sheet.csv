@@ -1,17 +1,17 @@
 PlanningUnitID,PlanningUnitName,LTWPShortName,CompliancePoint/Node,Gauge,Code,StartMonth,EndMonth,TargetFrequency,TargetFrequencyMin,TargetFrequencyMax,EventsPerYear,Duration,MinSpell,FlowThresholdMin,FlowThresholdMax,MaxInter-event,WithinEventGapTolerance,WeirpoolGauge,FlowLevelVolume,LevelThresholdMin,LevelThresholdMax,VolumeThreshold,DrawdownRate,MaxLevelRise,AccumulationPeriod,Multigauge,MaxSpell,TriggerDay,TriggerMonth,DrawDownRateWeek,AnnualFlowSum,AnnualBarrageFlow,ThreeYearsBarrageFlow,HighReleaseWindowStart,HighReleaseWindowEnd,LowReleaseWindowStart,LowReleaseWindowEnd,PeakLevelWindowStart,PeakLevelWindowEnd,LowLevelWindowStart,LowLevelWindowEnd
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC1,9,3,95,,,1,60,60,7000,12000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC2,9,3,75,,,1,90,90,15000,20000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC3,9,3,55,,,1,90,90,15000,25000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC4,9,3,59,,,1,60,60,20000,30000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC5,9,3,55,,,1,60,60,25000,35000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC6,9,3,55,,,1,60,60,30000,40000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,4261001,IC7,9,3,48,,,1,90,90,35000,45000,3,,,F,,,,,,,,,,,,,,,,,,,,,,
-PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP1,9,12,63,,,1,30,30,50000,,5,,9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
-PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP2,9,12,50,,,1,30,30,60000,,5,,9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
-PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP3,9,12,38,,,1,30,30,70000,,5,,9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
-PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP4,9,12,28,,,1,30,30,80000,,5,,9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
-PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,4261001,FP5,9,12,13,,,1,60,60,80000,,8,,9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
-PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A2222222,CLLMM1_a,9,12,100,,,1,1,1,0,0,0,,,F,,,0,,,,,,,,,,2000000,,9,12,1,8,,,,
-PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A2222222,CLLMM1_b,9,12,100,,,1,1,1,0,0,0,,,F,,,0,,,,,,,,,,650000,6000000,9,12,1,8,,,,
-PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A3333333,CLLMM1_c,9,12,100,,,1,90,1,0,0,0,,,L,0.5,0.75,0,,,,,,,,,,,,,,,,9,12,3,5
-PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A3333333,CLLMM1_d,9,12,100,,,1,90,1,0,0,0,,,L,0,0.1,0,,,,,,,,,,,,,,,,9,12,3,5
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC1,9,3,95,,,1,60,60,7000,1000000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC2,9,3,75,,,1,90,90,15000,1000000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC3,9,3,55,,,1,90,90,15000,1000000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC4,9,3,59,,,1,60,60,20000,1000000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC5,9,3,55,,,1,60,60,25000,1000000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC6,9,3,55,,,1,60,60,30000,1000000,2,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000027,SA River Murray Channel ,South Australia River Murray,Flow at South Australia border,A4261001,IC7,9,3,48,,,1,90,90,35000,1000000,3,,,F,,,,,,,,,,,,,,,,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,A4261001,FP1,9,12,63,,,1,30,30,50000,1000000,5,,A9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,A4261001,FP2,9,12,50,,,1,30,30,60000,1000000,5,,A9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,A4261001,FP3,9,12,38,,,1,30,30,70000,1000000,5,,A9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,A4261001,FP4,9,12,28,,,1,30,30,80000,1000000,5,,A9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
+PU_0000028,SA River Murray Floodplain,South Australia River Murray,Flow at South Australia border,A4261001,FP5,9,12,13,,,1,60,60,80000,1000000,8,,A9999999,L,,,,0.025,0.05,,,,,,,,,,,,,,,,,
+PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A4261002,CLLMM1_a,9,12,100,,,1,1,1,0,0,0,,,F,,,0,,,,,,,,,,2000000,,9,12,1,8,,,,
+PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A4261002,CLLMM1_b,9,12,100,,,1,1,1,0,0,0,,,F,,,0,,,,,,,,,,650000,6000000,9,12,1,8,,,,
+PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A4260527,CLLMM1_c,9,12,100,,,1,90,1,0,0,0,,,L,0.5,0.75,0,,,,,,,,,,,,,,,,9,12,3,5
+PU_0000029,"Coorong, Lower Lakes and Murray Mouth",South Australia River Murray,Barrages near the Murray Mouth,A4260633,CLLMM1_d,9,12,100,,,1,90,1,0,0,0,,,L,0,0.1,0,,,,,,,,,,,,,,,,9,12,3,5
