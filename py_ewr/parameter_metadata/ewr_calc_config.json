@@ -60,8 +60,8 @@
         "L-VHLL-single": "level_handle",
         "L-WL3_S-single": "level_handle",
         "L-WL3_P-single": "level_handle",
-        "F-IC-single": "flow_handle",
-        "L-FP-single": "flood_plains_handle",
+        "F-IC-single": "flow_handle_sa",
+        "F-FP-single": "flow_handle_sa",
         "F-CLLMM-single": "barrage_flow_handle",
         "L-CLLMM-single": "barrage_level_handle"
     }
