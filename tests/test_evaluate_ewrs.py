@@ -1219,3 +1219,11 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
+
+
+def test_barrage_level_handle():
+    ... # test code
+
+
+
+

@@ -9,6 +9,7 @@ from datetime import datetime
 import os
 
 from py_ewr import data_inputs
+import pytest
 
 BASE_PATH = Path(__file__).resolve().parents[1]
     
@@ -174,3 +175,21 @@ def test_get_barrage_level_gauges():
     for k, v in result.items():
         assert isinstance(v, list)
         assert k in v
+
+
+def test_get_cllmm_gauges():
+    result = data_inputs.get_cllmm_gauges()
+    assert isinstance(result, list)
+    for item in result:
+        assert isinstance(item, str)
+
+@pytest.mark.parametrize('expected_results', 
+[
+    (
+    ['A4260527', 'A4260633', 'A4260634', 'A4260635', 'A4260637', 'A4261002']
+    )
+])
+def test_get_scenario_gauges(gauge_results, expected_results):
+    result = data_inputs.get_scenario_gauges(gauge_results)
+    assert sorted(result) == expected_results
+    

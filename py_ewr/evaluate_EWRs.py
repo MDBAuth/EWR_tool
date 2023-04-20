@@ -1038,7 +1038,7 @@ def flood_plains_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
 
 def flow_handle_sa(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, 
                         PU_df: pd.DataFrame, allowance: dict) -> tuple:
-    '''For handling flood plain type EWRs.
+    '''For handling SA IC(in channel) and FP (flood plain) type EWRs.
     It checks Flow thresholds, and check for level raise and fall events.
     
     Args:
@@ -1136,7 +1136,7 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
     # check if current gauge is the main barrage gauge
         if all_required_gauges_in_df_L:
             print(f'Calculating barrage lake level for EWR: {EWR} for gauge: {gauge}')
-            pull = data_inputs.get_EWR_components('barrage-level')# TODO: add new columns and pull parameters
+            pull = data_inputs.get_EWR_components('barrage-level')
             EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
             masked_dates = mask_dates(EWR_info, df_L)
             # Extract a daily timeseries for water years:
@@ -1839,7 +1839,7 @@ def flow_level_check(EWR_info: dict, iteration: int, flow: float, level: float, 
 
 def flow_check_rise_fall(EWR_info: dict, iteration: int, flow: float, event: list, all_events: dict, no_event: int, all_no_events: dict, gap_track: int, 
                water_years: list, total_event: int, flow_date: date, flows: list) -> tuple:
-    """Check weirpool flow and level if meet condition and update state of the events
+    """Summary
 
     Args:
         EWR_info (dict): dictionary with the parameter info of the EWR being calculated
@@ -1995,19 +1995,20 @@ def filter_last_three_years_flows(flows: pd.Series, flow_date: date) -> pd.Serie
     return flows[last_three_years_mask]
 
 def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events: dict, no_event: int, all_no_events: dict, flow_date: date) -> tuple:
-    """_summary_
+    """Check if barrage total volume has met the barrage flow SA ERW parameters
+    then save the results in the events list and all events dictionary
 
     Args:
-        EWR_info (dict): _description_
-        flows (pd.Series): _description_
-        event (list): _description_
-        all_events (dict): _description_
-        no_event (int): _description_
-        all_no_events (dict): _description_
-        flow_date (date): _description_
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        flows (pd.Series): series of flows
+        event (list): current event state
+        all_events (dict): current all events state
+        no_event (int): current no_event state
+        all_no_events (dict): current all no events state
+        flow_date (date): current flow date
 
     Returns:
-        tuple: _description_
+        tuple: after the check return the current state of the event, all_events, no_event, all_no_events
     """
 
     cllmm_type = EWR_info['EWR_code'].split('_')[-1]
@@ -2033,22 +2034,22 @@ def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events
 
 def barrage_level_check(EWR_info: dict, levels: pd.Series, event: list, all_events: dict, no_event: int, all_no_events: dict, level_date: date,
                         water_years: List, iteration: int, total_event: int) -> tuple:
-    """_summary_
+    """check if current level meet the minimal level requirement for barrage levels.
 
     Args:
-        EWR_info (dict): _description_
-        levels (pd.Series): _description_
-        event (list): _description_
-        all_events (dict): _description_
-        no_event (int): _description_
-        all_no_events (dict): _description_
-        level_date (date): _description_
-        water_years (List): _description_
-        iteration (int): _description_
-        total_event (int): _description_
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        levels (pd.Series): series of levels
+        event (list): current event state
+        all_events (dict): current all events state
+        no_event (int): current no_event state
+        all_no_events (dict): current all no events state
+        level_date (date): current level date
+        water_years (List): list of water year for every flow iteration
+        iteration (int): current iteration
+        total_event (int): current total event state
 
     Returns:
-        tuple: _description_
+        tuple: after the check return the current state of the event, all_events, no_event, all_no_events
     """
     
     level = levels[level_date]
@@ -2076,19 +2077,23 @@ def barrage_level_check(EWR_info: dict, levels: pd.Series, event: list, all_even
 
 def barrage_lake_level_check(EWR_info: dict, levels: pd.Series, event: list, all_events: dict, no_event: int, 
                                 all_no_events: dict, level_date: date) -> tuple:
-    """_summary_
+    """	Check  if
+	
+	Max level is above minimum for peak months and that this data point is also contained in the peak period
+	Min level is above minimum for low months and that this data point is also contained in the low period	
+	If both conditions are met event is counted. 
 
     Args:
-        EWR_info (dict): _description_
-        levels (pd.Series): _description_
-        event (list): _description_
-        all_events (dict): _description_
-        no_event (int): _description_
-        all_no_events (dict): _description_
-        level_date (date): _description_
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        levels (pd.Series): series of levels
+        event (list): current event state
+        all_events (dict): current all events state
+        no_event (int): current no_event state
+        all_no_events (dict): current all no events state
+        level_date (date): current level date
 
     Returns:
-        tuple: _description_
+        tuple: after the check return the current state of the event, all_events, no_event, all_no_events
     """
 
     last_year_peak = get_last_year_peak(levels, level_date)
@@ -2169,7 +2174,8 @@ def check_draw_down(level_change: float, EWR_info: dict) -> bool:
     return level_change <= float(EWR_info['drawdown_rate']) if float(EWR_info['drawdown_rate']) else True
 
 def check_daily_level_change(level_change: float, EWR_info: dict) -> bool:
-    """_summary_
+    """ check if the daily level changes has breached the min and max boundaries
+    if not returns True if yes then False
 
     Args:
         level_change (float): change in meters
@@ -2205,15 +2211,18 @@ def check_weekly_level_change(levels: list, EWR_info: dict, iteration: int, even
     return (current_weekly_change >= level_drop_week_max*-1) if current_weekly_change < 0 else (current_weekly_change <= level_raise_week_max)
 
 def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, event_length: int, period:int) -> bool:
-    """Check if the level change from 7 days ago to today is within the maximum allowed in a week
-    for raise and fall.
+    """Check if the flow change up (raise) or down (fall) from period days ago to current date 
+        is within the maximum allowed in a the period
 
     Args:
-        levels (float): Level time series values
+        flows (float): flows time series values
         EWR_info (dict): EWR parameters
+        iteration (int): current iteration
+        event_legth (int): current event length
+        period (int): number of days the functio will evaluate raise and fall
 
     Returns:
-        bool: if pass test returns True and fail return False
+        bool: if pass test returns True i.e. movement is above allowed otherwise returns False
     """
     flow_drop_period_max = float(EWR_info["drawdown_rate"])*period
     flow_raise_period_max = float(EWR_info["max_level_raise"])*period
@@ -2235,6 +2244,8 @@ def check_weekly_drawdown(levels: list, EWR_info: dict, iteration: int, event_le
     Args:
         levels (float): Level time series values
         EWR_info (dict): EWR parameters
+        iteration (int): current iteration
+        event_legth (int): current event length
 
     Returns:
         bool: if pass test returns True and fail return False
@@ -3316,7 +3327,7 @@ def flow_level_calc(EWR_info: Dict, flows: List, levels: List, water_years: List
 
 def flow_calc_sa(EWR_info: Dict, flows: List, water_years: List, 
                         dates:List, masked_dates:List)-> tuple:
-    """ Iterates each yearly flows to manage calculation of flow and flows raise and fall. It delegates to flow_check_rise_fall function
+    """ Iterates each flows to manage calculation of flow and flows raise and fall. It delegates to flow_check_rise_fall function
     the record of events which will check the flow changes against the EWR requirements. 
 
     Args:
@@ -3465,6 +3476,18 @@ def barrage_level_calc_coorong(EWR_info: Dict, levels: pd.Series, water_years: L
     return  all_events, all_no_events, durations
 
 def barrage_level_calc_lakes(EWR_info: Dict, levels: pd.Series, water_years: List, dates:List, masked_dates:List)-> tuple:
+    """_summary_
+
+    Args:
+        EWR_info (Dict): _description_
+        levels (pd.Series): _description_
+        water_years (List): _description_
+        dates (List): _description_
+        masked_dates (List): _description_
+
+    Returns:
+        tuple: _description_
+    """
     # declare variables:
     event = []
     no_event = 0

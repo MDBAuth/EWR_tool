@@ -4,8 +4,9 @@ import logging
 
 import pandas as pd
 from tqdm import tqdm
+import numpy as np
 
-from . import data_inputs, evaluate_EWRs, summarise_results
+from . import data_inputs, evaluate_EWRs, summarise_results, scenario_handling
 from mdba_gauge_getter import gauge_getter as gg
 
 logging.basicConfig()
@@ -188,6 +189,10 @@ class ObservedHandler:
             gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table, calc_config)
             
         detailed_results['observed'] = gauge_results
+
+        if scenario_handling.any_cllmm_to_process(detailed_results):
+            detailed_results = scenario_handling.process_cllmm(detailed_results)
+
         detailed_events['observed'] = gauge_events
         
         self.pu_ewr_statistics = detailed_results

@@ -3,6 +3,7 @@ import re
 
 import pandas as pd
 import pytest
+import pickle
 
 from py_ewr import observed_handling, scenario_handling, data_inputs
 
@@ -325,3 +326,27 @@ def duplicate_event_item_to_process():
 def ewr_calc_config():
     ewr_calc_config = data_inputs.get_ewr_calc_config()
     return ewr_calc_config
+
+@pytest.fixture(scope="function")
+def gauge_results():
+    return {"scenario":
+            {"A4261002":{"pu":"DataFrame"},
+            "A4260527":{"pu":"DataFrame"},
+            "A4260633":{"pu":"DataFrame"},
+            "A4260634":{"pu":"DataFrame"},
+            "A4260635":{"pu":"DataFrame"},
+            "A4260637":{"pu":"DataFrame"}
+            }
+    }
+
+@pytest.fixture(scope="function")
+def gauge_results_before_process():
+    with open(f"unit_testing_files/gauge_results_before_process.pickle", "rb") as fp:
+        gauge_results = pickle.load(fp)
+    return gauge_results
+
+@pytest.fixture(scope="function")
+def gauge_results_after_process():
+    with open(f"unit_testing_files/gauge_results_after_process.pickle", "rb") as fp:
+        gauge_results = pickle.load(fp)
+    return  gauge_results

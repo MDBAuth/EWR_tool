@@ -586,6 +586,10 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         # if merged ewr skip
         if '/' in ewr:
             continue
+        # skip for post processed cllmm ewrs
+        cllmm_post_processed = ["CLLMM1_e", "CLLMM2_e", "CLLMM3_e", "CLLMM4_e"]
+        if any( cllmm in ewr for cllmm in cllmm_post_processed):
+            continue
         
         # Construct dictionary to save results to:
         if scenario not in master_dict:
@@ -649,10 +653,13 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
     yearly_df['rollingMaxInterEvent'] = None
     # iterate yearly df, but ignore merged ewrs
     for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/', regex=False)].iterrows():
+        ewr = yearly_df.loc[i, 'ewrCode']
+        cllmm_post_processed = ["CLLMM1_e", "CLLMM2_e", "CLLMM3_e", "CLLMM4_e"]
+        if any( cllmm in ewr for cllmm in cllmm_post_processed):
+            continue
         scenario = yearly_df.loc[i, 'scenario']
         gauge = yearly_df.loc[i, 'gauge']
         pu = yearly_df.loc[i, 'pu']
-        ewr = yearly_df.loc[i, 'ewrCode']
         year = yearly_df.loc[i, 'Year']
         value_to_add = yearly_dict[scenario][gauge][pu][ewr][year]
         yearly_df.loc[i, 'rollingMaxInterEvent'] = value_to_add
@@ -683,6 +690,10 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_pa
 
         if '/' in ewr:
             yearly_df.loc[i, 'rollingMaxInterEventAchieved'] = None
+            continue
+        # skip for post processed cllmm ewrs
+        cllmm_post_processed = ["CLLMM1_e", "CLLMM2_e", "CLLMM3_e", "CLLMM4_e"]
+        if any( cllmm in ewr for cllmm in cllmm_post_processed):
             continue
 
         max_interevent_target = int(float(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MaxInter-event'))*365)

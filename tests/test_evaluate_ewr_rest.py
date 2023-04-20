@@ -3323,3 +3323,36 @@ def test_barrage_flow_calc(EWR_info,flows,expected_all_events):
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
 
+
+def test_flow_calc_sa():
+    ... # test code
+
+def test_flow_check_rise_fall():
+	... # test code
+
+def test_check_period_flow_change():
+	... # test code
+
+def test_barrage_level_calc_lakes():
+	... # test code
+
+def test_barrage_lake_level_check():
+	... # test code
+
+def test_get_last_year_peak():
+	... # test code
+
+def test_get_last_year_low():
+	... # test code
+
+def test_last_year_peak_within_window():
+	... # test code
+
+def test_last_year_low_within_window():
+	... # test code
+
+def test_barrage_level_calc_coorong():
+	... # test code
+
+def test_barrage_level_check():
+	... # test code

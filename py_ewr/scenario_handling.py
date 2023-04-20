@@ -9,6 +9,7 @@ from collections import OrderedDict
 
 import pandas as pd
 from tqdm import tqdm
+import numpy as np
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
@@ -362,6 +363,33 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
 
     return df_flow, df_level
 
+def any_cllmm_to_process(gauge_results: dict)->bool:
+    cllmm_gauges = data_inputs.get_cllmm_gauges()
+    processed_gauges = data_inputs.get_scenario_gauges(gauge_results)
+    return all(gauge in processed_gauges for gauge in cllmm_gauges)
+
+def post_process_cllmm(gauge_results: dict)-> dict:
+    SA_LAKES_PU = "Coorong, Lower Lakes and Murray Mouth"
+    for key, value in gauge_results.items():
+        df_a_b = value["A4261002"][SA_LAKES_PU]
+        df_c = value["A4260527"][SA_LAKES_PU]
+        df_d = value["A4260633"][SA_LAKES_PU]
+        df_all =  pd.concat([df_a_b,df_c,df_d], axis= 1)
+        eventYears_columns = [ col for col in df_all.columns if "eventYears" in col]
+        all_cllmm_ewrs = list(set([col.split("_")[0] for col in eventYears_columns]))
+        cllmm_dfs = []
+        other_column_attributes = list(set([col.split("_")[-1] for col in df_all.columns if "eventYears" not in col]))
+        for ewr in all_cllmm_ewrs:
+            columns = [col for col in eventYears_columns if ewr in col]
+            df =pd.DataFrame(index=df_all.index)
+            e_eventYears = df_all[columns].min(axis=1)
+            df[f"{ewr}_e_eventYears"] = e_eventYears
+            for col in other_column_attributes:
+                df[f"{ewr}_e_{col}"] = np.nan
+            cllmm_dfs.append(df)
+        df_e = pd.concat(cllmm_dfs, axis=1)
+        value["CLLMMALL"] = {'Coorong, Lower Lakes and Murray Mouth':df_e}
+    return gauge_results
 
 class ScenarioHandler:
     
@@ -424,7 +452,12 @@ class ScenarioHandler:
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, 
                                                                                         EWR_table, calc_config)
+        
             detailed_results[scenario] = gauge_results
+            
+            if any_cllmm_to_process(detailed_results):
+                detailed_results = post_process_cllmm(detailed_results)
+            
             detailed_events[scenario] = gauge_events
 
             self.pu_ewr_statistics = detailed_results

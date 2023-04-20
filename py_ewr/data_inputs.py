@@ -518,6 +518,9 @@ def get_barrage_level_gauges()-> dict:
 
     return level_barrage_gauges
 
+def get_cllmm_gauges()->list:
+    return ["A4261002", "A4260527", "A4260633"]
+
 
 def get_gauges(category: str, ewr_table_path: str = None) -> set:
     '''
@@ -549,3 +552,19 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
         return set(menindee_gauges + wp_gauges + level_barrage_gauges)
     else:
         raise ValueError('''No gauge category sent to the "get_gauges" function''')
+    
+def get_scenario_gauges(gauge_results: dict) -> list:
+    """return a list of gauges process for the scenatios(s)
+
+    Args:
+        gauge_results (dict): the dictionary of gauge results either for
+        observed or scenarios handlers
+
+    Returns:
+        list: list of gauges process for the scenatios(s)
+    """
+    scenario_gauges = []
+    for scenario in gauge_results.values():
+        for gauge in scenario.keys():
+            scenario_gauges.append(gauge)
+    return list(set(scenario_gauges))
