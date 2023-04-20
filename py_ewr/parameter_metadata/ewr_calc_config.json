@@ -19,7 +19,8 @@
         "WP",
         "IC",
         "FP",
-        "CLLMM"
+        "CLLMM",
+        "EF"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -65,6 +66,7 @@
         "F-FP-single": "flow_handle",
         "L-FP-single": "flow_handle_sa",
         "F-CLLMM-single": "barrage_flow_handle",
-        "L-CLLMM-single": "barrage_level_handle"
+        "L-CLLMM-single": "barrage_level_handle",
+        "F-EF-single": "flow_handle"
     }
 }

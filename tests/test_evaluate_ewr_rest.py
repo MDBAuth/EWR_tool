@@ -3324,14 +3324,59 @@ def test_barrage_flow_calc(EWR_info,flows,expected_all_events):
 			assert event == expected_all_events[year][i]
 
 
+def test_rolling_average():
+	result = evaluate_EWRs.rolling_average([1,2,3,4,5,6], 3)
+	assert result == [2.0, 3.0, 4.0, 5.0]
+
+def test_calculate_change():
+	result = evaluate_EWRs.calculate_change([1,2,3,4,5,6])
+	assert result == [1, 1, 1, 1, 1]
+
+
+@pytest.mark.parametrize("flows,EWR_info,interation,mode,period,expected_result",[
+	( [3000]*80 + [3000+460] + [3000+460+460] + [3000+460+460+460] + [3000+460+460+460]*80,
+	  {"max_level_raise": 450,
+       "max_level_fall": 200},
+	  90,
+	  "backwards",
+	  3,
+	  False
+	),
+	( [3000]*80 + [3000+450] + [3000+450+450] + [3000+450+450+450] + [3000+450+450+450]*80,
+	  {"max_level_raise": 450,
+       "max_level_fall": 200},
+	  90,
+	  "backwards",
+	  3,
+	  True
+	),
+	( [3000]*95 + [3000-200] + [3000-200-200] + [3000-200-200-200] + [3000-200-200-200-200]*80,
+	  {"max_level_raise": 450,
+       "max_level_fall": 200},
+	  90,
+	  "forwards",
+	  3,
+	  True
+	),
+	( [3000]*90 + [3000-210] + [3000-210-210] + [3000-210-210-210] + [3000-210-210-210-210]*80,
+	  {"max_level_raise": 450,
+       "max_level_fall": 200},
+	  90,
+	  "forwards",
+	  3,
+	  False
+	),
+])
+def test_check_period_flow_change(flows, EWR_info, interation, mode, period, expected_result):
+	result = evaluate_EWRs.check_period_flow_change(flows, EWR_info, interation, mode, period)
+	assert result == expected_result
+
 def test_flow_calc_sa():
     ... # test code
 
 def test_flow_check_rise_fall():
 	... # test code
 
-def test_check_period_flow_change():
-	... # test code
 
 def test_barrage_level_calc_lakes():
 	... # test code

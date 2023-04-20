@@ -1039,7 +1039,7 @@ def flood_plains_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
 def flow_handle_sa(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, 
                         PU_df: pd.DataFrame, allowance: dict) -> tuple:
     '''For handling SA IC(in channel) and FP (flood plain) type EWRs.
-    It checks Flow thresholds, and check for level raise and fall events.
+    It checks Flow thresholds, and check for Flow raise and fall.
     
     Args:
         PU (str): Planning unit ID
@@ -1062,15 +1062,7 @@ def flow_handle_sa(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F:
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
     water_years = wateryear_daily(df_F, EWR_info)
-    # If there is no level data loaded in, let user know and skip the analysis
-    # switching levels for now it will evaluate flow rise and fall
-    # try:
-    #     levels = df_L[EWR_info['weirpool_gauge']].values
-    # except KeyError:
-    #     print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing data. Specifically this EWR 
-    #     also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
-    #     return PU_df, None
-    # Check flow and level data against EWR requirements and then perform analysis on the results: 
+
     E, NE, D = flow_calc_sa(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df, tuple([E])
@@ -1839,7 +1831,15 @@ def flow_level_check(EWR_info: dict, iteration: int, flow: float, level: float, 
 
 def flow_check_rise_fall(EWR_info: dict, iteration: int, flow: float, event: list, all_events: dict, no_event: int, all_no_events: dict, gap_track: int, 
                water_years: list, total_event: int, flow_date: date, flows: list) -> tuple:
-    """Summary
+    """ Check if current flow meets the treshold and manages the recording of events based on 
+        previous 30 days flow rise to validade event.
+        Also check at the end of the event ig leading 30 days after the evend fall of flow validates the event
+        
+        The raise and fall of flow is calculated accorsing to the following rules
+        Calculated as a rolling 3-day average Rate of rise to be assessed on the rising limb 
+        for one month immediately prior to the target minimum discharge metric being met 
+        Rate of fall to be assessed on the falling limb for one month immediately after discharge 
+        has fallen below the target minimum discharge metric
 
     Args:
         EWR_info (dict): dictionary with the parameter info of the EWR being calculated
@@ -1859,7 +1859,15 @@ def flow_check_rise_fall(EWR_info: dict, iteration: int, flow: float, event: lis
         tuple: after the check return the current state of the event, all_events, no_event, all_no_events, gap_track, total_event
     """
 
-    if flow >= EWR_info['min_flow'] and check_period_flow_change(flows, EWR_info, iteration, len(event), 3 ):
+    # if there is not an event hapening then check condition
+    if total_event == 0:
+        meet_condition_previous_30_days = check_period_flow_change(flows, EWR_info, iteration, "backwards", 3)
+
+    # if there is an event hapening then the condition is always true and only need to check flow threshold
+    if total_event > 0:
+        meet_condition_previous_30_days = True
+
+    if flow >= EWR_info['min_flow'] and meet_condition_previous_30_days:
         threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
@@ -1872,11 +1880,13 @@ def flow_check_rise_fall(EWR_info: dict, iteration: int, flow: float, event: lis
             total_event += 1
         else:
             if len(event) > 0:
-                all_events[water_years[iteration]].append(event)
-                total_event_gap = no_event - total_event
-                if total_event_gap > 0:
-                    ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
-                    all_no_events[ne_water_year].append([total_event_gap])
+                meet_condition_next_30_days = check_period_flow_change(flows, EWR_info, iteration, "forwards", 3)
+                if meet_condition_next_30_days:
+                    all_events[water_years[iteration]].append(event)
+                    total_event_gap = no_event - total_event
+                    if total_event_gap > 0:
+                        ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
+                        all_no_events[ne_water_year].append([total_event_gap])
                 no_event = 0
             total_event = 0
                 
@@ -2210,7 +2220,41 @@ def check_weekly_level_change(levels: list, EWR_info: dict, iteration: int, even
         current_weekly_change = levels[iteration] - levels[iteration - 6 ]
     return (current_weekly_change >= level_drop_week_max*-1) if current_weekly_change < 0 else (current_weekly_change <= level_raise_week_max)
 
-def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, event_length: int, period:int) -> bool:
+def calculate_change(values:List)-> List:
+    """Calcualte the change in values for items from a list
+
+    Args:
+        values (List): list of values
+
+    Returns:
+        List: list of change values
+    
+    """
+    change = []
+    for i in range(1, len(values)):
+        diff = values[i] - values[i-1]
+        change.append(abs(diff))
+    return change
+
+
+def rolling_average(values: List, period:int)-> List:
+    """take a list of values and returns a list with the n period average
+
+    Args:
+        values (List): last 30 days flow
+
+    Returns:
+        List: rolling period moving averages
+    """
+    rolling_averages = []
+    
+    for i in range(period, len(values)+1):
+        average = sum(values[i-period:i]) / period
+        rolling_averages.append(average)
+    
+    return rolling_averages
+
+def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: str, period:int) -> bool:
     """Check if the flow change up (raise) or down (fall) from period days ago to current date 
         is within the maximum allowed in a the period
 
@@ -2224,14 +2268,23 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, event_
     Returns:
         bool: if pass test returns True i.e. movement is above allowed otherwise returns False
     """
-    flow_drop_period_max = float(EWR_info["drawdown_rate"])*period
-    flow_raise_period_max = float(EWR_info["max_level_raise"])*period
 
-    if event_length < period :
-        current_period_change = flows[iteration] - flows[iteration - event_length]
-    else:
-        current_period_change = flows[iteration] - flows[iteration - period ]
-    return (current_period_change >= flow_drop_period_max*-1) if current_period_change < 0 else (current_period_change <= flow_raise_period_max)
+    max_raise = float(EWR_info["max_level_raise"])
+    max_fall = float(EWR_info["max_level_fall"])
+
+
+    if mode == "backwards":
+        last_30_days_flows = flows[iteration - 34:iteration]
+        last_30_days_flows_change = calculate_change(last_30_days_flows) 
+        last_30_days_rolling_avg = rolling_average(last_30_days_flows_change, period)
+        max_change = max(last_30_days_rolling_avg)
+        return max_change <= max_raise
+    if mode == "forwards":
+        next_30_days_flows = flows[iteration:iteration + 34]
+        next_30_days_flows_change = calculate_change(next_30_days_flows) 
+        next_30_days_rolling_avg = rolling_average(next_30_days_flows_change, period)
+        max_change = max(next_30_days_rolling_avg)
+        return max_change <= max_fall 
 
 
 def check_weekly_drawdown(levels: list, EWR_info: dict, iteration: int, event_length: int) -> bool:
@@ -3348,7 +3401,6 @@ def flow_calc_sa(EWR_info: Dict, flows: List, water_years: List,
     all_no_events = construct_event_dict(water_years)
     durations = []
     gap_track = 0
-    # Iterate over flow timeseries, sending to the weirpool_check function each iteration:
     for i, flow in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
             flow_date = dates[i]
@@ -3360,10 +3412,12 @@ def flow_calc_sa(EWR_info: Dict, flows: List, water_years: List,
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
             if len(event) > 0:
-                all_events[water_years[i]].append(event)
-                if no_event - total_event > 0:
-                    ne_water_year = which_water_year_no_event(i, total_event, water_years)
-                    all_no_events[ne_water_year].append([no_event-total_event])
+                meet_condition_next_30_days = check_period_flow_change(flows, EWR_info, i, "forwards", 3)
+                if meet_condition_next_30_days:
+                    all_events[water_years[i]].append(event)
+                    if no_event - total_event > 0:
+                        ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                        all_no_events[ne_water_year].append([no_event-total_event])
                 no_event = 0
             total_event = 0
             event = []
@@ -3376,10 +3430,12 @@ def flow_calc_sa(EWR_info: Dict, flows: List, water_years: List,
                                                                                 all_events, no_event, all_no_events, gap_track, 
                                                                               water_years, total_event, flow_date, flows)   
     if len(event) > 0:
-        all_events[water_years[-1]].append(event)
-        if no_event - total_event > 0:
-            ne_water_year = which_water_year_no_event(i, total_event, water_years)
-            all_no_events[ne_water_year].append([no_event-total_event])
+        meet_condition_next_30_days = check_period_flow_change(flows, EWR_info, -1, "forwards", 3)
+        if meet_condition_next_30_days:
+            all_events[water_years[-1]].append(event)
+            if no_event - total_event > 0:
+                ne_water_year = which_water_year_no_event(i, total_event, water_years)
+                all_no_events[ne_water_year].append([no_event-total_event])
         no_event = 0
         total_event = 0
         
