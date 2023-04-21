@@ -2259,31 +2259,31 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
         is within the maximum allowed in a the period
 
     Args:
-        flows (float): flows time series values
-        EWR_info (dict): EWR parameters
-        iteration (int): current iteration
-        event_legth (int): current event length
-        period (int): number of days the functio will evaluate raise and fall
+        flows (list): _description_
+        EWR_info (dict): _description_
+        iteration (int): _description_
+        mode (str): _description_
+        period (int): _description_
 
     Returns:
-        bool: if pass test returns True i.e. movement is above allowed otherwise returns False
+        bool: _description_
     """
 
     max_raise = float(EWR_info["max_level_raise"])
-    max_fall = float(EWR_info["max_level_fall"])
+    max_fall = float(EWR_info['drawdown_rate'])
 
 
     if mode == "backwards":
-        last_30_days_flows = flows[iteration - 34:iteration]
+        last_30_days_flows = flows[iteration - 30:iteration]
         last_30_days_flows_change = calculate_change(last_30_days_flows) 
         last_30_days_rolling_avg = rolling_average(last_30_days_flows_change, period)
-        max_change = max(last_30_days_rolling_avg)
+        max_change = max_raise + 1 if len(last_30_days_rolling_avg) == 0 else max(last_30_days_rolling_avg)
         return max_change <= max_raise
     if mode == "forwards":
-        next_30_days_flows = flows[iteration:iteration + 34]
+        next_30_days_flows = flows[iteration:iteration + 30]
         next_30_days_flows_change = calculate_change(next_30_days_flows) 
         next_30_days_rolling_avg = rolling_average(next_30_days_flows_change, period)
-        max_change = max(next_30_days_rolling_avg)
+        max_change = max_fall + 1 if len(next_30_days_rolling_avg) == 0 else max(next_30_days_rolling_avg)
         return max_change <= max_fall 
 
 
@@ -2372,7 +2372,7 @@ def get_days_in_month(month: int, year: int) -> int:
 
     return num_days
 
-def get_last_year_peak(levels: pd.Series, level_date: date) -> tuple:
+def get_last_year_peak(levels: pd.Series, level_date: date) -> np.int64:
     """Get the last year peak and the date of the peak
 
     Args:
@@ -2386,7 +2386,7 @@ def get_last_year_peak(levels: pd.Series, level_date: date) -> tuple:
     last_year_peak = last_year_flows.max()
     return last_year_peak
 
-def get_last_year_low(levels: pd.Series, level_date:date) -> tuple:
+def get_last_year_low(levels: pd.Series, level_date:date) ->  np.int64:
     """Get the last year low and the date of the low
 
     Args:

@@ -370,7 +370,7 @@ def any_cllmm_to_process(gauge_results: dict)->bool:
 
 def post_process_cllmm(gauge_results: dict)-> dict:
     SA_LAKES_PU = "Coorong, Lower Lakes and Murray Mouth"
-    for key, value in gauge_results.items():
+    for _ , value in gauge_results.items():
         df_a_b = value["A4261002"][SA_LAKES_PU]
         df_c = value["A4260527"][SA_LAKES_PU]
         df_d = value["A4260633"][SA_LAKES_PU]
