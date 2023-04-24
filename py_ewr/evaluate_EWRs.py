@@ -2223,14 +2223,15 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
         is within the maximum allowed in a the period
 
     Args:
-        flows (list): _description_
-        EWR_info (dict): _description_
-        iteration (int): _description_
-        mode (str): _description_
-        period (int): _description_
+        flows (list): Flow time series values
+        EWR_info (dict):EWR parameters
+        iteration (int): current iteration
+        mode (str): mode to look for flow change. Can be backwards to check before start an event or forwards
+        to check after an event ends.
+        period (int): period to calculate the moving average for the flow change
 
     Returns:
-        bool: _description_
+        bool: Return True is meet condition and False if don't
     """
 
     max_raise = float(EWR_info["max_level_raise"])
@@ -3500,17 +3501,18 @@ def barrage_level_calc_coorong(EWR_info: Dict, levels: pd.Series, water_years: L
     return  all_events, all_no_events, durations
 
 def barrage_level_calc_lakes(EWR_info: Dict, levels: pd.Series, water_years: List, dates:List, masked_dates:List)-> tuple:
-    """_summary_
+    """iterate level data for barrage combined levels and check at the end of each year
+    if barrage level is at the required minimum as well as the seasonal peak levels threshold
 
     Args:
-        EWR_info (Dict): _description_
-        levels (pd.Series): _description_
-        water_years (List): _description_
-        dates (List): _description_
-        masked_dates (List): _description_
+        EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
+        levels (List):  List with all the levels measurements for the current calculated EWR
+        water_years (List): List of the water year of each day of the current calculated EWR
+        dates (List): List of the dates of the current calculated EWR
+        masked_dates (List): List of the dates that the EWR needs to be calculated i.e. the time window.
 
     Returns:
-        tuple: _description_
+        tuple: final output with the calculation of volume all_events, all_no_events, durations
     """
     # declare variables:
     event = []

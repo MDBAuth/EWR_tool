@@ -366,15 +366,22 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
 def any_cllmm_to_process(gauge_results: dict)->bool:
     cllmm_gauges = data_inputs.get_cllmm_gauges()
     processed_gauges = data_inputs.get_scenario_gauges(gauge_results)
-    return all(gauge in processed_gauges for gauge in cllmm_gauges)
+    return any(gauge in processed_gauges for gauge in cllmm_gauges)
 
 def post_process_cllmm(gauge_results: dict)-> dict:
     SA_LAKES_PU = "Coorong, Lower Lakes and Murray Mouth"
     for _ , value in gauge_results.items():
-        df_a_b = value["A4261002"][SA_LAKES_PU]
-        df_c = value["A4260527"][SA_LAKES_PU]
-        df_d = value["A4260633"][SA_LAKES_PU]
-        df_all =  pd.concat([df_a_b,df_c,df_d], axis= 1)
+        ewr_dfs_to_process = []
+        if value.get("A4261002"):
+            df_a_b = value["A4261002"][SA_LAKES_PU]
+            ewr_dfs_to_process.append(df_a_b)
+        if value.get("A4260527"):
+            df_c = value["A4260527"][SA_LAKES_PU]
+            ewr_dfs_to_process.append(df_c)
+        if value.get("A4260633"):
+            df_d = value["A4260633"][SA_LAKES_PU]
+            ewr_dfs_to_process.append(df_d)
+        df_all =  pd.concat(ewr_dfs_to_process, axis= 1)
         eventYears_columns = [ col for col in df_all.columns if "eventYears" in col]
         all_cllmm_ewrs = list(set([col.split("_")[0] for col in eventYears_columns]))
         cllmm_dfs = []
