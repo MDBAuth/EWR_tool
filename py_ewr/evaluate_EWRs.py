@@ -3453,8 +3453,7 @@ def barrage_flow_calc(EWR_info: Dict, flows: pd.Series, water_years: List, dates
     return  all_events, all_no_events, durations
     
 def barrage_level_calc_coorong(EWR_info: Dict, levels: pd.Series, water_years: List, dates:List, masked_dates:List)-> tuple:
-    """iterate level data for barrage combined levels and check at the end of each year
-    if barrage level is at the required minimum as well as the seasonal peak levels threshold
+    """iterate level data for barrage combined levels are with in minimum levels
 
     Args:
         EWR_info (Dict): dictionary with the parameter info of the EWR being calculated
