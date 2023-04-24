@@ -999,44 +999,8 @@ def complex_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F:
         
         return PU_df, tuple([E])
 
-def flood_plains_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, 
-                        PU_df: pd.DataFrame, allowance: dict) -> tuple:
-    '''For handling flood plain type EWRs.
-    It checks Flow thresholds, and check for level raise and fall events.
-    
-    Args:
-        PU (str): Planning unit ID
-        gauge (str): Gauge number
-        EWR (str): EWR code
-        EWR_table (pd.DataFrame): EWR dataset 
-        df_F (pd.DataFrame): Daily flow data
-        df_L (pd.DataFrame): Daily water level data
-        PU_df (pd.DataFrame): EWR results for the current planning unit iteration
-        allowance (dict): How much to scale EWR components by (0-1)
-    Results:
-        tuple[pd.DataFrame, tuple[dict]]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information
-    
-    '''
 
-    pull = data_inputs.get_EWR_components('flood-plains')
-    EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
-    # Mask dates for both the flow and level dataframes:
-    masked_dates = mask_dates(EWR_info, df_F)
-    # Extract a daily timeseries for water years:
-    water_years = wateryear_daily(df_F, EWR_info)
-    # If there is no level data loaded in, let user know and skip the analysis
-    try:
-        levels = df_L[EWR_info['weirpool_gauge']].values
-    except KeyError:
-        print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing data. Specifically this EWR 
-        also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
-        return PU_df, None
-    # Check flow and level data against EWR requirements and then perform analysis on the results: 
-    E, NE, D = flow_level_calc(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
-    return PU_df, tuple([E])
-
-def flow_handle_sa(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, 
+def flow_handle_sa(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame,  
                         PU_df: pd.DataFrame, allowance: dict) -> tuple:
     '''For handling SA IC(in channel) and FP (flood plain) type EWRs.
     It checks Flow thresholds, and check for Flow raise and fall.
@@ -2233,7 +2197,7 @@ def calculate_change(values:List)-> List:
     change = []
     for i in range(1, len(values)):
         diff = values[i] - values[i-1]
-        change.append(abs(diff))
+        change.append(diff)
     return change
 
 
@@ -2283,8 +2247,12 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
         next_30_days_flows = flows[iteration:iteration + 30]
         next_30_days_flows_change = calculate_change(next_30_days_flows) 
         next_30_days_rolling_avg = rolling_average(next_30_days_flows_change, period)
-        max_change = max_fall + 1 if len(next_30_days_rolling_avg) == 0 else max(next_30_days_rolling_avg)
-        return max_change <= max_fall 
+        draw_downs = [change for change in next_30_days_rolling_avg if change < 0]
+        if len(next_30_days_rolling_avg) == 0 or len(draw_downs ) == 0:
+            max_change = 0 
+        else:
+            max_change = min(draw_downs)  
+        return abs(max_change) <= max_fall 
 
 
 def check_weekly_drawdown(levels: list, EWR_info: dict, iteration: int, event_length: int) -> bool:
@@ -4523,7 +4491,6 @@ HANDLING_FUNCTIONS = {
     'lowflow_handle_sim': lowflow_handle_sim,
     'nest_handle': nest_handle,
     'weirpool_handle' : weirpool_handle,
-    'flood_plains_handle': flood_plains_handle,
     'flow_handle_sa': flow_handle_sa,
     'barrage_flow_handle': barrage_flow_handle,
     'barrage_level_handle': barrage_level_handle}

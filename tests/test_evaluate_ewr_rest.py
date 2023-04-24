@@ -3324,14 +3324,33 @@ def test_barrage_flow_calc(EWR_info,flows,expected_all_events):
 			assert event == expected_all_events[year][i]
 
 
-def test_rolling_average():
-	result = evaluate_EWRs.rolling_average([1,2,3,4,5,6], 3)
-	assert result == [2.0, 3.0, 4.0, 5.0]
+@pytest.mark.parametrize("values,expected_result",[
+	(
+	[1,2,3,4,5,6],
+	[1, 1, 1, 1, 1]
+	),
+	(
+	[6,5,4,3,2,1],
+	[-1, -1, -1, -1, -1]
+	),
+])
+def test_calculate_change(values, expected_result):
+	result = evaluate_EWRs.calculate_change(values)
+	assert result == expected_result
 
-def test_calculate_change():
-	result = evaluate_EWRs.calculate_change([1,2,3,4,5,6])
-	assert result == [1, 1, 1, 1, 1]
-
+@pytest.mark.parametrize("values,expected_result",[
+	(
+	[1,2,3,4,5,6],
+	[2.0, 3.0, 4.0, 5.0]
+	),
+	(
+	[-1,-2,-3,-4,-5,-6],
+	[-2.0, -3.0, -4.0, -5.0]
+	),
+])
+def test_rolling_average(values, expected_result):
+	result = evaluate_EWRs.rolling_average(values, 3)
+	assert result == expected_result
 
 @pytest.mark.parametrize("flows,EWR_info,interation,mode,period,expected_result",[
 	( [3000]*80 + [3000+460] + [3000+460+460] + [3000+460+460+460] + [3000+460+460+460]*80,
@@ -3365,6 +3384,14 @@ def test_calculate_change():
 	  "forwards",
 	  3,
 	  False
+	),
+	( [3000]*90 + [3000+210] + [3000+210+210] + [3000+210+210+210] + [3000+210+210+210+210]*80,
+	  {"max_level_raise": 450,
+       "drawdown_rate": 200},
+	  90,
+	  "forwards",
+	  3,
+	  True
 	),
 ])
 def test_check_period_flow_change(flows, EWR_info, interation, mode, period, expected_result):
@@ -3594,12 +3621,10 @@ def test_barrage_level_calc_lakes(EWR_info, levels_data, expected_all_events):
 
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	levels = pd.Series(levels_data, index=dates)
 
 	all_events, _ , _ = evaluate_EWRs.barrage_level_calc_lakes(EWR_info, levels, water_years, dates, masked_dates)
-
-	print(all_events)
 
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
@@ -3612,7 +3637,8 @@ def test_barrage_level_calc_lakes(EWR_info, levels_data, expected_all_events):
 	 {'gap_tolerance': 0 ,
       'min_flow' : 70,
       "max_level_raise": 100,
-      'drawdown_rate': 50
+      'drawdown_rate': 50,
+	   'duration':10 
     },
      0,	
 	 np.array([6]*2 +[0]*363 + [0]*365 + [0]*365 + [0]*366),
@@ -3654,7 +3680,78 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
 
-def test_flow_calc_sa():
-	pass
 
-	# all_events, _ , _ = evaluate_EWRs.flow_calc_sa()
+@pytest.mark.parametrize("EWR_info,flows_data,expected_all_events",[
+	(
+	   {'gap_tolerance': 0 ,
+      'min_flow' : 70,
+      "max_level_raise": 100,
+      'drawdown_rate': 50,
+	   'duration':10 
+    },
+	np.array([60]*60 + [71]*2 + [40]*303 +
+			 [0]*365 + 
+			 [0]*365 + 
+			 [0]*366),
+	{2012:[[(date(2012,8,30) + timedelta(days=i), 71) for i in range(2)]], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
+	(
+	   {'gap_tolerance': 0 ,
+      'min_flow' : 150,
+      "max_level_raise": 10,
+      'drawdown_rate': 5,
+	   'duration':10 
+    },
+	np.array([60]*55 + [60+11] + [60+11+11] + [60+11+11+11] + [60+11+11+11+11] + [60+11+11+11+11+11] + [150]*2 + [40]*303 +
+			 [0]*365 + 
+			 [0]*365 + 
+			 [0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
+	(
+	   {'gap_tolerance': 0 ,
+      'min_flow' : 150,
+      "max_level_raise": 10,
+      'drawdown_rate': 5,
+	   'duration':10 
+    },
+	np.array([60]*55 + [60+9] + [60+9+9] + [60+9+9+9] + [60+9+9+9+9] + [60+9+9+9+9+9] +
+	  					[150]*2 + 
+						[60-6] + [60-6-6] + [60-6-6-6] + [60-6-6-6-6] + [60-6-6-6-6-6] + 
+						[60+10+10+10+10+10]*298 +
+			 [0]*365 + 
+			 [0]*365 + 
+			 [0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
+])
+def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
+	"""
+	1. pre event pass and and post event pass
+	2. pre event fail
+	3. pre event pass and post event fail
+	"""
+	
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	flow_series = pd.Series(flows_data, index=dates)
+
+	all_events, _ , _ = evaluate_EWRs.flow_calc_sa(EWR_info, flow_series, water_years, dates, masked_dates)
+	
+	for year in all_events:
+		assert len(all_events[year]) == len(expected_all_events[year])
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
