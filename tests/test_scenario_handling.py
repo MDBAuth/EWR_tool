@@ -314,14 +314,14 @@ def test_any_cllmm_to_process(gauge_results):
     assert result == True
 
 def test_post_process_cllmm(gauge_results_before_process):
-    scenario = gauge_results_before_process['murray_sa_mock_gauge_all_gauges_data_IQQDM']
+    scenario = gauge_results_before_process['murray_sa_BOM_data_new']
     gauges_before = scenario.keys()
     excepted_result = ['A4261001', 'A4261002', 'A4260527', 'A4260633', 
-                       'A9999999', 'A4261133', 'A4260524', 'A4260574', 
+                        'A4261133', 'A4260524', 'A4260574', 
                        'A4260575', 'A4261209', 'A4261165','CLLMMALL']
     assert all([gauge in gauges_before for gauge in excepted_result]) == False
     result = scenario_handling.post_process_cllmm(gauge_results_before_process)
-    post_processed_scenario = result['murray_sa_mock_gauge_all_gauges_data_IQQDM']
+    post_processed_scenario = result['murray_sa_BOM_data_new']
     print(post_processed_scenario.keys())
     assert all([gauge in post_processed_scenario.keys() for gauge in excepted_result]) == True
     

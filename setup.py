@@ -32,10 +32,10 @@ setup(
     install_requires=[
         "ipython==8.8.0",
         "ipywidgets==7.7.0",
-        "pandas==1.4.2",
+        "pandas==1.3.5",
         "requests==2.25.1",
         "tqdm==4.64.0",
-        "mdba-gauge-getter==0.4.4",
+        "mdba-gauge-getter==0.4.7",
         "cachetools==5.2.0",
     ],
     package_data={'': ['climate_data/*.csv', "model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
