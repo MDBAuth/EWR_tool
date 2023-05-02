@@ -4528,7 +4528,7 @@ def get_ewr_prefix(ewr_code:str, prefixes:list)-> str:
     """
     
     for prefix in prefixes:
-        if prefix in ewr_code:
+        if prefix in ewr_code.split("_")[0]:
             return prefix
     return 'unknown'
 
