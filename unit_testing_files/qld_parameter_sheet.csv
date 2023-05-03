@@ -1,0 +1,67 @@
+PlanningUnitID,PlanningUnitName,LTWPShortName,CompliancePoint/Node,Gauge,Code,StartMonth,EndMonth,TargetFrequency,TargetFrequencyMin,TargetFrequencyMax,EventsPerYear,Duration,MinSpell,FlowThresholdMin,FlowThresholdMax,MaxInter-event,WithinEventGapTolerance,WeirpoolGauge,FlowLevelVolume,LevelThresholdMin,LevelThresholdMax,VolumeThreshold,DrawdownRate,MaxLevelRise,AccumulationPeriod,Multigauge,MaxSpell,TriggerDay,TriggerMonth,DrawDownRateWeek,AnnualFlowSum,AnnualBarrageFlow,ThreeYearsBarrageFlow,HighReleaseWindowStart,HighReleaseWindowEnd,LowReleaseWindowStart,LowReleaseWindowEnd,PeakLevelWindowStart,PeakLevelWindowEnd,LowLevelWindowStart,LowLevelWindowEnd,NonFlowSpell
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Goondiwindi,416201A,dANA,7,6,,,,1,1,1,5000,10000,2,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Kanowna,416048,DR_S,7,6,,,,1,1,1,4400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Roseneath ,416011,DR_VLF,7,6,,,,1,1,1,1,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Kanowna,416048,DR_VLF,7,6,,,,1,1,1,1,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Roseneath ,416011,FD,7,6,,,,1,8,8,5500,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Kanowna,416048,FD,7,6,,,,1,8,8,1700,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Roseneath ,416011,FR_S,7,6,,,,1,27,27,70,120,3,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Roseneath ,416011,FR_P,7,6,,,,2,27,27,70,120,3,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Kanowna,416048,FR1,7,6,,,,1,27,27,,360,3,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Roseneath ,416011,FR,10,4,,,,1,8,8,5500,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Kanowna,416048,FR,10,4,,,,1,8,8,1700,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Goondiwindi,416201A,NE,7,6,,,,1,1,1,5000,10000,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Goondiwindi,416201A,PP,7,6,,,,1,1,1,5000,10000,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Goondiwindi,416201A,rANA,10,2,,,,2,1,1,5000,10000,2,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Wilby Wilby,422016,BBR,7,6,25,,,1,90,90,100,,,,,V,,,154000,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Wilby Wilby,422016,BBR2,7,6,76,,,1,60,60,,,,,,V,,,25000,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,DR_CF,7,6,100,,,1,1,1,0,1,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,DR,7,6,100,,,1,1,1,2,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,DR2,7,6,,,,1,1,1,2540,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,FD,7,6,,,,1,8,8,8,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Brenda GS (Node A),422015,FD,7,6,,,,1,1,1,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Woolerbilla-Hebel GS (Node B),422211A,FD,7,6,,,,1,1,1,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Hebel-Bollon Road GS (Node C),422207A,FD,7,6,,,,1,1,1,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Hebel GS (Node D),422209A,FD,7,6,,,,1,1,1,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Narran @ Angledool 2 GS,422030,FD,7,6,,,,1,1,1,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Brenda GS (Node A),422015,FD2,7,6,,,,1,8,8,1500,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Woolerbilla-Hebel GS (Node B),422211A,FD2,7,6,,,,1,8,8,690,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Hebel-Bollon Road GS (Node C),422207A,FD2,7,6,,,,1,8,8,320,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Hebel GS (Node D),422209A,FD2,7,6,,,,1,8,8,1000,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Narran @ Angledool 2 GS,422030,FD2,7,6,,,,1,8,8,2100,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,365
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,FR2,10,4,,,,1,8,8,8,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Condamine and Balonne Long-term watering plan,Condamine,Brenda GS (Node A),422015,FR,9,2,,,,1,27,27,0,,2,,,L,,1.63,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Narran @ Angledool 2 GS,422030,FR,9,2,,,,1,27,27,0,,2,,,L,,1.63,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Brenda GS (Node A),422015,FR,10,4,,,,1,8,8,1500,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Woolerbilla-Hebel GS (Node B),422211A,FR,10,4,,,,1,8,8,690,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Hebel-Bollon Road GS (Node C),422207A,FR,10,4,,,,1,8,8,320,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Hebel GS (Node D),422209A,FR,10,4,,,,1,8,8,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,Condamine,Narran @ Angledool 2 GS,422030,FR,10,4,,,,1,8,8,2100,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,LDF,7,6,,,,1,1,1,2540,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Condamine,Nebine Creek at Roseleigh Crossing,422502A,WFT,7,6,,,,1,1,1,5271,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,DR_CF,7,6,100,,,1,1,1,0,1,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,DR,7,6,100,,,1,1,1,2,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,DR2,7,6,,,,1,1,1,36652,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,FD,7,6,,,,1,8,8,3412,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,FR,10,4,,,,1,8,8,3412,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,LDF,7,6,,,,1,1,1,36652,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Paroo,Paroo River at Caiwarro,424201A,WFT,7,6,,,,1,1,1,81776,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,DR_CF,7,6,100,,,1,1,1,0,1,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,DR_CF,7,6,100,,,1,1,1,0,1,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,DR,7,6,100,,,1,1,1,2,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,DR,7,6,100,,,1,1,1,2,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,DR2,7,6,,,,1,1,1,11511,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,DR2,7,6,,,,1,1,1,6048,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,FD,7,6,,,,1,8,8,60,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,FD,7,6,,,,1,8,8,636,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,FR,10,4,,,,1,8,8,60,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,FR2,10,4,,,,1,8,8,636,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,548
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,LDF,7,6,,,,1,1,1,11511,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,LDF,7,6,,,,1,1,1,6048,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Cuttaburra Creek at Turra,423005,WFT,7,6,,,,1,1,1,27735,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000992,Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego,Warrego River at Barringun #2,423004,WFT,7,6,,,,1,1,1,13715,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,,Brenda GS (Node A),422015,DR,7,6,100,,,1,1,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,,Woolerbilla-Hebel GS (Node B),422211A,DR,7,6,100,,,1,1,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,,Hebel-Bollon Road GS (Node C),422207A,DR,7,6,100,,,1,1,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,,Hebel GS (Node D),422209A,DR,7,6,100,,,1,1,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,
+PU_0000991,Condamine and Balonne Long-term watering plan,,Narran @ Angledool 2 GS,422030,DR,7,6,100,,,1,1,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,

@@ -3755,3 +3755,137 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
+
+
+@pytest.mark.parametrize("EWR_info,iteration,flows_data,event,all_events,all_no_events,total_event,expected_all_events,expected_event",[
+	(
+	 {'gap_tolerance': 0 ,
+      'min_flow' : 70,
+      'drawdown_rate': 50,
+	   'duration':5,
+	   'non_flow_spell': 365
+    },
+     1095,	
+	 np.array([0]*365 + 
+	   		  [0]*365 + 
+			  [0]*365 + 
+			  [80]*10 + [0]*356),
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	 0,
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[(date(2015, 7, 1), 80)],
+	),
+	(
+	 {'gap_tolerance': 0 ,
+      'min_flow' : 70,
+      'drawdown_rate': 50,
+	   'duration':5,
+	   'non_flow_spell': 365
+    },
+     1095,	
+	 np.array([0]*365 + 
+	   		  [0]*365 + 
+			  [10]*365 + 
+			  [80]*10 + [0]*356),
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	 0,
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],
+	),
+])
+def test_flow_check_ctf(EWR_info,iteration,flows_data,event,all_events,all_no_events,total_event,expected_all_events,expected_event):
+	# non changing variable
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flows= pd.Series(flows_data, index=dates)
+	flow_date = dates[iteration]
+	no_event = 0
+	gap_track = 0
+	
+	event, all_events , _ , _ , _ , _ = evaluate_EWRs.flow_check_ctf(EWR_info, iteration, flows, event, all_events, no_event, all_no_events, gap_track,
+								                                    water_years, total_event, flow_date)
+	print(all_events)
+
+	assert event == expected_event
+
+	for year in all_events:
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
+
+[(date(2012,7,1) + timedelta(days=i), 80) for i in range(10)]
+
+@pytest.mark.parametrize("EWR_info,flows_data,expected_all_events",[
+	(
+	   {'gap_tolerance': 0 ,
+      'min_flow' : 70,
+	   'duration':5,
+	   'non_flow_spell': 365,
+	   'min_event': 1
+    },
+	np.array([0]*365 + 
+	   		  [0]*365 + 
+			  [10]*365 + 
+			  [80]*10 + [0]*356),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
+	(
+	   {'gap_tolerance': 0 ,
+      'min_flow' : 70,
+	   'duration':5,
+	   'non_flow_spell': 365,
+	   'min_event': 1
+    },
+	np.array([0]*365 + 
+	   		  [0]*365 + 
+			  [0]*365 + 
+			  [80]*10 + [0]*356),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[[(date(2015,7,1) + timedelta(days=i), 80) for i in range(10)]]}
+	
+	),
+])
+def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
+	
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	flows = pd.Series(flows_data, index=dates)
+
+	all_events, _ , _ = evaluate_EWRs.flow_calc_check_ctf(EWR_info, flows, water_years, dates, masked_dates)
+
+	print(all_events)
+
+	for year in all_events:
+		assert len(all_events[year]) == len(expected_all_events[year])
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
+
+

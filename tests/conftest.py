@@ -340,8 +340,14 @@ def gauge_results():
             }
     }
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def gauge_results_before_process():
     with open(f"unit_testing_files/gauge_results_before_process.pickle", "rb") as fp:
         gauge_results = pickle.load(fp)
     return gauge_results
+
+
+@pytest.fixture(scope="function")
+def qld_parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/qld_parameter_sheet.csv")
+    return EWR_table
