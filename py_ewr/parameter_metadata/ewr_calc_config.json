@@ -24,8 +24,13 @@
         "DR",
         "FR",
         "LDF",
-        "rANA",
-        "WFT"
+        "dANA",
+        "WFT",
+        "NE",
+        "PP",
+        "FD",
+        "FRC",
+        "BBR2"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -76,7 +81,12 @@
         "F-DR-single": "flow_handle",
         "F-FR-single": "flow_handle",
         "F-LDF-single": "flow_handle",
-        "F-rANA-single": "flow_handle",
-        "F-WFT-single": "flow_handle"
+        "F-dANA-single": "flow_handle",
+        "F-WFT-single": "flow_handle",
+        "F-NE-single": "flow_handle",
+        "F-PP-single": "flow_handle",
+        "F-FD-single": "flow_handle_check_ctf",
+        "F-FRC-single": "flow_handle_check_ctf",
+        "V-BBR2-single": "cumulative_handle"
     }
 }

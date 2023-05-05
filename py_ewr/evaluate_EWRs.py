@@ -4665,7 +4665,9 @@ HANDLING_FUNCTIONS = {
     'weirpool_handle' : weirpool_handle,
     'flow_handle_sa': flow_handle_sa,
     'barrage_flow_handle': barrage_flow_handle,
-    'barrage_level_handle': barrage_level_handle}
+    'barrage_level_handle': barrage_level_handle,
+    'flow_handle_check_ctf': flow_handle_check_ctf
+    }
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:
     """Get the gauge calculation type
