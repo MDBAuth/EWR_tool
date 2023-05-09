@@ -182,7 +182,7 @@ class ObservedHandler:
         gauge_results = {}
         gauge_events = {}
         detailed_events = {}
-        all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+        all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
         EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
         calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
         for gauge in all_locations:

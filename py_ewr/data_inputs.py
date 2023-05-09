@@ -520,6 +520,13 @@ def get_barrage_level_gauges()-> dict:
 
     return level_barrage_gauges
 
+def get_qld_level_gauges()-> list:
+    """Returns a dictionary of the level gauges associated with each barrage.
+    Results:
+        dict: dictionary of level gauges associated with each barrage.
+    """
+    return ['422015','422030']
+
 def get_cllmm_gauges()->list:
     return ["A4261002", "A4260527", "A4260633"]
 
@@ -541,6 +548,7 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     wp_gauges = list(wp_gauges.values())
     flow_barrage_gauges = [ val for sublist in get_barrage_flow_gauges().values() for val in sublist]
     level_barrage_gauges = [ val for sublist in get_barrage_level_gauges().values() for val in sublist]
+    qld_level_gauges = get_qld_level_gauges()
     
     multi_gauges = get_multi_gauges('gauges')
     simul_gauges = get_simultaneous_gauges('gauges')
@@ -551,7 +559,7 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     elif category == 'flow gauges':
         return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges + flow_barrage_gauges)
     elif category == 'level gauges':
-        return set(menindee_gauges + wp_gauges + level_barrage_gauges)
+        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges)
     else:
         raise ValueError('''No gauge category sent to the "get_gauges" function''')
     

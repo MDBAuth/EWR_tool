@@ -29,8 +29,9 @@
         "NE",
         "PP",
         "FD",
-        "FRC",
-        "BBR2"
+        "FrC",
+        "BBR2",
+        "FrH"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -86,7 +87,8 @@
         "F-NE-single": "flow_handle",
         "F-PP-single": "flow_handle",
         "F-FD-single": "flow_handle_check_ctf",
-        "F-FRC-single": "flow_handle_check_ctf",
-        "V-BBR2-single": "cumulative_handle"
+        "F-FrC-single": "flow_handle_check_ctf",
+        "V-BBR2-single": "cumulative_handle",
+        "L-FrH-single": "level_handle"
     }
 }

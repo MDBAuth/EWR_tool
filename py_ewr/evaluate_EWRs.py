@@ -600,13 +600,8 @@ def level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: p
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)  
-    # Check flow data against EWR requirements and then perform analysis on the results:
-    # try:    
     E, NE, D = lake_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
-    # except ValueError:
-    #     print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due wrong value in the parameter sheet 
-    #     give level drawdown in cm not in % {EWR_info.get('drawdown_rate', 'no drawdown rate')}''')
-    #     return PU_df, None
+  
 
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df, tuple([E])
@@ -4698,10 +4693,9 @@ def get_ewr_prefix(ewr_code:str, prefixes:list)-> str:
 
     Returns:
         str: EWR prefix
-    """
-    
+    """    
     for prefix in prefixes:
-        if prefix in ewr_code.split("_")[0]:
+        if prefix in ewr_code:
             return prefix
     return 'unknown'
 
@@ -4788,7 +4782,6 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
             if ewr_prefix == 'unknown':
                 print(f"skipping due to unknown prefix for {PU}-{gauge}-{EWR} please add a prefix in the configuration files")
                 continue
-            
             handle_function = get_handle_function(cat, ewr_prefix, gauge_calc_type, paramID_to_handling_function)
             if not handle_function:
                 print(f"skipping because {PU}-{gauge}-{EWR} is not associated with any calculation in the")
