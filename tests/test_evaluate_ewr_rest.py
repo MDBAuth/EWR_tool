@@ -3889,3 +3889,161 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 			assert event == expected_all_events[year][i]
 
 
+@pytest.mark.parametrize("EWR_info,iteration,flows,levels,event,all_events,all_no_events,expected_all_events,expected_event",
+[
+	({'min_volume': 100, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'gap_tolerance':0,'max_level': 120.746},
+     5,	
+	 np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	 np.array(		[20]*365   + 
+                    [20]*365 + 
+                    [20]*365 + 
+                    [20]*366),
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[(date(2012, 7, 6)+timedelta(days=i),120) for i in range(1)],	
+	 ), 
+	({'min_volume': 100, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'gap_tolerance':0,'max_level': 120.746},
+     5,	
+	 np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	 np.array(		[130]*365   + 
+                    [20]*365 + 
+                    [20]*365 + 
+                    [20]*366),
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
+	 ), 
+],)
+def test_volume_level_check_bbr(EWR_info,iteration,flows,levels,event,all_events,all_no_events,expected_all_events,expected_event):
+	flow = 20
+	roller = 5
+	max_roller = EWR_info['accumulation_period']
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flow_date = dates[iteration]
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	no_event = 50
+	total_event = 9
+	gap_track = 0
+	event, all_events, no_event, all_no_events, gap_track, total_event, roller = evaluate_EWRs.volume_level_check_bbr(EWR_info, iteration, flow, event,
+	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, roller, max_roller, flows, levels)
+
+	assert event == expected_event
+	assert expected_all_events != None
+
+
+@pytest.mark.parametrize("EWR_info,flows,levels,expected_all_events,expected_all_no_events",[
+	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 120.746},
+	   np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	   np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{2012: [[(date(2012, 7, 6), 120),
+			(date(2012, 7, 7), 140),
+			(date(2012, 7, 8), 160),
+			(date(2012, 7, 9), 180),
+			(date(2012, 7, 10), 200),
+			(date(2012, 7, 11), 180),
+			(date(2012, 7, 12), 160),
+			(date(2012, 7, 13), 140),
+			(date(2012, 7, 14), 120)]],
+		2013: [],
+		2014: [],
+		2015: []},
+	{2012: [], 2013: [], 2014: [], 2015: [[1447]]}),
+
+	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 120.746},
+	   np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	   np.array( [20]*8+ [200]*2 + [0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{2012: [[(date(2012, 7, 6), 120),
+			(date(2012, 7, 7), 140),
+			(date(2012, 7, 8), 160)]],
+		2013: [],
+		2014: [],
+		2015: []},
+	{2012: [], 2013: [], 2014: [], 2015: [[1453]]}),
+	
+	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 120.746},
+	   np.array([20]*20 + [0]*345   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	   np.array( [20]*20 + [0]*345   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{2012: [[(date(2012, 7, 6), 120), 
+	         (date(2012, 7, 7), 140), 
+			 (date(2012, 7, 8), 160), 
+			 (date(2012, 7, 9), 180), 
+			 (date(2012, 7, 10), 200), 
+			 (date(2012, 7, 11), 200), 
+			 (date(2012, 7, 12), 200), 
+			 (date(2012, 7, 13), 200), 
+			 (date(2012, 7, 14), 200), 
+			 (date(2012, 7, 15), 200)], 
+			 [(date(2012, 7, 17), 200),
+			  (date(2012, 7, 18), 200), 
+              (date(2012, 7, 19), 200), 
+			  (date(2012, 7, 20), 200), 
+			  (date(2012, 7, 21), 180), 
+			  (date(2012, 7, 22), 160), 
+			  (date(2012, 7, 23), 140), 
+			  (date(2012, 7, 24), 120)]],
+		2013: [],
+		2014: [],
+		2015: []},
+	{2012: [], 2013: [], 2014: [], 2015: [[1437]]}),
+
+],)
+def test_cumulative_calc_bbr(EWR_info, flows, levels, expected_all_events, expected_all_no_events):
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	all_events, all_no_events, _ = evaluate_EWRs.cumulative_calc_bbr(EWR_info, flows, levels, water_years, dates, masked_dates)
+
+	print(all_events)
+	assert all_events == expected_all_events
+	assert all_no_events == expected_all_no_events
