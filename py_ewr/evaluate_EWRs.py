@@ -1333,6 +1333,11 @@ def which_year_lake_event(event_info: tuple, min_duration: int)-> int:
         
     return year
 
+def achieved_min_volume(event: List[tuple], EWR_info: Dict)-> bool:
+    flows = [flow for _, flow in event]
+    flows_accumulation_period = flows[:EWR_info["accumulation_period"]]
+    return sum(flows_accumulation_period) >= EWR_info['min_volume'] 
+
 def flow_check(EWR_info: dict, iteration: int, flow: float, event: list, all_events: dict, no_event: list, all_no_events: dict, gap_track: int, 
                water_years: np.array, total_event: int, flow_date: date) -> tuple:
     '''Checks daily flow against EWR threshold. Builds on event lists and no event counters.
@@ -1767,7 +1772,7 @@ def volume_check(EWR_info:Dict, iteration:int, flow:int, event:List, all_events:
     return event, all_events, no_event, all_no_events, gap_track, total_event, roller
 
 def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List, all_events:Dict, no_event:int, all_no_events:Dict, gap_track:int, 
-               water_years:List, total_event:int, flow_date:date, roller:int, max_roller:int, flows:List, levels:List)-> tuple:
+               water_years:List, total_event:int, flow_date:date, event_state:dict, levels:List)-> tuple:
     """Check in the current iteration of flows if the volume meet the ewr requirements and if the level 
     threshold drop grant an event exit
     It looks back in a window of the size of the Accumulation period in(Days)
@@ -1795,6 +1800,7 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
 
     # if there is not an event hapening then check condition
 
+
     if total_event == 0:
         meet_min_flow_condition = flow > EWR_info['min_flow']
 
@@ -1802,36 +1808,35 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
     if total_event > 0:
         meet_min_flow_condition = True
     
-    flows_look_back = flows[iteration - roller:iteration+1]
-    
-    if roller < max_roller-1:
-        roller += 1
-    valid_flows = filter(lambda x: (x >= EWR_info['min_flow']) and (x <= EWR_info['max_flow']) , flows_look_back)
-    volume = sum(valid_flows)
-    max_level_threshold = EWR_info['max_level']
-    if (volume >= EWR_info['min_volume'] 
-        and meet_min_flow_condition
-        and levels[iteration] < max_level_threshold
-        and len(event) < EWR_info["accumulation_period"]):
-        threshold_flow = (get_index_date(flow_date), volume)
+    if meet_min_flow_condition and not event_state["level_crossed_down"]:
+        if not event_state["level_crossed_up"]:
+            event_state["level_crossed_up"] = False if levels[iteration] < EWR_info['max_level'] else True
+        
+        threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
         no_event += 1
         gap_track = EWR_info['gap_tolerance']
+
+        if event_state["level_crossed_up"]:
+            event_state["level_crossed_down"] = False if levels[iteration] > EWR_info['max_level'] else True
+
     else:
         if gap_track > 0:
             gap_track = gap_track - 1
             total_event += 1
         else:
-            if len(event) >=  1 :
+            if achieved_min_volume(event, EWR_info) :
                 all_events[water_years[iteration]].append(event)
                 no_event = 0
             total_event = 0
+            event_state["level_crossed_up"] = False
+            event_state["level_crossed_down"] = False
 
             event = []
         no_event += 1
 
-    return event, all_events, no_event, all_no_events, gap_track, total_event, roller
+    return event, all_events, no_event, all_no_events, gap_track, total_event, event_state
 
 def weirpool_check(EWR_info: dict, iteration: int, flow: float, level: float, event: list, all_events: dict, no_event: int, all_no_events: dict, gap_track: int, 
                water_years: list, total_event: int, flow_date: date, weirpool_type: str, level_change: float) -> tuple:
@@ -3115,35 +3120,35 @@ def cumulative_calc_bbr(EWR_info: dict, flows: np.array, levels: np.array, water
     durations = []
     gap_track = 0
     # Iterate over flow timeseries, sending to the flow_check function each iteration:
-    roller = 0
-    max_roller = EWR_info['accumulation_period']
+    event_state = {}
+    event_state["level_crossed_up"] = False
+    event_state["level_crossed_down"] = False
 
     for i, flow in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
-            roller = check_roller_reset_points(roller, dates[i], EWR_info)
             flow_date = dates[i]
-            event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_level_check_bbr(EWR_info, i, flow, event, all_events, 
+            event, all_events, no_event, all_no_events, gap_track, total_event, event_state = volume_level_check_bbr(EWR_info, i, flow, event, all_events, 
                                                                                             no_event, all_no_events, gap_track, water_years, 
-                                                                                            total_event, flow_date, roller, max_roller, flows, levels)
+                                                                                            total_event, flow_date, event_state, levels)
         else:
             no_event += 1
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
-            if len(event) >= 1:
+            if achieved_min_volume(event, EWR_info) :
                 all_events[water_years[i]].append(event)
-                no_event = 0
-                total_event = 0
+            no_event = 0
+            total_event = 0
+            event_state["level_crossed_up"] = False
+            event_state["level_crossed_down"] = False
             event = []
+
             durations.append(EWR_info['duration'])
     
     if dates[-1] in masked_dates:
-        roller = check_roller_reset_points(roller, dates[-1], EWR_info)
         flow_date = dates[-1]
         event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_level_check_bbr(EWR_info, -1, flows[-1], event, all_events,
                                                                                             no_event, all_no_events, gap_track, water_years, 
-                                                                                            total_event, flow_date, roller, max_roller, flows, levels)   
-    if no_event > 0:
-        all_no_events[water_years[-1]].append([no_event])
+                                                                                            total_event, flow_date, event_state, levels)   
     durations.append(EWR_info['duration'])
 
 

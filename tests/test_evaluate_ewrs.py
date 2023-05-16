@@ -1370,25 +1370,25 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
 
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
     (
-    {   2012:[[(date(2012,7,10) + timedelta(days=i), 154000) for i in range(81)]], 
+    {   2012:[[(date(2012,7,1) + timedelta(days=i), 15400) for i in range(16)]], 
         2013:[], 
         2014:[], 
         2015:[]},
   {'BBR1_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_numEvents': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 1371}, 
-   'BBR1_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 0}, 
-   'BBR1_eventLength': {2012: 81.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
-   'BBR1_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
-   'BBR1_totalEventDays': {2012: 81, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_maxEventDays': {2012: 81, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_maxRollingEvents': {2012: 81, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_maxRollingAchievement': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'BBR1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+  'BBR1_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_numEvents': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+  'BBR1_eventLength': {2012: 16.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'BBR1_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'BBR1_totalEventDays': {2012: 16, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_maxEventDays': {2012: 16, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_maxRollingEvents': {2012: 16, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_maxRollingAchievement': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'BBR1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
     )
 ])
 def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU_df_data):
@@ -1401,7 +1401,7 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: (
-                                [15400]*10+[0]*355 + 
+                                [15400]*20+[0]*345 + 
                                 [0]*365 + 
                                 [0]*365 + 
                                 [0]*366
@@ -1412,7 +1412,7 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
     
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         "422034": (
-                               [20]*10+[0]*355   + 
+                               [20]*10+[150]*5+[10]*5+[0]*345   + 
                                 [0]*365 + 
                                 [0]*365 + 
                                 [0]*366
@@ -1429,8 +1429,9 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
     
     PU_df, events = evaluate_EWRs.cumulative_handle_bbr(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
 
-
     assert PU_df.to_dict() == expected_PU_df_data
+
+    print(events)
     
     expected_events = tuple([expected_events])
     for index, _ in enumerate(events):
