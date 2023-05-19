@@ -4403,6 +4403,107 @@ def get_event_years_max_rolling_days(events:Dict , unique_water_years:List[int])
         print(e)
     return [1 if (max_rolling > 0) else 0 for max_rolling in max_consecutive_days]
 
+
+def get_min_gap(events:List[List])->int:
+    """Retunt the min gap in between events list if there are more than 1 event in the list
+
+    Args:
+        events (List[List]): List of events
+
+    Returns:
+        int: min gap if there is more than 1 event otherwise return 0
+    """
+
+
+    events_info = [return_event_info(event) for event in events]
+    gaps = []
+
+    if len(events_info) > 1:
+        for i in range(len(events_info)-1):
+            current_event = events_info[i]
+            next_event = events_info[i+1]
+            _, current_event_end, _, _ = current_event
+            next_event_start, _, _, _ = next_event
+            gap = (next_event_start - current_event_end).days
+            gaps.append(gap)
+        return min(gaps)
+    else:
+        return 0
+
+def get_max_gap(events:List[List])->int:
+    """Retunt the max gap in between events list if there are more than 1 event in the list
+
+    Args:
+        events (List[List]): List of events
+
+    Returns:
+        int: max gap if there is more than 1 event otherwise return 0
+    """
+
+
+    events_info = [return_event_info(event) for event in events]
+    gaps = []
+
+    if len(events_info) > 1:
+        for i in range(len(events_info)-1):
+            current_event = events_info[i]
+            next_event = events_info[i+1]
+            _, current_event_end, _, _ = current_event
+            next_event_start, _, _, _ = next_event
+            gap = (next_event_start - current_event_end).days
+            gaps.append(gap)
+        return max(gaps)
+    else:
+        return 0
+
+def get_max_event_length(events:List[List])->int:
+    """Retunt the max legth of events list 
+
+    Args:
+        events (List[List]): List of events
+
+    Returns:
+        int: max gap if there is more than 1 event otherwise return 0
+    """
+    events_info = [return_event_info(event) for event in events]
+    lengths = []
+
+    if events_info:
+        for info in events_info:
+            _, _, length, _ = info
+            lengths.append(length)
+        return max(lengths)
+    else:
+        return 0
+
+
+def get_event_years_connecting_events(events:Dict , unique_water_years:List[int])->List:
+    """Return a list of years with events (represented by a 1), where the 2 connecting events
+    meet the condition to be between 27 and 90 (3 months) days
+
+    Args:
+        events (Dict): Dict with results of Ewr events calculation
+        unique_water_years (List[int]): Unique water years for the current result run
+
+    Returns:
+        List: a List with 1 or 0 representing which year the event occured 
+    """
+    event_years = []
+
+    for year in unique_water_years:
+        year_events = events[year]
+        min_gap =  get_min_gap(year_events)
+        max_gap = get_max_gap(year_events)
+        max_event_length = get_max_event_length(year_events)
+        if max_event_length >= 90:
+            event_years.append(1)
+        elif min_gap >= 27 and max_gap <= 90:
+            event_years.append(1)
+        else:
+            event_years.append(0)
+
+    return event_years
+
 def get_event_years_volume_achieved(events:Dict , unique_water_years:List[int])->List:
     """Returns a list of years with events (represented by a 1), where the volume threshold was 
     achieved
@@ -4618,6 +4719,11 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     unique_water_years = set(water_years)
     # Years with events
     years_with_events = get_event_years(EWR_info, events, unique_water_years, durations)
+
+
+    ## TODO add post processing logic for rANA 2 connecting events
+    if EWR_info['EWR_code'] in ['rANA']:
+        years_with_events = get_event_years_connecting_events(events, unique_water_years)
     
     if EWR_info['EWR_code'] in ['CF1_c','CF1_C']:
         years_with_events = get_event_years_max_rolling_days(events, unique_water_years)
@@ -4827,7 +4933,8 @@ HANDLING_FUNCTIONS = {
     'flow_handle_sa': flow_handle_sa,
     'barrage_flow_handle': barrage_flow_handle,
     'barrage_level_handle': barrage_level_handle,
-    'flow_handle_check_ctf': flow_handle_check_ctf
+    'flow_handle_check_ctf': flow_handle_check_ctf,
+    'cumulative_handle_bbr': cumulative_handle_bbr
     }
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:
@@ -4930,6 +5037,7 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
 
             ewr_prefixes = calc_config['ewr_prefixes']
             paramID_to_handling_function = calc_config['paramID_to_handling_function']
+
         
             # Save dict with function arguments value
             all_args = {"PU": PU, 

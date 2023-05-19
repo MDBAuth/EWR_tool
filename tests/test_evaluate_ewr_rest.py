@@ -4067,7 +4067,7 @@ def test_cumulative_calc_bbr(EWR_info, flows, levels, expected_all_events, expec
 	1. Not reaching the min flow condition
 	2. Textbook - entering on flow and exiting on level drop (cross up and then then down)
 	3. Entering and never exiting until cut of end of year
-	4. Achiving volume but not within the max accumulation period
+	4. Achieving volume but not within the max accumulation period
 
 	"""
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))

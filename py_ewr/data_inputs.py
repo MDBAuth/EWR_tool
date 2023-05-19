@@ -527,7 +527,7 @@ def get_qld_level_gauges()-> list:
     Results:
         dict: dictionary of level gauges associated with each barrage.
     """
-    return ['422015','422030']
+    return ['422015','422030', '422034']
 
 def get_cllmm_gauges()->list:
     return ["A4261002", "A4260527", "A4260633"]

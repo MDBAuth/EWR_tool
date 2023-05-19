@@ -1439,3 +1439,149 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
+
+
+
+
+@pytest.mark.parametrize("events, expected_result",[
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        28 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(31)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2012, 11, 24) + timedelta(days=i), 0) for i in range(10)],
+        ],
+        20 
+    ),
+    (
+       [],
+        0 
+    ),
+       
+])
+def test_get_min_gap(events, expected_result):
+    result = evaluate_EWRs.get_min_gap(events)
+    assert result == expected_result
+
+@pytest.mark.parametrize("events, expected_result",[
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        28 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(31)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2012, 11, 24) + timedelta(days=i), 0) for i in range(10)],
+        ],
+        28 
+    ),
+    (
+       [],
+        0 
+    ),
+       
+])
+def test_get_max_gap(events, expected_result):
+    result = evaluate_EWRs.get_max_gap(events)
+    assert result == expected_result
+
+@pytest.mark.parametrize("events, expected_result",[
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        5 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        3 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(31)]
+        ],
+        31 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2012, 11, 24) + timedelta(days=i), 0) for i in range(10)],
+        ],
+        10 
+    ),
+    (
+       [],
+        0 
+    ),
+       
+])
+def test_get_max_event_length(events, expected_result):
+    result = evaluate_EWRs.get_max_event_length(events)
+    assert result == expected_result
+
+
+
+@pytest.mark.parametrize("event_years, expected_results",[
+    (
+    
+    { 2012: [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)] , 
+        [(date(2013, 1, 2) + timedelta(days=i), 0) for i in range(1)],
+        [(date(2013, 1, 24) + timedelta(days=i), 0) for i in range(1)],
+      ],
+     2013: [
+        [(date(2013, 10, 1) + timedelta(days=i), 0) for i in range(10)] , 
+        [(date(2013, 11, 10) + timedelta(days=i), 0) for i in range(3)],
+      ],
+     2014: [
+        [(date(2014, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2014, 10, 20) + timedelta(days=i), 0) for i in range(29)],
+      ],
+     2015: [],
+    },
+    [1,1,0,0]
+    )
+])
+def test_get_event_years_connecting_events(event_years, expected_results):
+    unique_water_years = [2012, 2013, 2014, 2015]
+    result = evaluate_EWRs.get_event_years_connecting_events(event_years, unique_water_years)
+    assert result == expected_results
+
