@@ -595,7 +595,7 @@ def cumulative_handle_bbr(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame
     
     '''
     # Get information about EWR:
-    pull = data_inputs.get_EWR_components('cumulative_bbr') ## TODO do a pull componentes for cummulative_bbr
+    pull = data_inputs.get_EWR_components('cumulative_bbr') 
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_F)
@@ -4209,6 +4209,29 @@ def get_achievements(EWR_info:Dict, events:Dict, unique_water_years:set, duratio
     
     return num_events
 
+def get_achievements_connecting_events(events: Dict, unique_water_years:set)->List:
+    
+    achievements_per_years = []
+
+    for year in unique_water_years:
+        year_events = events[year]
+        if not year_events:
+            achievements_per_years.append(0)
+        else:
+            events_info = [return_event_info(event) for event in year_events]
+            achievement_count = 0
+            if len(events_info) == 1:
+                _, _, length, _ = events_info[0]
+                achievements_per_years.append( 1 if length >= 90 else 0)
+            else:
+                for i in range(len(events_info)-1):
+                    _, end, length, _ = events_info[i]
+                    start, _, _, _ = events_info[i+1]
+                    gap = (start - end).days
+                    achievement_count += 1 if (gap >= 27 and gap <= 90 or length >= 90) else 0
+                achievements_per_years.append(achievement_count)
+    return achievements_per_years
+
 def get_number_events(EWR_info:Dict, events:Dict, unique_water_years:set, durations:List) -> List:
     '''Returns a list of number of events per year
     
@@ -4488,21 +4511,10 @@ def get_event_years_connecting_events(events:Dict , unique_water_years:List[int]
     Returns:
         List: a List with 1 or 0 representing which year the event occured 
     """
-    event_years = []
 
-    for year in unique_water_years:
-        year_events = events[year]
-        min_gap =  get_min_gap(year_events)
-        max_gap = get_max_gap(year_events)
-        max_event_length = get_max_event_length(year_events)
-        if max_event_length >= 90:
-            event_years.append(1)
-        elif min_gap >= 27 and max_gap <= 90:
-            event_years.append(1)
-        else:
-            event_years.append(0)
+    achievements = get_achievements_connecting_events(events, unique_water_years)
 
-    return event_years
+    return [1 if achievement > 0 else 0 for achievement in achievements]
 
 def get_event_years_volume_achieved(events:Dict , unique_water_years:List[int])->List:
     """Returns a list of years with events (represented by a 1), where the volume threshold was 
@@ -4721,7 +4733,6 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     years_with_events = get_event_years(EWR_info, events, unique_water_years, durations)
 
 
-    ## TODO add post processing logic for rANA 2 connecting events
     if EWR_info['EWR_code'] in ['rANA']:
         years_with_events = get_event_years_connecting_events(events, unique_water_years)
     
@@ -4735,6 +4746,10 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations)
+
+    if EWR_info['EWR_code'] in ['rANA']:
+        num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
+
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
     PU_df = pd.concat([PU_df, NEA], axis = 1)
     # Total number of events THIS ONE IS ONLY ACHIEVED due to Filter Applied
