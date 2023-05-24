@@ -4104,3 +4104,73 @@ def test_cumulative_calc_bbr(EWR_info, flows, levels, expected_all_events, expec
 def test_achieved_min_volume(event, EWR_info, expected_result):
 	result = evaluate_EWRs.achieved_min_volume(event, EWR_info)
 	assert result == expected_result
+
+
+@pytest.mark.parametrize("EWR_info, expected_event_state, iterations",[
+	(
+	{
+		"eggs_days_spell" : 2,
+		"larvae_days_spell" : 5
+    },
+    {
+		"eggs_days_spell" : 20,
+		"larvae_days_spell" : 18,
+		"water_stable_days": 20  
+					},
+		20
+	),
+	(
+	{
+		"eggs_days_spell" : 5,
+		"larvae_days_spell" : 2
+    },
+    {
+		"eggs_days_spell" : 20,
+		"larvae_days_spell" : 15,
+		"water_stable_days": 20  
+					},
+		20
+	),
+	(
+	{
+		"eggs_days_spell" : 5,
+		"larvae_days_spell" : 2
+    },
+    {
+		"eggs_days_spell" : 6,
+		"larvae_days_spell" : 1,
+		"water_stable_days": 6  
+					},
+		6
+	),
+])
+def test_update_water_stability_state(EWR_info, expected_event_state, iterations):
+	event_state = {
+					"eggs_days_spell" : 0,
+					"larvae_days_spell" : 0,
+					"water_stable_days":0 
+					}
+	for _ in range(iterations):
+		event_state = evaluate_EWRs.update_water_stability_state(event_state, EWR_info)
+
+	assert event_state == expected_event_state
+	
+
+@pytest.mark.parametrize("flow_date, flows, event_state, iteration, expected_results", [
+	(
+	date(2023, 5, 24),
+	[1,1,3,4,5,6,7,1,1,1],
+	{"water_stable_days":5},
+	6,
+	[(date(2023, 5, 20), 3), 
+	(date(2023, 5, 21), 4), 
+	(date(2023, 5, 22), 5), 
+	(date(2023, 5, 23), 6), 
+	(date(2023, 5, 24), 7)
+	],
+	),
+])
+def test_create_water_stability_event(flow_date, flows, event_state, iteration, expected_results):
+
+	result = evaluate_EWRs.create_water_stability_event(flow_date, flows, event_state, iteration)
+	assert result == expected_results
