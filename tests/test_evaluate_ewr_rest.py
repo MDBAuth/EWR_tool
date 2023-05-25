@@ -4174,3 +4174,24 @@ def test_create_water_stability_event(flow_date, flows, event_state, iteration, 
 
 	result = evaluate_EWRs.create_water_stability_event(flow_date, flows, event_state, iteration)
 	assert result == expected_results
+
+
+@pytest.mark.parametrize("levels, iteration, event_state, EWR_info, expected_result",[
+	(
+	[1,1,1,1,1,1],
+	1,
+	{"water_stable_days": 0},
+	{"max_level_raise": 0.05, "drawdown_rate": 0.05},
+	True
+	),
+	(
+	[1,1.05,1.05,1.1,1,1],
+	3,
+	{"water_stable_days": 3},
+	{"max_level_raise": 0.05, "drawdown_rate": 0.05},
+	False
+	),
+])
+def test_check_water_stability_level(levels, iteration, event_state, EWR_info, expected_result):
+	result = evaluate_EWRs.check_water_stability_level(levels, iteration, event_state, EWR_info)
+	assert result == expected_result

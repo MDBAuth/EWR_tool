@@ -1883,7 +1883,7 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, event:List, 
     Once achieved the min days for the egg then will monitor the LarvaeDaysSpell (parameter)
     Once achieved the min the event will record daily an event as an “opportunity” daily until Flows is outside range or date is outside season range.
     Or water stability is outside the max drawdown/raise range. (see reset water stability rules)
-    The water stability reset rules are: If during egg or larvae stage the water stability is breached, \
+    The water stability reset rules are: If during egg or larvae stage the water stability is breached, 
     then the spell is reset to beginning of egg stage no mater where the cycle was broken and also the whole event is reset.
 
 
@@ -1903,11 +1903,9 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, event:List, 
         tuple: the current state of the event, all_events, no_event, all_no_events, gap_track, total_event and roller
     """
     
-    if EWR_info['min_flow'] and flows[iteration] <= EWR_info['max_flow']:
+    if flows[iteration] >= EWR_info['min_flow'] and flows[iteration] <= EWR_info['max_flow']:
 
-        level_change = levels[iteration-1]-levels[iteration] if iteration > 0 else 0
-
-        is_water_stable =  check_daily_level_change(level_change, EWR_info)
+        is_water_stable = check_water_stability_level(levels, iteration, event_state, EWR_info)
 
         if is_water_stable:
             event_state = update_water_stability_state(event_state, EWR_info)
@@ -2489,6 +2487,30 @@ def check_daily_level_change(level_change: float, EWR_info: dict) -> bool:
     else:
         return level_change <= float(EWR_info['max_level_raise'])
 
+
+def check_water_stability_level(levels: List, iteration:int, event_state:Dict, EWR_info:Dict)-> bool:
+    """Check of water in the last n days if is within water stability parameters
+    If it is within returns True otherwise returns False
+
+    Args:
+        levels (List): levels time series
+        iteration (int): current iteration
+        event_state (Dict): state prior to check water stability
+        EWR_info (Dict): ewr parameters
+
+    Returns:
+        bool: Returns True if levels are stable as per parameters and False otherwise
+    """
+    stability_length = event_state["water_stable_days"]
+    if stability_length < 1:
+        return True
+    else:
+        reference_level = levels[iteration - stability_length]
+        current_event_levels = levels[(iteration - stability_length) : iteration + 1]
+        max_up = max(current_event_levels) - reference_level
+        max_down = reference_level - min(current_event_levels)
+        return max_up <= EWR_info["max_level_raise"] and max_down <= EWR_info["drawdown_rate"]
+    
 
 def check_weekly_level_change(levels: list, EWR_info: dict, iteration: int, event_length: int) -> bool:
     """Check if the level change from 7 days ago to today is within the maximum allowed in a week
