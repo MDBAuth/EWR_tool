@@ -3984,8 +3984,6 @@ def test_volume_level_check_bbr(EWR_info,iteration,levels,event,all_events,all_n
 	event, all_events, no_event, all_no_events, gap_track, total_event, event_state = evaluate_EWRs.volume_level_check_bbr(EWR_info, iteration, flow, event,
 	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, event_state_in, levels)
 
-	print(event)
-	print(all_events)
 	assert event == expected_event
 
 	for year in all_events:
@@ -4113,9 +4111,10 @@ def test_achieved_min_volume(event, EWR_info, expected_result):
 		"larvae_days_spell" : 5
     },
     {
-		"eggs_days_spell" : 20,
+		"eggs_days_spell" : 2,
 		"larvae_days_spell" : 18,
-		"water_stable_days": 20  
+		"water_stable_days": 20,
+		"events_recorded" :0  
 					},
 		20
 	),
@@ -4125,9 +4124,10 @@ def test_achieved_min_volume(event, EWR_info, expected_result):
 		"larvae_days_spell" : 2
     },
     {
-		"eggs_days_spell" : 20,
+		"eggs_days_spell" : 5,
 		"larvae_days_spell" : 15,
-		"water_stable_days": 20  
+		"water_stable_days": 20,
+		"events_recorded" :0  
 					},
 		20
 	),
@@ -4137,9 +4137,10 @@ def test_achieved_min_volume(event, EWR_info, expected_result):
 		"larvae_days_spell" : 2
     },
     {
-		"eggs_days_spell" : 6,
+		"eggs_days_spell" : 5,
 		"larvae_days_spell" : 1,
-		"water_stable_days": 6  
+		"water_stable_days": 6,
+		"events_recorded" :0  
 					},
 		6
 	),
@@ -4148,7 +4149,8 @@ def test_update_water_stability_state(EWR_info, expected_event_state, iterations
 	event_state = {
 					"eggs_days_spell" : 0,
 					"larvae_days_spell" : 0,
-					"water_stable_days":0 
+					"water_stable_days":0,
+					"events_recorded" :0
 					}
 	for _ in range(iterations):
 		event_state = evaluate_EWRs.update_water_stability_state(event_state, EWR_info)
@@ -4158,9 +4160,9 @@ def test_update_water_stability_state(EWR_info, expected_event_state, iterations
 
 @pytest.mark.parametrize("flow_date, flows, event_state, iteration, expected_results", [
 	(
-	date(2023, 5, 24),
+	pd.Period('2023-05-24', freq='D'),
 	[1,1,3,4,5,6,7,1,1,1],
-	{"water_stable_days":5},
+	{"water_stable_days":5, "events_recorded":0, "eggs_days_spell":3,"larvae_days_spell":2},
 	6,
 	[(date(2023, 5, 20), 3), 
 	(date(2023, 5, 21), 4), 
@@ -4180,14 +4182,14 @@ def test_create_water_stability_event(flow_date, flows, event_state, iteration, 
 	(
 	[1,1,1,1,1,1],
 	1,
-	{"water_stable_days": 0},
+	{"water_stable_days": 0, "larvae_days_spell":0, "eggs_days_spell":0},
 	{"max_level_raise": 0.05, "drawdown_rate": 0.05},
 	True
 	),
 	(
 	[1,1.05,1.05,1.1,1,1],
 	3,
-	{"water_stable_days": 3},
+	{"water_stable_days": 3, "larvae_days_spell":1,"eggs_days_spell":2},
 	{"max_level_raise": 0.05, "drawdown_rate": 0.05},
 	False
 	),
@@ -4195,3 +4197,270 @@ def test_create_water_stability_event(flow_date, flows, event_state, iteration, 
 def test_check_water_stability_level(levels, iteration, event_state, EWR_info, expected_result):
 	result = evaluate_EWRs.check_water_stability_level(levels, iteration, event_state, EWR_info)
 	assert result == expected_result
+
+
+
+@pytest.mark.parametrize("EWR_info, iteration, flows, all_events, event_state, levels, expected_all_events, expected_event_state",[
+	(
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05
+	},
+	39,
+	 np.array(      [71]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []},
+	{
+		"eggs_days_spell":3,
+		"larvae_days_spell":5,
+		"water_stable_days":5,
+		"events_recorded":0
+	}, 
+	 np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []},
+		{
+		"eggs_days_spell":3,
+		"larvae_days_spell":0,
+		"water_stable_days":1,
+		"events_recorded":1
+	}, 
+	),
+	(
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05
+	},
+	40,
+	 np.array(      [71]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []},
+	{
+		"eggs_days_spell":3,
+		"larvae_days_spell":0,
+		"water_stable_days":1,
+		"events_recorded":0
+	}, 
+	 np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []},
+		{
+		"eggs_days_spell":3,
+		"larvae_days_spell":1,
+		"water_stable_days":2,
+		"events_recorded":0
+	}, 
+	),
+	(
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05
+	},
+	45,
+	 np.array(      [71]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []},
+	{
+		"eggs_days_spell":3,
+		"larvae_days_spell":5,
+		"water_stable_days":6,
+		"events_recorded":0
+	}, 
+	 np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)],
+	           [(date(2012, 8, 7)+timedelta(days=i), 71) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []},
+		{
+		"eggs_days_spell":3,
+		"larvae_days_spell":0,
+		"water_stable_days":1,
+		"events_recorded":1
+	}, 
+	),
+])
+def test_water_stability_check(EWR_info, iteration, flows, all_events, event_state, levels, expected_all_events, expected_event_state):
+	
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	flow_date = dates[iteration]
+	
+	all_events, event_state = evaluate_EWRs.water_stability_check(EWR_info, iteration, flows, all_events, water_years, flow_date, event_state, levels)
+
+	for year in all_events:
+		assert len(all_events[year]) == len(expected_all_events[year])
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
+
+	assert event_state == expected_event_state
+
+
+
+@pytest.mark.parametrize("EWR_info, flows, levels, expected_all_events",[
+	(   
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'min_event': 1,
+	  'duration': 0,	
+	  'start_month':8, 
+	  'end_month' : 12 
+	},
+	   np.array(    [0]*31 + [71]*11 + [0]*323 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+		    
+	 np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'min_event': 1,
+	  'duration': 0,	
+	  'start_month':8, 
+	  'end_month' : 12 
+	},
+	   np.array(    [0]*31 + [71]*8 + [40]*3+ [0]*323 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+		    
+	 np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'min_event': 1,
+	  'duration': 0,	
+	  'start_month':8, 
+	  'end_month' : 12 
+	},
+	   np.array(    [0]*31 + [71]*8 + [71]*3+ [0]*323 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+		    
+	 np.array(      [0]*31 + [1]*8 + [1.1]*3+ [1]*323 +
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+	{
+      'min_flow': 70,
+	  'max_flow' : 120,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'min_event': 1,
+	  'duration': 0,	
+	  'start_month':8, 
+	  'end_month' : 12 
+	},
+	   np.array(    [0]*31 + [71]*16 + [0]*318 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+		    
+	 np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)],
+	           [(date(2012, 8, 10)+timedelta(days=i), 71) for i in range(6)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_water_stability_calc(EWR_info, flows, levels, expected_all_events):
+	"""
+	1. meeting 1 opportunity flow and level met
+	2. breaking flow within the event and fail
+	3. breaking level within the event and fail
+	4. meeting 2 opportunities flow and level met
+	"""
+
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	
+	all_events, _, _ = evaluate_EWRs.water_stability_calc(EWR_info, flows, levels,water_years, dates, masked_dates)
+
+	print(all_events)
+	assert all_events == expected_all_events

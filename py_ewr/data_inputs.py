@@ -76,8 +76,10 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
                               'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek', 'AnnualFlowSum','AnnualBarrageFlow',
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
-                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell'],
-                               dtype='str', encoding='cp1252')
+                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell',
+                              'LarvaeDaysSpell'],
+                               dtype='str', encoding='cp1252') 	
+
 
     if not file_path:
         my_url = os.path.join(BASE_PATH, "parameter_metadata/NSWEWR.csv")
@@ -90,7 +92,8 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise', 'AccumulationPeriod',
                               'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualFlowSum','AnnualBarrageFlow',
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
-                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell'],
+                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
+                              'LarvaeDaysSpell'],
                         dtype='str', encoding='cp1252'
                         )
 
@@ -406,6 +409,8 @@ def get_EWR_components(category):
         pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV']
     elif category == 'cumulative_bbr':
         pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV','MAXL','WPG']
+    elif category == 'water_stability':
+        pull =  ['SM', 'EM', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV','MAXL','WPG', 'EDS', 'LDS', 'ML', 'MD']
     elif category == 'level':
         pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV', 'MAXD','GP']
     elif category == 'weirpool-raising':

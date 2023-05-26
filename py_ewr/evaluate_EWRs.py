@@ -239,6 +239,12 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
     if 'NFS' in components:
         non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'NonFlowSpell')
         ewrs['non_flow_spell'] = int(non_flow_spell)
+    if 'EDS' in components: 
+        non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'EggsDaysSpell')
+        ewrs['eggs_days_spell'] = int(non_flow_spell)
+    if 'LDS' in components: 
+        non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'LarvaeDaysSpell')
+        ewrs['larvae_days_spell'] = int(non_flow_spell)
     return ewrs
 
 def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
@@ -631,7 +637,7 @@ def water_stability_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFram
     
     '''
     # Get information about EWR:
-    pull = data_inputs.get_EWR_components('cumulative_bbr') 
+    pull = data_inputs.get_EWR_components('water_stability') 
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_F)
@@ -1875,8 +1881,7 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
     return event, all_events, no_event, all_no_events, gap_track, total_event, event_state
 
 
-def water_stability_check(EWR_info:Dict, iteration:int, flows:List, event:List, all_events:Dict, no_event:int, all_no_events:Dict, 
-               water_years:List, flow_date:date, event_state:dict, levels:List)-> tuple:
+def water_stability_check(EWR_info:Dict, iteration:int, flows:List, all_events:Dict, water_years:List, flow_date:date, event_state:dict, levels:List)-> tuple:
     """Check in the current iteration of flows and levels
     Trigger event is the flow band (eg. 70-120Mg/day for border rivers)
     Once in a band first it will monitor the water stability for the EggDaysSpell (parameter)
@@ -1902,18 +1907,22 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, event:List, 
     Returns:
         tuple: the current state of the event, all_events, no_event, all_no_events, gap_track, total_event and roller
     """
-    
     if flows[iteration] >= EWR_info['min_flow'] and flows[iteration] <= EWR_info['max_flow']:
+         
 
         is_water_stable = check_water_stability_level(levels, iteration, event_state, EWR_info)
 
         if is_water_stable:
             event_state = update_water_stability_state(event_state, EWR_info)
+
             # record the event where there is an opportunity
             if event_state["larvae_days_spell"] >= EWR_info["larvae_days_spell"]:
                 # record event opportunity for the last n days from the beginning of the first stable egg
-                event = create_water_stability_event(flow_date, flows, event_state)
+                event = create_water_stability_event(flow_date, flows, event_state, iteration)
                 all_events[water_years[iteration]].append(event)
+                event_state["larvae_days_spell"] = 0
+                event_state["water_stable_days"] = 1
+                event_state["events_recorded"] +=1
         else:
             #reset event state
             for key in event_state:
@@ -1924,7 +1933,7 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, event:List, 
                 event_state[key] = 0
 
 
-    return event, all_events, no_event, all_no_events, event_state
+    return all_events, event_state
 
 def weirpool_check(EWR_info: dict, iteration: int, flow: float, level: float, event: list, all_events: dict, no_event: int, all_no_events: dict, gap_track: int, 
                water_years: list, total_event: int, flow_date: date, weirpool_type: str, level_change: float) -> tuple:
@@ -2379,7 +2388,6 @@ def update_water_stability_state(event_state: Dict, EWR_info:Dict)-> Dict:
         Dict: updated event_state
     """
     if event_state["eggs_days_spell"] >= EWR_info["eggs_days_spell"]:
-         event_state["eggs_days_spell"] += 1
          event_state["larvae_days_spell"] += 1
     if event_state["eggs_days_spell"] < EWR_info["eggs_days_spell"]:
          event_state["eggs_days_spell"] += 1
@@ -2399,9 +2407,9 @@ def create_water_stability_event(flow_date: datetime.date, flows:List, event_sta
     Returns:
         List: event list with flows and dates
     """
-    event_size = event_state["water_stable_days"]
+    event_size = event_state["eggs_days_spell"] + event_state["larvae_days_spell"] if event_state["events_recorded"] == 0 else event_state["larvae_days_spell"]
     event_flows = flows[ (iteration - event_size) + 1: iteration + 1]
-    start_event_date = flow_date - timedelta(days= event_size - 1)
+    start_event_date = flow_date.to_timestamp().date() - timedelta(days= event_size - 1)
     event_dates = [ start_event_date + timedelta(i) for i in range(event_size)]
     
     return [(d, flow)  for d, flow in zip(event_dates, event_flows)]
@@ -2501,7 +2509,12 @@ def check_water_stability_level(levels: List, iteration:int, event_state:Dict, E
     Returns:
         bool: Returns True if levels are stable as per parameters and False otherwise
     """
-    stability_length = event_state["water_stable_days"]
+    
+    if event_state["larvae_days_spell"] == 0:
+        stability_length = event_state["eggs_days_spell"]
+    else:
+        stability_length = event_state["larvae_days_spell"] + 1
+    
     if stability_length < 1:
         return True
     else:
@@ -2509,7 +2522,7 @@ def check_water_stability_level(levels: List, iteration:int, event_state:Dict, E
         current_event_levels = levels[(iteration - stability_length) : iteration + 1]
         max_up = max(current_event_levels) - reference_level
         max_down = reference_level - min(current_event_levels)
-        return max_up <= EWR_info["max_level_raise"] and max_down <= EWR_info["drawdown_rate"]
+        return max_up <= EWR_info["max_level_raise"] and max_down <= float(EWR_info["drawdown_rate"])
     
 
 def check_weekly_level_change(levels: list, EWR_info: dict, iteration: int, event_length: int) -> bool:
@@ -3322,46 +3335,24 @@ def water_stability_calc(EWR_info: dict, flows: np.array, levels: np.array, wate
     Returns:
         tuple: final output with the calculation of volume all_events, all_no_events, durations
     """
-    event = []
-    total_event = 0
-    no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
     durations = []
-    gap_track = 0
     # Iterate over flow timeseries, sending to the flow_check function each iteration:
     event_state = {}
     event_state["eggs_days_spell"] = 0
     event_state["larvae_days_spell"] = 0
-    event_state["waters_stable_days"] = 0
+    event_state["water_stable_days"] = 0
+    event_state["events_recorded"] = 0
 
-    for i, _ in enumerate(flows[:-1]):
+    for i, _ in enumerate(flows):
         if dates[i] in masked_dates:
             flow_date = dates[i]
-            event, all_events, no_event, all_no_events, event_state = water_stability_check(EWR_info, i, flows, event, all_events, 
-                                                                                            no_event, all_no_events, water_years, 
-                                                                                            flow_date, event_state, levels)
-        else:
-            no_event += 1
-        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
-        # TODO handle ongoing events end of year (not a case for fish recruitment)
-        if water_years[i] != water_years[i+1]:
-            if achieved_min_volume(event, EWR_info) :
-                all_events[water_years[i]].append(event)
-            event_state["eggs_days_spell"] = 0
-            event_state["larvae_days_spell"] = 0
-            event_state["waters_stable_days"] = 0
-            event = []
-
+            all_events, event_state = water_stability_check(EWR_info, i, flows, all_events, water_years, flow_date, 
+                                                                                            event_state, levels)
             durations.append(EWR_info['duration'])
     
-    if dates[-1] in masked_dates:
-        flow_date = dates[-1]
-        event, all_events, no_event, all_no_events, event_state  = water_stability_check(EWR_info, -1, flows[-1], event, all_events,
-                                                                                            no_event, all_no_events, water_years, 
-                                                                                             flow_date, event_state, levels)   
     durations.append(EWR_info['duration'])
-
 
     return all_events, all_no_events, durations
 
