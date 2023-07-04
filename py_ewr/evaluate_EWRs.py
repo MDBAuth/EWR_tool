@@ -1920,7 +1920,7 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, all_events:D
                 # record event opportunity for the last n days from the beginning of the first stable egg
                 event = create_water_stability_event(flow_date, flows, event_state, iteration)
                 all_events[water_years[iteration]].append(event)
-                event_state["larvae_days_spell"] = 0
+                event_state["larvae_days_spell"] = 0 ## According to Jaye feedback spells are not reset and are continiouly recorded until stabilty broken
                 event_state["water_stable_days"] = 1
                 event_state["events_recorded"] +=1
         else:
