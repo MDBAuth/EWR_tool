@@ -1614,25 +1614,26 @@ def test_get_achievements_connecting_events(event_years, expected_results):
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
     (
-      { 2012:[[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)]], 
+      { 2012:[[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)],
+              [(date(2012, 8, 2)+timedelta(days=i), 71) for i in range(9)]], 
         2013:[], 
         2014:[], 
         2015:[]},
-  {'FrW2_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
-   'FrW2_eventLength': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
-   'FrW2_eventLengthAchieved': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
-   'FrW2_totalEventDays': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_totalEventDaysAchieved': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_maxEventDays': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_maxRollingEvents': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-   'FrW2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+ {'FrW2_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+  'FrW2_eventLength': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrW2_eventLengthAchieved': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrW2_totalEventDays': {2012: 18, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_totalEventDaysAchieved': {2012: 18, 2013: 0, 2014: 0, 2015: 0},
+  'FrW2_maxEventDays': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxRollingEvents': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},  
+  'FrW2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
     )
 ])
 def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
@@ -1646,7 +1647,7 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
     # .to_period()
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-                        gauge: (    [0]*31 + [71]*11 + [0]*323 + 
+                        gauge: (    [0]*31 + [71]*10 + [0]*324 + 
                                     [0]*365 + 
                                     [0]*365 + 
                                     [0]*366)} 
