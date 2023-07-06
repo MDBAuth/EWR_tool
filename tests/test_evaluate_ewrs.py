@@ -1594,8 +1594,9 @@ def test_get_event_years_connecting_events(event_years, expected_results):
       ],
      2013: [
         [(date(2013, 10, 1) + timedelta(days=i), 0) for i in range(10)] , 
-        [(date(2013, 11, 10) + timedelta(days=i), 0) for i in range(3)],
-        [(date(2014, 1, 13) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2013, 10, 31) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2013, 11, 30) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2013, 12, 31) + timedelta(days=i), 0) for i in range(3)]
       ],
      2014: [
         [(date(2014, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
@@ -1603,7 +1604,7 @@ def test_get_event_years_connecting_events(event_years, expected_results):
       ],
      2015: [[(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)]],
     },
-    [1,2,0,1]
+    [1,3,0,1]
     )
 ])
 def test_get_achievements_connecting_events(event_years, expected_results):
