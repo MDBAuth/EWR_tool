@@ -1880,22 +1880,31 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
 
     return event, all_events, no_event, all_no_events, gap_track, total_event, event_state
 
-def is_date_in_window(current_date:date, window_end:date, days_forward:int)->bool:
+def is_date_in_window(current_date:date, window_end:date, event_length:int)->bool:
     """Given a date plus days forward days check if days forward is less than last day of the window
 
     Args:
         current_date (date): current iteration data
-        window_start (date): ewr start window
         window_end (date): ewr end window
         days_forward (int): length of the event
 
     Returns:
         bool: Returns True if it end of event is in the window otherwise returns False 
     """
-    date_in_future = current_date + timedelta(days=days_forward - 2)
-    return date_in_future <= window_end
+    event_last_day = current_date + timedelta(days=(event_length - 1))
+    return event_last_day <= window_end
 
 def get_last_day_of_window(iteration_date:date, month_window_end:int)->date:
+    """Get the last day seasonal window of ewr
+
+    Args:
+        iteration_date (date): date where the code is iterating
+        month_window_end (int): month that window ends
+
+    Returns:
+        date: return the last day of the window
+    """
+
     iteration_year = iteration_date.year
     last_day_window_year = (iteration_year 
                             if month_window_end >= iteration_date.month 
@@ -2384,7 +2393,7 @@ def barrage_lake_level_check(EWR_info: dict, levels: pd.Series, event: list, all
 #------------------------------------ Calculation functions --------------------------------------#
 
 
-def create_water_stability_event(flow_date: datetime.date, flows:List, iteration: int, EWR_info:dict)->List:
+def create_water_stability_event(flow_date: pd.Period, flows:List, iteration: int, EWR_info:dict)->List:
     """create overlapping event that meets an achievement for fish recruitment water stability
 
     Args:
@@ -2502,6 +2511,26 @@ def check_water_stability_flow(flows: List, iteration:int, EWR_info:Dict)-> bool
     min_period = min(period_to_check)
     return max_period < EWR_info['max_flow'] and min_period > EWR_info['min_flow']
 
+def is_phase_stable(levels:list, EWR_info: dict )-> bool:
+    """Evaluate if water stability for egg or larva are stable
+    It calculates the cumulative absolute level change and
+    if it less or equal de max_level_raise parameter it returns
+    True otherwise returns false
+
+    Args:
+        levels (list): levels to be evaluates
+        EWR_info (dict): ewr parameters
+
+    Returns:
+        bool: Returns True if levels are stable as per parameters and False otherwise
+    """
+
+    absolute_cumulative_change = 0
+    for i in range(len(levels)-1):
+        absolute_cumulative_change += abs(levels[i+1] - levels[i]) 
+    return absolute_cumulative_change <= EWR_info["max_level_raise"]
+
+
 def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bool:
     """Check if water level for in the next n days if is within water 
     stability parameters for egg and larva for the period
@@ -2515,21 +2544,20 @@ def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bo
     Returns:
         bool: Returns True if levels are stable as per parameters and False otherwise
     """
+    
     # evaluate egg
-    egg_reference_level = levels[iteration]
     egg_stability_length = EWR_info['eggs_days_spell']
     egg_levels_to_check = levels[iteration: iteration + egg_stability_length]
-    max_up = max(egg_levels_to_check) - egg_reference_level
-    max_down = egg_reference_level - min(egg_levels_to_check)
-    is_egg_level_stable = max_up <= EWR_info["max_level_raise"] and max_down <= float(EWR_info["drawdown_rate"])
+    is_egg_level_stable = True
+    if egg_stability_length > 0 :
+        is_egg_level_stable = is_phase_stable(egg_levels_to_check, EWR_info )
     
     # evaluate larva
-    larva_reference_level = levels[iteration + egg_stability_length + 2]
     larva_stability_length = EWR_info['larvae_days_spell']
-    larva_levels_to_check = levels[iteration + egg_stability_length: iteration + (egg_stability_length +larva_stability_length)]
-    max_up = max(larva_levels_to_check) - larva_reference_level
-    max_down = larva_reference_level - min(larva_levels_to_check)
-    is_larva_level_stable = max_up <= EWR_info["max_level_raise"] and max_down <= float(EWR_info["drawdown_rate"])
+    larva_levels_to_check = levels[iteration + egg_stability_length: iteration + (egg_stability_length + larva_stability_length)]
+    is_larva_level_stable = True
+    if larva_stability_length > 0:
+        is_larva_level_stable = is_phase_stable(larva_levels_to_check, EWR_info )
 
     return all([is_egg_level_stable, is_larva_level_stable])
     
@@ -3330,7 +3358,7 @@ def cumulative_calc_bbr(EWR_info: dict, flows: np.array, levels: np.array, water
 
 
 def water_stability_calc(EWR_info: dict, flows: np.array, levels: np.array, water_years: np.array, dates: np.array, masked_dates: set)-> tuple:
-    """ Calculate and manage state of the water stability EWRs calculations. 
+    """ Calculate the water stability EWRs  
     if within season it will look forward if there is an opportunity given the egg and larvae phases are met
 
     Args:
@@ -5154,7 +5182,8 @@ HANDLING_FUNCTIONS = {
     'barrage_flow_handle': barrage_flow_handle,
     'barrage_level_handle': barrage_level_handle,
     'flow_handle_check_ctf': flow_handle_check_ctf,
-    'cumulative_handle_bbr': cumulative_handle_bbr
+    'cumulative_handle_bbr': cumulative_handle_bbr,
+    'water_stability_handle': water_stability_handle
     }
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:

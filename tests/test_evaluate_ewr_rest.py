@@ -4125,14 +4125,20 @@ def test_create_water_stability_event(flow_date, flows, iteration, EWR_info, exp
 @pytest.mark.parametrize("levels, iteration, EWR_info, expected_result",[
 	(
 	[1,1,1,1,1,1],
-	1,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":2,"larvae_days_spell":3},
+	0,
+	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	True
 	),
 	(
 	[1,1.05,1.05,1.1,1,1],
-	1,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.0, "eggs_days_spell":2,"larvae_days_spell":3},
+	0,
+	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	False
+	),
+	(
+	[1,1.05,1,1,1,1],
+	0,
+	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	False
 	),
 ])
@@ -4269,7 +4275,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  "max_level_raise" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
-	  'duration': 0,	
+	  'duration': 1,	
 	  'start_month':8, 
 	  'end_month' : 12 
 	},
@@ -4329,7 +4335,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'start_month':8, 
 	  'end_month' : 9 
 	},
-	   np.array(    [0]*84 + [71]*10 + [0]*271 + 
+	   np.array(    [0]*83 + [71]*10 + [0]*272 + 
                     [0]*365 + 
                     [0]*365 + 
                     [0]*366),
@@ -4338,7 +4344,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
                     [0]*365 + 
                     [0]*365 + 
                     [0]*366), 
-	{   2012: [[(date(2012, 9, 23)+timedelta(days=i), 71) for i in range(9)]],
+	{   2012: [[(date(2012, 9, 22)+timedelta(days=i), 71) for i in range(9)]],
 		2013: [],
 		2014: [],
 		2015: []}
@@ -4358,8 +4364,6 @@ def test_water_stability_calc(EWR_info, flows, levels, expected_all_events):
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	
 	all_events, _, _ = evaluate_EWRs.water_stability_calc(EWR_info, flows, levels,water_years, dates, masked_dates)
-
-	print(all_events)
 
 	assert all_events == expected_all_events
 
@@ -4399,3 +4403,25 @@ def test_is_date_in_window(current_date, window_end, days_forward, expected_resu
 def test_get_last_day_of_window(iteration_date, month_window_end, expected_result):
 	result = evaluate_EWRs.get_last_day_of_window(iteration_date, month_window_end)
 	assert result == expected_result
+
+@pytest.mark.parametrize('levels, EWR_info, expected_results',[
+	( [1,1,1],
+      {"max_level_raise": 0.05},
+      True
+	),
+	( [1,1.1,1],
+      {"max_level_raise": 0.05},
+      False
+	),
+	( [1,1.04,1.04],
+      {"max_level_raise": 0.05},
+      True
+	),
+	( [1,1.01,1.02,1.01,1.02,1.01],
+      {"max_level_raise": 0.05},
+      False
+	),
+])
+def test_is_phase_stable(levels, EWR_info, expected_results):
+	result = evaluate_EWRs.is_phase_stable(levels, EWR_info)
+	assert result == expected_results

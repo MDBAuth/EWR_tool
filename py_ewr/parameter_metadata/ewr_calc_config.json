@@ -33,7 +33,8 @@
         "BBR2",
         "FrH",
         "BBR1",
-        "rANA"
+        "rANA",
+        "FrW"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -93,6 +94,7 @@
         "V-BBR2-single": "cumulative_handle",
         "V-BBR1-single": "cumulative_handle_bbr",
         "L-FrH-single": "level_handle",
-        "F-rANA-single": "flow_handle"
+        "F-rANA-single": "flow_handle",
+        "F-FrW-single": "water_stability_handle"
     }
 }
