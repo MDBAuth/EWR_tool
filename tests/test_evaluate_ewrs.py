@@ -1683,3 +1683,64 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("expected_events, expected_PU_df_data", [
+    (
+      { 2012:[[(date(2012, 8, 1)+timedelta(days=i), 1) for i in range(9)],
+              [(date(2012, 8, 2)+timedelta(days=i), 1) for i in range(9)]], 
+        2013:[], 
+        2014:[], 
+        2015:[]},
+ {'FrWH2_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+  'FrWH2_eventLength': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrWH2_eventLengthAchieved': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrWH2_totalEventDays': {2012: 18, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_totalEventDaysAchieved': {2012: 18, 2013: 0, 2014: 0, 2015: 0},
+  'FrWH2_maxEventDays': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_maxRollingEvents': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrWH2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
+    )
+])
+def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000992'
+    gauge = '422015'
+    EWR = 'FrWH2'
+
+    EWR_table = qld_parameter_sheet
+
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        "422015": (     [2]*31 + [1]*10 + [2]*324 +
+                                        [2]*365 + 
+                                        [2]*365 + 
+                                        [2]*366)} 
+    df_L = pd.DataFrame(data = data_for_df_L)
+
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.water_stability_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+
+    print(PU_df.to_dict())
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]

@@ -4425,3 +4425,125 @@ def test_get_last_day_of_window(iteration_date, month_window_end, expected_resul
 def test_is_phase_stable(levels, EWR_info, expected_results):
 	result = evaluate_EWRs.is_phase_stable(levels, EWR_info)
 	assert result == expected_results
+
+
+@pytest.mark.parametrize("levels, iteration, EWR_info, expected_result",[
+	(
+	[1,1,1,1,1.5,1.64],
+	0,
+	{'max_level': 1.65, 'min_level': 0, "eggs_days_spell":3,"larvae_days_spell":3},
+	True
+	),
+	(
+	[1,1,1,1,1,1.7],
+	0,
+	{'max_level': 1.65, 'min_level': 0, "eggs_days_spell":3,"larvae_days_spell":3},
+	False
+	),
+])
+def test_check_water_stability_height(levels, iteration, EWR_info, expected_result):
+	
+	result = evaluate_EWRs.check_water_stability_height(levels, iteration, EWR_info)
+	assert result == expected_result
+
+
+@pytest.mark.parametrize("EWR_info, iteration, all_events, levels, expected_all_events",[
+	(
+	{
+      'min_level': 0,
+	  'max_level' : 1.65,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'end_month': 11
+	},
+	39,
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []},
+	np.array(      [1]*365 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 9)+timedelta(days=i), 1) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []}, 
+	),
+])
+def test_water_stability_level_check(EWR_info, iteration, all_events, levels, expected_all_events):
+	
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	flow_date = dates[iteration]
+	
+	all_events = evaluate_EWRs.water_stability_level_check(EWR_info, iteration, all_events, water_years, flow_date, levels)
+
+	for year in all_events:
+		assert len(all_events[year]) == len(expected_all_events[year])
+		for i, event in enumerate(all_events[year]):
+			assert event == expected_all_events[year][i]
+
+
+@pytest.mark.parametrize("EWR_info, levels, expected_all_events",[
+	(   
+	{
+      'min_level': .5,
+	  'max_level' : 1.65,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'min_event': 1,
+	  'duration': 0,	
+	  'start_month':8, 
+	  'end_month' : 12 
+	},	    
+	 np.array(      [0]*31 + [1]*10 + [0]*324 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 8, 1)+timedelta(days=i), 1) for i in range(9)], 
+	    [(date(2012, 8, 2)+timedelta(days=i), 1) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+	{
+      'min_level': .5,
+	  'max_level' : 1.65,
+	  "eggs_days_spell": 3,
+	  "larvae_days_spell": 6,
+	  "max_level_raise" : 0.05,
+	  "drawdown_rate" : 0.05,
+	  'min_event': 1,
+	  'duration': 0,	
+	  'start_month':8, 
+	  'end_month' : 9 
+	},	    
+	 np.array(      [0]*83 + [1]*10 + [0]*272 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366), 
+	{   2012: [[(date(2012, 9, 22)+timedelta(days=i), 1) for i in range(9)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_water_stability_level_calc(EWR_info, levels, expected_all_events):
+	"""
+	1. meeting 2 opportunity flow and level met and events are overlapping
+	2. meeting 2 opportunity but second one the last day is outside window
+	"""
+
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	
+	all_events, _, _ = evaluate_EWRs.water_stability_level_calc(EWR_info, levels, water_years, dates, masked_dates)
+
+	assert all_events == expected_all_events
