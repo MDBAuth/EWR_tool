@@ -1237,11 +1237,12 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
             # If there is no level data loaded in, let user know and skip the analysis
             df = df_L.copy(deep=True)
             df['combined_levels'] = df[all_required_gauges].mean(axis=1)
+            df['ma_5_days'] = df['combined_levels'].rolling(window=5).mean().fillna(df['combined_levels'])
             cllmm_type = EWR_info['EWR_code'].split('_')[-1]
             if cllmm_type == 'c':
-                E, NE, D = barrage_level_calc_lakes(EWR_info, df['combined_levels'], water_years, df_L.index, masked_dates)
+                E, NE, D = barrage_level_calc_lakes(EWR_info, df['ma_5_days'], water_years, df_L.index, masked_dates)
             if cllmm_type == 'd':
-                E, NE, D = barrage_level_calc_coorong(EWR_info, df['combined_levels'], water_years, df_L.index, masked_dates)
+                E, NE, D = barrage_level_calc_coorong(EWR_info, df['ma_5_days'], water_years, df_L.index, masked_dates)
         
         PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)    
         return PU_df, tuple([E])
@@ -2437,8 +2438,8 @@ def barrage_lake_level_check(EWR_info: dict, levels: pd.Series, event: list, all
                                 all_no_events: dict, level_date: date) -> tuple:
     """	Check  if
 	
-	Max level is above minimum for peak months and that this data point is also contained in the peak period
-	Min level is above minimum for low months and that this data point is also contained in the low period	
+	last year peak is above max_level in peak months and that this data point is also contained in the peak period
+	last year low is above min_level in low months and that this data point is also contained in the low period	
 	If both conditions are met event is counted. 
 
     Args:

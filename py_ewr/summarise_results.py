@@ -587,7 +587,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         if '/' in ewr:
             continue
         # skip for post processed cllmm ewrs
-        cllmm_post_processed = ["CLLMM1_e", "CLLMM2_e", "CLLMM3_e", "CLLMM4_e"]
+        cllmm_post_processed = ["CLLMM2_e", "CLLMM3_e", "CLLMM4_e","CLLMM1_e","CLLMM1S_e"]
         if any( cllmm in ewr for cllmm in cllmm_post_processed):
             continue
         
@@ -654,7 +654,7 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
     # iterate yearly df, but ignore merged ewrs
     for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/', regex=False)].iterrows():
         ewr = yearly_df.loc[i, 'ewrCode']
-        cllmm_post_processed = ["CLLMM1_e", "CLLMM2_e", "CLLMM3_e", "CLLMM4_e"]
+        cllmm_post_processed = ["CLLMM2_e", "CLLMM3_e", "CLLMM4_e","CLLMM1_e","CLLMM1S_e"]
         if any( cllmm in ewr for cllmm in cllmm_post_processed):
             continue
         scenario = yearly_df.loc[i, 'scenario']
@@ -692,7 +692,7 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_pa
             yearly_df.loc[i, 'rollingMaxInterEventAchieved'] = None
             continue
         # skip for post processed cllmm ewrs
-        cllmm_post_processed = ["CLLMM1_e", "CLLMM2_e", "CLLMM3_e", "CLLMM4_e"]
+        cllmm_post_processed = ["CLLMM2_e", "CLLMM3_e", "CLLMM4_e","CLLMM1_e","CLLMM1S_e"]
         if any( cllmm in ewr for cllmm in cllmm_post_processed):
             continue
 

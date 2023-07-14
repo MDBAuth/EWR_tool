@@ -386,16 +386,21 @@ def post_process_cllmm(gauge_results: dict)-> dict:
         all_cllmm_ewrs = list(set([col.split("_")[0] for col in eventYears_columns]))
         cllmm_dfs = []
         other_column_attributes = list(set([col.split("_")[-1] for col in df_all.columns if "eventYears" not in col]))
+        # only iterate with all a,b,c,d are present in the columns
         for ewr in all_cllmm_ewrs:
             columns = [col for col in eventYears_columns if ewr in col]
-            df =pd.DataFrame(index=df_all.index)
-            e_eventYears = df_all[columns].min(axis=1)
-            df[f"{ewr}_e_eventYears"] = e_eventYears
-            for col in other_column_attributes:
-                df[f"{ewr}_e_{col}"] = np.nan
-            cllmm_dfs.append(df)
-        df_e = pd.concat(cllmm_dfs, axis=1)
-        value["CLLMMALL"] = {'Coorong, Lower Lakes and Murray Mouth':df_e}
+            types_present = [ col.split('_')[1] for col in columns]
+            types_required = ['a', 'b', 'c', 'd']
+            if all(elem in types_present for elem in types_required):
+                df =pd.DataFrame(index=df_all.index)
+                e_eventYears = df_all[columns].min(axis=1)
+                df[f"{ewr}_e_eventYears"] = e_eventYears
+                for col in other_column_attributes:
+                    df[f"{ewr}_e_{col}"] = np.nan
+                cllmm_dfs.append(df)
+        if cllmm_dfs:
+            df_e = pd.concat(cllmm_dfs, axis=1)
+            value["CLLMMALL"] = {'Coorong, Lower Lakes and Murray Mouth':df_e}
     return gauge_results
 
 class ScenarioHandler:
@@ -462,7 +467,11 @@ class ScenarioHandler:
         
             detailed_results[scenario] = gauge_results
             
-            if any_cllmm_to_process(detailed_results):
+            # only process if a,b,c,d are present
+            ewrs_to_process = EWR_table['Code'].unique()
+            any_cllmm_in_parameter_sheet = any(['CLLMM' in ewr for ewr in ewrs_to_process])
+
+            if any_cllmm_to_process(detailed_results) and any_cllmm_in_parameter_sheet:
                 detailed_results = post_process_cllmm(detailed_results)
             
             detailed_events[scenario] = gauge_events

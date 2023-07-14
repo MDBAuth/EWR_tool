@@ -1191,7 +1191,7 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
     gauge = 'A4260527'
     barrage_gauges =  ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575']
     EWR = 'CLLMM1_c'
-    gauge_levels = (  [.55]*70 + [.8] + [.6]*115 + [.55]*179 + 
+    gauge_levels = (  [.55]*66 + [.8]*5 + [.6]*115 + [.55]*179 + 
                             [0]*365 + 
                             [0]*365 + 
                             [0]*366
