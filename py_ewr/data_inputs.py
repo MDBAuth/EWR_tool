@@ -285,6 +285,8 @@ def wy_to_climate(water_years: np.array, catchment: str, climate_file: str) -> n
     unique_years, count_years = np.unique(water_years, return_counts=True)
     
     # Get the years covered by the climate cats, and filter them to those of interest (using min and max from flow dataframe)
+    if not catchment:
+        catchment = 'Total MDB'
     climateCatchment = climate_cats[catchment]
     climateFiltered = climateCatchment[(climateCatchment.index>=min(unique_years)) & (climateCatchment.index<=max(unique_years))].values
     # Repeating the climate result for that year over the total days in each year 

@@ -1284,21 +1284,30 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
 
 @pytest.mark.parametrize("flows, iteration, period, expected_result",[
     (
-    [0,0,0,0,0],
-    4,
+    [0]*10 +[90]*90 +[2000]*265 +  
+    [0]*365 +
+    [0]*365 + 
+    [0]*366,
+    99,
     3,
     True
     ),
-    (
-    [0,0,0,1,0],
-    4,
+      (
+    [2]*10 +[90]*90 +[2000]*265 +  
+    [0]*365 +
+    [0]*365 + 
+    [0]*366,
+    99,
     3,
     False
     ),
-    (
-    [0,0,0,1,0],
+      (
+    [0]*10 +[90]*90 +[2000]*265 +  
+    [0]*365 +
+    [0]*365 + 
+    [0]*366,
+    105,
     3,
-    4,
     False
     ),
 ])
