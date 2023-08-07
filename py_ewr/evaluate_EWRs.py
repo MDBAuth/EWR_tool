@@ -553,6 +553,35 @@ def flow_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df, tuple([E])
 
+def flow_handle_anytime(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame, allowance: dict) -> tuple:
+    '''For handling flow based flow EWRs (freshes, bankfulls, overbanks) to allow flows to continue to record
+    if it crosses water year boundaries.
+    
+    Args:
+        PU (str): Planning unit ID
+        gauge (str): Gauge number
+        EWR (str): EWR code
+        EWR_table (pd.DataFrame): EWR dataset 
+        df_F (pd.DataFrame): Daily flow data
+        PU_df (pd.DataFrame): EWR results for the current planning unit iteration
+        allowance (dict): How much to scale EWR components by (0-1)
+
+    Results:
+        tuple[pd.DataFrame, tuple[dict]]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information 
+    
+    '''
+    # Get information about EWR:
+    pull = data_inputs.get_EWR_components('flow')
+    EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
+    # # Mask dates
+    # masked_dates = mask_dates(EWR_info, df_F)
+    # Extract a daily timeseries for water years
+    water_years = wateryear_daily(df_F, EWR_info)
+    # Check flow data against EWR requirements and then perform analysis on the results:
+    E, NE, D = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    return PU_df, tuple([E])
+
 def flow_handle_check_ctf(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame, allowance: dict) -> tuple:
     '''For handling non low flow based flow EWRs 
     
@@ -1524,8 +1553,8 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List, event: list, all
         tuple: the current state of the event, all_events, no_event, all_no_events, gap_track, total_event
 
     '''
-
     # if there is not an event happening then check condition-
+
     period = EWR_info["non_flow_spell"]
     flow = flows[iteration]
 
@@ -1540,27 +1569,12 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List, event: list, all
         threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
-        gap_track = EWR_info['gap_tolerance'] # reset the gapTolerance after threshold is reached
-        no_event += 1
     else:
-        if gap_track > 0:
-            gap_track = gap_track - 1
-            total_event += 1
-        else:
-            if len(event) > 0:
-                water_year = which_water_year(iteration, total_event, water_years)
-                all_events[water_year].append(event)
-                total_event_gap = no_event - total_event
-                if total_event_gap > 0 and (len(event) >= EWR_info['min_event']):
-                    ne_water_year = which_water_year_no_event(iteration, total_event, water_years)
-                    all_no_events[ne_water_year].append([total_event_gap])
-                    no_event = 0
-                if (len(event) >= EWR_info['min_event']):
-                    no_event = 0
-            total_event = 0
-                
-            event = []
-        no_event += 1
+        if len(event) > 0:
+            all_events[water_years[iteration]].append(event)
+        total_event = 0
+            
+        event = []
         
     return event, all_events, no_event, all_no_events, gap_track, total_event
 
@@ -1879,7 +1893,7 @@ def volume_check(EWR_info:Dict, iteration:int, flow:int, event:List, all_events:
 
     return event, all_events, no_event, all_no_events, gap_track, total_event, roller
 
-def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List, all_events:Dict, no_event:int, all_no_events:Dict, gap_track:int, 
+def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List, all_events:Dict, 
                water_years:List, total_event:int, flow_date:date, event_state:dict, levels:List)-> tuple:
     """Check in the current iteration of flows if the volume meet the ewr requirements and if the level 
     threshold drop grant an event exit
@@ -1906,13 +1920,11 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
         tuple: the current state of the event, all_events, no_event, all_no_events, gap_track, total_event and roller
     """
 
-    # if there is not an event hapening then check condition
-
-
+    # if there is not an event happening then check condition
     if total_event == 0:
-        meet_min_flow_condition = flow > EWR_info['min_flow']
+        meet_min_flow_condition = flow >= EWR_info['min_flow']
 
-    # if there is an event hapening then the condition is always true and only need to check flow threshold
+    # if there is an event happening then the condition is always true
     if total_event > 0:
         meet_min_flow_condition = True
     
@@ -1923,28 +1935,29 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
         threshold_flow = (get_index_date(flow_date), flow)
         event.append(threshold_flow)
         total_event += 1
-        no_event += 1
-        gap_track = EWR_info['gap_tolerance']
 
         if event_state["level_crossed_up"]:
             event_state["level_crossed_down"] = False if levels[iteration] > EWR_info['max_level'] else True
+        
+    # if go back to cease to flow and level is below and never crosses up 
+    # then check volume if meet volume then record event and exit event regardless
+    if flow <= 1 and not event_state["level_crossed_down"] and not event_state["level_crossed_up"]:
+        if achieved_min_volume(event, EWR_info) :
+            all_events[water_years[iteration]].append(event)
+        total_event = 0
+        event_state["level_crossed_up"] = False
+        event_state["level_crossed_down"] = False
+        event = []
 
-    else:
-        if gap_track > 0:
-            gap_track = gap_track - 1
-            total_event += 1
-        else:
-            if achieved_min_volume(event, EWR_info) :
-                all_events[water_years[iteration]].append(event)
-                no_event = 0
-            total_event = 0
-            event_state["level_crossed_up"] = False
-            event_state["level_crossed_down"] = False
+    if event_state["level_crossed_down"]:
+        if achieved_min_volume(event, EWR_info) :
+            all_events[water_years[iteration]].append(event)
+        total_event = 0
+        event_state["level_crossed_up"] = False
+        event_state["level_crossed_down"] = False
+        event = []
 
-            event = []
-        no_event += 1
-
-    return event, all_events, no_event, all_no_events, gap_track, total_event, event_state
+    return event, all_events, total_event, event_state
 
 def is_date_in_window(current_date:date, window_end:date, event_length:int)->bool:
     """Given a date plus days forward days check if days forward is less than last day of the window
@@ -2840,9 +2853,9 @@ def check_cease_flow_period(flows: list, iteration: int, period:int) -> bool:
 
     hydrological_constraint_days = 90
     end_of_ctf_period = iteration - hydrological_constraint_days
-    beginnin_of_ctf_period = end_of_ctf_period - period
+    beginning_of_ctf_period = end_of_ctf_period - period
 
-    return max(flows[beginnin_of_ctf_period:end_of_ctf_period]) <=1 if end_of_ctf_period >= period else False
+    return max(flows[beginning_of_ctf_period:end_of_ctf_period]) <= 1 if end_of_ctf_period >= period else False
 
 def check_weekly_drawdown(levels: list, EWR_info: dict, iteration: int, event_length: int) -> bool:
     """Check if the level change from 7 days ago to today changed more than the maximum allowed in a week.
@@ -3310,34 +3323,12 @@ def flow_calc_check_ctf(EWR_info: dict, flows: np.array, water_years: np.array, 
             no_event += 1
         # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
-            if len(event) > 0:
-                all_events[water_years[i]].append(event)
-                if (no_event - total_event) > 0 and (len(event) >= EWR_info['min_event']):
-                    ne_water_year = which_water_year_no_event(i, total_event, water_years)
-                    all_no_events[ne_water_year].append([no_event-total_event])
-                    no_event = 0
-                total_event = 0
-                if (len(event) >= EWR_info['min_event']):
-                    no_event = 0
-            event = []
             durations.append(EWR_info['duration'])
         
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
         event, all_events, no_event, all_no_events, gap_track, total_event = flow_check_ctf(EWR_info, -1, flows, event, all_events, no_event, all_no_events, gap_track, water_years, total_event,flow_date)   
-    if len(event) > 0:
-        all_events[water_years[-1]].append(event)
-        # if no_event - total_event > 0:
-        if (no_event - total_event) > 0 and (len(event) >= EWR_info['min_event']):
-            ne_water_year = which_water_year_no_event(i, total_event, water_years)
-            all_no_events[ne_water_year].append([no_event-total_event])
-            no_event = 0
-        if (len(event) >= EWR_info['min_event']):
-            no_event = 0
-        total_event = 0
-    if no_event > 0:
-        all_no_events[water_years[-1]].append([no_event])
     durations.append(EWR_info['duration'])
 
     return all_events, all_no_events, durations
@@ -3533,41 +3524,26 @@ def cumulative_calc_bbr(EWR_info: dict, flows: np.array, levels: np.array, water
     """
     event = []
     total_event = 0
-    no_event = 0
     all_events = construct_event_dict(water_years)
     all_no_events = construct_event_dict(water_years)
     durations = []
-    gap_track = 0
     # Iterate over flow timeseries, sending to the flow_check function each iteration:
     event_state = {}
     event_state["level_crossed_up"] = False
     event_state["level_crossed_down"] = False
 
     for i, flow in enumerate(flows[:-1]):
-        if dates[i] in masked_dates:
-            flow_date = dates[i]
-            event, all_events, no_event, all_no_events, gap_track, total_event, event_state = volume_level_check_bbr(EWR_info, i, flow, event, all_events, 
-                                                                                            no_event, all_no_events, gap_track, water_years, 
-                                                                                            total_event, flow_date, event_state, levels)
-        else:
-            no_event += 1
-        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
+        # if dates[i] in masked_dates:
+        flow_date = dates[i]
+        event, all_events, total_event, event_state = volume_level_check_bbr(EWR_info, i, flow, event, all_events, 
+                                                                                        water_years, total_event, flow_date, event_state, levels)
         if water_years[i] != water_years[i+1]:
-            if achieved_min_volume(event, EWR_info) :
-                all_events[water_years[i]].append(event)
-            no_event = 0
-            total_event = 0
-            event_state["level_crossed_up"] = False
-            event_state["level_crossed_down"] = False
-            event = []
-
             durations.append(EWR_info['duration'])
     
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
-        event, all_events, no_event, all_no_events, gap_track, total_event, roller = volume_level_check_bbr(EWR_info, -1, flows[-1], event, all_events,
-                                                                                            no_event, all_no_events, gap_track, water_years, 
-                                                                                            total_event, flow_date, event_state, levels)   
+        event, all_events, total_event, event_state = volume_level_check_bbr(EWR_info, -1, flows[-1], event, all_events,
+                                                                                             water_years, total_event, flow_date, event_state, levels)   
     durations.append(EWR_info['duration'])
 
 
@@ -5431,7 +5407,8 @@ HANDLING_FUNCTIONS = {
     'flow_handle_check_ctf': flow_handle_check_ctf,
     'cumulative_handle_bbr': cumulative_handle_bbr,
     'water_stability_handle': water_stability_handle,
-    'water_stability_level_handle' : water_stability_level_handle
+    'water_stability_level_handle' : water_stability_level_handle,
+    'flow_handle_anytime': flow_handle_anytime
     }
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:

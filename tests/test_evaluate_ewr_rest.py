@@ -3891,15 +3891,17 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 			assert event == expected_all_events[year][i]
 
 
-@pytest.mark.parametrize("EWR_info,iteration,levels,event,event_state_in,event_state_out,all_events,all_no_events,expected_all_events,expected_event",
+@pytest.mark.parametrize("EWR_info,iteration,flow,total_event,levels,event,event_state_in,event_state_out,all_events,expected_all_events,expected_event",
 [
-	({'min_volume': 100, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0,
-      'accumulation_period': 10,'gap_tolerance':0,'max_level': 120.746},
-     5,	
-	 np.array(		[20]*365   + 
-                    [20]*365 + 
-                    [20]*365 + 
-                    [20]*366),
+	({'min_volume': 80, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     5,
+     20,
+     0,	
+	 np.array(		[4]*6 + [6]*1 + [5]*358 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
 	[],
     {"level_crossed_down": False ,
 	 "level_crossed_up" : False},
@@ -3909,82 +3911,173 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	 2013:[], 
 	 2014:[], 
 	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
 	{ 2012: [], 
 		2013: [], 
 		2014: [], 
 		2015: []},
 	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(1)],	
 	 ), 
-
-	 ({'min_volume': 50, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0,
-      'accumulation_period': 4,'gap_tolerance':0,'max_level': 120.746},
-     5,	
-	
-	 np.array(		[20]*365   + 
-                    [20]*365 + 
-                    [20]*365 + 
-                    [20]*366),
-	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],
-    {"level_crossed_down": True ,
-	 "level_crossed_up" :  True},
+	({'min_volume': 80, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     6,
+     20,
+     1,	
+	 np.array(		[4]*6 + [6]*1 + [5]*358 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(1)],
     {"level_crossed_down": False ,
-	 "level_crossed_up" :  False},
+	 "level_crossed_up" : False},
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : True},
 	{2012:[], 
 	 2013:[], 
 	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	{ 2012: [[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)]], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[],	
-	 ), 
-	 ({'min_volume': 50, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0,
-      'accumulation_period': 4,'gap_tolerance':0,'max_level': 120.746},
-     5,	
-	 np.array(		[140]*5 + [20]*360   + 
-                    [20]*365 + 
-                    [20]*365 + 
-                    [20]*366),
-	[(date(2012, 7, 3)+timedelta(days=i), 20) for i in range(3)],
-    {"level_crossed_down": False ,
-	 "level_crossed_up" :  True},
-    {"level_crossed_down": True ,
-	 "level_crossed_up" :  True},
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
 	 2015:[]},
 	{ 2012: [], 
 		2013: [], 
 		2014: [], 
 		2015: []},
-	[(date(2012, 7, 3)+timedelta(days=i), 20) for i in range(4)],	
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(2)],	
+	 ), 
+	({'min_volume': 80, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     7,
+     20,
+     1,	
+	 np.array(		[4]*6 + [6]*2 + [5]*357 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(2)],
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : True},
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : True},
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],	
+	 ), 
+	({'min_volume': 80, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     8,
+     20,
+     1,	
+	 np.array(		[4]*6 + [6]*2 + [5]*357 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : True},
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : False},
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{ 2012: [[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(4)]], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
+	 ), 
+	({'min_volume': 100, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     8,
+     20,
+     1,	
+	 np.array(		[4]*6 + [6]*2 + [4]*357 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : True},
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : False},
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
+	 ), 
+	({'min_volume': 60, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     8,
+     0,
+     1,	
+	 np.array(		[4]*6 + [4]*2 + [4]*357 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : False},
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : False},
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{ 2012: [[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)] + [(date(2012, 7, 9)+timedelta(days=i), 0) for i in range(1)]], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
+	 ), 
+	({'min_volume': 80, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
+      'accumulation_period': 10,'max_level': 5},
+     8,
+     0,
+     1,	
+	 np.array(		[4]*6 + [4]*2 + [4]*357 + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : False},
+    {"level_crossed_down": False ,
+	 "level_crossed_up" : False},
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
 	 ), 
 
 ],)
-def test_volume_level_check_bbr(EWR_info,iteration,levels,event,all_events,all_no_events,event_state_in,event_state_out,expected_all_events,expected_event):
-	flow = 20
+def test_volume_level_check_bbr(EWR_info, iteration, flow, total_event, levels,event, event_state_in, event_state_out, all_events, expected_all_events, expected_event):
+	"""Test Cases
+	1. First iteration of an event i.e. meet the flow condition and at the iteration level still below the level at back lake.
+	2. Second iteration of an ongoing event and the level crosses above the level threshold.
+	3. Third iteration of an ongoing event and the still the level threshold event keep going
+	4. Fourth iteration of an ongoing event and the level crosses below the level threshold and register the event.
+	5. Fourth iteration of an ongoing event and the level crosses below the level threshold and not register the event because volume is below the target.
+	6. Fourth iteration of an ongoing event and the level still below the level threshold but flow reach ctf zone register the event because volume is on target.
+	7. Fourth iteration of an ongoing event and the level still below the level threshold but flow reach ctf zone not register the event because volume is below the target.
+	"""
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 50
-	total_event = 9
-	gap_track = 0
-	event, all_events, no_event, all_no_events, gap_track, total_event, event_state = evaluate_EWRs.volume_level_check_bbr(EWR_info, iteration, flow, event,
-	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, event_state_in, levels)
+	event, all_events, total_event, event_state = evaluate_EWRs.volume_level_check_bbr(EWR_info, iteration, flow, event,
+	 all_events, water_years, total_event, flow_date, event_state_in, levels)
 
 	assert event == expected_event
 
@@ -3998,7 +4091,7 @@ def test_volume_level_check_bbr(EWR_info,iteration,levels,event,all_events,all_n
 
 @pytest.mark.parametrize("EWR_info,flows,levels,expected_all_events,expected_all_no_events",[
 	( {'min_volume': 120, 'min_flow': 30, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
-            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 120.746},
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'max_level': 120.746},
 	   np.array(    [20]*10+[0]*355   + 
                     [0]*365 + 
                     [0]*365 + 
@@ -4014,7 +4107,7 @@ def test_volume_level_check_bbr(EWR_info,iteration,levels,event,all_events,all_n
 	{2012: [], 2013: [], 2014: [], 2015: []}),
 	
 	( {'min_volume': 120, 'min_flow': 30, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
-            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 50.7},
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'max_level': 50.7},
 	   np.array(    [20]*5+[40]*6 +[0]*354 + 
                     [0]*365 + 
                     [0]*365 + 
@@ -4029,21 +4122,6 @@ def test_volume_level_check_bbr(EWR_info,iteration,levels,event,all_events,all_n
 		2015: []},
 	{2012: [], 2013: [], 2014: [], 2015: []}),
 
-	( {'min_volume': 120, 'min_flow': 30, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
-            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 50.7},
-	   np.array(    [40]*365 + 
-                    [0]*365 + 
-                    [0]*365 + 
-                    [0]*366),
-	   np.array(    [20]*365 + 
-                    [0]*365 + 
-                    [0]*365 + 
-                    [0]*366),
-	{   2012: [[(date(2012, 7, 1)+timedelta(days=i), 40) for i in range(365)]],
-		2013: [],
-		2014: [],
-		2015: []},
-	{2012: [], 2013: [], 2014: [], 2015: []}),
 	
 	( {'min_volume': 120, 'min_flow': 2, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
             , 'accumulation_period': 5, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 50.7},
@@ -4061,13 +4139,46 @@ def test_volume_level_check_bbr(EWR_info,iteration,levels,event,all_events,all_n
 		2015: []},
 	{2012: [], 2013: [], 2014: [], 2015: []}),
 
+	( {'min_volume': 120, 'min_flow': 2, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 5, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 50.7},
+	   np.array(    [20]*7 +[0]*358 +
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	   np.array(    [20]*7+[20]*3+[20]*355 +
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []},
+	{2012: [], 2013: [], 2014: [], 2015: []}),
+
+	( {'min_volume': 100, 'min_flow': 2, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 5, 'start_month':7, 'end_month':6 ,'gap_tolerance':0,'max_level': 50.7},
+	   np.array(    [20]*7 +[0]*358 +
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	   np.array(    [20]*7+[20]*3+[20]*355 +
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [[(date(2012, 7, 1)+timedelta(days=i), 20) for i in range(7)] + [(date(2012, 7, 8)+timedelta(days=i), 0) for i in range(1)]],
+		2013: [],
+		2014: [],
+		2015: []},
+	{2012: [], 2013: [], 2014: [], 2015: []}),
+
 ],)
 def test_cumulative_calc_bbr(EWR_info, flows, levels, expected_all_events, expected_all_no_events):
 	"""
 	1. Not reaching the min flow condition
 	2. Textbook - entering on flow and exiting on level drop (cross up and then then down)
-	3. Entering and never exiting until cut of end of year
-	4. Achieving volume but not within the max accumulation period
+	3. Achieving volume but not within the max accumulation period
+	4. Level condition is not met and exit on ctf, meeting volume condition
+	5. Level condition is not met and exit on ctf, NOT meeting volume condition
 
 	"""
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
