@@ -630,7 +630,6 @@ class ScenarioHandler:
         end_date = date(date1.year, date1.month, date1.day)
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
         rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results, self.parameter_sheet)
-
         # Add the rolling max interevents to the yearly dataframe:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results, rolling_max_interevents_dict)
         

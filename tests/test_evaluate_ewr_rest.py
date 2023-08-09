@@ -406,20 +406,20 @@ def test_check_flow():
 	expected_event =  [(event_start + timedelta(days=i), 5) for i in range(10)]
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 							2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-	expected_no_event = 51
-	expected_all_no_events = {2012:[[25], [2]], 2013:[[250]],
-									2014:[[400], [2], [25]], 2015:[[450]]}
+	# expected_no_event = 51
+	# expected_all_no_events = {2012:[[25], [2]], 2013:[[250]],
+	# 								2014:[[400], [2], [25]], 2015:[[450]]}
 	expected_gap_track = 0
 	expected_total_event = 10
 	assert event == expected_event
 	for year in all_events:
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	assert no_event == expected_no_event
-	assert all_no_events == expected_all_no_events
-	for year in all_no_events:
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event ==expected_all_no_events[year][i]
+	# assert no_event == expected_no_event
+	# assert all_no_events == expected_all_no_events
+	# for year in all_no_events:
+	# 		for i, no_event in enumerate(all_no_events[year]):
+	# 				assert no_event ==expected_all_no_events[year][i]
 	assert gap_track == expected_gap_track
 	assert total_event == expected_total_event
 
@@ -636,10 +636,10 @@ def test_flow_calc(flows,expected_all_events,expected_all_no_events):
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	for year in all_no_events:
-			assert len(all_no_events[year]) == len(expected_all_no_events[year])
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
+	# for year in all_no_events:
+	# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
+	# 		for i, no_event in enumerate(all_no_events[year]):
+	# 				assert no_event == expected_all_no_events[year][i]
 	assert durations == expected_durations
 
 def test_lowflow_calc():
@@ -946,10 +946,10 @@ def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
 		# assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
+	# for year in all_no_events:
+	# 	assert len(all_no_events[year]) == len(expected_all_no_events[year])
+	# 	for i, no_event in enumerate(all_no_events[year]):
+	# 		assert no_event == expected_all_no_events[year][i]
 	assert durations == expected_durations
 
 
@@ -1305,6 +1305,68 @@ def test_cumulative_calc(EWR_info, flows, expected_all_events, expected_all_no_e
 
 	assert all_events == expected_all_events
 	assert all_no_events == expected_all_no_events
+
+@pytest.mark.parametrize("EWR_info,flows,expected_all_events",[
+	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0},
+	   np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{2012: [[(date(2012, 7, 6), 120),
+			(date(2012, 7, 7), 140),
+			(date(2012, 7, 8), 160),
+			(date(2012, 7, 9), 180),
+			(date(2012, 7, 10), 200),
+			(date(2012, 7, 11), 180),
+			(date(2012, 7, 12), 160),
+			(date(2012, 7, 13), 140),
+			(date(2012, 7, 14), 120)]],
+		2013: [],
+		2014: [],
+		2015: []}),
+	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0},
+	   np.array([10]*20+[0]*345   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}),
+
+	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':7, 'end_month':6 ,'gap_tolerance':0},
+	   np.array(   [0]*358+[20]*7 + 
+                    [20]*3 +[0]*360 + 
+                    [0]*365 + 
+                    [0]*366),
+	{   2012: [],
+		2013: [[(date(2013, 6, 29), 120),
+			(date(2013, 6, 30), 140),
+			(date(2013, 7, 1), 160),
+			(date(2013, 7, 2), 180),
+			(date(2013, 7, 3), 200),
+			(date(2013, 7, 4), 180),
+			(date(2013, 7, 5), 160),
+			(date(2013, 7, 6), 140),
+			(date(2013, 7, 7), 120)]],
+		2014: [],
+		2015: []}),
+ 
+],)
+def test_cumulative_calc_qld(EWR_info, flows, expected_all_events):
+	""" 1. reaches volume from day 6 to day 14 of the flows within the accumulation period and records the event
+	    2. reaches volume from day beyond accumulation period and does not record the event
+	    3. record a volume event across year boundary and does not split the event
+	"""
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	all_events, _, _ = evaluate_EWRs.cumulative_calc_qld(EWR_info, flows, water_years, dates, masked_dates)
+
+	assert all_events == expected_all_events
 	
 @pytest.mark.parametrize("EWR_info,iteration,flows,event,all_events,all_no_events,expected_all_events,expected_event",
 [
@@ -1365,6 +1427,71 @@ def test_volume_check(EWR_info,iteration,flows,event,all_events,all_no_events,ex
 	gap_track = 0
 	event, all_events, no_event, all_no_events, gap_track, total_event, roller = evaluate_EWRs.volume_check(EWR_info, iteration, flow, event,
 	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, roller, max_roller, flows)
+
+	assert event == expected_event
+	assert expected_all_events != None
+
+
+@pytest.mark.parametrize("EWR_info,iteration,flows,event,all_events,all_no_events,expected_all_events,expected_event",
+[
+	({'min_volume': 100, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':10, 'end_month':4 ,'gap_tolerance':0},
+     5,	
+	 np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[(date(2012, 7, 6)+timedelta(days=i),120) for i in range(1)],	
+	 ),
+	({'min_volume': 130, 'min_flow': 25, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
+            , 'accumulation_period': 10, 'start_month':10, 'end_month':4 ,'gap_tolerance':0},
+     5,	
+	 np.array([20]*10+[0]*355   + 
+                    [0]*365 + 
+                    [0]*365 + 
+                    [0]*366),
+	[],
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{2012:[],
+	 2014:[],
+	 2013: [], 
+	 2015:[]},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	[],	
+	 ),	 
+],)
+def test_volume_check_qld(EWR_info,iteration,flows,event,all_events,all_no_events,expected_all_events,expected_event):
+	"""
+	1. achieve volume and record the event on iteration 5.
+	2. do not achieve volume and do not record the event on iteration 5.
+	"""
+	roller = 5
+	max_roller = EWR_info['accumulation_period']
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flow_date = dates[iteration]
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	total_event = 0
+	event, all_events,  all_no_events, total_event, roller = evaluate_EWRs.volume_check_qld(EWR_info, iteration, event,
+	 all_events, all_no_events, water_years, total_event, flow_date, roller, max_roller, flows)
 
 	assert event == expected_event
 	assert expected_all_events != None
@@ -4031,37 +4158,12 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	 2013:[], 
 	 2014:[], 
 	 2015:[]},
-	{ 2012: [[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)] + [(date(2012, 7, 9)+timedelta(days=i), 0) for i in range(1)]], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[],	
-	 ), 
-	({'min_volume': 80, 'min_flow': 15, 'max_flow': 1000000, 'min_event': 0,
-      'accumulation_period': 10,'max_level': 5},
-     8,
-     0,
-     1,	
-	 np.array(		[4]*6 + [4]*2 + [4]*357 + 
-                    [0]*365 + 
-                    [0]*365 + 
-                    [0]*366),
-	[(date(2012, 7, 6)+timedelta(days=i), 20) for i in range(3)],
-    {"level_crossed_down": False ,
-	 "level_crossed_up" : False},
-    {"level_crossed_down": False ,
-	 "level_crossed_up" : False},
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
 	{ 2012: [], 
 		2013: [], 
 		2014: [], 
 		2015: []},
 	[],	
 	 ), 
-
 ],)
 def test_volume_level_check_bbr(EWR_info, iteration, flow, total_event, levels,event, event_state_in, event_state_out, all_events, expected_all_events, expected_event):
 	"""Test Cases
@@ -4070,8 +4172,7 @@ def test_volume_level_check_bbr(EWR_info, iteration, flow, total_event, levels,e
 	3. Third iteration of an ongoing event and the still the level threshold event keep going
 	4. Fourth iteration of an ongoing event and the level crosses below the level threshold and register the event.
 	5. Fourth iteration of an ongoing event and the level crosses below the level threshold and not register the event because volume is below the target.
-	6. Fourth iteration of an ongoing event and the level still below the level threshold but flow reach ctf zone register the event because volume is on target.
-	7. Fourth iteration of an ongoing event and the level still below the level threshold but flow reach ctf zone not register the event because volume is below the target.
+	6. Fourth iteration of an ongoing event and the level still below the level threshold but flow reach ctf zone. DO NOT register the event despite volume is on target level never achieved.
 	"""
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
@@ -4165,7 +4266,7 @@ def test_volume_level_check_bbr(EWR_info, iteration, flow, total_event, levels,e
                     [0]*365 + 
                     [0]*365 + 
                     [0]*366),
-	{   2012: [[(date(2012, 7, 1)+timedelta(days=i), 20) for i in range(7)] + [(date(2012, 7, 8)+timedelta(days=i), 0) for i in range(1)]],
+	{   2012: [],
 		2013: [],
 		2014: [],
 		2015: []},

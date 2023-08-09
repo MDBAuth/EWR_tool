@@ -470,7 +470,6 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
     '''
 
     # Create the unique ID field
-
     df_events['ID'] = df_events['scenario']+df_events['gauge']+df_events['pu']+df_events['ewr']
     unique_ID = list(OrderedDict.fromkeys(df_events['ID']))
     all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'ID', 
