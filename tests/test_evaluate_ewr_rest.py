@@ -456,12 +456,6 @@ def test_lowflow_check():
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
 
-	assert no_event == expected_no_event
-	assert all_no_events == expected_all_no_events
-	
-	for year in all_no_events:
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
 
 def test_ctf_check():
 	'''
@@ -482,24 +476,17 @@ def test_ctf_check():
 							2014:[[400], [2], [25]], 2015:[[450]]}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
 
-	event, all_events, no_event, all_no_events = evaluate_EWRs.ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
+	event, all_events, _, _ = evaluate_EWRs.ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
 	# Set up expected outputs and test
 	expected_event = []
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50],
 							2014:[[10]*10, [15]*15, [10]*20], 2015:[[0]*9]}
-	expected_no_event = 1
-	expected_all_no_events = {2012:[[25], [2]], 2013:[[250]],
-									2014:[[400], [2], [25]], 2015:[[450], [10]]}
+	
 	assert event ==expected_event
 	for year in all_events:
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-			assert no_event == expected_no_event
-	for year in all_no_events:
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
-
-
+	
 def test_flow_check_sim():
 	'''
 	1. flow threshold below for both sites but event requirement passed
@@ -525,7 +512,7 @@ def test_flow_check_sim():
 							2014:[[400], [2], [25]], 2015:[[450]]}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
 	gap_track = 0
-	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, event, all_events, no_event, all_no_events, gap_track, total_event, flow_date)
+	event, all_events, _, _, gap_track, total_event = evaluate_EWRs.flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, event, all_events, no_event, all_no_events, gap_track, total_event, flow_date)
 	# Set up expected results and test
 	expected_event = []
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50, [10]*5],
@@ -540,12 +527,6 @@ def test_flow_check_sim():
 	for year in all_events:
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	assert no_event == expected_no_event
-	assert all_no_events == expected_all_no_events
-
-	for year in all_no_events:
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
                 
 @pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
 						 [ 
@@ -693,11 +674,7 @@ def test_lowflow_calc():
 			
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]             
-	for year in all_no_events:
-			assert len(all_no_events[year]) ==len(expected_all_no_events[year])
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
+
 	#------------------------------------------------
 	# Test 2
 	# Set up input data
@@ -748,16 +725,12 @@ def test_ctf_calc():
 	expected_all_no_events = {2012: [[295]], 2013: [[405]], 2014: [], 2015: [[10], [25]]}
 	expected_durations = [20,20,10,20] # adding in a very dry year climate year
 	# Send to test function and then test
-	all_events, all_no_events, durations = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+	all_events, _, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	for year in all_no_events:
-			assert len(all_no_events[year]) == len(expected_all_no_events[year])
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
+
 	#--------------------------------------------------
 	# Test 2
 	# Set up input data
@@ -782,16 +755,12 @@ def test_ctf_calc():
 	expected_all_no_events = {2012: [[35]], 2013: [], 2014: [[685]], 2015: [[536]]}
 	expected_durations = [10,10,5,10] # adding in a very dry year climate year
 	# Send to test function and then test
-	all_events, all_no_events, durations = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+	all_events, _, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
 	for year in all_events:
 			assert len(all_events[year]) ==len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	for year in all_no_events:
-			assert len(all_no_events[year]) == len(expected_all_no_events[year])
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
+
 
 @pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events", [
 					 (np.array([20]*350 + [0]*15 +
@@ -881,11 +850,7 @@ def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	for year in all_no_events:
-			assert len(all_no_events[year]) == len(expected_all_no_events[year])
-			for i, no_event in enumerate(all_no_events[year]):
-					assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
+
 
 @pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
 						 [ 
@@ -1076,17 +1041,12 @@ def test_flow_calc_anytime_sim():
 
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# Send to test function and then test
-	all_events, all_no_events, durations = evaluate_EWRs.flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates)
+	all_events, _, _ = evaluate_EWRs.flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates)
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
 
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
 
 def test_flow_calc_sim():
 	'''
@@ -1121,16 +1081,12 @@ def test_flow_calc_sim():
 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
 	expected_durations = [10]*4
 	# Send to test function and then test
-	all_events, all_no_events, durations = evaluate_EWRs.flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, masked_dates)
+	all_events, _, _ = evaluate_EWRs.flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, masked_dates)
 	for year in all_events:
 		assert len(all_events[year]) ==  len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
-	assert durations == expected_durations
+
 	
 def test_lowflow_calc_sim():
 	'''
@@ -1174,16 +1130,6 @@ def test_lowflow_calc_sim():
 		for i, event in enumerate(all_events2[year]):
 			assert event ==expected_all_events2[year][i]
 
-	for year in all_no_events1:
-		assert len(all_no_events1[year]) == len(expected_all_no_events1[year])
-		for i, no_event in enumerate(all_no_events1[year]):
-			assert no_event == expected_all_no_events1[year][i]
-
-	for year in all_no_events2:
-		assert len(all_no_events2[year]) == len(expected_all_no_events2[year])
-		for i, no_event in enumerate(all_no_events2[year]):
-			assert no_event == expected_all_no_events2[year][i]
-	assert durations == expected_durations
 	
 	
 def test_ctf_calc_sim():
@@ -1216,7 +1162,7 @@ def test_ctf_calc_sim():
 	expected_all_no_events2 = {2012: [[1], [9]], 2013: [], 2014: [[15], [1]], 2015: [[356]]}
 	expected_durations = [10,5,10,10]
 	# Send inputs to function and then test
-	all_events1, all_events2, all_no_events1, all_no_events2, durations = evaluate_EWRs.ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, dates, masked_dates)
+	all_events1, all_events2, _, _, _ = evaluate_EWRs.ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, dates, masked_dates)
 	for year in all_events1:
 		assert len(all_events1[year]) == len(expected_all_events1[year])
 		for i, event in enumerate(all_events1[year]):
@@ -1225,17 +1171,6 @@ def test_ctf_calc_sim():
 		assert len(all_events2[year]) == len(expected_all_events2[year])
 		for i, event in enumerate(all_events2[year]):
 			assert event == expected_all_events2[year][i]
-
-	for year in all_no_events1:
-		assert len(all_no_events1[year]) == len(expected_all_no_events1[year])
-		for i, no_event in enumerate(all_no_events1[year]):
-			assert no_event == expected_all_no_events1[year][i]
-
-	for year in all_no_events2:
-		assert len(all_no_events2[year]) == len(expected_all_no_events2[year])
-		for i, no_event in enumerate(all_no_events2[year]):
-			assert no_event == expected_all_no_events2[year][i]
-	assert durations == expected_durations
 
 
 def test_get_index_date(period_date, stamp_date):
@@ -1304,7 +1239,6 @@ def test_cumulative_calc(EWR_info, flows, expected_all_events, expected_all_no_e
 	all_events, all_no_events, durations = evaluate_EWRs.cumulative_calc(EWR_info, flows, water_years, dates, masked_dates)
 
 	assert all_events == expected_all_events
-	assert all_no_events == expected_all_no_events
 
 @pytest.mark.parametrize("EWR_info,flows,expected_all_events",[
 	( {'min_volume': 120, 'min_flow': 0, 'max_flow': 1000000, 'min_event': 0, 'duration': 0
@@ -1825,7 +1759,7 @@ def test_weirpool_calc(EWR_info, flows, levels, weirpool_type, expected_all_even
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	
-	all_events, all_no_events, _ = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
+	all_events, _, _ = evaluate_EWRs.weirpool_calc(EWR_info, flows, levels, water_years, weirpool_type, dates, masked_dates)
 
 
 	for year in all_events:
@@ -1833,10 +1767,6 @@ def test_weirpool_calc(EWR_info, flows, levels, weirpool_type, expected_all_even
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
 
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
 
 
 
@@ -2212,18 +2142,13 @@ def test_lake_calc(EWR_info, levels, expected_all_events, expected_all_no_events
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	
-	all_events, all_no_events, _ = evaluate_EWRs.lake_calc(EWR_info, levels, water_years, dates, masked_dates)
+	all_events, _ , _ = evaluate_EWRs.lake_calc(EWR_info, levels, water_years, dates, masked_dates)
 
 
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
 
 
 @pytest.mark.parametrize('gauge,PU,EWR,component,expected_result',[
@@ -2559,17 +2484,12 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	
-	all_events, all_no_events, _ = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
+	all_events, _ , _ = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
 								
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
 
 @pytest.mark.parametrize("EWR_info,iteration,flow,level,event,all_events,all_no_events,weirpool_type,levels,total_event,expected_all_events,expected_event",
 [
@@ -2799,17 +2719,13 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	df_F = pd.DataFrame(index=dates)
 	masked_dates = evaluate_EWRs.mask_dates(EWR_info, df_F)
 	
-	all_events, all_no_events, _ = evaluate_EWRs.nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates, weirpool_type )
+	all_events, _ , _ = evaluate_EWRs.nest_calc_weirpool(EWR_info, flows, levels, water_years, dates, masked_dates, weirpool_type )
 
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
 
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
 
 @pytest.mark.parametrize("EWR_info,events,expected_result",[
 	({'min_event': 10},
@@ -3153,20 +3069,13 @@ def test_flow_level_calc(EWR_info, flows, levels, expected_all_events, expected_
 	df_F = pd.DataFrame(index=dates)
 	masked_dates = evaluate_EWRs.mask_dates(EWR_info, df_F)
 	
-	all_events, all_no_events, _ = evaluate_EWRs.flow_level_calc(EWR_info, flows, levels, water_years, dates, masked_dates )
+	all_events, _, _ = evaluate_EWRs.flow_level_calc(EWR_info, flows, levels, water_years, dates, masked_dates )
 
-	print(all_events)
-	print(all_no_events)
 
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-
-	for year in all_no_events:
-		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-		for i, no_event in enumerate(all_no_events[year]):
-			assert no_event == expected_all_no_events[year][i]
 
 
 @pytest.mark.parametrize("year,expected_result",[

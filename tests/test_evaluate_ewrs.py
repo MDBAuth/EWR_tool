@@ -67,8 +67,8 @@ def test_lowflow_handle():
     PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output data - PU_df, and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [0,0,0,0],
-            'BF1_a_maxInterEventDays': [0,0,0,1461], 
-           'BF1_a_maxInterEventDaysAchieved': [1,1,1,0],  
+            'BF1_a_maxInterEventDays': [0,0,0,0], 
+           'BF1_a_maxInterEventDaysAchieved': [1,1,1,1],  
             'BF1_a_eventLength': [0.0,0.0,0.0,0.0], 'BF1_a_eventLengthAchieved': [0.0,0.0,0.0,0.0],
             'BF1_a_totalEventDays': [0,0,0,0], 'BF1_a_totalEventDaysAchieved': [0,0,0,0],  
             'BF1_a_maxEventDays': [0,0,0,0], 'BF1_a_maxRollingEvents': [0, 0, 0, 0], 'BF1_a_maxRollingAchievement': [0, 0, 0, 0],
@@ -160,7 +160,7 @@ def test_cumulative_handle():
     PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB3_S_eventYears': [1,0,0,0], 'OB3_S_numAchieved': [1,0,0,0], 'OB3_S_numEvents': [1,0,0,0], 'OB3_S_numEventsAll': [1,0,0,0], 
-            'OB3_S_maxInterEventDays': [355, 0, 0, 1105], 
+            'OB3_S_maxInterEventDays': [0, 0, 0, 0], 
            'OB3_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3_S_eventLength': [1.0,0.0,0.0,0.0], 'OB3_S_eventLengthAchieved': [1.0,0.0,0.0,0.0], 
             'OB3_S_totalEventDays': [1,0,0,0], 'OB3_S_totalEventDaysAchieved': [1,0,0,0], 'OB3_S_maxEventDays': [1,0,0,0],'OB3_S_maxRollingEvents': [1, 0, 0, 0], 
             'OB3_S_maxRollingAchievement': [1, 1, 1, 1],'OB3_S_missingDays': [0,0,0,0], 
@@ -262,8 +262,8 @@ def test_level_handle():
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
     # Setting up expected output - PU_df and test
     data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 'LLLF_numEventsAll': [1,0,0,1], 
-            'LLLF_maxInterEventDays': [261, 0, 743, 277], 
-            'LLLF_maxInterEventDaysAchieved': [1, 1, 0, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
+            'LLLF_maxInterEventDays': [0, 0, 0, 0], 
+            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
             'LLLF_totalEventDays': [90,0,0,90], 'LLLF_totalEventDaysAchieved': [90,0,0,90], 
             'LLLF_maxEventDays': [90,0,0,90], 'LLLF_maxRollingEvents': [90, 0, 1, 90],'LLLF_maxRollingAchievement': [1, 0, 0, 1],
             'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
@@ -394,8 +394,8 @@ def test_nest_handle():
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,2,2,2], 
-            'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
-            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 25.5, 29.5, 29.5], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
+            'NestS1_maxInterEventDays': [0, 0, 0, 0], 
+            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 1],'NestS1_eventLength': [60.0, 25.5, 29.5, 29.5], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
             'NestS1_totalEventDays': [60,51,59,59], 'NestS1_totalEventDaysAchieved': [60, 0, 0, 0],
             'NestS1_maxEventDays':[60,50,49,49],'NestS1_maxRollingEvents': [60, 50, 49, 49], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
             'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
@@ -504,8 +504,8 @@ def test_lowflow_handle_multi():
     PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [1,0,0,0], 
-            'BF1_a_maxInterEventDays': [76, 0, 0, 1380], 
-            'BF1_a_maxInterEventDaysAchieved': [0, 1, 1, 0],'BF1_a_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_a_eventLengthAchieved': [5.0, 0.0, 0.0, 0.0], 
+            'BF1_a_maxInterEventDays': [0, 0, 0, 0], 
+            'BF1_a_maxInterEventDaysAchieved': [1, 1, 1, 1],'BF1_a_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_a_eventLengthAchieved': [5.0, 0.0, 0.0, 0.0], 
             'BF1_a_totalEventDays': [5, 0, 0, 0], 'BF1_a_totalEventDaysAchieved': [5, 0, 0, 0],
             'BF1_a_maxEventDays':[5, 0, 0, 0], 'BF1_a_maxRollingEvents': [5, 0, 0, 0], 'BF1_a_maxRollingAchievement': [0, 0, 0, 0],
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
@@ -547,8 +547,8 @@ def test_ctf_handle_multi():
     PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
     data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_numEventsAll': [2,0,2,1],
-            'CF_maxInterEventDays': [350, 360, 345, 0], 
-            'CF_maxInterEventDaysAchieved': [0, 0, 0, 1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_eventLengthAchieved': [7.5,0.0,8.0,366.0], 
+            'CF_maxInterEventDays': [0, 0, 0, 0], 
+            'CF_maxInterEventDaysAchieved': [1, 1, 1, 1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_eventLengthAchieved': [7.5,0.0,8.0,366.0], 
             'CF_totalEventDays': [15,0,16,366], 'CF_totalEventDaysAchieved': [15,0,16,366],
             'CF_maxEventDays':[14, 0, 15, 366], 'CF_maxRollingEvents': [14, 5, 15, 366], 'CF_maxRollingAchievement': [1, 1, 1, 1],
             'CF_missingDays': [0,0,0,0], 'CF_totalPossibleDays': [365,365,365,366]}
@@ -602,8 +602,8 @@ def test_cumulative_handle_multi():
     PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB/WS1_S_eventYears': [1,0,0,1], 'OB/WS1_S_numAchieved': [1,0,0,1], 'OB/WS1_S_numEvents': [1,0,0,1], 'OB/WS1_S_numEventsAll': [1,0,0,1],
-            'OB/WS1_S_maxInterEventDays': [350, 0, 0, 767], 
-            'OB/WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 0], 'OB/WS1_S_eventLength': [1,0.0,0.0,235.0], 'OB/WS1_S_eventLengthAchieved': [1,0.0,0.0,235.0], 
+            'OB/WS1_S_maxInterEventDays': [0, 0, 0, 0], 
+            'OB/WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 1], 'OB/WS1_S_eventLength': [1,0.0,0.0,235.0], 'OB/WS1_S_eventLengthAchieved': [1,0.0,0.0,235.0], 
             'OB/WS1_S_totalEventDays': [1,0,0,235], 'OB/WS1_S_totalEventDaysAchieved': [1,0,0,235], 
             'OB/WS1_S_maxEventDays':[1,0,0,235], 'OB/WS1_S_maxRollingEvents':  [1,0,0,235],
             'OB/WS1_S_maxRollingAchievement': [1,1,1,1],
@@ -650,8 +650,8 @@ def test_flow_handle_sim():
     PU_df, events = evaluate_EWRs.flow_handle_sim(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'LF1_S_eventYears': [1,0,1,0], 'LF1_S_numAchieved': [1,0,1,0], 'LF1_S_numEvents': [1,0,1,0], 'LF1_S_numEventsAll': [1,0,1,0], 
-            'LF1_S_maxInterEventDays': [76, 0, 778, 597], 
-            'LF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_S_eventLength': [5.0,0.0,5.0,0.0], 'LF1_S_eventLengthAchieved': [5.0,0.0,5.0,0.0], 
+            'LF1_S_maxInterEventDays': [0, 0, 0, 0], 
+            'LF1_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'LF1_S_eventLength': [5.0,0.0,5.0,0.0], 'LF1_S_eventLengthAchieved': [5.0,0.0,5.0,0.0], 
             'LF1_S_totalEventDays': [5,0,5,0], 'LF1_S_totalEventDaysAchieved': [5,0,5,0],
             'LF1_S_maxEventDays':[5, 0, 5, 0],'LF1_S_maxRollingEvents':  [5, 0, 5, 0],  'LF1_S_maxRollingAchievement': [1, 0, 1, 0],
             'LF1_S_missingDays': [0,0,0,0], 'LF1_S_totalPossibleDays': [365,365,365,366]}
@@ -1293,8 +1293,8 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
     'IC1_P_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
     'IC1_P_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
     'IC1_P_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-    'IC1_P_maxInterEventDays': {2012: 62, 2013: 0, 2014: 0, 2015: 1337},
-    'IC1_P_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 0},
+    'IC1_P_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0},
+    'IC1_P_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1},
     'IC1_P_eventLength': {2012: 61.0, 2013: 0.0, 2014: 0.0, 2015: 0.0},
     'IC1_P_eventLengthAchieved': {2012: 61.0, 2013: 0.0, 2014: 0.0, 2015: 0.0},
     'IC1_P_totalEventDays': {2012: 61, 2013: 0, 2014: 0, 2015: 0},
