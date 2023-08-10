@@ -3292,13 +3292,6 @@ def flow_calc_anytime(EWR_info: dict, flows: np.array, water_years: np.array, da
     if len(event) > 0:
         water_year = which_water_year(-1, total_event, water_years)
         all_events[water_year].append(event)
-        total_event_gap = no_event-total_event
-        if total_event_gap > 0:
-            ne_water_year = which_water_year_no_event(-1, total_event, water_years)
-            all_no_events[ne_water_year].append([total_event_gap])
-        no_event = 0
-    if no_event > 0:
-        all_no_events[water_years[-1]].append([no_event]) # No event so add to the final year
     durations.append(EWR_info['duration'])
 
     return all_events, all_no_events, durations
