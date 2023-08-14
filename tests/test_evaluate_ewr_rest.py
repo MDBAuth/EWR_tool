@@ -395,13 +395,12 @@ def test_check_flow():
 	event = [(event_start + timedelta(days=i), 5) for i in range(9)]
 	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-	no_event = 50
 	all_no_events = {2012:[[25], [2]], 2013:[[250]],
 							2014:[[400], [2], [25]], 2015:[[450]]}
 	gap_track = 0
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
 	total_event = 9
-	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.flow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date)
+	event, all_events, all_no_events, gap_track, total_event = evaluate_EWRs.flow_check(EWR_info, iteration, flow, event, all_events, all_no_events, gap_track, water_years, total_event, flow_date)
 	# Set up expected results and test
 	expected_event =  [(event_start + timedelta(days=i), 5) for i in range(10)]
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
@@ -438,11 +437,10 @@ def test_lowflow_check():
 	iteration = 365+365+365+100
 	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-	no_event = 0
 	all_no_events = {2012:[[25], [2]], 2013:[[250]],
 							2014:[[400], [2], [25]], 2015:[[450]]}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
-	event, all_events, no_event, all_no_events = evaluate_EWRs.lowflow_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
+	event, all_events, all_no_events = evaluate_EWRs.lowflow_check(EWR_info, iteration, flow, event, all_events, all_no_events, water_years, flow_date)
 	# Set up expected output and test
 	expected_event = []
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
@@ -471,12 +469,11 @@ def test_ctf_check():
 	flow_date = date(2012,1,17)
 	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-	no_event = 10
 	all_no_events = {2012:[[25], [2]], 2013:[[250]],
 							2014:[[400], [2], [25]], 2015:[[450]]}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
 
-	event, all_events, _, _ = evaluate_EWRs.ctf_check(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, water_years, flow_date)
+	event, all_events, _ = evaluate_EWRs.ctf_check(EWR_info, iteration, flow, event, all_events, all_no_events, water_years, flow_date)
 	# Set up expected outputs and test
 	expected_event = []
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50],
@@ -507,19 +504,16 @@ def test_flow_check_sim():
 	total_event = 5
 	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
 					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-	no_event = 25
 	all_no_events = {2012:[[25], [2]], 2013:[[250]],
 							2014:[[400], [2], [25]], 2015:[[450]]}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
 	gap_track = 0
-	event, all_events, _, _, gap_track, total_event = evaluate_EWRs.flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, event, all_events, no_event, all_no_events, gap_track, total_event, flow_date)
+	event, all_events, _, gap_track, total_event = evaluate_EWRs.flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, event, all_events, all_no_events, gap_track, total_event, flow_date)
 	# Set up expected results and test
 	expected_event = []
 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50, [10]*5],
 							2014:[[10]*10, [15]*15, [10]*20], 2015:[[10]*5]}
-	expected_no_event = 1
-	expected_all_no_events = {2012:[[25], [2]], 2013:[[250], [20]],
-									2014:[[400], [2], [25]], 2015:[[450]]}
+	
 	expected_gap_track = 0
 	expected_total_event = 0
 	assert gap_track == expected_gap_track
@@ -617,10 +611,6 @@ def test_flow_calc(flows,expected_all_events,expected_all_no_events):
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
-	# for year in all_no_events:
-	# 		assert len(all_no_events[year]) == len(expected_all_no_events[year])
-	# 		for i, no_event in enumerate(all_no_events[year]):
-	# 				assert no_event == expected_all_no_events[year][i]
 	assert durations == expected_durations
 
 def test_lowflow_calc():
@@ -911,10 +901,6 @@ def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
 		# assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-	# for year in all_no_events:
-	# 	assert len(all_no_events[year]) == len(expected_all_no_events[year])
-	# 	for i, no_event in enumerate(all_no_events[year]):
-	# 		assert no_event == expected_all_no_events[year][i]
 	assert durations == expected_durations
 
 
@@ -1356,11 +1342,10 @@ def test_volume_check(EWR_info,iteration,flows,event,all_events,all_no_events,ex
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 50
 	total_event = 9
 	gap_track = 0
-	event, all_events, no_event, all_no_events, gap_track, total_event, roller = evaluate_EWRs.volume_check(EWR_info, iteration, flow, event,
-	 all_events, no_event, all_no_events, gap_track, water_years, total_event, flow_date, roller, max_roller, flows)
+	event, all_events,  all_no_events, gap_track, total_event, roller = evaluate_EWRs.volume_check(EWR_info, iteration, flow, event,
+	 all_events, all_no_events, gap_track, water_years, total_event, flow_date, roller, max_roller, flows)
 
 	assert event == expected_event
 	assert expected_all_events != None
@@ -1633,10 +1618,9 @@ def test_weirpool_check(EWR_info, iteration, flow, level, event, all_events, all
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 0
 	gap_track = 0
 	
-	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.weirpool_check(EWR_info, iteration, flow, level, event, all_events, no_event, all_no_events, gap_track, 
+	event, all_events, all_no_events, gap_track, total_event = evaluate_EWRs.weirpool_check(EWR_info, iteration, flow, level, event, all_events, all_no_events, gap_track, 
                water_years, total_event, flow_date, weirpool_type, level_change)
 	assert event == expected_event
 	assert all_events == expected_all_events
@@ -1980,13 +1964,12 @@ def test_level_check(EWR_info, iteration, level, level_change, event, all_events
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	level_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 0
 	gap_track = 0
 
 
 
-	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.level_check(EWR_info, iteration, level, level_change, 
-																				event, all_events, no_event, all_no_events, 
+	event, all_events, all_no_events, gap_track, total_event = evaluate_EWRs.level_check(EWR_info, iteration, level, level_change, 
+																				event, all_events, all_no_events, 
 																				gap_track ,water_years, total_event, level_date)
 
 	assert event == expected_event
@@ -2315,12 +2298,11 @@ def test_nest_flow_check(EWR_info, iteration, flow, flow_percent_change, event, 
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 0
 	gap_track = 0
 	iteration_no_event = 0
 
-	event, all_events, no_event, all_no_events, gap_track, total_event, iteration_no_event = evaluate_EWRs.nest_flow_check(EWR_info, iteration, flow, 
-																		event, all_events, no_event, all_no_events, gap_track, 
+	event, all_events, all_no_events, gap_track, total_event, iteration_no_event = evaluate_EWRs.nest_flow_check(EWR_info, iteration, flow, 
+																		event, all_events, all_no_events, gap_track, 
                         													water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 	
 	assert event == expected_event
@@ -2583,11 +2565,10 @@ def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 0
 	gap_track = 0
 	
-	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.nest_weirpool_check(EWR_info, iteration, flow, level, 
-									event, all_events, no_event, all_no_events, gap_track, 
+	event, all_events, all_no_events, gap_track, total_event = evaluate_EWRs.nest_weirpool_check(EWR_info, iteration, flow, level, 
+									event, all_events, all_no_events, gap_track, 
                						water_years, total_event, flow_date, weirpool_type, levels)
 	assert event == expected_event
 	assert all_events == expected_all_events
@@ -2975,11 +2956,10 @@ def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, a
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 0
 	gap_track = 0
 	
-	event, all_events, no_event, all_no_events, gap_track, total_event = evaluate_EWRs.flow_level_check(EWR_info, iteration, flow, level, 
-									event, all_events, no_event, all_no_events, gap_track, 
+	event, all_events, all_no_events, gap_track, total_event = evaluate_EWRs.flow_level_check(EWR_info, iteration, flow, level, 
+									event, all_events, all_no_events, gap_track, 
                						water_years, total_event, flow_date, level_change ,levels)
 	assert event == expected_event
 	assert all_events == expected_all_events
@@ -3294,10 +3274,9 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flows_series = pd.Series(flows, index=dates)
-	no_event = 0
 
-	event, all_events, no_event, all_no_events = evaluate_EWRs.barrage_flow_check(EWR_info, flows_series, event, all_events, 
-																				 no_event, all_no_events, flow_date)
+	event, all_events, all_no_events = evaluate_EWRs.barrage_flow_check(EWR_info, flows_series, event, all_events, 
+																				 all_no_events, flow_date)
 
 	print(event)
 	print(all_events)
@@ -3546,9 +3525,8 @@ def test_coorong_check(EWR_info, iteration, levels_data, event, all_events,
 	levels_series = pd.Series(levels_data, index=dates)
 	level_date = dates[iteration]
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	no_event = 0
 	
-	event, all_events, no_event, all_no_events = evaluate_EWRs.coorong_check(EWR_info, levels_series, event, all_events, no_event, 
+	event, all_events, all_no_events = evaluate_EWRs.coorong_check(EWR_info, levels_series, event, all_events, 
 										all_no_events, level_date, water_years, iteration, total_event)
 	
 	assert event == expected_event
@@ -3620,9 +3598,8 @@ def test_lower_lakes_level_check(EWR_info, iteration, levels_data, event, all_ev
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	levels_series = pd.Series(levels_data, index=dates)
 	level_date = dates[iteration]
-	no_event = 0
 
-	event, all_events, no_event, _ = evaluate_EWRs.lower_lakes_level_check(EWR_info, levels_series, event, all_events, no_event, 
+	event, all_events, _ = evaluate_EWRs.lower_lakes_level_check(EWR_info, levels_series, event, all_events, 
                                 all_no_events, level_date)
 	
 	print(event)
@@ -3706,10 +3683,9 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	flow_series = pd.Series(flows_data, index=dates)
 	flow_date = dates[iteration]
 	flow = flow_series[iteration]
-	no_event = 0
 	gap_track = 0
 	
-	event, all_events , _ , _ , _ , _ = evaluate_EWRs.flow_check_rise_fall(EWR_info, iteration, flow, event, all_events, no_event, all_no_events, gap_track, 
+	event, all_events, _ , _ , _ = evaluate_EWRs.flow_check_rise_fall(EWR_info, iteration, flow, event, all_events, all_no_events, gap_track, 
                water_years, total_event, flow_date, flow_series)
 	
 	assert event == expected_event
@@ -3859,10 +3835,9 @@ def test_flow_check_ctf(EWR_info,iteration,flows_data,event,all_events,all_no_ev
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flows= pd.Series(flows_data, index=dates)
 	flow_date = dates[iteration]
-	no_event = 0
 	gap_track = 0
 	
-	event, all_events , _ , _ , _ , _ = evaluate_EWRs.flow_check_ctf(EWR_info, iteration, flows, event, all_events, no_event, all_no_events, gap_track,
+	event, all_events , _ , _ , _ = evaluate_EWRs.flow_check_ctf(EWR_info, iteration, flows, event, all_events, all_no_events, gap_track,
 								                                    water_years, total_event, flow_date)
 	print(all_events)
 
