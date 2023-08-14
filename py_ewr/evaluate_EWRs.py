@@ -574,14 +574,14 @@ def flow_handle_anytime(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     pull = data_inputs.get_EWR_components('flow')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
     # # Mask dates
-    # masked_dates = mask_dates(EWR_info, df_F)
+    masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
         E, NE, D = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
     else:
-        E, NE, D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index)
+        E, NE, D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
     return PU_df, tuple([E])
 
@@ -1968,6 +1968,8 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
         
     # if go back to cease to flow and level is below and never crosses up 
     if flow <= 1 and not event_state["level_crossed_down"] and not event_state["level_crossed_up"]:
+        # if achieved_min_volume(event, EWR_info) :
+        #     all_events[water_years[iteration]].append(event)
         total_event = 0
         event_state["level_crossed_up"] = False
         event_state["level_crossed_down"] = False
