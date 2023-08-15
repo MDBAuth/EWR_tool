@@ -797,7 +797,7 @@ def test_complex_handle():
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB2a_S_eventYears': [1,0,1,1], 'OB2a_S_numAchieved': [1,0,1,2], 'OB2a_S_numEvents': [1,0,1,2], 'OB2a_S_numEventsAll': [1,0,1,2], 
-            'OB2a_S_maxInterEventDays': [1, 0, 580, 94], 
+            'OB2a_S_maxInterEventDays': [0, 0, 0, 0], 
             'OB2a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB2a_S_eventLength': [150.0,0.0,150.0,150.0], 'OB2a_S_eventLengthAchieved': [150.0,0.0,150.0,150.0], 
             'OB2a_S_totalEventDays': [150,0,150,300], 'OB2a_S_totalEventDaysAchieved': [150,0,150,300],
             'OB2a_S_maxEventDays':[150, 0, 150, 150], 'OB2a_S_maxRollingEvents':[0, 0, 0, 0], 'OB2a_S_maxRollingAchievement': [0, 0, 0, 0],
@@ -835,7 +835,7 @@ def test_complex_handle():
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB3a_S_eventYears': [1,0,1,1], 'OB3a_S_numAchieved': [1,0,2,2], 'OB3a_S_numEvents': [1,0,2,2], 'OB3a_S_numEventsAll': [1,0,2,2], 
-            'OB3a_S_maxInterEventDays': [1, 0, 751, 379], 
+            'OB3a_S_maxInterEventDays': [0, 0, 0, 0], 
             'OB3a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3a_S_eventLength': [111.0,0.0,111.0,111.0], 'OB3a_S_eventLengthAchieved': [111.0,0.0,111.0,111.0], 
             'OB3a_S_totalEventDays': [111,0,222,222], 'OB3a_S_totalEventDaysAchieved': [111,0,222,222],
             'OB3a_S_maxEventDays':[111, 0, 111, 111], 'OB3a_S_maxRollingEvents':[0, 0, 0, 0], 'OB3a_S_maxRollingAchievement': [0, 0, 0, 0],
