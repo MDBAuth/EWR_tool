@@ -4501,7 +4501,7 @@ def test_get_last_day_of_window(iteration_date, month_window_end, expected_resul
 	),
 	( [1,1.01,1.02,1.01,1.02,1.01],
       {"max_level_raise": 0.05},
-      False
+      True
 	),
 ])
 def test_is_phase_stable(levels, EWR_info, expected_results):

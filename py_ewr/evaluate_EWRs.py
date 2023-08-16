@@ -2652,8 +2652,9 @@ def check_water_stability_height(levels: List, iteration:int, EWR_info:Dict)-> b
 
 def is_phase_stable(levels:list, EWR_info: dict )-> bool:
     """Evaluate if water stability for egg or larva are stable
-    It calculates the cumulative absolute level change and
-    if it less or equal de max_level_raise parameter it returns
+    It calculated the difference between the max level in the period
+    and the minimum and then evaluate if the difference is
+    less than the 'max_level_raise' parameter
     True otherwise returns false
 
     Args:
@@ -2663,11 +2664,12 @@ def is_phase_stable(levels:list, EWR_info: dict )-> bool:
     Returns:
         bool: Returns True if levels are stable as per parameters and False otherwise
     """
-
-    absolute_cumulative_change = 0
-    for i in range(len(levels)-1):
-        absolute_cumulative_change += abs(levels[i+1] - levels[i]) 
-    return absolute_cumulative_change <= EWR_info["max_level_raise"]
+    ## TODO 
+    ## implement level change within ceiling and floor band for the period
+    max_level_in_period = max(levels)
+    min_level_in_period = min(levels)
+    max_level_change = max_level_in_period - min_level_in_period
+    return max_level_change <= EWR_info["max_level_raise"]
 
 
 def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bool:
@@ -2683,7 +2685,6 @@ def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bo
     Returns:
         bool: Returns True if levels are stable as per parameters and False otherwise
     """
-    
     # evaluate egg
     egg_stability_length = EWR_info['eggs_days_spell']
     egg_levels_to_check = levels[iteration: iteration + egg_stability_length]
