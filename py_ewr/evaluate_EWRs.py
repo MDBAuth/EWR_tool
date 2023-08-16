@@ -2661,8 +2661,6 @@ def is_phase_stable(levels:list, EWR_info: dict )-> bool:
     Returns:
         bool: Returns True if levels are stable as per parameters and False otherwise
     """
-    ## TODO 
-    ## implement level change within ceiling and floor band for the period
     max_level_in_period = max(levels)
     min_level_in_period = min(levels)
     max_level_change = max_level_in_period - min_level_in_period
