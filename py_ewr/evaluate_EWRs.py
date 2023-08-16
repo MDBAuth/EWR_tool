@@ -2413,22 +2413,29 @@ def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events
     if cllmm_type == 'a':
         last_year_flows = filter_last_year_flows(flows, flow_date)
         
-        start_date_peak = EWR_info['high_release_window_start']
-        end_date_peak = EWR_info['high_release_window_end']
-        high_release_window_flows = filter_timing_window_std(flows, flow_date, start_date_peak, end_date_peak)
-        if start_date_peak < 7 and end_date_peak > 7:
-            high_release_window_flows = filter_timing_window_non_std(flows, flow_date, start_date_peak, end_date_peak)
+        if 'S' in EWR_info['EWR_code']:
+            if last_year_flows.sum() >= EWR_info['annual_barrage_flow']:
+                threshold_flow = (get_index_date(flow_date), last_year_flows.sum())
+                event.append(threshold_flow)
+                all_events[flow_date.year -1 ].append(event)
+        else:
+            start_date_peak = EWR_info['high_release_window_start']
+            end_date_peak = EWR_info['high_release_window_end']
+            high_release_window_flows = filter_timing_window_std(flows, flow_date, start_date_peak, end_date_peak)
+            if start_date_peak < 7 and end_date_peak > 7:
+                high_release_window_flows = filter_timing_window_non_std(flows, flow_date, start_date_peak, end_date_peak)
 
-        start_date_min = EWR_info['low_release_window_start']
-        end_date_min = EWR_info['low_release_window_end']
-        low_release_window_flows = filter_timing_window_std(flows, flow_date, start_date_min, end_date_min)
-        if start_date_min < 7 and end_date_min > 7:
-            low_release_window_flows = filter_timing_window_non_std(flows, flow_date, start_date_min, end_date_min)
+            start_date_min = EWR_info['low_release_window_start']
+            end_date_min = EWR_info['low_release_window_end']
+            low_release_window_flows = filter_timing_window_std(flows, flow_date, start_date_min, end_date_min)
+            if start_date_min < 7 and end_date_min > 7:
+                low_release_window_flows = filter_timing_window_non_std(flows, flow_date, start_date_min, end_date_min)
 
-        if last_year_flows.sum() >= EWR_info['annual_barrage_flow'] and high_release_window_flows.sum() > low_release_window_flows.sum():
-            threshold_flow = (get_index_date(flow_date), last_year_flows.sum())
-            event.append(threshold_flow)
-            all_events[flow_date.year -1 ].append(event)
+            if last_year_flows.sum() >= EWR_info['annual_barrage_flow'] and high_release_window_flows.sum() > low_release_window_flows.sum():
+                threshold_flow = (get_index_date(flow_date), last_year_flows.sum())
+                event.append(threshold_flow)
+                all_events[flow_date.year -1 ].append(event)
+
     if cllmm_type == 'b':
         min_last_three_years_flows = get_min_each_last_three_years_volume(flows, flow_date)
         last_three_years_flows = filter_last_three_years_flows(flows, flow_date)
@@ -2474,9 +2481,8 @@ def coorong_check(EWR_info: dict, levels: pd.Series, event: list, all_events: di
 def lower_lakes_level_check(EWR_info: dict, levels: pd.Series, event: list, all_events: dict, 
                                  level_date: date) -> tuple:
     """	Check  if
-	
-	last year peak of peak period is above max_level AND
-	last year min in min period is above min_level 	
+    last year peak is above max_level for full year and the max data point is also contained in the peak period
+	last year low is above min_level for full year and the min data point is also contained in the low period	
 	If both conditions are met event is counted. 
 
     Args:
@@ -2489,21 +2495,12 @@ def lower_lakes_level_check(EWR_info: dict, levels: pd.Series, event: list, all_
     Returns:
         tuple: after the check return the current state of the event, all_events
     """
-    start_date_peak = EWR_info['peak_level_window_start']
-    end_date_peak = EWR_info['peak_level_window_end']
-    peak_period_levels = filter_timing_window_std(levels, level_date, start_date_peak, end_date_peak)
-    if start_date_peak < 7 and end_date_peak > 7:
-        peak_period_levels = filter_timing_window_non_std(levels, level_date, start_date_peak, end_date_peak)
-    last_year_peak = peak_period_levels.max()
     
-    start_date_min = EWR_info['low_level_window_start']
-    end_date_min = EWR_info['low_level_window_end']
-    min_period_levels = filter_timing_window_std(levels, level_date, start_date_min, end_date_min)
-    if start_date_min < 7 and end_date_min > 7:
-        min_period_levels = filter_timing_window_non_std(levels, level_date, start_date_min, end_date_min)
-    last_year_min = min_period_levels.min()
-    
-    if last_year_peak >= EWR_info['max_level'] and last_year_min >= EWR_info['min_level'] :
+    last_year_peak = get_last_year_peak(levels, level_date)
+    last_year_low = get_last_year_low(levels, level_date)
+    last_year_levels = filter_last_year_flows(levels, level_date)
+    if ( last_year_peak >= EWR_info['max_level'] and last_year_peak_within_window(last_year_peak, last_year_levels, EWR_info) and
+        last_year_low >= EWR_info['min_level'] and last_year_low_within_window(last_year_low, last_year_levels, EWR_info)):
         threshold_flow = (get_index_date(level_date), last_year_peak)
         event.append(threshold_flow)
         all_events[level_date.year -1 ].append(event)
@@ -2901,7 +2898,7 @@ def get_days_in_month(month: int, year: int) -> int:
     return num_days
 
 def get_last_year_peak(levels: pd.Series, level_date: date) -> np.int64:
-    """Get the last year peak and the date of the peak
+    """Get the last year peak 
 
     Args:
         levels (pd.Series): Level time series values
@@ -2915,7 +2912,7 @@ def get_last_year_peak(levels: pd.Series, level_date: date) -> np.int64:
     return last_year_peak
 
 def get_last_year_low(levels: pd.Series, level_date:date) ->  np.int64:
-    """Get the last year low and the date of the low
+    """Get the last year low
 
     Args:
         levels (pd.Series): Level time series values

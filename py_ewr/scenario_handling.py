@@ -467,12 +467,12 @@ class ScenarioHandler:
         
             detailed_results[scenario] = gauge_results
             
-            # only process if a,b,c,d are present
-            ewrs_to_process = EWR_table['Code'].unique()
-            any_cllmm_in_parameter_sheet = any(['CLLMM' in ewr for ewr in ewrs_to_process])
+            # # only process if a,b,c,d are present
+            # ewrs_to_process = EWR_table['Code'].unique()
+            # any_cllmm_in_parameter_sheet = any(['CLLMM' in ewr for ewr in ewrs_to_process])
 
-            if any_cllmm_to_process(detailed_results) and any_cllmm_in_parameter_sheet:
-                detailed_results = post_process_cllmm(detailed_results)
+            # if any_cllmm_to_process(detailed_results) and any_cllmm_in_parameter_sheet:
+            #     detailed_results = post_process_cllmm(detailed_results)
             
             detailed_events[scenario] = gauge_events
 
