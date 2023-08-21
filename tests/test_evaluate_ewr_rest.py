@@ -3176,7 +3176,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_a",
+	  'EWR_code': "CLLMM1a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3204,7 +3204,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_a",
+	  'EWR_code': "CLLMM1a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3232,7 +3232,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_b",
+	  'EWR_code': "CLLMM1b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -4702,8 +4702,21 @@ def test_calculate_n_day_moving_average():
 	assert result.to_dict() == expected_result.to_dict()
 
 
-def test_peak_period_max():
-	pass
-
-def test_lower_period_min():
-	pass
+@pytest.mark.parametrize("EWR_info, expected_type",[
+	(
+	{ 'EWR_code': "CLLMM1c_P"},
+	'c'
+	),
+	(
+	{ 'EWR_code': "CLLMM1d"},
+	'd'
+	),
+	(
+	{ 'EWR_code': "CLLMM1a_S"},
+	'a'
+	),
+])
+def test_what_cllmm_type(EWR_info, expected_type):
+	result = evaluate_EWRs.what_cllmm_type(EWR_info)
+	assert result == expected_type
+	

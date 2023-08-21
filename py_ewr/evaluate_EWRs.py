@@ -1325,7 +1325,7 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
             # calculate 5 day moving average and average of all required gauges
             df_5_day_averages = calculate_n_day_moving_average(df,5)
             df_5_day_averages['mean'] = df[all_required_gauges].mean(axis=1)
-            cllmm_type = EWR_info['EWR_code'].split('_')[-1]
+            cllmm_type = what_cllmm_type(EWR_info)
             if cllmm_type == 'c':
                 E, D = lower_lakes_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
             if cllmm_type == 'd':
@@ -2394,6 +2394,20 @@ def filter_last_three_years_flows(flows: pd.Series, flow_date: date) -> pd.Serie
     
     return flows[last_three_years_mask]
 
+def what_cllmm_type(EWR_info: dict) -> str:
+    """Determine the CLLMM type based on the EWR code.
+
+    Args:
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+
+    Returns:
+        str: 'a' if the EWR code contains '_a', 'b' otherwise
+    """
+    ewr_code = EWR_info['EWR_code']
+
+    return ewr_code.split('_')[0][-1]
+
+
 def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events: dict, flow_date: date) -> tuple:
     """Check if barrage total volume has met the barrage flow SA ERW parameters
     then save the results in the events list and all events dictionary
@@ -2408,7 +2422,7 @@ def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events
     Returns:
         tuple: after the check return the current state of the event, all_events
     """
-    cllmm_type = 'a' if '_a' in EWR_info['EWR_code'] else 'b'
+    cllmm_type = what_cllmm_type(EWR_info)
 
     if cllmm_type == 'a':
         last_year_flows = filter_last_year_flows(flows, flow_date)

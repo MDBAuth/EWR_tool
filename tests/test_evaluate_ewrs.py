@@ -1155,19 +1155,19 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
                                 [5000]*62 + [16500]*122 + [5000]*182
                         )
                         },
-                        'CLLMM1_a',
+                        'CLLMM1a_P',
                         'A4261002' ,
                         { 2012:[[(date(2013,6,30) , 3228000)]], 
                         2013:[[(date(2014,6,30) , 3228000)]], 
                         2014:[[(date(2015,6,30) , 3228000)]], 
                         2015:[[(date(2016,6,30) , 3233000)]]},
-                        {'CLLMM1_a_eventYears': [1,1,1,1], 'CLLMM1_a_numAchieved': [1,1,1,1], 'CLLMM1_a_numEvents': [1,1,1,1], 
-                            'CLLMM1_a_numEventsAll': [1, 1, 1, 1], 'CLLMM1_a_maxInterEventDays': [0, 0, 0, 0], 
-                            'CLLMM1_a_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_a_eventLength': [1.0, 1.0, 1.0, 1.0], 
-                            'CLLMM1_a_eventLengthAchieved':  [1.0, 1.0, 1.0, 1.0], 'CLLMM1_a_totalEventDays': [1, 1, 1, 1], 
-                            'CLLMM1_a_totalEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_a_maxEventDays':[1, 1, 1, 1],
-                            'CLLMM1_a_maxRollingEvents': [1, 1, 1, 1], 'CLLMM1_a_maxRollingAchievement': [1, 1, 1, 1],
-                            'CLLMM1_a_missingDays': [0,0,0,0], 'CLLMM1_a_totalPossibleDays': [365,365,365,366]}
+                        {'CLLMM1a_P_eventYears': [1,1,1,1], 'CLLMM1a_P_numAchieved': [1,1,1,1], 'CLLMM1a_P_numEvents': [1,1,1,1], 
+                            'CLLMM1a_P_numEventsAll': [1, 1, 1, 1], 'CLLMM1a_P_maxInterEventDays': [0, 0, 0, 0], 
+                            'CLLMM1a_P_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1a_P_eventLength': [1.0, 1.0, 1.0, 1.0], 
+                            'CLLMM1a_P_eventLengthAchieved':  [1.0, 1.0, 1.0, 1.0], 'CLLMM1a_P_totalEventDays': [1, 1, 1, 1], 
+                            'CLLMM1a_P_totalEventDaysAchieved': [1, 1, 1, 1],'CLLMM1a_P_maxEventDays':[1, 1, 1, 1],
+                            'CLLMM1a_P_maxRollingEvents': [1, 1, 1, 1], 'CLLMM1a_P_maxRollingAchievement': [1, 1, 1, 1],
+                            'CLLMM1a_P_missingDays': [0,0,0,0], 'CLLMM1a_P_totalPossibleDays': [365,365,365,366]}
                         ),
     ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         'A4261002': (
@@ -1176,19 +1176,19 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
                                 [5000]*62 + [16500]*122 + [5000]*181 +
                                 [5000]*62 + [16500]*122 + [5000]*182
                         )},
-                        'CLLMM1_b',
+                        'CLLMM1b',
                         'A4261002' ,
                         { 2012:[], 
                         2013:[], 
                         2014:[[(date(2015,6,30) , 9684000)]], 
                         2015:[[(date(2016,6,30) , 9689000)]]},
-                        {'CLLMM1_b_eventYears': [0,0,1,1], 'CLLMM1_b_numAchieved': [0,0,1,1], 'CLLMM1_b_numEvents': [0,0,1,1], 
-                            'CLLMM1_b_numEventsAll': [0,0,1,1], 'CLLMM1_b_maxInterEventDays': [0, 0, 0, 0], 
-                            'CLLMM1_b_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1_b_eventLength': [0.0, 0.0, 1.0, 1.0], 
-                            'CLLMM1_b_eventLengthAchieved':  [0.0, 0.0, 1.0, 1.0], 'CLLMM1_b_totalEventDays': [0, 0, 1, 1], 
-                            'CLLMM1_b_totalEventDaysAchieved': [0, 0, 1, 1],'CLLMM1_b_maxEventDays':[0, 0, 1, 1],
-                            'CLLMM1_b_maxRollingEvents': [0, 0, 1, 1], 'CLLMM1_b_maxRollingAchievement': [0, 0, 1, 1],
-                            'CLLMM1_b_missingDays': [0,0,0,0], 'CLLMM1_b_totalPossibleDays': [365,365,365,366]}
+                        {'CLLMM1b_eventYears': [0,0,1,1], 'CLLMM1b_numAchieved': [0,0,1,1], 'CLLMM1b_numEvents': [0,0,1,1], 
+                            'CLLMM1b_numEventsAll': [0,0,1,1], 'CLLMM1b_maxInterEventDays': [0, 0, 0, 0], 
+                            'CLLMM1b_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1b_eventLength': [0.0, 0.0, 1.0, 1.0], 
+                            'CLLMM1b_eventLengthAchieved':  [0.0, 0.0, 1.0, 1.0], 'CLLMM1b_totalEventDays': [0, 0, 1, 1], 
+                            'CLLMM1b_totalEventDaysAchieved': [0, 0, 1, 1],'CLLMM1b_maxEventDays':[0, 0, 1, 1],
+                            'CLLMM1b_maxRollingEvents': [0, 0, 1, 1], 'CLLMM1b_maxRollingAchievement': [0, 0, 1, 1],
+                            'CLLMM1b_missingDays': [0,0,0,0], 'CLLMM1b_totalPossibleDays': [365,365,365,366]}
                         ),
 ])
 def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
@@ -1229,21 +1229,21 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
         2013:[], 
         2014:[], 
         2015:[]},
-    {'CLLMM1_c_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_maxInterEventDaysAchieved':{2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
-     'CLLMM1_c_eventLength': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
-     'CLLMM1_c_eventLengthAchieved': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
-     'CLLMM1_c_totalEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_totalEventDaysAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_maxEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
-     'CLLMM1_c_maxRollingEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
-       'CLLMM1_c_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
-       'CLLMM1_c_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
-       'CLLMM1_c_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
+    {'CLLMM1c_P_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxInterEventDaysAchieved':{2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+     'CLLMM1c_P_eventLength': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+     'CLLMM1c_P_eventLengthAchieved': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+     'CLLMM1c_P_totalEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_totalEventDaysAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxRollingEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
+       'CLLMM1c_P_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
+       'CLLMM1c_P_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'CLLMM1c_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
     )
 ])
 def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_df_data):
@@ -1251,7 +1251,7 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
     PU = 'PU_0000029'
     gauge = 'A4260527'
     barrage_gauges =  ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575']
-    EWR = 'CLLMM1_c'
+    EWR = 'CLLMM1c_P'
     gauge_levels = (  [.55]*66 + [.8]*5 + [.6]*115 + [.55]*179 + 
                             [0]*365 + 
                             [0]*365 + 
