@@ -353,7 +353,7 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
     df_flow = pd.DataFrame(index = input_df.index)
     df_level = pd.DataFrame(index = input_df.index)
     for col in input_df.columns:
-        if not (model_metadata[model_metadata['SITEID'].str.contains(col, na=False)]).empty:
+        if not (model_metadata[model_metadata['SITEID'].str.contains(col, na=False, regex=False)]).empty:
             subset = model_metadata.query("SITEID==@col")
             gauge = subset["AWRC"].iloc[0]
             if gauge in flow_gauges:
