@@ -5130,7 +5130,8 @@ HANDLING_FUNCTIONS = {
     'cumulative_handle_bbr': cumulative_handle_bbr,
     'water_stability_handle': water_stability_handle,
     'water_stability_level_handle' : water_stability_level_handle,
-    'flow_handle_anytime': flow_handle_anytime
+    'flow_handle_anytime': flow_handle_anytime,
+    'cumulative_handle_qld': cumulative_handle_qld
     }
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:

@@ -92,7 +92,7 @@
         "F-PP-single": "flow_handle_anytime",
         "F-FD-single": "flow_handle_check_ctf",
         "F-FrC-single": "flow_handle_check_ctf",
-        "V-BBR2-single": "cumulative_handle",
+        "V-BBR2-single": "cumulative_handle_qld",
         "V-BBR1-single": "cumulative_handle_bbr",
         "L-FrH-single": "level_handle",
         "F-rANA-single": "flow_handle_anytime",
