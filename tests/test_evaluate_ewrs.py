@@ -586,7 +586,7 @@ def test_cumulative_handle_multi():
                     [0]*310+[0]*3+[0]*1+[0]*1+[500]*50 + 
                     [500]*40+[0]*310+[0]*1+[0]*13+[0]*1 + 
                     [5000]*4+[500]*90+[500]*90+[450]*10+[0]*2+ [450]*10+[250]*150+[450]*10)
-    EWR = 'OB/WS1_S'
+    EWR = 'OB_WS1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                         gauge1: gauge1_flows,
@@ -601,13 +601,13 @@ def test_cumulative_handle_multi():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB/WS1_S_eventYears': [1,0,0,1], 'OB/WS1_S_numAchieved': [1,0,0,1], 'OB/WS1_S_numEvents': [1,0,0,1], 'OB/WS1_S_numEventsAll': [1,0,0,1],
-            'OB/WS1_S_maxInterEventDays': [0, 0, 0, 0], 
-            'OB/WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 1], 'OB/WS1_S_eventLength': [1,0.0,0.0,235.0], 'OB/WS1_S_eventLengthAchieved': [1,0.0,0.0,235.0], 
-            'OB/WS1_S_totalEventDays': [1,0,0,235], 'OB/WS1_S_totalEventDaysAchieved': [1,0,0,235], 
-            'OB/WS1_S_maxEventDays':[1,0,0,235], 'OB/WS1_S_maxRollingEvents':  [1,0,0,235],
-            'OB/WS1_S_maxRollingAchievement': [1,1,1,1],
-            'OB/WS1_S_missingDays': [0,0,0,0], 'OB/WS1_S_totalPossibleDays': [365,365,365,366]}
+    data = {'OB_WS1_S_eventYears': [1,0,0,1], 'OB_WS1_S_numAchieved': [1,0,0,1], 'OB_WS1_S_numEvents': [1,0,0,1], 'OB_WS1_S_numEventsAll': [1,0,0,1],
+            'OB_WS1_S_maxInterEventDays': [0, 0, 0, 0],
+            'OB_WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 1], 'OB_WS1_S_eventLength': [1,0.0,0.0,235.0], 'OB_WS1_S_eventLengthAchieved': [1,0.0,0.0,235.0],
+            'OB_WS1_S_totalEventDays': [1,0,0,235], 'OB_WS1_S_totalEventDaysAchieved': [1,0,0,235],
+            'OB_WS1_S_maxEventDays':[1,0,0,235], 'OB_WS1_S_maxRollingEvents':  [1,0,0,235],
+            'OB_WS1_S_maxRollingAchievement': [1,1,1,1],
+            'OB_WS1_S_missingDays': [0,0,0,0], 'OB_WS1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
     expected_PU_df.index = expected_PU_df.index.astype('object')

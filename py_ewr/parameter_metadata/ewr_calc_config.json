@@ -35,12 +35,14 @@
         "BBR1",
         "rANA",
         "FrW",
-        "FrL"
+        "FrL",
+        "CTF"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
         "F-CF-simultaneous": "ctf_handle_sim",
         "F-CF-multigauge": "ctf_handle_multi",
+        "F-CTF-single": "flow_handle",
         "F-BF-single": "lowflow_handle",
         "F-VF-single": "lowflow_handle",
         "F-BF-simultaneous": "lowflow_handle_sim",
