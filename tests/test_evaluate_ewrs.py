@@ -1285,7 +1285,8 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
 
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
     (
-    {   2012:[[(date(2012,9,1) + timedelta(days=i), 10001) for i in range(61)]], 
+    {   2012:[[(date(2012,9,1) + timedelta(days=i), 12001) for i in range(60)] 
+              + [(date(2012,10,31) + timedelta(days=i), 10000) for i in range(1)]], 
         2013:[], 
         2014:[], 
         2015:[]},
@@ -1316,7 +1317,8 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: (
-                                [0]*31+ [0]*31 + [10001]*61 + [0]*242 + 
+                                [0]*31+ [400 + i*400 for i in range(30)] + [12001]*61 + [10000] + 
+                                [9900 - i*200 for i in range(30)] + [0]*212 + 
                                 [0]*365 + 
                                 [0]*365 + 
                                 [0]*366
@@ -1335,6 +1337,8 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
 
     assert PU_df.to_dict() == expected_PU_df_data
     
+    
+
     expected_events = tuple([expected_events])
     for index, _ in enumerate(events):
         for year in events[index]:

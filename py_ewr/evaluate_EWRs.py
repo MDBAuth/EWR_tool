@@ -2844,7 +2844,7 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
         max_change = max_raise + 1 if len(last_30_days_rolling_avg) == 0 else max(last_30_days_rolling_avg)
         return max_change <= max_raise
     if mode == "forwards":
-        next_30_days_flows = flows[iteration:iteration + 30]
+        next_30_days_flows = flows[iteration -1 :iteration + 29]
         next_30_days_flows_change = calculate_change(next_30_days_flows) 
         next_30_days_rolling_avg = rolling_average(next_30_days_flows_change, period)
         draw_downs = [change for change in next_30_days_rolling_avg if change < 0]
@@ -2886,7 +2886,7 @@ def check_period_flow_change_vic(flows: list, EWR_info: dict, iteration: int, mo
         last_30_days_flows_change = calculate_change_previous_day(last_30_days_flows) 
         return max(last_30_days_flows_change) <= EWR_info['allowed_change_up']
     if mode == "forwards":
-        next_30_days_flows = flows[iteration:iteration + 30]
+        next_30_days_flows = flows[iteration -1 :iteration + 29]
         next_30_days_flows_change = calculate_change_previous_day(next_30_days_flows)
         return min(next_30_days_flows_change) >= EWR_info['allowed_change_down']
 
