@@ -4720,3 +4720,81 @@ def test_what_cllmm_type(EWR_info, expected_type):
 	result = evaluate_EWRs.what_cllmm_type(EWR_info)
 	assert result == expected_type
 	
+@pytest.mark.parametrize("flows, thresholds, expected_result",[
+	(
+	[1,1,1,3,3,3,4,4,4,4,
+     5,5,6,6,7,7,
+	 8,8,
+	 7,7,7,6,6,6,5,5,5,
+	 4,4,4,
+	 5,5,5,5,6,6,6,7,7,7,
+	 8,8,9,10,10,11,12,14,13,10,8,
+	 7,6],
+	 (5,8),
+	 {'first_threshold': [[5, 5, 6, 6, 7, 7], 
+		       			  [7, 7, 7, 6, 6, 6, 5, 5, 5], 
+						  [5, 5, 5, 5, 6, 6, 6, 7, 7, 7], 
+						  [7, 6]], 
+      'second_threshold': [[8, 8], 
+			              [8, 8, 9, 10, 10, 11, 12, 14, 13, 10, 8]]}
+
+	),
+])
+def test_flow_intervals(flows, thresholds, expected_result):
+	result = evaluate_EWRs.flow_intervals_stepped(flows, thresholds)
+	print(result)
+	assert result == expected_result
+
+def test_calculate_change_previous_day():
+	flows = [1,1,1,3,3,3,6]
+	result = evaluate_EWRs.calculate_change_previous_day(flows)
+	assert result == [1.0, 1.0, 3.0, 1.0, 1.0, 2.0]
+
+
+@pytest.mark.parametrize("flows, EWR_info, iteration, mode, expected_result",[
+	(
+		[500]*10 + [1000]*10 + [3000]*5 + [6000]*15,
+		{},
+		30,
+		'backwards_stepped',
+		False
+	),
+	(
+		[500]*10 + [1000]*10 + [2000]*5 + [5000]*1 + [13501]*5,
+		{},
+		30,
+		'backwards_stepped',
+		False
+	),
+	(
+		[500]*5 + [1000]*5 + [1800]*5 + [3000]*5 + [4000]*5 + [5000]*5 + [6000]*5,
+		{},
+		30,
+		'backwards_stepped',
+		True
+	),
+	(
+		 [1000]*10 + [1800]*5 + [3000]*5 + [4000]*5 + [5000]*5 + [6000]*5,
+		{'allowed_change_up': 2},
+		30,
+		'backwards',
+		True
+	),
+	(
+		 [6000]*10 + [5000]*5 + [4000]*5 + [4000]*5 + [3500]*5 + [3000]*5,
+		{'allowed_change_down': .8},
+		1,
+		'forwards',
+		True
+	),
+	(
+		[1000]*2 + [700]*1 + [1000]*10 + [1800]*5 + [3000]*5 + [4000]*5 + [5000]*5 ,
+		{'allowed_change_down': .8},
+		1,
+		'forwards',
+		False
+	),
+])
+def test_check_period_flow_change_vic(flows, EWR_info, iteration, mode, expected_result):
+	result = evaluate_EWRs.check_period_flow_change_vic(flows, EWR_info, iteration, mode)
+	assert result == expected_result 

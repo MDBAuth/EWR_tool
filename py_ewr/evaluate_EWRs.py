@@ -2747,7 +2747,59 @@ def calculate_change(values:List)-> List:
         change.append(diff)
     return change
 
+def calculate_change_previous_day(values:List)-> List:
+    """Calcualte the change in x values from
+    previous items in a list
 
+    Args:
+        values (List): list of values
+
+    Returns:
+        List: list of change values
+    
+    """
+    changes = []
+    for i in range(1, len(values)):
+        times_change = values[i] / values[i-1]
+        changes.append(times_change)
+    return changes
+
+def flow_intervals_stepped(flows:List, steps:tuple)-> dict:
+
+    first, second = steps
+
+    intervals = defaultdict(list)
+
+    first_flows = []
+    second_flows = []
+    for flow in flows:
+        if flow >= second:
+            second_flows.append(flow)
+            if first_flows:
+                intervals['first_threshold'].append(first_flows)
+                first_flows = [] 
+        if flow >= first and flow < second:
+            first_flows.append(flow)
+            if second_flows:
+                intervals['second_threshold'].append(second_flows)
+                second_flows = []
+        if flow < first:
+            if first_flows:
+                intervals['first_threshold'].append(first_flows)
+                first_flows = []
+            if second_flows:
+                intervals['second_threshold'].append(second_flows)
+                second_flows = []
+    # regiter any remaining flows
+    if first_flows:
+        intervals['first_threshold'].append(first_flows)
+        first_flows = []
+    if second_flows:
+        intervals['second_threshold'].append(second_flows)
+        second_flows = []
+
+    return intervals
+            
 def rolling_average(values: List, period:int)-> List:
     """take a list of values and returns a list with the n period average
 
@@ -2786,7 +2838,7 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
 
 
     if mode == "backwards":
-        last_30_days_flows = flows[iteration - 30:iteration]
+        last_30_days_flows = flows[iteration - 29:iteration + 1]
         last_30_days_flows_change = calculate_change(last_30_days_flows) 
         last_30_days_rolling_avg = rolling_average(last_30_days_flows_change, period)
         max_change = max_raise + 1 if len(last_30_days_rolling_avg) == 0 else max(last_30_days_rolling_avg)
@@ -2800,7 +2852,43 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
             max_change = 0 
         else:
             max_change = min(draw_downs)  
-        return abs(max_change) <= max_fall 
+        return abs(max_change) <= max_fall
+     
+def check_period_flow_change_vic(flows: list, EWR_info: dict, iteration: int, mode: str) -> bool:
+    """Check if the flow change up (raise) or down (fall) from period days ago to current date 
+        is within the maximum allowed in a the period for VIC EWRs
+
+    Args:
+        flows (list): Flow time series values
+        EWR_info (dict):EWR parameters
+        iteration (int): current iteration
+        mode (str): mode to look for flow change. Can be backwards to check before start an event or forwards
+        to check after an event ends.
+
+    Returns:
+        bool: Return True is meet condition and False if don't
+    """
+
+    if mode == "backwards_stepped":
+        last_30_days_flows = flows[iteration - 29:iteration + 1]
+        intervals = flow_intervals_stepped(last_30_days_flows,[1000,5000])
+        first_intervals = intervals['first_threshold']
+        first_interval_max = 2
+        meet_condition_first_interval = all(max(calculate_change_previous_day(interval)) <= first_interval_max 
+                                            for interval in first_intervals)
+        second_interval_max = 2.7
+        second_intervals = intervals['second_threshold']
+        meet_condition_second_interval = all(max(calculate_change_previous_day(interval)) <= second_interval_max
+                                            for interval in second_intervals)
+        return  meet_condition_first_interval and meet_condition_second_interval
+    if mode == "backwards":
+        last_30_days_flows = flows[iteration - 29:iteration + 1]
+        last_30_days_flows_change = calculate_change_previous_day(last_30_days_flows) 
+        return max(last_30_days_flows_change) <= EWR_info['allowed_change_up']
+    if mode == "forwards":
+        next_30_days_flows = flows[iteration:iteration + 30]
+        next_30_days_flows_change = calculate_change_previous_day(next_30_days_flows)
+        return min(next_30_days_flows_change) >= EWR_info['allowed_change_down']
 
 def check_cease_flow_period(flows: list, iteration: int, period:int) -> bool:
     """Check if the there is a period of "period" days ending 90 days (hydrological constraint) 

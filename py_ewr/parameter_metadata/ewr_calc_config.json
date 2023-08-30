@@ -36,7 +36,8 @@
         "rANA",
         "FrW",
         "FrL",
-        "CTF"
+        "CTF",
+        "F"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -99,6 +100,7 @@
         "L-FrH-single": "level_handle",
         "F-rANA-single": "flow_handle_anytime",
         "F-FrW-single": "water_stability_handle",
-        "F-WL-single": "flow_handle"
+        "F-WL-single": "flow_handle",
+        "F-F-single": "flow_handle"
     }
 }
