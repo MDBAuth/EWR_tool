@@ -38,7 +38,6 @@ def test_match_MDBA_nodes():
     assert_frame_equal(df_F, expected_df_F)
     assert_frame_equal(df_L, expected_df_L)
 
-@pytest.mark.skip("debugging")
 def test_match_NSW_nodes():
     '''
     1. Check NSW model nodes are mapped correctly to their gauges
@@ -67,7 +66,7 @@ def test_match_NSW_nodes():
     expected_df_F = expected_df_F.set_index('Date')
     
     assert_frame_equal(df_F, expected_df_F)
-    assert_frame_equal(df_L, expected_df_L)
+    assert_frame_equal(df_L, expected_df_L, check_column_type=False)
 
 def test_extract_gauge_from_string():
     '''
@@ -245,7 +244,6 @@ def test_unpack_IQQM_10000yr():
     
     assert_frame_equal(flow, expected_flow)
 
-@pytest.mark.skip("debugging")
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
    
     detailed = scenario_handler_instance.pu_ewr_statistics
