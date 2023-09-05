@@ -4754,47 +4754,681 @@ def test_calculate_change_previous_day():
 @pytest.mark.parametrize("flows, EWR_info, iteration, mode, expected_result",[
 	(
 		[500]*10 + [1000]*10 + [3000]*5 + [6000]*15,
-		{},
+		{
+		  'rate_of_rise_max1': 2,
+		  'rate_of_rise_max2': 2.7
+		},
 		30,
 		'backwards_stepped',
 		False
 	),
 	(
 		[500]*10 + [1000]*10 + [2000]*5 + [5000]*1 + [13501]*5,
-		{},
+		{
+		  'rate_of_rise_max1': 2,
+		  'rate_of_rise_max2': 2.7
+		},
 		30,
 		'backwards_stepped',
 		False
 	),
 	(
 		[500]*5 + [1000]*5 + [1800]*5 + [3000]*5 + [4000]*5 + [5000]*5 + [6000]*5,
-		{},
+		{
+		  'rate_of_rise_max1': 2,
+		  'rate_of_rise_max2': 2.7
+		},
 		30,
 		'backwards_stepped',
 		True
 	),
 	(
 		 [1000]*10 + [1800]*5 + [3000]*5 + [4000]*5 + [5000]*5 + [6000]*5,
-		{'allowed_change_up': 2},
+		{'rate_of_rise_stage': 2},
 		30,
 		'backwards',
 		True
 	),
 	(
 		 [6000]*10 + [5000]*5 + [4000]*5 + [4000]*5 + [3500]*5 + [3000]*5,
-		{'allowed_change_down': .8},
+		{'rate_of_fall_stage': .8},
 		1,
 		'forwards',
 		True
 	),
 	(
 		[1000]*2 + [700]*1 + [1000]*10 + [1800]*5 + [3000]*5 + [4000]*5 + [5000]*5 ,
-		{'allowed_change_down': .8},
+		{'rate_of_fall_stage': .8},
 		1,
 		'forwards',
 		False
 	),
 ])
-def test_check_period_flow_change_vic(flows, EWR_info, iteration, mode, expected_result):
-	result = evaluate_EWRs.check_period_flow_change_vic(flows, EWR_info, iteration, mode)
+def test_check_period_flow_change_stepped(flows, EWR_info, iteration, mode, expected_result):
+	result = evaluate_EWRs.check_period_flow_change_stepped(flows, EWR_info, iteration, mode)
 	assert result == expected_result 
+
+@pytest.mark.parametrize("EWR_info, flows, expected_all_events",[
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array( [1, 2.1, 4.45] + [1000,2001, 3000, 4000, 5000, 15000] + [1000]*356 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [[(date(2012, 7, 4), 1000.0), (date(2012, 7, 5), 2001.0)],
+				[(date(2012, 7, 9), 15000.0)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array( [1, 2.1, 4.45] + [900,1500, 3000, 4000, 5000] + [1000]*357 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_rate_rise_flow_calc(EWR_info, flows, expected_all_events):
+    # non changing variable
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+
+	all_events, _ = evaluate_EWRs.rate_rise_flow_calc(EWR_info, flows, water_years, dates, masked_dates)
+
+	assert all_events == expected_all_events
+
+@pytest.mark.parametrize("EWR_info, iteration, event, all_events, total_event, flows_data, expected_all_events,expected_event",[
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'gap_tolerance': 0},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1000,2001,4002,8004,6000] + [5000] *360 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		[(date(2012, 7, 2), 2001)],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'gap_tolerance': 0},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1000,2000,4000,8000,6000] + [5000] *360 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		[],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'gap_tolerance': 0},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [5000,13501,4000,8000,6000] + [5000] *360 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		[(date(2012, 7, 2), 13501)],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'gap_tolerance': 0},
+		3,
+		[(date(2012, 7, 2), 2001),(date(2012, 7, 3), 4002)],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1000,2001,4002,8000,6000] + [5000] *360 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [[(date(2012, 7, 2), 2001),(date(2012, 7, 3), 4002)]], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		[],
+	),
+])
+def test_rate_rise_flow_check(EWR_info, iteration, event, all_events, total_event, flows_data, expected_all_events,expected_event):
+
+	# non changing variable
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flow_series = pd.Series(flows_data, index=dates)
+	flow_date = dates[iteration]
+	gap_track = 0
+
+	event, all_events, _, _ = evaluate_EWRs.rate_rise_flow_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, flow_series)
+
+	assert event == expected_event
+	assert all_events == expected_all_events
+
+
+@pytest.mark.parametrize("EWR_info, flows, expected_all_events",[
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array(    [35,30] + [30]*363 + 
+				  [30]*365 +
+				  [30]*365 + 
+				  [30]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array(    [40,30,41,30] + [30]*361 + 
+				  [30]*365 +
+				  [30]*365 + 
+				  [30]*366), 
+	{   2012: [[(date(2012, 7, 2), 30)],[(date(2012, 7, 4), 30)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_rate_fall_flow_calc(EWR_info, flows, expected_all_events):
+	  # non changing variable
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+
+	all_events, _ = evaluate_EWRs.rate_fall_flow_calc(EWR_info, flows, water_years, dates, masked_dates)
+
+	assert all_events == expected_all_events
+
+@pytest.mark.parametrize("EWR_info, iteration, event, all_events, total_event, flows_data, expected_all_events,expected_event",[
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1000, 700] + [700]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[(date(2012, 7, 2), 700)],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1000, 800] + [700]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0},
+		2,
+		[(date(2012, 7, 2), 700)],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1000, 700, 700] + [700]*362 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [[(date(2012, 7, 2), 700)]], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+])
+def test_rate_fall_flow_check(EWR_info, iteration, event, all_events, total_event, flows_data, expected_all_events,expected_event):
+	# non changing variable
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	flow_series = pd.Series(flows_data, index=dates)
+	flow_date = dates[iteration]
+	gap_track = 0
+
+	event, all_events, _, _ = evaluate_EWRs.rate_fall_flow_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, flow_series)
+
+	assert event == expected_event
+	assert all_events == expected_all_events
+
+
+@pytest.mark.parametrize("EWR_info, levels, expected_all_events",[
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array( [1, 1, 1 ] + [0]*362 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array( [1, 1.39, 1.8 ] + [0]*362 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [[(date(2012, 7, 2), 1.39), (date(2012, 7, 3), 1.8)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array( [1, 1.39, 1.8, 1, 1.39, 1.8 ] + [0]*359 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [[(date(2012, 7, 2), 1.39), (date(2012, 7, 3), 1.8)], [(date(2012, 7, 5), 1.39), (date(2012, 7, 6), 1.8)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_rate_rise_level_calc(EWR_info, levels, expected_all_events):
+	
+	# non changing variable
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+
+	all_events, _ = evaluate_EWRs.rate_rise_level_calc(EWR_info, levels, water_years, dates, masked_dates)
+
+	assert all_events == expected_all_events
+
+@pytest.mark.parametrize("EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event",[
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1, 1.39] + [0]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[(date(2012, 7, 2), 1.39)],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38},
+		2,
+		[(date(2012, 7, 2), 1.39)],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1, 1.3] + [0]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [[(date(2012, 7, 2), 1.39)]], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1, 1.3] + [0]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+])
+def test_rate_rise_level_check(EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event):
+	
+	# non changing variable
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	level_series = pd.Series(levels_data, index=dates)
+	flow_date = dates[iteration]
+	gap_track = 0
+
+	event, all_events, _, _ = evaluate_EWRs.rate_rise_level_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, level_series)
+
+	assert event == expected_event
+	assert all_events == expected_all_events
+
+@pytest.mark.parametrize("EWR_info, levels, expected_all_events",[
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array( [1.22, 1, .77 ] + [0]*362 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 0.77), (date(2012, 7, 4), 0.0)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array(    [0]*365 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+	(   
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21,
+		  'duration': 1},	    
+	 np.array(    [1,1] +[1]*363 + 
+				  [1]*365 +
+				  [1]*365 + 
+				  [1]*366), 
+	{   2012: [],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_rate_fall_level_calc(EWR_info, levels, expected_all_events):
+
+	# non changing variable
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+
+	all_events, _ = evaluate_EWRs.rate_fall_level_calc(EWR_info, levels, water_years, dates, masked_dates)
+
+	assert all_events == expected_all_events
+
+
+
+	
+@pytest.mark.parametrize("EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event",[
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.22, 1] + [0]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[(date(2012, 7, 2), 1)],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21},
+		1,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.20, 1] + [0]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+	(
+		{'rate_of_rise_threshold2':5000,
+          'rate_of_rise_max2':2.7,
+		  'rate_of_rise_max1':2.,
+		  'rate_of_rise_threshold1':1000,
+		  'rate_of_fall_min': 0.8,
+		  'gap_tolerance': 0,
+		  'rate_of_rise_river_level': 0.38,
+		  'rate_of_fall_river_level': 0.21},
+		2,
+		[(date(2012, 7, 2), 1)],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.22, 1] + [1]*363 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [[(date(2012, 7, 2), 1)]], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+])
+def test_rate_fall_level_check(EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event):
+	# non changing variable
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	level_series = pd.Series(levels_data, index=dates)
+	flow_date = dates[iteration]
+	gap_track = 0
+
+	event, all_events, _, _ = evaluate_EWRs.rate_fall_level_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, level_series)
+
+	assert event == expected_event
+	assert all_events == expected_all_events
