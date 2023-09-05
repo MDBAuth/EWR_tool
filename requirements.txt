@@ -6,3 +6,5 @@ pandas
 requests
 tqdm
 traitlets
+xarray
+netcdf4

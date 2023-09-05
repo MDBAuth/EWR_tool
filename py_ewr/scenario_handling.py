@@ -9,9 +9,56 @@ from collections import OrderedDict
 
 import pandas as pd
 from tqdm import tqdm
+import xarray as xr
+import netCDF4
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
+def is_valid_netcdf_file(file_path: str) -> bool:
+    try:
+        with netCDF4.Dataset(file_path, 'r'):
+            # If the file opens successfully, it's a valid NetCDF file
+            return True
+    except Exception as e:
+        # If an exception is raised, it's not a valid NetCDF file
+        return False
+    
+
+def unpack_netcdf_as_dataframe(netcdf_file: str) -> pd.DataFrame:
+    '''Ingesting netCDF files and outputting as dataframes in memory.
+    # Example usage:
+    # df = unpack_netcdf_as_dataframe('your_file.nc')
+    
+    Args:  
+        netcdf_file (str): location of netCDF file
+
+    Results:
+        pd.Dataframe: netCDF file converted to dataframe
+    '''
+    try:
+        # Check if the file is a valid NetCDF file
+        if not is_valid_netcdf_file(netcdf_file):
+            raise ValueError("Not a valid NetCDF file.")
+        
+        # Open the NetCDF file
+        dataset = xr.open_dataset(netcdf_file, engine='netcdf4')
+        
+        # Check if the dataset is empty
+        if dataset is None:
+            raise ValueError("NetCDF dataset is empty.")
+        
+        # Convert to DataFrame
+        df = dataset.to_dataframe()
+        
+        # Close the dataset
+        dataset.close()
+        
+        return df
+    except Exception as e:
+        # Handle any exceptions that may occur
+        print(f"Error: {str(e)}")
+        return None
+
 
 def unpack_IQQM_10000yr(csv_file: str) -> pd.DataFrame:
     '''Ingesting scenario file locations with the NSW specific format for 10,000 year flow timeseries

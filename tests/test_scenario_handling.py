@@ -308,3 +308,18 @@ def test_get_ewr_results(scenario_handler_instance):
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
+    
+
+def test_unpack_netcdf_as_dataframe():
+    test_netcdf = 'unit_testing_files/test_climate_cats.nc'
+    result_df = scenario_handling.unpack_netcdf_as_dataframe(test_netcdf)
+    expected_df_shape = (211, 22)
+    assert result_df.shape == expected_df_shape
+
+
+def test_unpack_netcdf_as_dataframe_invalid_file():
+    test_invalid_file = 'unit_testing_files/NSW_source_res_test_file_header_result.csv'
+    try:
+        result_df = scenario_handling.unpack_netcdf_as_dataframe(test_invalid_file)
+    except ValueError as e:
+        assert "Not a valid NetCDF file." in str(e)
