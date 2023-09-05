@@ -1,6 +1,6 @@
 name: test-release
 
-on: [push]
+on: workflow_call
 
 jobs:
   tox-tests:
