@@ -245,6 +245,31 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
     if 'LDS' in components: 
         non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'LarvaeDaysSpell')
         ewrs['larvae_days_spell'] = int(non_flow_spell)
+    if 'MLR' in components: 
+        min_level_rise = component_pull(EWR_table, gauge, PU, EWR, 'MinLevelRise')
+        ewrs['min_level_rise'] = float(min_level_rise)
+    if 'RRM1' in components:
+        rate_of_rise_max1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax1')
+        ewrs['rate_of_rise_max1'] = float(rate_of_rise_max1)
+    if 'RRM2' in components:
+        rate_of_rise_max1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax2')
+        ewrs['rate_of_rise_max2'] = float(rate_of_rise_max1)
+    if 'RFM' in components:
+        rate_of_fall_min = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallMin')
+        ewrs['rate_of_fall_min'] = float(rate_of_fall_min)
+    if 'RRT1' in components:
+        rate_of_rise_threshold1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseThreshold1')
+        ewrs['rate_of_rise_threshold1'] = float(rate_of_rise_threshold1)
+    if 'RRT2' in components:
+        rate_of_rise_threshold2 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseThreshold2')
+        ewrs['rate_of_rise_threshold2'] = float(rate_of_rise_threshold2)
+    if 'RRL' in components:
+        rate_of_rise_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseRiverLevel')
+        ewrs['rate_of_rise_river_level'] = float(rate_of_rise_river_level)
+    if 'RFL' in components:
+        rate_of_fall_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallRiverLevel')
+        ewrs['rate_of_fall_river_level'] = float(rate_of_fall_river_level)
+
     return ewrs
 
 def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
@@ -1367,16 +1392,12 @@ def rise_and_fall_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
     water_years = wateryear_daily(df_F, EWR_info)
 
     if 'RRF' in EWR:
-        pass
         E, D = rate_rise_flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     if 'RFF' in EWR:
-        pass
         E, D = rate_fall_flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     if 'RRL' in EWR:
-        pass
         E, D = rate_rise_level_calc(EWR_info, df_L[gauge].values, water_years, df_F.index, masked_dates)
     if 'RFL' in EWR:
-        pass
         E, D = rate_fall_level_calc(EWR_info, df_L[gauge].values, water_years, df_F.index, masked_dates)
 
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
@@ -2372,7 +2393,7 @@ def rate_fall_flow_check(EWR_info: dict, iteration: int, event: list, all_events
                water_years: list, total_event: int, flow_date: date, flows: list)-> tuple:
     
     current_flow = flows[iteration]
-    previous_day_flow_change = flows[iteration] / flows[iteration - 1] if flows[iteration - 1] else 0.
+    previous_day_flow_change = flows[iteration] / flows[iteration - 1] if flows[iteration - 1] else 1.
     allowed_rate_fall =  EWR_info['rate_of_fall_min']
 
     if previous_day_flow_change < allowed_rate_fall:
@@ -4296,7 +4317,7 @@ def rate_fall_flow_calc(EWR_info: Dict, flows: List, water_years: List,
     all_events = construct_event_dict(water_years)
     durations = []
     gap_track = 0
-    for i, flow in enumerate(flows[:-1]):
+    for i, _ in enumerate(flows[:-1]):
         if i == 0:
             continue
         if dates[i] in masked_dates:
@@ -4311,7 +4332,7 @@ def rate_fall_flow_calc(EWR_info: Dict, flows: List, water_years: List,
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
-        event, all_events, gap_track, total_event = rate_fall_flow_check(EWR_info, i, event,
+        event, all_events, gap_track, total_event = rate_fall_flow_check(EWR_info, -1, event,
                                                                                 all_events, gap_track, 
                                                                                 water_years, total_event, flow_date, flows)
     durations.append(EWR_info['duration'])

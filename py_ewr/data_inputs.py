@@ -77,8 +77,10 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek', 'AnnualFlowSum','AnnualBarrageFlow',
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                               'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell',
-                              'LarvaeDaysSpell'],
+                              'LarvaeDaysSpell','MinLevelRise', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
+                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel'],
                                dtype='str', encoding='cp1252') 	
+
 
 
     if not file_path:
@@ -93,13 +95,13 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualFlowSum','AnnualBarrageFlow',
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                               'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
-                              'LarvaeDaysSpell'],
+                              'LarvaeDaysSpell','MinLevelRise', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
+                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel'],
                         dtype='str', encoding='cp1252'
                         )
 
     df = df.replace('?','')
     df = df.fillna('')
-
     # removing the 'See notes'
     okay_EWRs = df.loc[(df["StartMonth"] != 'See note') & (df["EndMonth"] != 'See note')]
     see_notes = df.loc[(df["StartMonth"] == 'See note') & (df["EndMonth"] == 'See note')]
@@ -449,6 +451,8 @@ def get_EWR_components(category):
         pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','HRWS', 'HRWE', 'LRWS', 'LRWE','PLWS', 'PLWE', 'LLWS', 'LLWE','MINL','MAXL']
     elif category == 'flow-ctf':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS']
+    elif category == 'rise_fall':
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'MLR', 'RRM1', 'RRM2', 'RFM', 'RRT1', 'RRT2', 'RRL', 'RFL' ]
     return pull
 
 def get_bad_QA_codes() -> list:

@@ -351,3 +351,9 @@ def gauge_results_before_process():
 def qld_parameter_sheet():
     EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/qld_parameter_sheet.csv")
     return EWR_table
+
+
+@pytest.fixture(scope="function")
+def vic_parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/vic_parameter_sheet.csv")
+    return EWR_table

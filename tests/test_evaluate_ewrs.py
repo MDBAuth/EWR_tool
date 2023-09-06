@@ -1817,6 +1817,156 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
                 assert event == expected_events[index][year][i]
 
 
-def test_rise_and_fall_handle():
-    pass
+@pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
+    (  'PU_0000189',
+          '405203',
+           'RFF' ,
+    np.array(    [40,30,41,30] + [30]*361 + 
+				  [30]*365 +
+				  [30]*365 + 
+				  [30]*366),
+    {2012: [[(date(2012, 7, 2), 30)], [(date(2012, 7, 4), 30)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+{  'RFF_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0},
+   'RFF_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+   'RFF_eventLength': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+   'RFF_eventLengthAchieved': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+   'RFF_totalEventDays': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_totalEventDaysAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxRollingEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
+    ),
+    (  'PU_0000189',
+          '405203',
+           'RRF' ,
+    np.array( [1, 2.1, 4.45] + [1000,2001, 3000, 4000, 5000, 15000] + [1000]*356 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 7, 4), 1000.0), (date(2012, 7, 5), 2001.0)],
+				[(date(2012, 7, 9), 15000.0)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+    {   
+    'RRF_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1},
+    'RRF_eventLength': {2012: 1.5, 2013: 0.0, 2014: 0.0, 2015: 0.0},
+    'RRF_eventLengthAchieved': {2012: 1.5, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+    'RRF_totalEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0},
+    'RRF_totalEventDaysAchieved': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxEventDays': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxRollingEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}
+    },
+    ),
+    (  'PU_0000192',
+          '405200',
+           'RRL_su' ,
+    np.array( [0]*153 + [1, 1.39, 1.8, 1, 1.39, 1.8 ] +  [0]*206 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 12, 1), 1.0), (date(2012, 12, 2), 1.39), (date(2012, 12, 3), 1.8)], 
+            [(date(2012, 12, 5), 1.39), (date(2012, 12, 6), 1.8)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+    {
+        'RRL_su_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+        'RRL_su_eventLength': {2012: 2.5, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+        'RRL_su_eventLengthAchieved': {2012: 2.5, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+        'RRL_su_totalEventDays': {2012: 5, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_totalEventDaysAchieved': {2012: 5, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxRollingEvents': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    ),
+    (  'PU_0000192',
+          '405200',
+           'RFL_su' ,
+         np.array([0]*153 + [1.22, 1, .77 ] + [0]*209 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 12, 2), 1.0), (date(2012, 12, 3), 0.77), (date(2012, 12, 4), 0.0)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+   {
+       'RFL_su_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+       'RFL_su_eventLength': {2012: 3.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+       'RFL_su_eventLengthAchieved': {2012: 3.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+       'RFL_su_totalEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_totalEventDaysAchieved': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxRollingEvents': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    ),
+])
+def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
+    EWR_table = vic_parameter_sheet
+
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: gauge_data } 
+    
+
+    df_F = pd.DataFrame(data = data_for_df)
+    df_L = pd.DataFrame(data = data_for_df)
+
+    df_F = df_F.set_index('Date')
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.rise_and_fall_handle(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df, allowance)
+
+    # print(events)
+    print(PU_df.to_dict())
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
 
