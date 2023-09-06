@@ -33,7 +33,7 @@ setup(
     install_requires=[
         "ipython==8.8.0",
         "ipywidgets==7.7.0",
-        "pandas==2.1.0",
+        "pandas==2.0.3",
         "requests==2.25.1",
         "tqdm==4.64.0",
         "mdba-gauge-getter==0.5.0",
