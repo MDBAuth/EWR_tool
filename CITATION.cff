@@ -1,22 +1,7 @@
 cff-version: 1.0.6
 message: "If you use this software, please cite it as below."
 authors:
-  - family-names: Job
-    given-names: Martin
-  - family-names: Wolfenden
-    given-names: Ben
-  - family-names: Junqueira
-    given-names: Pedro
-  - family-names: Palmer
-    given-names: Lara
-  - family-names: Amos
-    given-names: Carmen
-  - family-names: Bauerle
-    given-names: Markus
-  - family-names: Stahl
-    given-names: Dennis
-  - family-names: Bradshaw
-    given-names: Benjamin
+  - Murray-Darling Basin Authority 
 
 title: "EWR_tool"
 version: 1.0.6
