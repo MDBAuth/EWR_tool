@@ -4504,8 +4504,30 @@ def test_get_last_day_of_window(iteration_date, month_window_end, expected_resul
       True
 	),
 ])
-def test_is_phase_stable(levels, EWR_info, expected_results):
-	result = evaluate_EWRs.is_phase_stable(levels, EWR_info)
+def test_is_egg_phase_stable(levels, EWR_info, expected_results):
+	result = evaluate_EWRs.is_egg_phase_stable(levels, EWR_info)
+	assert result == expected_results
+
+@pytest.mark.parametrize('levels, EWR_info, expected_results',[
+	( [1,1,1],
+      {"max_level_raise": 0.05},
+      True
+	),
+	( [1,1.1,1],
+      {"max_level_raise": 0.05},
+      False
+	),
+	( [1,1.04,1.08,1.12],
+      {"max_level_raise": 0.05},
+      True
+	),
+	( [1,1.01,1.02,1.08,1.02,1.01],
+      {"max_level_raise": 0.05},
+      False
+	),
+])
+def test_is_larva_phase_stable(levels, EWR_info, expected_results):
+	result = evaluate_EWRs.is_larva_phase_stable(levels, EWR_info)
 	assert result == expected_results
 
 

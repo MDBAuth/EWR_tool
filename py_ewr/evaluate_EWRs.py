@@ -1951,8 +1951,6 @@ def volume_check_qld(EWR_info:Dict, iteration:int, event:List, all_events:Dict,
     if roller < max_roller-1:
         roller += 1
     volume = sum(flows_look_back)
-    # if iteration == 364:
-    #     breakpoint()
     if volume >= EWR_info['min_volume']:
         threshold_flow = (get_index_date(flow_date), volume)
         event.append(threshold_flow)
@@ -2874,8 +2872,8 @@ def check_water_stability_height(levels: List, iteration:int, EWR_info:Dict)-> b
     min_period = min(period_to_check)
     return max_period <= EWR_info['max_level'] and min_period >= EWR_info['min_level']
 
-def is_phase_stable(levels:list, EWR_info: dict )-> bool:
-    """Evaluate if water stability for egg or larva are stable
+def is_egg_phase_stable(levels:list, EWR_info: dict )-> bool:
+    """Evaluate if water stability for egg is stable
     It calculated the difference between the max level in the period
     and the minimum and then evaluate if the difference is
     less than the 'max_level_raise' parameter
@@ -2892,6 +2890,23 @@ def is_phase_stable(levels:list, EWR_info: dict )-> bool:
     min_level_in_period = min(levels)
     max_level_change = max_level_in_period - min_level_in_period
     return max_level_change <= EWR_info["max_level_raise"]
+
+def is_larva_phase_stable(levels:list, EWR_info: dict )-> bool:
+    """Evaluate if water stability for larva is stable
+    If calculated the max daily change is less than
+    the 'max_level_raise' parameter then return
+    True otherwise returns false
+
+    Args:
+        levels (list): levels to be evaluates
+        EWR_info (dict): ewr parameters
+
+    Returns:
+        bool: Returns True if levels are stable as per parameters and False otherwise
+    """
+    daily_changes = [ abs(levels[i] - levels[i-1]) for i in range(1, len(levels))]
+    max_daily_change = max(daily_changes)
+    return max_daily_change <= EWR_info["max_level_raise"]
 
 
 def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bool:
@@ -2912,14 +2927,14 @@ def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bo
     egg_levels_to_check = levels[iteration: iteration + egg_stability_length]
     is_egg_level_stable = True
     if egg_stability_length > 0 :
-        is_egg_level_stable = is_phase_stable(egg_levels_to_check, EWR_info )
+        is_egg_level_stable = is_egg_phase_stable(egg_levels_to_check, EWR_info )
     
     # evaluate larva
     larva_stability_length = EWR_info['larvae_days_spell']
     larva_levels_to_check = levels[iteration + egg_stability_length: iteration + (egg_stability_length + larva_stability_length)]
     is_larva_level_stable = True
     if larva_stability_length > 0:
-        is_larva_level_stable = is_phase_stable(larva_levels_to_check, EWR_info )
+        is_larva_level_stable = is_larva_phase_stable(larva_levels_to_check, EWR_info )
 
     return all([is_egg_level_stable, is_larva_level_stable])
     
