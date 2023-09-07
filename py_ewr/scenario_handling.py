@@ -368,41 +368,6 @@ def any_cllmm_to_process(gauge_results: dict)->bool:
     processed_gauges = data_inputs.get_scenario_gauges(gauge_results)
     return any(gauge in processed_gauges for gauge in cllmm_gauges)
 
-def post_process_cllmm(gauge_results: dict)-> dict:
-    SA_LAKES_PU = "Coorong, Lower Lakes and Murray Mouth"
-    for _ , value in gauge_results.items():
-        ewr_dfs_to_process = []
-        if value.get("A4261002"):
-            df_a_b = value["A4261002"][SA_LAKES_PU]
-            ewr_dfs_to_process.append(df_a_b)
-        if value.get("A4260527"):
-            df_c = value["A4260527"][SA_LAKES_PU]
-            ewr_dfs_to_process.append(df_c)
-        if value.get("A4260633"):
-            df_d = value["A4260633"][SA_LAKES_PU]
-            ewr_dfs_to_process.append(df_d)
-        df_all =  pd.concat(ewr_dfs_to_process, axis= 1)
-        eventYears_columns = [ col for col in df_all.columns if "eventYears" in col]
-        all_cllmm_ewrs = list(set([col.split("_")[0] for col in eventYears_columns]))
-        cllmm_dfs = []
-        other_column_attributes = list(set([col.split("_")[-1] for col in df_all.columns if "eventYears" not in col]))
-        # only iterate with all a,b,c,d are present in the columns
-        for ewr in all_cllmm_ewrs:
-            columns = [col for col in eventYears_columns if ewr in col]
-            types_present = [ col.split('_')[1] for col in columns]
-            types_required = ['a', 'b', 'c', 'd']
-            if all(elem in types_present for elem in types_required):
-                df =pd.DataFrame(index=df_all.index)
-                e_eventYears = df_all[columns].min(axis=1)
-                df[f"{ewr}_e_eventYears"] = e_eventYears
-                for col in other_column_attributes:
-                    df[f"{ewr}_e_{col}"] = np.nan
-                cllmm_dfs.append(df)
-        if cllmm_dfs:
-            df_e = pd.concat(cllmm_dfs, axis=1)
-            value["CLLMMALL"] = {'Coorong, Lower Lakes and Murray Mouth':df_e}
-    return gauge_results
-
 class ScenarioHandler:
     
     def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None,
@@ -466,13 +431,6 @@ class ScenarioHandler:
                                                                                         EWR_table, calc_config)
         
             detailed_results[scenario] = gauge_results
-            
-            # # only process if a,b,c,d are present
-            # ewrs_to_process = EWR_table['Code'].unique()
-            # any_cllmm_in_parameter_sheet = any(['CLLMM' in ewr for ewr in ewrs_to_process])
-
-            # if any_cllmm_to_process(detailed_results) and any_cllmm_in_parameter_sheet:
-            #     detailed_results = post_process_cllmm(detailed_results)
             
             detailed_events[scenario] = gauge_events
 

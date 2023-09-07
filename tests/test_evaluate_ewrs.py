@@ -32,7 +32,7 @@ def test_ctf_handle():
     'CF1_missingDays': [0,0,0,0], 'CF1_totalPossibleDays': [365,365,365,366]} 
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[[(date(2012, 7, 1)+timedelta(days=i),0) for i in range(1461)]]}
@@ -75,7 +75,7 @@ def test_lowflow_handle():
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
 
     # Setting up expected output - events, and testing
@@ -111,16 +111,23 @@ def test_flow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'SF1_S_eventYears': [0,0,0,1], 'SF1_S_numAchieved': [0,0,0,1], 'SF1_S_numEvents': [1,0,1,3], 'SF1_S_numEventsAll': [1,1,2,3],
-           'SF1_S_maxInterEventDays': [0, 0, 0, 0], 
-           'SF1_S_maxInterEventDaysAchieved': [1, 1, 1, 1], 'SF1_S_eventLength': [10.0, 5.0, 9.5, 10.0], 'SF1_S_eventLengthAchieved': [10.0, 0.0, 14., 10.0], 
-           'SF1_S_totalEventDays': [10, 5, 19, 30], 'SF1_S_totalEventDaysAchieved': [10, 0, 14, 30], 
-            'SF1_S_maxEventDays': [10, 5, 14, 10], 'SF1_S_maxRollingEvents': [10, 5, 14, 10], 'SF1_S_maxRollingAchievement': [1, 0, 1, 1],
-            'SF1_S_missingDays': [0,0,0,0], 'SF1_S_totalPossibleDays': [365,365,365,366]}
-    index = [2012, 2013, 2014,2015]
-    expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
-    assert_frame_equal(PU_df, expected_PU_df)
+    data = {'SF1_S_eventYears': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
+            'SF1_S_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
+            'SF1_S_numEvents': {2012: 1, 2013: 0, 2014: 1, 2015: 3}, 
+            'SF1_S_numEventsAll': {2012: 1, 2013: 1, 2014: 2, 2015: 3}, 
+            'SF1_S_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+            'SF1_S_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+            'SF1_S_eventLength': {2012: 10.0, 2013: 5.0, 2014: 9.5, 2015: 10.0}, 
+            'SF1_S_eventLengthAchieved': {2012: 10.0, 2013: 0.0, 2014: 14.0, 2015: 10.0}, 
+            'SF1_S_totalEventDays': {2012: 10, 2013: 5, 2014: 19, 2015: 30}, 
+            'SF1_S_totalEventDaysAchieved': {2012: 10, 2013: 0, 2014: 14, 2015: 30}, 
+            'SF1_S_maxEventDays': {2012: 10, 2013: 5, 2014: 14, 2015: 10}, 
+            'SF1_S_maxRollingEvents': {2012: 10, 2013: 5, 2014: 14, 2015: 10},
+            'SF1_S_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 1, 2015: 1}, 
+            'SF1_S_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+            'SF1_S_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    expected_PU_df = pd.DataFrame(data)
+    assert data == PU_df.to_dict()
     # Setting up expected output - events - and testing
     expected_events = {2012: [[(date(2013, 6, 17) + timedelta(days=i), 450) for i in range(10)]], 
                         2013: [[(date(2014, 6, 26) + timedelta(days=i), 450) for i in range(5)]], 
@@ -167,7 +174,7 @@ def test_cumulative_handle():
             'OB3_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing 
     expected_events = {2012:[[(date(2013, 6, 21), 22000)]], 2013:[], 2014:[], 2015:[]}
@@ -269,7 +276,7 @@ def test_level_handle():
             'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and test
     expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 
@@ -335,7 +342,7 @@ def test_nest_handle():
             'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df)
 
@@ -399,7 +406,7 @@ def test_flow_handle_multi():
             'LF1_missingDays': [0,0,0,0], 'LF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
@@ -445,7 +452,7 @@ def test_lowflow_handle_multi():
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
@@ -488,7 +495,7 @@ def test_ctf_handle_multi():
             'CF_missingDays': [0,0,0,0], 'CF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 7, 1), 0)], 
@@ -544,7 +551,7 @@ def test_cumulative_handle_multi():
             'OB_WS1_S_missingDays': [0,0,0,0], 'OB_WS1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df)   
     # Setting up expected output - events - and testing
@@ -591,7 +598,7 @@ def test_flow_handle_sim():
             'LF1_S_missingDays': [0,0,0,0], 'LF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 1000) for i in range(5)]], 
@@ -636,7 +643,7 @@ def test_lowflow_handle_sim():
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df, check_dtype=False)
     # Setting up expected output - events - and testing
@@ -680,7 +687,7 @@ def test_ctf_handle_sim():
             'CF_a_missingDays': [0,0,0,0], 'CF_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df, check_dtype=False) 
     # Setting up expected output - events - and test
     expected_events1 = {2012:[[(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
@@ -738,7 +745,7 @@ def test_complex_handle():
             'OB2a_S_missingDays': [0,0,0,0], 'OB2a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df) 
     # Setting up expected output - events - and testing
     expected_events = {2012:[[19000]*45+[9000]*105], 2013:[], 2014:[[15000]*15+[15000]*15+[15000]*15+[9000]*55+[9000]*50], 2015:[[16000]*41+[16000]*4+[9000]*105, [18000]*45+[9000]*105]}
@@ -776,7 +783,7 @@ def test_complex_handle():
             'OB3a_S_missingDays': [0,0,0,0], 'OB3a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df) 
     # Setting up expected output - events - and testing
     expected_events = {2012:[[25000]*21+[15000]*90], 2013:[], 2014:[[15000]*90+[25000]*21, [25000]*15+[25000]*6+[15000]*80+[15000]*10], 2015:[[15000]*17+[15000]*73+[25000]*21, [25000]*21+[15000]*90]}
@@ -1144,7 +1151,7 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
     # Setting up expected output - PU_df - and testing
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = pu_df_data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df)
     

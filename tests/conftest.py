@@ -148,7 +148,7 @@ def period_date(period_index):
 def observed_handler_expected_detail():
     # Load and format expected results
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_observed.csv', index_col = 0)
-    expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    expected_detailed_results.index = expected_detailed_results.index.astype('int64')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
     for i_col, col in enumerate(expected_detailed_results):
@@ -175,7 +175,7 @@ def observed_handler_expected_detail():
 def scenario_handler_expected_detail():
     # Expected output params
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
-    expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    expected_detailed_results.index = expected_detailed_results.index.astype('int64')
     expected_detailed_results.index.astype('object')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
