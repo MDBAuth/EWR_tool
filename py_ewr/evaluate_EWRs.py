@@ -2931,9 +2931,9 @@ def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bo
     
     # evaluate larva
     larva_stability_length = EWR_info['larvae_days_spell']
-    larva_levels_to_check = levels[iteration + egg_stability_length: iteration + (egg_stability_length + larva_stability_length)]
+    larva_levels_to_check = levels[iteration + egg_stability_length - 1: iteration + (egg_stability_length + larva_stability_length)]
     is_larva_level_stable = True
-    if larva_stability_length > 0:
+    if larva_stability_length > 1:
         is_larva_level_stable = is_larva_phase_stable(larva_levels_to_check, EWR_info )
 
     return all([is_egg_level_stable, is_larva_level_stable])
