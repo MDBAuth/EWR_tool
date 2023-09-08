@@ -418,7 +418,7 @@ def get_EWR_components(category):
     elif category == 'water_stability_level':
         pull =  ['SM', 'EM', 'DUR', 'ME', 'EPY', 'MINF', 'MIE','AP','GP', 'FLV','MAXL', 'MINL', 'WPG', 'EDS', 'LDS', 'ML', 'MD']
     elif category == 'level':
-        pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV', 'MAXD','GP']
+        pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV', 'MAXD','GP','MLR']
     elif category == 'weirpool-raising':
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'weirpool-falling':

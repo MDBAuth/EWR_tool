@@ -832,6 +832,35 @@ def level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: p
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, D, water_years)
     return PU_df, tuple([E])
 
+def level_change_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: pd.DataFrame, PU_df: pd.DataFrame, allowance: dict) -> tuple:
+    '''For handling level type EWRs (low, mid, high and very high level lake fills).
+    
+    Args:
+        PU (str): Planning unit ID
+        gauge (str): Gauge number
+        EWR (str): EWR code
+        EWR_table (pd.DataFrame): EWR dataset 
+        df_L (pd.DataFrame): Daily water level data
+        PU_df (pd.DataFrame): EWR results for the current planning unit iteration
+        allowance (dict): How much to scale EWR components by (0-1)
+
+    Results:
+        tuple[pd.DataFrame, tuple[dict]]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information        
+    
+    '''
+    # Get information about EWR:
+    pull = data_inputs.get_EWR_components('level')
+    EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
+    # Mask dates:
+    masked_dates = mask_dates(EWR_info, df_L) 
+    # Extract a daily timeseries for water years
+    water_years = wateryear_daily(df_L, EWR_info)  
+    E, D = level_change_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+  
+
+    PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, D, water_years)
+    return PU_df, tuple([E])
+
 def weirpool_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, PU_df: pd.DataFrame, allowance: dict) -> tuple:
     '''For handling weirpool type EWRs.
     
@@ -1604,6 +1633,54 @@ def flow_check(EWR_info: dict, iteration: int, flow: float, event: list, all_eve
             if len(event) > 0:
                 water_year = which_water_year(iteration, total_event, water_years)
                 all_events[water_year].append(event)
+            total_event = 0
+                
+            event = []
+        
+    return event, all_events, gap_track, total_event
+
+def level_change_check(EWR_info: dict, iteration: int, levels: list, event: list, all_events: dict, gap_track: int, 
+               water_years: np.array, total_event: int, level_date: date) -> tuple:
+    '''Checks daily levels and evaluate level change in the last n days. 
+    if the change os equals or greater the event accrue and is saved against the relevant
+    water year in the event dictionary when the change is below. 
+
+    Args:
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        iteration (int): current iteration
+        levels (list): levels for the current gauge
+        event (list): current event state
+        all_events (dict): current all events state
+        gap_track (int): current gap_track state
+        water_years (np.array): list of water year for every flow iteration
+        total_event (int): current total event state
+        level_date (date): current level date
+
+    Returns:
+        tuple: the current state of the event, all_events, gap_track, total_event
+
+    '''
+    period = EWR_info['min_event']
+    season_start = date(level_date.year, EWR_info['start_month'], 1)
+    start_day = get_index_date(level_date) - timedelta(days=period-1)
+    meet_level_change_condition = evaluate_level_change(EWR_info, levels, iteration, period=period)
+    if meet_level_change_condition and start_day >= season_start:
+        if len(event) > 0:
+            threshold_level = (get_index_date(level_date), levels[iteration])
+            event.append(threshold_level)
+        if len(event) == 0:
+            levels_to_append = levels[iteration-(period-1):iteration+1]
+            start_of_event = [ (start_day + timedelta(days=i), l)  for i, l in zip(range(period), levels_to_append)]
+            event.extend(start_of_event)
+        total_event += 1
+        gap_track = EWR_info['gap_tolerance'] # reset the gapTolerance after threshold is reached
+    else:
+        if gap_track > 0:
+            gap_track = gap_track - 1
+            total_event += 1
+        else:
+            if len(event) > 0:
+                all_events[water_years[iteration]].append(event)
             total_event = 0
                 
             event = []
@@ -2959,6 +3036,23 @@ def check_weekly_level_change(levels: list, EWR_info: dict, iteration: int, even
         current_weekly_change = levels[iteration] - levels[iteration - 6 ]
     return (current_weekly_change >= level_drop_week_max*-1) if current_weekly_change < 0 else (current_weekly_change <= level_raise_week_max)
 
+def evaluate_level_change(EWR_info:dict, levels:list, iteration:int, period:int = 7) -> bool:
+    """Evaluate if in the last period days the level has changes per requirement
+
+    Args:
+        EWR_info (dict): EWR parameters
+        levels (list): Level time series values
+        iteration (int): current iteration
+        period (int, optional): lookback period. Defaults to 7.
+
+    Returns:
+        bool: True is level change is within the parameters and False otherwise
+    """
+    level_change = levels[iteration] - levels[iteration - (period - 1) ]
+
+    return False if len(levels[:iteration+1]) < period else ( level_change > EWR_info['min_level_rise'])
+
+
 def calculate_change(values:List)-> List:
     """Calcualte the change in values for items from a list
 
@@ -3477,6 +3571,52 @@ def flow_calc(EWR_info: dict, flows: np.array, water_years: np.array, dates: np.
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
         event, all_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, gap_track, water_years, total_event,flow_date)   
+    if len(event) > 0:
+        all_events[water_years[-1]].append(event)
+        total_event = 0
+    durations.append(EWR_info['duration'])
+
+    return all_events, durations
+
+
+def level_change_calc(EWR_info: dict, levels: np.array, water_years: np.array, dates: np.array, masked_dates: set) -> tuple:
+    '''For calculating level change EWRs with a time constraint within their requirements. Events are
+    therefore reset at the end of each water year.
+
+    Args:
+        EWR_info (dict): dictionary with the parameter info of the EWR being calculated
+        flows (np.array): array of daily flows
+        water_years (np.array): array of daily water year values
+        dates (np.array): array of dates
+        masked_dates (set): Dates within required date range
+    
+    Results:
+        tuple[dict, dict, list, list]: dictionaries of all events and event gaps in timeseries. Lists of annual required durations
+
+    '''
+    # Declare variables:
+    event = []
+    total_event = 0
+    all_events = construct_event_dict(water_years)
+    durations = []
+    gap_track = 0
+    # Iterate over flow timeseries, sending to the flow_check function each iteration:
+    for i, level in enumerate(levels[:-1]):
+        if dates[i] in masked_dates:
+            flow_date = dates[i]
+            event, all_events, gap_track, total_event = level_change_check(EWR_info, i, levels, event, all_events, gap_track, water_years, total_event, flow_date)
+        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
+        if water_years[i] != water_years[i+1]:
+            if len(event) > 0:
+                all_events[water_years[i]].append(event)
+                total_event = 0
+            event = []
+            durations.append(EWR_info['duration'])
+        
+    # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
+    if dates[-1] in masked_dates:
+        level_date = dates[-1]
+        event, all_events, gap_track, total_event = level_change_check(EWR_info, -1, levels, event, all_events, gap_track, water_years, total_event, flow_date)   
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
         total_event = 0

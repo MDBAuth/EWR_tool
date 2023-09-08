@@ -5454,3 +5454,182 @@ def test_rate_fall_level_check(EWR_info, iteration, event, all_events, total_eve
 
 	assert event == expected_event
 	assert all_events == expected_all_events
+
+
+@pytest.mark.parametrize("EWR_info, levels, iteration, expected", [
+    (
+		{'min_level_rise': .5},
+		[1, 2, 3, 4, 5, 6, 7], 
+		6,
+		 True
+		 ),
+    (
+		{'min_level_rise': .5},
+		[1.0, 1.2, 1.3, 1.4, 1.3, 1.4, 1.3], 
+		6,
+		 False
+		 ),
+])
+def test_evaluate_level_change(EWR_info, levels, iteration, expected):
+	
+	result = evaluate_EWRs.evaluate_level_change(EWR_info, levels, iteration)
+	
+	assert result == expected
+
+@pytest.mark.parametrize("EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event",[
+	(
+		{
+		  'gap_tolerance': 0,
+		  'min_level_rise': .5,
+		  'min_event':7,
+		  'start_month':7
+		  },
+		7,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.0, 1.2, 1.3, 1.4, 1.3, 1.4, 1.3, 1.2, 1.4] + [0]*356 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+	(
+		{
+		  'gap_tolerance': 0,
+		  'min_level_rise': .5,
+		  'min_event':7,
+		  'start_month':7},
+		7,
+		[],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6] + [0]*357 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
+			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
+			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6)],
+	),
+	(
+		{
+		  'gap_tolerance': 0,
+		  'min_level_rise': .5,
+		  'min_event':7,
+		  'start_month':7},
+		8,
+		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
+			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
+			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6)],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6, 1.9] + [0]*356 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
+			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
+			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6),(date(2012, 7, 9), 1.9)],
+	),
+	(
+		{
+		  'gap_tolerance': 0,
+		  'min_level_rise': .5,
+		  'min_event':7,
+		  'start_month':7
+		  },
+		9,
+		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
+			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
+			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6),(date(2012, 7, 9), 1.9)],
+		{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+		0,
+		np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6, 1.9, 1.5] + [0]*355 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+		{ 2012: [[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
+			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
+			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6),(date(2012, 7, 9), 1.9)]], 
+			2013: [], 
+			2014: [], 
+			2015: []},
+		[],
+	),
+])
+def test_level_change_check(EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event):
+
+	# non changing variable
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
+	level_series = pd.Series(levels_data, index=dates)
+	level_date = dates[iteration]
+	gap_track = 0
+
+	event, all_events, _, _ = evaluate_EWRs.level_change_check(EWR_info, iteration, level_series, event, all_events, gap_track, 
+															water_years, total_event, level_date)
+	print(event)
+
+	assert event == expected_event
+	assert all_events == expected_all_events
+
+
+
+@pytest.mark.parametrize("EWR_info, levels, expected_all_events",[
+	(   
+		{ 'gap_tolerance': 0,
+		  'min_level_rise': .5,
+		  'duration': 1,
+		  'min_event': 7,
+		  'start_month': 7,},	    
+	 np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6, 1.9, 1.5] + [0]*355 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366), 
+	{   2012: [[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), (date(2012, 7, 5), 1.3), 
+			 (date(2012, 7, 6), 1.4), (date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6), (date(2012, 7, 9), 1.9)]],
+		2013: [],
+		2014: [],
+		2015: []}
+	),
+])
+def test_level_change_calc(EWR_info, levels, expected_all_events):
+	
+	# non changing variable
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+
+	all_events, _ = evaluate_EWRs.level_change_calc(EWR_info, levels, water_years, dates, masked_dates)
+
+	print(all_events)
+
+	assert all_events == expected_all_events
+
+
+
