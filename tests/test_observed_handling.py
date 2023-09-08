@@ -85,7 +85,7 @@ def test_categorise_gauges():
     assert set(ll) == set(expected_level)
 
 
-# @pytest.mark.skip(reason="Http server error")
+@pytest.mark.skip(reason="Http server error")
 def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
 
     observed_handler_instance.process_gauges()
@@ -94,7 +94,7 @@ def test_observed_handler_class(observed_handler_expected_detail, observed_handl
 
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], observed_handler_expected_detail)
 
-# @pytest.mark.skip(reason="Http server error")
+@pytest.mark.skip(reason="Http server error")
 def test_get_all_events(observed_handler_instance):
 
     all_events = observed_handler_instance.get_all_events()
@@ -103,7 +103,7 @@ def test_get_all_events(observed_handler_instance):
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
 
-# @pytest.mark.skip(reason="Http server error")
+@pytest.mark.skip(reason="Http server error")
 def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
@@ -114,7 +114,7 @@ def test_get_yearly_ewr_results(observed_handler_instance):
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
 
-# @pytest.mark.skip(reason="Http server error")
+@pytest.mark.skip(reason="Http server error")
 def test_get_ewr_results(observed_handler_instance):
 
     ewr_results = observed_handler_instance.get_ewr_results()
