@@ -1,10 +1,12 @@
 from datetime import date, timedelta, datetime
-import random
 import re
+import json
 
 import pandas as pd
 import pytest
 import pickle
+from unittest.mock import patch
+import mdba_gauge_getter
 
 from py_ewr import observed_handling, scenario_handling, data_inputs
 
@@ -200,20 +202,6 @@ def scenario_handler_expected_detail():
     return expected_detailed_results
 
 @pytest.fixture(scope="module")
-def observed_handler_instance():
-    # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
-
-    ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
-
-    ewr_oh.process_gauges()
-
-    return ewr_oh
-
-@pytest.fixture(scope="module")
 def scenario_handler_instance():
     # Testing the MDBA bigmod format:
     # Input params
@@ -357,3 +345,25 @@ def qld_parameter_sheet():
 def vic_parameter_sheet():
     EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/vic_parameter_sheet.csv")
     return EWR_table
+
+def gg_pull_mock(*args, **kwargs):
+
+    with open('unit_testing_files/mock_gg_pull.json', 'r') as f:
+        data = json.load(f)
+
+    gg_response = pd.DataFrame(data)
+
+    return gg_response
+
+@pytest.fixture(scope="module")
+def observed_handler_instance():
+    # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    with patch("mdba_gauge_getter.gauge_getter.gauge_pull", side_effect=gg_pull_mock):
+        ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
+        ewr_oh.process_gauges()
+        yield ewr_oh

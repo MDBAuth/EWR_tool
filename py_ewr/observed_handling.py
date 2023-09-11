@@ -171,6 +171,7 @@ class ObservedHandler:
         levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'LL')
         stage = gg.gauge_pull(stage_gauges, start_time_user=self.dates['start_date'],
                                end_time_user=self.dates['end_date'], var='L')
+        
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
