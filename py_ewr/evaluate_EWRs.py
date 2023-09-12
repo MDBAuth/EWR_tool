@@ -854,7 +854,7 @@ def level_change_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
-    water_years = wateryear_daily(df_L, EWR_info)  
+    water_years = wateryear_daily(df_L, EWR_info)
     E, D = level_change_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
   
 
@@ -5754,7 +5754,9 @@ HANDLING_FUNCTIONS = {
     'water_stability_handle': water_stability_handle,
     'water_stability_level_handle' : water_stability_level_handle,
     'flow_handle_anytime': flow_handle_anytime,
-    'cumulative_handle_qld': cumulative_handle_qld
+    'cumulative_handle_qld': cumulative_handle_qld,
+    'level_change_handle': level_change_handle,
+    'rise_and_fall_handle' : rise_and_fall_handle
     }
 
 def get_gauge_calc_type(complex_:bool, multigauge:bool, simultaneous:bool)-> str:

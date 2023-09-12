@@ -37,7 +37,12 @@
         "FrW",
         "FrL",
         "CTF",
-        "F"
+        "F3",
+        "F",
+        "RFL",
+        "RRL",
+        "RRF",
+        "RFF"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
@@ -102,6 +107,14 @@
         "F-FrW-single": "water_stability_handle",
         "L-FrL-single": "water_stability_level_handle",
         "F-WL-single": "flow_handle",
-        "F-F-single": "flow_handle"
+        "L-F-single": "level_change_handle",
+        "L-F3-single": "level_change_handle",
+        "F-F3-single": "flow_handle",
+        "F-F-single": "flow_handle",
+        "L-RRL-single": "rise_and_fall_handle",
+        "L-RFL-single": "rise_and_fall_handle",
+        "F-RFF-single": "rise_and_fall_handle",
+        "F-RRF-single": "rise_and_fall_handle"
+
     }
 }

@@ -251,7 +251,6 @@ def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handl
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
 
 
-# @pytest.mark.xfail(raises=TypeError, reason="yearly events on Nest ewr missing the date")
 def test_get_all_events(scenario_handler_instance):
 
     all_events = scenario_handler_instance.get_all_events()
@@ -260,7 +259,6 @@ def test_get_all_events(scenario_handler_instance):
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
         
-#TODO: test all_interEvents
 def test_get_all_interEvents(scenario_handler_instance):
 
     all_interEvents = scenario_handler_instance.get_all_interEvents()
@@ -268,7 +266,6 @@ def test_get_all_interEvents(scenario_handler_instance):
     assert all_interEvents.shape == (26, 7)
     assert all_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'startDate', 'endDate', 'interEventLength']
 
-#TODO: test_get_all_successful_events
 def test_get_all_successful_events(scenario_handler_instance):
 
     all_successful_events = scenario_handler_instance.get_all_successful_events()
@@ -277,7 +274,6 @@ def test_get_all_successful_events(scenario_handler_instance):
     assert all_successful_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                                        'eventDuration', 'eventLength', 'Multigauge']
 
-#TODO: test get_all_successful_interEvents
 def test_get_all_successful_interEvents(scenario_handler_instance):
 
     all_successful_interEvents = scenario_handler_instance.get_all_successful_interEvents()
@@ -306,7 +302,7 @@ def test_get_ewr_results(scenario_handler_instance):
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
-       'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
+       'AverageEventLength', 'ThresholdDays', 
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
     
 def test_any_cllmm_to_process(gauge_results):
