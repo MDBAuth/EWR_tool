@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="py_ewr",
-    version="1.0.6",
+    version="1.0.8",
     author="Martin Job",
     author_email="Martin.Job@mdba.gov.au",
     description="Environmental Water Requirement calculator",
@@ -26,6 +26,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Framework :: Pytest',
     ],
     packages=find_packages(exclude=["tests"]),
