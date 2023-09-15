@@ -596,7 +596,8 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     elif category == 'flow gauges':
         return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges + flow_barrage_gauges + qld_flow_gauges)
     elif category == 'level gauges':
-        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + vic_level_gauges)
+        level_gauges = EWR_table[EWR_table['FlowLevelVolume']=='L']['Gauge'].to_list()
+        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + level_gauges)
     else:
         raise ValueError('''No gauge category sent to the "get_gauges" function''')
     

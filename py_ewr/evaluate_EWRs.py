@@ -5859,7 +5859,6 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
             ewr_prefixes = calc_config['ewr_prefixes']
             paramID_to_handling_function = calc_config['paramID_to_handling_function']
 
-        
             # Save dict with function arguments value
             all_args = {"PU": PU, 
             "gauge": gauge, 
@@ -5882,7 +5881,6 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
                 print(f"skipping because {PU}-{gauge}-{EWR} is not associated with any calculation in the")
                 print(f"configuration file add {cat}-{ewr_prefix}-{gauge_calc_type} to the configuration file")
                 continue
-
             kwargs = build_args(all_args, handle_function)
     
             if COMPLEX:
@@ -5890,7 +5888,6 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
                 continue
         
             PU_df, events = handle_function(**kwargs)
-
             if events != {}:
                 PU_events[str(EWR)]=events
         

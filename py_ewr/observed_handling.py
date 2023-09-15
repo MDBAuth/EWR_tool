@@ -31,6 +31,14 @@ def categorise_gauges(gauges: list) -> tuple:
     flow_gauges = []
     stage_gauges = []
 
+    # if EWR_TABLE:
+    #     level_gauges_to_add = EWR_TABLE[EWR_TABLE['FlowLevelVolume']=='L']['Gauge'].to_list()
+    #     level_gauges.extend(level_gauges_to_add)
+    #     flow_gauges_to_add = EWR_TABLE[EWR_TABLE['FlowLevelVolume']=='F']['Gauge'].to_list()
+    #     flow_gauges.extend(flow_gauges_to_add)
+    #     volume_gauges_to_add = EWR_TABLE[EWR_TABLE['FlowLevelVolume']=='V']['Gauge'].to_list()
+    #     flow_gauges.extend(volume_gauges_to_add)
+
     # Loop through once to get the special gauges:
     for gauge in gauges:
         if gauge in multi_gauges.keys():
@@ -171,7 +179,6 @@ class ObservedHandler:
         levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'LL')
         stage = gg.gauge_pull(stage_gauges, start_time_user=self.dates['start_date'],
                                end_time_user=self.dates['end_date'], var='L')
-        
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
@@ -269,7 +276,7 @@ class ObservedHandler:
 
         all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
 
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1, self.parameter_sheet) 
 
         return all_successfulEvents
 
@@ -292,7 +299,7 @@ class ObservedHandler:
         all_events_temp2 = summarise_results.filter_duplicate_start_dates(all_events_temp2)
 
         # Part 1 - Get only the successful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2, self.parameter_sheet) 
 
         # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
         # Get start and end date of the timeseries.
@@ -340,7 +347,7 @@ class ObservedHandler:
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
 
         # Filter out the unsuccessful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp, self.parameter_sheet)
         
         # Get start and end date of the timeseries.
         date0 = self.flow_data.index[0]
@@ -349,13 +356,13 @@ class ObservedHandler:
         end_date = date(date1.year, date1.month, date1.day)
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
         rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, self.dates['start_date'], self.dates['end_date'],
-                                                                                     yearly_ewr_results)
+                                                                                     yearly_ewr_results, self.parameter_sheet)
 
         # Add the rolling max interevents to the yearly dataframe:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results,
                                                                                 rolling_max_interevents_dict)
 
-        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results)
+        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)
 
         return yearly_ewr_results
 

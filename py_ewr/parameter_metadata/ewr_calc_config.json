@@ -38,11 +38,11 @@
         "FrL",
         "CTF",
         "F3",
-        "F",
         "RFL",
         "RRL",
         "RRF",
-        "RFF"
+        "RFF",
+        "F"
     ],
     "paramID_to_handling_function": {
         "F-CF-single": "ctf_handle",
