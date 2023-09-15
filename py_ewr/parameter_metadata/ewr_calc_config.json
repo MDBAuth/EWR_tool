@@ -239,6 +239,8 @@
         "F2_a_S-single-F",
         "F2_b-single-F",
         "F1_b_S-single-F",
+        "F2_P-single-F",
+        "F2_S-single-F",
         "F1_pd-single-F",
         "F1_sd-single-F",
         "F2_pd-single-F",
@@ -247,6 +249,7 @@
         "BKPP_sd-single-F",
         "SF1a-single-F",
         "SF1b-single-F",
+        "SF1_S-single-nan",
         "F1_c_P-single-F",
         "F1_c_S-single-F",
         "F2_c_P_pd-single-F",
@@ -262,7 +265,29 @@
         "SF2_S_pd-single-F",
         "SF2_S_sd-single-F",
         "BK1_P_pd-single-F",
-        "BK1_S_sd-single-F"
+        "BK1_S_sd-single-F",
+        "F1_c-single-F",
+        "F2_a-single-F",
+        "F2_c-single-F",
+        "F3_a-single-F",
+        "F3_b-single-F",
+        "F3_c-single-F",
+        "F4_a-single-F",
+        "F4_b-single-F",
+        "F4_c-single-F",
+        "F5_a-single-F",
+        "F5_b-single-F",
+        "F6_a-single-F",
+        "F6_b-single-F",
+        "BK1_a_P-single-F",
+        "BK1_b_P-single-F",
+        "BK1_a_S-single-F",
+        "BK1_b_S-single-F",
+        "F5_c-single-F",
+        "BK1_a-single-F",
+        "BK1_b-single-F",
+        "LF1a-single-F",
+        "LF1b-single-F"
     ],
     "flow_handle_sa": [
         "IC1_P-single-L",
@@ -312,10 +337,10 @@
         "CF1_hot-single-F",
         "CF1_cool-single-F",
         "CF1_d-single-F",
-        "CF1_a_P_pd-single-F",
-        "CF1_a_S_pd-single-F",
-        "CF1_a_S_sd-single-F",
-        "CF1_a_P_sd-single-F"
+        "CF1_c_P_pd-single-F",
+        "CF1_c_S_pd-single-F",
+        "CF1_c_S_sd-single-F",
+        "CF1_c_P_sd-single-F"
     ],
     "lowflow_handle": [
         "VF_a-single-F",
@@ -353,9 +378,16 @@
         "BF3_b-single-F",
         "BF1_P-single-F",
         "BF1_S-single-F",
+        "BF1_PS-single-F",
+        "BF1_c-single-F",
+        "BF2_c-single-F",
+        "BF2_PS-single-F",
         "BF1_c_P-single-F",
         "BF1_c_S-single-F",
-        "BF2_c-single-F"
+        "BF2_c_P-single-F",
+        "BF2_c_S-single-F",
+        "BF4-single-F",
+        "BF5-single-F"
     ],
     "ctf_handle_multi": [
         "CF-multigauge-F"
@@ -497,6 +529,6 @@
         "RFL_sp-single-L"
     ],
     "level_change_handle": [
-        "F3-single-L"
+        "FLR-single-L"
     ]
 }
