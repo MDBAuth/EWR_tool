@@ -5794,10 +5794,16 @@ def get_ewr_prefix(ewr_code:str, prefixes:list)-> str:
             return prefix
     return 'unknown'
 
-def get_handle_function(category: str, ewr_prefix:str, gauge_calc_type:str, paramID_to_handling_function:dict)-> str:
-    paramID = f"{category}-{ewr_prefix}-{gauge_calc_type}"
-    handling_function_name = paramID_to_handling_function.get(paramID)
-    return HANDLING_FUNCTIONS[handling_function_name] if handling_function_name else None
+def get_handle_function(function_name: str) -> object:
+    """return handling function
+
+    Args:
+        function_name (str): name of function
+
+    Returns:
+        object: handling function
+    """
+    return HANDLING_FUNCTIONS.get(function_name)
 
 def build_args(args:dict, function:object)-> dict:
     """Builds a dictionary of arguments for a function
@@ -5811,6 +5817,21 @@ def build_args(args:dict, function:object)-> dict:
     """
     func_object_info = inspect.getfullargspec(function)
     return {k: v for k, v in args.items() if k in func_object_info.args}
+
+def find_function(ewr_key:str, new_config_file:dict) -> str:
+    """find handle function name given an ewr key
+
+    Args:
+        ewr_key (str): ewr key {code}-{gauge_calc_type}-{flow_level_volume}
+        new_config_file (dict): configuration file with the mappings of ewr keys to handle functions
+
+    Returns:
+        str: handling function name
+    """
+    for k, v in new_config_file.items():
+        if any([ewr_key == i for i in v]):
+            return k
+    return 'unknown'
 
 #---------------------------- Sorting and distributing to handling functions ---------------------#
 
@@ -5856,8 +5877,6 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
             # SIMULTANEOUS calculations is switched off
             # SIMULTANEOUS = PU in simultaneous_gauges and gauge in simultaneous_gauges[PU]
             SIMULTANEOUS = False
-            ewr_prefixes = calc_config['ewr_prefixes']
-            paramID_to_handling_function = calc_config['paramID_to_handling_function']
 
             # Save dict with function arguments value
             all_args = {"PU": PU, 
@@ -5872,14 +5891,15 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
 
             cat = EWR_categories[i]
             gauge_calc_type = get_gauge_calc_type(COMPLEX, MULTIGAUGE, SIMULTANEOUS)
-            ewr_prefix = get_ewr_prefix(EWR, ewr_prefixes)
-            if ewr_prefix == 'unknown':
-                print(f"skipping due to unknown prefix for {PU}-{gauge}-{EWR} please add a prefix in the configuration files")
+            ewr_key = f'{EWR}-{gauge_calc_type}-{cat}'
+            function_name = find_function(ewr_key, calc_config)
+            if function_name == 'unknown':
+                print(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
                 continue
-            handle_function = get_handle_function(cat, ewr_prefix, gauge_calc_type, paramID_to_handling_function)
+            handle_function = get_handle_function(function_name)
             if not handle_function:
-                print(f"skipping because {PU}-{gauge}-{EWR} is not associated with any calculation in the")
-                print(f"configuration file add {cat}-{ewr_prefix}-{gauge_calc_type} to the configuration file")
+                print(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
+                print(f"add {ewr_key} to the configuration file in the appropriate handle function")
                 continue
             kwargs = build_args(all_args, handle_function)
     

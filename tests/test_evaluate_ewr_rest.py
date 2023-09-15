@@ -2745,13 +2745,12 @@ def test_get_ewr_prefix(ewr_code, prefixes, expected_result):
 	result = evaluate_EWRs.get_ewr_prefix(ewr_code, prefixes)
 	assert result == expected_result
 
-@pytest.mark.parametrize("category,ewr_prefix,gauge_calc_type,expected_result",[
-	("F", "CF", "single",'ctf_handle'),
-	("F", "CF", "multigauge",'ctf_handle_multi'),
+@pytest.mark.parametrize("function_name, expected_result",[
+	('ctf_handle','ctf_handle'),
+	('ctf_handle_multi','ctf_handle_multi'),
 ])
-def test_get_handle_function(category, ewr_prefix, gauge_calc_type,expected_result, ewr_calc_config):
-	paramID_to_handling_function = ewr_calc_config["paramID_to_handling_function"]
-	result = evaluate_EWRs.get_handle_function(category, ewr_prefix, gauge_calc_type, paramID_to_handling_function)
+def test_get_handle_function(function_name, expected_result):
+	result = evaluate_EWRs.get_handle_function(function_name)
 	assert result.__name__ == expected_result
 
 @pytest.mark.parametrize("args,function_name,expected_result",[
@@ -5631,5 +5630,17 @@ def test_level_change_calc(EWR_info, levels, expected_all_events):
 
 	assert all_events == expected_all_events
 
-
-
+@pytest.mark.parametrize("ewr_key, expected_result", [
+	( 
+		'IC2_S-single-F', 'flow_handle'
+	),
+	( 
+		'F3-single-L', 'level_change_handle'
+	),
+	( 
+		'XXXXXX-single-L', 'unknown'
+	),
+])
+def test_find_function(ewr_key, expected_result, ewr_calc_config):
+	result = evaluate_EWRs.find_function(ewr_key, ewr_calc_config)
+	assert result == expected_result
