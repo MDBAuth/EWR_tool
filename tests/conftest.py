@@ -4,10 +4,7 @@ import json
 
 import pandas as pd
 import pytest
-<<<<<<< HEAD
 import pickle
-=======
->>>>>>> main
 from unittest.mock import patch
 import mdba_gauge_getter
 
