@@ -5,15 +5,6 @@
 
 ### **EWR tool version 1.1.7 README**
 
-*************
-The EWR tool was developed by Ben Wolfenden (NSW DPE), Martin Job (MDBA) and Pedro Junqueira (Agile Analytics).
-
-The method within the code is based on the EWR assessment method created by Ian Burns (NSW DPE).
-
-We would like to thank Carmen Amos (NSW DPE), Markus Buerle (NSW DPE), Lara Palmer (MDBA), Ben Bradshaw (MDBA), Joel Bailey (MDBA) Dennis Stahl (Agile Analytics) and Blake Lawrence (Agile Analytics)  for their work on putting together the EWR dataset, refinement of the codebase, and input to the logic.
-*************
-
-
 ### **Installation**
 
 Note - requires Python 3.8 or newer

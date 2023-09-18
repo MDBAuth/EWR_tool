@@ -4,7 +4,10 @@ import json
 
 import pandas as pd
 import pytest
+<<<<<<< HEAD
 import pickle
+=======
+>>>>>>> main
 from unittest.mock import patch
 import mdba_gauge_getter
 
@@ -200,6 +203,15 @@ def scenario_handler_expected_detail():
                 expected_detailed_results.iat[i, i_col] = new_list
 
     return expected_detailed_results
+
+def gg_pull_mock(*args, **kwargs):
+
+    with open('unit_testing_files/mock_gg_pull.json', 'r') as f:
+        data = json.load(f)
+
+    gg_response = pd.DataFrame(data)
+
+    return gg_response
 
 @pytest.fixture(scope="module")
 def scenario_handler_instance():
