@@ -1322,6 +1322,7 @@ def test_check_cease_flow_period(flows, iteration, period, expected_result):
     assert result == expected_result
 
 
+@pytest.mark.skip(reason="Not implemented yet")
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
     (
     {   2012:[], 

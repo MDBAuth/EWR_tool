@@ -3755,83 +3755,260 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
 			assert event == expected_all_events[year][i]
 
 
-@pytest.mark.parametrize("EWR_info,iteration,flows_data,event,all_events,all_no_events,total_event,expected_all_events,expected_event",[
+@pytest.mark.parametrize("EWR_info, iteration, flows, all_events, ctf_state, expected_all_events, expected_ctf_state",[
 	(
-	 {'gap_tolerance': 0 ,
-      'min_flow' : 70,
-      'drawdown_rate': 50,
+	 {
+      'min_flow' : 20,
 	   'duration':5,
-	   'non_flow_spell': 365
+	   'min_event': 5,
+	   'non_flow_spell': 15
     },
-     1095,	
-	 np.array([0]*365 + 
-	   		  [0]*365 + 
-			  [0]*365 + 
-			  [80]*10 + [0]*356),
-	[],
+     0,	
+	 np.array(  [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
 	{2012:[], 
 	 2013:[], 
 	 2014:[], 
 	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 0,
+	{
+	  'events': [], 
+		'in_event': False
+	},
 	{ 2012: [], 
 		2013: [], 
 		2014: [], 
 		2015: []},
-	[(date(2015, 7, 1), 80)],
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(1)]], 
+		'in_event': True
+	},
 	),
 	(
-	 {'gap_tolerance': 0 ,
-      'min_flow' : 70,
-      'drawdown_rate': 50,
+	 {
+      'min_flow' : 20,
 	   'duration':5,
-	   'non_flow_spell': 365
+	   'min_event': 5,
+	   'non_flow_spell': 15
     },
-     1095,	
-	 np.array([0]*365 + 
-	   		  [0]*365 + 
-			  [10]*365 + 
-			  [80]*10 + [0]*356),
-	[],
+     1,	
+	 np.array(  [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
 	{2012:[], 
 	 2013:[], 
 	 2014:[], 
 	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 0,
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(1)]], 
+		'in_event': True
+	},
 	{ 2012: [], 
 		2013: [], 
 		2014: [], 
 		2015: []},
-	[],
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(2)]], 
+		'in_event': True
+	},
+	),
+	(
+	 {
+      'min_flow' : 20,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+     15,	
+	 np.array(  [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': True
+	},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': False
+	},
+	),
+	(
+	 {
+      'min_flow' : 20,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 16
+    },
+     15,	
+	 np.array(  [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': True
+	},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	{
+	  'events': [], 
+		'in_event': False
+	},
+	),
+	(
+	 {
+      'min_flow' : 20,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+     25,	
+	 np.array(  [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': False
+	},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)],
+			     [(date(2012,7,26) + timedelta(days=i), 0) for i in range(1)]], 
+		'in_event': True
+	},
+	),
+	(
+	 {
+       'min_flow' : 20,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+     40,	
+	 np.array(  [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)],
+			     [(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': True
+	},
+	{ 2012: [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2012,7,16) + timedelta(days=i), 5) for i in range(10)] +
+			 [(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)]
+	        ], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	{
+	  'events': [[(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': False
+	},
+	),
+	(
+	 {
+       'min_flow' : 20,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+     40,	
+	 np.array(  [0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)],
+			     [(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': True
+	},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	{
+	  'events': [[(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': False
+	},
 	),
 ])
-def test_flow_check_ctf(EWR_info,iteration,flows_data,event,all_events,all_no_events,total_event,expected_all_events,expected_event):
+def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expected_all_events, expected_ctf_state):
+	"""
+		1. Test starting a first dry spell event
+		2. Test appending to a current dry spell event
+		3. Test ending the first dry spell event with a dry spell meeting non_flow_spell duration
+		4. Test ending the first dry spell event with a dry spell not meeting non_flow_spell duration
+		5. Test starting the second dry spell event with a dry spell meeting non_flow_spell duration
+		6. Test ending the second dry spell event evaluating an unsuccessful event Fish Dispersal
+		7. Test ending the second dry spell event evaluating an successful event Fish Dispersal
+	"""
 	# non changing variable
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	flows= pd.Series(flows_data, index=dates)
 	flow_date = dates[iteration]
-	gap_track = 0
 	
-	event, all_events, _, _ = evaluate_EWRs.flow_check_ctf(EWR_info, iteration, flows, event, all_events, gap_track,
-								                                    water_years, total_event, flow_date)
-	print(all_events)
+	all_events, ctf_state = evaluate_EWRs.flow_check_ctf(EWR_info, iteration, flows, all_events, water_years, flow_date, ctf_state)
 
-	assert event == expected_event
+	assert ctf_state == expected_ctf_state
 
 	for year in all_events:
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
-
-[(date(2012,7,1) + timedelta(days=i), 80) for i in range(10)]
 
 @pytest.mark.parametrize("EWR_info,flows_data,expected_all_events",[
 	(
@@ -3850,24 +4027,7 @@ def test_flow_check_ctf(EWR_info,iteration,flows_data,event,all_events,all_no_ev
 	 2014:[], 
 	 2015:[]}
 	
-	),
-	(
-	   {'gap_tolerance': 0 ,
-      'min_flow' : 70,
-	   'duration':5,
-	   'non_flow_spell': 365,
-	   'min_event': 1
-    },
-	np.array([0]*365 + 
-	   		  [0]*365 + 
-			  [0]*365 + 
-			  [80]*10 + [0]*356),
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[[(date(2015,7,1) + timedelta(days=i), 80) for i in range(10)]]}
-	
-	),
+	)
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	
@@ -5644,3 +5804,69 @@ def test_level_change_calc(EWR_info, levels, expected_all_events):
 def test_find_function(ewr_key, expected_result, ewr_calc_config):
 	result = evaluate_EWRs.find_function(ewr_key, ewr_calc_config)
 	assert result == expected_result
+
+
+@pytest.mark.parametrize("flows, iteration, ctf_state,expected_flows",[
+	(
+		[0]*15 + # first dry spell
+		[5]*10 + # in between
+		[0]*15 + # second dry spell
+		[6]*30,
+		40,
+		{
+			'events':[
+						[(date(2020,1,1) + timedelta(days=i), 0)  for i in range(15)], # first dry spell
+						[(date(2020,1,26) + timedelta(days=i), 0)  for i in range(15)]  # second dry spell
+					 ], 
+		'in_event': False
+		},
+		[5]*10
+	)
+])
+def test_get_flows_in_between_dry_spells(flows, iteration, ctf_state,expected_flows):
+	result = evaluate_EWRs.get_flows_in_between_dry_spells(flows, iteration, ctf_state)
+	assert result == expected_flows
+
+@pytest.mark.parametrize("flows, iteration, ctf_state, expected_event",[
+	(
+	   flows := [0]*15 + # first dry spell
+				[5]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*30,
+		40,
+		{
+			'events':[
+						[(date(2020,1,1) + timedelta(days=i), 0)  for i in range(15)], # first dry spell
+						[(date(2020,1,26) + timedelta(days=i), 0)  for i in range(15)]  # second dry spell
+					 ], 
+		'in_event': False
+		},
+		[(date(2020,1,1) + timedelta(days=i), flow)  for i, flow in zip(range(40), flows[:40]) ]
+	)
+])
+def test_get_full_failed_event(flows, iteration, ctf_state, expected_event):
+	result = evaluate_EWRs.get_full_failed_event(flows, iteration, ctf_state)
+	print(result)
+	assert result == expected_event
+
+
+@pytest.mark.parametrize("EWR_info, flows, expected_events",[
+	(
+		{
+		 'min_flow': 6.
+		},
+		[2,2,2,8,8,8,8,6,6,5,5,4,4,4,3,3,5,5,6,6,6,7,7,7,7,8,8,8,9],
+		[[8, 8, 8, 8, 6, 6], [6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 9]]
+	),
+	(
+		{
+		 'min_flow': 20.
+		},
+		[2,2,2,8,8,8,8,6,6,5,5,4,4,4,3,3,5,5,6,6,6,7,7,7,7,8,8,8,9],
+		[]
+	),
+])
+def test_get_threshold_events(EWR_info, flows, expected_events):
+	result = evaluate_EWRs.get_threshold_events(EWR_info, flows)
+	print(result)
+	assert result == expected_events
