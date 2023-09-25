@@ -4012,24 +4012,112 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 
 @pytest.mark.parametrize("EWR_info,flows_data,expected_all_events",[
 	(
-	   {'gap_tolerance': 0 ,
-      'min_flow' : 70,
+ 	{
+      'min_flow' : 20,
 	   'duration':5,
-	   'non_flow_spell': 365,
-	   'min_event': 1
+	   'min_event': 5,
+	   'non_flow_spell': 15
     },
-	np.array([0]*365 + 
-	   		  [0]*365 + 
-			  [10]*365 + 
-			  [80]*10 + [0]*356),
+		 np.array(  [0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
 	{2012:[], 
 	 2013:[], 
 	 2014:[], 
 	 2015:[]}
 	
-	)
+	),
+	(
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+		 np.array(  [0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[
+			[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2012,7,16) + timedelta(days=i), 20) for i in range(10)] +
+			 [(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)]
+	], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
+	(
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+		 np.array(  [0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell
+				[20]*10 + # in between
+				[0]*15 + # third dry spell
+				[6]*300 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[
+			[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2012,7,16) + timedelta(days=i), 20) for i in range(10)] +
+			 [(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)],
+			 [(date(2012,7,26) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2012,8,10) + timedelta(days=i), 20) for i in range(10)] +
+			 [(date(2012,8,20) + timedelta(days=i), 0) for i in range(15)]
+
+	], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
+		(
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15
+    },
+		 np.array( 
+				[6]*325 +
+				[0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell		      
+				[6]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[
+		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2013,6,6) + timedelta(days=i), 20) for i in range(10)] +
+			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
+	 ], 
+	 2014:[], 
+	 2015:[]}
+	
+	),
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
+	'''
+		1. Test a successful fish dispersal (DO NOT RECORD)
+		2. Test a unsuccessful fish dispersal (RECORD)
+		3. Test a consecutive unsuccessful fish dispersal (RECORD 2 overlapping events)
+		4. Test a unsuccessful fish dispersal (RECORD) over a year boundary
+	'''
 	
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()

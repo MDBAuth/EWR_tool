@@ -2151,7 +2151,7 @@ def volume_level_check_bbr(EWR_info:Dict, iteration:int, flow:float, event:List,
             event_state["level_crossed_down"] = False if levels[iteration] > EWR_info['max_level'] else True
         
     # if go back to cease to flow and level is below and never crosses up 
-    if flow <= 1 and not event_state["level_crossed_down"] and not event_state["level_crossed_up"]:
+    if flow <= 1:
         # if achieved_min_volume(event, EWR_info) :
         #     all_events[water_years[iteration]].append(event)
         total_event = 0
