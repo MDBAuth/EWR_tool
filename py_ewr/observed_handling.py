@@ -9,9 +9,8 @@ import numpy as np
 from . import data_inputs, evaluate_EWRs, summarise_results, scenario_handling
 from mdba_gauge_getter import gauge_getter as gg
 
-logging.basicConfig()
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+log.addHandler(logging.NullHandler())
 
 def categorise_gauges(gauges: list) -> tuple:
     '''Seperate gauges into level, flow, or both

@@ -3761,7 +3761,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
       'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
      0,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3793,7 +3794,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
       'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
      1,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3825,7 +3827,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
       'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
      15,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3857,7 +3860,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
       'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 16
+	   'non_flow_spell': 16,
+	   'ctf_threshold': 1
     },
      15,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3889,7 +3893,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
       'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
      25,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3922,7 +3927,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
        'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
      40,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3958,7 +3964,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
        'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
      40,	
 	 np.array(  [0]*15 + # first dry spell
@@ -3986,6 +3993,40 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
 		'in_event': False
 	},
 	),
+	(
+	 {
+       'min_flow' : 20,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
+    },
+     39,	
+	 np.array(  [0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*14 + # second dry spell
+				[6]*325 +		      
+				[0]*365 + 
+				[0]*365 + 
+				[0]*366),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[]},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)],
+			     [(date(2012,7,26) + timedelta(days=i), 0) for i in range(14)]], 
+		'in_event': True
+	},
+	{ 2012: [], 
+		2013: [], 
+		2014: [], 
+		2015: []},
+	{
+	  'events': [[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)]], 
+		'in_event': False
+	},
+	),
 ])
 def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expected_all_events, expected_ctf_state):
 	"""
@@ -3996,6 +4037,7 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 		5. Test starting the second dry spell event with a dry spell meeting non_flow_spell duration
 		6. Test ending the second dry spell event evaluating an unsuccessful event Fish Dispersal
 		7. Test ending the second dry spell event evaluating an successful event Fish Dispersal
+		8. Test ending the second dry spell event second dry spell not meeting non_flow_spell duration
 	"""
 	# non changing variable
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
@@ -4016,7 +4058,8 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
       'min_flow' : 20,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
 		 np.array(  [0]*15 + # first dry spell
 				[20]*10 + # in between
@@ -4036,7 +4079,8 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
       'min_flow' : 21,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
 		 np.array(  [0]*15 + # first dry spell
 				[20]*10 + # in between
@@ -4060,7 +4104,8 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
       'min_flow' : 21,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
 		 np.array(  [0]*15 + # first dry spell
 				[20]*10 + # in between
@@ -4090,7 +4135,8 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
       'min_flow' : 21,
 	   'duration':5,
 	   'min_event': 5,
-	   'non_flow_spell': 15
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
     },
 		 np.array( 
 				[6]*325 +

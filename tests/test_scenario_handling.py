@@ -21,7 +21,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata)
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/NSWEWR.csv')
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),

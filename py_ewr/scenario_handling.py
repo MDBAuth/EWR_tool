@@ -1,15 +1,17 @@
-from tracemalloc import start
 from typing import Dict, List
 import csv
 import os
 import urllib
 import re
-from datetime import datetime, date, timedelta
-from collections import OrderedDict
+from datetime import datetime, date
+import logging
 
 import pandas as pd
 from tqdm import tqdm
-import numpy as np
+ 
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
+
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
@@ -233,13 +235,13 @@ def cleaner_NSW(input_df: pd.DataFrame) -> pd.DataFrame:
         cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%d/%m/%Y')
         cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
     except ValueError:
-        print('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
         try:
             cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%Y-%m-%d')
             cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
         except ValueError:
             raise ValueError('New date format detected. Cannot read in data')
-        print('successfully read in data with yyyy-mm-dd formatting')
+        log.info('successfully read in data with yyyy-mm-dd formatting')
     cleaned_df = cleaned_df.set_index('Date')
     
     return cleaned_df
@@ -261,13 +263,13 @@ def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> 
         date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
         date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
     except ValueError:    
-        print('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
         try:
             date_start = datetime.strptime(cleaned_df.index[0], '%Y-%m-%d')
             date_end = datetime.strptime(cleaned_df.index[-1], '%Y-%m-%d')
         except ValueError:
             raise ValueError('New date format detected. Cannot read in data')
-        print('successfully read in data with yyyy-mm-dd formatting')
+        log.info('successfully read in data with yyyy-mm-dd formatting')
     
     date_range = pd.period_range(date_start, date_end, freq = 'D')
     cleaned_df['Date'] = date_range
@@ -304,7 +306,7 @@ def extract_gauge_from_string(input_string: str) -> str:
     else:
         return None
 
-def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tuple:
+def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
     the columns with EWRs available. Renames columns to gauges
     
@@ -317,8 +319,8 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tu
 
     '''
 
-    flow_gauges = data_inputs.get_gauges('flow gauges')
-    level_gauges = data_inputs.get_gauges('level gauges')
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
     measurands = ['1', '35']
     df_flow = pd.DataFrame(index = input_df.index)
     df_level = pd.DataFrame(index = input_df.index)
@@ -409,7 +411,7 @@ class ScenarioHandler:
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)
                 df_clean = cleaner_MDBA(data)
-                df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes())
+                df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
 
             elif self.model_format == 'IQQM - NSW 10,000 years':
                 df_unpacked = unpack_IQQM_10000yr(scenarios[scenario])

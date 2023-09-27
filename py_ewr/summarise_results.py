@@ -3,11 +3,14 @@ from itertools import chain
 from collections import defaultdict, OrderedDict
 import numpy as np
 import pandas as pd
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
+import logging
 
 from . import data_inputs, evaluate_EWRs
 #--------------------------------------------------------------------------------------------------
 
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
 
 def get_frequency(events: list) -> int:
     '''Returns the frequency of years they occur in.
@@ -145,7 +148,7 @@ def process_df_results(results_to_process: List[Dict])-> pd.DataFrame:
             transformed_df = process_df(**item)
             returned_dfs.append(transformed_df)
         except Exception as e:
-            print(f"Could not process due to {e}")
+            log.error(f"Could not process due to {e}")
     return pd.concat(returned_dfs, ignore_index=True)
 
 def get_events_to_process(gauge_events: dict)-> List:
@@ -188,7 +191,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                         item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
                         items_to_process.append(item)
                     except Exception as e:
-                        print(f"fail to process events for {scenario}-{pu}-{ewr}-{gauge} with error {e}")
+                        log.warning(f"no event for {scenario}-{pu}-{ewr}-{gauge} with error {e}")
                         continue
     return items_to_process
 
@@ -311,7 +314,7 @@ def process_all_events_results(results_to_process: List[Dict])-> pd.DataFrame:
             df = process_all_yearly_events(**item)
             returned_dfs.append(df)
         except Exception as e:
-            print(f"could not process due to {e}")
+            log.error(f"could not process due to {e}")
             continue
     return pd.concat(returned_dfs, ignore_index=True)
 
@@ -455,6 +458,34 @@ def filter_duplicate_start_dates(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+def get_inter_events_date_ranges(events_date_rage:List[tuple], start_date: date, end_date: date) -> list:
+
+    inter_events = []
+
+    starting_period = start_date
+    ending_period = end_date
+
+    # assuming this list is sorted by start date then sort
+    sorted_events_date_rage = sorted(events_date_rage, key=lambda x: x[0])
+
+    starting = starting_period
+
+    # get first event and in between inter events, excluding overlaps
+    for event in sorted_events_date_rage:
+        event_start, event_end = event
+
+        if starting < event_start:
+            inter_events.append( (starting, (event_start - timedelta(days=1))) )
+
+        starting = event_end + timedelta(days=1)
+
+    # get last inter event
+    if starting < ending_period:
+        inter_events.append(( starting, ending_period ))
+
+    return inter_events
+
+
 def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFrame) -> pd.DataFrame:
     '''
     Taking a dataframe of events, returning a dataframe of interevents.
@@ -468,7 +499,6 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
         pd.DataFrame: Dataframe with the interevent periods
     
     '''
-
     # Create the unique ID field
     df_events['ID'] = df_events['scenario']+df_events['gauge']+df_events['pu']+df_events['ewr']
     unique_ID = df_events['ID'].unique()
@@ -478,16 +508,17 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
     for i in unique_ID:
         contain_values = df_events[df_events['ID']==i]
         # Get the new start and end dates as lists:
-        new_ends = list(contain_values['startDate'])
-        new_starts = list(contain_values['endDate'])
+        event_starts = contain_values['startDate'].tolist()
+        event_ends = contain_values['endDate'].tolist()
+        events_date_ranges = list(zip(event_starts, event_ends))
         # Make the start date a day later and end date day earlier (interevents inclusive)
-        new_ends = [d-timedelta(days=1) for d in new_ends]
-        new_starts = [d+timedelta(days=1) for d in new_starts]
-        # Insert the start date of the timeseries at the start, end date at the end
-        new_ends = new_ends + [end_date]
-        new_starts = [start_date] + new_starts
         
-        length = len(new_starts)
+        inter_events_dates_range = get_inter_events_date_ranges(events_date_ranges, start_date, end_date)
+
+        inter_starts = [x[0] for x in inter_events_dates_range]
+        inter_ends = [x[1] for x in inter_events_dates_range]
+        
+        length = len(inter_events_dates_range)
 
         if length > 0:
             # Create the new dataframe:
@@ -497,7 +528,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
             new_ewr = [contain_values['ewr'].iloc[0]]*length
             new_ID = [contain_values['ID'].iloc[0]]*length
 
-            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'ewr': new_ewr, 'ID': new_ID, 'startDate': new_starts, 'endDate': new_ends}
+            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
 
             df_subset = pd.DataFrame(data=data)
 

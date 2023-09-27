@@ -6,12 +6,16 @@ from datetime import date, timedelta
 import datetime
 import calendar
 from itertools import chain
+import logging
 
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
 from . import data_inputs
+
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
 
 #----------------------------------- Getting EWRs from the database ------------------------------#
 
@@ -269,6 +273,9 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, allowance: 
     if 'RFL' in components:
         rate_of_fall_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallRiverLevel')
         ewrs['rate_of_fall_river_level'] = float(rate_of_fall_river_level)
+    if 'CTFT' in components:
+        ctf_threshold = component_pull(EWR_table, gauge, PU, EWR, 'CtfThreshold')
+        ewrs['ctf_threshold'] = float(ctf_threshold)
 
     return ewrs
 
@@ -935,7 +942,7 @@ def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
             # calculate based on a trigger date and % drawdown drop
             E, D = nest_calc_percent_trigger(EWR_info, df_F[gauge].values, water_years, df_F.index)
         except ValueError:
-            print(f"""Please pass a value to TriggerMonth between 1..12 and TriggerDay you passed 
+            log.info(f"""Please pass a value to TriggerMonth between 1..12 and TriggerDay you passed 
             TriggerMonth:{EWR_info['trigger_month']} TriggerDay:{EWR_info['trigger_day']} """)
             return PU_df, None
         
@@ -951,7 +958,7 @@ def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
         try:
             E, D = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
         except KeyError:
-            print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing parameter data. Specifically this EWR 
+            log.info(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing parameter data. Specifically this EWR 
             also needs data for level threshold min or level threshold max''')
             return PU_df, None
         
@@ -1331,7 +1338,6 @@ def barrage_flow_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
         all_required_gauges_in_df_F = all(gauge in df_F.columns for gauge in all_required_gauges)
     # check if current gauge is the main barrage gauge
         if all_required_gauges_in_df_F:
-            print(f'Calculating barrage flow for EWR: {EWR} for gauge: {gauge}')
             pull = data_inputs.get_EWR_components('barrage-flow')
             EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
             # Mask dates for both the flow and level dataframes:
@@ -1344,7 +1350,7 @@ def barrage_flow_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
             PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
             return PU_df, tuple([E])
     else:
-        print(f'skipping calculation because gauge {gauge} is not the main barrage flow gauge ')
+        print(f'Missing data for barrage gauges {" ".join(all_required_gauges)}')
         return PU_df, None
 
 def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: pd.DataFrame, 
@@ -1369,7 +1375,6 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
         all_required_gauges_in_df_L = all(gauge in df_L.columns for gauge in all_required_gauges)
     # check if current gauge is the main barrage gauge
         if all_required_gauges_in_df_L:
-            print(f'Calculating barrage lake level for EWR: {EWR} for gauge: {gauge}')
             pull = data_inputs.get_EWR_components('barrage-level')
             EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, allowance, pull)
             masked_dates = mask_dates(EWR_info, df_L)
@@ -1390,7 +1395,7 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
         return PU_df, tuple([E])
 
     else:
-        print(f'skipping calculation because gauge {gauge} is not the main barrage level gauge ')
+        print(f'skipping calculation because gauge {" ".join(all_required_gauges)} is not the main barrage level gauge ')
         return PU_df, None
 
 def rise_and_fall_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, 
@@ -1754,9 +1759,10 @@ def get_threshold_events(EWR_info:dict, flows:list)->list:
 def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dict, water_years: np.array, flow_date: date, ctf_state: dict) -> tuple:
     '''Checks daily flow against EWR threshold and records dry spells
     in the ctf_state dictionary in the events key.
-    When ther are 2 events in the events key it evaluates if there is at least 1 phase 2 event 
+    When there are 2 events in the events key it evaluates if there is at least 1 phase 2 event 
     (i.e. event that allow Fish Dispersal) in between the dry spells. If there is no phase 2 event i.e. 
     the event fail then it records in the all_events dictionary, otherwise does nothing.
+    It records in the all_events dictionary from the beginning of the first dry spell to the end of the second dry spell
 
     Args:
         EWR_info (dict): dictionary with the parameter info of the EWR being calculated
@@ -1773,7 +1779,7 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
     '''
     period = EWR_info["non_flow_spell"]
     flow = flows[iteration]
-    if flow <= 1:
+    if flow <= EWR_info["ctf_threshold"]:
         threshold_flow = (get_index_date(flow_date), flow)
         if ctf_state['in_event']:
             ctf_state['events'][-1].append(threshold_flow)
@@ -1786,6 +1792,8 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
     if flow > 1:
         if ctf_state['in_event']:
             ctf_state['in_event'] = False
+            if len(ctf_state['events'][-1]) < period:
+                ctf_state['events'].pop()
             if len(ctf_state['events']) == 2:
                 flows_in_between_dry_spells = get_flows_in_between_dry_spells(flows, iteration, ctf_state)
                 events_in_between_dry_spells = get_threshold_events(EWR_info, flows_in_between_dry_spells)
@@ -1797,8 +1805,6 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
                     # records the failed event inclusive of dry spells in the all event year dictionary
                     all_events[water_years[iteration]].append(full_failed_event)
                     ctf_state['events'].pop(0)
-            if len(ctf_state['events'][-1]) < period:
-                ctf_state['events'].pop()
         
     return all_events, ctf_state
 
@@ -5285,7 +5291,7 @@ def get_event_years_max_rolling_days(events:Dict , unique_water_years:List[int])
         max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
     except Exception as e:
         max_consecutive_days = [0]*len(unique_water_years)
-        print(e)
+        log.error(e)
     return [1 if (max_rolling > 0) else 0 for max_rolling in max_consecutive_days]
 
 
@@ -5393,7 +5399,7 @@ def get_event_years_volume_achieved(events:Dict , unique_water_years:List[int])-
         max_volumes = get_max_volume(events, unique_water_years)
     except Exception as e:
         max_volumes = [0]*len(unique_water_years)
-        print(e)
+        log.error(e)
     return [1 if (max_vol > 0) else 0 for max_vol in max_volumes]
 
 def get_event_max_inter_event_achieved(EWR_info:Dict, no_events:Dict , unique_water_years:List[int])->List:
@@ -5409,7 +5415,7 @@ def get_event_max_inter_event_achieved(EWR_info:Dict, no_events:Dict , unique_wa
         max_inter_event_achieved = get_max_inter_event_days(no_events, unique_water_years)
     except Exception as e:
         max_inter_event_achieved = [0]*len(unique_water_years)
-        print(e)
+        log.error(e)
     return [0 if (max_inter_event > EWR_info['max_inter-event']*365) else 1 for max_inter_event in max_inter_event_achieved]
 
 def get_max_rolling_duration_achievement(durations:List[int], max_consecutive_days:List[int])-> List[int]:
@@ -5660,7 +5666,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
         max_consecutive_days = [0]*len(unique_water_years)
         MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
         PU_df = pd.concat([PU_df, MR], axis = 1)
-        print(e)
+        log.error(e)
     # Max rolling duration achieved
     achieved_max_rolling_duration = get_max_rolling_duration_achievement(durations, max_consecutive_days)
     MRA = pd.Series(name = str(EWR + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
@@ -5956,17 +5962,17 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, allowance:Dict,
             ewr_key = f'{EWR}-{gauge_calc_type}-{cat}'
             function_name = find_function(ewr_key, calc_config)
             if function_name == 'unknown':
-                print(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
+                log.warning(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
                 continue
             handle_function = get_handle_function(function_name)
             if not handle_function:
-                print(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
-                print(f"add {ewr_key} to the configuration file in the appropriate handle function")
+                log.warning(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
+                log.warning(f"add {ewr_key} to the configuration file in the appropriate handle function")
                 continue
             kwargs = build_args(all_args, handle_function)
     
             if COMPLEX:
-                print(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
+                log.warning(f"skipping due to not validated calculations for {PU}-{gauge}-{EWR}")
                 continue
         
             PU_df, events = handle_function(**kwargs)

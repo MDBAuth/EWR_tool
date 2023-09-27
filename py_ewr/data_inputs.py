@@ -1,12 +1,14 @@
-import io
-import requests
 import json
 import pandas as pd
 import numpy as np
 from pathlib import Path
 import os
+import logging
 
 from cachetools import cached, TTLCache
+
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
 
 BASE_PATH = Path(__file__).resolve().parent
 
@@ -78,16 +80,14 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                               'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell',
                               'LarvaeDaysSpell','MinLevelRise', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel'],
+                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold'],
                                dtype='str', encoding='cp1252') 	
-
 
 
     if not file_path:
         my_url = os.path.join(BASE_PATH, "parameter_metadata/NSWEWR.csv")
         proxies={} # Populate with your proxy settings
-        #s = requests.get(my_url, proxies=proxies).text
-        df = pd.read_csv(my_url,#io.StringIO(s),
+        df = pd.read_csv(my_url,
             usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
@@ -96,7 +96,7 @@ def get_EWR_table(file_path:str = None) -> dict:
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                               'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
                               'LarvaeDaysSpell','MinLevelRise', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel'],
+                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold'],
                         dtype='str', encoding='cp1252'
                         )
 
@@ -312,9 +312,7 @@ def get_level_gauges() -> tuple:
 
     lachlanGauges = ['412107']
 
-    SaGauges = ['A9999999']
-
-    levelGauges = menindeeGauges + lachlanGauges + SaGauges
+    levelGauges = menindeeGauges + lachlanGauges 
     
     weirpoolGauges = {'414203': '414209', 
                       '425010': 'A4260501',
@@ -450,7 +448,7 @@ def get_EWR_components(category):
     elif category == 'barrage-level':
         pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','HRWS', 'HRWE', 'LRWS', 'LRWE','PLWS', 'PLWE', 'LLWS', 'LLWE','MINL','MAXL']
     elif category == 'flow-ctf':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS']
+        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'CTFT']
     elif category == 'rise_fall':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'MLR', 'RRM1', 'RRM2', 'RFM', 'RRT1', 'RRT2', 'RRL', 'RFL' ]
     return pull
@@ -532,7 +530,7 @@ def get_barrage_level_gauges()-> dict:
 
     level_barrage_gauges = {'A4260527': ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575' ],
                             'A4260633' : ['A4260633','A4261209', 'A4261165']}
-
+    
     return level_barrage_gauges
 
 def get_qld_level_gauges()-> list:
