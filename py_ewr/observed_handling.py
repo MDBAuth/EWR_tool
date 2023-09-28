@@ -12,8 +12,8 @@ from mdba_gauge_getter import gauge_getter as gg
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
-def categorise_gauges(gauges: list) -> tuple:
-    '''Seperate gauges into level, flow, or both
+def categorise_gauges(gauges: list, ewr_table_path:str = None) -> tuple:
+    '''Separate gauges into level, flow, or both
     
     Args:
         gauges (list): List of user defined gauges
@@ -22,21 +22,41 @@ def categorise_gauges(gauges: list) -> tuple:
         tuple[list, list]: A list of flow gauges; A list of water level gauges
     
     '''
+    lake_level_gauges = []
+    level_gauges = []
+    flow_gauges = []
+
+    EWR_TABLE, _ = data_inputs.get_EWR_table(ewr_table_path)
+    
+    if ewr_table_path:
+        level_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='L']['Gauge'].to_list()
+        # only add gauges if in the incoming list
+        for gauge in level_gauges_to_add:
+            if gauge in gauges:
+                level_gauges.append(gauge)
+        lake_level_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='LL']['Gauge'].to_list()
+        for gauge in lake_level_gauges_to_add:
+            if gauge in gauges:
+                lake_level_gauges.append(gauge)
+        flow_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='F']['Gauge'].to_list()
+        for gauge in flow_gauges_to_add:
+            if gauge in gauges:
+                flow_gauges.append(gauge)
+
+        weirpool_gauges_to_add = [ i for i in  EWR_TABLE['WeirpoolGauge'].to_list() if type(i) == str]
+        weirpool_gauges_to_add = [i for i in weirpool_gauges_to_add if i ]
+        if weirpool_gauges_to_add:
+            for gauge in weirpool_gauges_to_add:
+                if gauge in gauges:
+                    level_gauges.append(gauge)
+                    lake_level_gauges.append(gauge)
+
+    # hard code gauges in data_input module
+    sa_barrage_gauges = data_inputs.get_barrage_level_gauges()   
+    sa_barrage_gauges = [value for key in sa_barrage_gauges for value in sa_barrage_gauges[key]]
     _level_gauges, weirpool_gauges = data_inputs.get_level_gauges()
     multi_gauges = data_inputs.get_multi_gauges('gauges')
     simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
-    
-    level_gauges = []
-    flow_gauges = []
-    stage_gauges = []
-
-    # if EWR_TABLE:
-    #     level_gauges_to_add = EWR_TABLE[EWR_TABLE['FlowLevelVolume']=='L']['Gauge'].to_list()
-    #     level_gauges.extend(level_gauges_to_add)
-    #     flow_gauges_to_add = EWR_TABLE[EWR_TABLE['FlowLevelVolume']=='F']['Gauge'].to_list()
-    #     flow_gauges.extend(flow_gauges_to_add)
-    #     volume_gauges_to_add = EWR_TABLE[EWR_TABLE['FlowLevelVolume']=='V']['Gauge'].to_list()
-    #     flow_gauges.extend(volume_gauges_to_add)
 
     # Loop through once to get the special gauges:
     for gauge in gauges:
@@ -51,22 +71,24 @@ def categorise_gauges(gauges: list) -> tuple:
         if gauge in weirpool_gauges.keys(): # need level and flow gauges
             flow_gauges.append(gauge)
             level_gauges.append(weirpool_gauges[gauge])
+            lake_level_gauges.append(weirpool_gauges[gauge])
 
-            if '414209' in level_gauges:
-                # 414209 returns 100.00 instead of 130.00
-                level_gauges.remove('414209')
-                stage_gauges.append('414209')
-
+    # add hard coded gauges only if it int he incoming list
+    if any(gauge in gauges for gauge in sa_barrage_gauges):
+        lake_level_gauges += sa_barrage_gauges
+        level_gauges += sa_barrage_gauges
+    
     # Then loop through again and allocate remaining gauges to the flow category
     for gauge in gauges:
-        if ((gauge not in level_gauges) and (gauge not in stage_gauges) and (gauge not in flow_gauges)):
+        if ((gauge not in level_gauges) and (gauge not in lake_level_gauges) and (gauge not in flow_gauges)):
             # Otherwise, assume its a flow gauge and add
             flow_gauges.append(gauge)
 
     unique_flow_gauges = list(set(flow_gauges))
     unique_level_gauges = list(set(level_gauges))
+    unique_lake_level_gauges = list(set(lake_level_gauges))
 
-    return unique_flow_gauges, unique_level_gauges, stage_gauges
+    return unique_flow_gauges, unique_level_gauges, unique_lake_level_gauges
 
 def remove_data_with_bad_QC(input_dataframe: pd.DataFrame, qc_codes: list) -> pd.DataFrame:
     '''Takes in a dataframe of flow and a list of bad qc codes, removes the poor quality data from 
@@ -169,19 +191,16 @@ class ObservedHandler:
         '''
         
         # Classify gauges:
-        flow_gauges, level_gauges, stage_gauges = categorise_gauges(self.gauges)
+        flow_gauges, level_gauges, lake_level_gauges = categorise_gauges(self.gauges, self.parameter_sheet)
         # Call state API for flow and level gauge data, then combine to single dataframe
-
-        log.info(f'Including gauges: {flow_gauges} {level_gauges} {stage_gauges}')
-        
+        log.info(f'Including gauges: flow gauges: { ", ".join(flow_gauges)} level gauges: { ", ".join(level_gauges)} lake level gauges: { ", ".join(lake_level_gauges)}')
         flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F')
-        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'LL')
-        stage = gg.gauge_pull(stage_gauges, start_time_user=self.dates['start_date'],
-                               end_time_user=self.dates['end_date'], var='L')
+        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L')
+        lake_levels = gg.gauge_pull(lake_level_gauges, start_time_user=self.dates['start_date'], end_time_user=self.dates['end_date'], var='LL')
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
-        df_S = observed_cleaner(stage, self.dates)
+        df_S = observed_cleaner(lake_levels, self.dates)
         # Append stage values to level df
         df_L = pd.concat([df_L, df_S], axis=1)
         # Calculate EWRs
@@ -196,9 +215,6 @@ class ObservedHandler:
             gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table, calc_config)
             
         detailed_results['observed'] = gauge_results
-
-        if scenario_handling.any_cllmm_to_process(detailed_results):
-            detailed_results = scenario_handling.process_cllmm(detailed_results)
 
         detailed_events['observed'] = gauge_events
         

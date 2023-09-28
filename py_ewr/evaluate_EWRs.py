@@ -905,7 +905,7 @@ def weirpool_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F
         return PU_df, None
     # Check flow and level data against EWR requirements and then perform analysis on the results: 
     E, D = weirpool_calc(EWR_info, df_F[gauge].values, levels, water_years, weirpool_type, df_F.index, masked_dates)
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, NE, D, water_years)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
     return PU_df, tuple([E])
 
 def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, PU_df: pd.DataFrame, allowance: dict) -> tuple:
@@ -961,7 +961,6 @@ def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
             log.info(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing parameter data. Specifically this EWR 
             also needs data for level threshold min or level threshold max''')
             return PU_df, None
-        
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
     return PU_df, tuple([E])
 
@@ -3053,7 +3052,7 @@ def is_larva_phase_stable(levels:list, EWR_info: dict )-> bool:
         bool: Returns True if levels are stable as per parameters and False otherwise
     """
     daily_changes = [ abs(levels[i] - levels[i-1]) for i in range(1, len(levels))]
-    max_daily_change = max(daily_changes)
+    max_daily_change = max(daily_changes) if daily_changes else 0
     return max_daily_change <= EWR_info["max_level_raise"]
 
 
@@ -4058,6 +4057,7 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
                 all_events[water_years[i]].append(event)
             total_event = 0
             event = []
+        if water_years[i] != water_years[i+1]:
             durations.append(EWR_info['duration'])
         
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
@@ -4070,6 +4070,7 @@ def nest_calc_weirpool(EWR_info: dict, flows: list, levels: list, water_years: l
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
         total_event = 0
+    
     durations.append(EWR_info['duration'])
 
     return all_events, durations
@@ -4583,7 +4584,7 @@ def rate_rise_level_calc(EWR_info: Dict, levels: List, water_years: List,
     all_events = construct_event_dict(water_years)
     durations = []
     gap_track = 0
-    for i, flow in enumerate(levels[:-1]):
+    for i, _ in enumerate(levels[:-1]):
         if i == 0:
             continue
         if dates[i] in masked_dates:
@@ -4591,7 +4592,6 @@ def rate_rise_level_calc(EWR_info: Dict, levels: List, water_years: List,
             event, all_events, gap_track, total_event = rate_rise_level_check(EWR_info, i,  event,
                                                                                 all_events, gap_track, 
                                                                                 water_years, total_event, flow_date, levels)
-        # At the end of each water year, save any ongoing events and event gaps to the dictionaries, and reset the list and counter
         if water_years[i] != water_years[i+1]:
             durations.append(EWR_info['duration'])
         
