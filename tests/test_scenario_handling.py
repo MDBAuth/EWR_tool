@@ -21,7 +21,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata)
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -66,7 +66,7 @@ def test_match_NSW_nodes():
     expected_df_F = expected_df_F.set_index('Date')
     
     assert_frame_equal(df_F, expected_df_F)
-    assert_frame_equal(df_L, expected_df_L)
+    assert_frame_equal(df_L, expected_df_L, check_column_type=False)
 
 def test_extract_gauge_from_string():
     '''
@@ -251,7 +251,6 @@ def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handl
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
 
 
-# @pytest.mark.xfail(raises=TypeError, reason="yearly events on Nest ewr missing the date")
 def test_get_all_events(scenario_handler_instance):
 
     all_events = scenario_handler_instance.get_all_events()
@@ -260,7 +259,6 @@ def test_get_all_events(scenario_handler_instance):
     assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
         
-#TODO: test all_interEvents
 def test_get_all_interEvents(scenario_handler_instance):
 
     all_interEvents = scenario_handler_instance.get_all_interEvents()
@@ -268,7 +266,6 @@ def test_get_all_interEvents(scenario_handler_instance):
     assert all_interEvents.shape == (26, 7)
     assert all_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'startDate', 'endDate', 'interEventLength']
 
-#TODO: test_get_all_successful_events
 def test_get_all_successful_events(scenario_handler_instance):
 
     all_successful_events = scenario_handler_instance.get_all_successful_events()
@@ -277,7 +274,6 @@ def test_get_all_successful_events(scenario_handler_instance):
     assert all_successful_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
                                                        'eventDuration', 'eventLength', 'Multigauge']
 
-#TODO: test get_all_successful_interEvents
 def test_get_all_successful_interEvents(scenario_handler_instance):
 
     all_successful_interEvents = scenario_handler_instance.get_all_successful_interEvents()
@@ -306,5 +302,11 @@ def test_get_ewr_results(scenario_handler_instance):
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
-       'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
+       'AverageEventLength', 'ThresholdDays', 
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
+    
+def test_any_cllmm_to_process(gauge_results):
+    result = scenario_handling.any_cllmm_to_process(gauge_results)
+    assert result == True
+
+    

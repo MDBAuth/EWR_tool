@@ -32,7 +32,7 @@ def test_ctf_handle():
     'CF1_missingDays': [0,0,0,0], 'CF1_totalPossibleDays': [365,365,365,366]} 
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[[(date(2012, 7, 1)+timedelta(days=i),0) for i in range(1461)]]}
@@ -67,15 +67,15 @@ def test_lowflow_handle():
     PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output data - PU_df, and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [0,0,0,0],
-            'BF1_a_maxInterEventDays': [0,0,0,1461], 
-           'BF1_a_maxInterEventDaysAchieved': [1,1,1,0],  
+            'BF1_a_maxInterEventDays': [0,0,0,0], 
+           'BF1_a_maxInterEventDaysAchieved': [1,1,1,1],  
             'BF1_a_eventLength': [0.0,0.0,0.0,0.0], 'BF1_a_eventLengthAchieved': [0.0,0.0,0.0,0.0],
             'BF1_a_totalEventDays': [0,0,0,0], 'BF1_a_totalEventDaysAchieved': [0,0,0,0],  
             'BF1_a_maxEventDays': [0,0,0,0], 'BF1_a_maxRollingEvents': [0, 0, 0, 0], 'BF1_a_maxRollingAchievement': [0, 0, 0, 0],
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
 
     # Setting up expected output - events, and testing
@@ -111,16 +111,23 @@ def test_flow_handle():
     # Send input data to test function
     PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'SF1_S_eventYears': [0,0,0,1], 'SF1_S_numAchieved': [0,0,0,1], 'SF1_S_numEvents': [1,0,1,3], 'SF1_S_numEventsAll': [1,1,2,3],
-           'SF1_S_maxInterEventDays': [351, 0, 720, 330], 
-           'SF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1], 'SF1_S_eventLength': [10.0, 5.0, 9.5, 10.0], 'SF1_S_eventLengthAchieved': [10.0, 0.0, 14., 10.0], 
-           'SF1_S_totalEventDays': [10, 5, 19, 30], 'SF1_S_totalEventDaysAchieved': [10, 0, 14, 30], 
-            'SF1_S_maxEventDays': [10, 5, 14, 10], 'SF1_S_maxRollingEvents': [10, 5, 14, 10], 'SF1_S_maxRollingAchievement': [1, 0, 1, 1],
-            'SF1_S_missingDays': [0,0,0,0], 'SF1_S_totalPossibleDays': [365,365,365,366]}
-    index = [2012, 2013, 2014,2015]
-    expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
-    assert_frame_equal(PU_df, expected_PU_df)
+    data = {'SF1_S_eventYears': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
+            'SF1_S_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
+            'SF1_S_numEvents': {2012: 1, 2013: 0, 2014: 1, 2015: 3}, 
+            'SF1_S_numEventsAll': {2012: 1, 2013: 1, 2014: 2, 2015: 3}, 
+            'SF1_S_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+            'SF1_S_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+            'SF1_S_eventLength': {2012: 10.0, 2013: 5.0, 2014: 9.5, 2015: 10.0}, 
+            'SF1_S_eventLengthAchieved': {2012: 10.0, 2013: 0.0, 2014: 14.0, 2015: 10.0}, 
+            'SF1_S_totalEventDays': {2012: 10, 2013: 5, 2014: 19, 2015: 30}, 
+            'SF1_S_totalEventDaysAchieved': {2012: 10, 2013: 0, 2014: 14, 2015: 30}, 
+            'SF1_S_maxEventDays': {2012: 10, 2013: 5, 2014: 14, 2015: 10}, 
+            'SF1_S_maxRollingEvents': {2012: 10, 2013: 5, 2014: 14, 2015: 10},
+            'SF1_S_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 1, 2015: 1}, 
+            'SF1_S_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+            'SF1_S_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    expected_PU_df = pd.DataFrame(data)
+    assert data == PU_df.to_dict()
     # Setting up expected output - events - and testing
     expected_events = {2012: [[(date(2013, 6, 17) + timedelta(days=i), 450) for i in range(10)]], 
                         2013: [[(date(2014, 6, 26) + timedelta(days=i), 450) for i in range(5)]], 
@@ -130,7 +137,7 @@ def test_flow_handle():
                             [(date(2015, 7, 17) + timedelta(days=i), 450) for i in range(10)],     
                             [(date(2016, 6, 21) + timedelta(days=i), 450) for i in range(10)]]}
     expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
+    for index, _ in enumerate(events):
         for year in events[index]:
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
@@ -160,19 +167,80 @@ def test_cumulative_handle():
     PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB3_S_eventYears': [1,0,0,0], 'OB3_S_numAchieved': [1,0,0,0], 'OB3_S_numEvents': [1,0,0,0], 'OB3_S_numEventsAll': [1,0,0,0], 
-            'OB3_S_maxInterEventDays': [355, 0, 0, 1105], 
+            'OB3_S_maxInterEventDays': [0, 0, 0, 0], 
            'OB3_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3_S_eventLength': [1.0,0.0,0.0,0.0], 'OB3_S_eventLengthAchieved': [1.0,0.0,0.0,0.0], 
             'OB3_S_totalEventDays': [1,0,0,0], 'OB3_S_totalEventDaysAchieved': [1,0,0,0], 'OB3_S_maxEventDays': [1,0,0,0],'OB3_S_maxRollingEvents': [1, 0, 0, 0], 
             'OB3_S_maxRollingAchievement': [1, 1, 1, 1],'OB3_S_missingDays': [0,0,0,0], 
             'OB3_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing 
     expected_events = {2012:[[(date(2013, 6, 21), 22000)]], 2013:[], 2014:[], 2015:[]}
     expected_events = tuple([expected_events])
     for index, tuple_ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+@pytest.mark.parametrize("expected_events, expected_PU_df_data", [
+    (
+          {2012: [[(date(2012, 7, 10) + timedelta(days=i), 25000) for i in range(51)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+{'BBR2_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+ 'BBR2_eventLength': {2012: 51.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+ 'BBR2_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+ 'BBR2_totalEventDays': {2012: 51, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_maxEventDays': {2012: 51, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_maxRollingEvents': {2012: 51, 2013: 0, 2014: 0, 2015: 0}, 
+ 'BBR2_maxRollingAchievement': {2012: 0, 2013: 0, 2014: 0, 2015: 0},
+   'BBR2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+   'BBR2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
+    )
+])
+def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_df_data):
+    # Set up input data
+    PU = 'PU_0000991'
+    gauge = '422016'
+    EWR = 'BBR2'
+
+    EWR_table = qld_parameter_sheet
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        '422016': ( [2500]*10+[0]*355   + 
+                                    [0]*365 + 
+                                    [0]*365 + 
+                                    [0]*366  )} 
+    
+
+    df_F = pd.DataFrame(data = data_for_df_F)
+
+    df_F = df_F.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.cumulative_handle_qld(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+
+    print(events)
+    print(PU_df.to_dict())
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
         for year in events[index]:
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
@@ -201,14 +269,14 @@ def test_level_handle():
     PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
     # Setting up expected output - PU_df and test
     data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 'LLLF_numEventsAll': [1,0,0,1], 
-            'LLLF_maxInterEventDays': [261, 0, 743, 277], 
-            'LLLF_maxInterEventDaysAchieved': [1, 1, 0, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
+            'LLLF_maxInterEventDays': [0, 0, 0, 0], 
+            'LLLF_maxInterEventDaysAchieved': [1, 1, 1, 1],'LLLF_eventLength': [90.0,0.0,0.0,90.0], 'LLLF_eventLengthAchieved': [90.0,0.0,0.0,90.0], 
             'LLLF_totalEventDays': [90,0,0,90], 'LLLF_totalEventDaysAchieved': [90,0,0,90], 
             'LLLF_maxEventDays': [90,0,0,90], 'LLLF_maxRollingEvents': [90, 0, 1, 90],'LLLF_maxRollingAchievement': [1, 0, 0, 1],
             'LLLF_missingDays': [0,0,0,0], 'LLLF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and test
     expected_events = {2012:[[(date(2013, 3, 19) + timedelta(days=i), 56) for i in range(90)]], 
@@ -221,72 +289,6 @@ def test_level_handle():
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i] 
-
-# Temporarily commenting out test_weirpool_handle while issue is resolved with gauge_getter
-# def test_weirpool_handle():
-#     '''
-#     1. Ensure all parts of the function generate expected output
-#     '''
-#     # Set up input data
-#     PU = 'PU_0000260'
-#     gauge = '414203'
-#     wp_gauge = '414209'
-#     EWR = 'WP1'
-#     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-#     # input data for df_L:
-#     levels = [47.3]*100 
-#     reduction_max = 0.04
-#     for i, level in enumerate(levels):
-#         levels[i] = levels[i-1]-reduction_max # Levels declining at acceptable rate
-#     exceeding_levels = [47.3]*100 
-#     reduction_max = 0.05
-#     for i, level in enumerate(exceeding_levels):
-#         exceeding_levels[i] = exceeding_levels[i-1]-reduction_max # Levels exceeding the acceptable rate: 
-    
-#     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-#                         wp_gauge: ([0]*187+[47.3]*90+[0]*88 + 
-#                                   [47.3]*90+[0]*275 + 
-#                                   [0]*187+ levels+[0]*78 + 
-#                                   [0]*187 + exceeding_levels + [0]*79 ) }
-#     df_L = pd.DataFrame(data = data_for_df_L)
-#     df_L = df_L.set_index('Date')
-#     # input data for df_F:
-#     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-#                         gauge: [0]*187+[2500]*90+[0]*88 + [2500]*90+[0]*275 + [0]*187+[2500]*100+[0]*78 + [0]*187+[2500]*100+[0]*79}
-#     df_F = pd.DataFrame(data = data_for_df_F)
-#     df_F = df_F.set_index('Date')
-#     PU_df = pd.DataFrame()
-#     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-#     climate = 'Standard - 1911 to 2018 climate categorisation'
-#     # Passing input data to test function
-#     PU_df, events = evaluate_EWRs.weirpool_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
-    
-#     # Setting up expected output data - PU_df - and testing
-#     data = {'WP1_eventYears': [1,0,1,1], 'WP1_numAchieved': [1,0,1,1], 'WP1_numEvents': [1,0,1,1], 'WP1_numEventsAll': [1,0,1,1], 
-#             'WP1_maxInterEventDays': [187, 0, 640, 265], 
-#             'WP1_maxInterEventDaysAchieved': [1, 1, 1, 1],'WP1_eventLength': [90.0, 0.0, 100.0, 100.0], 'WP1_eventLengthAchieved': [90.0, 0.0, 100.0, 100.0], 
-#             'WP1_totalEventDays': [90,0,100,100], 'WP1_totalEventDaysAchieved': [90,0,100,100], 
-#             'WP1_maxEventDays':[90,0,100,100], 'WP1_maxRollingEvents': [90, 0, 100, 100], 'WP1_maxRollingAchievement': [1, 0, 1, 1],
-#             'WP1_missingDays': [0,0,0,0], 'WP1_totalPossibleDays': [365,365,365,366]}
-#     index = [2012, 2013, 2014,2015]
-#     expected_PU_df = pd.DataFrame(index = index, data = data)
-#     expected_PU_df.index = expected_PU_df.index.astype('object')
-
-#     assert_frame_equal(PU_df, expected_PU_df)
-#     # Setting up expected output - events - and testing
-#     expected_events = {2012:[[(date(2013, 1, 4) + timedelta(days=i), 2500) for i in range(90)]], 
-#                        2013:[], 
-#                        2014:[[(date(2015, 1, 4) + timedelta(days=i), 2500) for i in range(100)]], 
-#                        2015:[[(date(2016, 1, 4) + timedelta(days=i), 2500) for i in range(100)]]}
-
-                        
-
-#     expected_events = tuple([expected_events])
-#     for index, tuple_ in enumerate(events):
-#         for year in events[index]:
-#             assert len(events[index][year]) == len(expected_events[index][year])
-#             for i, event in enumerate(events[index][year]):
-#                 assert event == expected_events[index][year][i]
 
 def test_nest_handle():
     '''
@@ -333,14 +335,14 @@ def test_nest_handle():
     PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,2,2,2], 
-            'NestS1_maxInterEventDays': [76, 0, 0, 1325], 
-            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 0],'NestS1_eventLength': [60.0, 25.5, 29.5, 29.5], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
+            'NestS1_maxInterEventDays': [0, 0, 0, 0], 
+            'NestS1_maxInterEventDaysAchieved': [1, 1, 1, 1],'NestS1_eventLength': [60.0, 25.5, 29.5, 29.5], 'NestS1_eventLengthAchieved':  [60.0, 0.0, 0.0, 0.0], 
             'NestS1_totalEventDays': [60,51,59,59], 'NestS1_totalEventDaysAchieved': [60, 0, 0, 0],
             'NestS1_maxEventDays':[60,50,49,49],'NestS1_maxRollingEvents': [60, 50, 49, 49], 'NestS1_maxRollingAchievement': [1, 0, 0, 0],
             'NestS1_missingDays': [0,0,0,0], 'NestS1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df)
 
@@ -397,14 +399,14 @@ def test_flow_handle_multi():
     PU_df, events = evaluate_EWRs.flow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,1,0], 'LF1_numEvents': [1,0,1,0], 'LF1_numEventsAll': [1, 1, 2, 1], 
-            'LF1_maxInterEventDays': [76, 0, 778, 597], 
-            'LF1_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_eventLength': [5.0, 3.0, 4.0, 4.0], 'LF1_eventLengthAchieved': [5.0, 0.0, 5.0, 0.0], 
+            'LF1_maxInterEventDays': [0, 0, 0, 0], 
+            'LF1_maxInterEventDaysAchieved': [1, 1, 1, 1],'LF1_eventLength': [5.0, 3.0, 4.0, 4.0], 'LF1_eventLengthAchieved': [5.0, 0.0, 5.0, 0.0], 
             'LF1_totalEventDays': [5,3,8,4], 'LF1_totalEventDaysAchieved': [5, 0, 5, 0],
             'LF1_maxEventDays':[5, 3, 5, 4], 'LF1_maxRollingEvents': [5, 3, 5, 4], 'LF1_maxRollingAchievement': [1, 0, 1, 0],
             'LF1_missingDays': [0,0,0,0], 'LF1_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
@@ -443,14 +445,14 @@ def test_lowflow_handle_multi():
     PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [1,0,0,0], 
-            'BF1_a_maxInterEventDays': [76, 0, 0, 1380], 
-            'BF1_a_maxInterEventDaysAchieved': [0, 1, 1, 0],'BF1_a_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_a_eventLengthAchieved': [5.0, 0.0, 0.0, 0.0], 
+            'BF1_a_maxInterEventDays': [0, 0, 0, 0], 
+            'BF1_a_maxInterEventDaysAchieved': [1, 1, 1, 1],'BF1_a_eventLength': [5.0, 0.0, 0.0, 0.0], 'BF1_a_eventLengthAchieved': [5.0, 0.0, 0.0, 0.0], 
             'BF1_a_totalEventDays': [5, 0, 0, 0], 'BF1_a_totalEventDaysAchieved': [5, 0, 0, 0],
             'BF1_a_maxEventDays':[5, 0, 0, 0], 'BF1_a_maxRollingEvents': [5, 0, 0, 0], 'BF1_a_maxRollingAchievement': [0, 0, 0, 0],
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
@@ -486,14 +488,14 @@ def test_ctf_handle_multi():
     PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance, climate)
     # Setting up expected output - PU_df - and testing
     data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_numEventsAll': [2,0,2,1],
-            'CF_maxInterEventDays': [350, 360, 345, 0], 
-            'CF_maxInterEventDaysAchieved': [0, 0, 0, 1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_eventLengthAchieved': [7.5,0.0,8.0,366.0], 
+            'CF_maxInterEventDays': [0, 0, 0, 0], 
+            'CF_maxInterEventDaysAchieved': [1, 1, 1, 1], 'CF_eventLength': [7.5,0.0,8.0,366.0], 'CF_eventLengthAchieved': [7.5,0.0,8.0,366.0], 
             'CF_totalEventDays': [15,0,16,366], 'CF_totalEventDaysAchieved': [15,0,16,366],
             'CF_maxEventDays':[14, 0, 15, 366], 'CF_maxRollingEvents': [14, 5, 15, 366], 'CF_maxRollingAchievement': [1, 1, 1, 1],
             'CF_missingDays': [0,0,0,0], 'CF_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)    
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 7, 1), 0)], 
@@ -525,7 +527,7 @@ def test_cumulative_handle_multi():
                     [0]*310+[0]*3+[0]*1+[0]*1+[500]*50 + 
                     [500]*40+[0]*310+[0]*1+[0]*13+[0]*1 + 
                     [5000]*4+[500]*90+[500]*90+[450]*10+[0]*2+ [450]*10+[250]*150+[450]*10)
-    EWR = 'OB/WS1_S'
+    EWR = 'OB_WS1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                         gauge1: gauge1_flows,
@@ -540,16 +542,16 @@ def test_cumulative_handle_multi():
     # Pass input data to test function
     PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
-    data = {'OB/WS1_S_eventYears': [1,0,0,1], 'OB/WS1_S_numAchieved': [1,0,0,1], 'OB/WS1_S_numEvents': [1,0,0,1], 'OB/WS1_S_numEventsAll': [1,0,0,1],
-            'OB/WS1_S_maxInterEventDays': [350, 0, 0, 767], 
-            'OB/WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 0], 'OB/WS1_S_eventLength': [1,0.0,0.0,235.0], 'OB/WS1_S_eventLengthAchieved': [1,0.0,0.0,235.0], 
-            'OB/WS1_S_totalEventDays': [1,0,0,235], 'OB/WS1_S_totalEventDaysAchieved': [1,0,0,235], 
-            'OB/WS1_S_maxEventDays':[1,0,0,235], 'OB/WS1_S_maxRollingEvents':  [1,0,0,235],
-            'OB/WS1_S_maxRollingAchievement': [1,1,1,1],
-            'OB/WS1_S_missingDays': [0,0,0,0], 'OB/WS1_S_totalPossibleDays': [365,365,365,366]}
+    data = {'OB_WS1_S_eventYears': [1,0,0,1], 'OB_WS1_S_numAchieved': [1,0,0,1], 'OB_WS1_S_numEvents': [1,0,0,1], 'OB_WS1_S_numEventsAll': [1,0,0,1],
+            'OB_WS1_S_maxInterEventDays': [0, 0, 0, 0],
+            'OB_WS1_S_maxInterEventDaysAchieved': [1, 1, 1, 1], 'OB_WS1_S_eventLength': [1,0.0,0.0,235.0], 'OB_WS1_S_eventLengthAchieved': [1,0.0,0.0,235.0],
+            'OB_WS1_S_totalEventDays': [1,0,0,235], 'OB_WS1_S_totalEventDaysAchieved': [1,0,0,235],
+            'OB_WS1_S_maxEventDays':[1,0,0,235], 'OB_WS1_S_maxRollingEvents':  [1,0,0,235],
+            'OB_WS1_S_maxRollingAchievement': [1,1,1,1],
+            'OB_WS1_S_missingDays': [0,0,0,0], 'OB_WS1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df)   
     # Setting up expected output - events - and testing
@@ -589,14 +591,14 @@ def test_flow_handle_sim():
     PU_df, events = evaluate_EWRs.flow_handle_sim(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'LF1_S_eventYears': [1,0,1,0], 'LF1_S_numAchieved': [1,0,1,0], 'LF1_S_numEvents': [1,0,1,0], 'LF1_S_numEventsAll': [1,0,1,0], 
-            'LF1_S_maxInterEventDays': [76, 0, 778, 597], 
-            'LF1_S_maxInterEventDaysAchieved': [1, 1, 0, 1],'LF1_S_eventLength': [5.0,0.0,5.0,0.0], 'LF1_S_eventLengthAchieved': [5.0,0.0,5.0,0.0], 
+            'LF1_S_maxInterEventDays': [0, 0, 0, 0], 
+            'LF1_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'LF1_S_eventLength': [5.0,0.0,5.0,0.0], 'LF1_S_eventLengthAchieved': [5.0,0.0,5.0,0.0], 
             'LF1_S_totalEventDays': [5,0,5,0], 'LF1_S_totalEventDaysAchieved': [5,0,5,0],
             'LF1_S_maxEventDays':[5, 0, 5, 0],'LF1_S_maxRollingEvents':  [5, 0, 5, 0],  'LF1_S_maxRollingAchievement': [1, 0, 1, 0],
             'LF1_S_missingDays': [0,0,0,0], 'LF1_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 1000) for i in range(5)]], 
@@ -641,7 +643,7 @@ def test_lowflow_handle_sim():
             'BF1_a_missingDays': [0,0,0,0], 'BF1_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
 
     assert_frame_equal(PU_df, expected_PU_df, check_dtype=False)
     # Setting up expected output - events - and testing
@@ -685,7 +687,7 @@ def test_ctf_handle_sim():
             'CF_a_missingDays': [0,0,0,0], 'CF_a_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df, check_dtype=False) 
     # Setting up expected output - events - and test
     expected_events1 = {2012:[[(date(2012, 11, 1) + timedelta(days=i), 0) for i in range(5)], 
@@ -736,14 +738,14 @@ def test_complex_handle():
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB2a_S_eventYears': [1,0,1,1], 'OB2a_S_numAchieved': [1,0,1,2], 'OB2a_S_numEvents': [1,0,1,2], 'OB2a_S_numEventsAll': [1,0,1,2], 
-            'OB2a_S_maxInterEventDays': [1, 0, 580, 94], 
+            'OB2a_S_maxInterEventDays': [0, 0, 0, 0], 
             'OB2a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB2a_S_eventLength': [150.0,0.0,150.0,150.0], 'OB2a_S_eventLengthAchieved': [150.0,0.0,150.0,150.0], 
             'OB2a_S_totalEventDays': [150,0,150,300], 'OB2a_S_totalEventDaysAchieved': [150,0,150,300],
             'OB2a_S_maxEventDays':[150, 0, 150, 150], 'OB2a_S_maxRollingEvents':[0, 0, 0, 0], 'OB2a_S_maxRollingAchievement': [0, 0, 0, 0],
             'OB2a_S_missingDays': [0,0,0,0], 'OB2a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df) 
     # Setting up expected output - events - and testing
     expected_events = {2012:[[19000]*45+[9000]*105], 2013:[], 2014:[[15000]*15+[15000]*15+[15000]*15+[9000]*55+[9000]*50], 2015:[[16000]*41+[16000]*4+[9000]*105, [18000]*45+[9000]*105]}
@@ -774,14 +776,14 @@ def test_complex_handle():
     PU_df, events = evaluate_EWRs.complex_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
     # Setting up expected output - PU_df - and testing
     data = {'OB3a_S_eventYears': [1,0,1,1], 'OB3a_S_numAchieved': [1,0,2,2], 'OB3a_S_numEvents': [1,0,2,2], 'OB3a_S_numEventsAll': [1,0,2,2], 
-            'OB3a_S_maxInterEventDays': [1, 0, 751, 379], 
+            'OB3a_S_maxInterEventDays': [0, 0, 0, 0], 
             'OB3a_S_maxInterEventDaysAchieved': [1, 1, 1, 1],'OB3a_S_eventLength': [111.0,0.0,111.0,111.0], 'OB3a_S_eventLengthAchieved': [111.0,0.0,111.0,111.0], 
             'OB3a_S_totalEventDays': [111,0,222,222], 'OB3a_S_totalEventDaysAchieved': [111,0,222,222],
             'OB3a_S_maxEventDays':[111, 0, 111, 111], 'OB3a_S_maxRollingEvents':[0, 0, 0, 0], 'OB3a_S_maxRollingAchievement': [0, 0, 0, 0],
             'OB3a_S_missingDays': [0,0,0,0], 'OB3a_S_totalPossibleDays': [365,365,365,366]}
     index = [2012, 2013, 2014,2015]
     expected_PU_df = pd.DataFrame(index = index, data = data)
-    expected_PU_df.index = expected_PU_df.index.astype('object')
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df) 
     # Setting up expected output - events - and testing
     expected_events = {2012:[[25000]*21+[15000]*90], 2013:[], 2014:[[15000]*90+[25000]*21, [25000]*15+[25000]*6+[15000]*80+[15000]*10], 2015:[[15000]*17+[15000]*73+[25000]*21, [25000]*21+[15000]*90]}
@@ -1013,7 +1015,7 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
 @pytest.mark.parametrize("gauge",[
     ("425010"),
 ],)
-def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, gauge):
+def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
 
     minThreshold_tolerance = (100 - 0)/100
     maxThreshold_tolerance = (100 + 0)/100
@@ -1027,7 +1029,7 @@ def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, gauge):
     
     df_F, df_L = wp_df_F_df_L
 
-    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowanceDict, climate, wp_EWR_table)
+    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowanceDict, climate, wp_EWR_table, ewr_calc_config)
 
     pu_df = location_results['Murray River - Lock 10 to Lock 9']
 
@@ -1083,3 +1085,961 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
         assert  expeted_pu_df[merged_column].to_list() == merged_eventYears[merged_column]
     
     assert expeted_pu_df.shape[0] == PU_df_wp.shape[0]
+
+
+@pytest.mark.parametrize("data_for_df_F,EWR,main_gauge,expected_events,pu_df_data", [
+    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        'A4261002': (
+                               [5000]*62 + [16500]*122 + [5000]*181 + 
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*182
+                        )
+                        },
+                        'CLLMM1a_P',
+                        'A4261002' ,
+                        { 2012:[[(date(2013,6,30) , 3228000)]], 
+                        2013:[[(date(2014,6,30) , 3228000)]], 
+                        2014:[[(date(2015,6,30) , 3228000)]], 
+                        2015:[[(date(2016,6,30) , 3233000)]]},
+                        {'CLLMM1a_P_eventYears': [1,1,1,1], 'CLLMM1a_P_numAchieved': [1,1,1,1], 'CLLMM1a_P_numEvents': [1,1,1,1], 
+                            'CLLMM1a_P_numEventsAll': [1, 1, 1, 1], 'CLLMM1a_P_maxInterEventDays': [0, 0, 0, 0], 
+                            'CLLMM1a_P_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1a_P_eventLength': [1.0, 1.0, 1.0, 1.0], 
+                            'CLLMM1a_P_eventLengthAchieved':  [1.0, 1.0, 1.0, 1.0], 'CLLMM1a_P_totalEventDays': [1, 1, 1, 1], 
+                            'CLLMM1a_P_totalEventDaysAchieved': [1, 1, 1, 1],'CLLMM1a_P_maxEventDays':[1, 1, 1, 1],
+                            'CLLMM1a_P_maxRollingEvents': [1, 1, 1, 1], 'CLLMM1a_P_maxRollingAchievement': [1, 1, 1, 1],
+                            'CLLMM1a_P_missingDays': [0,0,0,0], 'CLLMM1a_P_totalPossibleDays': [365,365,365,366]}
+                        ),
+    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        'A4261002': (
+                               [5000]*62 + [16500]*122 + [5000]*181 + 
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*181 +
+                                [5000]*62 + [16500]*122 + [5000]*182
+                        )},
+                        'CLLMM1b',
+                        'A4261002' ,
+                        { 2012:[], 
+                        2013:[], 
+                        2014:[[(date(2015,6,30) , 9684000)]], 
+                        2015:[[(date(2016,6,30) , 9689000)]]},
+                        {'CLLMM1b_eventYears': [0,0,1,1], 'CLLMM1b_numAchieved': [0,0,1,1], 'CLLMM1b_numEvents': [0,0,1,1], 
+                            'CLLMM1b_numEventsAll': [0,0,1,1], 'CLLMM1b_maxInterEventDays': [0, 0, 0, 0], 
+                            'CLLMM1b_maxInterEventDaysAchieved': [1, 1, 1, 1],'CLLMM1b_eventLength': [0.0, 0.0, 1.0, 1.0], 
+                            'CLLMM1b_eventLengthAchieved':  [0.0, 0.0, 1.0, 1.0], 'CLLMM1b_totalEventDays': [0, 0, 1, 1], 
+                            'CLLMM1b_totalEventDaysAchieved': [0, 0, 1, 1],'CLLMM1b_maxEventDays':[0, 0, 1, 1],
+                            'CLLMM1b_maxRollingEvents': [0, 0, 1, 1], 'CLLMM1b_maxRollingAchievement': [0, 0, 1, 1],
+                            'CLLMM1b_missingDays': [0,0,0,0], 'CLLMM1b_totalPossibleDays': [365,365,365,366]}
+                        ),
+])
+def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
+
+    # Set up input data
+    PU = 'PU_0000029'
+
+    EWR_table = sa_parameter_sheet
+	 
+    df_F = pd.DataFrame(data = data_for_df_F)
+    df_F = df_F.set_index('Date')
+
+    PU_df = pd.DataFrame()
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # Pass input data to test function:
+
+    PU_df, events = evaluate_EWRs.barrage_flow_handle(PU, main_gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    
+    # Setting up expected output - PU_df - and testing
+    index = [2012, 2013, 2014,2015]
+    expected_PU_df = pd.DataFrame(index = index, data = pu_df_data)
+    expected_PU_df.index = expected_PU_df.index.astype('int64')
+
+    assert_frame_equal(PU_df, expected_PU_df)
+    
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+
+@pytest.mark.parametrize("expected_events,expected_PU_df_data",[
+    (
+    {   2012:[[(date(2013, 6, 30), 0.8)]], 
+        2013:[], 
+        2014:[], 
+        2015:[]},
+    {'CLLMM1c_P_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxInterEventDaysAchieved':{2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+     'CLLMM1c_P_eventLength': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+     'CLLMM1c_P_eventLengthAchieved': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+     'CLLMM1c_P_totalEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_totalEventDaysAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'CLLMM1c_P_maxRollingEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
+       'CLLMM1c_P_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
+       'CLLMM1c_P_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'CLLMM1c_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
+    )
+])
+def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_df_data):
+    # Set up input data
+    PU = 'PU_0000029'
+    gauge = 'A4260527'
+    barrage_gauges =  ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575']
+    EWR = 'CLLMM1c_P'
+    gauge_levels = (  [.55]*66 + [.8]*5 + [.6]*115 + [.55]*179 + 
+                            [0]*365 + 
+                            [0]*365 + 
+                            [0]*366
+                ) 
+    gauge_levels_data = { gauge:gauge_levels for gauge in barrage_gauges }
+
+    EWR_table = sa_parameter_sheet
+    DATE = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()}
+    
+    data_for_df_L = {**DATE, **gauge_levels_data}
+    df_L = pd.DataFrame(data = data_for_df_L)
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.barrage_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+
+    print(PU_df.to_dict())
+    assert PU_df.to_dict() == expected_PU_df_data
+    
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("expected_events,expected_PU_df_data",[
+    (
+    {   2012:[[(date(2012,9,1) + timedelta(days=i), 12001) for i in range(60)] 
+              + [(date(2012,10,31) + timedelta(days=i), 10000) for i in range(1)]], 
+        2013:[], 
+        2014:[], 
+        2015:[]},
+   {'IC1_P_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0},
+    'IC1_P_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1},
+    'IC1_P_eventLength': {2012: 61.0, 2013: 0.0, 2014: 0.0, 2015: 0.0},
+    'IC1_P_eventLengthAchieved': {2012: 61.0, 2013: 0.0, 2014: 0.0, 2015: 0.0},
+    'IC1_P_totalEventDays': {2012: 61, 2013: 0, 2014: 0, 2015: 0},
+    'IC1_P_totalEventDaysAchieved': {2012: 61, 2013: 0, 2014: 0, 2015: 0},
+    'IC1_P_maxEventDays': {2012: 61, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_maxRollingEvents': {2012: 61, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+    'IC1_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
+    )
+])
+def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000027'
+    gauge = 'A4261001'
+    EWR = 'IC1_P'
+
+    EWR_table = sa_parameter_sheet
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: (
+                                [0]*31+ [400 + i*400 for i in range(30)] + [12001]*61 + [10000] + 
+                                [9900 - i*200 for i in range(30)] + [0]*212 + 
+                                [0]*365 + 
+                                [0]*365 + 
+                                [0]*366
+                        )} 
+    df_F = pd.DataFrame(data = data_for_df_F)
+
+    df_F = df_F.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.flow_handle_sa(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+
+    assert PU_df.to_dict() == expected_PU_df_data
+    
+    
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("flows, iteration, period, expected_result",[
+    (
+    [0]*10 +[90]*90 +[2000]*265 +  
+    [0]*365 +
+    [0]*365 + 
+    [0]*366,
+    99,
+    3,
+    True
+    ),
+      (
+    [2]*10 +[90]*90 +[2000]*265 +  
+    [0]*365 +
+    [0]*365 + 
+    [0]*366,
+    99,
+    3,
+    False
+    ),
+      (
+    [0]*10 +[90]*90 +[2000]*265 +  
+    [0]*365 +
+    [0]*365 + 
+    [0]*366,
+    105,
+    3,
+    False
+    ),
+])
+def test_check_cease_flow_period(flows, iteration, period, expected_result):
+    result = evaluate_EWRs.check_cease_flow_period(flows, iteration, period)
+    assert result == expected_result
+
+
+@pytest.mark.parametrize("expected_events,expected_PU_df_data",[
+    (
+    {   2012:[], 
+        2013:[], 
+        2014:[ [(date(2012,7,1) + timedelta(days=i), 0) for i in range(365)] +
+		   	 [(date(2013,7,1) + timedelta(days=i), 19) for i in range(10)] +
+			 [(date(2013,7,11) + timedelta(days=i), 0) for i in range(365)]], 
+        2015:[]},
+{'FD1_eventYears': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
+ 'FD1_numAchieved': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
+ 'FD1_numEvents': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
+ 'FD1_numEventsAll': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
+ 'FD1_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+ 'FD1_eventLength': {2012: 0.0, 2013: 0.0, 2014: 740.0, 2015: 0.0}, 
+ 'FD1_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 740.0, 2015: 0.0}, 
+ 'FD1_totalEventDays': {2012: 0, 2013: 0, 2014: 740, 2015: 0}, 
+ 'FD1_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 740, 2015: 0}, 
+ 'FD1_maxEventDays': {2012: 0, 2013: 0, 2014: 740, 2015: 0}, 
+ 'FD1_maxRollingEvents': {2012: 365, 2013: 730, 2014: 740, 2015: 0},
+ 'FD1_maxRollingAchievement': {2012: 1, 2013: 1, 2014: 1, 2015: 0}, 
+ 'FD1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    )
+])
+def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000991'
+    gauge = '422015'
+    EWR = 'FD1'
+
+    EWR_table = qld_parameter_sheet
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: (  [0]*365 + # first dry spell
+                                [19]*10 + # in between
+                                [0]*365 + # second dry spell
+                                [6]*355 +		      
+                                [0]*366
+                                )
+                        } 
+    df_F = pd.DataFrame(data = data_for_df_F)
+
+    df_F = df_F.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.flow_handle_check_ctf(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    print(PU_df.to_dict())
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("expected_events,expected_PU_df_data",[
+    (
+    {   2012:[[(date(2012,7,1) + timedelta(days=i), 15400) for i in range(14)]], 
+        2013:[], 
+        2014:[], 
+        2015:[]},
+    {'BBR1_a_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_numEvents': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+     'BBR1_a_eventLength': {2012: 14.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+     'BBR1_a_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+     'BBR1_a_totalEventDays': {2012: 14, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_maxEventDays': {2012: 14, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_maxRollingEvents': {2012: 14, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_maxRollingAchievement': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+     'BBR1_a_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    )
+])
+def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000991'
+    gauge = '422016'
+    EWR = 'BBR1_a'
+
+    EWR_table = qld_parameter_sheet
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: (
+                                [15400]*20+[0]*345 + 
+                                [0]*365 + 
+                                [0]*365 + 
+                                [0]*366
+                        )} 
+    df_F = pd.DataFrame(data = data_for_df_F)
+
+    df_F = df_F.set_index('Date')
+    
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        "422034": (
+                               [1.]*10 +[1.3]*3+[1.]*5+[0]*347  + 
+                                [0]*365 + 
+                                [0]*365 + 
+                                [0]*366
+                        )} 
+    df_L = pd.DataFrame(data = data_for_df_L)
+
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.cumulative_handle_bbr(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+
+
+@pytest.mark.parametrize("events, expected_result",[
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        28 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(31)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2012, 11, 24) + timedelta(days=i), 0) for i in range(10)],
+        ],
+        20 
+    ),
+    (
+       [],
+        0 
+    ),
+       
+])
+def test_get_min_gap(events, expected_result):
+    result = evaluate_EWRs.get_min_gap(events)
+    assert result == expected_result
+
+@pytest.mark.parametrize("events, expected_result",[
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        28 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(31)]
+        ],
+        0 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2012, 11, 24) + timedelta(days=i), 0) for i in range(10)],
+        ],
+        28 
+    ),
+    (
+       [],
+        0 
+    ),
+       
+])
+def test_get_max_gap(events, expected_result):
+    result = evaluate_EWRs.get_max_gap(events)
+    assert result == expected_result
+
+@pytest.mark.parametrize("events, expected_result",[
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        5 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(3)]
+        ],
+        3 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(31)]
+        ],
+        31 
+    ),
+    (
+       [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2012, 11, 2) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2012, 11, 24) + timedelta(days=i), 0) for i in range(10)],
+        ],
+        10 
+    ),
+    (
+       [],
+        0 
+    ),
+       
+])
+def test_get_max_event_length(events, expected_result):
+    result = evaluate_EWRs.get_max_event_length(events)
+    assert result == expected_result
+
+
+
+@pytest.mark.parametrize("event_years, expected_results",[
+    (
+    
+    { 2012: [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)] , 
+        [(date(2013, 1, 2) + timedelta(days=i), 0) for i in range(1)],
+        [(date(2013, 1, 24) + timedelta(days=i), 0) for i in range(1)],
+      ],
+     2013: [
+        [(date(2013, 10, 1) + timedelta(days=i), 0) for i in range(10)] , 
+        [(date(2013, 11, 10) + timedelta(days=i), 0) for i in range(3)],
+      ],
+     2014: [
+        [(date(2014, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2014, 10, 20) + timedelta(days=i), 0) for i in range(29)],
+      ],
+     2015: [],
+    },
+    [1,1,0,0]
+    )
+])
+def test_get_event_years_connecting_events(event_years, expected_results):
+    unique_water_years = [2012, 2013, 2014, 2015]
+    result = evaluate_EWRs.get_event_years_connecting_events(event_years, unique_water_years)
+    assert result == expected_results
+
+
+@pytest.mark.parametrize("event_years, expected_results",[
+    (
+    
+    { 2012: [
+        [(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)] , 
+        [(date(2013, 1, 2) + timedelta(days=i), 0) for i in range(1)],
+        [(date(2013, 1, 24) + timedelta(days=i), 0) for i in range(1)],
+      ],
+     2013: [
+        [(date(2013, 10, 1) + timedelta(days=i), 0) for i in range(10)] , 
+        [(date(2013, 10, 31) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2013, 11, 30) + timedelta(days=i), 0) for i in range(3)],
+        [(date(2013, 12, 31) + timedelta(days=i), 0) for i in range(3)]
+      ],
+     2014: [
+        [(date(2014, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
+        [(date(2014, 10, 20) + timedelta(days=i), 0) for i in range(29)],
+      ],
+     2015: [[(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)]],
+    },
+    [1,3,0,1]
+    )
+])
+def test_get_achievements_connecting_events(event_years, expected_results):
+    unique_water_years = [2012, 2013, 2014, 2015]
+    result = evaluate_EWRs.get_achievements_connecting_events(event_years, unique_water_years)
+    assert result == expected_results
+
+
+@pytest.mark.parametrize("expected_events, expected_PU_df_data", [
+    (
+      { 2012:[[(date(2012, 8, 1)+timedelta(days=i), 71) for i in range(9)],
+              [(date(2012, 8, 2)+timedelta(days=i), 71) for i in range(9)]], 
+        2013:[], 
+        2014:[], 
+        2015:[]},
+ {'FrW2_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+  'FrW2_eventLength': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrW2_eventLengthAchieved': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrW2_totalEventDays': {2012: 18, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_totalEventDaysAchieved': {2012: 18, 2013: 0, 2014: 0, 2015: 0},
+  'FrW2_maxEventDays': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxRollingEvents': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},  
+  'FrW2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrW2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
+    )
+])
+def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000999'
+    gauge = '416011'
+    EWR = 'FrW2'
+
+    EWR_table = qld_parameter_sheet
+
+    # .to_period()
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: (    [0]*31 + [71]*10 + [0]*324 + 
+                                    [0]*365 + 
+                                    [0]*365 + 
+                                    [0]*366)} 
+    df_F = pd.DataFrame(data = data_for_df_F)
+
+    df_F = df_F.set_index('Date')
+    
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        "416011": (     [1]*365 + 
+                                        [0]*365 + 
+                                        [0]*365 + 
+                                        [0]*366)} 
+    df_L = pd.DataFrame(data = data_for_df_L)
+
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.water_stability_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+
+    print(PU_df.to_dict())
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("expected_events, expected_PU_df_data", [
+    (
+      { 2012:[[(date(2012, 8, 1)+timedelta(days=i), 1) for i in range(9)],
+              [(date(2012, 8, 2)+timedelta(days=i), 1) for i in range(9)]], 
+        2013:[], 
+        2014:[], 
+        2015:[]},
+ {'FrL2_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+  'FrL2_eventLength': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrL2_eventLengthAchieved': {2012: 9.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+  'FrL2_totalEventDays': {2012: 18, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_totalEventDaysAchieved': {2012: 18, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_maxEventDays': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_maxRollingEvents': {2012: 9, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+  'FrL2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}
+  },
+    )
+])
+def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000991'
+    gauge = '422015'
+    EWR = 'FrL2'
+
+    EWR_table = qld_parameter_sheet
+
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        "422015": (     [2]*31 + [1]*10 + [2]*324 +
+                                        [2]*365 + 
+                                        [2]*365 + 
+                                        [2]*366)} 
+    df_L = pd.DataFrame(data = data_for_df_L)
+
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.water_stability_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+
+    print(PU_df.to_dict())
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("expected_events, expected_PU_df_data", [
+    (
+      {2012: [[(date(2013, 6, 16)+timedelta(days=i),5600) for i in range(15+11)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+{'FD1_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+ 'FD1_eventLength': {2012: 26.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+ 'FD1_eventLengthAchieved': {2012: 26.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+ 'FD1_totalEventDays': {2012: 26, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_totalEventDaysAchieved': {2012: 26, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_maxEventDays': {2012: 26, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_maxRollingEvents': {2012: 15, 2013: 26, 2014: 0, 2015: 0}, 
+ 'FD1_maxRollingAchievement': {2012: 1, 2013: 1, 2014: 0, 2015: 0}, 
+ 'FD1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+ 'FD1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
+    )
+])
+def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_df_data):
+     # Set up input data
+    PU = 'PU_0000999'
+    gauge = '416011'
+    EWR = 'FD1'
+
+    EWR_table = qld_parameter_sheet
+
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        '416011': (    [0]*350+[5600]*15 + 
+	                                   [5600]*11+ [0]*354 + 
+									   [0]*365 +
+									   [0]*366)} 
+    
+
+    df_F = pd.DataFrame(data = data_for_df_F)
+
+    df_F = df_F.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.flow_handle_anytime(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+
+    print(PU_df.to_dict())
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
+    (  'PU_0000189',
+          '405203',
+           'RFF' ,
+    np.array(    [40,30,41,30] + [30]*361 + 
+				  [30]*365 +
+				  [30]*365 + 
+				  [30]*366),
+    {2012: [[(date(2012, 7, 2), 30)], [(date(2012, 7, 4), 30)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+{  'RFF_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0},
+   'RFF_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+   'RFF_eventLength': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+   'RFF_eventLengthAchieved': {2012: 1.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+   'RFF_totalEventDays': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_totalEventDaysAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxEventDays': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxRollingEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+   'RFF_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
+    ),
+    (  'PU_0000189',
+          '405203',
+           'RRF' ,
+    np.array( [1, 2.1, 4.45] + [1000,2001, 3000, 4000, 5000, 15000] + [1000]*356 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 7, 4), 1000.0), (date(2012, 7, 5), 2001.0)],
+				[(date(2012, 7, 9), 15000.0)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+    {   
+    'RRF_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1},
+    'RRF_eventLength': {2012: 1.5, 2013: 0.0, 2014: 0.0, 2015: 0.0},
+    'RRF_eventLengthAchieved': {2012: 1.5, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+    'RRF_totalEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0},
+    'RRF_totalEventDaysAchieved': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxEventDays': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxRollingEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+    'RRF_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}
+    },
+    ),
+    (  'PU_0000192',
+          '405200',
+           'RRL_su' ,
+    np.array( [0]*153 + [1, 1.39, 1.8, 1, 1.39, 1.8 ] +  [0]*206 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 12, 1), 1.0), (date(2012, 12, 2), 1.39), (date(2012, 12, 3), 1.8)], 
+            [(date(2012, 12, 5), 1.39), (date(2012, 12, 6), 1.8)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+    {
+        'RRL_su_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_numAchieved': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_numEvents': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_numEventsAll': {2012: 2, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+        'RRL_su_eventLength': {2012: 2.5, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+        'RRL_su_eventLengthAchieved': {2012: 2.5, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+        'RRL_su_totalEventDays': {2012: 5, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_totalEventDaysAchieved': {2012: 5, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxRollingEvents': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+        'RRL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    ),
+    (  'PU_0000192',
+          '405200',
+           'RFL_su' ,
+         np.array([0]*153 + [1.22, 1, .77 ] + [0]*209 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 12, 2), 1.0), (date(2012, 12, 3), 0.77), (date(2012, 12, 4), 0.0)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+   {
+       'RFL_su_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+       'RFL_su_eventLength': {2012: 3.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+       'RFL_su_eventLengthAchieved': {2012: 3.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+       'RFL_su_totalEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_totalEventDaysAchieved': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxEventDays': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxRollingEvents': {2012: 3, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'RFL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    ),
+])
+def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
+    EWR_table = vic_parameter_sheet
+
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: gauge_data } 
+    
+
+    df_F = pd.DataFrame(data = data_for_df)
+    df_L = pd.DataFrame(data = data_for_df)
+
+    df_F = df_F.set_index('Date')
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.rise_and_fall_handle(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df, allowance)
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
+    (  'PU_0000191',
+          '405202',
+           'F3' ,
+        	np.array([1]*62 +[1., 1., 1., 1., 1., 1., 1.51, 2.01, 1.3] + [0]*294 + 
+				  [0]*365 +
+				  [0]*365 + 
+				  [0]*366),
+    {2012: [[(date(2012, 9, 1), 1.0), (date(2012, 9, 2), 1.0), (date(2012, 9, 3), 1.0), (date(2012, 9, 4), 1.0), 
+             (date(2012, 9, 5), 1.0), (date(2012, 9, 6), 1.0), (date(2012, 9, 7), 1.51), (date(2012, 9, 8), 2.01)]], 
+                2013: [], 
+                2014: [], 
+                2015: [] },
+
+   {
+       'F3_eventYears': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_numAchieved': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_numEvents': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_numEventsAll': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
+       'F3_eventLength': {2012: 8.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+       'F3_eventLengthAchieved': {2012: 8.0, 2013: 0.0, 2014: 0.0, 2015: 0.0}, 
+       'F3_totalEventDays': {2012: 8, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_totalEventDaysAchieved': {2012: 8, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_maxEventDays': {2012: 8, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_maxRollingEvents': {2012: 8, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
+       'F3_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
+    ),
+])
+def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
+    
+    EWR_table = vic_parameter_sheet
+
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                        gauge: gauge_data } 
+    
+
+    df_L = pd.DataFrame(data = data_for_df)
+
+    df_L = df_L.set_index('Date')
+
+    PU_df = pd.DataFrame()
+
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    
+    # Pass input data to test function:
+    
+    PU_df, events = evaluate_EWRs.level_change_handle(pu, gauge, ewr, EWR_table, df_L, PU_df, allowance)
+
+    print(PU_df.to_dict())
+    # print(events)
+
+    assert PU_df.to_dict() == expected_PU_df_data
+
+    expected_events = tuple([expected_events])
+    for index, _ in enumerate(events):
+        for year in events[index]:
+            assert len(events[index][year]) == len(expected_events[index][year])
+            for i, event in enumerate(events[index][year]):
+                assert event == expected_events[index][year][i]
+    

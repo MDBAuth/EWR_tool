@@ -214,3 +214,64 @@ def test_filter_duplicate_start_dates(duplicate_event_item_to_process):
     expected_df = pd.DataFrame(data=expected_data)
 
     assert df.reset_index(drop=True).to_dict() == expected_df.reset_index(drop=True).to_dict()
+
+
+@pytest.mark.parametrize("events_date_range, start_date, end_date, expected_result",[
+    (
+         [
+            ( date(2000,12,14), date(2007,1,2) ),
+            ( date(2004,3,19), date(2009,12,25)),
+            ( date(2013,4,23), date(2020,1,24) )
+         ],
+          date(2000,1,1),
+          date(2023,12,31),
+
+        [(date(2000, 1, 1), date(2000, 12, 13)), 
+         (date(2009, 12, 26), date(2013, 4, 22)), 
+         (date(2020, 1, 25), date(2023, 12, 31))]
+    ),
+    (
+         [
+            ( date(2000,12,14), date(2007,1,2) ),
+            ( date(2004,3,19), date(2009,12,25)),
+            ( date(2013,4,23), date(2020,1,24) )
+         ],
+          date(2000,12,14),
+          date(2023,12,31),
+
+        [
+         (date(2009, 12, 26), date(2013, 4, 22)), 
+         (date(2020, 1, 25), date(2023, 12, 31))]
+    ),
+    (
+         [
+            ( date(2000,12,14), date(2007,1,2) ),
+            ( date(2004,3,19), date(2009,12,25)),
+            ( date(2013,4,23), date(2020,1,24) )
+         ],
+          date(2000,12,14),
+          date(2020,1,24),
+
+        [
+         (date(2009, 12, 26), date(2013, 4, 22))
+        ]
+    ),
+    (
+         [
+            ( date(2000,12,14), date(2007,1,2) ),
+            ( date(2004,3,19), date(2009,12,25))
+         ],
+          date(2000,12,14),
+          date(2009,12,25),
+
+        [
+            
+        ]
+    ),
+   
+])
+def test_get_inter_events_date_ranges(events_date_range, start_date, end_date, expected_result):
+    result = summarise_results.get_inter_events_date_ranges(events_date_range, start_date, end_date)
+    assert result == expected_result
+
+    

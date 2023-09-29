@@ -9,6 +9,7 @@ from datetime import datetime
 import os
 
 from py_ewr import data_inputs
+import pytest
 
 BASE_PATH = Path(__file__).resolve().parents[1]
     
@@ -102,7 +103,7 @@ def test_get_EWR_table():
     '''
     # Test 1
     proxies={} # Populate with your proxy settings
-    my_url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/NSWEWR.csv")
+    my_url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     #s = requests.get(my_url, proxies=proxies).text
     df = pd.read_csv(my_url,#io.StringIO(s),
                         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
@@ -124,7 +125,7 @@ def test_map_gauge_to_catchment():
     1. Run test data (stored on MDBA public data repository) through to see if gauges are mapping correctly
     '''
     
-    EWR_table = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/NSWEWR.csv")
+    EWR_table = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     
     result = data_inputs.map_gauge_to_catchment(EWR_table)
     expected_result = {'419007': 'Namoi River downstream of Keepit Dam ',
@@ -138,3 +139,55 @@ def test_map_gauge_to_catchment():
                                    'Mooki River at Breeza ', '419032': 'Coxs Creek at Boggabri '}
     
     assert result["Namoi"] == expected_result      
+
+
+
+def test_get_ewr_calc_config():
+    '''
+    1. Test for correct return of EWR calculation config
+    assert it returns a dictionary
+    '''
+
+    ewr_calc_config = data_inputs.get_ewr_calc_config()
+
+    assert isinstance(ewr_calc_config, dict)
+    assert "flow_handle" in ewr_calc_config.keys()
+
+
+def test_get_barrage_flow_gauges():
+    result = data_inputs.get_barrage_flow_gauges()
+    assert isinstance(result, dict)
+    # there is only one key in the dictionary
+    assert len(result) == 1
+    ## all key main gauge belong to the list of gauges
+    for k, v in result.items():
+        assert isinstance(v, list)
+        assert k in v
+
+
+def test_get_barrage_level_gauges():
+    result = data_inputs.get_barrage_level_gauges()
+    assert isinstance(result, dict)
+    # there is only one key in the dictionary
+    ## all key main gauge belong to the list of gauges
+    for k, v in result.items():
+        assert isinstance(v, list)
+        assert k in v
+
+
+def test_get_cllmm_gauges():
+    result = data_inputs.get_cllmm_gauges()
+    assert isinstance(result, list)
+    for item in result:
+        assert isinstance(item, str)
+
+@pytest.mark.parametrize('expected_results', 
+[
+    (
+    ['A4260527', 'A4260633', 'A4260634', 'A4260635', 'A4260637', 'A4261002']
+    )
+])
+def test_get_scenario_gauges(gauge_results, expected_results):
+    result = data_inputs.get_scenario_gauges(gauge_results)
+    assert sorted(result) == expected_results
+    

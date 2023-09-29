@@ -72,18 +72,17 @@ def test_categorise_gauges():
     2. gauges outside cats
     '''
     
-    level = ['425020', '425022', '425023', 'A4260501', 'A4260508','A4260506']
+    level = ['425020', '425022', '425023', 'A4260501', 'A4260508','A4260506', '414209']
     flow = ['414203', '425010', 'A4260507', 'A4260505',  '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '409023', '409003']
     all_gauges = level + flow
     
-    f, ll, l = observed_handling.categorise_gauges(all_gauges)
+    f, l, _ = observed_handling.categorise_gauges(all_gauges)
 
     expected_level = copy.deepcopy(level)
     expected_flow = copy.deepcopy(flow)
     expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
     assert set(f) == set(expected_flow)
-    assert set(ll) == set(expected_level)
-
+    assert set(l) == set(expected_level)
 
 
 def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
