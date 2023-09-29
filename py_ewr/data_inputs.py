@@ -85,7 +85,7 @@ def get_EWR_table(file_path:str = None) -> dict:
 
 
     if not file_path:
-        my_url = os.path.join(BASE_PATH, "parameter_metadata/NSWEWR.csv")
+        my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
         proxies={} # Populate with your proxy settings
         df = pd.read_csv(my_url,
             usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
@@ -135,7 +135,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     return okay_EWRs, bad_EWRs
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def map_gauge_to_catchment(my_url:str = "parameter_metadata/NSWEWR.csv") -> dict:
+def map_gauge_to_catchment(my_url:str = "parameter_metadata/parameter_sheet.csv") -> dict:
     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
     first three numbers for each gauge 
     
