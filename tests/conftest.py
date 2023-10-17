@@ -1,8 +1,12 @@
 from datetime import date, timedelta, datetime
 import re
+import json
 
 import pandas as pd
 import pytest
+import pickle
+from unittest.mock import patch
+import mdba_gauge_getter
 
 from py_ewr import observed_handling, scenario_handling, data_inputs
 
@@ -146,7 +150,7 @@ def period_date(period_index):
 def observed_handler_expected_detail():
     # Load and format expected results
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_observed.csv', index_col = 0)
-    expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    expected_detailed_results.index = expected_detailed_results.index.astype('int64')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
     for i_col, col in enumerate(expected_detailed_results):
@@ -173,7 +177,7 @@ def observed_handler_expected_detail():
 def scenario_handler_expected_detail():
     # Expected output params
     expected_detailed_results = pd.read_csv('unit_testing_files/detailed_results_test.csv', index_col=0)
-    expected_detailed_results.index = expected_detailed_results.index.astype('object')
+    expected_detailed_results.index = expected_detailed_results.index.astype('int64')
     expected_detailed_results.index.astype('object')
     cols = expected_detailed_results.columns[expected_detailed_results.columns.str.contains('eventLength')]
     expected_detailed_results[cols] = expected_detailed_results[cols].astype('float64')
@@ -197,19 +201,14 @@ def scenario_handler_expected_detail():
 
     return expected_detailed_results
 
-@pytest.fixture(scope="module")
-def observed_handler_instance():
-    # Set up input parameters and pass to test function
-    gauges = ['419039']
-    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+def gg_pull_mock(*args, **kwargs):
 
-    ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
+    with open('unit_testing_files/mock_gg_pull.json', 'r') as f:
+        data = json.load(f)
 
-    ewr_oh.process_gauges()
+    gg_response = pd.DataFrame(data)
 
-    return ewr_oh
+    return gg_response
 
 @pytest.fixture(scope="module")
 def scenario_handler_instance():
@@ -241,6 +240,11 @@ def wp_df_F_df_L():
     df_F, df_L = scenario_handling.cleaner_IQQM_10000yr(murray_IQQM_df_wp)
 
     return df_F, df_L
+
+@pytest.fixture(scope="function")
+def sa_parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/sa_parameter_sheet.csv")
+    return EWR_table
 
 @pytest.fixture(scope="function")
 def wp_EWR_table(parameter_sheet):
@@ -315,3 +319,60 @@ def duplicate_event_item_to_process():
             'eventDuration': [31, 124, 61, 21, 9, 16, 6, 3, 821],
             'eventLength': [31, 124, 61, 21, 9, 16, 6, 3, 821],
             'Multigauge': ['']*9}
+
+@pytest.fixture(scope="function")
+def ewr_calc_config():
+    ewr_calc_config = data_inputs.get_ewr_calc_config()
+    return ewr_calc_config
+
+@pytest.fixture(scope="function")
+def gauge_results():
+    return {"scenario":
+            {"A4261002":{"pu":"DataFrame"},
+            "A4260527":{"pu":"DataFrame"},
+            "A4260633":{"pu":"DataFrame"},
+            "A4260634":{"pu":"DataFrame"},
+            "A4260635":{"pu":"DataFrame"},
+            "A4260637":{"pu":"DataFrame"}
+            }
+    }
+
+@pytest.fixture(scope="function")
+def gauge_results_before_process():
+    with open(f"unit_testing_files/gauge_results_before_process.pickle", "rb") as fp:
+        gauge_results = pickle.load(fp)
+    return gauge_results
+
+
+@pytest.fixture(scope="function")
+def qld_parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/qld_parameter_sheet.csv")
+    return EWR_table
+
+
+@pytest.fixture(scope="function")
+def vic_parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/vic_parameter_sheet.csv")
+    return EWR_table
+
+def gg_pull_mock(*args, **kwargs):
+
+    with open('unit_testing_files/mock_gg_pull.json', 'r') as f:
+        data = json.load(f)
+
+    gg_response = pd.DataFrame(data)
+
+    return gg_response
+
+@pytest.fixture(scope="module")
+def observed_handler_instance():
+    # Set up input parameters and pass to test function
+    gauges = ['419039']
+    dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+
+    with patch("mdba_gauge_getter.gauge_getter.gauge_pull", side_effect=gg_pull_mock):
+        ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
+        ewr_oh.process_gauges()
+        yield ewr_oh

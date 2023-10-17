@@ -93,7 +93,7 @@ SITEID,Name,Description,AWRC,StateID
 5BOONAL,Macintyre River @ Boonal,,416038,1
 5DAMSTG,Macintyre River @ Dam Site,,416018,1
 5FFARNG,Dumaresq River @ Farnbro,,416310,1
-5FGOONG,Moonie River @ Nindigully,,416201,1
+5FGOONG,Moonie River @ Nindigully,,416201A,1
 5FMAURG,Dumaresq River @ Mauro,,416049,1
 5FMINGG,Dumaresq River @ Mingoola No3,,416014,1
 5FTERRG,Macintyre River @ Terrewah,,416047,1
@@ -454,7 +454,7 @@ CADESC3,Cadow No. 3 Escape,,,2
 CADLDRN,Cadell LWMP Drains,Cadell Land and Water Management Plan Drains,,
 CADPUM,Cadell - Blanchetown Pipeline,,,
 CAIRNCU,Loddon River at Cairn Curran Reservoir,Cairn Curran Reservoir - Loddon River,407210A,4
-CAIWARR,Paroo R at Caiwarro,Paroo R at Caiwarro - Queensland,424201,1
+CAIWARR,Paroo R at Caiwarro,Paroo R at Caiwarro - Queensland,424201A,1
 CALFCK,Calf Creek River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
 CALIVIL,Calivil Creek at Wisharts Road,Calivil Creek at Wisharts Road,407284,4
 CALWATR,Caldwells Waterhole,Millewa monitoring site,,
@@ -1014,8 +1014,8 @@ HAY,MURRUMBIDGEE RIVER - HAY,,410002,2
 HAYDS,MURRUMBIDGEE RIVER D/S HAY WEIR,,410136,2
 HAYUS,Murrumbidgee River at Hay Weir (u/s),Murrumbidgee River at Hay Weir (u/s) - Storage Gauge,41010928,2
 HAYWEIR,Hay Weir on the Murrumbidgee,,,2
-HEBEL,Bokhara R at Hebel,Bokhara R at Hebel - Queensland,422209,1
-HEBELBO,Ballandool R at Hebel Bollon Rd,Ballandool R at Hebel Bollon Rd - Queensland,422207,1
+HEBEL,Bokhara R at Hebel,Bokhara R at Hebel - Queensland,422209A,1
+HEBELBO,Ballandool R at Hebel Bollon Rd,Ballandool R at Hebel Bollon Rd - Queensland,422207A,1
 HEBEMET,Hebel (Post Office),,44042,1
 HEFESC,6 Heffers,,,4
 HENSTP,Henty STP,,,2
@@ -2482,7 +2482,7 @@ WOLLBIL,Wollamai East Outfall U/S Billabong Ck,Wollamai East Outfall U/S Billabo
 WOLLESC,Wollami Escape channel @ the outfall,Wollami Escape channel at the outfall.,409076,4
 WOLLWAC,Wollami Creek Outfall (BIOW),,,2
 WOODPON,Woods Point Pontoon,,A4261126,5
-WOOLERB,Briarie River @ Woolerbilla-Hebel,Briarie River at Woolerbilla-Hebel - Queensland,422211,1
+WOOLERB,Briarie River @ Woolerbilla-Hebel,Briarie River at Woolerbilla-Hebel - Queensland,422211A,1
 WOOLFOR,Woolami escape U/S Forest Ck,Woolami escape U/S Forrest Ck,,4
 WOOLPUN,River Murray at Woolpunda 411.5Km,,A4260573,5
 WOOLSIS,Woolpunda Salt Interception Scheme,Salt inflow from reach currently controlled by Salt,,
@@ -2543,3 +2543,5 @@ YWCNET,Yarrawonga Channel less Escape,Broken Creek Escape not subtracted,,4
 11CLMOR,Colombo Creek @ Morundah,Colombo Ck at Morundah,410014,2
 11YNMOR,Yanco Creek @ Morundah,Yanco Ck at Morundah,410015,2
 11OMKYW,Old Man Ck @ Kywong,Old Man Ck at Kywong,410093,2
+422034,NARRAN RIVER @ BACK LAKE,NARRAN RIVER at BACK LAKE,422034,2
+422502A,Nebine Creek @ Roseleigh Crossing,Nebine Creek at Roseleigh Crossing,422502A,4

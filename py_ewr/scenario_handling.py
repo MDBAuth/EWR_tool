@@ -1,16 +1,19 @@
-from tracemalloc import start
 from typing import Dict, List
 import csv
 import os
 import urllib
 import re
-from datetime import datetime, date, timedelta
-from collections import OrderedDict
+from datetime import datetime, date
+import logging
 
 import pandas as pd
 from tqdm import tqdm
 import xarray as xr
 import netCDF4
+ 
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
+
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
@@ -279,18 +282,18 @@ def cleaner_NSW(input_df: pd.DataFrame) -> pd.DataFrame:
         cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%d/%m/%Y')
         cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
     except ValueError:
-        print('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
         try:
             cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%Y-%m-%d')
             cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
         except ValueError:
             raise ValueError('New date format detected. Cannot read in data')
-        print('successfully read in data with yyyy-mm-dd formatting')
+        log.info('successfully read in data with yyyy-mm-dd formatting')
     cleaned_df = cleaned_df.set_index('Date')
     
     return cleaned_df
 
-def cleaner_IQQM_10000yr(input_df: pd.DataFrame) -> pd.DataFrame:
+def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
     
     Args:
@@ -307,21 +310,21 @@ def cleaner_IQQM_10000yr(input_df: pd.DataFrame) -> pd.DataFrame:
         date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
         date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
     except ValueError:    
-        print('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
         try:
             date_start = datetime.strptime(cleaned_df.index[0], '%Y-%m-%d')
             date_end = datetime.strptime(cleaned_df.index[-1], '%Y-%m-%d')
         except ValueError:
             raise ValueError('New date format detected. Cannot read in data')
-        print('successfully read in data with yyyy-mm-dd formatting')
+        log.info('successfully read in data with yyyy-mm-dd formatting')
     
     date_range = pd.period_range(date_start, date_end, freq = 'D')
     cleaned_df['Date'] = date_range
     cleaned_df = cleaned_df.set_index('Date')
     
     # Split gauges into flow and level, allocate to respective dataframe
-    flow_gauges = data_inputs.get_gauges('flow gauges')
-    level_gauges = data_inputs.get_gauges('level gauges')
+    flow_gauges = data_inputs.get_gauges('flow gauges',ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path)
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)
     for gauge in cleaned_df.columns:
@@ -341,7 +344,7 @@ def extract_gauge_from_string(input_string: str) -> str:
         str: Gauge number as a string if found, None if not found
     
     '''
-    found = re.findall(r'\d+\w', input_string)
+    found = re.findall(r'\w+\d+\w', input_string)
     if found:
         for i in found:
             if len(i) >= 6:
@@ -350,7 +353,7 @@ def extract_gauge_from_string(input_string: str) -> str:
     else:
         return None
 
-def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tuple:
+def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
     the columns with EWRs available. Renames columns to gauges
     
@@ -363,8 +366,8 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tu
 
     '''
 
-    flow_gauges = data_inputs.get_gauges('flow gauges')
-    level_gauges = data_inputs.get_gauges('level gauges')
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
     measurands = ['1', '35']
     df_flow = pd.DataFrame(index = input_df.index)
     df_level = pd.DataFrame(index = input_df.index)
@@ -399,7 +402,7 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
     df_flow = pd.DataFrame(index = input_df.index)
     df_level = pd.DataFrame(index = input_df.index)
     for col in input_df.columns:
-        if not (model_metadata[model_metadata['SITEID'].str.contains(col, na=False)]).empty:
+        if not (model_metadata[model_metadata['SITEID'].str.contains(col, na=False, regex=False)]).empty:
             subset = model_metadata.query("SITEID==@col")
             gauge = subset["AWRC"].iloc[0]
             if gauge in flow_gauges:
@@ -409,10 +412,15 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
 
     return df_flow, df_level
 
+def any_cllmm_to_process(gauge_results: dict)->bool:
+    cllmm_gauges = data_inputs.get_cllmm_gauges()
+    processed_gauges = data_inputs.get_scenario_gauges(gauge_results)
+    return any(gauge in processed_gauges for gauge in cllmm_gauges)
 
 class ScenarioHandler:
     
-    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None):
+    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None,
+                calc_config_path:str = None):
         self.scenario_files = scenario_files
         self.model_format = model_format
         self.allowance = allowance
@@ -421,6 +429,7 @@ class ScenarioHandler:
         self.pu_ewr_statistics = None
         self.summary_results = None
         self.parameter_sheet = parameter_sheet
+        self.calc_config_path = calc_config_path
         self.flow_data = None
         self.level_data = None
 
@@ -449,11 +458,11 @@ class ScenarioHandler:
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)
                 df_clean = cleaner_MDBA(data)
-                df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes())
+                df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
 
             elif self.model_format == 'IQQM - NSW 10,000 years':
                 df_unpacked = unpack_IQQM_10000yr(scenarios[scenario])
-                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked)
+                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked, self.parameter_sheet)
 
             elif self.model_format == 'Source - NSW (res.csv)':
                 data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')
@@ -463,11 +472,15 @@ class ScenarioHandler:
             
             gauge_results = {}
             gauge_events = {}
-            all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+            all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
             EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
+            calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
-                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table)
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, 
+                                                                                        EWR_table, calc_config)
+        
             detailed_results[scenario] = gauge_results
+            
             detailed_events[scenario] = gauge_events
 
             self.pu_ewr_statistics = detailed_results
@@ -543,7 +556,7 @@ class ScenarioHandler:
 
         all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
 
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1, self.parameter_sheet) 
 
         return all_successfulEvents
 
@@ -567,7 +580,7 @@ class ScenarioHandler:
 
 
         # Part 1 - Get only the successful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2, self.parameter_sheet) 
 
         # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
         # Get start and end date of the timeseries.
@@ -615,7 +628,7 @@ class ScenarioHandler:
                         parameter_sheet_path=self.parameter_sheet)
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
         #Filter out the unsuccessful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp, self.parameter_sheet)
 
         # Get start and end date of the timeseries.
         date0 = self.flow_data.index[0]
@@ -623,13 +636,12 @@ class ScenarioHandler:
         start_date = date(date0.year, date0.month, date0.day)
         end_date = date(date1.year, date1.month, date1.day)
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
-        rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results)
-
+        rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, start_date, end_date, yearly_ewr_results, self.parameter_sheet)
         # Add the rolling max interevents to the yearly dataframe:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results, rolling_max_interevents_dict)
         
         # Calculate the rolling achievement of the interevent, append this to a new column
-        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results)
+        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)
 
         return yearly_ewr_results
 
@@ -641,4 +653,4 @@ class ScenarioHandler:
         if not self.pu_ewr_statistics:
             self.process_scenarios()
 
-        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events)
+        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)

@@ -4,16 +4,16 @@ import logging
 
 import pandas as pd
 from tqdm import tqdm
+import numpy as np
 
-from . import data_inputs, evaluate_EWRs, summarise_results
+from . import data_inputs, evaluate_EWRs, summarise_results, scenario_handling
 from mdba_gauge_getter import gauge_getter as gg
 
-logging.basicConfig()
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+log.addHandler(logging.NullHandler())
 
-def categorise_gauges(gauges: list) -> tuple:
-    '''Seperate gauges into level, flow, or both
+def categorise_gauges(gauges: list, ewr_table_path:str = None) -> tuple:
+    '''Separate gauges into level, flow, or both
     
     Args:
         gauges (list): List of user defined gauges
@@ -22,13 +22,41 @@ def categorise_gauges(gauges: list) -> tuple:
         tuple[list, list]: A list of flow gauges; A list of water level gauges
     
     '''
+    lake_level_gauges = []
+    level_gauges = []
+    flow_gauges = []
+
+    EWR_TABLE, _ = data_inputs.get_EWR_table(ewr_table_path)
+    
+    if ewr_table_path:
+        level_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='L']['Gauge'].to_list()
+        # only add gauges if in the incoming list
+        for gauge in level_gauges_to_add:
+            if gauge in gauges:
+                level_gauges.append(gauge)
+        lake_level_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='LL']['Gauge'].to_list()
+        for gauge in lake_level_gauges_to_add:
+            if gauge in gauges:
+                lake_level_gauges.append(gauge)
+        flow_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='F']['Gauge'].to_list()
+        for gauge in flow_gauges_to_add:
+            if gauge in gauges:
+                flow_gauges.append(gauge)
+
+        weirpool_gauges_to_add = [ i for i in  EWR_TABLE['WeirpoolGauge'].to_list() if type(i) == str]
+        weirpool_gauges_to_add = [i for i in weirpool_gauges_to_add if i ]
+        if weirpool_gauges_to_add:
+            for gauge in weirpool_gauges_to_add:
+                if gauge in gauges:
+                    level_gauges.append(gauge)
+                    lake_level_gauges.append(gauge)
+
+    # hard code gauges in data_input module
+    sa_barrage_gauges = data_inputs.get_barrage_level_gauges()   
+    sa_barrage_gauges = [value for key in sa_barrage_gauges for value in sa_barrage_gauges[key]]
     _level_gauges, weirpool_gauges = data_inputs.get_level_gauges()
     multi_gauges = data_inputs.get_multi_gauges('gauges')
     simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
-    
-    level_gauges = []
-    flow_gauges = []
-    stage_gauges = []
 
     # Loop through once to get the special gauges:
     for gauge in gauges:
@@ -43,22 +71,24 @@ def categorise_gauges(gauges: list) -> tuple:
         if gauge in weirpool_gauges.keys(): # need level and flow gauges
             flow_gauges.append(gauge)
             level_gauges.append(weirpool_gauges[gauge])
+            lake_level_gauges.append(weirpool_gauges[gauge])
 
-            if '414209' in level_gauges:
-                # 414209 returns 100.00 instead of 130.00
-                level_gauges.remove('414209')
-                stage_gauges.append('414209')
-
+    # add hard coded gauges only if it int he incoming list
+    if any(gauge in gauges for gauge in sa_barrage_gauges):
+        lake_level_gauges += sa_barrage_gauges
+        level_gauges += sa_barrage_gauges
+    
     # Then loop through again and allocate remaining gauges to the flow category
     for gauge in gauges:
-        if ((gauge not in level_gauges) and (gauge not in stage_gauges) and (gauge not in flow_gauges)):
+        if ((gauge not in level_gauges) and (gauge not in lake_level_gauges) and (gauge not in flow_gauges)):
             # Otherwise, assume its a flow gauge and add
             flow_gauges.append(gauge)
 
     unique_flow_gauges = list(set(flow_gauges))
     unique_level_gauges = list(set(level_gauges))
+    unique_lake_level_gauges = list(set(lake_level_gauges))
 
-    return unique_flow_gauges, unique_level_gauges, stage_gauges
+    return unique_flow_gauges, unique_level_gauges, unique_lake_level_gauges
 
 def remove_data_with_bad_QC(input_dataframe: pd.DataFrame, qc_codes: list) -> pd.DataFrame:
     '''Takes in a dataframe of flow and a list of bad qc codes, removes the poor quality data from 
@@ -141,7 +171,7 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
 
 class ObservedHandler:
     
-    def __init__(self, gauges:List, dates:Dict , allowance:Dict, climate:str, parameter_sheet:str = None):
+    def __init__(self, gauges:List, dates:Dict , allowance:Dict, climate:str, parameter_sheet:str = None, calc_config_path:str = None):
         self.gauges = gauges
         self.dates = dates
         self.allowance = allowance
@@ -150,6 +180,7 @@ class ObservedHandler:
         self.pu_ewr_statistics = None
         self.summary_results = None
         self.parameter_sheet = parameter_sheet
+        self.calc_config_path = calc_config_path
         self.flow_data = None
         self.level_data = None
 
@@ -160,19 +191,16 @@ class ObservedHandler:
         '''
         
         # Classify gauges:
-        flow_gauges, level_gauges, stage_gauges = categorise_gauges(self.gauges)
+        flow_gauges, level_gauges, lake_level_gauges = categorise_gauges(self.gauges, self.parameter_sheet)
         # Call state API for flow and level gauge data, then combine to single dataframe
-
-        log.info(f'Including gauges: {flow_gauges} {level_gauges} {stage_gauges}')
-        
+        log.info(f'Including gauges: flow gauges: { ", ".join(flow_gauges)} level gauges: { ", ".join(level_gauges)} lake level gauges: { ", ".join(lake_level_gauges)}')
         flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F')
-        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'LL')
-        stage = gg.gauge_pull(stage_gauges, start_time_user=self.dates['start_date'],
-                               end_time_user=self.dates['end_date'], var='L')
+        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L')
+        lake_levels = gg.gauge_pull(lake_level_gauges, start_time_user=self.dates['start_date'], end_time_user=self.dates['end_date'], var='LL')
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
-        df_S = observed_cleaner(stage, self.dates)
+        df_S = observed_cleaner(lake_levels, self.dates)
         # Append stage values to level df
         df_L = pd.concat([df_L, df_S], axis=1)
         # Calculate EWRs
@@ -180,12 +208,14 @@ class ObservedHandler:
         gauge_results = {}
         gauge_events = {}
         detailed_events = {}
-        all_locations = df_F.columns.to_list() + df_L.columns.to_list()
+        all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
         EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
+        calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
         for gauge in all_locations:
-            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table)
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table, calc_config)
             
         detailed_results['observed'] = gauge_results
+
         detailed_events['observed'] = gauge_events
         
         self.pu_ewr_statistics = detailed_results
@@ -261,7 +291,7 @@ class ObservedHandler:
 
         all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
 
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1, self.parameter_sheet) 
 
         return all_successfulEvents
 
@@ -284,7 +314,7 @@ class ObservedHandler:
         all_events_temp2 = summarise_results.filter_duplicate_start_dates(all_events_temp2)
 
         # Part 1 - Get only the successful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2) 
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2, self.parameter_sheet) 
 
         # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
         # Get start and end date of the timeseries.
@@ -332,7 +362,7 @@ class ObservedHandler:
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
 
         # Filter out the unsuccessful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp)
+        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp, self.parameter_sheet)
         
         # Get start and end date of the timeseries.
         date0 = self.flow_data.index[0]
@@ -341,13 +371,13 @@ class ObservedHandler:
         end_date = date(date1.year, date1.month, date1.day)
         df = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
         rolling_max_interevents_dict = summarise_results.get_rolling_max_interEvents(df, self.dates['start_date'], self.dates['end_date'],
-                                                                                     yearly_ewr_results)
+                                                                                     yearly_ewr_results, self.parameter_sheet)
 
         # Add the rolling max interevents to the yearly dataframe:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results,
                                                                                 rolling_max_interevents_dict)
 
-        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results)
+        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)
 
         return yearly_ewr_results
 
