@@ -250,6 +250,20 @@ def get_NSW_codes() -> pd.DataFrame:
     
     return metadata
 
+def get_iqqm_codes() -> dict:
+    '''
+    Load metadata file for Macquarie containing model nodes
+    and gauges they correspond to
+
+    Returns:
+        dict: dict for linking model nodes to gauges
+
+    '''
+    metadf = pd.read_csv( BASE_PATH / 'model_metadata/iqqm_stations.csv', dtype=str)
+    metadata = metadf.set_index(metadf.columns[0]).to_dict()[metadf.columns[1]]
+
+    return metadata
+
 def gauge_to_catchment(input_gauge:str) -> str:
     '''
     Takes in a gauge, maps it to the catchment

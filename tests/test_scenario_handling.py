@@ -174,6 +174,21 @@ def test_cleaner_MDBA():
     
     assert_frame_equal(df_clean, expected_df)
     
+def test_cleaner_netcdf_werp():
+    '''
+    1. check ncdf is unpacked correctly
+    '''
+    df = scenario_handling.unpack_netcdf_as_dataframe('unit_testing_files/ex_tasker.nc')
+    df_clean = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes())
+
+    # the test ncdf is too big to mock, so check properties
+    assert df_clean.dtypes.iloc[0] == 'float32'
+    assert df_clean.index.dtype == 'O'
+    assert df_clean.columns[0] == '421023'
+
+
+
+
     
 def test_build_NSW_columns():
     '''
@@ -244,6 +259,7 @@ def test_unpack_IQQM_10000yr():
     
     assert_frame_equal(flow, expected_flow)
 
+
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
    
     detailed = scenario_handler_instance.pu_ewr_statistics
@@ -312,6 +328,11 @@ def test_unpack_netcdf_as_dataframe():
     expected_df_shape = (211, 22)
     assert result_df.shape == expected_df_shape
 
+    test_flowcdf = 'unit_testing_files/ex_tasker.nc'
+    result_flow = scenario_handling.unpack_netcdf_as_dataframe(test_flowcdf)
+    expected_flow_shape = (17536, 1)
+    assert result_flow.shape == expected_flow_shape
+
 
 def test_unpack_netcdf_as_dataframe_invalid_file():
     test_invalid_file = 'unit_testing_files/NSW_source_res_test_file_header_result.csv'
@@ -324,3 +345,20 @@ def test_unpack_netcdf_as_dataframe_invalid_file():
 def test_any_cllmm_to_process(gauge_results):
     result = scenario_handling.any_cllmm_to_process(gauge_results)
     assert result == True
+
+# This *should* likely use something like conftest.scenario_handler_instance, but that seems to be locked to bigmod.
+def test_netcdf_processes():
+    # Testing the netcdf format:
+    # Input params
+    scenarios =  ['unit_testing_files/ex_tasker.nc']
+    model_format = 'IQQM - netcdf'
+    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    climate = 'Standard - 1911 to 2018 climate categorisation'
+    
+    # Pass to the class
+    
+    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format, allowance, climate)
+    
+    ewr_summary = ewr_sh.get_ewr_results()
+
+    assert ewr_summary.shape == (8, 19)

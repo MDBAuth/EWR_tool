@@ -334,6 +334,42 @@ def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> 
             df_level[gauge] = cleaned_df[gauge].copy(deep=True)
     return df_flow, df_level
 
+def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
+
+    '''Ingests dataframe, cleans up into a format matching IQQM csv
+    
+    Args:
+        input_df (pd.DataFrame): raw xarray dataframe read-in
+
+        statios(dict):  dict mapping IQQM stations to gauge numbers 
+
+    Results:
+        tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
+
+    '''
+
+    cleaned_df = input_df.copy(deep=True)
+
+    # organise like the rest of the dataframes- make this look just like we've read it in from an IQQM csv
+    cleaned_df = cleaned_df.query('variable == "Simulated flow"').droplevel('variable')
+    cleaned_df = cleaned_df.reset_index(level = 'node')
+    cleaned_df['node'] = cleaned_df['node'].astype(str)
+
+    cleaned_df['gauge'] = cleaned_df['node'].map(stations)
+    cleaned_df = cleaned_df.drop('node', axis = 1) 
+
+    # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
+    cleaned_df = cleaned_df.query('gauge.notna()')
+
+    cleaned_df = cleaned_df.pivot(columns = 'gauge', values = 'Straight Node (Gauge)')
+    cleaned_df.columns.name = None
+
+    # the csvs return an 'object' type, not a datetime in the index
+    cleaned_df.index = cleaned_df.index.date.astype('str')
+    cleaned_df.index.names = ['Date']
+
+    return(cleaned_df)
+
 def extract_gauge_from_string(input_string: str) -> str:
     '''Takes in a string, pulls out the gauge number from this string
     
@@ -469,6 +505,11 @@ class ScenarioHandler:
                 data = build_NSW_columns(data, header)
                 df_clean = cleaner_NSW(data)
                 df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes())
+
+            elif self.model_format == 'IQQM - netcdf':
+                df_unpacked = unpack_netcdf_as_dataframe(scenarios[scenario])
+                df_matched_iqqm = cleaner_netcdf_werp(df_unpacked, data_inputs.get_iqqm_codes())
+                df_F, df_L = cleaner_IQQM_10000yr(df_matched_iqqm, self.parameter_sheet)
             
             gauge_results = {}
             gauge_events = {}
