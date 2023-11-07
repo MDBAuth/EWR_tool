@@ -56,16 +56,16 @@ def categorise_gauges(gauges: list, ewr_table_path:str = None) -> tuple:
     sa_barrage_gauges = [value for key in sa_barrage_gauges for value in sa_barrage_gauges[key]]
     _level_gauges, weirpool_gauges = data_inputs.get_level_gauges()
     multi_gauges = data_inputs.get_multi_gauges('gauges')
-    simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
+    # simultaneous_gauges = data_inputs.get_simultaneous_gauges('gauges')
 
     # Loop through once to get the special gauges:
     for gauge in gauges:
         if gauge in multi_gauges.keys():
             flow_gauges.append(gauge)
             flow_gauges.append(multi_gauges[gauge])
-        if gauge in simultaneous_gauges:
-            flow_gauges.append(gauge)
-            flow_gauges.append(simultaneous_gauges[gauge])
+        # if gauge in simultaneous_gauges:
+        #     flow_gauges.append(gauge)
+        #     flow_gauges.append(simultaneous_gauges[gauge])
         if gauge in _level_gauges:
             level_gauges.append(gauge)
         if gauge in weirpool_gauges.keys(): # need level and flow gauges
@@ -171,11 +171,11 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
 
 class ObservedHandler:
     
-    def __init__(self, gauges:List, dates:Dict , allowance:Dict, climate:str, parameter_sheet:str = None, calc_config_path:str = None):
+    def __init__(self, gauges:List, dates:Dict , allowance:Dict, parameter_sheet:str = None, calc_config_path:str = None):#, climate:str
         self.gauges = gauges
         self.dates = dates
         self.allowance = allowance
-        self.climate = climate
+        # self.climate = climate
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
@@ -212,7 +212,7 @@ class ObservedHandler:
         EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
         calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
         for gauge in all_locations:
-            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, EWR_table, calc_config)
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, EWR_table, calc_config)#, self.climate
             
         detailed_results['observed'] = gauge_results
 

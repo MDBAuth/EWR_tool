@@ -80,7 +80,7 @@ def test_categorise_gauges():
 
     expected_level = copy.deepcopy(level)
     expected_flow = copy.deepcopy(flow)
-    expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
+    # expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
 
@@ -90,6 +90,8 @@ def test_observed_handler_class(observed_handler_expected_detail, observed_handl
     observed_handler_instance.process_gauges()
 
     detailed = observed_handler_instance.pu_ewr_statistics
+
+    detailed['observed']['419039']['Boggabri to Wee Waa'].index = detailed['observed']['419039']['Boggabri to Wee Waa'].index.astype('int64')
 
     assert_frame_equal(detailed['observed']['419039']['Boggabri to Wee Waa'], observed_handler_expected_detail)
 

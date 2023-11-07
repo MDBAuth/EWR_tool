@@ -14,25 +14,25 @@ BASE_PATH = Path(__file__).resolve().parent
 
 # Importing the climate cat data - to be replaced by RAS data once available:
 
-def get_climate_cats(climate_file:str) -> pd.DataFrame:
-    '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
-    in which case this is used
+# def get_climate_cats(climate_file:str) -> pd.DataFrame:
+#     '''Uses standard climate categorisation unless user selects the 10,000 year climate sequence,
+#     in which case this is used
     
-    Args:
-        climate_file (str): location of the climate categoration file
+#     Args:
+#         climate_file (str): location of the climate categoration file
 
-    Returns:
-        pd.DataFrame: Returns a dataframe showing annual climate categories for catchments
+#     Returns:
+#         pd.DataFrame: Returns a dataframe showing annual climate categories for catchments
     
-    '''
+#     '''
     
-    if climate_file == 'Standard - 1911 to 2018 climate categorisation':
-        climate_cats = pd.read_csv( BASE_PATH / 'climate_data/climate_cats.csv', index_col = 0)
+#     if climate_file == 'Standard - 1911 to 2018 climate categorisation':
+#         climate_cats = pd.read_csv( BASE_PATH / 'climate_data/climate_cats.csv', index_col = 0)
         
-    elif climate_file  == 'NSW 10,000 year climate sequence':
-        climate_cats = pd.read_csv(BASE_PATH / 'climate_data/climate_cats_10000year.csv', index_col = 0)
+#     elif climate_file  == 'NSW 10,000 year climate sequence':
+#         climate_cats = pd.read_csv(BASE_PATH / 'climate_data/climate_cats_10000year.csv', index_col = 0)
         
-    return climate_cats
+#     return climate_cats
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_ewr_calc_config(file_path:str = None) -> dict:
@@ -134,95 +134,95 @@ def get_EWR_table(file_path:str = None) -> dict:
     
     return okay_EWRs, bad_EWRs
 
-@cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def map_gauge_to_catchment(my_url:str = "parameter_metadata/parameter_sheet.csv") -> dict:
-    ''' Allocates all the locations in the ewr table with catchments, as indicated by the
-    first three numbers for each gauge 
+# @cached(cache=TTLCache(maxsize=1024, ttl=1800))
+# def map_gauge_to_catchment(my_url:str = "parameter_metadata/parameter_sheet.csv") -> dict:
+#     ''' Allocates all the locations in the ewr table with catchments, as indicated by the
+#     first three numbers for each gauge 
     
-    Args:
-        my_url (str): location of the EWR dataset
-    Returns:
-        dict[dict]: Dictinoary of catchments, for each catchment a dictionary of gauge number and name key value pairs 
-    '''
+#     Args:
+#         my_url (str): location of the EWR dataset
+#     Returns:
+#         dict[dict]: Dictinoary of catchments, for each catchment a dictionary of gauge number and name key value pairs 
+#     '''
     
-    lower_darling_gauges = ['425054', '425010', '425011', '425052', '425013', '425056', '425007', 
-                            '425057', '425005', '425050', '425048', '425019', '425014', '425023', 
-                            '425012', '425044', '425049', '425001', '425022', '42510037', '42510036',
-                            '425034', '425046', '425020', ]
+#     lower_darling_gauges = ['425054', '425010', '425011', '425052', '425013', '425056', '425007', 
+#                             '425057', '425005', '425050', '425048', '425019', '425014', '425023', 
+#                             '425012', '425044', '425049', '425001', '425022', '42510037', '42510036',
+#                             '425034', '425046', '425020', ]
     
-    EWR_table, bad_EWRs =  get_EWR_table(os.path.join(BASE_PATH, my_url))
+#     EWR_table, bad_EWRs =  get_EWR_table(os.path.join(BASE_PATH, my_url))
     
-    gauge_number = EWR_table['Gauge'].values
-    gauge_name = EWR_table['CompliancePoint/Node'].values
+#     gauge_number = EWR_table['Gauge'].values
+#     gauge_name = EWR_table['CompliancePoint/Node'].values
     
-    gauge_to_name = dict()
-    for iteration, value in enumerate(gauge_number):
-        if type(value) == str:
-            gauge_to_name[value] = gauge_name[iteration]
+#     gauge_to_name = dict()
+#     for iteration, value in enumerate(gauge_number):
+#         if type(value) == str:
+#             gauge_to_name[value] = gauge_name[iteration]
 
-    gauge_to_catchment = dict()
-    namoi_catchment = dict()
-    gwydir_catchment = dict()
-    macquarie_catchment = dict()
-    lachlan_catchment = dict()
-    murray_catchment = dict()
-    lower_darling_catchment = dict()
-    barwon_darling_catchment = dict()
-    murrumbidgee_catchment = dict()
-    border_rivers_catchment = dict()
-    moonie_catchment = dict()
-    condamine_balonne = dict()
-    warrego_catchment = dict()
-    paroo_catchment = dict()
-    other_catchment = dict()
+#     gauge_to_catchment = dict()
+#     namoi_catchment = dict()
+#     gwydir_catchment = dict()
+#     macquarie_catchment = dict()
+#     lachlan_catchment = dict()
+#     murray_catchment = dict()
+#     lower_darling_catchment = dict()
+#     barwon_darling_catchment = dict()
+#     murrumbidgee_catchment = dict()
+#     border_rivers_catchment = dict()
+#     moonie_catchment = dict()
+#     condamine_balonne = dict()
+#     warrego_catchment = dict()
+#     paroo_catchment = dict()
+#     other_catchment = dict()
     
-    for k, v in gauge_to_name.items():
-        if k.startswith('419'):
-            namoi_catchment.update({k: v})
-        elif k.startswith('418'):
-            gwydir_catchment.update({k: v})
-        elif (k.startswith('421') or k.startswith('420')):
-            macquarie_catchment.update({k: v})
-        elif k.startswith('412'):
-            lachlan_catchment.update({k: v})
-        elif (k.startswith('401') or k.startswith('409') or k.startswith('A426') or k.startswith('414')):
-            murray_catchment.update({k: v})
-        elif k.startswith('425'):
-            if k in lower_darling_gauges:
-                lower_darling_catchment.update({k: v})   
-            else:
-                barwon_darling_catchment.update({k: v}) 
-        elif k.startswith('410'):
-            murrumbidgee_catchment.update({k: v})
-        elif k.startswith('416'):
-            border_rivers_catchment.update({k: v})
-        elif k.startswith('417'):
-            moonie_catchment.update({k: v})
-        elif k.startswith('422'):
-            condamine_balonne.update({k: v})
-        elif k.startswith('423'):
-            warrego_catchment.update({k: v})
-        elif k.startswith('424'):
-            paroo_catchment.update({k: v})
-        else:
-            other_catchment.update({k: v})
+#     for k, v in gauge_to_name.items():
+#         if k.startswith('419'):
+#             namoi_catchment.update({k: v})
+#         elif k.startswith('418'):
+#             gwydir_catchment.update({k: v})
+#         elif (k.startswith('421') or k.startswith('420')):
+#             macquarie_catchment.update({k: v})
+#         elif k.startswith('412'):
+#             lachlan_catchment.update({k: v})
+#         elif (k.startswith('401') or k.startswith('409') or k.startswith('A426') or k.startswith('414')):
+#             murray_catchment.update({k: v})
+#         elif k.startswith('425'):
+#             if k in lower_darling_gauges:
+#                 lower_darling_catchment.update({k: v})   
+#             else:
+#                 barwon_darling_catchment.update({k: v}) 
+#         elif k.startswith('410'):
+#             murrumbidgee_catchment.update({k: v})
+#         elif k.startswith('416'):
+#             border_rivers_catchment.update({k: v})
+#         elif k.startswith('417'):
+#             moonie_catchment.update({k: v})
+#         elif k.startswith('422'):
+#             condamine_balonne.update({k: v})
+#         elif k.startswith('423'):
+#             warrego_catchment.update({k: v})
+#         elif k.startswith('424'):
+#             paroo_catchment.update({k: v})
+#         else:
+#             other_catchment.update({k: v})
                 
-    gauge_to_catchment.update({'Namoi': namoi_catchment, 
-                               'Gwydir': gwydir_catchment,
-                               'Macquarie-Castlereagh': macquarie_catchment, 
-                               'Lachlan': lachlan_catchment,
-                               'Lower Darling': lower_darling_catchment, 
-                               'Barwon-Darling': barwon_darling_catchment,
-                               'Murray': murray_catchment,
-                               'Murrumbidgee': murrumbidgee_catchment,
-                               'Border Rivers': border_rivers_catchment,
-                               'Moonie' : moonie_catchment,
-                               'Condamine-Balonne': condamine_balonne,
-                               'Warrego': warrego_catchment,
-                               'Paroo': paroo_catchment,
-                               'Other': other_catchment
-                              })
-    return gauge_to_catchment
+#     gauge_to_catchment.update({'Namoi': namoi_catchment, 
+#                                'Gwydir': gwydir_catchment,
+#                                'Macquarie-Castlereagh': macquarie_catchment, 
+#                                'Lachlan': lachlan_catchment,
+#                                'Lower Darling': lower_darling_catchment, 
+#                                'Barwon-Darling': barwon_darling_catchment,
+#                                'Murray': murray_catchment,
+#                                'Murrumbidgee': murrumbidgee_catchment,
+#                                'Border Rivers': border_rivers_catchment,
+#                                'Moonie' : moonie_catchment,
+#                                'Condamine-Balonne': condamine_balonne,
+#                                'Warrego': warrego_catchment,
+#                                'Paroo': paroo_catchment,
+#                                'Other': other_catchment
+#                               })
+#     return gauge_to_catchment
 
 def get_MDBA_codes() -> pd.DataFrame:
     '''
@@ -250,55 +250,55 @@ def get_NSW_codes() -> pd.DataFrame:
     
     return metadata
 
-def gauge_to_catchment(input_gauge:str) -> str:
-    '''
-    Takes in a gauge, maps it to the catchment
-    returns the catchment
+# def gauge_to_catchment(input_gauge:str) -> str:
+#     '''
+#     Takes in a gauge, maps it to the catchment
+#     returns the catchment
 
-    Args:
-        input_gauge (str): Gauge string
+#     Args:
+#         input_gauge (str): Gauge string
     
-    Returns:
-        str: The catchment name that the input gauge is located in
+#     Returns:
+#         str: The catchment name that the input gauge is located in
 
-    '''
-    catchments_gauges = map_gauge_to_catchment()
-    for catchment in catchments_gauges:
-        if input_gauge in catchments_gauges[catchment]:
-            return catchment
+#     '''
+#     catchments_gauges = map_gauge_to_catchment()
+#     for catchment in catchments_gauges:
+#         if input_gauge in catchments_gauges[catchment]:
+#             return catchment
     
-def wy_to_climate(water_years: np.array, catchment: str, climate_file: str) -> np.array:
-    '''
-    The function assigns a climate categorisation for every day, depending on the water year and catchment in the climate file
+# def wy_to_climate(water_years: np.array, catchment: str, climate_file: str) -> np.array:
+#     '''
+#     The function assigns a climate categorisation for every day, depending on the water year and catchment in the climate file
 
-    Args:
-        water_years (np.array): Daily water year array
-        catchment (str): The catchment that the gauge is in
-        climate file (str) = Which climate data to use
+#     Args:
+#         water_years (np.array): Daily water year array
+#         catchment (str): The catchment that the gauge is in
+#         climate file (str) = Which climate data to use
 
-    Returns:
-        np.array: Daily climate categorisation
+#     Returns:
+#         np.array: Daily climate categorisation
     
-    '''
-    # Get the climate categorisation:
-    climate_cats = get_climate_cats(climate_file)
+#     '''
+#     # Get the climate categorisation:
+#     climate_cats = get_climate_cats(climate_file)
     
-    # Get the unique years covered in the flow dataframe, and how many days are in each year:
-    unique_years, count_years = np.unique(water_years, return_counts=True)
+#     # Get the unique years covered in the flow dataframe, and how many days are in each year:
+#     unique_years, count_years = np.unique(water_years, return_counts=True)
     
-    # Get the years covered by the climate cats, and filter them to those of interest (using min and max from flow dataframe)
-    if not catchment:
-        catchment = 'Total MDB'
-    climateCatchment = climate_cats[catchment]
-    climateFiltered = climateCatchment[(climateCatchment.index>=min(unique_years)) & (climateCatchment.index<=max(unique_years))].values
-    # Repeating the climate result for that year over the total days in each year 
-    def mapper(climate, count):
-        return np.repeat(climate, count)
+#     # Get the years covered by the climate cats, and filter them to those of interest (using min and max from flow dataframe)
+#     if not catchment:
+#         catchment = 'Total MDB'
+#     climateCatchment = climate_cats[catchment]
+#     climateFiltered = climateCatchment[(climateCatchment.index>=min(unique_years)) & (climateCatchment.index<=max(unique_years))].values
+#     # Repeating the climate result for that year over the total days in each year 
+#     def mapper(climate, count):
+#         return np.repeat(climate, count)
 
-    climateDailyYear = list(map(mapper, climateFiltered, count_years))
-    climateDaily = np.concatenate(climateDailyYear)
+#     climateDailyYear = list(map(mapper, climateFiltered, count_years))
+#     climateDaily = np.concatenate(climateDailyYear)
     
-    return climateDaily
+#     return climateDaily
 
 def get_level_gauges() -> tuple:
     '''Returning level gauges with EWRs
@@ -348,43 +348,43 @@ def get_multi_gauges(dataType: str) -> dict:
     
     return returnData
 
-def get_simultaneous_gauges(dataType: str) -> dict:
-    '''
-    Call function to return a dictionary of simultaneous gauges.
-    Simultaneous gauges are for EWRs that need to be met simultaneously with EWRs at another location
+# def get_simultaneous_gauges(dataType: str) -> dict:
+#     '''
+#     Call function to return a dictionary of simultaneous gauges.
+#     Simultaneous gauges are for EWRs that need to be met simultaneously with EWRs at another location
 
-    Args:
-        dataType (str): Pass 'all' to get simultaneous gauges and their planning units, pass 'gauges' to get only gauges.
-    Returns:
-        dict: if 'all', nested dict returned with a level for planning units.
+#     Args:
+#         dataType (str): Pass 'all' to get simultaneous gauges and their planning units, pass 'gauges' to get only gauges.
+#     Returns:
+#         dict: if 'all', nested dict returned with a level for planning units.
 
-    '''
+#     '''
     
-    all = {'PU_0000131': {'421090': '421022', '421022': '421090'},
-              'PU_0000132': {'421090': '421022', '421022': '421090'},
-              'PU_0000133': {'421090': '421022', '421022': '421090'}
-             }
-    returnData = {}
-    if dataType == 'all':
-        returnData = all
-    if dataType == 'gauges':
-        for i in all:
-            returnData = {**returnData, **all[i]}
+#     all = {'PU_0000131': {'421090': '421022', '421022': '421090'},
+#               'PU_0000132': {'421090': '421022', '421022': '421090'},
+#               'PU_0000133': {'421090': '421022', '421022': '421090'}
+#              }
+#     returnData = {}
+#     if dataType == 'all':
+#         returnData = all
+#     if dataType == 'gauges':
+#         for i in all:
+#             returnData = {**returnData, **all[i]}
         
-    return returnData
+#     return returnData
 
-def get_complex_calcs() -> dict:
-    '''
-    Returns a dictionary of the complex EWRs, and the type of analysis that needs to be undertaken
-    These EWRs cannot be calculated using the standard suite of functions
+# def get_complex_calcs() -> dict:
+#     '''
+#     Returns a dictionary of the complex EWRs, and the type of analysis that needs to be undertaken
+#     These EWRs cannot be calculated using the standard suite of functions
 
-    Returns:
-        dict[dict]
-    '''
-    complexCalcs = {'409025': {'OB2_S': 'flowDurPostReq', 'OB2_P': 'flowDurPostReq',
-                              'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
+#     Returns:
+#         dict[dict]
+#     '''
+#     complexCalcs = {'409025': {'OB2_S': 'flowDurPostReq', 'OB2_P': 'flowDurPostReq',
+#                               'OB3_S': 'flowDurOutsideReq', 'OB3_P': 'flowDurOutsideReq'}}
     
-    return complexCalcs
+#     return complexCalcs
 
 
 def get_EWR_components(category):
@@ -433,14 +433,14 @@ def get_EWR_components(category):
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'DURVD', 'MG', 'MIE', 'FLV']
     elif category == 'multi-gauge-cumulative':
         pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF','MG', 'MIE','AP','GP', 'FLV']
-    elif category == 'simul-gauge-flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
-    elif category == 'simul-gauge-low flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
-    elif category == 'simul-gauge-cease to flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
-    elif category == 'complex':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MIE', 'FLV']
+    # elif category == 'simul-gauge-flow':
+    #     pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
+    # elif category == 'simul-gauge-low flow':
+    #     pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
+    # elif category == 'simul-gauge-cease to flow':
+    #     pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'DURVD', 'SG', 'MIE', 'FLV']
+    # elif category == 'complex':
+    #     pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MIE', 'FLV']
     elif category == 'flood-plains':
         pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
     elif category == 'barrage-flow':
@@ -586,13 +586,13 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     vic_level_gauges = get_vic_level_gauges()
     
     multi_gauges = get_multi_gauges('gauges')
-    simul_gauges = get_simultaneous_gauges('gauges')
+    # simul_gauges = get_simultaneous_gauges('gauges')
     multi_gauges = list(multi_gauges.values())
-    simul_gauges = list(simul_gauges.values())
+    # simul_gauges = list(simul_gauges.values())
     if category == 'all gauges':
-        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges + simul_gauges)
+        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges)# + simul_gauges
     elif category == 'flow gauges':
-        return set(EWR_table['Gauge'].to_list() + multi_gauges + simul_gauges + flow_barrage_gauges + qld_flow_gauges)
+        return set(EWR_table['Gauge'].to_list() + multi_gauges + flow_barrage_gauges + qld_flow_gauges)#+ simul_gauges 
     elif category == 'level gauges':
         level_gauges = EWR_table[EWR_table['FlowLevelVolume']=='L']['Gauge'].to_list()
         return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + level_gauges)

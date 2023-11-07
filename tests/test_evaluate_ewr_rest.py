@@ -144,20 +144,20 @@ def test_which_year_lake_event(event_info, min_duration, expected_year):
 	result = evaluate_EWRs.which_year_lake_event(event_info, min_duration)
 	assert result == expected_year
 
-def test_get_duration():
-	'''
-	1. Test for very dry duration for EWR where a very dry duration requirement exists
-	2. Test for very dry duration for EWR where a very dry duration requirement does not exists
-	'''
-	# Test 1
-	EWR_info = {'duration_VD': 2, 'duration': 5}
-	duration = evaluate_EWRs.get_duration('Very Dry', EWR_info)
-	assert duration == 2
-	#-----------------------------
-	# Test 2
-	EWR_info = {'duration_VD': None, 'duration': 5}
-	duration = evaluate_EWRs.get_duration('Very Dry', EWR_info)
-	assert duration == 5
+# def test_get_duration():
+# 	'''
+# 	1. Test for very dry duration for EWR where a very dry duration requirement exists
+# 	2. Test for very dry duration for EWR where a very dry duration requirement does not exists
+# 	'''
+# 	# Test 1
+# 	EWR_info = {'duration_VD': 2, 'duration': 5}
+# 	duration = evaluate_EWRs.get_duration('Very Dry', EWR_info)
+# 	assert duration == 2
+# 	#-----------------------------
+# 	# Test 2
+# 	EWR_info = {'duration_VD': None, 'duration': 5}
+# 	duration = evaluate_EWRs.get_duration('Very Dry', EWR_info)
+# 	assert duration == 5
         
 def test_construct_event_dict():
 	'''
@@ -475,41 +475,41 @@ def test_ctf_check():
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
 	
-def test_flow_check_sim():
-	'''
-	1. flow threshold below for both sites but event requirement passed
-	2. TO-TEST: Test flow threshold passes for both sites and event requirements just met
-	3. TO-TEST: event requirements failed but there is some gap track remaining
-	4. TO-TEST: flow threshold failed and event requirements not met
-	5. TO-TEST: flow threshold above for one site and below for another, event requirements not met
-	'''
-	# Set up input parameters and send to test function
-	iteration = 370
-	EWR_info1 = {'min_flow': 10, 'max_flow': 20, 'min_event': 5, 'gap_tolerance': 0}
-	EWR_info2 = {'min_flow': 10, 'max_flow': 20, 'min_event': 5, 'gap_tolerance': 0}
-	flow1 = 5
-	flow2 = 7
-	flow_date = 1
-	flow_date = date(2012,1,17)
-	event = [10]*5
-	total_event = 5
-	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
-					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
-	gap_track = 0
-	event, all_events, gap_track, total_event = evaluate_EWRs.flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, event, all_events, gap_track, total_event, flow_date)
-	# Set up expected results and test
-	expected_event = []
-	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50, [10]*5],
-							2014:[[10]*10, [15]*15, [10]*20], 2015:[[10]*5]}
+# def test_flow_check_sim():
+# 	'''
+# 	1. flow threshold below for both sites but event requirement passed
+# 	2. TO-TEST: Test flow threshold passes for both sites and event requirements just met
+# 	3. TO-TEST: event requirements failed but there is some gap track remaining
+# 	4. TO-TEST: flow threshold failed and event requirements not met
+# 	5. TO-TEST: flow threshold above for one site and below for another, event requirements not met
+# 	'''
+# 	# Set up input parameters and send to test function
+# 	iteration = 370
+# 	EWR_info1 = {'min_flow': 10, 'max_flow': 20, 'min_event': 5, 'gap_tolerance': 0}
+# 	EWR_info2 = {'min_flow': 10, 'max_flow': 20, 'min_event': 5, 'gap_tolerance': 0}
+# 	flow1 = 5
+# 	flow2 = 7
+# 	flow_date = 1
+# 	flow_date = date(2012,1,17)
+# 	event = [10]*5
+# 	total_event = 5
+# 	all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50], 
+# 					2014:[[10]*10, [15]*15, [10]*20], 2015:[]}
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*365)
+# 	gap_track = 0
+# 	event, all_events, gap_track, total_event = evaluate_EWRs.flow_check_sim(iteration, EWR_info1, EWR_info2, water_years, flow1, flow2, event, all_events, gap_track, total_event, flow_date)
+# 	# Set up expected results and test
+# 	expected_event = []
+# 	expected_all_events = {2012:[[10]*10, [15]*12], 2013:[[10]*50, [10]*5],
+# 							2014:[[10]*10, [15]*15, [10]*20], 2015:[[10]*5]}
 	
-	expected_gap_track = 0
-	expected_total_event = 0
-	assert gap_track == expected_gap_track
-	assert event == expected_event
-	for year in all_events:
-			for i, event in enumerate(all_events[year]):
-					assert event == expected_all_events[year][i]
+# 	expected_gap_track = 0
+# 	expected_total_event = 0
+# 	assert gap_track == expected_gap_track
+# 	assert event == expected_event
+# 	for year in all_events:
+# 			for i, event in enumerate(all_events[year]):
+# 					assert event == expected_all_events[year][i]
                 
 @pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
 						 [ 
@@ -612,7 +612,7 @@ def test_lowflow_calc():
 	EWR_info = {'min_flow': 10, 'max_flow': 20, 'min_event':1, 'duration': 300, 'duration_VD': 10}
 	flows = np.array([5]*295+[0]*25+[10]*45 + [0]*355+[5000]*10 + [0]*355+[10]*10 + [5]*295+[0]*25+[10]*45+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
+	# climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# Set up expected output data
@@ -647,7 +647,7 @@ def test_lowflow_calc():
 	expected_all_no_events = {2012: [[320]], 2013: [], 2014: [[720]], 2015: [[320]]}
 	expected_durations = [300,300,10,300] # adding in a very dry year climate year
 	# Send inputs to test function and test
-	all_events, durations = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+	all_events, durations = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, dates, masked_dates)#, climates
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			
@@ -661,7 +661,7 @@ def test_lowflow_calc():
 					'duration_VD': 5, 'start_month': 7, 'end_month': 12, 'start_day': None, 'end_day': None}
 	flows = np.array([10]*5+[0]*35+[5]*5+[0]*295+[0]*25 + [0]*355+[5]*10 + [10]*10+[0]*355 + [5]*295+[0]*25+[10]*45+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
+	# climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = masked_dates[((masked_dates.month >= 7) & (masked_dates.month <= 12))] # Just want the dates in the date range
@@ -674,7 +674,7 @@ def test_lowflow_calc():
 	expected_all_no_events = {2012: [], 2013: [[725]], 2014: [], 2015: [[720]]}
 	expected_durations = [10,10,5,10] # adding in a very dry year climate year
 	# Send to test function and test
-	all_events, durations = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+	all_events, durations = evaluate_EWRs.lowflow_calc(EWR_info, flows, water_years, dates, masked_dates)#, climates
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -692,7 +692,7 @@ def test_ctf_calc():
 	EWR_info = {'min_flow': 0, 'max_flow': 1, 'min_event':5, 'duration': 20, 'duration_VD': 10}
 	flows = np.array([5]*295+[0]*25+[10]*45 + [20]*355+[5000]*5+[0]*5 + [0]*355+[10]*10 + [1]*295+[20]*25+[0]*45+[0]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
+	# climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# Set up expected output data
@@ -704,7 +704,7 @@ def test_ctf_calc():
 	expected_all_no_events = {2012: [[295]], 2013: [[405]], 2014: [], 2015: [[10], [25]]}
 	expected_durations = [20,20,10,20] # adding in a very dry year climate year
 	# Send to test function and then test
-	all_events, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+	all_events, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, dates, masked_dates)#, climates
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -720,7 +720,7 @@ def test_ctf_calc():
 	[10]*10+[0]*355 +
 	[5]*295+[0]*25+[10]*45+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
+	# climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Very Dry']*365 + ['Dry']*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = masked_dates[((masked_dates.month >= 7) & (masked_dates.month <= 12))] # Just want the dates in the date range
@@ -734,7 +734,7 @@ def test_ctf_calc():
 	expected_all_no_events = {2012: [[35]], 2013: [], 2014: [[685]], 2015: [[536]]}
 	expected_durations = [10,10,5,10] # adding in a very dry year climate year
 	# Send to test function and then test
-	all_events, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, climates, dates, masked_dates)
+	all_events, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, dates, masked_dates)#, climates
 	for year in all_events:
 			assert len(all_events[year]) ==len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -818,13 +818,13 @@ def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	# Set up input data
 	EWR_info = {'min_flow': 0, 'max_flow': 1, 'min_event':5, 'duration': 20, 'duration_VD': 10}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Wet']*365 + ['Dry']*366)
+	# climates = np.array(['Wet']*365 + ['Very Wet']*365 + ['Wet']*365 + ['Dry']*366)
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 	# expected_all_no_events = {2012: [[295]], 2013: [[405]], 2014: [], 2015: [[10], [25]]}
 	expected_durations = [20,20,20,20] # adding in a very dry year climate year
 	# Send to test function and then test
-	all_events, durations = evaluate_EWRs.ctf_calc_anytime(EWR_info, flows, water_years, climates, dates)
+	all_events, durations = evaluate_EWRs.ctf_calc_anytime(EWR_info, flows, water_years, dates)#, climates
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -985,165 +985,165 @@ def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
 # 			assert no_event == expected_all_no_events[year][i]
 # 	assert durations == expected_durations
 	
-def test_flow_calc_anytime_sim():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows
-		- Check events can span multiple water years
-		- Check event not registered when only one site meets flow requirement
-	'''
-	# Set up input data
-	EWR_info1 = {'min_flow': 10, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
-	EWR_info2 = {'min_flow': 20, 'max_flow': 30, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
-	flows1 = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[0]*351+[10]*10)
-	flows2 = np.array([0]*350+[30]*10+[0]*5 + [0]*355+[30]*10 + [30]*10+[0]*345+[10]*10 + [10]*10+[0]*346+[30]*10)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	# Set up expected output data
-	expected_all_events = {2012: [[(date(2013, 6, 16), 10), (date(2013, 6, 17), 10), (date(2013, 6, 18), 10), 
-	(date(2013, 6, 19), 10), (date(2013, 6, 20), 10), (date(2013, 6, 21), 10), (date(2013, 6, 22), 10), 
-	(date(2013, 6, 23), 10), (date(2013, 6, 24), 10), (date(2013, 6, 25), 10)]], 
-	2013: [], 
-	2014: [[(date(2014, 6, 21), 10), (date(2014, 6, 22), 10), (date(2014, 6, 23), 10), 
-	(date(2014, 6, 24), 10), (date(2014, 6, 25), 10), (date(2014, 6, 26), 10), 
-	(date(2014, 6, 27), 10), (date(2014, 6, 28), 10), (date(2014, 6, 29), 10), (date(2014, 6, 30), 10), 
-	(date(2014, 7, 1), 10), (date(2014, 7, 2), 10), (date(2014, 7, 3), 10), (date(2014, 7, 4), 10), 
-	(date(2014, 7, 5), 10), (date(2014, 7, 6), 10), (date(2014, 7, 7), 10), (date(2014, 7, 8), 10), 
-	(date(2014, 7, 9), 10), (date(2014, 7, 10), 10)]], 
-	2015: [[(date(2016, 6, 21), 10), (date(2016, 6, 22), 10), 
-	(date(2016, 6, 23), 10), (date(2016, 6, 24), 10), (date(2016, 6, 25), 10), (date(2016, 6, 26), 10),
-	(date(2016, 6, 27), 10), (date(2016, 6, 28), 10), (date(2016, 6, 29), 10), (date(2016, 6, 30), 10)]]}
-	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
-	expected_durations = [10]*4
+# def test_flow_calc_anytime_sim():
+# 	'''
+# 	1. Test functions ability to identify and save all events and event gaps for series of flows
+# 		- Check events can span multiple water years
+# 		- Check event not registered when only one site meets flow requirement
+# 	'''
+# 	# Set up input data
+# 	EWR_info1 = {'min_flow': 10, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
+# 	EWR_info2 = {'min_flow': 20, 'max_flow': 30, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
+# 	flows1 = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[0]*351+[10]*10)
+# 	flows2 = np.array([0]*350+[30]*10+[0]*5 + [0]*355+[30]*10 + [30]*10+[0]*345+[10]*10 + [10]*10+[0]*346+[30]*10)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	# Set up expected output data
+# 	expected_all_events = {2012: [[(date(2013, 6, 16), 10), (date(2013, 6, 17), 10), (date(2013, 6, 18), 10), 
+# 	(date(2013, 6, 19), 10), (date(2013, 6, 20), 10), (date(2013, 6, 21), 10), (date(2013, 6, 22), 10), 
+# 	(date(2013, 6, 23), 10), (date(2013, 6, 24), 10), (date(2013, 6, 25), 10)]], 
+# 	2013: [], 
+# 	2014: [[(date(2014, 6, 21), 10), (date(2014, 6, 22), 10), (date(2014, 6, 23), 10), 
+# 	(date(2014, 6, 24), 10), (date(2014, 6, 25), 10), (date(2014, 6, 26), 10), 
+# 	(date(2014, 6, 27), 10), (date(2014, 6, 28), 10), (date(2014, 6, 29), 10), (date(2014, 6, 30), 10), 
+# 	(date(2014, 7, 1), 10), (date(2014, 7, 2), 10), (date(2014, 7, 3), 10), (date(2014, 7, 4), 10), 
+# 	(date(2014, 7, 5), 10), (date(2014, 7, 6), 10), (date(2014, 7, 7), 10), (date(2014, 7, 8), 10), 
+# 	(date(2014, 7, 9), 10), (date(2014, 7, 10), 10)]], 
+# 	2015: [[(date(2016, 6, 21), 10), (date(2016, 6, 22), 10), 
+# 	(date(2016, 6, 23), 10), (date(2016, 6, 24), 10), (date(2016, 6, 25), 10), (date(2016, 6, 26), 10),
+# 	(date(2016, 6, 27), 10), (date(2016, 6, 28), 10), (date(2016, 6, 29), 10), (date(2016, 6, 30), 10)]]}
+# 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
+# 	expected_durations = [10]*4
 
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# Send to test function and then test
-	all_events, _ = evaluate_EWRs.flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates)
-	for year in all_events:
-		assert len(all_events[year]) == len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	# Send to test function and then test
+# 	all_events, _ = evaluate_EWRs.flow_calc_anytime_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates)
+# 	for year in all_events:
+# 		assert len(all_events[year]) == len(expected_all_events[year])
+# 		for i, event in enumerate(all_events[year]):
+# 			assert event == expected_all_events[year][i]
 
 
-def test_flow_calc_sim():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows
-		- Check events cannot span multiple water years
-		- Check event not registered when only one site meets flow requirement
-		- TO-TEST: constrain months of water year and repeat test
-	'''
-	# Set up input data
-	EWR_info1 = {'min_flow': 10, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
-	EWR_info2 = {'min_flow': 20, 'max_flow': 30, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
-	flows1 = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[0]*351+[10]*10)
-	flows2 = np.array([0]*350+[30]*10+[0]*5 + [0]*355+[30]*10 + [30]*10+[0]*345+[10]*10 + [10]*10+[0]*346+[30]*10)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# Set up expected output data
-	expected_all_events = {2012: [[(date(2013, 6, 16), 10), (date(2013, 6, 17), 10), (date(2013, 6, 18), 10), 
-	(date(2013, 6, 19), 10), (date(2013, 6, 20), 10), (date(2013, 6, 21), 10), (date(2013, 6, 22), 10), 
-	(date(2013, 6, 23), 10), (date(2013, 6, 24), 10), (date(2013, 6, 25), 10)]], 
-	2013: [[(date(2014, 6, 21), 10), 
-	(date(2014, 6, 22), 10), (date(2014, 6, 23), 10), (date(2014, 6, 24), 10), (date(2014, 6, 25), 10), 
-	(date(2014, 6, 26), 10), (date(2014, 6, 27), 10), (date(2014, 6, 28), 10), (date(2014, 6, 29), 10), 
-	(date(2014, 6, 30), 10)]], 
-	2014: [[(date(2014, 7, 1), 10), (date(2014, 7, 2), 10), (date(2014, 7, 3), 10),
-	 (date(2014, 7, 4), 10), (date(2014, 7, 5), 10), (date(2014, 7, 6), 10), (date(2014, 7, 7), 10), 
-	 (date(2014, 7, 8), 10), (date(2014, 7, 9), 10), (date(2014, 7, 10), 10)]], 
-	 2015: [[(date(2016, 6, 21), 10), 
-	 (date(2016, 6, 22), 10), (date(2016, 6, 23), 10), (date(2016, 6, 24), 10), (date(2016, 6, 25), 10), 
-	 (date(2016, 6, 26), 10), (date(2016, 6, 27), 10), (date(2016, 6, 28), 10), (date(2016, 6, 29), 10), 
-	 (date(2016, 6, 30), 10)]]}
-	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
-	expected_durations = [10]*4
-	# Send to test function and then test
-	all_events, _ = evaluate_EWRs.flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, masked_dates)
-	for year in all_events:
-		assert len(all_events[year]) ==  len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
-
-	
-def test_lowflow_calc_sim():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows
-		- Test to ensure it does not matter event sequencing at each site, as long as minimum day duration is met for each year, event should be registered
-	'''
-	# Set up input data
-	EWR_info1 = {'min_flow': 15, 'max_flow': 20, 'min_event': 1, 'duration': 10, 'duration_VD': 5}
-	EWR_info2 = {'min_flow': 20, 'max_flow': 30, 'min_event': 1, 'duration': 10, 'duration_VD': 5}
-	flows1 = np.array([10]*1+[0]*350+[10]*9+[0]*5 + [0]*360+[10]*5 + [10]*10+[0]*345+[10]*10 + [8]*5+[0]*351+[10]*10)
-	flows2 = np.array([25]*1+[0]*350+[30]*9+[0]*5 + [0]*360+[30]*5 + [30]*10+[0]*345+[10]*10 + [18]*10+[0]*346+[30]*10)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Dry']*365 +['Very Wet']*365 + ['Dry']*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# Set up expected output data
-	expected_all_events1 = {2012: [], 2013: [], 2014: [], 2015: []}
-	expected_all_events2 = {2012: [[(date(2012, 7, 1), 25)], [(date(2013, 6, 17), 30), (date(2013, 6, 18), 30), 
-	(date(2013, 6, 19), 30), (date(2013, 6, 20), 30), (date(2013, 6, 21), 30), (date(2013, 6, 22), 30), 
-	(date(2013, 6, 23), 30), (date(2013, 6, 24), 30), (date(2013, 6, 25), 30)]], 
-	2013: [[(date(2014, 6, 26), 30), 
-	(date(2014, 6, 27), 30), (date(2014, 6, 28), 30), (date(2014, 6, 29), 30), (date(2014, 6, 30), 30)]], 
-	2014: [[(date(2014, 7, 1), 30), (date(2014, 7, 2), 30), (date(2014, 7, 3), 30), (date(2014, 7, 4), 30), 
-	(date(2014, 7, 5), 30), (date(2014, 7, 6), 30), (date(2014, 7, 7), 30), (date(2014, 7, 8), 30), 
-	(date(2014, 7, 9), 30), (date(2014, 7, 10), 30)]], 
-	2015: [[(date(2016, 6, 21), 30), (date(2016, 6, 22), 30),
-	 (date(2016, 6, 23), 30), (date(2016, 6, 24), 30), (date(2016, 6, 25), 30), (date(2016, 6, 26), 30), 
-	 (date(2016, 6, 27), 30), (date(2016, 6, 28), 30), (date(2016, 6, 29), 30), (date(2016, 6, 30), 30)]]}
-
-	# Send inputs to function and then test:
-	all_events1, all_events2, durations = evaluate_EWRs.lowflow_calc_sim(EWR_info1, EWR_info2, flows1,
-         flows2, water_years, climates, dates, masked_dates)
-	for year in all_events1:
-		assert len(all_events1[year]) == len(expected_all_events1[year])
-		for i, event in enumerate(all_events1[year]):
-			assert event == expected_all_events1[year][i]
-	for year in all_events2:
-		assert len(all_events2[year]) == len(expected_all_events2[year])
-		for i, event in enumerate(all_events2[year]):
-			assert event ==expected_all_events2[year][i]
+# def test_flow_calc_sim():
+# 	'''
+# 	1. Test functions ability to identify and save all events and event gaps for series of flows
+# 		- Check events cannot span multiple water years
+# 		- Check event not registered when only one site meets flow requirement
+# 		- TO-TEST: constrain months of water year and repeat test
+# 	'''
+# 	# Set up input data
+# 	EWR_info1 = {'min_flow': 10, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
+# 	EWR_info2 = {'min_flow': 20, 'max_flow': 30, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
+# 	flows1 = np.array([0]*350+[10]*10+[0]*5 + [0]*355+[10]*10 + [10]*10+[0]*345+[10]*10 + [10]*5+[0]*351+[10]*10)
+# 	flows2 = np.array([0]*350+[30]*10+[0]*5 + [0]*355+[30]*10 + [30]*10+[0]*345+[10]*10 + [10]*10+[0]*346+[30]*10)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	# Set up expected output data
+# 	expected_all_events = {2012: [[(date(2013, 6, 16), 10), (date(2013, 6, 17), 10), (date(2013, 6, 18), 10), 
+# 	(date(2013, 6, 19), 10), (date(2013, 6, 20), 10), (date(2013, 6, 21), 10), (date(2013, 6, 22), 10), 
+# 	(date(2013, 6, 23), 10), (date(2013, 6, 24), 10), (date(2013, 6, 25), 10)]], 
+# 	2013: [[(date(2014, 6, 21), 10), 
+# 	(date(2014, 6, 22), 10), (date(2014, 6, 23), 10), (date(2014, 6, 24), 10), (date(2014, 6, 25), 10), 
+# 	(date(2014, 6, 26), 10), (date(2014, 6, 27), 10), (date(2014, 6, 28), 10), (date(2014, 6, 29), 10), 
+# 	(date(2014, 6, 30), 10)]], 
+# 	2014: [[(date(2014, 7, 1), 10), (date(2014, 7, 2), 10), (date(2014, 7, 3), 10),
+# 	 (date(2014, 7, 4), 10), (date(2014, 7, 5), 10), (date(2014, 7, 6), 10), (date(2014, 7, 7), 10), 
+# 	 (date(2014, 7, 8), 10), (date(2014, 7, 9), 10), (date(2014, 7, 10), 10)]], 
+# 	 2015: [[(date(2016, 6, 21), 10), 
+# 	 (date(2016, 6, 22), 10), (date(2016, 6, 23), 10), (date(2016, 6, 24), 10), (date(2016, 6, 25), 10), 
+# 	 (date(2016, 6, 26), 10), (date(2016, 6, 27), 10), (date(2016, 6, 28), 10), (date(2016, 6, 29), 10), 
+# 	 (date(2016, 6, 30), 10)]]}
+# 	expected_all_no_events = {2012: [[350]], 2013: [[360]], 2014: [], 2015: [[711]]}
+# 	expected_durations = [10]*4
+# 	# Send to test function and then test
+# 	all_events, _ = evaluate_EWRs.flow_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, masked_dates)
+# 	for year in all_events:
+# 		assert len(all_events[year]) ==  len(expected_all_events[year])
+# 		for i, event in enumerate(all_events[year]):
+# 			assert event == expected_all_events[year][i]
 
 	
+# def test_lowflow_calc_sim():
+# 	'''
+# 	1. Test functions ability to identify and save all events and event gaps for series of flows
+# 		- Test to ensure it does not matter event sequencing at each site, as long as minimum day duration is met for each year, event should be registered
+# 	'''
+# 	# Set up input data
+# 	EWR_info1 = {'min_flow': 15, 'max_flow': 20, 'min_event': 1, 'duration': 10, 'duration_VD': 5}
+# 	EWR_info2 = {'min_flow': 20, 'max_flow': 30, 'min_event': 1, 'duration': 10, 'duration_VD': 5}
+# 	flows1 = np.array([10]*1+[0]*350+[10]*9+[0]*5 + [0]*360+[10]*5 + [10]*10+[0]*345+[10]*10 + [8]*5+[0]*351+[10]*10)
+# 	flows2 = np.array([25]*1+[0]*350+[30]*9+[0]*5 + [0]*360+[30]*5 + [30]*10+[0]*345+[10]*10 + [18]*10+[0]*346+[30]*10)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	# climates = np.array(['Wet']*365 + ['Very Dry']*365 +['Very Wet']*365 + ['Dry']*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	# Set up expected output data
+# 	expected_all_events1 = {2012: [], 2013: [], 2014: [], 2015: []}
+# 	expected_all_events2 = {2012: [[(date(2012, 7, 1), 25)], [(date(2013, 6, 17), 30), (date(2013, 6, 18), 30), 
+# 	(date(2013, 6, 19), 30), (date(2013, 6, 20), 30), (date(2013, 6, 21), 30), (date(2013, 6, 22), 30), 
+# 	(date(2013, 6, 23), 30), (date(2013, 6, 24), 30), (date(2013, 6, 25), 30)]], 
+# 	2013: [[(date(2014, 6, 26), 30), 
+# 	(date(2014, 6, 27), 30), (date(2014, 6, 28), 30), (date(2014, 6, 29), 30), (date(2014, 6, 30), 30)]], 
+# 	2014: [[(date(2014, 7, 1), 30), (date(2014, 7, 2), 30), (date(2014, 7, 3), 30), (date(2014, 7, 4), 30), 
+# 	(date(2014, 7, 5), 30), (date(2014, 7, 6), 30), (date(2014, 7, 7), 30), (date(2014, 7, 8), 30), 
+# 	(date(2014, 7, 9), 30), (date(2014, 7, 10), 30)]], 
+# 	2015: [[(date(2016, 6, 21), 30), (date(2016, 6, 22), 30),
+# 	 (date(2016, 6, 23), 30), (date(2016, 6, 24), 30), (date(2016, 6, 25), 30), (date(2016, 6, 26), 30), 
+# 	 (date(2016, 6, 27), 30), (date(2016, 6, 28), 30), (date(2016, 6, 29), 30), (date(2016, 6, 30), 30)]]}
+
+# 	# Send inputs to function and then test:
+# 	all_events1, all_events2, durations = evaluate_EWRs.lowflow_calc_sim(EWR_info1, EWR_info2, flows1,
+#          flows2, water_years, dates, masked_dates)#, climates
+# 	for year in all_events1:
+# 		assert len(all_events1[year]) == len(expected_all_events1[year])
+# 		for i, event in enumerate(all_events1[year]):
+# 			assert event == expected_all_events1[year][i]
+# 	for year in all_events2:
+# 		assert len(all_events2[year]) == len(expected_all_events2[year])
+# 		for i, event in enumerate(all_events2[year]):
+# 			assert event ==expected_all_events2[year][i]
+
 	
-def test_ctf_calc_sim():
-	'''
-	1. Test functions ability to identify and save all events and event gaps for series of flows
-	'''
-	# Set up input data
-	EWR_info1 = {'min_flow': 0, 'max_flow': 1, 'min_event': 10, 'duration': 10, 'duration_VD': 5}
-	EWR_info2 = {'min_flow': 0, 'max_flow': 1, 'min_event': 10, 'duration': 10, 'duration_VD': 5}
-	flows1 = np.array([10]*1+[0]*350+[10]*9+[1]*5 + [0]*360+[10]*5 + [10]*10+[0]*345+[10]*1+[1]*9 + [8]*5+[10]*351+[0]*10)
-	flows2 = np.array([10]*1+[0]*350+[10]*9+[1]*5 + [0]*360+[10]*5 + [10]*10+[0]*345+[10]*1+[1]*9 + [8]*5+[10]*351+[0]*10)
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	climates = np.array(['Wet']*365 + ['Very Dry']*365 +['Very Wet']*365 + ['Dry']*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# Set up expected outputs
-	expected_all_events1 = {2012: [[(date(2012, 7, 2)+timedelta(days=i),0) for i in range(350)], 
-									[(date(2013, 6, 26)+timedelta(days=i), 1) for i in range(5)]], 
-							2013: [[(date(2013, 7, 1)+timedelta(days=i),0) for i in range(360)]], 
-							2014: [[(date(2014, 7, 11)+timedelta(days=i),0) for i in range(345)], 
-							[(date(2015, 6, 22)+timedelta(days=i),1) for i in range(9)]], 
-							2015: [[(date(2016, 6, 21)+timedelta(days=i),0) for i in range(10)]]}
-	expected_all_events2 = {2012: [[(date(2012, 7, 2)+timedelta(days=i),0) for i in range(350)], 
-									[(date(2013, 6, 26)+timedelta(days=i), 1) for i in range(5)]], 
-							2013: [[(date(2013, 7, 1)+timedelta(days=i),0) for i in range(360)]], 
-							2014: [[(date(2014, 7, 11)+timedelta(days=i),0) for i in range(345)], 
-							[(date(2015, 6, 22)+timedelta(days=i),1) for i in range(9)]], 
-							2015: [[(date(2016, 6, 21)+timedelta(days=i),0) for i in range(10)]]}
-	expected_all_no_events1 = {2012: [[1], [9]], 2013: [], 2014: [[15], [1]], 2015: [[356]]}
-	expected_all_no_events2 = {2012: [[1], [9]], 2013: [], 2014: [[15], [1]], 2015: [[356]]}
-	expected_durations = [10,5,10,10]
-	# Send inputs to function and then test
-	all_events1, all_events2, _ = evaluate_EWRs.ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, climates, dates, masked_dates)
-	for year in all_events1:
-		assert len(all_events1[year]) == len(expected_all_events1[year])
-		for i, event in enumerate(all_events1[year]):
-			assert event == expected_all_events1[year][i]
-	for year in all_events2:
-		assert len(all_events2[year]) == len(expected_all_events2[year])
-		for i, event in enumerate(all_events2[year]):
-			assert event == expected_all_events2[year][i]
+	
+# def test_ctf_calc_sim():
+# 	'''
+# 	1. Test functions ability to identify and save all events and event gaps for series of flows
+# 	'''
+# 	# Set up input data
+# 	EWR_info1 = {'min_flow': 0, 'max_flow': 1, 'min_event': 10, 'duration': 10, 'duration_VD': 5}
+# 	EWR_info2 = {'min_flow': 0, 'max_flow': 1, 'min_event': 10, 'duration': 10, 'duration_VD': 5}
+# 	flows1 = np.array([10]*1+[0]*350+[10]*9+[1]*5 + [0]*360+[10]*5 + [10]*10+[0]*345+[10]*1+[1]*9 + [8]*5+[10]*351+[0]*10)
+# 	flows2 = np.array([10]*1+[0]*350+[10]*9+[1]*5 + [0]*360+[10]*5 + [10]*10+[0]*345+[10]*1+[1]*9 + [8]*5+[10]*351+[0]*10)
+# 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
+# 	# climates = np.array(['Wet']*365 + ['Very Dry']*365 +['Very Wet']*365 + ['Dry']*366)
+# 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+# 	# Set up expected outputs
+# 	expected_all_events1 = {2012: [[(date(2012, 7, 2)+timedelta(days=i),0) for i in range(350)], 
+# 									[(date(2013, 6, 26)+timedelta(days=i), 1) for i in range(5)]], 
+# 							2013: [[(date(2013, 7, 1)+timedelta(days=i),0) for i in range(360)]], 
+# 							2014: [[(date(2014, 7, 11)+timedelta(days=i),0) for i in range(345)], 
+# 							[(date(2015, 6, 22)+timedelta(days=i),1) for i in range(9)]], 
+# 							2015: [[(date(2016, 6, 21)+timedelta(days=i),0) for i in range(10)]]}
+# 	expected_all_events2 = {2012: [[(date(2012, 7, 2)+timedelta(days=i),0) for i in range(350)], 
+# 									[(date(2013, 6, 26)+timedelta(days=i), 1) for i in range(5)]], 
+# 							2013: [[(date(2013, 7, 1)+timedelta(days=i),0) for i in range(360)]], 
+# 							2014: [[(date(2014, 7, 11)+timedelta(days=i),0) for i in range(345)], 
+# 							[(date(2015, 6, 22)+timedelta(days=i),1) for i in range(9)]], 
+# 							2015: [[(date(2016, 6, 21)+timedelta(days=i),0) for i in range(10)]]}
+# 	expected_all_no_events1 = {2012: [[1], [9]], 2013: [], 2014: [[15], [1]], 2015: [[356]]}
+# 	expected_all_no_events2 = {2012: [[1], [9]], 2013: [], 2014: [[15], [1]], 2015: [[356]]}
+# 	expected_durations = [10,5,10,10]
+# 	# Send inputs to function and then test
+# 	all_events1, all_events2, _ = evaluate_EWRs.ctf_calc_sim(EWR_info1, EWR_info2, flows1, flows2, water_years, dates, masked_dates)#, climates
+# 	for year in all_events1:
+# 		assert len(all_events1[year]) == len(expected_all_events1[year])
+# 		for i, event in enumerate(all_events1[year]):
+# 			assert event == expected_all_events1[year][i]
+# 	for year in all_events2:
+# 		assert len(all_events2[year]) == len(expected_all_events2[year])
+# 		for i, event in enumerate(all_events2[year]):
+# 			assert event == expected_all_events2[year][i]
 
 
 def test_get_index_date(period_date, stamp_date):
@@ -2714,26 +2714,26 @@ def test_filter_min_events(EWR_info,events,expected_result):
 
 # TODO
 
-@pytest.mark.parametrize("complex_,multigauge,simultaneous,expected_result",[(
-	True, False, False, "complex"
+@pytest.mark.parametrize("multigauge,expected_result",[(#,simultaneous was after multigauge, complex_, before multi. 
+	# False, "complex"#False,True, 
+	# ),
+	True, "multigauge"# False,False, 
 	),
-	(False, True, False, "multigauge"
+	# (False, False, True, "simultaneous"
+	# ),
+	(False, "single"#False,False, 
 	),
-	(False, False, True, "simultaneous"
+	# (True, True, "complex"#False, 
+	# ),
+	# (True, False, "complex"#True, 
+	# ),
+	(True, "multigauge"#True, False, 
 	),
-	(False, False, False, "single"
-	),
-	(True, True, False, "complex"
-	),
-	(True, False, True, "complex"
-	),
-	(False, True, True, "multigauge"
-	),
-	(True, True, True, "complex"
-	),
+	# (True, True, "complex"#True, 
+	# ),
 ])
-def test_get_gauge_calc_type(complex_, multigauge, simultaneous,expected_result):
-	calc_type = evaluate_EWRs.get_gauge_calc_type(complex_, multigauge, simultaneous)
+def test_get_gauge_calc_type(multigauge,expected_result):#, simultaneous was after multigauge, complex_,  after multi
+	calc_type = evaluate_EWRs.get_gauge_calc_type(multigauge) #, simultaneous was after multigauge, complex_,  after multi
 	assert calc_type == expected_result
 
 @pytest.mark.parametrize("ewr_code,prefixes,expected_result",[
@@ -2761,8 +2761,7 @@ def test_get_handle_function(function_name, expected_result):
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
-	"allowance": "allowance", 
-	"climate": "climate"}, 
+	"allowance": "allowance"}, #, "climate": "climate"
 		'ctf_handle', 
 	{"PU": "PU" , 
 	"gauge": "gauge", 
@@ -2770,8 +2769,7 @@ def test_get_handle_function(function_name, expected_result):
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"PU_df": "PU_df", 
-	"allowance": "allowance", 
-	"climate": "climate"}),
+	"allowance": "allowance"}),#, "climate": "climate"
 	({"PU": "PU" , 
 	"gauge": "gauge", 
 	"EWR": "EWR", 
@@ -2779,8 +2777,7 @@ def test_get_handle_function(function_name, expected_result):
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
-	"allowance": "allowance", 
-	"climate": "climate"}, 
+	"allowance": "allowance"}, #, "climate": "climate"
 		'level_handle', 
 	{"PU": "PU" , 
 	"gauge": "gauge", 

@@ -217,11 +217,11 @@ def scenario_handler_instance():
     scenarios =  ['unit_testing_files/Low_flow_EWRs_Bidgee_410007.csv']
     model_format = 'Bigmod - MDBA'
     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+    # climate = 'Standard - 1911 to 2018 climate categorisation'
     
     # Pass to the class
     
-    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format, allowance, climate)
+    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format, allowance)#, climate
     
     ewr_sh.process_scenarios()
 
@@ -370,9 +370,9 @@ def observed_handler_instance():
     gauges = ['419039']
     dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
     allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+    # climate = 'Standard - 1911 to 2018 climate categorisation'
 
     with patch("mdba_gauge_getter.gauge_getter.gauge_pull", side_effect=gg_pull_mock):
-        ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
+        ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, parameter_sheet='unit_testing_files/parameter_sheet.csv')#, climate
         ewr_oh.process_gauges()
         yield ewr_oh
