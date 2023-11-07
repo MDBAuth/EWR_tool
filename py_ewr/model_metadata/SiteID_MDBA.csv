@@ -146,6 +146,11 @@ SITEID,Name,Description,AWRC,StateID
 8MFWIND,Cudgegong River D/S Windamere Dam,,421079,
 8WARREN,Macquarie River @ Warren Weir,,421004,2
 8WINDAD,Cudgegong River @ Windamere Dam-Storage Gauge,,421148,
+8GFDUBB,Macquarie @ Dubbo,,421001,
+8BAROOG,Macquarie @ Baroona,,421127,
+8FGCARR,Macquarie @ Carinda,,421012,
+8GONGOG,Bogan @ Gongolgon,,421023,
+8CARMAR,Marthaguy @ Carinda,,421011,
 ACT,ACT - Australian Capital Territory,ACT - Australian Capital Territory,,3
 ACTBG,Diversions from Lake Burley Griffins,controlled by AG,,3
 ACTGWE,ACT Groundwater Extractions,,,3
