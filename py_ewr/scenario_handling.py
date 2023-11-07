@@ -372,11 +372,11 @@ def any_cllmm_to_process(gauge_results: dict)->bool:
 
 class ScenarioHandler:
     
-    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, parameter_sheet:str = None,
-                calc_config_path:str = None):#climate:str,
+    def __init__(self, scenario_files: List[str], model_format:str, parameter_sheet:str = None,
+                calc_config_path:str = None):#climate:str, , allowance:Dict
         self.scenario_files = scenario_files
         self.model_format = model_format
-        self.allowance = allowance
+        # self.allowance = allowance
         # self.climate = climate
         self.yearly_events = None
         self.pu_ewr_statistics = None
@@ -429,8 +429,8 @@ class ScenarioHandler:
             EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
-                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, 
-                                                                                        EWR_table, calc_config)#, self.climate
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
+                                                                                        EWR_table, calc_config)#, self.climate self.allowance, 
         
             detailed_results[scenario] = gauge_results
             

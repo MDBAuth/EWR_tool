@@ -18,13 +18,13 @@ def test_component_pull():
 	component = 'Duration'
 	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == '10'
 
-def test_apply_correction():
-	'''
-	1. Test function that applies relaxation to parts of indicator
-	'''
-	info = 960
-	correction = 1.2
-	assert evaluate_EWRs.apply_correction(info, correction) == 1152.0
+# def test_apply_correction():
+# 	'''
+# 	1. Test function that applies relaxation to parts of indicator
+# 	'''
+# 	info = 960
+# 	correction = 1.2
+# 	assert evaluate_EWRs.apply_correction(info, correction) == 1152.0
 
 def test_get_EWRs():
 	'''
@@ -38,12 +38,12 @@ def test_get_EWRs():
 	maxThreshold_tolerance = (100 + 0)/100
 	duration_tolerance = (100 - 0)/100
 	drawdown_tolerance = (100 - 0)/100
-	allowance ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance,
-					'duration': duration_tolerance, 'drawdown': drawdown_tolerance}
+	# allowance ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance,
+	# 				'duration': duration_tolerance, 'drawdown': drawdown_tolerance}
 	components = ['SM', 'EM']
 
 	expected = {'gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_day': None, 'start_month': 10, 'end_day': None, 'end_month':4}
-	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, allowance, components) == expected
+	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected#, allowance
 
 def test_mask_dates():
 	'''
@@ -2761,7 +2761,7 @@ def test_get_handle_function(function_name, expected_result):
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
-	"allowance": "allowance"}, #, "climate": "climate"
+	}, #, "climate": "climate""allowance": "allowance"
 		'ctf_handle', 
 	{"PU": "PU" , 
 	"gauge": "gauge", 
@@ -2769,7 +2769,7 @@ def test_get_handle_function(function_name, expected_result):
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"PU_df": "PU_df", 
-	"allowance": "allowance"}),#, "climate": "climate"
+	}),#, "climate": "climate""allowance": "allowance"
 	({"PU": "PU" , 
 	"gauge": "gauge", 
 	"EWR": "EWR", 
@@ -2777,7 +2777,7 @@ def test_get_handle_function(function_name, expected_result):
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
-	"allowance": "allowance"}, #, "climate": "climate"
+	}, #, "climate": "climate""allowance": "allowance"
 		'level_handle', 
 	{"PU": "PU" , 
 	"gauge": "gauge", 
@@ -2785,7 +2785,7 @@ def test_get_handle_function(function_name, expected_result):
 	"EWR_table": "EWR_table", 
 	"df_L": "df_L", 
 	"PU_df": "PU_df", 
-	"allowance": "allowance"}),
+	}),#"allowance": "allowance"
 ])
 def test_build_args(args, function_name, expected_result):
 	function = evaluate_EWRs.HANDLING_FUNCTIONS[function_name]

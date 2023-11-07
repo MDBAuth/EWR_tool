@@ -171,10 +171,10 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
 
 class ObservedHandler:
     
-    def __init__(self, gauges:List, dates:Dict , allowance:Dict, parameter_sheet:str = None, calc_config_path:str = None):#, climate:str
+    def __init__(self, gauges:List, dates:Dict, parameter_sheet:str = None, calc_config_path:str = None):#, climate:str , allowance:Dict
         self.gauges = gauges
         self.dates = dates
-        self.allowance = allowance
+        # self.allowance = allowance
         # self.climate = climate
         self.yearly_events = None
         self.pu_ewr_statistics = None
@@ -212,7 +212,7 @@ class ObservedHandler:
         EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
         calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
         for gauge in all_locations:
-            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, EWR_table, calc_config)#, self.climate
+            gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, EWR_table, calc_config)#, self.climate, self.allowance
             
         detailed_results['observed'] = gauge_results
 

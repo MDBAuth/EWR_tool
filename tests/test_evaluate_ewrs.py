@@ -21,10 +21,10 @@ def test_ctf_handle():
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function:
-    PU_df, events = evaluate_EWRs.ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)#, climate
+    PU_df, events = evaluate_EWRs.ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)#, climate, allowance
     # Setting up expected output - PU_df
     data = {'CF1_eventYears': [0,0,0,1], 'CF1_numAchieved': [0,0,0,1], 'CF1_numEvents': [0,0,0,1], 'CF1_numEventsAll': [0,0,0,1], 
       'CF1_maxInterEventDays': [0,0,0,0],  'CF1_maxInterEventDaysAchieved': [1,1,1,1], 'CF1_eventLength': [0.0,0.0,0.0,1461.0], 'CF1_eventLengthAchieved': [0.0,0.0,0.0,1461.0], 
@@ -62,10 +62,10 @@ def test_lowflow_handle():
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)#, climate
+    PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)#, climate, allowance
     # Setting up expected output data - PU_df, and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [0,0,0,0],
             'BF1_a_maxInterEventDays': [0,0,0,0], 
@@ -108,10 +108,10 @@ def test_flow_handle():
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)#, allowance
     # Setting up expected output - PU_df - and testing
     data = {'SF1_S_eventYears': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
             'SF1_S_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
@@ -163,10 +163,10 @@ def test_cumulative_handle():
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)#, allowance
     # Setting up expected output - PU_df - and testing
     data = {'OB3_S_eventYears': [1,0,0,0], 'OB3_S_numAchieved': [1,0,0,0], 'OB3_S_numEvents': [1,0,0,0], 'OB3_S_numEventsAll': [1,0,0,0], 
             'OB3_S_maxInterEventDays': [0, 0, 0, 0], 
@@ -233,11 +233,11 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.cumulative_handle_qld(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.cumulative_handle_qld(PU, gauge, EWR, EWR_table, df_F, PU_df)#, allowance
 
     print(events)
     print(PU_df.to_dict())
@@ -266,10 +266,10 @@ def test_level_handle():
     df_L = pd.DataFrame(data = data_for_df_L)
     df_L = df_L.set_index('Date')
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df)#, allowance
     # Setting up expected output - PU_df and test
     data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 'LLLF_numEventsAll': [1,0,0,1], 
             'LLLF_maxInterEventDays': [0, 0, 0, 0], 
@@ -333,10 +333,10 @@ def test_nest_handle():
     df_F = df_F.set_index('Date')
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to test function:
-    PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df)#, allowance
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,2,2,2], 
             'NestS1_maxInterEventDays': [0, 0, 0, 0], 
@@ -398,10 +398,10 @@ def test_flow_handle_multi():
     df_F = df_F.set_index('Date')
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.flow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.flow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)#, allowance
     # Setting up expected output - PU_df - and testing
     data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,1,0], 'LF1_numEvents': [1,0,1,0], 'LF1_numEventsAll': [1, 1, 2, 1], 
             'LF1_maxInterEventDays': [0, 0, 0, 0], 
@@ -445,10 +445,10 @@ def test_lowflow_handle_multi():
     df_F = df_F.set_index('Date')
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to test function
-    PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)#, climate
+    PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)#, climate, allowance
     # Setting up expected output - PU_df - and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [1,0,0,0], 
             'BF1_a_maxInterEventDays': [0, 0, 0, 0], 
@@ -489,10 +489,10 @@ def test_ctf_handle_multi():
     df_F = df_F.set_index('Date')
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to the test function
-    PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)#, climate
+    PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)#, climate, allowance
     # Setting up expected output - PU_df - and testing
     data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_numEventsAll': [2,0,2,1],
             'CF_maxInterEventDays': [0, 0, 0, 0], 
@@ -545,10 +545,10 @@ def test_cumulative_handle_multi():
     df_F = df_F.set_index('Date')
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     # Pass input data to test function
-    PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)#, allowance
     # Setting up expected output - PU_df - and testing
     data = {'OB_WS1_S_eventYears': [1,0,0,1], 'OB_WS1_S_numAchieved': [1,0,0,1], 'OB_WS1_S_numEvents': [1,0,0,1], 'OB_WS1_S_numEventsAll': [1,0,0,1],
             'OB_WS1_S_maxInterEventDays': [0, 0, 0, 0],
@@ -1031,19 +1031,19 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
 ],)
 def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
 
-    minThreshold_tolerance = (100 - 0)/100
-    maxThreshold_tolerance = (100 + 0)/100
-    duration_tolerance = (100 - 0)/100
-    drawdown_tolerance = (100 - 0)/100
+    # minThreshold_tolerance = (100 - 0)/100
+    # maxThreshold_tolerance = (100 + 0)/100
+    # duration_tolerance = (100 - 0)/100
+    # drawdown_tolerance = (100 - 0)/100
 
-    allowanceDict ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance, 
-                    'duration': duration_tolerance, 'drawdown': drawdown_tolerance}
+    # allowanceDict ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance, 
+    #                 'duration': duration_tolerance, 'drawdown': drawdown_tolerance}
 
     # climate = 'Standard - 1911 to 2018 climate categorisation'
     
     df_F, df_L = wp_df_F_df_L
 
-    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, allowanceDict, wp_EWR_table, ewr_calc_config)#, climate
+    location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, wp_EWR_table, ewr_calc_config)#, climate, allowanceDict
 
     pu_df = location_results['Murray River - Lock 10 to Lock 9']
 
@@ -1157,10 +1157,10 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
     df_F = df_F.set_index('Date')
 
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # Pass input data to test function:
 
-    PU_df, events = evaluate_EWRs.barrage_flow_handle(PU, main_gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.barrage_flow_handle(PU, main_gauge, EWR, EWR_table, df_F, PU_df)#, allowance
     
     # Setting up expected output - PU_df - and testing
     index = pd.Index([2012, 2013, 2014, 2015])
@@ -1222,10 +1222,10 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
     df_L = df_L.set_index('Date')
 
     PU_df = pd.DataFrame()
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.barrage_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.barrage_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df)#, allowance
 
     print(PU_df.to_dict())
     assert PU_df.to_dict() == expected_PU_df_data
@@ -1284,11 +1284,11 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.flow_handle_sa(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.flow_handle_sa(PU, gauge, EWR, EWR_table, df_F, PU_df)#, allowance
 
     assert PU_df.to_dict() == expected_PU_df_data
     
@@ -1383,11 +1383,11 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.flow_handle_check_ctf(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.flow_handle_check_ctf(PU, gauge, EWR, EWR_table, df_F, PU_df)#, allowance
     print(PU_df.to_dict())
 
     assert PU_df.to_dict() == expected_PU_df_data
@@ -1455,11 +1455,11 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.cumulative_handle_bbr(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.cumulative_handle_bbr(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df)#, allowance
 
     assert PU_df.to_dict() == expected_PU_df_data
 
@@ -1699,11 +1699,11 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.water_stability_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.water_stability_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df)#, allowance
 
     print(PU_df.to_dict())
 
@@ -1761,11 +1761,11 @@ def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expe
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.water_stability_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.water_stability_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df)#, allowance
 
     print(PU_df.to_dict())
 
@@ -1824,11 +1824,11 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.flow_handle_anytime(PU, gauge, EWR, EWR_table, df_F, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.flow_handle_anytime(PU, gauge, EWR, EWR_table, df_F, PU_df)#, allowance
 
     print(PU_df.to_dict())
 
@@ -1977,11 +1977,11 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.rise_and_fall_handle(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.rise_and_fall_handle(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df)#, allowance
 
     assert PU_df.to_dict() == expected_PU_df_data
 
@@ -2039,11 +2039,11 @@ def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expect
 
     PU_df = pd.DataFrame()
 
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.level_change_handle(pu, gauge, ewr, EWR_table, df_L, PU_df, allowance)
+    PU_df, events = evaluate_EWRs.level_change_handle(pu, gauge, ewr, EWR_table, df_L, PU_df)#, allowance
 
     print(PU_df.to_dict())
     # print(events)
