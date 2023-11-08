@@ -390,7 +390,10 @@ class ScenarioHandler:
 
         file_locations = {}
         for file in loaded_files:
-            full_name = file.split('/')
+            if '/' in file:
+                full_name = file.split('/')
+            elif ('\\' in file):
+                full_name = file.split('\\')
             name_exclude_extension = full_name[-1].split('.csv')[0]
             file_locations[str(name_exclude_extension)] = file
             

@@ -156,3 +156,5 @@ MANIFEST
 # Other
 sandbox.py
 test.py
+Test_notebook.ipynb
+Source/Flow_REGEX_BUG.csv

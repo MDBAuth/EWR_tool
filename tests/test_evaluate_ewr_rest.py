@@ -34,10 +34,10 @@ def test_get_EWRs():
 	PU = 'PU_0000283'
 	gauge = '410007'
 	EWR = 'SF1_P'
-	minThreshold_tolerance = (100 - 0)/100
-	maxThreshold_tolerance = (100 + 0)/100
-	duration_tolerance = (100 - 0)/100
-	drawdown_tolerance = (100 - 0)/100
+	# minThreshold_tolerance = (100 - 0)/100
+	# maxThreshold_tolerance = (100 + 0)/100
+	# duration_tolerance = (100 - 0)/100
+	# drawdown_tolerance = (100 - 0)/100
 	# allowance ={'minThreshold': minThreshold_tolerance, 'maxThreshold': maxThreshold_tolerance,
 	# 				'duration': duration_tolerance, 'drawdown': drawdown_tolerance}
 	components = ['SM', 'EM']
