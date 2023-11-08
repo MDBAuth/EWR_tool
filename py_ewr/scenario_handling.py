@@ -67,6 +67,7 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
         for row in cr:
             if row[0].startswith(line):
                 headerVal = pos
+                break
             pos = pos + 1
         if main_key == 'Dy':
             df = pd.read_csv(url, header=headerVal, dtype={'Dy':'int', 'Mn': 'int', 'Year': 'int'}, skiprows=range(headerVal+1, headerVal+2))
@@ -86,6 +87,7 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
             for row in csv_reader:
                 if row[0].startswith(line):
                     headerVal = line_count
+                    break
                 line_count = line_count + 1
         if main_key == 'Dy':
             df = pd.read_csv(file, header=headerVal, dtype={'Dy':'int', 'Mn': 'int', 'Year': 'int'}, skiprows=range(headerVal+1, headerVal+2))
@@ -106,6 +108,7 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
         for row in cr:
             if row[0].startswith(line):
                 headerVal = pos
+                break
             pos = pos + 1
         junkRows = headerVal # Junk rows because rows prior to this value will be discarded
         df = pd.read_csv(url, header=headerVal, nrows = (endLine-junkRows-1), dtype={'Site':'str', 'Measurand': 'str', 'Quality': 'str'})
@@ -124,9 +127,9 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
             for row in csv_reader:
                 if row[0].startswith(line):
                     headerVal = line_count
-                    
                     # Then get column length:
                     num_cols = num_cols = list(range(0,len(row),1))
+                    break
                     
                 line_count = line_count + 1
             junkRows = headerVal # Junk rows because rows prior to this value will be discarded
