@@ -392,13 +392,15 @@ class ScenarioHandler:
     def _get_file_names(self, loaded_files):
 
         file_locations = {}
-        for file in loaded_files:
-            if '/' in file:
-                full_name = file.split('/')
-            elif ('\\' in file):
-                full_name = file.split('\\')
-            name_exclude_extension = full_name[-1].split('.csv')[0]
-            file_locations[str(name_exclude_extension)] = file
+        # for file in loaded_files:
+        if '/' in loaded_files:
+            full_name = loaded_files.split('/')
+        elif ('\\' in loaded_files):
+            full_name = loaded_files.split('\\')
+        else:
+            full_name = loaded_files
+        name_exclude_extension = full_name[-1].split('.csv')[0]
+        file_locations[str(name_exclude_extension)] = loaded_files
             
         return file_locations
         
@@ -412,7 +414,6 @@ class ScenarioHandler:
         for scenario in tqdm(scenarios, position = 0, leave = True, 
                             bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
                             desc= 'Evaluating scenarios'):
-        
             if self.model_format == 'Bigmod - MDBA':
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)

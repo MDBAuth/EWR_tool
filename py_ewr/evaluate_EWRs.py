@@ -16,6 +16,8 @@ from . import data_inputs
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
+import warnings
+warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 
 #----------------------------------- Getting EWRs from the database ------------------------------#
 

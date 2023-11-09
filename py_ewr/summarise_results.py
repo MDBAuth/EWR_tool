@@ -376,6 +376,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     Returns:
         pd.DataFrame: Summary statistics for all ewr calculation for the whole period of the run
     """
+    print(input_dict)
     to_process = pu_dfs_to_process(input_dict)
     yearly_ewr_results = process_df_results(to_process)
     
