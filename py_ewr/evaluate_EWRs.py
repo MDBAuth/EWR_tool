@@ -1037,9 +1037,11 @@ def lowflow_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
         flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
-        print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for gauge'''.format(gauge, EWR))
-        return PU_df, None
+        print(f'''This {EWR} at the gauge {gauge} sums the flows at two gauges ({gauge} and {EWR_info['second_gauge']}.
+        The EWR tool has not been able to find the flow data for {EWR_info["second_gauge"]} so it will only evaluate EWRs against the
+        flow at the gauge {gauge}. If you are running a model scenario through please disregard this message - most hydrology models have already
+        summed flows at these two gauges.''')
+        flows = flows1
     # Check flow data against EWR requirements and then perform analysis on the results: 
     E, D = lowflow_calc(EWR_info, flows, water_years, df_F.index, masked_dates) #climates,     
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
@@ -1077,9 +1079,11 @@ def ctf_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_
         flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
-        print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for {}'''.format(gauge, EWR, EWR_info['second_gauge']))
-        return PU_df, None
+        print(f'''This {EWR} at the gauge {gauge} sums the flows at two gauges ({gauge} and {EWR_info['second_gauge']}.
+        The EWR tool has not been able to find the flow data for {EWR_info["second_gauge"]} so it will only evaluate EWRs against the
+        flow at the gauge {gauge}. If you are running a model scenario through please disregard this message - most hydrology models have already
+        summed flows at these two gauges.''')
+        flows = flows1
     # Check flow data against EWR requirements and then perform analysis on the results:
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
         E, D = ctf_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index) #climates,
@@ -1117,9 +1121,11 @@ def cumulative_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFra
         flows2 = df_F[EWR_info['second_gauge']].values
         flows = flows1 + flows2
     except KeyError:
-        print('''Cannot evaluate this ewr for {} {}, due to missing data. Specifically this EWR 
-        also needs data for gauge'''.format(gauge, EWR))
-        return PU_df, None
+        print(f'''This {EWR} at the gauge {gauge} sums the flows at two gauges ({gauge} and {EWR_info['second_gauge']}.
+        The EWR tool has not been able to find the flow data for {EWR_info["second_gauge"]} so it will only evaluate EWRs against the
+        flow at the gauge {gauge}. If you are running a model scenario through please disregard this message - most hydrology models have already
+        summed flows at these two gauges.''')
+        flows = flows1
     E, D = cumulative_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)    
     return PU_df, tuple([E])
