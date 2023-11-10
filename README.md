@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.0.0 README**
+### **EWR tool version 2.0.2 README**
 
 ### **Installation**
 
@@ -20,142 +20,156 @@ Step 2.
 pip install py-ewr
 ``` 
 
-### Run Timeseries with ObservedHandler
+### Option 1: Running the observed mode of the tool
+The EWR tool will use a second program called gauge getter to first download the river data at the locations and dates selected and then run this through the EWR tool
 
 ```python
+
 from datetime import datetime
+
+#USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+dates = {'start_date': datetime(YYYY, 7, 1), 
+        'end_date': datetime(YYYY, 6, 30)}
+
+gauges = ['Gauge1', 'Gauge2']
+
+# END USER INPUT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+```
+
+```python
 
 from py_ewr.observed_handling import ObservedHandler
 
-dates = {'start_date': datetime(2020, 7, 1), 
-        'end_date': datetime(2021, 6, 30)}
+# Running the EWR tool:
+ewr_oh = ObservedHandler(gauges=gauges, dates=dates)
 
-# Get allowances:
-
-MINT = (100 - 0)/100
-MAXT = (100 + 0 )/100
-DUR = (100 - 0 )/100
-DRAW = (100 -0 )/100
-
-allowance ={'minThreshold': MINT, 'maxThreshold': MAXT, 'duration': DUR, 'drawdown': DRAW}
-
-gauges = ['419039']
-climate = "Standard - 1911 to 2018 climate categorisation"
-
-# instantiate ObservedHandler
-
-ewr_oh = ObservedHandler(gauges=gauges, dates=dates , allowance=allowance, climate=climate)
-
-
-# ObservedHandler methods
-
-# returns a pandas DataFrame with ewr results for the timeseries
+# Generating tables:
+# Table 1: Summarised EWR results for the entire timeseries
 ewr_results = ewr_oh.get_ewr_results()
 
-# returns a pandas DataFrame with the yearly ewr results for the timeseries
+# Table 2: Summarised EWR results, aggregated to water years:
 yearly_ewr_results = ewr_oh.get_yearly_ewr_results()
 
-# returns a pandas DataFrame with all events of the timeseries
+# Table 3: All events details regardless of duration 
 all_events = ewr_oh.get_all_events()
 
-# returns a pandas DataFrame with all interEvents of the timeseries
+# Table 4: Inverse of Table 3 showing the interevent periods
 all_interEvents = ewr_oh.get_all_interEvents()
 
-# returns a pandas DataFrame with all successful events of the timeseries
+# Table 5: All events details that also meet the duration requirement:
 all_successfulEvents = ewr_oh.get_all_successful_events()
 
-# returns a pandas DataFrame with all interevent periods between the successful events of the timeseries
+# Table 6: Inverse of Table 5 showing the interevent periods:
 all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 
-
-# with the returned object you can use any pandas method like pd.DateFrame.to_csv() etc.
-
 ```
 
-### Run Timeseries with ScenarioHandler
+### Option 2: Running model scenarios through the EWR tool
+
+1. Tell the tool where the model files are (can either be local or in a remote location)
+2. Tell the tool what format the model files are in (Current model format options: 'Bigmod - MDBA', 'Source - NSW (res.csv)', 'IQQM - NSW 10,000 years' - see manual for formatting requirements)
 
 ```python
-from py_ewr.scenario_handling import ScenarioHandler
+#USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# pass a list of location of the scenario files
-# this example will pass a IQQDM format scenario read the pdf manual for details
-loaded_files = ["419039_gauge_data_IQQDM.csv"]
+scenarios = {'Scenario1': ['file/location/1', 'file/location/2', 'file/location/3'],
+                'Scenario1': ['file/location/1', 'file/location/2', 'file/location/3']}
 
-# Get allowances:
+model_format = 'Bigmod - MDBA'
 
-MINT = (100 - 0)/100
-MAXT = (100 + 0 )/100
-DUR = (100 - 0 )/100
-DRAW = (100 -0 )/100
-
-allowance ={'minThreshold': MINT, 'maxThreshold': MAXT, 'duration': DUR, 'drawdown': DRAW}
-
-# Current model format options: 'Bigmod - MDBA', 'Source - NSW (res.csv)', 'IQQM - NSW 10,000 years' - see manual for formatting requirements
-ewr_sh = ScenarioHandler(scenario_files = loaded_files, 
-                         model_format = 'IQQM - NSW 10,000 years', 
-                         allowance = allowance, 
-                         climate = 'Standard - 1911 to 2018 climate categorisation' )
-
-
-# ScenarioHandler methods
-
-# returns a pandas DataFrame with ewr results for the timeseries
-ewr_results = ewr_sh.get_ewr_results()
-
-# returns a pandas DataFrame with the yearly ewr results for the timeseries
-yearly_ewr_results = ewr_sh.get_yearly_ewr_results()
-
-# returns a pandas DataFrame with all events of the timeseries
-all_events = ewr_sh.get_all_events()
-
-# returns a pandas DataFrame with all interEvents of the timeseries
-all_interEvents = ewr_sh.get_all_interEvents()
-
-# returns a pandas DataFrame with all successful events of the timeseries
-all_successfulEvents = ewr_sh.get_all_successful_events()
-
-# returns a pandas DataFrame with all interevent periods between the successful events of the timeseries
-all_successful_interEvents = ewr_sh.get_all_successful_interEvents()
-
-# with the returned object you can use any pandas method like pd.DateFrame.to_csv() etc.
+# END USER INPUT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 ```
+
+``` python
+from py_ewr.scenario_handling import ScenarioHandler
+import pandas as pd
+
+ewr_results_dict = {}
+yearly_results_dict = {}
+all_events_dict = {}
+all_interEvents_dict = {}
+all_successful_Events_dict = {}
+all_successful_interEvents_dict = {}
+
+for scenario_name, scenario_list in scenarios.items():
+    ewr_results = pd.DataFrame()
+    yearly_ewr_results = pd.DataFrame()
+    all_events = pd.DataFrame()
+    all_interEvents = pd.DataFrame()
+    all_successful_Events = pd.DataFrame()
+    all_successful_interEvents = pd.DataFrame()
+    for file in scenarios[scenario_name]:
+
+        # Running the EWR tool:
+        ewr_sh = ScenarioHandler(scenario_file = file, 
+                                model_format = model_format)
+
+        # Return each table and stitch the different files of the same scenario together:
+        # Table 1: Summarised EWR results for the entire timeseries
+        temp_ewr_results = ewr_sh.get_ewr_results()
+        ewr_results = pd.concat([ewr_results, temp_ewr_results], axis = 0)
+        # Table 2: Summarised EWR results, aggregated to water years:
+        temp_yearly_ewr_results = ewr_sh.get_yearly_ewr_results()
+        yearly_ewr_results = pd.concat([yearly_ewr_results, temp_yearly_ewr_results], axis = 0)
+        # Table 3: All events details regardless of duration 
+        temp_all_events = ewr_sh.get_all_events()
+        all_events = pd.concat([all_events, temp_all_events], axis = 0)
+        # Table 4: Inverse of Table 3 showing the interevent periods
+        temp_all_interEvents = ewr_sh.get_all_interEvents()
+        all_interEvents = pd.concat([all_interEvents, temp_all_interEvents], axis = 0)
+        # Table 5: All events details that also meet the duration requirement:
+        temp_all_successfulEvents = ewr_sh.get_all_successful_events()
+        all_successful_Events = pd.concat([all_successful_Events, temp_all_successfulEvents], axis = 0)
+        # Table 6: Inverse of Table 5 showing the interevent periods:
+        temp_all_successful_interEvents = ewr_sh.get_all_successful_interEvents()
+        all_successful_interEvents = pd.concat([all_successful_interEvents, temp_all_successful_interEvents], axis = 0)
+ 
+    # Save the final tables to the dictionaries:   
+    ewr_results_dict[scenario_name] = ewr_results
+    yearly_results_dict[scenario_name] = yearly_ewr_results
+    all_events_dict[scenario_name] = all_events_dict
+    all_interEvents_dict[scenario_name] = all_interEvents
+    all_successful_Events_dict[scenario_name] = all_successful_Events
+    all_successful_interEvents_dict[scenario_name] = all_successful_interEvents
+
+
+```
+
 
 ### **Purpose**
 This tool has two purposes:
-1. Operational: Tracking EWR success at gauges of interest in real time.
-2. Planning: Comparing EWR success between scenarios (i.e. model runs)
+1. Operational: Tracking EWR success at gauges of interest in real time - option 1 above.
+2. Planning: Comparing EWR success between scenarios (i.e. model runs) - option 2 above.
 
 **Support**
 For issues relating to the script, a tutorial, or feedback please contact Lara Palmer at lara.palmer@mdba.gov.au, Martin Job at martin.job@mdba.gov.au, or Joel Bailey at joel.bailey@mdba.gov.au
 
 
 **Disclaimer**
-Every effort has been taken to ensure the EWR database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the database and/or EWR tool. Please report any bugs to the issues tab under this GitHub project so we can investigate further. 
+Every effort has been taken to ensure the EWR database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the EWR parameter sheet and/or EWR tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
 
 
 **Notes on development of the dataset of EWRs**
-The MDBA has worked with NSW to ensure scientific robustness of EWRs has been maintained when translating from raw EWRs in the LTWPs to the machine readable format found in the dataset used by this tool. 
+The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state Long Term Water Plans (LTWPs) to the machine readable format found in the parameter sheet within this tool. 
 
 **Compatibility**
 
 NSW:
+- All Qld catchments
 - All NSW catchments
+- All SA catchments
+- All EWRs from river based Environmental Water Management Plans (EWMPs) in Victoria*
 
-Work is currently underway to migrate the EWRs in the remaining Basin catchments.
+*Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated EWR tool so the EWRs from these plans have been left out for now. The MDBA will work with Victorian representatives to ensure any further changes are integrated into the tool where possible.
 
 **Input data**
-- EWR information: This tool accesses the EWRs in the Environmental Assets & Functions Database (EAFD)
-- Climate data from the AWRA-L model
-- Gauge data from the relevant state websites
+
+- Gauge data from the relevant Basin state websites and the Bureau of Meteorology website
 - Scenario data input by the user
 - Model metadata for location association between gauge ID's and model nodes
 
 **Running the tool**
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
-
-**Climate sequence**
-NSW Long Term Watering Plans (LTWP) define climate using the Resource Availability Scenarios (RAS). However, until this process can be completed the climate categories defined using outputs from the AWRA-L model will be used. 
-In the current version of the tool the climate sequence is not used.
-
 

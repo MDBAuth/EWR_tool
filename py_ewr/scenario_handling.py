@@ -375,12 +375,10 @@ def any_cllmm_to_process(gauge_results: dict)->bool:
 
 class ScenarioHandler:
     
-    def __init__(self, scenario_files: List[str], model_format:str, parameter_sheet:str = None,
-                calc_config_path:str = None):#climate:str, , allowance:Dict
-        self.scenario_files = scenario_files
+    def __init__(self, scenario_file: str, model_format:str, parameter_sheet:str = None,
+                calc_config_path:str = None):
+        self.scenario_file = scenario_file
         self.model_format = model_format
-        # self.allowance = allowance
-        # self.climate = climate
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
@@ -406,7 +404,7 @@ class ScenarioHandler:
         
     def process_scenarios(self):
 
-        scenarios = self._get_file_names(self.scenario_files)
+        scenarios = self._get_file_names(self.scenario_file)
 
         # Analyse all scenarios for EWRs
         detailed_results = {}
@@ -437,7 +435,7 @@ class ScenarioHandler:
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
-                                                                                        EWR_table, calc_config)#, self.climate self.allowance, 
+                                                                                        EWR_table, calc_config) 
         
             detailed_results[scenario] = gauge_results
             
@@ -568,7 +566,7 @@ class ScenarioHandler:
         yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
                                 left_table=yearly_ewr_results,
                                 left_on=['gauge','pu','ewrCode'],
-                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', #'maxInterEventDays', 'maxInterEventDaysAchieved',
+                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
                                              'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'ewrCode',

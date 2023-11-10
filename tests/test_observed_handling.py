@@ -80,7 +80,6 @@ def test_categorise_gauges():
 
     expected_level = copy.deepcopy(level)
     expected_flow = copy.deepcopy(flow)
-    # expected_flow = expected_flow + ['421022'] # Add in this one as it will be getting picked up for being associated with a simultaneious gauge
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
 
@@ -107,9 +106,9 @@ def test_get_yearly_ewr_results(observed_handler_instance):
 
     yearly_results = observed_handler_instance.get_yearly_ewr_results()
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (24, 21) #22
+    assert yearly_results.shape == (24, 21)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
-       'eventLength', 'eventLengthAchieved',#'maxInterEventDays', 'maxInterEventDaysAchieved', 
+       'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
 
@@ -117,9 +116,9 @@ def test_get_ewr_results(observed_handler_instance):
 
     ewr_results = observed_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (24, 19)#20)
+    assert ewr_results.shape == (24, 19)
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
-       'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
+       'AverageEventLength', 'ThresholdDays',
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']

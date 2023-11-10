@@ -146,11 +146,6 @@ SITEID,Name,Description,AWRC,StateID
 8MFWIND,Cudgegong River D/S Windamere Dam,,421079,
 8WARREN,Macquarie River @ Warren Weir,,421004,2
 8WINDAD,Cudgegong River @ Windamere Dam-Storage Gauge,,421148,
-8GFDUBB,Macquarie @ Dubbo,,421001,
-8BAROOG,Macquarie @ Baroona,,421127,
-8FGCARR,Macquarie @ Carinda,,421012,
-8GONGOG,Bogan @ Gongolgon,,421023,
-8CARMAR,Marthaguy @ Carinda,,421011,
 ACT,ACT - Australian Capital Territory,ACT - Australian Capital Territory,,3
 ACTBG,Diversions from Lake Burley Griffins,controlled by AG,,3
 ACTGWE,ACT Groundwater Extractions,,,3
@@ -2603,12 +2598,12 @@ __WRYC1,__WRYC1,Wimmera River System Model Node WR_YC1,__WRYC1,4
 1AS,1AS,"Yanga (South  Redbank), combined 1AS and 1ES regulators",1AS,2
 422207A,422207A,Hebel-Bollon Road GS (Node C),422207A,1
 422209A,422209A,Hebel GS (Node D),422209A,1
-A4260505,A4260505,Murray downstream Lock 9  and Murray downstream Lock 8 ,A4260505,5
-A4260507,A4260507,Murray downstream Lock 8 ,A4260507,5
-A4260509,A4260509,Murray downstream Lock 7 ,A4260509,5
-A4260527,A4260527,Barrages near the Murray Mouth,A4260527,5
-A4261001,A4261001,Flow at South Australia border,A4261001,5
-A4261002,A4261002,Barrages near the Murray Mouth,A4261002,5
+LOCK8US,A4260505,Murray downstream Lock 9  ,A4260505,5
+LOCK8DS,A4260507,Murray downstream Lock 8 ,A4260507,5
+LOCK6US - Natural,A4260509,Murray downstream Lock 7 ,A4260509,5
+MOUTH,A4260527,Barrages near the Murray Mouth,A4260527,5
+FLOWSA ,A4261001,Flow at South Australia border,A4261001,5
+BARRAGE,A4261002,Barrages near the Murray Mouth,A4261002,5
 Bills Pipe,Bills Pipe,North Redbank,Bills Pipe,2
 "Eulimbah, Nimmie Creek","Eulimbah, Nimmie Creek","Gayini/ Nimmie-Caira, combined Eulimbah and Nimmie Creek regulators","Eulimbah, Nimmie Creek",2
 Glen Dee,Glen Dee,"Western Lakes, Glenn Dee",Glen Dee,2

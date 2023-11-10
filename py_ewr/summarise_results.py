@@ -376,7 +376,6 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     Returns:
         pd.DataFrame: Summary statistics for all ewr calculation for the whole period of the run
     """
-    print(input_dict)
     to_process = pu_dfs_to_process(input_dict)
     yearly_ewr_results = process_df_results(to_process)
     
@@ -631,7 +630,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             master_dict[scenario][gauge][pu] = {}
         if ewr not in master_dict[scenario][gauge][pu]:
             master_dict[scenario][gauge][pu][ewr] = evaluate_EWRs.construct_event_dict(unique_years)
-        # Pull EWR start and end date from EWR dataset and clean TODO: functionalise this
+        # Pull EWR start and end date from EWR dataset and clean
         EWR_info = {}
         EWR_info['start_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'StartMonth')
         EWR_info['end_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'EndMonth')
@@ -648,8 +647,6 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         else:
             EWR_info['end_day'] = None
             EWR_info['end_month'] =int(EWR_info['end_date'])        
-        # if ewr == "LF2_WP":
-        # if unique_EWR == "big10602.bmdTEMPORARY_ID_SPLIT425010TEMPORARY_ID_SPLITMurray River - Lock 10 to Lock 9TEMPORARY_ID_SPLITLF2_WP":
 
         # Iterate over the interevent periods for this EWR
         for i, row in df_subset.iterrows():
