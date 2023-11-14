@@ -73,8 +73,9 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 ```python
 #USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+# Minimum 1 scenario and 1 related file required
 scenarios = {'Scenario1': ['file/location/1', 'file/location/2', 'file/location/3'],
-                'Scenario1': ['file/location/1', 'file/location/2', 'file/location/3']}
+             'Scenario2': ['file/location/1', 'file/location/2', 'file/location/3']}
 
 model_format = 'Bigmod - MDBA'
 
@@ -125,7 +126,16 @@ for scenario_name, scenario_list in scenarios.items():
         # Table 6: Inverse of Table 5 showing the interevent periods:
         temp_all_successful_interEvents = ewr_sh.get_all_successful_interEvents()
         all_successful_interEvents = pd.concat([all_successful_interEvents, temp_all_successful_interEvents], axis = 0)
- 
+        
+
+    # Optional code to output results to csv files:
+    ewr_results.to_csv(scenario_name + 'all_results.csv')
+    yearly_ewr_results.to_csv(scenario_name + 'yearly_ewr_results.csv')
+    all_events.to_csv(scenario_name + 'all_events.csv')
+    all_interEvents.to_csv(scenario_name + 'all_interevents.csv')
+    all_successful_Events.to_csv(scenario_name + 'all_successful_Events.csv')
+    all_successful_interEvents.to_csv(scenario_name + 'all_successful_interEvents.csv')
+
     # Save the final tables to the dictionaries:   
     ewr_results_dict[scenario_name] = ewr_results
     yearly_results_dict[scenario_name] = yearly_ewr_results
@@ -162,13 +172,14 @@ NSW:
 - All SA catchments
 - All EWRs from river based Environmental Water Management Plans (EWMPs) in Victoria*
 
-*Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated EWR tool so the EWRs from these plans have been left out for now. The MDBA will work with Victorian representatives to ensure any further changes are integrated into the tool where possible.
+*Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated EWR tool so the EWRs from these plans have been left out for now. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
 
 **Input data**
 
 - Gauge data from the relevant Basin state websites and the Bureau of Meteorology website
 - Scenario data input by the user
 - Model metadata for location association between gauge ID's and model nodes
+- EWR parameter sheet
 
 **Running the tool**
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
