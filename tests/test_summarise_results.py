@@ -63,16 +63,16 @@ def test_process_df(item_to_process):
     result = summarise_results.process_df(**item_to_process)
     columns = result.columns.to_list()
     assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
-       'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays', #'maxInterEventDaysAchieved',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu'] #'daysBetweenEvents',
+       'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
     assert result.shape == (2, 16)
 
 def test_process_df_results(items_to_process):
     result = summarise_results.process_df_results(items_to_process)
     columns = result.columns.to_list()
     assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
-       'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',#'maxInterEventDaysAchieved', 
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu'] #'daysBetweenEvents', 
+       'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
     assert result.shape == (4, 16)
 
 def test_get_events_to_process(gauge_events):

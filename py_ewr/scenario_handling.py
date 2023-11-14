@@ -67,6 +67,7 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
         for row in cr:
             if row[0].startswith(line):
                 headerVal = pos
+                break
             pos = pos + 1
         if main_key == 'Dy':
             df = pd.read_csv(url, header=headerVal, dtype={'Dy':'int', 'Mn': 'int', 'Year': 'int'}, skiprows=range(headerVal+1, headerVal+2))
@@ -86,6 +87,7 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
             for row in csv_reader:
                 if row[0].startswith(line):
                     headerVal = line_count
+                    break
                 line_count = line_count + 1
         if main_key == 'Dy':
             df = pd.read_csv(file, header=headerVal, dtype={'Dy':'int', 'Mn': 'int', 'Year': 'int'}, skiprows=range(headerVal+1, headerVal+2))
@@ -106,6 +108,7 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
         for row in cr:
             if row[0].startswith(line):
                 headerVal = pos
+                break
             pos = pos + 1
         junkRows = headerVal # Junk rows because rows prior to this value will be discarded
         df = pd.read_csv(url, header=headerVal, nrows = (endLine-junkRows-1), dtype={'Site':'str', 'Measurand': 'str', 'Quality': 'str'})
@@ -124,9 +127,9 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
             for row in csv_reader:
                 if row[0].startswith(line):
                     headerVal = line_count
-                    
                     # Then get column length:
                     num_cols = num_cols = list(range(0,len(row),1))
+                    break
                     
                 line_count = line_count + 1
             junkRows = headerVal # Junk rows because rows prior to this value will be discarded
@@ -372,12 +375,10 @@ def any_cllmm_to_process(gauge_results: dict)->bool:
 
 class ScenarioHandler:
     
-    def __init__(self, scenario_files: List[str], model_format:str, allowance:Dict, climate:str, parameter_sheet:str = None,
+    def __init__(self, scenario_file: str, model_format:str, parameter_sheet:str = None,
                 calc_config_path:str = None):
-        self.scenario_files = scenario_files
+        self.scenario_file = scenario_file
         self.model_format = model_format
-        self.allowance = allowance
-        self.climate = climate
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
@@ -389,16 +390,21 @@ class ScenarioHandler:
     def _get_file_names(self, loaded_files):
 
         file_locations = {}
-        for file in loaded_files:
-            full_name = file.split('/')
-            name_exclude_extension = full_name[-1].split('.csv')[0]
-            file_locations[str(name_exclude_extension)] = file
+        # for file in loaded_files:
+        if '/' in loaded_files:
+            full_name = loaded_files.split('/')
+        elif ('\\' in loaded_files):
+            full_name = loaded_files.split('\\')
+        else:
+            full_name = loaded_files
+        name_exclude_extension = full_name[-1].split('.csv')[0]
+        file_locations[str(name_exclude_extension)] = loaded_files
             
         return file_locations
         
     def process_scenarios(self):
 
-        scenarios = self._get_file_names(self.scenario_files)
+        scenarios = self._get_file_names(self.scenario_file)
 
         # Analyse all scenarios for EWRs
         detailed_results = {}
@@ -406,7 +412,6 @@ class ScenarioHandler:
         for scenario in tqdm(scenarios, position = 0, leave = True, 
                             bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
                             desc= 'Evaluating scenarios'):
-        
             if self.model_format == 'Bigmod - MDBA':
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)
@@ -429,8 +434,8 @@ class ScenarioHandler:
             EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
-                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, self.allowance, self.climate, 
-                                                                                        EWR_table, calc_config)
+                gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
+                                                                                        EWR_table, calc_config) 
         
             detailed_results[scenario] = gauge_results
             
@@ -561,7 +566,7 @@ class ScenarioHandler:
         yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
                                 left_table=yearly_ewr_results,
                                 left_on=['gauge','pu','ewrCode'],
-                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', #'maxInterEventDays', 'maxInterEventDaysAchieved',
+                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
                                              'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'ewrCode',
