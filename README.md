@@ -5,6 +5,11 @@
 
 ### **EWR tool version 2.1.0 README**
 
+### **Notes on recent updates**
+- Ability to pass a climte categorisation file has been removed. No EWRs require climate categorisation anymore so this feature was now redundant.
+- Ability to pass an allowance on some parts of the paramter sheet. This feature was not transparent and resulted in some counter-intuitive results in many cases so the feature has been removed during this update. If users are interested in assessing partial success through an allowance feature we recommend downloading the parameter sheet, making the required modifications (e.g. multiplying the duration column by a factor of 0.9 to simulate a 10% allowance), and running the EWR tool with this.
+- Ability to pass multiple model scenarios to the package has been removed. It is recommended to use an alternative if you want to send multiple scenarios to the package. An example has been provided below by calling the EWR tool package in a loop. This has been implemented because some scenarios may have multiple different files and this was the cleanest way to account for this.
+
 ### **Installation**
 
 Note - requires Python 3.8 or newer
