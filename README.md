@@ -6,9 +6,9 @@
 ### **EWR tool version 2.1.0 README**
 
 ### **Notes on recent updates**
-- Ability to pass a climte categorisation file has been removed. No EWRs require climate categorisation anymore so this feature was now redundant.
-- Ability to pass an allowance on some parts of the paramter sheet. This feature was not transparent and resulted in some counter-intuitive results in many cases so the feature has been removed during this update. If users are interested in assessing partial success through an allowance feature we recommend downloading the parameter sheet, making the required modifications (e.g. multiplying the duration column by a factor of 0.9 to simulate a 10% allowance), and running the EWR tool with this.
-- Ability to pass multiple model scenarios to the package has been removed. It is recommended to use an alternative if you want to send multiple scenarios to the package. An example has been provided below by calling the EWR tool package in a loop. This has been implemented because some scenarios may have multiple different files and this was the cleanest way to account for this.
+- Ability to pass a climte categorisation file has been removed. No EWRs require climate categorisation anymore so this feature was redundant.
+- Ability to pass an allowance on some parts of the parameter sheet. This feature was not transparent and resulted in some counter-intuitive results in many cases so the feature has been removed during this update. If users are interested in assessing partial success through an allowance feature we recommend downloading the parameter sheet, making the required modifications (e.g. multiplying the duration column by a factor of 0.9 to simulate a 10% allowance), and running the EWR tool with this.
+- Ability to pass multiple model scenarios to the package has been removed. It is recommended to use an alternative method if you want to send multiple scenarios to the package. An example has been provided below by calling the EWR tool package in a loop. This has been implemented because some scenarios may have multiple different files and this was the cleanest way to account for this.
 
 ### **Installation**
 
@@ -172,9 +172,9 @@ The MDBA has worked with Basin state representatives to ensure scientific integr
 **Compatibility**
 
 NSW:
-- All Qld catchments
-- All NSW catchments
-- All SA catchments
+- All Queensland catchments
+- All New South Wales catchments
+- All South Australian catchments
 - All EWRs from river based Environmental Water Management Plans (EWMPs) in Victoria*
 
 *Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated EWR tool so the EWRs from these plans have been left out for now. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
@@ -187,5 +187,6 @@ NSW:
 - EWR parameter sheet
 
 **Running the tool**
+
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
