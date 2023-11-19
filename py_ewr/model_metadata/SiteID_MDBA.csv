@@ -43,7 +43,7 @@ SITEID,Name,Description,AWRC,StateID
 3DMARSH,Avoca Outflow from 3rd Marsh,,,4
 404216,Broken River at Caseys Weir Head Gauge,Broken River at Goorambat,404216,4
 405253A,Goulburn at Goulburn Weir,Goulburn Weir,405253A,4
-407203,Loddon River at Laanecoorie,,407203b,4
+407203b,Loddon River at Laanecoorie,,407203,4
 412029,Boorowa River at Prossers Crossing,Boorowa River at Prossers Crossing (Boorowa Prossers Xng),412029,2
 412030,Mandagery U/S Eugowra,Mandagery Creek Upstream Eugowra (Smithfield),412030,2
 412043,Goobang Darby's Dam,Goobang Creek at Darby's Dam,412043,2
@@ -51,9 +51,9 @@ SITEID,Name,Description,AWRC,StateID
 412080,Flyers Creek at Beneree,Flyers Creek at Beneree,412080,2
 412092,Coombing Creek Near Neville,Coombing Creek Near Neville,412092,2
 415201B,Wimmera River at Glenochy Weir Tail Gauge,,415201B,4
-415203D,Mount William Creek at Lake Lonsdale (Tail Gauge),,415203D,4
+415203D,Mount William Creek at Lake Lonsdale (Tail Gauge),,415203,4
 415214C,Fyans Creek at Lake Bellfield,,415214C,4
-415251A,Mackenzie River at Mckenzie Creek,,415251A,4
+415251A,Mackenzie River at Mckenzie Creek,,415251,4
 418005,Copes Creek at Kimberley,Copes Creek at Kimberley,418005,2
 418015,Horton River @ Rider (Killara),Horton River @ Rider (Killara),408015,2
 418016,Warialda at Warialda,Warialda at Warialda,418016,2
@@ -196,7 +196,7 @@ ANMEFF,EFFLUENT FROM ANM MILL ALBURY,,,2
 AOPCEWH,All Other Purposes CEWH,All Other Purposes Commonwealth Environmental Water Holder,,
 AOPOTHR,All Other Purposes Other Env. Ent,All Other Purposes Other Environment Entitlements,,
 AOPTLM,All Other Purposes TLM,All Other Purposes Total Living Murray,,
-APPIN,Loddon River @ Appin South,,407205A,4
+APPIN,Loddon River @ Appin South,,407205,4
 APPINSC,Appin South Community Dr,Appin South Community Dr at Forest Lane,407756,4
 ASHESC,11/4 Ashwin,,,4
 ASHSTP,Ashford STP,,,2
@@ -453,7 +453,7 @@ CADESC2,Cadow No.2 Escape,,,2
 CADESC3,Cadow No. 3 Escape,,,2
 CADLDRN,Cadell LWMP Drains,Cadell Land and Water Management Plan Drains,,
 CADPUM,Cadell - Blanchetown Pipeline,,,
-CAIRNCU,Loddon River at Cairn Curran Reservoir,Cairn Curran Reservoir - Loddon River,407210A,4
+CAIRNCU,Loddon River at Cairn Curran Reservoir,Cairn Curran Reservoir - Loddon River,407210,4
 CAIWARR,Paroo R at Caiwarro,Paroo R at Caiwarro - Queensland,424201A,1
 CALFCK,Calf Creek River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
 CALIVIL,Calivil Creek at Wisharts Road,Calivil Creek at Wisharts Road,407284,4
@@ -543,7 +543,7 @@ CHCKUSM,Chalka Ck at Gauging station,Hattah Lakes System,414230A,
 CHCKUSO,Chalka Creek U/S Oateys Regulator,Hattah Lakes System,CHCKUSO,
 CHCOPFL,Coppermine Flood Plain at Chowilla,Chowilla System - South Australia,A4261166,
 CHCSTP,Chinchilla STP,,,1
-CHESHUN,King River at Cheshunt,,403227A,4
+CHESHUN,King River at Cheshunt,,403227,4
 CHILRDS,Island Loop Regulator D/S Chowilla,Chowilla System Site,,
 CHILRUS,Island Loop Regulator U/S Chowilla,Chowilla System Site,,
 CHMRGDS,Chowilla Main Regulator D/S,Chowilla System - South Australia,,
@@ -750,8 +750,8 @@ DRYSB33,DRY CK AT STH BOUNDARY HR 33/B (DWR),,,2
 DRYVICK,DRY CK AT VICKERS RD O/F TO DEEP CK (DWR,,,2
 DRYWAMB,DRY CREEK AT WAMBOIN RD (DWR),,,2
 DRYWB33,DRY CK AT WST BOUNDARY HR 33/B (DWR),,,2
-DSBUFFA,Downstream lake Buffalo,Downstream lake Buffalo,403220B,4
-DSEILDN,Goulburn River Downstream Eildon,,405203C,4
+DSBUFFA,Downstream lake Buffalo,Downstream lake Buffalo,403220,4
+DSEILDN,Goulburn River Downstream Eildon,,405203,4
 DSMORGN,River Murray downstream Morgan (AMTD 316.5km),,A4261110,5
 DSWILHO,Downstream of William Hovell,Downstream of William Hovell,403228B,4
 DUBBO,Macquarie River at Dubbo,,421001,2
@@ -1132,7 +1132,7 @@ KENSAL,RIVER MURRAY - KENSAL GREEN,,409041,2
 KERAMCD,Kerang Lakes - Meran Community Drain,Kerang Lakes - Swan Hill Plan - Meran Comunity Drain,407757,4
 KERAMET,Kerang Post Office Met Station,,80023,4
 KERANGP,LODDON RIVER - KERANG PUMPS,,,4
-KERANGW,Loddon River - Kerang,SAMPLE AT GAUGING STATION,407202C,4
+KERANGW,Loddon River - Kerang,SAMPLE AT GAUGING STATION,407202,4
 KERMMET,Kerang Model Farm Met Station,,80126,4
 KERSHEE,Kerang Weir + Sheepwash Creek,Loddon River at Kerang + Sheepwash Ck,,4
 KHANCOB,Swampy Plains River D/S Khancoban Dam,SNOWY SCHEME,600183,5
@@ -1311,7 +1311,7 @@ LOCK7US,River Murray U/S Lock 7,,426508,5
 LOCK8DS,River Murray D/S Lock 8,,4260507,5
 LOCK8US,River Murray U/S Lock 8,,426506,5
 LOCK9DS,River Murray D/S Lock 9,,4260505,5
-LOCK9US,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,4260501,5
+LOCK9US,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
 LOCKING,Lockington Main Drain,Lockington Main Drain Shepparton,407712,4
 LOCKRIC,Lockington Main Drain adj to Richardsons,Lockington Main Drain adjacent to Richardsons,,4
 LOCKSTP,Lockhart STP,,,2
@@ -1319,7 +1319,7 @@ LODDBW,Loddon River - Bridgewater,,,4
 LODDGD,Loddon Gravity Districts,Loddon Gravity Districts,,4
 LODDON,Loddon River System,,,4
 LODDSKW,Loddon River d/s of Kerang Weir,,,4
-LODDWR,Loddon River at Loddon Weir,,407224D,4
+LODDWR,Loddon River at Loddon Weir,,407224,4
 LODEDBW,Loddon Env delivery to Boort wetland,Loddon Environmental deliveries to Boort wetlands,,4
 LODEWWD,Diversion to East Loddon Waterworks District,Diversion to East Loddon Waterworks District,,4
 LODGRL,Loddon G D Regulated Licences,Loddon Gravity Districts regulated Licences,,4
@@ -1436,7 +1436,7 @@ MBTOALX,Murray Bridge to Milang Reach,,,
 MCARTDS,McCartneys D/S,Millewa monitoring site,,
 MCARTHY,McCartneys River Regulator,River Regulator settings - Gulpa Creek - NSW National Parks,,2
 MCCALLM,TALLANGATTA CREEK - MCCALLUMS,,401220B,2
-MCCOYSB,Goulburn River at McCoys Bridge,SAMPLE AT GAUGING STATION,405232C,4
+MCCOYSB,Goulburn River at McCoys Bridge,SAMPLE AT GAUGING STATION,405232,4
 MCKDOF,Mullers Creek Drain,,,4
 MCKFLD,Mirrool Ck Floodway (MIRFLD),,,2
 MCKILLO,Snowy River at McKillops Bridge,,,2
@@ -1810,7 +1810,7 @@ PCKGFFP,Punkah Creek @ Gum Flat Flood Plain Chowilla,Chowilla System - South Aus
 PCKSBCL,Punkah Creek at Sheep Bridge Chowilla (Land site),Chowilla System - South Australia,,5
 PCLAYDS,Pipeclay Regulator D/S @ Chowilla,Chowilla System - South Australia,,
 PCLAYUS,Pipeclay Regulator U/S @ Chowilla,Chowilla System - South Australia,,
-PEECHEL,Ovens River - Peechelba East,,403241A,4
+PEECHEL,Ovens River - Peechelba East,,403241,4
 PEECMET,Peechelba Est (was 081039),,82127,4
 PEEL,Pell River Valley NSW,,,2
 PELIMET,Pelican point met data,Pelican Point AWS,A4260603,2
@@ -1969,9 +1969,9 @@ ROC3ADO,Millewa Ck (Rochester Drain 3A),,,4
 ROC3DOF,Rochester Drain 3,,,4
 ROC4DOF,Rochester Drain 4,,,4
 ROC5DOF,Rochester Drain 5,,,4
-ROCHEST,Campaspe River - Rochester,SAMPLE AT GAUGING STATION,406202C,4
+ROCHEST,Campaspe River - Rochester,SAMPLE AT GAUGING STATION,406202,4
 ROCHMET,Rochester (Goulburn Murray),,80049,4
-ROCKYPT,Ovens River - Rocky Point,,403230A,4
+ROCKYPT,Ovens River - Rocky Point,,403230,4
 ROCKYVA,Rocky Valley Reservoir - Kiewa River,,,4
 ROESCCK,Roaches Escape to Cudgel Ck (ROCUDG),,,2
 ROMASTP,Roma STP,,,1
@@ -2545,3 +2545,68 @@ YWCNET,Yarrawonga Channel less Escape,Broken Creek Escape not subtracted,,4
 11OMKYW,Old Man Ck @ Kywong,Old Man Ck at Kywong,410093,2
 422034,NARRAN RIVER @ BACK LAKE,NARRAN RIVER at BACK LAKE,422034,2
 422502A,Nebine Creek @ Roseleigh Crossing,Nebine Creek at Roseleigh Crossing,422502A,4
+403223,403223,"King River at Docker Road,Ovens River EWMP",403223,4
+404243,404243,Broken River at downstream back creek junction,404243,4
+405201,405201,Goulburn River @ Trawool,405201,4
+406200,406200,Coliban River at Malmsbury Rail Bridge,406200,4
+407248,407248,"Tullarop Creek at Tullarop Reservoir, Loddon River",407248,4
+407249,407249,Birch Creek at Newlyn Reservoir (Tail Gauge),407249,4
+407295,407295,"Box Creek at Mansfield Bridge, Lodden River",407295,4
+412012,412012,"Willandra at Road Bridge, Lachlan",412012,2
+412016,412016,"Wallamundry Creek at O/T Island Creek, Lachlan",412016,2
+412033,412033,"Belubula River at Helenshome, Lachlan ",412033,2
+412039,412039,Lachlan River at Hillston Weir ,412039,2
+412042,412042,"Willandra Creek at Willandra Homestead, Lachlan ",412042,2
+412046,412046,Wallaroi Creek upstream Worrongorra Weir ,412046,2
+412107,412107,Lake Cargelligo at Storage ,412107,2
+412122,412122,Merrimajeel Creek at Cobb Hwy ,412122,2
+412124,412124,Muggabah Creek at Cobb Hwy ,412124,2
+412163,412163,Merrowie Ck at Offtake ,412163,2
+412188,412188,Nerathong Creek at Nerathong ,412188,2
+412189,412189,Booberoi Creek at Offtake ,412189,2
+415223,415223,"Burnt Creek @ Wonwondah East,Wimmera River System EWMP",415223,4
+415246,415246,Wimmer River @ Lochiel Railway Bridge,415246,4
+415252,415252,Mt William Creek @ Mokepilly,415252,4
+416003,416003,Tenterfield creek at Clifton ,416003,2
+416008,416008,Beardy River at Haystack,416008,2
+416020,416020,Ottleys Creek at Coolatai ,416020,2
+416032,416032,Mole River at Donaldson ,416032,2
+416037,416037,Boomi River at Boomi Weir Offtake ,416037,2
+416039,416039,Severn River at Strathbogie ,416039,2
+416040,416040,Dumaresq River at Glenarbon ,416040,2
+416072,416072,Whalan at Euraba ,416072,2
+418011,418011,"Carole downstream Regulator, Gwydir ",418011,2
+418070,418070,"Moomin at Moomin Plains, Gwydir ",418070,2
+418074,418074,"Gingham at Teralba, Gwydir",418074,2
+418076,418076,"Gingham at Tillaloo , Gwydir",418076,2
+418078,418078,Gwydir at Allambie ,418078,2
+418079,418079,"Gingham at Gingham Brd, Gwydir ",418079,2
+418085,418085,"Mehi downstream Gundare, Gwydir ",418085,2
+419028,419028,"Macdonald River at Retreat, Namoi ",419028,2
+__BCR2,__BCR2,Birch Creek Model Node BC_R2,__BCR2,4
+__BCR3,__BCR3,Broken Creek Model Node Reach 3,__BCR3,4
+__BR2,__BR2,Broken River EMWP,__BR2,4
+__CW,__CW,Campaspe Weir Model Node,__CW,4
+__LR4b,__LR4b,Loddon River EWMP,__LR4b,4
+__LR4c,__LR4c,Loddon River EWMP,__LR4c,4
+__LRS1,__LRS1,Loddon River EWMP,__LRS1,4
+__LRS3,__LRS3,Loddon River EWMP,__LRS3,4
+__WRBC1,__WRBC1,Wimmera River System Model Node WR_BC1,__WRBC1,4
+__WRBC2,__WRBC2,Wimmera River System Model Node WR_BC2,__WRBC2,4
+__WRMK1,__WRMK1,Wimmera River System Model Node WR_MK1,__WRMK1,4
+__WRYC1,__WRYC1,Wimmera River System Model Node WR_YC1,__WRYC1,4
+1AS,1AS,"Yanga (South  Redbank), combined 1AS and 1ES regulators",1AS,2
+422207A,422207A,Hebel-Bollon Road GS (Node C),422207A,1
+422209A,422209A,Hebel GS (Node D),422209A,1
+LOCK8US,A4260505,Murray downstream Lock 9  ,A4260505,5
+LOCK8DS,A4260507,Murray downstream Lock 8 ,A4260507,5
+LOCK6US - Natural,A4260509,Murray downstream Lock 7 ,A4260509,5
+MOUTH,A4260527,Barrages near the Murray Mouth,A4260527,5
+FLOWSA ,A4261001,Flow at South Australia border,A4261001,5
+BARRAGE,A4261002,Barrages near the Murray Mouth,A4261002,5
+Bills Pipe,Bills Pipe,North Redbank,Bills Pipe,2
+"Eulimbah, Nimmie Creek","Eulimbah, Nimmie Creek","Gayini/ Nimmie-Caira, combined Eulimbah and Nimmie Creek regulators","Eulimbah, Nimmie Creek",2
+Glen Dee,Glen Dee,"Western Lakes, Glenn Dee",Glen Dee,2
+Pattos Pipe,Pattos Pipe,North Redbank,Pattos Pipe,2
+Pump direct from river,Pump direct from river,"North Redbank, pumped direct from river",Pump direct from river,2
+Pumped from Yanga Lake,Pumped from Yanga Lake,Yanga (South  Redbank),Pumped from Yanga Lake,2

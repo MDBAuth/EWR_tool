@@ -20,7 +20,7 @@ def pu_df():
                 'CF1_a_eventLengthAchieved': {2016: 0.0, 2017: 0.0},
                 'CF1_a_totalEventDays': {2016: 0, 2017: 0},
                 'CF1_a_totalEventDaysAchieved': {2016: 0, 2017: 0},
-                'CF1_a_rollingMaxInterEventAchieved': {2016: [], 2017: []}, #maxInterEventDaysAchieved
+                'CF1_a_rollingMaxInterEventAchieved': {2016: [], 2017: []},
                 'CF1_a_missingDays': {2016: 0, 2017: 0},
                 'CF1_a_totalPossibleDays': {2016: 365, 2017: 365}}
     return pd.DataFrame.from_dict(df_data)
@@ -214,14 +214,12 @@ def gg_pull_mock(*args, **kwargs):
 def scenario_handler_instance():
     # Testing the MDBA bigmod format:
     # Input params
-    scenarios =  ['unit_testing_files/Low_flow_EWRs_Bidgee_410007.csv']
+    scenario =  'unit_testing_files/Low_flow_EWRs_Bidgee_410007.csv'
     model_format = 'Bigmod - MDBA'
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
     
     # Pass to the class
     
-    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format, allowance, climate)
+    ewr_sh = scenario_handling.ScenarioHandler(scenario, model_format)
     
     ewr_sh.process_scenarios()
 
@@ -369,10 +367,8 @@ def observed_handler_instance():
     # Set up input parameters and pass to test function
     gauges = ['419039']
     dates = {'start_date': date(2020, 7, 1), 'end_date': date(2021, 6, 30)}
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
 
     with patch("mdba_gauge_getter.gauge_getter.gauge_pull", side_effect=gg_pull_mock):
-        ewr_oh = observed_handling.ObservedHandler(gauges, dates, allowance, climate, parameter_sheet='unit_testing_files/parameter_sheet.csv')
+        ewr_oh = observed_handling.ObservedHandler(gauges, dates, parameter_sheet='unit_testing_files/parameter_sheet.csv')
         ewr_oh.process_gauges()
         yield ewr_oh

@@ -263,7 +263,9 @@ def test_unpack_IQQM_10000yr():
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
    
     detailed = scenario_handler_instance.pu_ewr_statistics
-    # Test
+    
+    detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index = detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index.astype('int64')
+
     assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
 
 
@@ -302,9 +304,9 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
 
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (126, 21) #23
+    assert yearly_results.shape == (126, 21)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
-        'eventLength', 'eventLengthAchieved',# 'maxInterEventDays', 'maxInterEventDaysAchieved',
+        'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'missingDays',
        'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 
        'rollingMaxInterEvent', 'rollingMaxInterEventAchieved'] 
@@ -312,9 +314,8 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
 def test_get_ewr_results(scenario_handler_instance):
 
     ewr_results = scenario_handler_instance.get_ewr_results()
-    print(ewr_results.to_string())
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (21, 19)#20)
+    assert ewr_results.shape == (21, 19)
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
