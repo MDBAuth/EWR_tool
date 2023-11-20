@@ -178,13 +178,13 @@ def test_cleaner_netcdf_werp():
     '''
     1. check ncdf is unpacked correctly
     '''
-    df = scenario_handling.unpack_netcdf_as_dataframe('unit_testing_files/ex_tasker.nc')
+    df = scenario_handling.unpack_netcdf_as_dataframe('unit_testing_files/werp_ncdf.nc')
     df_clean = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes())
 
     # the test ncdf is too big to mock, so check properties
     assert df_clean.dtypes.iloc[0] == 'float32'
     assert df_clean.index.dtype == 'O'
-    assert df_clean.columns[0] == '421023'
+    assert df_clean.columns[0] == '421001'
 
 
 
@@ -324,14 +324,9 @@ def test_get_ewr_results(scenario_handler_instance):
     
 
 def test_unpack_netcdf_as_dataframe():
-    test_netcdf = 'unit_testing_files/test_climate_cats.nc'
-    result_df = scenario_handling.unpack_netcdf_as_dataframe(test_netcdf)
-    expected_df_shape = (211, 22)
-    assert result_df.shape == expected_df_shape
-
-    test_flowcdf = 'unit_testing_files/ex_tasker.nc'
+    test_flowcdf = 'unit_testing_files/werp_ncdf.nc'
     result_flow = scenario_handling.unpack_netcdf_as_dataframe(test_flowcdf)
-    expected_flow_shape = (17536, 1)
+    expected_flow_shape = (16000, 1)
     assert result_flow.shape == expected_flow_shape
 
 
@@ -351,7 +346,8 @@ def test_any_cllmm_to_process(gauge_results):
 def test_netcdf_processes():
     # Testing the netcdf format:
     # Input params
-    scenarios =  'unit_testing_files/ex_tasker.nc'
+    # scenarios =  'unit_testing_files/ex_tasker.nc'
+    scenarios = 'unit_testing_files/werp_ncdf.nc'
     model_format = 'IQQM - netcdf'
     # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
     # climate = 'Standard - 1911 to 2018 climate categorisation'
@@ -362,4 +358,4 @@ def test_netcdf_processes():
     
     ewr_summary = ewr_sh.get_ewr_results()
 
-    assert ewr_summary.shape == (8, 19)
+    assert ewr_summary.shape == (202, 19)

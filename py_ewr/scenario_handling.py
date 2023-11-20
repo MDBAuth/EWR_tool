@@ -50,6 +50,17 @@ def unpack_netcdf_as_dataframe(netcdf_file: str) -> pd.DataFrame:
         if dataset is None:
             raise ValueError("NetCDF dataset is empty.")
         
+        # extract the bits we actually can use
+            # Some of this needs to move/get cleaned up
+            # I think I can throw a couple conditionals in here to make it work with other formats. it should be fairly general, except the old version had the data in a dimension
+        iqqm_dict = data_inputs.get_iqqm_codes()
+        # the nodes are ints, but the above is str
+        ints_list = list(map(int, list(iqqm_dict)))
+        
+        # Is there any reason to do these in one step?
+        dataset = dataset.sel(node=dataset['node'].isin(ints_list))
+        dataset = dataset[['Simulated flow']]
+
         # Convert to DataFrame
         df = dataset.to_dataframe()
         
@@ -351,20 +362,19 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
 
     '''
 
-    cleaned_df = input_df.copy(deep=True)
-
     # organise like the rest of the dataframes- make this look just like we've read it in from an IQQM csv
-    cleaned_df = cleaned_df.query('variable == "Simulated flow"').droplevel('variable')
-    cleaned_df = cleaned_df.reset_index(level = 'node')
+    cleaned_df = input_df.reset_index(level = 'node')
     cleaned_df['node'] = cleaned_df['node'].astype(str)
 
     cleaned_df['gauge'] = cleaned_df['node'].map(stations)
     cleaned_df = cleaned_df.drop('node', axis = 1) 
 
     # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
+        # This should be deprecated with the new way of choosing nodes on read-in, but being careful
     cleaned_df = cleaned_df.query('gauge.notna()')
 
-    cleaned_df = cleaned_df.pivot(columns = 'gauge', values = 'Straight Node (Gauge)')
+    # give each gauge its own column- that's what the tool expects
+    cleaned_df = cleaned_df.pivot(columns = 'gauge', values = 'Simulated flow')
     cleaned_df.columns.name = None
 
     # the csvs return an 'object' type, not a datetime in the index
