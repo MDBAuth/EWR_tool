@@ -351,14 +351,14 @@ def test_any_cllmm_to_process(gauge_results):
 def test_netcdf_processes():
     # Testing the netcdf format:
     # Input params
-    scenarios =  ['unit_testing_files/ex_tasker.nc']
+    scenarios =  'unit_testing_files/ex_tasker.nc'
     model_format = 'IQQM - netcdf'
-    allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
-    climate = 'Standard - 1911 to 2018 climate categorisation'
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # climate = 'Standard - 1911 to 2018 climate categorisation'
     
     # Pass to the class
     
-    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format, allowance, climate)
+    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format)
     
     ewr_summary = ewr_sh.get_ewr_results()
 
