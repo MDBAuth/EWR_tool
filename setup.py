@@ -38,6 +38,7 @@ setup(
         "tqdm==4.64.0",
         "mdba-gauge-getter==0.5.1",
         "cachetools==5.2.0",
+        "xarray==2023.10.1"
     ],
     package_data={'': ["model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
 )
