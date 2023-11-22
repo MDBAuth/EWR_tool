@@ -7,4 +7,4 @@ requests
 tqdm
 traitlets
 xarray
-netcdf4
+netCDF4
