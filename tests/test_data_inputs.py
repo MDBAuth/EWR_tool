@@ -110,7 +110,7 @@ def test_get_iqqm_codes():
     result = data_inputs.get_iqqm_codes()
     stations = {
         '229': '421023',
-        '042': '421001',
+        '42': '421001',
         '464': '421011',
         '240': '421019',
         '266': '421146',
