@@ -373,9 +373,6 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
         # This should be deprecated with the new way of choosing nodes on read-in, but being careful
     cleaned_df = cleaned_df.query('gauge.notna()')
 
-    # Set all data < 1 to 0, since gauges are often not very accurate anyway, and the models won't capture cease-to-flow well
-    cleaned_df.loc[cleaned_df['Simulated flow'] < 1, 'Simulated flow'] = 0
-
     # give each gauge its own column- that's what the tool expects
     cleaned_df = cleaned_df.pivot(columns = 'gauge', values = 'Simulated flow')
     cleaned_df.columns.name = None
