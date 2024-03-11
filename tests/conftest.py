@@ -235,7 +235,7 @@ def parameter_sheet():
 def wp_df_F_df_L():
 
     murray_IQQM_df_wp = pd.read_csv("unit_testing_files/murray_IQQM_df_wp.csv", index_col = 'Date')
-    df_F, df_L = scenario_handling.cleaner_IQQM_10000yr(murray_IQQM_df_wp)
+    df_F, df_L = scenario_handling.cleaner_standard_timeseries(murray_IQQM_df_wp)
 
     return df_F, df_L
 

@@ -775,6 +775,7 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
 def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
     
     df_F, df_L = wp_df_F_df_L
+    print(df_F)
 
     location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, wp_EWR_table, ewr_calc_config)
 
