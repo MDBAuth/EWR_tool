@@ -16,31 +16,29 @@ log.addHandler(logging.NullHandler())
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
 
-def unpack_IQQM_10000yr(csv_file: str) -> pd.DataFrame:
-    '''Ingesting scenario file locations with the NSW specific format for 10,000 year flow timeseries
-    returns a dictionary of flow dataframes with their associated header data
+# def gauge_only_column(df: pd.DataFrame) -> pd.DataFrame:
+#     '''Ingesting scenario file locations with a standard timeseries format,
+#     returns a dictionary of flow dataframes with their associated header data
     
-    Args:
-        csv_file (str): location of model file
+#     Args:
+#         csv_file (str): location of model file
 
-    Results:
-        pd.DataFrame: model file converted to dataframe 
-
-    '''
+#     Results:
+#         pd.DataFrame: model file converted to dataframe
+#     '''
     
-    df = pd.read_csv(csv_file, index_col = 'Date')
-    siteList = []
-    for location in df.columns:
-        gauge = extract_gauge_from_string(location)
-        siteList.append(gauge)
-    # Save over the top of the column headings with the new list containing only the gauges
-    df.columns = siteList
+#     siteList = []
+#     for location in df.columns:
+#         gauge = extract_gauge_from_string(location)
+#         siteList.append(gauge)
+#     # Save over the top of the column headings with the new list containing only the gauges
+#     df.columns = siteList
     
-    return df
+#     return df
     
 
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
-    '''Ingesting scenario file locations of model files with all formats (excluding NSW 10,000 year), seperates the flow data and header data
+    '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
     returns a dictionary of flow dataframes with their associated header data
     
     Args:
@@ -249,7 +247,7 @@ def cleaner_NSW(input_df: pd.DataFrame) -> pd.DataFrame:
     
     return cleaned_df
 
-def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
+def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
     
     Args:
@@ -277,17 +275,17 @@ def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> 
     date_range = pd.period_range(date_start, date_end, freq = 'D')
     cleaned_df['Date'] = date_range
     cleaned_df = cleaned_df.set_index('Date')
-    
-    # Split gauges into flow and level, allocate to respective dataframe
-    flow_gauges = data_inputs.get_gauges('flow gauges',ewr_table_path)
-    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path)
+
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)
+
     for gauge in cleaned_df.columns:
-        if gauge in flow_gauges:
-            df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
-        if gauge in level_gauges:
-            df_level[gauge] = cleaned_df[gauge].copy(deep=True)
+        gauge_only = extract_gauge_from_string(gauge)
+        if 'flow' in gauge:
+            df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if 'level' in gauge:
+            df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
+    
     return df_flow, df_level
 
 def extract_gauge_from_string(input_string: str) -> str:
@@ -418,9 +416,9 @@ class ScenarioHandler:
                 df_clean = cleaner_MDBA(data)
                 df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
 
-            elif self.model_format == 'IQQM - NSW 10,000 years':
-                df_unpacked = unpack_IQQM_10000yr(scenarios[scenario])
-                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked, self.parameter_sheet)
+            elif self.model_format == 'Standard time-series':
+                df = pd.read_csv(scenarios[scenario], index_col = 'Date')
+                df_F, df_L = cleaner_standard_timeseries(df, self.parameter_sheet)
 
             elif self.model_format == 'Source - NSW (res.csv)':
                 data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')

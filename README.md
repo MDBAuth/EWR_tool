@@ -33,6 +33,7 @@ The EWR tool will use a second program called gauge getter to first download the
 from datetime import datetime
 
 #USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 dates = {'start_date': datetime(YYYY, 7, 1), 
         'end_date': datetime(YYYY, 6, 30)}
 

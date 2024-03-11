@@ -5125,9 +5125,9 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, EWR_table:pd.Da
         if wp_freshes:
             PU_df = merge_weirpool_with_freshes(wp_freshes, PU_df)
             
-
         PU_name = PU_items['PlanningUnitName'].loc[PU_items[PU_items['PlanningUnitID'] == PU].index[0]]
         
         location_results[PU_name] = PU_df
         location_events[PU_name] = PU_events
+
     return location_results, location_events
