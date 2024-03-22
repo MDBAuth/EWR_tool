@@ -760,7 +760,7 @@ PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as th
 PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,SF2,9,4,75,50,100,1,14,14,350,2500,2,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,LF1,7,6,75,50,100,1,5,5,2500,,2,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,LF2,10,4,40,30,50,1,5,5,2500,,4,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,OB_WS2 ,10,4,75,50,100,1,10,10,4000,,4,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,OB_WS2,10,4,75,50,100,1,10,10,4000,,4,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,OB_WS3,7,6,25,20,30,1,5,5,4000,,5,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,OB_WS4,7,6,85,80,90,1,5,5,4000,,2,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000130,Warren Weir to Macquarie Marshes,Macquarie-Castlereagh,measured as the combined flow at the Marebone Break and Macquarie River below Marebone Weir gauges ,421090,OB_WM,7,6,50,,,1,3,3,5500,,5,0,,F,,,,,,421088,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -780,7 +780,7 @@ PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met 
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF1_P,7,9,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF1_S,7,6,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF2,10,4,40,30,50,1,5,5,1000,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS2 ,10,4,75,50,100,1,10,10,2600,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS2,10,4,75,50,100,1,10,10,2600,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS3_P,9,2,25,20,30,1,5,5,2600,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS3_S,7,6,25,20,30,1,5,5,2600,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,CF_b,7,6,5,,,1,30,30,0,0,0,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -800,7 +800,7 @@ PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met 
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF1_P,7,9,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF1_S,7,6,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF2,10,4,40,30,50,1,5,5,1000,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS2 ,10,4,75,50,100,1,10,10,2900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS2,10,4,75,50,100,1,10,10,2900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS3_P,9,2,25,20,30,1,5,5,2900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS3_S,7,6,25,20,30,1,5,5,2900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000131,Southern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,CF_b,7,6,5,,,1,30,30,0,0,0,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -829,7 +829,7 @@ PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as 
 PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,SF3,7,6,50,,,1,28,28,140,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,LF1,7,6,75,50,100,1,5,5,700,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,LF2,10,4,40,30,50,1,5,5,700,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,OB_WS2 ,7,6,75,50,100,1,10,10,1900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,OB_WS2,7,6,75,50,100,1,10,10,1900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,OB_WS3,7,6,25,20,30,1,5,5,1900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,OB_WS4,7,6,65,30,100,1,5,5,1900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000134,Lower Macquarie River,Macquarie-Castlereagh,Lower Macquarie River as measured at Bells Bridge (Carinda) ,421012,OB_WM,7,6,50,,,1,90,90,,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -846,7 +846,7 @@ PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bog
 PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,SF3,7,6,50,,,1,28,28,400,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,LF1,7,6,75,50,100,1,5,5,1500,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,LF2,10,4,40,30,50,1,5,5,1500,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,OB_WS2 ,7,6,70,40,100,1,10,10,4500,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,OB_WS2,7,6,70,40,100,1,10,10,4500,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,OB_WS3,7,6,25,20,30,1,5,5,4500,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,OB_WS4,See note,See note,,,,1,,,4500,,,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000136,Lower Bogan River and Effluent Creeks,Macquarie-Castlereagh,Lower Bogan River at Gongolgon Bridge ,421023,OB_WM,7,6,50,,,1,90,90,,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -905,7 +905,7 @@ PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met a
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF1_P,7,9,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF1_S,7,6,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF2,10,4,40,30,50,1,5,5,1000,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS2 ,10,4,75,50,100,1,10,10,2600,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS2,10,4,75,50,100,1,10,10,2600,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS3_P,9,2,25,20,30,1,5,5,2600,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS3_S,7,6,25,20,30,1,5,5,2600,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,CF_b,7,6,5,,,1,30,30,0,0,0,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -925,7 +925,7 @@ PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met a
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF1_P,7,9,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF1_S,7,6,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF2,10,4,40,30,50,1,5,5,1000,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS2 ,10,4,75,50,100,1,10,10,2900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS2,10,4,75,50,100,1,10,10,2900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS3_P,9,2,25,20,30,1,5,5,2900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS3_S,7,6,25,20,30,1,5,5,2900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000133,Eastern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,CF_b,7,6,5,,,1,30,30,0,0,0,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -945,7 +945,7 @@ PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met 
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF1_P,7,9,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF1_S,7,6,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,LF2,10,4,40,30,50,1,5,5,1000,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS2 ,10,4,75,50,100,1,10,10,2600,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS2,10,4,75,50,100,1,10,10,2600,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS3_P,9,2,25,20,30,1,5,5,2600,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,OB_WS3_S,7,6,25,20,30,1,5,5,2600,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421022,CF_b,7,6,5,,,1,30,30,0,0,0,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -965,7 +965,7 @@ PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met 
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF1_P,7,9,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF1_S,7,6,75,50,100,1,5,5,1000,,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,LF2,10,4,40,30,50,1,5,5,1000,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS2 ,10,4,75,50,100,1,10,10,2900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS2,10,4,75,50,100,1,10,10,2900,,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS3_P,9,2,25,20,30,1,5,5,2900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,OB_WS3_S,7,6,25,20,30,1,5,5,2900,,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000132,Northern Macquarie Marshes,Macquarie-Castlereagh,Flows are to be met at both the gauge on the Macquarie River downstream Marebone and at Oxley Station ,421090,CF_b,7,6,5,,,1,30,30,0,0,0,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -2768,170 +2768,170 @@ PU_0000024,Broken River Reach 3: Caseys Weir to the Goulburn River,Broken River 
 PU_0000024,Broken River Reach 3: Caseys Weir to the Goulburn River,Broken River EMWP,Broken River at Goorambat (Casey Weir Head Gauge),404216,F5_a,6,11,30,,,4,3,3,4500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000024,Broken River Reach 3: Caseys Weir to the Goulburn River,Broken River EMWP,Broken River at Goorambat (Casey Weir Head Gauge),404216,F5_b,6,11,70,,,2,2,2,4500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000024,Broken River Reach 3: Caseys Weir to the Goulburn River,Broken River EMWP,Broken River at Goorambat (Casey Weir Head Gauge),404216,F5_c,6,11,73,,,1,1,1,4500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_a,12,5,30,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_b_P,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_b_S,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF2_a,6,11,30,,,1,183,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF2_b,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF2_c,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_P_pd,7,6,,,,1,2,2,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_S_pd,7,6,,,,1,2,2,10000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_P_sd,7,6,,,,1,1,1,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_S_sd,7,6,,,,1,1,1,10000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_a,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_b,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_P_pd,1,4,30,,,1,7,7,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_P_sd,1,4,30,,,2,7,7,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_S_pd,1,4,30,,,2,35,35,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_S_sd,1,4,30,,,1,35,35,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_a_P,12,2,30,,,1,1,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_a_S,12,2,30,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_b_P,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_b_S,12,2,70,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_c_P,12,2,100,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_c_S,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_P_pd,3,5,30,,,2,3,3,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_P_sd,3,5,30,,,2,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_S_pd,3,5,30,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_S_sd,3,5,30,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_P_pd,3,5,70,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_P_sd,3,5,70,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_S_pd,3,5,70,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_S_sd,3,5,70,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_P_pd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_P_sd,3,5,100,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_S_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_S_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_P_pd,7,8,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_P_sd,7,8,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_S_pd,7,8,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_S_sd,7,8,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_P_pd,9,11,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_P_sd,9,11,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_S_pd,9,11,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_S_sd,9,11,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,OB1,7,6,,,,1,1,1,10000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_P_pd,7,8,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_P_sd,7,8,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_S_pd,7,8,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_S_sd,7,8,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_P_pd,9,10,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_P_sd,9,10,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_S_pd,9,10,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000165,Campaspe River – Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_S_sd,9,10,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_a,12,5,30,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_b_P,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_b_S,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF2_a,6,11,30,,,1,183,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF2_b,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF2_c,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BK1_pd,7,6,,,,1,2,2,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BK1_sd,7,6,,,,1,1,1,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,CF1_a,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,CF1_b,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,CF1_c,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_a_P,12,2,30,,,1,1,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_a_S,12,2,30,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_b_P,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_b_S,12,2,70,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_c_P,12,2,100,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_c_S,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_P_pd,3,5,30,,,2,3,3,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_P_sd,3,5,30,,,2,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_S_pd,3,5,30,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_S_sd,3,5,30,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_P_pd,3,5,70,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_P_sd,3,5,70,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_S_pd,3,5,70,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_S_sd,3,5,70,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_P_pd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_P_sd,3,5,100,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_S_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_S_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_P_pd,7,8,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_P_sd,7,8,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_S_pd,7,8,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_S_sd,7,8,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_P_pd,9,11,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_P_sd,9,11,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_S_pd,9,11,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_S_sd,9,11,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,OB1,7,6,,,,1,1,1,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_P_pd,7,8,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_P_sd,7,8,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_S_pd,7,8,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_S_sd,7,8,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_P_pd,9,10,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_P_sd,9,10,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_S_pd,9,10,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000166,Campaspe River – Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_S_sd,9,10,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_a,12,5,30,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_b_P,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_b_S,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF2_a,6,11,30,,,1,183,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF2_b,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF2_c,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BK1_pd,7,6,,,,1,2,2,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BK1_sd,7,6,,,,1,1,1,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,CF1_a,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,CF1_b,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,CF1_c,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_a_P,12,2,30,,,1,1,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_a_S,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_b_P,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_b_S,12,2,70,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_c_P,12,2,100,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_c_S,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_P_pd,3,5,30,,,2,3,3,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_P_sd,3,5,30,,,2,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_S_pd,3,5,30,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_S_sd,3,5,30,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_P_pd,3,5,70,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_P_sd,3,5,70,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_S_pd,3,5,70,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_S_sd,3,5,70,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_P_pd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_P_sd,3,5,100,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_S_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_S_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_P_pd,7,8,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_P_sd,7,8,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_S_pd,7,8,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_S_sd,7,8,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_P_pd,9,11,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_P_sd,9,11,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_S_pd,9,11,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_S_sd,9,11,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,OB1,7,6,,,,1,1,1,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_P_pd,7,8,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_P_sd,7,8,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_S_pd,7,8,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_S_sd,7,8,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_P_pd,9,10,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_P_sd,9,10,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_S_pd,9,10,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000167,Campaspe River – Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_S_sd,9,10,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_a_P,12,4,30,,,1,151,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_a_S,12,4,30,,,1,151,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_b_P,12,4,70,,,1,151,1,7,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_b_S,12,4,70,,,1,151,1,3,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_c_P,12,4,100,,,1,151,1,3,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_c_S,12,4,100,,,1,151,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF2_a,5,11,30,,,1,214,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF2_c_P,5,11,100,,,1,214,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF2_c_S,5,11,100,,,1,214,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BK1_a,6,8.15,33,,,1,1,1,6000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_P_pd,11,3,100,,,2,5,5,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_P_sd,11,3,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_S_pd,11,3,100,,,2,5,5,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_S_sd,11,3,100,,,2,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F2_a_P,5,11,70,,,3,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F2_a_S,5,11,70,,,2,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,LF1_a_P,11,3,,20,25,2,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000210,Coliban River – Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,LF1_a_S,11,3,,20,25,1,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_a,12,5,30,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_b_P,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_b_S,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF2_a,6,11,30,,,1,183,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF2_b,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BF2_c,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_P_pd,7,6,,,,1,2,2,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_S_pd,7,6,,,,1,2,2,10000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_P_sd,7,6,,,,1,1,1,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,BK1_S_sd,7,6,,,,1,1,1,10000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_a,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_b,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_P_pd,1,4,30,,,1,7,7,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_P_sd,1,4,30,,,2,7,7,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_S_pd,1,4,30,,,2,35,35,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,CF1_c_S_sd,1,4,30,,,1,35,35,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_a_P,12,2,30,,,1,1,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_a_S,12,2,30,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_b_P,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_b_S,12,2,70,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_c_P,12,2,100,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F1_c_S,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_P_pd,3,5,30,,,2,3,3,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_P_sd,3,5,30,,,2,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_S_pd,3,5,30,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_a_S_sd,3,5,30,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_P_pd,3,5,70,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_P_sd,3,5,70,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_S_pd,3,5,70,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_b_S_sd,3,5,70,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_P_pd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_P_sd,3,5,100,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_S_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,F2_c_S_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_P_pd,7,8,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_P_sd,7,8,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_S_pd,7,8,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF1_S_sd,7,8,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_P_pd,9,11,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_P_sd,9,11,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_S_pd,9,11,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,LF2_S_sd,9,11,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,OB1,7,6,,,,1,1,1,10000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_P_pd,7,8,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_P_sd,7,8,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_S_pd,7,8,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF1_a_S_sd,7,8,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_P_pd,9,10,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_P_sd,9,10,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_S_pd,9,10,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000165,Campaspe River ï¿½ Reach 2,Campaspe River EWMP,Campaspe River at Eppalock,406207,SF2_a_S_sd,9,10,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_a,12,5,30,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_b_P,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_b_S,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF2_a,6,11,30,,,1,183,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF2_b,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BF2_c,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BK1_pd,7,6,,,,1,2,2,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,BK1_sd,7,6,,,,1,1,1,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,CF1_a,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,CF1_b,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,CF1_c,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_a_P,12,2,30,,,1,1,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_a_S,12,2,30,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_b_P,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_b_S,12,2,70,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_c_P,12,2,100,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F1_c_S,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_P_pd,3,5,30,,,2,3,3,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_P_sd,3,5,30,,,2,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_S_pd,3,5,30,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_a_S_sd,3,5,30,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_P_pd,3,5,70,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_P_sd,3,5,70,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_S_pd,3,5,70,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_b_S_sd,3,5,70,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_P_pd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_P_sd,3,5,100,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_S_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,F2_c_S_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_P_pd,7,8,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_P_sd,7,8,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_S_pd,7,8,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF1_S_sd,7,8,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_P_pd,9,11,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_P_sd,9,11,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_S_pd,9,11,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,LF2_S_sd,9,11,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,OB1,7,6,,,,1,1,1,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_P_pd,7,8,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_P_sd,7,8,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_S_pd,7,8,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF1_a_S_sd,7,8,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_P_pd,9,10,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_P_sd,9,10,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_S_pd,9,10,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000166,Campaspe River ï¿½ Reach 3,Campaspe River EWMP,Campaspe Weir Model Node,__CW,SF2_a_S_sd,9,10,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_a,12,5,30,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_b_P,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_b_S,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF2_a,6,11,30,,,1,183,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF2_b,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BF2_c,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BK1_pd,7,6,,,,1,2,2,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,BK1_sd,7,6,,,,1,1,1,8000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,CF1_a,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,CF1_b,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,CF1_c,1,4,0,,,1,1,1,0,0,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_a_P,12,2,30,,,1,1,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_a_S,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_b_P,12,2,70,,,1,1,1,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_b_S,12,2,70,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_c_P,12,2,100,,,1,1,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F1_c_S,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_P_pd,3,5,30,,,2,3,3,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_P_sd,3,5,30,,,2,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_S_pd,3,5,30,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_a_S_sd,3,5,30,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_P_pd,3,5,70,,,2,3,3,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_P_sd,3,5,70,,,2,2,2,125,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_S_pd,3,5,70,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_b_S_sd,3,5,70,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_P_pd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_P_sd,3,5,100,,,2,2,2,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_S_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,F2_c_S_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_P_pd,7,8,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_P_sd,7,8,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_S_pd,7,8,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF1_S_sd,7,8,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_P_pd,9,11,40,,,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_P_sd,9,11,40,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_S_pd,9,11,40,,,1,3,3,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,LF2_S_sd,9,11,40,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,OB1,7,6,,,,1,1,1,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_P_pd,7,8,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_P_sd,7,8,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_S_pd,7,8,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF1_a_S_sd,7,8,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_P_pd,9,10,70,,,1,2,2,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_P_sd,9,10,70,,,1,1,1,1800,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_S_pd,9,10,70,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000167,Campaspe River ï¿½ Reach 4,Campaspe River EWMP,Campaspe River at Campaspe Siphon,406202,SF2_a_S_sd,9,10,70,,,1,1,1,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_a_P,12,4,30,,,1,151,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_a_S,12,4,30,,,1,151,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_b_P,12,4,70,,,1,151,1,7,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_b_S,12,4,70,,,1,151,1,3,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_c_P,12,4,100,,,1,151,1,3,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF1_c_S,12,4,100,,,1,151,1,1,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF2_a,5,11,30,,,1,214,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF2_c_P,5,11,100,,,1,214,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BF2_c_S,5,11,100,,,1,214,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,BK1_a,6,8.15,33,,,1,1,1,6000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_P_pd,11,3,100,,,2,5,5,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_P_sd,11,3,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_S_pd,11,3,100,,,2,5,5,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F1_S_sd,11,3,100,,,2,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F2_a_P,5,11,70,,,3,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,F2_a_S,5,11,70,,,2,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,LF1_a_P,11,3,,20,25,2,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000210,Coliban River ï¿½ Reach 1,Coliban River EWMP,Coliban River at Malmsbury Rail Bridge,406200,LF1_a_S,11,3,,20,25,1,3,3,160,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000189,Reach 1: Lake Eildon to Yea River,Goulburn River 2015,Goulburn River at Lake Eildon,405203,BF1,7,6,100,,,1,365,1,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000189,Reach 1: Lake Eildon to Yea River,Goulburn River 2015,Goulburn River at Lake Eildon,405203,BK1_P,6,11,66,,,1,2,2,9000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000189,Reach 1: Lake Eildon to Yea River,Goulburn River 2015,Goulburn River at Lake Eildon,405203,BK1_S,6,11,66,,,1,2,2,7000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -3016,249 +3016,249 @@ PU_0000193,Reach 5: Loch Garry to the Murray River,Goulburn River 2015,Goulburn 
 PU_0000193,Reach 5: Loch Garry to the Murray River,Goulburn River 2015,Goulburn River at McCoy's Bridge,405232,F2_P_pd,12,3,100,,,4,4,4,5600,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000193,Reach 5: Loch Garry to the Murray River,Goulburn River 2015,Goulburn River at McCoy's Bridge,405232,F3_S,6,11,100,,,1,14,14,5600,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000193,Reach 5: Loch Garry to the Murray River,Goulburn River 2015,Goulburn River at McCoy's Bridge,405232,F3_P,6,11,100,,,4,14,14,5600,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF1_a_P,12,5,70,,,1,182,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF1_a_S,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF2_a_P,6,11,70,,,1,183,1,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF2_a_S,6,11,70,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF2_c,6,11,100,,,1,183,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BK1_pd,7,6,,,,1,2,2,4000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BK1_sd,7,6,,,,1,1,1,4000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F1_a_P,12,2,70,,,1,1,1,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F1_a_S,12,2,70,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F1_c,12,2,100,,,1,1,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_P_pd,3,5,70,,,2,3,3,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_P_sd,3,5,70,,,2,2,2,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_S_pd,3,5,70,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_S_sd,3,5,70,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_c_pd,3,5,100,,,2,3,3,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_c_sd,3,5,100,,,2,2,2,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_P_pd,7,8,70,,,1,2,2,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_P_sd,7,8,70,,,1,1,1,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_S_pd,7,8,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_S_sd,7,8,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_P_pd,9,10,70,,,1,2,2,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_P_sd,9,10,70,,,1,1,1,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_S_pd,9,10,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_S_sd,9,10,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_P_pd,9,10,40,,,1,5,5,700,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_P_sd,9,10,40,,,1,4,4,700,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_S_pd,9,10,40,,,1,5,5,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_S_sd,9,10,40,,,1,4,4,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_P_pd,9.15,11.15,20,,,1,10,10,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_P_sd,9.15,11.15,20,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_S_pd,9.15,11.15,20,,,1,10,10,500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000168,Loddon River: Upper Loddon River System – Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_S_sd,9.15,11.15,20,,,1,2,2,500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF1_a_P,12,5,70,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF1_a_S,12,5,70,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF1_c,12,5,100,,,1,182,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF2_a_P,6,11,70,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF2_a_S,6,11,70,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF2_c,6,11,100,,,1,183,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BK1_pd,7,6,,,,1,2,2,3000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BK1_sd,7,6,,,,1,1,1,3000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F1_a,12,2,70,,,1,1,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F1_c,12,2,100,,,1,1,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_a_pd,3,5,70,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_a_sd,3,5,70,,,2,2,2,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_c_pd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_c_sd,3,5,100,,,2,2,2,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_P_pd,7,8,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_P_sd,7,8,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_S_pd,7,8,70,,,1,2,2,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_S_sd,7,8,70,,,1,1,1,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_P_pd,9,10,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_P_sd,9,10,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_S_pd,9,10,70,,,1,2,2,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_S_sd,9,10,70,,,1,1,1,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_P_pd,9,10,40,,,1,5,5,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_P_sd,9,10,40,,,1,4,4,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_S_pd,9,10,40,,,1,5,5,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_S_sd,9,10,40,,,1,4,4,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,LF1_pd,9.15,11.15,20,,,1,10,10,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000169,Tullaroop Creek (Upper Loddon River System) – Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,LF1_sd,9.15,11.15,20,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_a_P,12,5,70,,,1,182,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_a_S,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_a_PS,12,5,70,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_c,12,5,100,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_a_P,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_a_PS,6,11,70,,,1,183,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_a_S,6,11,70,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_c_P,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_c_S,6,11,100,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BK1_pd,7,6,,,,1,1,1,7300,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BK1_sd,7,6,,,,1,2,2,7300,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_a_P,12,2,70,,,1,1,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_a_S,12,2,70,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_a_PS,12,2,70,,,1,1,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_c_P,12,2,100,,,1,1,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_c_PS,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_c_S,12,2,100,,,1,1,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_P_pd,3,5,70,,,2,3,3,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_P_sd,3,5,70,,,2,2,2,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_PS_pd,3,5,70,,,2,3,3,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_PS_sd,3,5,70,,,2,2,2,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_S_pd,3,5,70,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_S_sd,3,5,70,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_P_pd,3,5,100,,,2,3,3,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_P_sd,3,5,100,,,2,2,2,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_S_pd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_S_sd,3,5,100,,,2,2,2,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_SP_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_SP_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F3_a_pd,7,8,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F3_a_sd,7,8,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F4_a_pd,9,10,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F4_a_sd,9,10,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F5_pd,9,10,40,,,1,5,5,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F5_sd,9,10,40,,,1,4,4,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_P_pd,9.15,11.15,20,,,1,10,10,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_P_sd,9.15,11.15,20,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_S_pd,9.15,11.15,20,,,1,10,10,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000170,Loddon River: Upper Loddon River System – Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_S_sd,9.15,11.15,20,,,1,2,2,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF1_a_P,12,5,70,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF1_a_S,12,5,70,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF1_c,12,5,100,,,1,182,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF2_a_P,6,11,70,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF2_a_S,6,11,70,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF2_c,6,11,100,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BK1_pd,7,6,,,,1,2,2,13000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BK1_sd,7,6,,,,1,1,1,13000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F1_a_P,12,2,70,,,1,1,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F1_a_S,12,2,70,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F1_c,12,2,100,,,1,1,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_P_pd,3,5,70,,,2,3,3,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_P_sd,3,5,70,,,2,2,2,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_S_pd,3,5,70,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_S_sd,3,5,70,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_c_pd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_c_sd,3,5,100,,,2,2,2,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_P_pd,7,8,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_P_sd,7,8,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_S_pd,7,8,70,,,1,2,2,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_S_sd,7,8,70,,,1,1,1,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_P_pd,9,10,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_P_sd,9,10,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_S_pd,9,10,70,,,1,2,2,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_S_sd,9,10,70,,,1,1,1,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_P_pd,9,10,40,,,1,5,5,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_P_sd,9,10,40,,,1,4,4,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_S_pd,9,10,40,,,1,5,5,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_S_sd,9,10,40,,,1,4,4,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_P_pd,9.15,11.15,20,,,1,10,10,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_P_sd,9.15,11.15,20,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_S_pd,9.15,11.15,20,,,1,10,10,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000171,Loddon River: Upper Loddon River System – Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_S_sd,9.15,11.15,20,,,1,2,2,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF1_a,12,5,70,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF1_c,12,5,100,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF2_P,6,11,100,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF2_S,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_P_pd,12,2,100,,,1,4,4,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_P_sd,12,2,100,,,1,3,3,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_S_pd,12,2,100,,,1,4,4,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_S_sd,12,2,100,,,1,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_P_pd,3,5,100,,,2,4,4,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_P_sd,3,5,100,,,2,3,3,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_S_pd,3,5,100,,,2,4,4,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_S_sd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF1,4,5,,,,1,6,6,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_P_pd,9.15,10.15,,,,1,10,10,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_P_sd,9.15,10.15,,,,1,7,7,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_S_pd,9.15,10.15,,,,1,10,10,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000172,Loddon River: Mid Loddon River System – Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_S_sd,9.15,10.15,,,,1,7,7,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF1_a,12,5,70,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF1_c,12,5,100,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF2_P,6,11,100,,,1,183,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF2_S,6,11,100,,,1,183,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_P_pd,12,2,100,,,1,4,4,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_P_sd,12,2,100,,,1,3,3,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_S_pd,12,2,100,,,1,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_S_sd,12,2,100,,,1,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_P_pd,3,5,100,,,2,4,4,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_P_sd,3,5,100,,,2,3,3,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_S_pd,3,5,100,,,2,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_S_sd,3,5,100,,,2,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF1,4,5,,,,1,6,6,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_P_pd,9.15,10.15,,,,1,10,10,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_P_sd,9.15,10.15,,,,1,7,7,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_S_pd,9.15,10.15,,,,1,10,10,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] – Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_S_sd,9.15,10.15,,,,1,7,7,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF1_a,12,5,70,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF1_c,12,5,100,,,1,182,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF2_P,6,11,100,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF2_S,6,11,100,,,1,183,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_P_pd,12,2,100,,,1,4,4,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_P_sd,12,2,100,,,1,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_S_pd,12,2,100,,,1,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_S_sd,12,2,100,,,1,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_P_pd,3,5,100,,,2,4,4,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_P_sd,3,5,100,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_S_pd,3,5,100,,,2,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_S_sd,3,5,100,,,2,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF1,4,5,,,,1,6,6,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_P_pd,9.15,10.15,,,,1,10,10,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_P_sd,9.15,10.15,,,,1,7,7,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_S_pd,9.15,10.15,,,,1,10,10,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000174,Loddon River: Mid Loddon River System – Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_S_sd,9.15,10.15,,,,1,7,7,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF1_a,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF1_c_P,12,5,100,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF1_c_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF2_P,6,11,100,,,1,183,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF2_S,6,11,100,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_P_pd,12,2,100,,,1,4,4,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_P_sd,12,2,100,,,1,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_S_pd,12,2,100,,,1,4,4,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_S_sd,12,2,100,,,1,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_P_pd,3,5,100,,,2,4,4,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_P_sd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_S_pd,3,5,100,,,2,4,4,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_S_sd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF1,4,5,,,,1,6,6,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_P_pd,9.15,10.15,,,,1,10,10,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_P_sd,9.15,10.15,,,,1,7,7,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_S_pd,9.15,10.15,,,,1,10,10,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000175,Loddon River: Mid Loddon River System – Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_S_sd,9.15,10.15,,,,1,7,7,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF1_a,1,5,70,,,1,151,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF2_a,12,12,70,,,1,31,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF3_a,6,11,70,,,1,183,1,30,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF3_c,6,11,100,,,1,183,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F1_a,1,5,100,,,4,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F1_c,1,5,100,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F2_a_P,6,11,70,,,1,2,2,150,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F2_a_S,6,11,70,,,1,2,2,120,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000176,Serpentine Creek [Mid Loddon River System] – Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F2_c,6,11,100,,,1,2,2,40,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF1_a,1,5,70,,,1,151,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF1_c,1,5,100,,,1,151,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF2_a,12,12,70,,,1,31,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF2_c,12,12,100,,,1,31,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF3_a_P,6,11,70,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF3_a_S,6,11,70,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_a_P,1,5,70,,,4,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_a_S,1,5,70,,,4,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_c_P,1,5,100,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_c_S,1,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F2_a_P,6,11,30,,,1,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F2_a_S,6,11,30,,,1,2,2,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,LF1_a,6,11,20,,,2,2,2,500,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000178,Serpentine Creek [Mid Loddon River System] – Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,OB1_a,7,6,20,,,2,2,2,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF1_P,12,5,100,,,1,182,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF1_S,12,5,100,,,1,182,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF2_P,6,11,100,,,1,183,1,220,,,31,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF2_S,6,11,100,,,1,183,1,200,,,31,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BK1_pd,7,6,,30,40,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BK1_sd,7,6,,30,40,1,4,4,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BKPP_pd,8,3,,10,20,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BKPP_sd,8,3,,10,20,1,4,4,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F1_a,9,10,70,,,1,10,10,900,,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F1_pd,12,2,100,,,1,3,3,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F1_sd,12,2,100,,,1,2,2,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F2_pd,3,5,100,,,2,3,3,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F2_sd,3,5,100,,,2,2,2,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000180,Loddon River: Lower Loddon River – Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,LF1,3,4,,,,1,10,10,900,,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000181,Pyramid Creek – Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,BF1_a,12,5,70,,,1,182,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000181,Pyramid Creek – Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,BF2,6,11,100,,,1,183,1,220,,,31,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000181,Pyramid Creek – Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,F1_a,9,10,70,,,1,10,10,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000181,Pyramid Creek – Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,LF1,3,4,,,,1,10,10,900,,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF1_a_P,12,5,70,,,1,182,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF1_a_S,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF1_c,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF2_a_P,6,11,70,,,1,183,1,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF2_a_S,6,11,70,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BF2_c,6,11,100,,,1,183,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BK1_pd,7,6,,,,1,2,2,4000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,BK1_sd,7,6,,,,1,1,1,4000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F1_a_P,12,2,70,,,1,1,1,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F1_a_S,12,2,70,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F1_c,12,2,100,,,1,1,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_P_pd,3,5,70,,,2,3,3,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_P_sd,3,5,70,,,2,2,2,80,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_S_pd,3,5,70,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_a_S_sd,3,5,70,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_c_pd,3,5,100,,,2,3,3,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F2_c_sd,3,5,100,,,2,2,2,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_P_pd,7,8,70,,,1,2,2,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_P_sd,7,8,70,,,1,1,1,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_S_pd,7,8,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F3_a_S_sd,7,8,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_P_pd,9,10,70,,,1,2,2,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_P_sd,9,10,70,,,1,1,1,700,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_S_pd,9,10,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F4_a_S_sd,9,10,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_P_pd,9,10,40,,,1,5,5,700,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_P_sd,9,10,40,,,1,4,4,700,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_S_pd,9,10,40,,,1,5,5,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,F5_S_sd,9,10,40,,,1,4,4,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_P_pd,9.15,11.15,20,,,1,10,10,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_P_sd,9.15,11.15,20,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_S_pd,9.15,11.15,20,,,1,10,10,500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000168,Loddon River: Upper Loddon River System ï¿½ Reach 1,Loddon River EWMP,Loddon River at Cain Curran Reservoir,407210,LF1_S_sd,9.15,11.15,20,,,1,2,2,500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF1_a_P,12,5,70,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF1_a_S,12,5,70,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF1_c,12,5,100,,,1,182,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF2_a_P,6,11,70,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF2_a_S,6,11,70,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BF2_c,6,11,100,,,1,183,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BK1_pd,7,6,,,,1,2,2,3000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,BK1_sd,7,6,,,,1,1,1,3000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F1_a,12,2,70,,,1,1,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F1_c,12,2,100,,,1,1,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_a_pd,3,5,70,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_a_sd,3,5,70,,,2,2,2,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_c_pd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F2_c_sd,3,5,100,,,2,2,2,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_P_pd,7,8,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_P_sd,7,8,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_S_pd,7,8,70,,,1,2,2,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F3_a_S_sd,7,8,70,,,1,1,1,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_P_pd,9,10,70,,,1,2,2,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_P_sd,9,10,70,,,1,1,1,400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_S_pd,9,10,70,,,1,2,2,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F4_a_S_sd,9,10,70,,,1,1,1,200,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_P_pd,9,10,40,,,1,5,5,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_P_sd,9,10,40,,,1,4,4,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_S_pd,9,10,40,,,1,5,5,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,F5_S_sd,9,10,40,,,1,4,4,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,LF1_pd,9.15,11.15,20,,,1,10,10,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000169,Tullaroop Creek (Upper Loddon River System) ï¿½ Reach 2,Loddon River EWMP,Tullarop Creek at Tullarop Reservoir,407248,LF1_sd,9.15,11.15,20,,,1,2,2,1000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_a_P,12,5,70,,,1,182,1,35,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_a_S,12,5,70,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_a_PS,12,5,70,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF1_c,12,5,100,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_a_P,6,11,70,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_a_PS,6,11,70,,,1,183,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_a_S,6,11,70,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_c_P,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BF2_c_S,6,11,100,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BK1_pd,7,6,,,,1,1,1,7300,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,BK1_sd,7,6,,,,1,2,2,7300,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_a_P,12,2,70,,,1,1,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_a_S,12,2,70,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_a_PS,12,2,70,,,1,1,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_c_P,12,2,100,,,1,1,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_c_PS,12,2,100,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F1_c_S,12,2,100,,,1,1,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_P_pd,3,5,70,,,2,3,3,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_P_sd,3,5,70,,,2,2,2,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_PS_pd,3,5,70,,,2,3,3,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_PS_sd,3,5,70,,,2,2,2,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_S_pd,3,5,70,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_a_S_sd,3,5,70,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_P_pd,3,5,100,,,2,3,3,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_P_sd,3,5,100,,,2,2,2,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_S_pd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_S_sd,3,5,100,,,2,2,2,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_SP_pd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F2_c_SP_sd,3,5,100,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F3_a_pd,7,8,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F3_a_sd,7,8,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F4_a_pd,9,10,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F4_a_sd,9,10,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F5_pd,9,10,40,,,1,5,5,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,F5_sd,9,10,40,,,1,4,4,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_P_pd,9.15,11.15,20,,,1,10,10,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_P_sd,9.15,11.15,20,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_S_pd,9.15,11.15,20,,,1,10,10,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000170,Loddon River: Upper Loddon River System ï¿½ Reach 3a,Loddon River EWMP,Loddon River at Laanecoorie Reservoir,407203,LF1_S_sd,9.15,11.15,20,,,1,2,2,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF1_a_P,12,5,70,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF1_a_S,12,5,70,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF1_c,12,5,100,,,1,182,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF2_a_P,6,11,70,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF2_a_S,6,11,70,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BF2_c,6,11,100,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BK1_pd,7,6,,,,1,2,2,13000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,BK1_sd,7,6,,,,1,1,1,13000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F1_a_P,12,2,70,,,1,1,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F1_a_S,12,2,70,,,1,1,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F1_c,12,2,100,,,1,1,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_P_pd,3,5,70,,,2,3,3,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_P_sd,3,5,70,,,2,2,2,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_S_pd,3,5,70,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_a_S_sd,3,5,70,,,2,2,2,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_c_pd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F2_c_sd,3,5,100,,,2,2,2,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_P_pd,7,8,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_P_sd,7,8,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_S_pd,7,8,70,,,1,2,2,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F3_a_S_sd,7,8,70,,,1,1,1,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_P_pd,9,10,70,,,1,2,2,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_P_sd,9,10,70,,,1,1,1,900,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_S_pd,9,10,70,,,1,2,2,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F4_a_S_sd,9,10,70,,,1,1,1,450,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_P_pd,9,10,40,,,1,5,5,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_P_sd,9,10,40,,,1,4,4,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_S_pd,9,10,40,,,1,5,5,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,F5_S_sd,9,10,40,,,1,4,4,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_P_pd,9.15,11.15,20,,,1,10,10,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_P_sd,9.15,11.15,20,,,1,2,2,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_S_pd,9.15,11.15,20,,,1,10,10,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000171,Loddon River: Upper Loddon River System ï¿½ Reach 3b,Loddon River EWMP,Loddon River at Serpentine Weir,407229,LF1_S_sd,9.15,11.15,20,,,1,2,2,1500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF1_a,12,5,70,,,1,182,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF1_c,12,5,100,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF2_P,6,11,100,,,1,183,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,BF2_S,6,11,100,,,1,183,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_P_pd,12,2,100,,,1,4,4,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_P_sd,12,2,100,,,1,3,3,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_S_pd,12,2,100,,,1,4,4,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F1_S_sd,12,2,100,,,1,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_P_pd,3,5,100,,,2,4,4,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_P_sd,3,5,100,,,2,3,3,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_S_pd,3,5,100,,,2,4,4,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,F2_S_sd,3,5,100,,,2,3,3,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF1,4,5,,,,1,6,6,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_P_pd,9.15,10.15,,,,1,10,10,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_P_sd,9.15,10.15,,,,1,7,7,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_S_pd,9.15,10.15,,,,1,10,10,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000172,Loddon River: Mid Loddon River System ï¿½ Reach 4a,Loddon River EWMP,Loddon River at Loddon Weir,407224,LF2_S_sd,9.15,10.15,,,,1,7,7,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF1_a,12,5,70,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF1_c,12,5,100,,,1,182,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF2_P,6,11,100,,,1,183,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,BF2_S,6,11,100,,,1,183,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_P_pd,12,2,100,,,1,4,4,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_P_sd,12,2,100,,,1,3,3,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_S_pd,12,2,100,,,1,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F1_S_sd,12,2,100,,,1,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_P_pd,3,5,100,,,2,4,4,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_P_sd,3,5,100,,,2,3,3,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_S_pd,3,5,100,,,2,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,F2_S_sd,3,5,100,,,2,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF1,4,5,,,,1,6,6,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_P_pd,9.15,10.15,,,,1,10,10,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_P_sd,9.15,10.15,,,,1,7,7,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_S_pd,9.15,10.15,,,,1,10,10,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000173,Twelve Mile Creek Anabranch [Mid Loddon River System] ï¿½ Reach 4b,Loddon River EWMP,Model Node LR_4b,__LR4b,LF2_S_sd,9.15,10.15,,,,1,7,7,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF1_a,12,5,70,,,1,182,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF1_c,12,5,100,,,1,182,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF2_P,6,11,100,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,BF2_S,6,11,100,,,1,183,1,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_P_pd,12,2,100,,,1,4,4,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_P_sd,12,2,100,,,1,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_S_pd,12,2,100,,,1,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F1_S_sd,12,2,100,,,1,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_P_pd,3,5,100,,,2,4,4,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_P_sd,3,5,100,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_S_pd,3,5,100,,,2,4,4,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,F2_S_sd,3,5,100,,,2,3,3,25,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF1,4,5,,,,1,6,6,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_P_pd,9.15,10.15,,,,1,10,10,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_P_sd,9.15,10.15,,,,1,7,7,375,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_S_pd,9.15,10.15,,,,1,10,10,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000174,Loddon River: Mid Loddon River System ï¿½ Reach 4c,Loddon River EWMP,Model Node LR_4c,__LR4c,LF2_S_sd,9.15,10.15,,,,1,7,7,225,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF1_a,12,5,70,,,1,182,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF1_c_P,12,5,100,,,1,182,1,15,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF1_c_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF2_P,6,11,100,,,1,183,1,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,BF2_S,6,11,100,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_P_pd,12,2,100,,,1,4,4,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_P_sd,12,2,100,,,1,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_S_pd,12,2,100,,,1,4,4,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F1_S_sd,12,2,100,,,1,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_P_pd,3,5,100,,,2,4,4,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_P_sd,3,5,100,,,2,3,3,75,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_S_pd,3,5,100,,,2,4,4,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,F2_S_sd,3,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF1,4,5,,,,1,6,6,400,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_P_pd,9.15,10.15,,,,1,10,10,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_P_sd,9.15,10.15,,,,1,7,7,750,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_S_pd,9.15,10.15,,,,1,10,10,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000175,Loddon River: Mid Loddon River System ï¿½ Reach 4d,Loddon River EWMP,Loddon River at Appin South,407205,LF2_S_sd,9.15,10.15,,,,1,7,7,450,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF1_a,1,5,70,,,1,151,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF2_a,12,12,70,,,1,31,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF3_a,6,11,70,,,1,183,1,30,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,BF3_c,6,11,100,,,1,183,1,20,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F1_a,1,5,100,,,4,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F1_c,1,5,100,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F2_a_P,6,11,70,,,1,2,2,150,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F2_a_S,6,11,70,,,1,2,2,120,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000176,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S1,Loddon River EWMP,Model Node LR_S1,__LRS1,F2_c,6,11,100,,,1,2,2,40,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF1_a,1,5,70,,,1,151,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF1_c,1,5,100,,,1,151,1,5,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF2_a,12,12,70,,,1,31,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF2_c,12,12,100,,,1,31,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF3_a_P,6,11,70,,,1,183,1,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,BF3_a_S,6,11,70,,,1,183,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_a_P,1,5,70,,,4,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_a_S,1,5,70,,,4,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_c_P,1,5,100,,,2,3,3,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F1_c_S,1,5,100,,,2,3,3,30,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F2_a_P,6,11,30,,,1,2,2,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,F2_a_S,6,11,30,,,1,2,2,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,LF1_a,6,11,20,,,2,2,2,500,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000178,Serpentine Creek [Mid Loddon River System] ï¿½ Reach S3,Loddon River EWMP,Model Node LR_S3,__LRS3,OB1_a,7,6,20,,,2,2,2,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF1_P,12,5,100,,,1,182,1,100,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF1_S,12,5,100,,,1,182,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF2_P,6,11,100,,,1,183,1,220,,,31,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BF2_S,6,11,100,,,1,183,1,200,,,31,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BK1_pd,7,6,,30,40,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BK1_sd,7,6,,30,40,1,4,4,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BKPP_pd,8,3,,10,20,1,3,3,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,BKPP_sd,8,3,,10,20,1,4,4,2000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F1_a,9,10,70,,,1,10,10,900,,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F1_pd,12,2,100,,,1,3,3,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F1_sd,12,2,100,,,1,2,2,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F2_pd,3,5,100,,,2,3,3,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,F2_sd,3,5,100,,,2,2,2,220,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000180,Loddon River: Lower Loddon River ï¿½ Reach 5,Loddon River EWMP,Loddon River at Kerang,407202,LF1,3,4,,,,1,10,10,900,,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000181,Pyramid Creek ï¿½ Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,BF1_a,12,5,70,,,1,182,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000181,Pyramid Creek ï¿½ Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,BF2,6,11,100,,,1,183,1,220,,,31,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000181,Pyramid Creek ï¿½ Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,F1_a,9,10,70,,,1,10,10,900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000181,Pyramid Creek ï¿½ Whole Creek,Loddon River EWMP,Box Creek at Mansfield Bridge,407295,LF1,3,4,,,,1,10,10,900,,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000155,Broken Creek - Reach 1,Lower Broken & Nine Mile Creek EWMP 2010,Broken Creek at Katamatite,404214,BF1,9,12,100,,,1,122,1,50,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000155,Broken Creek - Reach 1,Lower Broken & Nine Mile Creek EWMP 2010,Broken Creek at Katamatite,404214,BF2,7,6,100,,,1,365,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000156,Broken Creek - Reach 2,Lower Broken & Nine Mile Creek EWMP 2010,Broken Creek Model Node Reach 2,__BCR2,BF1,9,12,100,,,1,122,1,250,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
@@ -3268,33 +3268,33 @@ PU_0000157,Broken Creek - Reach 3,Lower Broken & Nine Mile Creek EWMP 2010,Broke
 PU_0000157,Broken Creek - Reach 3,Lower Broken & Nine Mile Creek EWMP 2010,Broken Creek Model Node Reach 3,__BCR3,BF3,6,3,100,,,1,304,1,200,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000157,Broken Creek - Reach 3,Lower Broken & Nine Mile Creek EWMP 2010,Broken Creek Model Node Reach 3,__BCR3,BF4,9,12,100,,,1,122,1,250,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000157,Broken Creek - Reach 3,Lower Broken & Nine Mile Creek EWMP 2010,Broken Creek Model Node Reach 3,__BCR3,BF5,7,6,100,,,1,365,1,40,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000184,Buffalo River – Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,BF1_P,12,5,100,,,1,182,1,680,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000184,Buffalo River – Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,BF1_PS,12,5,100,,,1,182,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000184,Buffalo River – Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000184,Buffalo River – Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,SF1_S,12,5,100,,,2,3,3,170,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000184,Buffalo River – Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,SF1_P,12,5,100,,,2,3,3,430,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000184,Buffalo River – Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,F1,7,6,,,,1,1,1,5000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000185,King River – Reach 2,Ovens River EWMP,King River at Cheshunt,403227,BF1_P,12,5,100,,,1,182,1,415,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000185,King River – Reach 2,Ovens River EWMP,King River at Cheshunt,403227,BF1_PS,12,5,100,,,1,182,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000185,King River – Reach 2,Ovens River EWMP,King River at Cheshunt,403227,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000185,King River – Reach 2,Ovens River EWMP,King River at Cheshunt,403227,SF1_S,12,5,100,,,2,3,3,150,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000185,King River – Reach 2,Ovens River EWMP,King River at Cheshunt,403227,SF1_P,12,5,100,,,2,3,3,430,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000185,King River – Reach 2,Ovens River EWMP,King River at Cheshunt,403227,F1,7,6,100,,,4,1,1,260,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000186,King River – Reach 3,Ovens River EWMP,King River at Docker Road,403223,BF1_P,12,5,100,,,1,182,1,985,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000186,King River – Reach 3,Ovens River EWMP,King River at Docker Road,403223,BF1_PS,12,5,100,,,1,182,1,26,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000186,King River – Reach 3,Ovens River EWMP,King River at Docker Road,403223,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000186,King River – Reach 3,Ovens River EWMP,King River at Docker Road,403223,SF1,12,5,100,,,3,4,4,120,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000186,King River – Reach 3,Ovens River EWMP,King River at Docker Road,403223,F1,7,6,100,,,4,7,7,105,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000187,Ovens River – Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,BF1_P,12,5,100,,,1,182,1,170,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000187,Ovens River – Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000187,Ovens River – Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,SF1,12,5,100,,,4,3,3,430,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000187,Ovens River – Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,F1,7,6,66,,,1,1,1,18500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000188,Ovens River – Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,BF1_P,12,5,100,,,1,182,1,130,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000188,Ovens River – Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,BF1_S,12,5,100,,,1,182,1,85,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000188,Ovens River – Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,SF1_P,12,5,100,,,4,3,3,260,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000188,Ovens River – Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,SF1_S,12,5,100,,,4,3,3,130,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000188,Ovens River – Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,F1_S,7,6,100,,,4,7,7,540,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
-PU_0000188,Ovens River – Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,F1_P,7,6,100,,,2,7,7,3900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000184,Buffalo River ï¿½ Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,BF1_P,12,5,100,,,1,182,1,680,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000184,Buffalo River ï¿½ Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,BF1_PS,12,5,100,,,1,182,1,70,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000184,Buffalo River ï¿½ Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000184,Buffalo River ï¿½ Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,SF1_S,12,5,100,,,2,3,3,170,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000184,Buffalo River ï¿½ Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,SF1_P,12,5,100,,,2,3,3,430,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000184,Buffalo River ï¿½ Reach 1,Ovens River EWMP,Buffalo River downstream of Lake Buffalo,403220,F1,7,6,,,,1,1,1,5000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000185,King River ï¿½ Reach 2,Ovens River EWMP,King River at Cheshunt,403227,BF1_P,12,5,100,,,1,182,1,415,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000185,King River ï¿½ Reach 2,Ovens River EWMP,King River at Cheshunt,403227,BF1_PS,12,5,100,,,1,182,1,60,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000185,King River ï¿½ Reach 2,Ovens River EWMP,King River at Cheshunt,403227,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000185,King River ï¿½ Reach 2,Ovens River EWMP,King River at Cheshunt,403227,SF1_S,12,5,100,,,2,3,3,150,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000185,King River ï¿½ Reach 2,Ovens River EWMP,King River at Cheshunt,403227,SF1_P,12,5,100,,,2,3,3,430,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000185,King River ï¿½ Reach 2,Ovens River EWMP,King River at Cheshunt,403227,F1,7,6,100,,,4,1,1,260,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000186,King River ï¿½ Reach 3,Ovens River EWMP,King River at Docker Road,403223,BF1_P,12,5,100,,,1,182,1,985,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000186,King River ï¿½ Reach 3,Ovens River EWMP,King River at Docker Road,403223,BF1_PS,12,5,100,,,1,182,1,26,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000186,King River ï¿½ Reach 3,Ovens River EWMP,King River at Docker Road,403223,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000186,King River ï¿½ Reach 3,Ovens River EWMP,King River at Docker Road,403223,SF1,12,5,100,,,3,4,4,120,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000186,King River ï¿½ Reach 3,Ovens River EWMP,King River at Docker Road,403223,F1,7,6,100,,,4,7,7,105,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000187,Ovens River ï¿½ Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,BF1_P,12,5,100,,,1,182,1,170,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000187,Ovens River ï¿½ Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,BF1_S,12,5,100,,,1,182,1,10,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000187,Ovens River ï¿½ Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,SF1,12,5,100,,,4,3,3,430,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000187,Ovens River ï¿½ Reach 4,Ovens River EWMP,Ovens River at Rocky Point,403230,F1,7,6,66,,,1,1,1,18500,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000188,Ovens River ï¿½ Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,BF1_P,12,5,100,,,1,182,1,130,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000188,Ovens River ï¿½ Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,BF1_S,12,5,100,,,1,182,1,85,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000188,Ovens River ï¿½ Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,SF1_P,12,5,100,,,4,3,3,260,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000188,Ovens River ï¿½ Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,SF1_S,12,5,100,,,4,3,3,130,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000188,Ovens River ï¿½ Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,F1_S,7,6,100,,,4,7,7,540,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
+PU_0000188,Ovens River ï¿½ Reach 5,Ovens River EWMP,Ovens River at Peechelba,403241,F1_P,7,6,100,,,2,7,7,3900,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Goondiwindi,416201A,dANA,7,6,,,,1,1,1,5000,10000,2,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Kanowna,416048,DR_S,7,6,,,,1,1,1,4400,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F
 PU_0000999,Border Rivers and Moonie Long-term watering plan,Border Rivers,Roseneath ,416011,DR_VLF,7,6,,,,1,1,1,1,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F

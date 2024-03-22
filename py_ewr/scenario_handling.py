@@ -285,27 +285,21 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
         if 'level' in gauge:
             df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
-    
+        if not gauge_only:
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
 def extract_gauge_from_string(input_string: str) -> str:
-    '''Takes in a string, pulls out the gauge number from this string
+    '''Takes in a strings, pulls out the gauge number from this string
     
     Args:
         input_string (str): string which may contain a gauge number
 
     Returns:
         str: Gauge number as a string if found, None if not found
-    
     '''
-    found = re.findall(r'\w+\d+\w', input_string)
-    if found:
-        for i in found:
-            if len(i) >= 6:
-                gauge = i
-                return gauge
-    else:
-        return None
+    gauge = input_string.split('_')[0]
+    return gauge
 
 def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
@@ -434,17 +428,15 @@ class ScenarioHandler:
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
                                                                                         EWR_table, calc_config) 
-        
             detailed_results[scenario] = gauge_results
-            
+            #print(detailed_results)
             detailed_events[scenario] = gauge_events
-
+            #print(detailed_events)
             self.pu_ewr_statistics = detailed_results
             self.yearly_events = detailed_events
             
             self.flow_data = df_F
             self.level_data = df_L
-
 
     def get_all_events(self)-> pd.DataFrame:
 
