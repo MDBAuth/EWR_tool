@@ -286,7 +286,7 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
         if 'level' in gauge:
             df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
         if not gauge_only:
-            print('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
 def extract_gauge_from_string(input_string: str) -> str:
