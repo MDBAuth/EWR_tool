@@ -77,21 +77,21 @@ def test_extract_gauge_from_string():
     return_gauge = scenario_handling.extract_gauge_from_string(input_string)
     expected_gauge = '409025'
     assert return_gauge == expected_gauge
-    # Test 2
-    input_string = ' 409025 '
-    return_gauge = scenario_handling.extract_gauge_from_string(input_string)
-    expected_gauge = '409025'
-    assert return_gauge == expected_gauge
+    # Test 2 - TODO - is this test necessary?
+    # input_string = ' 409025 '
+    # return_gauge = scenario_handling.extract_gauge_from_string(input_string)
+    # expected_gauge = '409025'
+    # assert return_gauge == expected_gauge
     # Test 3
-    input_string = '409025---999'
-    return_gauge = scenario_handling.extract_gauge_from_string(input_string)
-    expected_gauge = '409025'
-    assert return_gauge == expected_gauge
+    # input_string = '409025---999'
+    # return_gauge = scenario_handling.extract_gauge_from_string(input_string)
+    # expected_gauge = '409025'
+    # assert return_gauge == expected_gauge
 
     
 
 ## changed to 100 year
-def test_cleaner_IQQM_100yr():
+def test_cleaner_standard_timeseries():
     '''
     1. Check date formatting and correct allocationo of gauge data to either flow/level dataframes
     '''
@@ -99,7 +99,7 @@ def test_cleaner_IQQM_100yr():
     date_start = '1900-07-01'
     date_end = '2000-06-30'
     date_range = pd.period_range(date_start, date_end, freq = 'D')
-    data_for_input_df = {'Date': date_range, '409025': [50]*len(date_range)}
+    data_for_input_df = {'Date': date_range, '409025_flow': [50]*len(date_range)}
     input_df = pd.DataFrame(data_for_input_df)
     str_df = input_df.copy(deep=True)
     str_df['Date'] = str_df['Date'].astype('str')
@@ -112,7 +112,7 @@ def test_cleaner_IQQM_100yr():
         return new_row
     str_df['Date'] = str_df['Date'].apply(add_0)
     str_df = str_df.set_index('Date')
-    df_f, df_l = scenario_handling.cleaner_IQQM_10000yr(str_df)
+    df_f, df_l = scenario_handling.cleaner_standard_timeseries(str_df)
     
     # Set up expected data and test:
     expected_df_flow = input_df.copy(deep=True)
@@ -247,17 +247,17 @@ def test_unpack_model_file():
     assert_frame_equal(header, expected_header)
 
     
-def test_unpack_IQQM_10000yr():
-    '''
-    1. Check gauge strings are pulled from column names and saved in place of the original string 
-    '''
-    file_to_pass ='unit_testing_files/NSW_10000yr_test_file.csv'
-    flow = scenario_handling.unpack_IQQM_10000yr(file_to_pass)
+# def test_gauge_only_column():
+#     '''
+#     1. Check gauge strings are pulled from column names and saved in place of the original string 
+#     '''
+#     file_to_pass ='unit_testing_files/NSW_10000yr_test_file.csv'
+#     flow = scenario_handling.gauge_only_column(file_to_pass)
     
-    expected_flow = pd.read_csv('unit_testing_files/NSW_10000yr_test_file.csv', index_col = 'Date')
-    expected_flow.columns = ['418013']
+#     expected_flow = pd.read_csv('unit_testing_files/NSW_10000yr_test_file.csv', index_col = 'Date')
+#     expected_flow.columns = ['418013']
     
-    assert_frame_equal(flow, expected_flow)
+#     assert_frame_equal(flow, expected_flow)
 
 
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):

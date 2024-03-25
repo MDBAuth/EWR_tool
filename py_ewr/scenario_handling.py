@@ -74,31 +74,29 @@ def unpack_netcdf_as_dataframe(netcdf_file: str) -> pd.DataFrame:
         return None
 
 
-def unpack_IQQM_10000yr(csv_file: str) -> pd.DataFrame:
-    '''Ingesting scenario file locations with the NSW specific format for 10,000 year flow timeseries
-    returns a dictionary of flow dataframes with their associated header data
+# def gauge_only_column(df: pd.DataFrame) -> pd.DataFrame:
+#     '''Ingesting scenario file locations with a standard timeseries format,
+#     returns a dictionary of flow dataframes with their associated header data
     
-    Args:
-        csv_file (str): location of model file
+#     Args:
+#         csv_file (str): location of model file
 
-    Results:
-        pd.DataFrame: model file converted to dataframe 
-
-    '''
+#     Results:
+#         pd.DataFrame: model file converted to dataframe
+#     '''
     
-    df = pd.read_csv(csv_file, index_col = 'Date')
-    siteList = []
-    for location in df.columns:
-        gauge = extract_gauge_from_string(location)
-        siteList.append(gauge)
-    # Save over the top of the column headings with the new list containing only the gauges
-    df.columns = siteList
+#     siteList = []
+#     for location in df.columns:
+#         gauge = extract_gauge_from_string(location)
+#         siteList.append(gauge)
+#     # Save over the top of the column headings with the new list containing only the gauges
+#     df.columns = siteList
     
-    return df
+#     return df
     
 
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
-    '''Ingesting scenario file locations of model files with all formats (excluding NSW 10,000 year), seperates the flow data and header data
+    '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
     returns a dictionary of flow dataframes with their associated header data
     
     Args:
@@ -307,7 +305,7 @@ def cleaner_NSW(input_df: pd.DataFrame) -> pd.DataFrame:
     
     return cleaned_df
 
-def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
+def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
     
     Args:
@@ -335,17 +333,18 @@ def cleaner_IQQM_10000yr(input_df: pd.DataFrame, ewr_table_path: str = None) -> 
     date_range = pd.period_range(date_start, date_end, freq = 'D')
     cleaned_df['Date'] = date_range
     cleaned_df = cleaned_df.set_index('Date')
-    
-    # Split gauges into flow and level, allocate to respective dataframe
-    flow_gauges = data_inputs.get_gauges('flow gauges',ewr_table_path)
-    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path)
+
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)
+
     for gauge in cleaned_df.columns:
-        if gauge in flow_gauges:
-            df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
-        if gauge in level_gauges:
-            df_level[gauge] = cleaned_df[gauge].copy(deep=True)
+        gauge_only = extract_gauge_from_string(gauge)
+        if 'flow' in gauge:
+            df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if 'level' in gauge:
+            df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if not gauge_only:
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
 def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
@@ -384,23 +383,16 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
     return(cleaned_df)
 
 def extract_gauge_from_string(input_string: str) -> str:
-    '''Takes in a string, pulls out the gauge number from this string
+    '''Takes in a strings, pulls out the gauge number from this string
     
     Args:
         input_string (str): string which may contain a gauge number
 
     Returns:
         str: Gauge number as a string if found, None if not found
-    
     '''
-    found = re.findall(r'\w+\d+\w', input_string)
-    if found:
-        for i in found:
-            if len(i) >= 6:
-                gauge = i
-                return gauge
-    else:
-        return None
+    gauge = input_string.split('_')[0]
+    return gauge
 
 def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
@@ -511,9 +503,9 @@ class ScenarioHandler:
                 df_clean = cleaner_MDBA(data)
                 df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
 
-            elif self.model_format == 'IQQM - NSW 10,000 years':
-                df_unpacked = unpack_IQQM_10000yr(scenarios[scenario])
-                df_F, df_L = cleaner_IQQM_10000yr(df_unpacked, self.parameter_sheet)
+            elif self.model_format == 'Standard time-series':
+                df = pd.read_csv(scenarios[scenario], index_col = 'Date')
+                df_F, df_L = cleaner_standard_timeseries(df, self.parameter_sheet)
 
             elif self.model_format == 'Source - NSW (res.csv)':
                 data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')
@@ -534,17 +526,15 @@ class ScenarioHandler:
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
                                                                                         EWR_table, calc_config) 
-        
             detailed_results[scenario] = gauge_results
-            
+            #print(detailed_results)
             detailed_events[scenario] = gauge_events
-
+            #print(detailed_events)
             self.pu_ewr_statistics = detailed_results
             self.yearly_events = detailed_events
             
             self.flow_data = df_F
             self.level_data = df_L
-
 
     def get_all_events(self)-> pd.DataFrame:
 

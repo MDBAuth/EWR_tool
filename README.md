@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.1.0 README**
+### **EWR tool version 2.1.2 README**
 
 ### **Notes on recent updates**
 - Ability to pass a climte categorisation file has been removed. No EWRs require climate categorisation anymore so this feature was redundant.
@@ -33,6 +33,7 @@ The EWR tool will use a second program called gauge getter to first download the
 from datetime import datetime
 
 #USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 dates = {'start_date': datetime(YYYY, 7, 1), 
         'end_date': datetime(YYYY, 6, 30)}
 

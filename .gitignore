@@ -158,3 +158,9 @@ sandbox.py
 test.py
 Source/
 Example_EWR_tool_run.ipynb
+Scenario1all_events.csv
+Scenario1all_interevents.csv
+Scenario1all_results.csv
+Scenario1all_successful_Events.csv
+Scenario1all_successful_interEvents.csv
+Scenario1yearly_ewr_results.csv
