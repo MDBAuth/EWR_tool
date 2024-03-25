@@ -179,12 +179,13 @@ def test_cleaner_netcdf_werp():
     1. check ncdf is unpacked correctly
     '''
     df = scenario_handling.unpack_netcdf_as_dataframe('unit_testing_files/werp_ncdf.nc')
-    df_clean = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes())
+    df_F, df_L = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes())
 
     # the test ncdf is too big to mock, so check properties
-    assert df_clean.dtypes.iloc[0] == 'float32'
-    assert df_clean.index.dtype == 'O'
-    assert df_clean.columns[0] == '421001'
+    assert df_F.dtypes.iloc[0] == 'float32'
+    assert isinstance(df_F.index, pd.DatetimeIndex)
+    assert all(df_F.columns == ['421001', '421004', '421012', '421019', '421022', '421023', '421090', '421146'])
+
 
 
 

@@ -52,7 +52,6 @@ def unpack_netcdf_as_dataframe(netcdf_file: str) -> pd.DataFrame:
         
         # extract the bits we actually can use
             # Some of this needs to move/get cleaned up
-            # I think I can throw a couple conditionals in here to make it work with other formats. it should be fairly general, except the old version had the data in a dimension
         iqqm_dict = data_inputs.get_iqqm_codes()
         # the nodes are ints, but the above is str
         ints_list = list(map(int, list(iqqm_dict)))
@@ -377,10 +376,21 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
     cleaned_df.columns.name = None
 
     # the csvs return an 'object' type, not a datetime in the index
-    cleaned_df.index = cleaned_df.index.date.astype('str')
+    # but it gets converted to datetime in cleaner_***, so leave it.
     cleaned_df.index.names = ['Date']
 
-    return(cleaned_df)
+    # Split gauges into flow and level, allocate to respective dataframe
+    flow_gauges = data_inputs.get_gauges('flow gauges')
+    level_gauges = data_inputs.get_gauges('level gauges')
+    df_flow = pd.DataFrame(index = cleaned_df.index)
+    df_level = pd.DataFrame(index = cleaned_df.index)
+    for gauge in cleaned_df.columns:
+        if gauge in flow_gauges:
+            df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
+        if gauge in level_gauges:
+            df_level[gauge] = cleaned_df[gauge].copy(deep=True)
+
+    return df_flow, df_level
 
 def extract_gauge_from_string(input_string: str) -> str:
     '''Takes in a strings, pulls out the gauge number from this string
@@ -515,8 +525,8 @@ class ScenarioHandler:
 
             elif self.model_format == 'IQQM - netcdf':
                 df_unpacked = unpack_netcdf_as_dataframe(scenarios[scenario])
-                df_matched_iqqm = cleaner_netcdf_werp(df_unpacked, data_inputs.get_iqqm_codes())
-                df_F, df_L = cleaner_IQQM_10000yr(df_matched_iqqm, self.parameter_sheet)
+                df_F, df_L = cleaner_netcdf_werp(df_unpacked, data_inputs.get_iqqm_codes())
+                # df_F, df_L = cleaner_standard_timeseries(df_matched_iqqm, self.parameter_sheet)
             
             gauge_results = {}
             gauge_events = {}
