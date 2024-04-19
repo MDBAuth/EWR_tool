@@ -237,7 +237,7 @@ BARNXNY,Vic Barmah to Nyah �exc. Nyah Pumps,Victorian Barmah to Nyah diversion
 BARNYAH,Barmah to Nyah - Murray River,Barmah to Nyah - Murray River,,4
 BAROONA,Macquarie River @ Baroona,,421127,2
 BARPRES,Barwon River u/s Presbury Weir,Barwon River u/s Presbury Weir,416050,2
-BARRAGE,Barrages near the Murray Mouth,,,5
+BARRAGE,Barrages near the Murray Mouth,,A4261002,5
 BARRASP,Airspace in Barr Creek Disposal Basins,,,4
 BARRATT,Edward River D/S of Barratta.,Edward River Downstream of Barratta.,,2
 BARRCK,Barr Creek D/S of Pumps,,,4
@@ -1306,10 +1306,10 @@ LOCK5DS,River Murray D/S Lock 5,,426513,5
 LOCK5US,River Murray U/S Lock 5,SAMPLE AT GAUGING STATION,426512,5
 LOCK6DS,River Murray D/S Lock 6,,426511,5
 LOCK6US,River Murray U/S Lock 6,,426510,5
-LOCK7DS,River Murray D/S Lock 7,,4260509,5
-LOCK7US,River Murray U/S Lock 7,,426508,5
+LOCK7DS,River Murray D/S Lock 7,,A4260509,5
+LOCK7US,River Murray U/S Lock 7,,A426508,5
 LOCK8DS,River Murray D/S Lock 8,,4260507,5
-LOCK8US,River Murray U/S Lock 8,,426506,5
+LOCK8US,River Murray U/S Lock 8,,A426506,5
 LOCK9DS,River Murray D/S Lock 9,,4260505,5
 LOCK9US,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
 LOCKING,Lockington Main Drain,Lockington Main Drain Shepparton,407712,4
@@ -1576,7 +1576,7 @@ MORTBLK,Morton Boulka Lake,,,2
 MORTOMB,Morgan to Murray Bridge Reach,,,
 MOULAME,Edward River at Moulamein,,409014,4
 MOULMET,Moulamein Post Office Met Station,,75046,4
-MOUTH,Murray Mouth,,,5
+MOUTH,Murray Mouth,,A4260527,5
 MPNSTP,Mooroopna STP,,,4
 MRLPUMP,Murray River Level @ Main Hattah Pump Station,,MRLPUMP,
 MRUFUSR,River Murray D/S Rufus River,,426200A,5
@@ -2598,12 +2598,7 @@ __WRYC1,__WRYC1,Wimmera River System Model Node WR_YC1,__WRYC1,4
 1AS,1AS,"Yanga (South  Redbank), combined 1AS and 1ES regulators",1AS,2
 422207A,422207A,Hebel-Bollon Road GS (Node C),422207A,1
 422209A,422209A,Hebel GS (Node D),422209A,1
-LOCK8US,A4260505,Murray downstream Lock 9  ,A4260505,5
-LOCK8DS,A4260507,Murray downstream Lock 8 ,A4260507,5
-LOCK6US - Natural,A4260509,Murray downstream Lock 7 ,A4260509,5
-MOUTH,A4260527,Barrages near the Murray Mouth,A4260527,5
-FLOWSA ,A4261001,Flow at South Australia border,A4261001,5
-BARRAGE,A4261002,Barrages near the Murray Mouth,A4261002,5
+FLOWSA,A4261001,Flow at South Australia border,A4261001,5
 Bills Pipe,Bills Pipe,North Redbank,Bills Pipe,2
 "Eulimbah, Nimmie Creek","Eulimbah, Nimmie Creek","Gayini/ Nimmie-Caira, combined Eulimbah and Nimmie Creek regulators","Eulimbah, Nimmie Creek",2
 Glen Dee,Glen Dee,"Western Lakes, Glenn Dee",Glen Dee,2
