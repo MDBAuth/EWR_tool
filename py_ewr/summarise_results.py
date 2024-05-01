@@ -117,6 +117,7 @@ def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
     """
     ewrs = get_ewrs(pu_df)
     returned_dfs = []
+    log.error(ewrs)
     for ewr in ewrs:
         columns_ewr = get_ewr_columns(ewr, pu_df.columns.to_list())
         ewr_df = pu_df[columns_ewr]
