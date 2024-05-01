@@ -144,7 +144,9 @@ def process_df_results(results_to_process: List[Dict])-> pd.DataFrame:
         pd.DataFrame: Single DataFrame with all the ewr results
     """
     returned_dfs = []
+    log.error("I have the following results")
     log.error(results_to_process)
+    log.error("see above")
     for item in results_to_process:
         try:
             transformed_df = process_df(**item)
