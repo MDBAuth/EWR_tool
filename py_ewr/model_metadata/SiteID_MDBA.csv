@@ -237,6 +237,7 @@ BARNXNY,Vic Barmah to Nyah �exc. Nyah Pumps,Victorian Barmah to Nyah diversion
 BARNYAH,Barmah to Nyah - Murray River,Barmah to Nyah - Murray River,,4
 BAROONA,Macquarie River @ Baroona,,421127,2
 BARPRES,Barwon River u/s Presbury Weir,Barwon River u/s Presbury Weir,416050,2
+9GSPRES,Barwon River u/s Presbury Weir,Barwon River u/s Presbury Weir,416050,2
 BARRAGE,Barrages near the Murray Mouth,,A4261002,5
 BARRASP,Airspace in Barr Creek Disposal Basins,,,4
 BARRATT,Edward River D/S of Barratta.,Edward River Downstream of Barratta.,,2
@@ -259,6 +260,7 @@ BCKRWDO,Broken Creek at Rice's Weir deemed irrigation retu,,,4
 BDGRWP,Bendigo RWP,,,4
 BECTIVE,Peel River @ Bective,Peel River @ Bective,419074,1
 BEEMERY,Barwon River @ Beemery (u/s Culgoa Junction),,422028,2
+9GSBEEM,Barwon River @ Beemery (u/s Culgoa Junction),,422028,2
 BELLFIE,Lake Bellfields - Wimmera Mallee,,,4
 BELNEW,Bell River @ Newrea,Bell River @ Newrea,421018,2
 BELTONS,Beltons,Hattah Lakes System - manual data collection in the lakes,,
@@ -335,11 +337,13 @@ BORDRRN,Border Rivers System - New South Wales,,,2
 BORDRRQ,Border Rivers Cap Valley - Queensland,"Border Rivers Cap Valley - Queensland - includes Border River, Weir River and Macintyre Brook",,1
 BORDRV,Border Rivers in Queensland,Border Rivers excluding Weir river in Queensland in Border River System,,1
 BOROMA,Barwon River @ Boorooma (u/s Macquarie Junction),,422026,2
+9GSBOOR,Barwon River @ Boorooma (u/s Macquarie Junction),,422026,2
 BORWEIR,Border Rivers including Weir River in QLD,Border Rivers including Weir River in Border River System Queensland,,1
 BOUBEND,River Murray at Boundary Bend,,414201B,2
 BOUNDCK,Lake Alexandrina U/S Boundary Ck Barrage,,,5
 BOUNDDS,Boundary Creek D/S Boundary Creek Barrage,Boundary Creek downstream Boundary Creek Barrage,A4261044,5
 BOURKE,Darling River at Bourke,,425003,2
+9GSBOUR,Darling River at Bourke,,425003,2
 BOWKILN,Bowls Kiln,Millewa monitoring site,,
 BOWLERS,Mitta Mitta River at Bowlers Lane,,401222,
 BOXBARR,Box Creek at Barratta Dam,,409059,2
@@ -385,6 +389,7 @@ BRENDA,Culgoa River at Brenda,BSMS EOV target site,422015,2
 BRESDRN,BERRI EAST DRAINAGE OUTFALL,BERRI EAST DRAINAGE OUTFALL DIRECTLY TO R.MURRAY,,5
 BRESTP,Brewarrina STP,,,2
 BREWARR,Barwon River at Brewarrina,,422002,2
+9GSBREW,Barwon River at Brewarrina,,422002,2
 BREWTOT,Barwon R Brewarrina ( total flow ),,422023,2
 BRGSTP,Bellbridge STP,,,4
 BRHAMET,Broken Hill Airport MET,Broken Hill Airport AWS. 2.8 Km from closed Site BROKMET,47048,2
@@ -454,6 +459,7 @@ CADESC3,Cadow No. 3 Escape,,,2
 CADLDRN,Cadell LWMP Drains,Cadell Land and Water Management Plan Drains,,
 CADPUM,Cadell - Blanchetown Pipeline,,,
 CAIRNCU,Loddon River at Cairn Curran Reservoir,Cairn Curran Reservoir - Loddon River,407210,4
+424201A,Paroo R at Caiwarro,Paroo R at Caiwarro - Queensland,424201A,1
 CAIWARR,Paroo R at Caiwarro,Paroo R at Caiwarro - Queensland,424201A,1
 CALFCK,Calf Creek River Regulator U/S Forest Side,New South Wales Regulators - Koondrook-Perricoota Forest,,2
 CALIVIL,Calivil Creek at Wisharts Road,Calivil Creek at Wisharts Road,407284,4
@@ -591,6 +597,7 @@ COLIBAS,Campaspe River - Coliban System,,,4
 COLIGNA,River Murray at Colignans,,414207A,4
 COLIPON,Murray River at Colignan - pontoon,Murray River at Colignan - pontoon,41310022,4
 COLLARE,Barwon River at Collarenebri Main Channel,Barwon River @ Collarenebri Main Channel,422003,2
+9GSCOLL,Barwon River at Collarenebri Main Channel,Barwon River @ Collarenebri Main Channel,422003,2
 COLLBRI,Mehi River Near Collarenebri,,418055,2
 COLLEAM,Colleambally,Colleambally - Murrumbidgee River System,,2
 COLLELD,CIA Diversion,,,2
@@ -1330,6 +1337,7 @@ LODWWMC,Loddon River - WWMC,,,4
 LONSDAL,Lake Lonsdale - Wimmera Mallee,,,4
 LOUSYCR,Lousy Crossing,Millewa monitoring site,,
 LOUTH,Darling River at Louth,,425004,2
+9GSLOUT,Darling River at Louth,,425004,2
 LOVEBAS,Loveday Outfall at Loveday Evaporation Basin,Loveday Outfall at Loveday Evaporation Basin,A4260698,5
 LOVECAU,Loveday Swamp at Cit Causeway Southern Basin,Loveday Swamp at Cit Causeway Southern Basin,A4261088,5
 LOVECOB,Loveday Disposal Basin at Cobdogla Swamp,Loveday Disposal Basin at Cobdogla Swamp,A4261081,5
@@ -1534,6 +1542,7 @@ MNCKUMB,"Manna Creek, upstream Manna bridge",,,2
 MNTESC,1 McNight,,,4
 MNWDRM,Merbein North-West Drain,Merbein North-West Drain @ U/S of Outfall to Murray River,414706,4
 MOGIL,Barwon River at Mogil Mogil,,422004,2
+9GSMOGI,Barwon River at Mogil Mogil,,422004,2
 MOIRACK,Moira Creek River Regulator,River Regulator settings - Murray River - Barmah forest - NSW National Parks,,2
 MOIRADS,Moira Creek D/S,Millewa monitoring site,,
 MOIRALW,Moira Lake West,Millewa monitoring site,,
@@ -2125,6 +2134,7 @@ TALMALM,Murray R @ Talmalmo,Thermal Analysis Site,,2
 TALPILE,TALPILE,Lake Talpile in the Poon Boon system,,2
 TALSTP,Tallangatta STP,,,4
 TALYBH,TALYAWALKA CREEK AT BARRIER HIGHWAY,TALYAWALKA CREEK AT BARRIER HIGHWAY,425018,4
+9GSBARR,TALYAWALKA CREEK AT BARRIER HIGHWAY,TALYAWALKA CREEK AT BARRIER HIGHWAY,425018,4
 TALYRLB,Talyawalka Creek at Rail Bridge,Bypass Flow around Menindee Lakes,,
 TAMFIE,Thales Australia Munitions Factory,,,2
 TAMSTP,Tamworth STP - Westdale & Swan St Plants,,,2
@@ -2144,6 +2154,7 @@ TANREDB,Tandou Diversions from Redbank Creek,Tancaw + Tanover,,2
 TANTANG,Tantangara Reservoir on Murrumbidgee,Snowy Hydro Limited,,2
 TAPIO,DARLING River AT TAPIO,,42510050,
 TARA,Barwon River @ Tara (u/s Namoi Junction),Barwon River @ Tara (u/s Namoi Junction),422025,2
+9GSTARA,Barwon River @ Tara (u/s Namoi Junction),Barwon River @ Tara (u/s Namoi Junction),422025,2
 TARADWN,Great Darling River at Tara Downs,,425054,2
 TARASTP,Tara STP,,,1
 TARCOOL,RIVER MURRAY - TARCOOLA,,,
@@ -2181,6 +2192,7 @@ THURK,Thurk island (SA),Thurk island (SA),,5
 TIDBMET,Tidbinbilla Meteo Station,,70310,3
 TILLMET,Balranald (Tillara),,49048,2
 TILPA,Darling River @ Tilpa,Sample @ Gauging Station,425900,2
+9GSTILP,Darling River @ Tilpa,Sample @ Gauging Station,425900,2
 TINHUT,Tin Hut,Millewa monitoring site,,
 TMPLTON,RIVER MURRAY - TEMPLETON,,4260632,5
 TOCDOF,Toolamba Community Drain,,,4
@@ -2369,6 +2381,7 @@ WALBUND,Billabong Creek at Walbundrie Station,,410091,2
 WALEAST,Wallawalla east regulator,,,
 WALGET2,Barwon River at Walgett (Hannafords),,422009,2
 WALGETT,Barwon River at Walgett (Dangar Bridge),,422001,2
+9GSWALG,Barwon River at Walgett (Dangar Bridge),,422001,2
 WALGSTP,Walgett STP,,,2
 WALHLDS,Wallpolla Horseshoe Lagoon regulator D/S,,,
 WALKERF,River Murray at Walker Flat,,426548,5
@@ -2387,6 +2400,7 @@ WANDELF,Wandell Creek at Fairly,WANDELL CREEK AT FAIRLY,407286,4
 WANGARA,Ovens River (ONLY) - Wangaratta,,403200,4
 WANGSTP,Wangaratta STP,,,4
 WANWIM,Wannon River Catchment to Wimmera-Mallee,,,4
+9GSWARR,Darling River @ Warraweena (d/s Culgoa Junction),,425039,2
 WARAWEN,Darling River @ Warraweena (d/s Culgoa Junction),,425039,2
 WARESC9,Warroo No.9 Escape,,,2
 WARGNSW,Warrego River in NSW,,,1
@@ -2454,12 +2468,14 @@ WIDGEON,River Murray @ Widgeon,,409039,4
 WILCAN,Darling River at Wilcannia (Total Flow),,425002,2
 WILCMET,Wilcannia Met Station,From 10/1/2015 we are using above site as - 46012 Wilcannia Aerodrome Automatic water station (AWS),46043,2
 WILCMNC,Main Darling Channel at Wilcannia,,425008,2
+9GSWILC,Main Darling Channel at Wilcannia,,425008,2
 WILDDOG,Wild Dog Creek,Millewa monitoring site,,
 WILKDLW,Wilkinsons Dr @ Lake Wandella,Kerang Lakes - Wilkinsons Dr at Lake Wandella,407758,4
 WILLHOV,Lake William Hovell - Ovens River,,403234A,4
 WILLIAM,Lake William,,,
 WILMSTO,Williamstown Met Stn,Williamstown Meteorological Stn,23572,4
 WIMHOR,Wimmera River @ Horsham Weir (Victoria),Wimmera River at Horsham (Victoria),415200,4
+415200,Wimmera River @ Horsham Weir (Victoria),Wimmera River at Horsham (Victoria),415200,4
 WIMMALL,Wimmera Mallee - Diversions,,,4
 WIMMDIM,Wimmera River U/S of Dimboola,Wimmera River U/S of Dimboola,415256A,4
 WINDAME,Windamere Reservoir - Cudgegong River,,,2
