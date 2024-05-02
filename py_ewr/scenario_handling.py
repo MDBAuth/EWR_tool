@@ -259,7 +259,7 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
     '''
     
     cleaned_df = input_df.copy(deep=True)
-    
+
     try:
         date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
         date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
@@ -272,6 +272,50 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             raise ValueError('New date format detected. Cannot read in data')
         log.info('successfully read in data with yyyy-mm-dd formatting')
     
+    date_range = pd.period_range(date_start, date_end, freq = 'D')
+
+    
+    
+    cleaned_df['Date'] = date_range
+    cleaned_df = cleaned_df.set_index('Date')
+
+    df_flow = pd.DataFrame(index = cleaned_df.index)
+    df_level = pd.DataFrame(index = cleaned_df.index)
+
+    for gauge in cleaned_df.columns:
+        gauge_only = extract_gauge_from_string(gauge)
+        if 'flow' in gauge:
+            df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if 'level' in gauge:
+            df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if not gauge_only:
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
+    return df_flow, df_level
+
+def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
+    '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
+    
+    Args:
+        input_df (pd.DataFrame): flow/water level dataframe
+
+    Results:
+        tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
+
+    '''
+    
+    cleaned_df = input_df.copy(deep=True)
+    
+    try:
+        date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
+        date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
+    except ValueError:    
+        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        try:
+            date_start = datetime.strptime(cleaned_df.index[0], '%Y-%m-%d')
+            date_end = datetime.strptime(cleaned_df.index[-1], '%Y-%m-%d')
+        except ValueError:
+            raise ValueError('New date format detected. Cannot read in data')
+        log.info('successfully read in data with yyyy-mm-dd formatting')
     date_range = pd.period_range(date_start, date_end, freq = 'D')
     cleaned_df['Date'] = date_range
     cleaned_df = cleaned_df.set_index('Date')
@@ -330,7 +374,8 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
                 df_flow[gauge] = input_df[col]
             if gauge in level_gauges and measure == '35':
                 df_level[gauge] = input_df[col]
-
+    if df_flow.empty:
+        raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
     return df_flow, df_level
 
 def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tuple:
@@ -405,11 +450,12 @@ class ScenarioHandler:
                             bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
                             desc= 'Evaluating scenarios'):
             if self.model_format == 'Bigmod - MDBA':
+                
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)
                 df_clean = cleaner_MDBA(data)
                 df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
-
+                               
             elif self.model_format == 'Standard time-series':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
                 df_F, df_L = cleaner_standard_timeseries(df, self.parameter_sheet)
@@ -419,9 +465,14 @@ class ScenarioHandler:
                 data = build_NSW_columns(data, header)
                 df_clean = cleaner_NSW(data)
                 df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes())
+
+            elif self.model_format == 'ten thousand year':
+                df = pd.read_csv(scenarios[scenario], index_col = 'Date')
+                df_F, df_L = cleaner_ten_thousand_year(df, self.parameter_sheet)
             
             gauge_results = {}
             gauge_events = {}
+
             all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
             EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
