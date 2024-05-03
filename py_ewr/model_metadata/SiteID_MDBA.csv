@@ -80,10 +80,11 @@ SITEID,Name,Description,AWRC,StateID
 422401,Maranoa River @ Mitchell,,422401,1
 422404A,Maranoa River @ Cashmere,,422404,1
 422407C,Maranoa River @ Forestvale,,422407,1
-423003_,Warrego River @ Barringun,,423003,2
+423003,Warrego River @ Barringun,,423003,2
+423003_,Warrego River @ Barringun,,423004,2
 423201A,Warrego River @ Charleville,,423201A,1
 423202C,Warrego River @ Cunnamulla,,423202C,1
-423203A,Warrego River @ Wyandra,,423203,
+423203A,Warrego River @ Wyandra,,423203     ,
 423204_,Warrego River @ Augathella,,423204,
 424002_,Paroo River @ Willara Crossing,,424002,
 4261125,Wellington @ Top Surface,,,5
@@ -861,6 +862,7 @@ FOAPMET,Forbes Apt,,65103,2
 FORBES,Lachlan River - Forbes (Cottons Weir),,412004,2
 FORBMET,Forbes (Camp Street),,65016,2
 FORDSBR,WARREGO RIVER AT FORDS BRIDGE (MN CHANN),,423001,2
+423001_,WARREGO RIVER AT FORDS BRIDGE (MN CHANN),,423001,2
 FORDSBY,WARREGO RIVER - FORDS BRIDGE (BYWASH),,423002,2
 FOREST,Barmah-Millewa Regulator Openings,PERCENTAGE OF REGULATORS THAT ARE OPEN,,4
 FORHSTP,Forest Hill STP (Wagga Wagga),,,2
@@ -984,6 +986,7 @@ GUMCOW,Gum Cowal @ Bifurcation,Gum Cowal @ Bifurcation,421146,2
 GUNBENV,Gunbower Creek Environmental Releases,Releases for environmental watering of riverine wetlands,,4
 GUNCOXY,Gum Cowal @ Oxley,Gum Cowal @ Oxley,421152,2
 GUNDABA,MOONIE RIVER - GUNDABLOUIE,,417001,
+417001_,MOONIE RIVER - GUNDABLOUIE,,417001,
 GUNDAGI,MURRUMBIDGEE RIVER - GUNDAGAI,,410004,2
 GUNDSTP,Gundagai STP,,,2
 GUNFORE,Gunbower forest system,added to capture environmental water for the Gunbower system,GUNFORE,4
