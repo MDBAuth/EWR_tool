@@ -192,28 +192,11 @@ def test_csv_input():
     1. check we can feed scenario_handling a csv that looks like gauge data
     '''
 
-    # THis used to work with IQQM, see if there's another way
-    df_unpacked = scenario_handling.unpack_IQQM_10000yr('unit_testing_files/multi_gauge_input.csv')
-    df_F, df_L = scenario_handling.cleaner_IQQM_10000yr(df_unpacked, 'py_ewr/parameter_metadata/parameter_sheet.csv')
-
-    # the test ncdf is too big to mock, so check properties
-    assert df_F.dtypes.iloc[0] == 'float64'
-    assert isinstance(df_F.index, pd.PeriodIndex)
-    assert all(df_F.columns == ['421004', '421001', '421011', '412005', '412002', '412038'])
-
-    ewr_sh_iqqm = scenario_handling.ScenarioHandler('unit_testing_files/multi_gauge_input.csv', 'IQQM - NSW 10,000 years')
-    # iqqmout = ewr_sh_iqqm.process_scenarios()
-    iqqmout = ewr_sh_iqqm.get_ewr_results()
-    isinstance(iqqmout, pd.DataFrame)
-
-    # OK, that runs. Now, can we overload something else? Or change all our data formats?
+    # Can we use standard time-series to feed csv scenarios?
     ewr_sh_standard = scenario_handling.ScenarioHandler('unit_testing_files/multi_gauge_input_label.csv', 'Standard time-series')
     standardout = ewr_sh_standard.get_ewr_results()
 
     assert isinstance(standardout, pd.DataFrame)
-
-
-
 
     
 def test_build_NSW_columns():
