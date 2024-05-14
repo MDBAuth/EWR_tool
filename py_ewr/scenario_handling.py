@@ -35,7 +35,31 @@ from . import data_inputs, evaluate_EWRs, summarise_results
 #     df.columns = siteList
     
 #     return df
-    
+
+# def standard_time_series_row_filler(input_df: pd.DataFrame, date_range: pd.PeriodIndex) -> pd.DataFrame:
+#     ''' Inserts blank rows in standard time series formatted data frames 
+#     where data for dates are missing to allow for analysis of input files with gaps in daily data
+
+#     Args:
+#         input_df (pd.DataFrame)
+#     Results:
+#         pd.DataFrame: 
+#     '''
+#     date_range_dt = [d.to_timestamp() for d in date_range]
+#     try:
+#         df_dates = [datetime.strptime(dates, '%d/%m/%Y') for dates in input_df['Date']]
+#     except ValueError:
+#         try:
+#             df_dates = [datetime.strptime(dates, '%y-%m-%d') for dates in input_df['Date']]
+#         except ValueError:
+#             df_add = [date for date in date_range_dt if date not in df_dates]
+#         input_df['Date'] = df_dates
+#         missing_df = pd.DataFrame({'Date': df_add})
+#         append_df = pd.concat([input_df, missing_df], ignore_index=True)
+#         append_df.sort_values(by='Date', inplace=True)
+#         append_df.reset_index(drop=True, inplace=True)
+#     return append_df
+
 
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
     '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
@@ -274,6 +298,8 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
     
     date_range = pd.period_range(date_start, date_end, freq = 'D')
 
+    # if len(date_range) != len(cleaned_df['Date']):
+    #     cleaned_df =  standard_time_series_row_filler(input_df=cleaned_df, date_range = date_range)
     
     
     cleaned_df['Date'] = date_range
