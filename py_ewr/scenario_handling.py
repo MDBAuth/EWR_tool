@@ -35,7 +35,31 @@ from . import data_inputs, evaluate_EWRs, summarise_results
 #     df.columns = siteList
     
 #     return df
-    
+
+# def standard_time_series_row_filler(input_df: pd.DataFrame, date_range: pd.PeriodIndex) -> pd.DataFrame:
+#     ''' Inserts blank rows in standard time series formatted data frames 
+#     where data for dates are missing to allow for analysis of input files with gaps in daily data
+
+#     Args:
+#         input_df (pd.DataFrame)
+#     Results:
+#         pd.DataFrame: 
+#     '''
+#     date_range_dt = [d.to_timestamp() for d in date_range]
+#     try:
+#         df_dates = [datetime.strptime(dates, '%d/%m/%Y') for dates in input_df['Date']]
+#     except ValueError:
+#         try:
+#             df_dates = [datetime.strptime(dates, '%y-%m-%d') for dates in input_df['Date']]
+#         except ValueError:
+#             df_add = [date for date in date_range_dt if date not in df_dates]
+#         input_df['Date'] = df_dates
+#         missing_df = pd.DataFrame({'Date': df_add})
+#         append_df = pd.concat([input_df, missing_df], ignore_index=True)
+#         append_df.sort_values(by='Date', inplace=True)
+#         append_df.reset_index(drop=True, inplace=True)
+#     return append_df
+
 
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
     '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
@@ -259,7 +283,7 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
     '''
     
     cleaned_df = input_df.copy(deep=True)
-    
+
     try:
         date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
         date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
@@ -273,6 +297,11 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
         log.info('successfully read in data with yyyy-mm-dd formatting')
     
     date_range = pd.period_range(date_start, date_end, freq = 'D')
+
+    # if len(date_range) != len(cleaned_df['Date']):
+    #     cleaned_df =  standard_time_series_row_filler(input_df=cleaned_df, date_range = date_range)
+    
+    
     cleaned_df['Date'] = date_range
     cleaned_df = cleaned_df.set_index('Date')
 
@@ -285,27 +314,62 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
         if 'level' in gauge:
             df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if not gauge_only:
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
+    return df_flow, df_level
+
+def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
+    '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
     
+    Args:
+        input_df (pd.DataFrame): flow/water level dataframe
+
+    Results:
+        tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
+
+    '''
+    
+    cleaned_df = input_df.copy(deep=True)
+    
+    try:
+        date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
+        date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
+    except ValueError:    
+        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        try:
+            date_start = datetime.strptime(cleaned_df.index[0], '%Y-%m-%d')
+            date_end = datetime.strptime(cleaned_df.index[-1], '%Y-%m-%d')
+        except ValueError:
+            raise ValueError('New date format detected. Cannot read in data')
+        log.info('successfully read in data with yyyy-mm-dd formatting')
+    date_range = pd.period_range(date_start, date_end, freq = 'D')
+    cleaned_df['Date'] = date_range
+    cleaned_df = cleaned_df.set_index('Date')
+
+    df_flow = pd.DataFrame(index = cleaned_df.index)
+    df_level = pd.DataFrame(index = cleaned_df.index)
+
+    for gauge in cleaned_df.columns:
+        gauge_only = extract_gauge_from_string(gauge)
+        if 'flow' in gauge:
+            df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if 'level' in gauge:
+            df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        if not gauge_only:
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
 def extract_gauge_from_string(input_string: str) -> str:
-    '''Takes in a string, pulls out the gauge number from this string
+    '''Takes in a strings, pulls out the gauge number from this string
     
     Args:
         input_string (str): string which may contain a gauge number
 
     Returns:
         str: Gauge number as a string if found, None if not found
-    
     '''
-    found = re.findall(r'\w+\d+\w', input_string)
-    if found:
-        for i in found:
-            if len(i) >= 6:
-                gauge = i
-                return gauge
-    else:
-        return None
+    gauge = input_string.split('_')[0]
+    return gauge
 
 def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
@@ -336,7 +400,8 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
                 df_flow[gauge] = input_df[col]
             if gauge in level_gauges and measure == '35':
                 df_level[gauge] = input_df[col]
-
+    if df_flow.empty:
+        raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
     return df_flow, df_level
 
 def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tuple:
@@ -411,11 +476,12 @@ class ScenarioHandler:
                             bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
                             desc= 'Evaluating scenarios'):
             if self.model_format == 'Bigmod - MDBA':
+                
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)
                 df_clean = cleaner_MDBA(data)
                 df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
-
+                               
             elif self.model_format == 'Standard time-series':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
                 df_F, df_L = cleaner_standard_timeseries(df, self.parameter_sheet)
@@ -425,26 +491,29 @@ class ScenarioHandler:
                 data = build_NSW_columns(data, header)
                 df_clean = cleaner_NSW(data)
                 df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes())
+
+            elif self.model_format == 'ten thousand year':
+                df = pd.read_csv(scenarios[scenario], index_col = 'Date')
+                df_F, df_L = cleaner_ten_thousand_year(df, self.parameter_sheet)
             
             gauge_results = {}
             gauge_events = {}
+
             all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
             EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
                                                                                         EWR_table, calc_config) 
-        
             detailed_results[scenario] = gauge_results
-            
+            #print(detailed_results)
             detailed_events[scenario] = gauge_events
-
+            #print(detailed_events)
             self.pu_ewr_statistics = detailed_results
             self.yearly_events = detailed_events
             
             self.flow_data = df_F
             self.level_data = df_L
-
 
     def get_all_events(self)-> pd.DataFrame:
 
