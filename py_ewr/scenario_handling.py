@@ -317,78 +317,6 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
     return df_flow, df_level
 
 
-def cleaner_Qld_source(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
-    '''
-    Ingests dataframe in the form of the Qld Source model output, allocates gauges to either
-    flow or level.
-
-    Args:
-        input_df (pd.DataFrame): flow/water level dataframe
-
-    Results:
-        tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow pandas dataframe; cleaned level dataframe
-    '''
-
-    cleaned_df = input_df.copy(deep=True)
-
-    cleaned_df.index = pd.to_datetime(cleaned_df.index, format = '%d/%m/%Y')
-
-    # If there are missing dates, add in the dates and fill with NaN values
-    dates = pd.date_range(start = cleaned_df.index[0], end=cleaned_df.index[-1])
-    cleaned_df = cleaned_df.reindex(dates)
-
-    # TODO: Optional: add in gap filling code if user selects preference for gap filling
-
-    df_flow = pd.DataFrame(index = cleaned_df.index)
-    df_level = pd.DataFrame(index = cleaned_df.index)
-    df_flow.index.name = 'Date'
-    df_level.index.name = 'Date'
-
-    for col_name in cleaned_df.columns:
-        gauge_only = extract_gauge_from_string_qld(col_name)
-        measure = extract_measure_from_string_qld(col_name)
-
-        if measure == 'Flow':
-            df_flow[gauge_only] = cleaned_df[col_name].copy(deep=True)
-        if measure == 'Level':
-            df_level[gauge_only] = cleaned_df[col_name].copy(deep=True)
-        if not gauge_only:
-            log.info('Could not identify gauge in column name:', gauge_only, ', skipping analysis of data in this column.')
-    return df_flow, df_level
-        
-def extract_gauge_from_string_qld(input_string: str) -> str:
-    '''Takes in a strings, pulls out the gauge number from this string
-    
-    Args:
-        input_string (str): string which may contain a gauge number
-
-    Returns:
-        str: Gauge number as a string if found, None if not found
-    '''
-
-    gauge = re.search('\(.*\)', input_string)
-
-    gauge = gauge[0].strip('(')
-    gauge = gauge.strip(')')
-
-    return gauge
-
-def extract_measure_from_string_qld(input_string: str) -> str:
-    '''Takes in a strings, pulls out the gauge number from this string
-    
-    Args:
-        input_string (str): string which may contain a gauge number
-
-    Returns:
-        str: Gauge number as a string if found, None if not found
-    '''
-
-    full_measure = input_string.split('\\')[-1]
-    measure = full_measure.split(' ')[-1]
-
-    return measure
-
-
 def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
     
@@ -581,9 +509,7 @@ class ScenarioHandler:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
                                                                                         EWR_table, calc_config) 
             detailed_results[scenario] = gauge_results
-            #print(detailed_results)
             detailed_events[scenario] = gauge_events
-            #print(detailed_events)
             self.pu_ewr_statistics = detailed_results
             self.yearly_events = detailed_events
             
