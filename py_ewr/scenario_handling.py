@@ -16,51 +16,6 @@ log.addHandler(logging.NullHandler())
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
 
-# def gauge_only_column(df: pd.DataFrame) -> pd.DataFrame:
-#     '''Ingesting scenario file locations with a standard timeseries format,
-#     returns a dictionary of flow dataframes with their associated header data
-    
-#     Args:
-#         csv_file (str): location of model file
-
-#     Results:
-#         pd.DataFrame: model file converted to dataframe
-#     '''
-    
-#     siteList = []
-#     for location in df.columns:
-#         gauge = extract_gauge_from_string(location)
-#         siteList.append(gauge)
-#     # Save over the top of the column headings with the new list containing only the gauges
-#     df.columns = siteList
-    
-#     return df
-
-# def standard_time_series_row_filler(input_df: pd.DataFrame, date_range: pd.PeriodIndex) -> pd.DataFrame:
-#     ''' Inserts blank rows in standard time series formatted data frames 
-#     where data for dates are missing to allow for analysis of input files with gaps in daily data
-
-#     Args:
-#         input_df (pd.DataFrame)
-#     Results:
-#         pd.DataFrame: 
-#     '''
-#     date_range_dt = [d.to_timestamp() for d in date_range]
-#     try:
-#         df_dates = [datetime.strptime(dates, '%d/%m/%Y') for dates in input_df['Date']]
-#     except ValueError:
-#         try:
-#             df_dates = [datetime.strptime(dates, '%y-%m-%d') for dates in input_df['Date']]
-#         except ValueError:
-#             df_add = [date for date in date_range_dt if date not in df_dates]
-#         input_df['Date'] = df_dates
-#         missing_df = pd.DataFrame({'Date': df_add})
-#         append_df = pd.concat([input_df, missing_df], ignore_index=True)
-#         append_df.sort_values(by='Date', inplace=True)
-#         append_df.reset_index(drop=True, inplace=True)
-#     return append_df
-
-
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
     '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
     returns a dictionary of flow dataframes with their associated header data
@@ -260,7 +215,8 @@ def cleaner_NSW(input_df: pd.DataFrame) -> pd.DataFrame:
         cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%d/%m/%Y')
         cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
     except ValueError:
-        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        log.info('''Attempted and failed to read in dates in format: dd/mm/yyyy, 
+        attempting to look for dates in format: yyyy-mm-dd''')
         try:
             cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], format = '%Y-%m-%d')
             cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
@@ -281,32 +237,29 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
         tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
 
     '''
-    
+
     cleaned_df = input_df.copy(deep=True)
-
     try:
-        date_start = datetime.strptime(cleaned_df.index[0], '%d/%m/%Y')
-        date_end = datetime.strptime(cleaned_df.index[-1], '%d/%m/%Y')
-    except ValueError:    
-        log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
+        cleaned_df.index = pd.to_datetime(cleaned_df.index, format = '%d/%m/%Y')
+    except ValueError:
+        log.info('''Attempted and failed to read in dates in format: dd/mm/yyyy, attempting
+        to look for dates in format: yyyy-mm-dd''')
         try:
-            date_start = datetime.strptime(cleaned_df.index[0], '%Y-%m-%d')
-            date_end = datetime.strptime(cleaned_df.index[-1], '%Y-%m-%d')
+            cleaned_df.index = pd.to_datetime(cleaned_df.index, format = '%Y-%m-%d')
         except ValueError:
-            raise ValueError('New date format detected. Cannot read in data')
-        log.info('successfully read in data with yyyy-mm-dd formatting')
-    
-    date_range = pd.period_range(date_start, date_end, freq = 'D')
+            raise ValueError('''New date format detected. Cannot read in data''')
+        log.info('''Successfully read in data with yyyy-mm-dd formatting''')
 
-    # if len(date_range) != len(cleaned_df['Date']):
-    #     cleaned_df =  standard_time_series_row_filler(input_df=cleaned_df, date_range = date_range)
-    
-    
-    cleaned_df['Date'] = date_range
-    cleaned_df = cleaned_df.set_index('Date')
+    # If there are missing dates, add in the dates and fill with NaN values
+    dates = pd.date_range(start = cleaned_df.index[0], end=cleaned_df.index[-1])
+    cleaned_df = cleaned_df.reindex(dates)
+
+    # TODO: Optional: add in gap filling code if user selects preference for gap filling
 
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)
+    df_flow.index.name = 'Date'
+    df_level.index.name = 'Date'
 
     for gauge in cleaned_df.columns:
         gauge_only = extract_gauge_from_string(gauge)
@@ -317,6 +270,7 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
         if not gauge_only:
             log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
+
 
 def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
@@ -495,6 +449,10 @@ class ScenarioHandler:
             elif self.model_format == 'ten thousand year':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
                 df_F, df_L = cleaner_ten_thousand_year(df, self.parameter_sheet)
+
+            elif self.model_format == 'Source - Qld':
+                df = pd.read_csv(scenarios[scenario], index_col = 'Date')
+                df_F, df_L = cleaner_Qld_source(data)
             
             gauge_results = {}
             gauge_events = {}
@@ -506,9 +464,7 @@ class ScenarioHandler:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
                                                                                         EWR_table, calc_config) 
             detailed_results[scenario] = gauge_results
-            #print(detailed_results)
             detailed_events[scenario] = gauge_events
-            #print(detailed_events)
             self.pu_ewr_statistics = detailed_results
             self.yearly_events = detailed_events
             

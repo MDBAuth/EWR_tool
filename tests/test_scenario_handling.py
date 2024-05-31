@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import date, datetime
 import re
+import numpy as np
 
 import pandas as pd
 from pandas._testing import assert_frame_equal
@@ -94,35 +95,57 @@ def test_extract_gauge_from_string():
 def test_cleaner_standard_timeseries():
     '''
     1. Check date formatting and correct allocationo of gauge data to either flow/level dataframes
+    2. TODO: Add test to assess when there are missing dates
+    3. TODO: Add test for both date types
     '''
+    # CHECK 1
     # Set up input data and pass to test function:
     date_start = '1900-07-01'
     date_end = '2000-06-30'
-    date_range = pd.period_range(date_start, date_end, freq = 'D')
+    date_range = pd.date_range(start= datetime.strptime(date_start, '%Y-%m-%d'), end = datetime.strptime(date_end, '%Y-%m-%d'), freq='D')
+ 
     data_for_input_df = {'Date': date_range, '409025_flow': [50]*len(date_range)}
     input_df = pd.DataFrame(data_for_input_df)
-    str_df = input_df.copy(deep=True)
-    str_df['Date'] = str_df['Date'].astype('str')
-    def add_0 (row):
-        j = row.split('-')
-        if len(j[0]) < 4:
-            new_row = '0'+ row
-        else:
-            new_row = row
-        return new_row
-    str_df['Date'] = str_df['Date'].apply(add_0)
-    str_df = str_df.set_index('Date')
-    df_f, df_l = scenario_handling.cleaner_standard_timeseries(str_df)
-    
+    input_df = input_df.set_index('Date')
+    df_f, df_l = scenario_handling.cleaner_standard_timeseries(input_df)
+
     # Set up expected data and test:
     expected_df_flow = input_df.copy(deep=True)
-    expected_df_flow = expected_df_flow.set_index('Date')
     expected_df_flow.columns = ['409025']
     expected_df_level = pd.DataFrame(index = expected_df_flow.index)
-    
+
+    expected_df_flow.index = date_range
+    expected_df_flow.index.name = 'Date'
+
     assert_frame_equal(expected_df_level, df_l)
     assert_frame_equal(expected_df_flow, df_f)
+
+    # CHECK 2
+
+    date_start = '1900-07-01'
+    date_end = '2000-06-30'
+    date_range = pd.date_range(start= datetime.strptime(date_start, '%Y-%m-%d'), end = datetime.strptime(date_end, '%Y-%m-%d'), freq='D')
+
+    data_for_input_df = {'Date': date_range, '409025_flow': [50]*len(date_range)}
+    input_df = pd.DataFrame(data_for_input_df)
+    input_df = input_df.set_index('Date')
+    cut_df = input_df.drop([datetime(1900, 7, 5),datetime(1900,7,8)], axis = 0)
+
+    df_f, df_l = scenario_handling.cleaner_standard_timeseries(cut_df)
     
+    expected_df_flow = cut_df.copy(deep = True)
+    expected_df_flow.loc[datetime(1900, 7, 5), '409025_flow'] = np.nan
+    expected_df_flow.loc[datetime(1900, 7, 8), '409025_flow'] = np.nan
+    expected_df_flow.sort_index(inplace=True)
+    expected_df_flow.columns = ['409025']
+    expected_df_level = pd.DataFrame(index = expected_df_flow.index)
+
+    expected_df_flow.index = date_range
+    expected_df_flow.index.name = 'Date'
+
+    assert_frame_equal(expected_df_level, df_l)
+    assert_frame_equal(expected_df_flow, df_f)
+
     
 def test_cleaner_NSW():
     '''
