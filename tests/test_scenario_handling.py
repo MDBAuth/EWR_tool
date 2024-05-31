@@ -111,7 +111,6 @@ def test_cleaner_standard_timeseries():
 
     # Set up expected data and test:
     expected_df_flow = input_df.copy(deep=True)
-    # expected_df_flow = expected_df_flow.set_index('Date')
     expected_df_flow.columns = ['409025']
     expected_df_level = pd.DataFrame(index = expected_df_flow.index)
 
@@ -143,7 +142,7 @@ def test_cleaner_standard_timeseries():
 
     expected_df_flow.index = date_range
     expected_df_flow.index.name = 'Date'
-    
+
     assert_frame_equal(expected_df_level, df_l)
     assert_frame_equal(expected_df_flow, df_f)
 

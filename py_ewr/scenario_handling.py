@@ -16,51 +16,6 @@ log.addHandler(logging.NullHandler())
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
 
-# def gauge_only_column(df: pd.DataFrame) -> pd.DataFrame:
-#     '''Ingesting scenario file locations with a standard timeseries format,
-#     returns a dictionary of flow dataframes with their associated header data
-    
-#     Args:
-#         csv_file (str): location of model file
-
-#     Results:
-#         pd.DataFrame: model file converted to dataframe
-#     '''
-    
-#     siteList = []
-#     for location in df.columns:
-#         gauge = extract_gauge_from_string(location)
-#         siteList.append(gauge)
-#     # Save over the top of the column headings with the new list containing only the gauges
-#     df.columns = siteList
-    
-#     return df
-
-def standard_time_series_row_filler(input_df: pd.DataFrame, date_range: pd.PeriodIndex) -> pd.DataFrame:
-    ''' Inserts blank rows in standard time series formatted data frames 
-    where data for dates are missing to allow for analysis of input files with gaps in daily data
-
-    Args:
-        input_df (pd.DataFrame)
-    Results:
-        pd.DataFrame: 
-    '''
-    date_range_dt = [d.to_timestamp() for d in date_range]
-    try:
-        df_dates = [datetime.strptime(dates, '%d/%m/%Y') for dates in input_df['Date']]
-    except ValueError:
-        try:
-            df_dates = [datetime.strptime(dates, '%y-%m-%d') for dates in input_df['Date']]
-        except ValueError:
-            df_add = [date for date in date_range_dt if date not in df_dates]
-        input_df['Date'] = df_dates
-        missing_df = pd.DataFrame({'Date': df_add})
-        append_df = pd.concat([input_df, missing_df], ignore_index=True)
-        append_df.sort_values(by='Date', inplace=True)
-        append_df.reset_index(drop=True, inplace=True)
-    return append_df
-
-
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
     '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
     returns a dictionary of flow dataframes with their associated header data

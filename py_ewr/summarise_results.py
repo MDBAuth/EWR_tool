@@ -573,18 +573,14 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
         gauge = i.split('TEMPORARY_ID_SPLIT')[1]
         pu = i.split('TEMPORARY_ID_SPLIT')[2]
         ewr = i.split('TEMPORARY_ID_SPLIT')[3]      
-        # print(df_subset) 
 
         # Pull EWR minSpell value from EWR dataset
         minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
         # Filter out the events that fall under the minimum spell length
         df_subset = df_subset.drop(df_subset[df_subset.eventDuration < minSpell].index)
-        # print(df_subset)
         # Append to master dataframe
         all_successfulEvents = pd.concat([all_successfulEvents, df_subset], ignore_index=True)
-        # print(all_successfulEvents)
     all_successfulEvents.drop(['ID', 'multigaugeID'], axis=1, inplace=True)
-    # print(all_successfulEvents)
     return all_successfulEvents
 
 def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: date, yearly_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
