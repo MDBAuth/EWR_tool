@@ -164,3 +164,11 @@ Scenario1all_results.csv
 Scenario1all_successful_Events.csv
 Scenario1all_successful_interEvents.csv
 Scenario1yearly_ewr_results.csv
+py_ewr/model_metadata/SiteID_NSW_test.csv
+py_ewr/parameter_metadata/parameter_sheet_test.csv
+run_local_script/
+run_local_script.zip
+standard_flow_handler.py
+NSW_BUG_v1.py
+NSW_bug.py
+NSW_bug/

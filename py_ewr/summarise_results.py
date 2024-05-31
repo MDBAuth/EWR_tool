@@ -569,20 +569,18 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
     # Iterate over the all_events dataframe
     for i in unique_ID:
         # Subset df with only 
-        df_subset = all_events[all_events['ID'].str.fullmatch(i)]
+        df_subset = all_events[all_events['ID'] == i]
         gauge = i.split('TEMPORARY_ID_SPLIT')[1]
         pu = i.split('TEMPORARY_ID_SPLIT')[2]
-        ewr = i.split('TEMPORARY_ID_SPLIT')[3]       
+        ewr = i.split('TEMPORARY_ID_SPLIT')[3]      
 
         # Pull EWR minSpell value from EWR dataset
         minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
         # Filter out the events that fall under the minimum spell length
-        df_subset = df_subset.drop(df_subset[df_subset.eventDuration <= minSpell].index)
-
+        df_subset = df_subset.drop(df_subset[df_subset.eventDuration < minSpell].index)
         # Append to master dataframe
         all_successfulEvents = pd.concat([all_successfulEvents, df_subset], ignore_index=True)
     all_successfulEvents.drop(['ID', 'multigaugeID'], axis=1, inplace=True)
-
     return all_successfulEvents
 
 def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: date, yearly_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
@@ -605,8 +603,8 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     # Load in EWR table to variable to access start and end dates of the EWR
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
     for unique_EWR in unique_ID:
-        df_subset = df[df['ID'].str.fullmatch(unique_EWR)]
-        yearly_df_subset = yearly_df[yearly_df['ID'].str.fullmatch(unique_EWR)]
+        df_subset = df[df['ID'] == unique_EWR]
+        yearly_df_subset = yearly_df[yearly_df['ID'] == unique_EWR]
         # Get EWR characteristics for current EWR
         scenario = unique_EWR.split('TEMPORARY_ID_SPLIT')[0]
         gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]

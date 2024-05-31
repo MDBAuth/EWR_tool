@@ -3,12 +3,12 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.1.2 README**
+### **EWR tool version 2.1.3 README**
 
-### **Notes on recent updates**
-- Ability to pass a climte categorisation file has been removed. No EWRs require climate categorisation anymore so this feature was redundant.
-- Ability to pass an allowance on some parts of the parameter sheet. This feature was not transparent and resulted in some counter-intuitive results in many cases so the feature has been removed during this update. If users are interested in assessing partial success through an allowance feature we recommend downloading the parameter sheet, making the required modifications (e.g. multiplying the duration column by a factor of 0.9 to simulate a 10% allowance), and running the EWR tool with this.
-- Ability to pass multiple model scenarios to the package has been removed. It is recommended to use an alternative method if you want to send multiple scenarios to the package. An example has been provided below by calling the EWR tool package in a loop. This has been implemented because some scenarios may have multiple different files and this was the cleanest way to account for this.
+### **Notes on recent version update**
+- Standard time-series handling added - each column needs a gauge, followed by and underscore, followed by either flow or level (e.g. 409025_flow). This handling also has missing date filling - so any missing dates will be filled with NaN values in all columns.
+- ten thousand year handling - the same formatting as above is required (gauge_flow OR gauge_level)
+- bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table.
 
 ### **Installation**
 
