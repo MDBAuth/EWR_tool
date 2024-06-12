@@ -143,9 +143,18 @@ def build_MDBA_columns(input_data: pd.DataFrame, input_header: pd.DataFrame) -> 
     numRows = int(input_header['Field'].iloc[1]) 
     df = input_header.drop([0,1])     
     df = df.astype(str)
-    df['Site'] = df['Site'].map(lambda x: x.strip("'"))
-    df['Measurand'] = df['Measurand'].map(lambda x: x.strip("'"))
-    df['Quality'] = df['Quality'].map(lambda x: x.strip("'"))
+    # Remove rogue quotes, spaces, and apostrophes
+    df['Site'] = df['Site'].map(lambda x: x.replace("'", ""))
+    df['Site'] = df['Site'].map(lambda x: x.replace('"', ''))
+    df['Site'] = df['Site'].map(lambda x: x.replace(" ", ""))
+
+    df['Measurand'] = df['Measurand'].map(lambda x: x.replace("'", ""))
+    df['Measurand'] = df['Measurand'].map(lambda x: x.replace('"', ''))
+    df['Measurand'] = df['Measurand'].map(lambda x: x.replace(" ", ""))
+
+    df['Quality'] = df['Quality'].map(lambda x: x.replace("'", ""))
+    df['Quality'] = df['Quality'].map(lambda x: x.replace('"', ''))
+    df['Quality'] = df['Quality'].map(lambda x: x.replace(" ", ""))
 
     # Construct refs and save to list:
     listOfCols = []
@@ -449,10 +458,6 @@ class ScenarioHandler:
             elif self.model_format == 'ten thousand year':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
                 df_F, df_L = cleaner_ten_thousand_year(df, self.parameter_sheet)
-
-            elif self.model_format == 'Source - Qld':
-                df = pd.read_csv(scenarios[scenario], index_col = 'Date')
-                df_F, df_L = cleaner_Qld_source(data)
             
             gauge_results = {}
             gauge_events = {}
