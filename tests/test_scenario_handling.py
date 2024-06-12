@@ -216,14 +216,13 @@ def test_build_MDBA_columns():
     1. Ensure data column names are correctly taken from the header data
     '''
     # Load input data and send to test function:
-    input_file = 'unit_testing_files/MDBA_bigmod_test_file.csv'
+    input_file = 'unit_testing_files/MDBA_bigmod_test_file_buggy_ID.csv'
     data, header = scenario_handling.unpack_model_file(input_file, 'Dy', 'Field')
     data = scenario_handling.build_MDBA_columns(data, header)
     data = data.astype({'Dy': 'int32', 'Mn': 'int32', 'Year': 'int32'})
     # Load expected output data, format, and test:
     expected_result = pd.read_csv('unit_testing_files/MDBA_bigmod_test_file_flow_result.csv')
     expected_result = expected_result.astype({'Dy': 'int32', 'Mn': 'int32', 'Year': 'int32'})
-
     assert_frame_equal(data, expected_result)        
 
 
