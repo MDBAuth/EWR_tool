@@ -106,3 +106,17 @@ def test_get_scenario_gauges(gauge_results, expected_results):
     result = data_inputs.get_scenario_gauges(gauge_results)
     assert sorted(result) == expected_results
     
+def test_get_iqqm_codes():
+    result = data_inputs.get_iqqm_codes()
+    stations = {
+        '229': '421023',
+        '42': '421001',
+        '464': '421011',
+        '240': '421019',
+        '266': '421146',
+        '951': '421090',
+        '487': '421022',
+        '130': '421012',
+        '171': '421004',
+    }
+    assert stations == result

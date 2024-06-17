@@ -8,6 +8,8 @@ import logging
 
 import pandas as pd
 from tqdm import tqdm
+import xarray as xr
+import netCDF4
  
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -15,6 +17,61 @@ log.addHandler(logging.NullHandler())
 
 from . import data_inputs, evaluate_EWRs, summarise_results
 #----------------------------------- Scenario testing handling functions--------------------------#
+def is_valid_netcdf_file(file_path: str) -> bool:
+    try:
+        with netCDF4.Dataset(file_path, 'r'):
+            # If the file opens successfully, it's a valid NetCDF file
+            return True
+    except Exception as e:
+        # If an exception is raised, it's not a valid NetCDF file
+        return False
+    
+
+def unpack_netcdf_as_dataframe(netcdf_file: str) -> pd.DataFrame:
+    '''Ingesting netCDF files and outputting as dataframes in memory.
+    # Example usage:
+    # df = unpack_netcdf_as_dataframe('your_file.nc')
+    
+    Args:  
+        netcdf_file (str): location of netCDF file
+
+    Results:
+        pd.Dataframe: netCDF file converted to dataframe
+    '''
+    try:
+        # Check if the file is a valid NetCDF file
+        if not is_valid_netcdf_file(netcdf_file):
+            raise ValueError("Not a valid NetCDF file.")
+        
+        # Open the NetCDF file
+        dataset = xr.open_dataset(netcdf_file, engine='netcdf4')
+        
+        # Check if the dataset is empty
+        if dataset is None:
+            raise ValueError("NetCDF dataset is empty.")
+        
+        # extract the bits we actually can use
+            # Some of this needs to move/get cleaned up
+        iqqm_dict = data_inputs.get_iqqm_codes()
+        # the nodes are ints, but the above is str
+        ints_list = list(map(int, list(iqqm_dict)))
+        
+        # Is there any reason to do these in one step?
+        dataset = dataset.sel(node=dataset['node'].isin(ints_list))
+        dataset = dataset[['Simulated flow']]
+
+        # Convert to DataFrame
+        df = dataset.to_dataframe()
+        
+        # Close the dataset
+        dataset.close()
+        
+        return df
+    except Exception as e:
+        # Handle any exceptions that may occur
+        print(f"Error: {str(e)}")
+        return None
+
 
 def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
     '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
@@ -280,6 +337,52 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
+def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
+
+    '''Ingests dataframe, cleans up into a format matching IQQM csv
+    
+    Args:
+        input_df (pd.DataFrame): raw xarray dataframe read-in
+
+        statios(dict):  dict mapping IQQM stations to gauge numbers 
+
+    Results:
+        tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
+
+    '''
+
+    # organise like the rest of the dataframes- make this look just like we've read it in from an IQQM csv
+    cleaned_df = input_df.reset_index(level = 'node')
+    cleaned_df['node'] = cleaned_df['node'].astype(str)
+
+    cleaned_df['gauge'] = cleaned_df['node'].map(stations)
+    cleaned_df = cleaned_df.drop('node', axis = 1) 
+
+    # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
+        # This should be deprecated with the new way of choosing nodes on read-in, but being careful
+    cleaned_df = cleaned_df.query('gauge.notna()')
+
+    # give each gauge its own column- that's what the tool expects
+    cleaned_df = cleaned_df.pivot(columns = 'gauge', values = 'Simulated flow')
+    cleaned_df.columns.name = None
+
+    # the csvs return an 'object' type, not a datetime in the index
+    # but it gets converted to datetime in cleaner_***, so leave it.
+    cleaned_df.index.names = ['Date']
+
+    # Split gauges into flow and level, allocate to respective dataframe
+    flow_gauges = data_inputs.get_gauges('flow gauges')
+    level_gauges = data_inputs.get_gauges('level gauges')
+    df_flow = pd.DataFrame(index = cleaned_df.index)
+    df_level = pd.DataFrame(index = cleaned_df.index)
+    for gauge in cleaned_df.columns:
+        if gauge in flow_gauges:
+            df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
+        if gauge in level_gauges:
+            df_level[gauge] = cleaned_df[gauge].copy(deep=True)
+
+    return df_flow, df_level
+
 
 def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''Ingests dataframe, removes junk columns, fixes date, allocates gauges to either flow/level
@@ -454,6 +557,10 @@ class ScenarioHandler:
                 data = build_NSW_columns(data, header)
                 df_clean = cleaner_NSW(data)
                 df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes())
+
+            elif self.model_format == 'IQQM - netcdf':
+                df_unpacked = unpack_netcdf_as_dataframe(scenarios[scenario])
+                df_F, df_L = cleaner_netcdf_werp(df_unpacked, data_inputs.get_iqqm_codes())
 
             elif self.model_format == 'ten thousand year':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')

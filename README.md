@@ -191,3 +191,11 @@ NSW:
 
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
+To disable progress bars, as for example when running remote scripted runs, use 
+
+``` python
+import os
+os.environ["TQDM_DISABLE"] = "1"
+```
+*before* importing py-ewr in your script.
+
