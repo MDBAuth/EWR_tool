@@ -386,6 +386,7 @@ BREMWAR,Bremer River U/S Wandstead Road,Bremer River us Wandstead Road,A4261173,
 BREMWKR,Bremer River at Woodstock Road,Bremer River at Woodstock Road,A4261071,5
 BRENDA,Culgoa River at Brenda,BSMS EOV target site,422015,2
 422015_,Culgoa River at Brenda,BSMS EOV target site,422015,2
+422015A,Culgoa River at Brenda,BSMS EOV target site,422015,2
 422013A,BIRRIE RIVER AT NEAR GOODOOGA,BSMS EOV target site,422013,2
 BRESDRN,BERRI EAST DRAINAGE OUTFALL,BERRI EAST DRAINAGE OUTFALL DIRECTLY TO R.MURRAY,,5
 BRESTP,Brewarrina STP,,,2
@@ -493,8 +494,10 @@ CAPELXG,Barr Ck at Capels Crossing,Barr Ck at Capels Crossing (not the flume),40
 CAPFSTP,Captain's Flat STP,,,2
 CARCOAR,Carcoar Reservoir on Lachlan System,,,2
 CARIMAR,Marthaguy Creek at Carinda,,421011,2
+8CARMAR,Marthaguy Creek at Carinda,,421011,2
 CARIMET,Carinda (Post Office),,51007,2
 CARINDA,Macquarie River at Carinda (Bells Bridge),,421012,2
+8FGCARR,Macquarie River at Carinda (Bells Bridge),,421012,2
 CAROLE,Carole Creek Outflow -Gwydir System,Carole Creek @ near Garah,418052,2
 CAROMET,Walgett (Old Boorooma),,48231,2
 CARYELT,Carwarp/Yelta WWD,Carwarp/Yelta WWD - Sunraysia,,
@@ -911,6 +914,7 @@ GOLHGT,Golden Heights - Major Pumping Stattion,Major Irrigation Pumping Station 
 GOLWAB2,Goolwa Vertical Slot No 2,,,
 GOMUBRC,Goulburn �to River Murray via Broken Ck,Goulburn Valley Account Transfer to River Murray,,4
 GONGOLG,Bogan River at Gongolgon,,421023,2
+8GONGOG,Bogan River at Gongolgon,,421023,2
 GOOBMET,Goolwa Barrages - BOM station,,23825,5
 GOOCHBD,Goolwa Channel at Goolwa Barrage (D/S),Goolwa Channel at Goolwa Barrage (D/S),A4261035,5
 GOOCOT,Water transferred from Googong Dam to Cotter Sys,Water transferred from Googong Dam to Cotter System,,3
@@ -1627,6 +1631,7 @@ MUNDDS,LAKE ALEXANDRINA D/S MUNDOO BARRAGES,,A4260526,5
 MUNDIWA,CULGOA RIVER U/S COLLERINA (MUNDIWA),,422011,2
 MUNDOO,LAKE ALEXANDRINA U/S MUNDOO BARRAGES,,A4261042,5
 MUNGIND,Barwon River - Mungindi,,416001,1
+9INMUNG,Barwon River - Mungindi,,416001,1
 MUNGMET,Mungindi (Post Office),,52020,2
 MUNGSTP,Mungallala STP,,,1
 MUPCRDS,Upper Potterwalkage Creek Regulator D/S,,,
@@ -2268,6 +2273,7 @@ TUMSTP,Tumut STP,,,2
 TUMURDS,Tumudgery Regulator D/S,Millewa monitoring site,40922002,
 TUMUREG,Tumudgery River Regulator,River Regulator settings - Edward River - NSW National Parks,40922002,2
 TUMUT,Tumut River @ Tumut,,410006,2
+11GFTUM,Tumut River @ Tumut,,410006,2
 TUMUT1,Release From TumutT 1 Power Station,RECEIVED FROM SMHEA COOMA,,2
 TUMUTPD,Tumut Pondage,Snowy Hydro Limited,,2
 TUNGAMA,Boosey Creek at Tungamah (ML),,,4
