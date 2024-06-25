@@ -38,7 +38,7 @@ setup(
         "tqdm==4.64.0",
         "mdba-gauge-getter==0.5.1",
         "cachetools==5.2.0",
-        "numpy==1.26.4"
+        "numpy<2"
     ],
     package_data={'': ["model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
 )
