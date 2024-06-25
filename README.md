@@ -3,12 +3,13 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.1.6 README**
+### **EWR tool version 2.1.7 README**
 
 ### **Notes on recent version update**
 - Standard time-series handling added - each column needs a gauge, followed by and underscore, followed by either flow or level (e.g. 409025_flow). This handling also has missing date filling - so any missing dates will be filled with NaN values in all columns.
 - ten thousand year handling - This has been briefly taken offline for this version.
-- bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table.
+- bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table, fixed misclassification of some gauges to flow, level, and lake level categories
+- New EWRs: New Qld EWRs - SF_FD and BF_FD used to look into the FD EWRs in closer detail.
 
 ### **Installation**
 
