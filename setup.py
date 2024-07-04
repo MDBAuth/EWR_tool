@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="py_ewr",
-    version="2.1.5",
+    version="2.1.8",
     author="Martin Job",
     author_email="Martin.Job@mdba.gov.au",
     description="Environmental Water Requirement calculator",
@@ -38,6 +38,7 @@ setup(
         "tqdm==4.64.0",
         "mdba-gauge-getter==0.5.1",
         "cachetools==5.2.0",
+        "numpy<2"
     ],
     package_data={'': ["model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
 )

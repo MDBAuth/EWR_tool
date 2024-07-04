@@ -515,7 +515,9 @@
         "BF2_c_P-single-F",
         "BF2_c_S-single-F",
         "BF4-single-F",
-        "BF5-single-F"
+        "BF5-single-F",
+        "BF_FD1-single-F",
+        "BF_FD2-single-F"
     ],
     "ctf_handle_multi": [
         "CF-multigauge-F"
@@ -620,7 +622,9 @@
         "DR2-single-F",
         "FR1-single-F",
         "LDF-single-F",
-        "WFT-single-F"
+        "WFT-single-F",
+        "SF_FD1-single-F",
+        "SF_FD2-single-F"
     ],
     "flow_handle_check_ctf": [
         "FD1-single-F",
@@ -641,8 +645,8 @@
         "FrW4-single-F"
     ],
     "water_stability_level_handle": [
-        "FrL1-single-L",
-        "FrL2-single-L"
+        "FrL1-single-F",
+        "FrL2-single-F"
     ],
     "rise_and_fall_handle": [
         "RRF-single-F",
