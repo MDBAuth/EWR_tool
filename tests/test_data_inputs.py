@@ -7,7 +7,9 @@ import numpy as np
 import requests
 from datetime import datetime
 import os
-
+from unittest.mock import mock_open, patch
+from pathlib import Path
+import json
 from py_ewr import data_inputs
 import pytest
 
@@ -68,6 +70,29 @@ def test_get_ewr_calc_config():
     assert isinstance(ewr_calc_config, dict)
     assert "flow_handle" in ewr_calc_config.keys()
 
+def test_get_ewr_calc_config_with_valid_file_path():
+    '''tests the function with a valid file_path.'''
+    mock_config = {"Flow_type":["EWR_code1","EWR_code2"]}
+    mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
+    
+    with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
+        result = data_inputs.get_ewr_calc_config(mock_file_path)
+        assert result == mock_config
+
+def test_get_ewr_calc_config_with_default_path():
+        '''tests the function uses the default path and read one key item from config file'''
+        ewr_calc_config = data_inputs.get_ewr_calc_config()
+        assert isinstance(ewr_calc_config, dict)
+        assert "flow_handle" in ewr_calc_config.keys()
+
+def test_get_ewr_calc_config_with_nonexistent_file():
+    ''' tests the function with a nonexistent file, checking if it raises a FileNotFoundError.'''
+    mock_file_path = "/mock/path/to/nonexistent_config.json"
+    
+    with patch("builtins.open", mock_open()) as mock_file:
+        mock_file.side_effect = FileNotFoundError
+        with pytest.raises(FileNotFoundError):
+            data_inputs.get_ewr_calc_config(mock_file_path)
 
 def test_get_barrage_flow_gauges():
     result = data_inputs.get_barrage_flow_gauges()
