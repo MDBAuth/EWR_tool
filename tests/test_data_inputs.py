@@ -196,3 +196,19 @@ def test_get_MDBA_codes():
 
     # Check if the columns match the expected columns
     assert list(results_df.columns) == list(expected_df.columns), "Column headers do not match"
+
+def test_get_NSW_codes():
+    sample_data={
+ 
+        'SITEID': ['Gauge: 410001 Murrumbidgee River at Wagga Wagga: Downstream Flow'],
+        'Name':['Wagga gauge'],
+        'Description': [''],
+        'AWRC':  ['410001'],
+        'StateID':['2']
+        
+    }
+    expected_df = pd.DataFrame(sample_data)
+    results_df=data_inputs.get_NSW_codes()
+
+    # Check if the columns match the expected columns
+    assert list(results_df.columns) == list(expected_df.columns), "Column headers do not match"
