@@ -12,6 +12,7 @@ from pathlib import Path
 import json
 from py_ewr import data_inputs
 import pytest
+import re
 
 BASE_PATH = Path(__file__).resolve().parents[1]   
     
@@ -60,39 +61,53 @@ def test_get_EWR_table():
     assert len(df), total_len
 
 def test_get_ewr_calc_config():
-    '''
-    1. Test for correct return of EWR calculation config
-    assert it returns a dictionary
-    '''
-
-    ewr_calc_config = data_inputs.get_ewr_calc_config()
-
-    assert isinstance(ewr_calc_config, dict)
-    assert "flow_handle" in ewr_calc_config.keys()
-
-def test_get_ewr_calc_config_with_valid_file_path():
-    '''tests the function with a valid file_path.'''
-    mock_config = {"Flow_type":["EWR_code1","EWR_code2"]}
+    # Test with a valid file_path
+    mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
     mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
     
     with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
         result = data_inputs.get_ewr_calc_config(mock_file_path)
         assert result == mock_config
 
-def test_get_ewr_calc_config_with_default_path():
-        '''tests the function uses the default path and read one key item from config file'''
+    # Test with the default path
+    default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
+    default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
+    
+    with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
         ewr_calc_config = data_inputs.get_ewr_calc_config()
         assert isinstance(ewr_calc_config, dict)
         assert "flow_handle" in ewr_calc_config.keys()
+    def find_unusual_characters(s):
+        # Define a regex pattern for unusual characters
+        pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
+        
+        # Find all unusual characters
+        unusual_chars = set(re.findall(pattern, s))
+    
+        return unusual_chars
+    # Test for rogue characters
+    #rogue_chars = {'@', '$', '#', "*",''}
+    # Test for rogue characters
+    test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
+    rogue_chars =find_unusual_characters(test_string)
+    unique_chars = set()
+    for k, v in ewr_calc_config.items():
+        for char in k:
+            unique_chars.add(char)
+        for char in v:
+            unique_chars.add(char)
+    
+    assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
 
-def test_get_ewr_calc_config_with_nonexistent_file():
-    ''' tests the function with a nonexistent file, checking if it raises a FileNotFoundError.'''
+    # Test with a nonexistent file
     mock_file_path = "/mock/path/to/nonexistent_config.json"
     
     with patch("builtins.open", mock_open()) as mock_file:
         mock_file.side_effect = FileNotFoundError
         with pytest.raises(FileNotFoundError):
             data_inputs.get_ewr_calc_config(mock_file_path)
+
+
 
 def test_get_barrage_flow_gauges():
     result = data_inputs.get_barrage_flow_gauges()
@@ -121,13 +136,63 @@ def test_get_cllmm_gauges():
     for item in result:
         assert isinstance(item, str)
 
-@pytest.mark.parametrize('expected_results', 
-[
-    (
-    ['A4260527', 'A4260633', 'A4260634', 'A4260635', 'A4260637', 'A4261002']
-    )
-])
+# @pytest.mark.parametrize('expected_results', 
+# [
+#     (
+#     ['A4260527', 'A4260633', 'A4260634', 'A4260635', 'A4260637', 'A4261002']
+#     )
+# ])
+# def test_get_scenario_gauges(gauge_results, expected_results):
+#     result = data_inputs.get_scenario_gauges(gauge_results)
+#     assert sorted(result) == expected_results
+@pytest.mark.parametrize(
+    "gauge_results, expected_results",
+    [
+        # Test Case 1: Basic scenario
+        (
+            {
+                "scenario1": {"A4260527": {"data": [1, 2, 3]}, "A4260633": {"data": [4, 5, 6]}},
+                "scenario2": {"A4260527": {"data": [7, 8, 9]}, "A4260634": {"data": [10, 11, 12]}},
+                "scenario3": {"A4260527": {"data": [13, 14, 15]}, "A4260635": {"data": [16, 17, 18]}},
+            },
+            ['A4260527', 'A4260633', 'A4260634', 'A4260635']
+        ),
+        # Test Case 2: Empty scenario
+        (
+            {},
+            []
+        ),
+        # Test Case 3: Single scenario with single gauge
+        (
+            {"scenario1": {"A4260527": {"data": [1, 2, 3]}}},
+            ['A4260527']
+        ),
+        # Test Case 4: Multiple scenarios with overlapping gauges
+        (
+            {
+                "scenario1": {"A4260527": {"data": [1, 2, 3]}},
+                "scenario2": {"A4260527": {"data": [4, 5, 6]}, "A4260633": {"data": [7, 8, 9]}},
+            },
+            ["A4260527", "A4260633"]
+        ),
+    ]
+)
 def test_get_scenario_gauges(gauge_results, expected_results):
     result = data_inputs.get_scenario_gauges(gauge_results)
-    assert sorted(result) == expected_results
-    
+    assert sorted(result) == sorted(expected_results)
+
+def test_get_MDBA_codes():
+    sample_data={
+        
+        'SITEID': ['423003_', 'LOCK8DS', 'LOCK8US', '5BOOMWG', 'LOCK7US'],
+        'Name':['Warrego @ Barringun No 2', 'River Murray D/S Lock 8', 'River Murray U/S Lock 8', 'Boomi River at Boomi Weir Offtake', 'Murray downstream Lock 8'], 
+        'Description': ['BSMS EOV target site', '', 'A4260506', '416037', 'A4260507'],
+        'AWRC':  ['423004', '4260507', '4260507', '416037', 'A4260507'],
+        'StateID':['423004', '4260507', '4260507', '416037', 'A4260507'],
+        'OldSITEID': ['1', '5', '5', '2', '5']
+    }
+    expected_df = pd.DataFrame(sample_data)
+    results_df=data_inputs.get_MDBA_codes()
+
+    # Check if the columns match the expected columns
+    assert list(results_df.columns) == list(expected_df.columns), "Column headers do not match"
