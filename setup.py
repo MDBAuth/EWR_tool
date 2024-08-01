@@ -39,7 +39,7 @@ setup(
         "mdba-gauge-getter==0.5.1",
         "cachetools==5.2.0",
         "xarray==2023.10.1",
-        "netCDF4==1.6.4"
+        "netCDF4==1.6.4",
         "numpy<2"
     ],
     package_data={'': ["model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
