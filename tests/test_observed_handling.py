@@ -71,17 +71,27 @@ def test_categorise_gauges():
     1. gauges in all categories
     2. gauges outside cats
     '''
-    
-    level = ['425020', '425022', '425023', 'A4260501', 'A4260508','A4260506', '414209']
-    flow = ['414203', '425010', 'A4260507', 'A4260505',  '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '421090', '421088', '421088', '421090', '409023', '409003']
-    all_gauges = level + flow
-    
-    f, l, _ = observed_handling.categorise_gauges(all_gauges)
+    gauges = ['422015', '422030', '416001', '421088', '414203', 'A4260527', 'A4260633', '425020', 'A4261002', 'A4261002']
 
-    expected_level = copy.deepcopy(level)
-    expected_flow = copy.deepcopy(flow)
+    flow = ['422015', '422030', '421088', '414203', '416001', 'A4261002']
+    level = ['422015', '422030', '414209', 'A4260527', 'A4260633']
+    lake_level = ['A4260527', 'A4260633','425020']
+
+    expected_flow = ['422015', '422030', '421088', '421090', '414203', '416001', 'A4261002']
+    expected_level = ['422015', '422030', '414209', 'A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575', 'A4260633','A4261209', 'A4261165']
+    expected_lake_level = ['425020', 'A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575', 'A4260633','A4261209', 'A4261165']
+
+    all_gauges = level + flow + lake_level
+    
+    f, l, ll = observed_handling.categorise_gauges(all_gauges)
+
+    # expected_level = copy.deepcopy(level)
+    # expected_flow = copy.deepcopy(flow)
+    # expected_lake_level = copy.deepcopy(lake_level)
+
     assert set(f) == set(expected_flow)
     assert set(l) == set(expected_level)
+    assert set(ll) == set(expected_lake_level)
 
 
 def test_observed_handler_class(observed_handler_expected_detail, observed_handler_instance):
