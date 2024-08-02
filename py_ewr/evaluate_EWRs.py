@@ -10,7 +10,6 @@ import logging
 
 import pandas as pd
 import numpy as np
-from tqdm import tqdm
 
 from . import data_inputs
 
@@ -5086,9 +5085,7 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, EWR_table:pd.Da
         EWR_codes = PU_table['Code']
         PU_df = pd.DataFrame()
         PU_events = {}
-        for i, EWR in enumerate(tqdm(EWR_codes, position = 0, leave = False,
-                                     bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
-                                     desc= str('Evaluating ewrs for '+ gauge))):
+        for i, EWR in enumerate(EWR_codes):
             events = {}
 
             MULTIGAUGE = is_multigauge(EWR_table, gauge, EWR, PU)

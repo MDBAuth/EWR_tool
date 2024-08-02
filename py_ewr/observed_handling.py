@@ -3,7 +3,6 @@ from typing import Dict, List
 import logging
 
 import pandas as pd
-from tqdm import tqdm
 import numpy as np
 
 from . import data_inputs, evaluate_EWRs, summarise_results, scenario_handling
