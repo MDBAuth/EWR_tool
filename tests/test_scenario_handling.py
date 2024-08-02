@@ -12,7 +12,9 @@ from py_ewr import scenario_handling, data_inputs
 def test_match_MDBA_nodes():
     '''
     1. Ensure dataframe with flows and levels is split into two dataframes (one flow and one level dataframe)
+    2. Ensure first column is used when duplicate columns are loaded
     '''
+    # TEST 1 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
     model_metadata = data_inputs.get_MDBA_codes()
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -24,6 +26,36 @@ def test_match_MDBA_nodes():
     
     df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
+    # Set up expected outputs and test:
+    data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_L = pd.DataFrame(data_expected_df_L)
+    expected_df_L = expected_df_L.set_index('Date') 
+    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414203': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F.set_index('Date')
+    
+    assert_frame_equal(df_F, expected_df_F)
+    assert_frame_equal(df_L, expected_df_L)
+
+    # TEST 2 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Use
+                'EUSTDS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
+                'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
+                'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Use
+                'EUSTUS-1-8': [1]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                             '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
