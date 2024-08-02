@@ -212,3 +212,13 @@ def test_get_NSW_codes():
 
     # Check if the columns match the expected columns
     assert list(results_df.columns) == list(expected_df.columns), "Column headers do not match"
+
+def test_get_EWR_components():
+    test_cases = {
+        'flow': (['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV'], data_inputs.get_EWR_components('flow')),
+        'low flow': (['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MIE', 'FLV'], data_inputs.get_EWR_components('low flow')),
+       
+    }
+    
+    for test_name, (expected, actual) in test_cases.items():
+        assert actual == expected, f"Test '{test_name}': Expected {expected}, but got {actual}"

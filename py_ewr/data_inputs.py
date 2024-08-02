@@ -201,47 +201,68 @@ def get_EWR_components(category):
     '''
 
     if category == 'flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV']
+        #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV']
+        pull=  ['StartMonth','EndMonth','FlowThresholdMin','FlowThresholdMax','Duration','MinSpell','WithinEventGapTolerance','EventsPerYear','MaxInter-event','FlowLevelVolume']
     elif category == 'low flow':
         pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR',  'ME', 'EPY', 'MIE', 'FLV']
+        pull=  ['StartMonth','EndMonth','FlowThresholdMin','FlowThresholdMax','Duration','MinSpell','EventsPerYear','MaxInter-event','FlowLevelVolume']
     elif category == 'cease to flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MIE', 'FLV']
+       # pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MIE', 'FLV']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'cumulative':
-        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV']
+        #pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV']
+        pull=['StartMonth', 'EndMonth', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'cumulative_bbr':
-        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV','MAXL','WPG']
+        #pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV','MAXL','WPG']
+        pull=['StartMonth', 'EndMonth', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume', 'LevelThresholdMax', 'WeirpoolGauge']
     elif category == 'water_stability':
-        pull =  ['SM', 'EM', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV','MAXL','WPG', 'EDS', 'LDS', 'ML', 'MD']
+        #pull =  ['SM', 'EM', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF', 'MIE','AP','GP', 'FLV','MAXL','WPG', 'EDS', 'LDS', 'ML', 'MD']
+        pull=['StartMonth', 'EndMonth', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume', 'LevelThresholdMax', 'WeirpoolGauge', 'EggsDaysSpell', 'LarvaeDaysSpell', 'MaxLevelRise', 'DrawdownRate']
     elif category == 'water_stability_level':
-        pull =  ['SM', 'EM', 'DUR', 'ME', 'EPY', 'MINF', 'MIE','AP','GP', 'FLV','MAXL', 'MINL', 'WPG', 'EDS', 'LDS', 'ML', 'MD']
+        #pull =  ['SM', 'EM', 'DUR', 'ME', 'EPY', 'MINF', 'MIE','AP','GP', 'FLV','MAXL', 'MINL', 'WPG', 'EDS', 'LDS', 'ML', 'MD']
+        pull=['StartMonth', 'EndMonth', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume', 'LevelThresholdMax', 'LevelThresholdMin', 'WeirpoolGauge', 'EggsDaysSpell', 'LarvaeDaysSpell', 'MaxLevelRise', 'DrawdownRate']
     elif category == 'level':
-        pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV', 'MAXD','GP','MLR']
+        #pull = ['SM', 'EM', 'MINL', 'MAXL', 'DUR', 'ME', 'EPY', 'MD', 'MIE', 'FLV', 'MAXD','GP','MLR']
+        pull=['StartMonth', 'EndMonth', 'LevelThresholdMin', 'LevelThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'DrawdownRate', 'MaxInter-event', 'FlowLevelVolume', 'MaxSpell', 'WithinEventGapTolerance', 'MinLevelRise']
     elif category == 'weirpool-raising':
-        pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
+       # pull=['SM', 'EM', 'MINF', 'MAXF', 'MINL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'LevelThresholdMin', 'Duration', 'MinSpell', 'DrawdownRate', 'EventsPerYear', 'WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'WithinEventGapTolerance']
     elif category == 'weirpool-falling':
-        pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
+       # pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'EPY','WPG', 'MIE', 'FLV', 'GP']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'LevelThresholdMax', 'Duration', 'MinSpell', 'DrawdownRate', 'EventsPerYear', 'WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'WithinEventGapTolerance']
     elif category == 'nest-level':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV','WDD','GP']
+       # pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'WPG', 'MIE', 'FLV','WDD','GP']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'DrawdownRate', 'EventsPerYear', 'WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'DrawdownRateWeek', 'WithinEventGapTolerance']
     elif category == 'nest-percent':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'MIE', 'FLV','TD','TM','GP']
+       # pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'MD', 'EPY', 'MIE', 'FLV','TD','TM','GP']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'DrawdownRate', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume', 'TriggerDay', 'TriggerMonth', 'WithinEventGapTolerance']
     elif category == 'multi-gauge-flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MG', 'MIE', 'FLV']
+        #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MG', 'MIE', 'FLV']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'WithinEventGapTolerance', 'EventsPerYear', 'SecondGauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-low flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MG', 'MIE', 'FLV']
+        #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MG', 'MIE', 'FLV']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'SecondGauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-cease to flow':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MG', 'MIE', 'FLV']
+        #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MG', 'MIE', 'FLV']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'SecondGauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-cumulative':
-        pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF','MG', 'MIE','AP','GP', 'FLV']
+        #pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF','MG', 'MIE','AP','GP', 'FLV']
+        pull=['StartMonth', 'EndMonth', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'SecondGauge', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'flood-plains':
-        pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
+        #pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'LevelThresholdMax', 'Duration', 'MinSpell', 'DrawdownRate', 'MaxLevelRise', 'EventsPerYear', 'WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'WithinEventGapTolerance']
     elif category == 'barrage-flow':
-        pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','ABF','TYBF','HRWS', 'HRWE', 'LRWS', 'LRWE']
+        #pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','ABF','TYBF','HRWS', 'HRWE', 'LRWS', 'LRWE']
+        pull=['StartMonth', 'EndMonth', 'Duration', 'MinSpell', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume', 'AnnualBarrageFlow', 'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd']
     elif category == 'barrage-level':
-        pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','HRWS', 'HRWE', 'LRWS', 'LRWE','PLWS', 'PLWE', 'LLWS', 'LLWE','MINL','MAXL']
+        #pull=['SM', 'EM','DUR', 'ME','EPY','MIE','FLV','HRWS', 'HRWE', 'LRWS', 'LRWE','PLWS', 'PLWE', 'LLWS', 'LLWE','MINL','MAXL']
+        pull=['StartMonth', 'EndMonth', 'Duration', 'MinSpell', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'LevelThresholdMin', 'LevelThresholdMax']
     elif category == 'flow-ctf':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'CTFT']
+        #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'CTFT']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'WithinEventGapTolerance', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume', 'NonFlowSpell', 'CtfThreshold']
     elif category == 'rise_fall':
-        pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'MLR', 'RRM1', 'RRM2', 'RFM', 'RRT1', 'RRT2', 'RRL', 'RFL' ]
+        #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV', 'NFS', 'MLR', 'RRM1', 'RRM2', 'RFM', 'RRT1', 'RRT2', 'RRL', 'RFL']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'WithinEventGapTolerance', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume', 'NonFlowSpell', 'MinLevelRise', 'RateOfRiseMax1', 'RateOfRiseMax2', 'RateOfFallMin', 'RateOfRiseThreshold1', 'RateOfRiseThreshold2', 'RateOfRiseRiverLevel', 'RateOfFallRiverLevel']
     return pull
 
 def get_bad_QA_codes() -> list:
