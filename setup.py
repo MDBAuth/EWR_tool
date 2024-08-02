@@ -35,7 +35,6 @@ setup(
         "ipywidgets==7.7.0",
         "pandas==2.0.3",
         "requests==2.25.1",
-        "tqdm>=4.66.1",
         "mdba-gauge-getter==0.5.1",
         "cachetools==5.2.0",
         "xarray==2023.01.0",

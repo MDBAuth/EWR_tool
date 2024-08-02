@@ -7,7 +7,6 @@ from datetime import datetime, date
 import logging
 
 import pandas as pd
-from tqdm import tqdm
 import xarray as xr
 import netCDF4
  
@@ -548,9 +547,7 @@ class ScenarioHandler:
         # Analyse all scenarios for EWRs
         detailed_results = {}
         detailed_events = {}
-        for scenario in tqdm(scenarios, position = 0, leave = True, 
-                            bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}',
-                            desc= 'Evaluating scenarios'):
+        for scenario in scenarios:
             if self.model_format == 'Bigmod - MDBA':
                 
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
