@@ -215,10 +215,26 @@ def test_get_NSW_codes():
 
 def test_get_EWR_components():
     test_cases = {
-        'flow': (['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'GP', 'EPY', 'MIE', 'FLV'], data_inputs.get_EWR_components('flow')),
-        'low flow': (['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MIE', 'FLV'], data_inputs.get_EWR_components('low flow')),
+        'flow': (['StartMonth','EndMonth','FlowThresholdMin','FlowThresholdMax','Duration','MinSpell','WithinEventGapTolerance','EventsPerYear','MaxInter-event','FlowLevelVolume'], data_inputs.get_EWR_components('flow')),
+        'low flow': (['StartMonth','EndMonth','FlowThresholdMin','FlowThresholdMax','Duration','MinSpell','EventsPerYear','MaxInter-event','FlowLevelVolume'], data_inputs.get_EWR_components('low flow')),
        
     }
     
     for test_name, (expected, actual) in test_cases.items():
         assert actual == expected, f"Test '{test_name}': Expected {expected}, but got {actual}"
+
+
+
+
+# def test_load_IQQM_csv():
+#     df = pd.read_csv("unit_testing_files/murray_IQQM_df_wp.csv", index_col = 'Date')
+    
+#     # Check if the DataFrame is not empty
+#     assert not df.empty, "DataFrame is empty"
+    
+#     # Check if the DataFrame has the correct columns
+#     expected_columns = [ '4260505_flow', '4260501_level', '425010_flow', '4260506_level', '4260508_level']
+#     assert list(df.columns) == expected_columns, "Columns do not match"
+    
+    
+    
