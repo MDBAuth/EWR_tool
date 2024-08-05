@@ -180,4 +180,7 @@ def test_get_cllmm_gauges():
 def test_get_scenario_gauges(gauge_results, expected_results):
     result = data_inputs.get_scenario_gauges(gauge_results)
     assert sorted(result) == expected_results
-    
+
+def test_get_bad_QA_codes():
+        expected_result = [151, 152, 153, 155, 180, 201, 202, 204, 205, 207, 223, 255]
+        assert data_inputs.get_bad_QA_codes() == expected_result
