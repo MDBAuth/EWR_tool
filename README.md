@@ -3,9 +3,12 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.2.0 README**
+### **EWR tool version 2.2.3 README**
 
 ### **Notes on recent version update**
+- Remove TQDM loading bars
+- Handle duplicate sites in MDBA siteID file - where a duplicate exists, the first match is used and the rest are skipped over
+- Adding new model format handling - 'IQQM - netcdf'
 - Standard time-series handling added - each column needs a gauge, followed by and underscore, followed by either flow or level (e.g. 409025_flow). This handling also has missing date filling - so any missing dates will be filled with NaN values in all columns.
 - ten thousand year handling - This has been briefly taken offline for this version.
 - bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table, fixed misclassification of some gauges to flow, level, and lake level categories
@@ -191,4 +194,12 @@ NSW:
 **Running the tool**
 
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
+
+To disable progress bars, as for example when running remote scripted runs, use 
+
+``` python
+import os
+os.environ["TQDM_DISABLE"] = "1"
+```
+*before* importing py-ewr in your script.
 

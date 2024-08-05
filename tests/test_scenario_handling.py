@@ -12,7 +12,9 @@ from py_ewr import scenario_handling, data_inputs
 def test_match_MDBA_nodes():
     '''
     1. Ensure dataframe with flows and levels is split into two dataframes (one flow and one level dataframe)
+    2. Ensure first column is used when duplicate columns are loaded
     '''
+    # TEST 1 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
     model_metadata = data_inputs.get_MDBA_codes()
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -24,6 +26,36 @@ def test_match_MDBA_nodes():
     
     df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
+    # Set up expected outputs and test:
+    data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_L = pd.DataFrame(data_expected_df_L)
+    expected_df_L = expected_df_L.set_index('Date') 
+    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414203': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F.set_index('Date')
+    
+    assert_frame_equal(df_F, expected_df_F)
+    assert_frame_equal(df_L, expected_df_L)
+
+    # TEST 2 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Use
+                'EUSTDS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
+                'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
+                'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Use
+                'EUSTUS-1-8': [1]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                             '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -197,6 +229,30 @@ def test_cleaner_MDBA():
     
     assert_frame_equal(df_clean, expected_df)
     
+def test_cleaner_netcdf_werp():
+    '''
+    1. check ncdf is unpacked correctly
+    '''
+    df = scenario_handling.unpack_netcdf_as_dataframe('unit_testing_files/werp_ncdf.nc')
+    df_F, df_L = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes())
+
+    # the test ncdf is too big to mock, so check properties
+    assert df_F.dtypes.iloc[0] == 'float32'
+    assert isinstance(df_F.index, pd.DatetimeIndex)
+    assert all(df_F.columns == ['421001', '421004', '421012', '421019', '421022', '421023', '421090', '421146'])
+
+
+def test_csv_input():
+    '''
+    1. check we can feed scenario_handling a csv that looks like gauge data
+    '''
+
+    # Can we use standard time-series to feed csv scenarios?
+    ewr_sh_standard = scenario_handling.ScenarioHandler('unit_testing_files/multi_gauge_input_label.csv', 'Standard time-series')
+    standardout = ewr_sh_standard.get_ewr_results()
+
+    assert isinstance(standardout, pd.DataFrame)
+
     
 def test_build_NSW_columns():
     '''
@@ -266,6 +322,7 @@ def test_unpack_model_file():
     
 #     assert_frame_equal(flow, expected_flow)
 
+
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
    
     detailed = scenario_handler_instance.pu_ewr_statistics
@@ -325,11 +382,43 @@ def test_get_ewr_results(scenario_handler_instance):
     assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
-       'AverageEventLength', 'ThresholdDays', 
+       'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
+    
+
+def test_unpack_netcdf_as_dataframe():
+    test_flowcdf = 'unit_testing_files/werp_ncdf.nc'
+    result_flow = scenario_handling.unpack_netcdf_as_dataframe(test_flowcdf)
+    expected_flow_shape = (16000, 1)
+    assert result_flow.shape == expected_flow_shape
+
+
+def test_unpack_netcdf_as_dataframe_invalid_file():
+    test_invalid_file = 'unit_testing_files/NSW_source_res_test_file_header_result.csv'
+    try:
+        result_df = scenario_handling.unpack_netcdf_as_dataframe(test_invalid_file)
+    except ValueError as e:
+        assert "Not a valid NetCDF file." in str(e)
+
     
 def test_any_cllmm_to_process(gauge_results):
     result = scenario_handling.any_cllmm_to_process(gauge_results)
     assert result == True
 
+# This *should* likely use something like conftest.scenario_handler_instance, but that seems to be locked to bigmod.
+def test_netcdf_processes():
+    # Testing the netcdf format:
+    # Input params
+    # scenarios =  'unit_testing_files/ex_tasker.nc'
+    scenarios = 'unit_testing_files/werp_ncdf.nc'
+    model_format = 'IQQM - netcdf'
+    # allowance = {'minThreshold': 1.0, 'maxThreshold': 1.0, 'duration': 1.0, 'drawdown': 1.0}
+    # climate = 'Standard - 1911 to 2018 climate categorisation'
     
+    # Pass to the class
+    
+    ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format)
+    
+    ewr_summary = ewr_sh.get_ewr_results()
+
+    assert ewr_summary.shape == (202, 19)
