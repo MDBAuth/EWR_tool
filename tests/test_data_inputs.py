@@ -42,8 +42,8 @@ def test_get_EWR_table():
     # Test 1
     proxies={} # Populate with your proxy settings
     #my_url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
-    my_url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
-    df = pd.read_csv(my_url,
+    url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
+    df = pd.read_csv(url,
                         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
@@ -72,7 +72,7 @@ def test_get_EWR_table():
     }
 
     conditions = pd.Series(False, index=EWR_table.index)
-
+    # EWR_table
     for columns, condition in drop_conditions.items():
         current_condition = pd.Series(True, index=EWR_table.index)
         for column in columns:
@@ -90,7 +90,22 @@ def test_get_EWR_table():
             current_condition |= (bad_EWRs[column] == condition)
         conditions |= current_condition
 
-    assert conditions.any()
+    assert conditions.any() 
+
+def test_get_EWR_table_errors():
+    # - 1. Test if file not found error is raised
+    # - 2. Test if columns not found error is raised
+    
+    # file not found
+    url = os.path.join(BASE_PATH, "unit_testing_files/non_exist_parameter_sheet.csv")
+    with pytest.raises(FileNotFoundError):
+        data_inputs.get_EWR_table(file_path= url)
+    
+    # correct column names 
+    url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet_alt_colnames.csv")
+    with pytest.raises(ValueError):
+        data_inputs.get_EWR_table(file_path= url)
+
 
 
 def test_get_ewr_calc_config():
@@ -98,7 +113,6 @@ def test_get_ewr_calc_config():
     1. Test for correct return of EWR calculation config
     assert it returns a dictionary
     '''
-
     ewr_calc_config = data_inputs.get_ewr_calc_config()
 
     assert isinstance(ewr_calc_config, dict)
@@ -127,6 +141,7 @@ def test_get_barrage_level_gauges():
     '''
     result = data_inputs.get_barrage_level_gauges()
     assert isinstance(result, dict)
+    assert len(result) == 2
     ## all key main gauge belong to the list of gauges
     for k, v in result.items():
         assert isinstance(v, list)
@@ -189,4 +204,170 @@ def test_get_qld_level_gauges():
 def test_get_scenario_gauges(gauge_results, expected_results):
     result = data_inputs.get_scenario_gauges(gauge_results)
     assert sorted(result) == expected_results
+
+def test_get_level_gauges():
+    level_result, weirpool_result = data_inputs.get_level_gauges()
+    menindee_len = 3
+    lachlan_len = 1
+    weirpool_len = 4
+    assert isinstance(level_result, list)
+    assert isinstance(weirpool_result, dict)
+    assert len(level_result) == menindee_len+lachlan_len
+    assert len(weirpool_result) == weirpool_len
+
+
+def test_get_gauges():
+    '''
+    1. test that the value error gets raised
+    '''
+    # Test 1
+    url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
+    with pytest.raises(ValueError):
+        data_inputs.get_gauges(category = 'not_a_category', 
+                   ewr_table_path = url)
+    with pytest.raises(ValueError):
+        data_inputs.get_gauges(category = '', ewr_table_path=url)
+
+
+    
+
+    # parameter sheet test
+
+    
+def generate_years(start, end, leap = False):
+    if leap == True:
+        leaps =  [year for year in range(start, end + 1) \
+                if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)]
+        rand_year = random.choice(leaps)
+    else:
+        non_leaps = [year for year in range(start, end + 1) \
+                if (year % 4 != 0 and year % 100 == 0) or (year % 400 != 0)]
+        rand_year = random.choice(non_leaps)
+    return rand_year
+
+def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
+    '''
+    Checks the logic between columns that specify aspects of the flow regime related to timing
+    1. DURATION CHECK: 
+        Checks that duration <= days between start and end month
+    2. EVENT NUMBER CHECK: 
+        Checks that the sum of events*event number per year <= 365 days.
+    3. minSpell is not greater than duration
+    4. FLOW THRESHOLD CHECK: 
+        Checks: minimum flow threshold  =< flow threshold >= maximum flow threshold
+    5. TARGET FREQUENCY CHECK:
+        Checks minimum target frequenc =< target_frequency >= maximum target frequency
+    
+
+    args: df: an EWR table as a dataframe
+         year: an integer year
+    
+    return: 
+        number of rows per dataset that violate the conditions described above.
+    '''
+    # Handle StartMonth and EndMonth parsing
+    df[['StartMonth', 'StartDay']] = df['StartMonth'].str.split('.', expand=True).fillna(1).astype(int)
+    df[['EndMonth', 'EndDay']] = df['EndMonth'].str.split('.', expand=True).fillna(1).astype(int) 
+    
+    df['StartMonth'] = df['StartMonth'].replace(0, 1)
+    df['StartDay'] = df['StartDay'].replace(0, 1)
+    df['EndMonth'] = df['EndMonth'].replace(0, 1)
+    df['EndDay'] = df['EndDay'].replace(0, 1)
+
+  
+    df['StartDate'] = pd.to_datetime(df.apply(lambda row: f"{year}-{row['StartMonth']:02d}-{row['StartDay']:02d}", axis=1))
+
+    df['EndDate'] = pd.to_datetime(df.apply(lambda row: f"{year+1 if row['StartMonth'] >= row['StartDay'] else year} \
+                                            -{row['EndMonth']+1:02d}-{row['EndDay']:02d}", axis=1)) - pd.Timedelta(days=1)
+   
+    df['DaysBetween'] = (df['EndDate'] - df['StartDate']).dt.days + 1  # +1 to include both start and end days
+
+    df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
+   'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
+   'FlowThresholdMax']] = df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
+                              'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
+                              'FlowThresholdMax']].replace({' ': 0, '': 0}, regex=True)
+    
+    df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
+   'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
+   'FlowThresholdMax']] = df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
+       'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
+       'FlowThresholdMax' 
+        ]].astype(float)
+    
+    # Calculate MaxEventDays
+    df['MaxEventDays'] = df['EventsPerYear'] * df['Duration']
+
+    duration_gauges, event_number_gauges, min_spell_gauges, flow_threshold_gauges, target_frequency_gauges = set(), set(), set(), set(), set()
+
+   # Duration Check
+    duration_violation = df[df['Duration'] > df['DaysBetween']]
+    duration_gauges.update((duration_violation['PlanningUnitID'].astype(str) + 
+                        duration_violation['Gauge'].astype(str) + 
+                        duration_violation['Code'].astype(str)).tolist())
+
+    # Event Number Check
+    event_number_violation = df[df['MaxEventDays'] > 365]
+    event_number_gauges.update(
+        (event_number_violation['PlanningUnitID'].astype(str) + 
+        event_number_violation['Gauge'].astype(str) + 
+        event_number_violation['Code'].astype(str)).tolist()
+    )
+
+    # MinSpell Check
+    min_spell_violation = df[df['MinSpell'] > df['Duration']]
+    min_spell_gauges.update(
+        (min_spell_violation['PlanningUnitID'].astype(str) + 
+        min_spell_violation['Gauge'].astype(str) + 
+        min_spell_violation['Code'].astype(str)).tolist()
+    )
+
+    # Flow Threshold Check
+    flow_threshold_violation = df[~(df['FlowThresholdMin'] <= df['FlowThresholdMax'])]
+    flow_threshold_gauges.update(
+        (flow_threshold_violation['PlanningUnitID'].astype(str) + 
+        flow_threshold_violation['Gauge'].astype(str) + 
+        flow_threshold_violation['Code'].astype(str)).tolist())
+
+    # Target Frequency Check
+    target_frequency_violation = df[~((df['TargetFrequencyMin'] <= df['TargetFrequency']) \
+                                      & (df['TargetFrequency'] <= df['TargetFrequencyMax']))]
+    target_frequency_gauges.update(
+        (target_frequency_violation['PlanningUnitID'].astype(str) + 
+        target_frequency_violation['Gauge'].astype(str) + 
+        target_frequency_violation['Code'].astype(str)).tolist()
+    )
+
+    # duplicate_EWR planning units and gauges
+    df['unique_ID'] = df['Gauge']+df['PlanningUnitID']+df['Code']
+    duplicates = df[df.duplicated('unique_ID', keep=False)]
+    dup_set = set(duplicates['unique_ID'])
+
+    # Collect indices for each type of violation
+    duration_violation_indices = duration_violation.index.tolist()
+    event_number_violation_indices = event_number_violation.index.tolist()
+    min_spell_violation_indices = min_spell_violation.index.tolist()
+    flow_threshold_violation_indices = flow_threshold_violation.index.tolist()
+    target_frequency_violation_indices = target_frequency_violation.index.tolist()
+    duplicate_indices = duplicates.index.tolist()
+
+    # Print indices where violations occur
+    print("Duration Violation at rows:", duration_violation_indices)
+    print("Event Number Violation at rows:", event_number_violation_indices)
+    print("MinSpell Violation at rows:", min_spell_violation_indices)
+    print("Flow Threshold Violation at rows:", flow_threshold_violation_indices)
+    print("Target Frequency Violation at rows:", target_frequency_violation_indices)
+    print("Duplicate rows:", duplicate_indices)
+
+    # Check if there are no violations
+    no_violations = all(len(v) == 0 for v in [
+        duration_violation, 
+        event_number_violation, 
+        min_spell_violation, 
+        flow_threshold_violation, 
+        target_frequency_violation, 
+        duplicates
+    ])
+    assert no_violations, "Errors were found with the logic in the EWR table"
+    
 
