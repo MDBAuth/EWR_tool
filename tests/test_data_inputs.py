@@ -198,27 +198,13 @@ def test_ewr_parameter_grabber():
     #testing basic functionality
     assert result == 'Value1'
     #testing non matching data
-    try:
+    with pytest.raises(IndexError):
         data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'Parameter1')
-    except IndexError:
-        print("Test Passed: IndexError was raised as expected")
-    else:
-        print("Test Failed: IndexError was not raised") 
-    # mising
-    try:
-       data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'NonExistingParameter')
-    except KeyError:
-        print("Test Passed: keyError was raised as expected")
-    else:
-        print("Test Failed: keyError was not raised")
-    #testing empty dataframe
-    empty_df = pd.DataFrame(columns=mock_data.keys())
-    try:
+    with pytest.raises(KeyError):
+        data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'NonExistingParameter')
+    with pytest.raises(IndexError):
+        empty_df = pd.DataFrame(columns=mock_data.keys())
         data_inputs.ewr_parameter_grabber(empty_df, 'G4', 'PU1', 'EWR1', 'Parameter1')
-    except IndexError:
-        print("Test Passed: IndexError was raised as expected")
-    else:
-        print("Test Failed: IndexError was not raised")
+
+   
   
-    
-    

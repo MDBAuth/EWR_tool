@@ -36,7 +36,7 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
     return ewr_calc_config
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path:str = None) -> dict:
+def get_EWR_table(file_path:str = None) -> tuple(pd.DataFrame, pd.DataFrame):
     
     ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
@@ -301,18 +301,21 @@ def weirpool_type(EWR: str) -> str:
     return 'raising' if EWR == 'WP2' else 'falling'
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_planning_unit_info() -> pd.DataFrame:
-    '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP.
+
+# def get_planning_unit_info() -> pd.DataFrame:
+#     '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP.
     
-    Result:
-        pd.DataFrame: dataframe with planning units and their unique planning unit ID.
+#     Result:
+#         pd.DataFrame: dataframe with planning units and their unique planning unit ID.
     
-    '''
-    EWR_table, bad_EWRs = get_EWR_table()
-        
-    planningUnits = EWR_table.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1) 
+#     '''
     
-    return planningUnits
+#     EWR_table, bad_EWRs = get_EWR_table()
+    
+#     planningUnits = EWR_table[['PlanningUnitID', 'PlanningUnitName']].drop_duplicates().reset_index(drop=True)
+
+    
+#     return planningUnits
 
 
 
