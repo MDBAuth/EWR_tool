@@ -184,3 +184,41 @@ def test_get_scenario_gauges(gauge_results, expected_results):
 def test_get_bad_QA_codes():
         expected_result = [151, 152, 153, 155, 180, 201, 202, 204, 205, 207, 223, 255]
         assert data_inputs.get_bad_QA_codes() == expected_result
+
+def test_ewr_parameter_grabber():
+    mock_data={
+            'Gauge': ['G1', 'G2', 'G1', 'G3'],
+            'Code': ['EWR1', 'EWR2', 'EWR1', 'EWR3'],
+            'PlanningUnitName': ['PU1', 'PU2', 'PU1', 'PU3'],
+            'Parameter1': ['Value1', 'Value2', 'Value3', 'Value4'],
+            'Parameter2': ['Value5', 'Value6', 'Value7', 'Value8']
+        }
+    ewr_table_mock=pd.DataFrame(mock_data)
+    result=data_inputs.ewr_parameter_grabber(ewr_table_mock,'G1', 'PU1', 'EWR1', 'Parameter1')
+    #testing basic functionality
+    assert result == 'Value1'
+    #testing non matching data
+    try:
+        data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'Parameter1')
+    except IndexError:
+        print("Test Passed: IndexError was raised as expected")
+    else:
+        print("Test Failed: IndexError was not raised") 
+    # mising
+    try:
+       data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'NonExistingParameter')
+    except KeyError:
+        print("Test Passed: keyError was raised as expected")
+    else:
+        print("Test Failed: keyError was not raised")
+    #testing empty dataframe
+    empty_df = pd.DataFrame(columns=mock_data.keys())
+    try:
+        data_inputs.ewr_parameter_grabber(empty_df, 'G4', 'PU1', 'EWR1', 'Parameter1')
+    except IndexError:
+        print("Test Passed: IndexError was raised as expected")
+    else:
+        print("Test Failed: IndexError was not raised")
+  
+    
+    
