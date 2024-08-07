@@ -36,7 +36,7 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
     return ewr_calc_config
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path:str = None) -> tuple(pd.DataFrame, pd.DataFrame):
+def get_EWR_table(file_path:str = None) -> tuple[pd.DataFrame, pd.DataFrame]:
     
     ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,

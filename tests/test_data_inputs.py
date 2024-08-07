@@ -208,3 +208,8 @@ def test_ewr_parameter_grabber():
 
    
   
+def test_weirpool_type():
+    assert data_inputs.weirpool_type('WP1') == 'falling'
+    assert data_inputs.weirpool_type('WP2') == 'raising'
+    assert data_inputs.weirpool_type('WP3') == 'falling'
+    assert data_inputs.weirpool_type('WP4') == 'falling'
