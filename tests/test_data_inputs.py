@@ -231,19 +231,19 @@ def test_get_gauges():
 
     
 
-    # parameter sheet test
-
+# parameter sheet logic test
     
-def generate_years(start, end, leap = False):
+def generate_years(start, end, leap=False):
     if leap == True:
-        leaps =  [year for year in range(start, end + 1) \
-                if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)]
+        leaps = [year for year in range(start, end + 1)
+                 if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)]
         rand_year = random.choice(leaps)
     else:
-        non_leaps = [year for year in range(start, end + 1) \
-                if (year % 4 != 0 and year % 100 == 0) or (year % 400 != 0)]
+        non_leaps = [year for year in range(start, end + 1)
+                     if (year % 4 != 0 and year % 100 == 0) or (year % 400 != 0)]
         rand_year = random.choice(non_leaps)
     return rand_year
+
 
 def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
     '''
@@ -257,6 +257,10 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
         Checks: minimum flow threshold  =< flow threshold >= maximum flow threshold
     5. TARGET FREQUENCY CHECK:
         Checks minimum target frequenc =< target_frequency >= maximum target frequency
+    6. DUPLICATE ROW CHECK
+        Check unique combinations of planning unit, gauge occur only once in the dataset
+    7. SPECIAL CHARACTER CHECK
+        Checks if the dataframe is free of special characters.
     
 
     args: df: an EWR table as a dataframe
@@ -266,82 +270,63 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
         number of rows per dataset that violate the conditions described above.
     '''
     # Handle StartMonth and EndMonth parsing
-    df[['StartMonth', 'StartDay']] = df['StartMonth'].str.split('.', expand=True).fillna(1).astype(int)
-    df[['EndMonth', 'EndDay']] = df['EndMonth'].str.split('.', expand=True).fillna(1).astype(int) 
-    
-    df['StartMonth'] = df['StartMonth'].replace(0, 1)
-    df['StartDay'] = df['StartDay'].replace(0, 1)
-    df['EndMonth'] = df['EndMonth'].replace(0, 1)
-    df['EndDay'] = df['EndDay'].replace(0, 1)
+    df[['StartMonth', 'StartDay']] = df['StartMonth'].str.split(
+        '.', expand=True).fillna(1).astype(int)
+    df[['EndMonth', 'EndDay']] = df['EndMonth'].str.split(
+        '.', expand=True).fillna(1).astype(int)
 
-  
-    df['StartDate'] = pd.to_datetime(df.apply(lambda row: f"{year}-{row['StartMonth']:02d}-{row['StartDay']:02d}", axis=1))
+    date_cols = ['StartMonth', 'StartDay', 'EndMonth', 'EndDay']
+    df[date_cols] = df[date_cols].replace(0, 1)
+
+    df['StartDate'] = pd.to_datetime(df.apply(
+        lambda row: f"{year}-{row['StartMonth']:02d}-{row['StartDay']:02d}", axis=1))
 
     df['EndDate'] = pd.to_datetime(df.apply(lambda row: f"{year+1 if row['StartMonth'] >= row['StartDay'] else year} \
                                             -{row['EndMonth']+1:02d}-{row['EndDay']:02d}", axis=1)) - pd.Timedelta(days=1)
-   
-    df['DaysBetween'] = (df['EndDate'] - df['StartDate']).dt.days + 1  # +1 to include both start and end days
 
-    df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
-   'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
-   'FlowThresholdMax']] = df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
-                              'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
-                              'FlowThresholdMax']].replace({' ': 0, '': 0}, regex=True)
-    
-    df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
-   'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
-   'FlowThresholdMax']] = df[['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
-       'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
-       'FlowThresholdMax' 
-        ]].astype(float)
-    
+    df['DaysBetween'] = (df['EndDate'] - df['StartDate']).dt.days + 1
+
+    # prep columns for calculations
+
+    columns = ['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
+           'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
+           'FlowThresholdMax']
+
+    df[columns] = df[columns].replace({' ': 0, '': 0}, regex=True).apply(lambda x: x.astype(float))
+
     # Calculate MaxEventDays
     df['MaxEventDays'] = df['EventsPerYear'] * df['Duration']
 
-    duration_gauges, event_number_gauges, min_spell_gauges, flow_threshold_gauges, target_frequency_gauges = set(), set(), set(), set(), set()
-
    # Duration Check
     duration_violation = df[df['Duration'] > df['DaysBetween']]
-    duration_gauges.update((duration_violation['PlanningUnitID'].astype(str) + 
-                        duration_violation['Gauge'].astype(str) + 
-                        duration_violation['Code'].astype(str)).tolist())
 
     # Event Number Check
     event_number_violation = df[df['MaxEventDays'] > 365]
-    event_number_gauges.update(
-        (event_number_violation['PlanningUnitID'].astype(str) + 
-        event_number_violation['Gauge'].astype(str) + 
-        event_number_violation['Code'].astype(str)).tolist()
-    )
 
     # MinSpell Check
     min_spell_violation = df[df['MinSpell'] > df['Duration']]
-    min_spell_gauges.update(
-        (min_spell_violation['PlanningUnitID'].astype(str) + 
-        min_spell_violation['Gauge'].astype(str) + 
-        min_spell_violation['Code'].astype(str)).tolist()
-    )
 
     # Flow Threshold Check
-    flow_threshold_violation = df[~(df['FlowThresholdMin'] <= df['FlowThresholdMax'])]
-    flow_threshold_gauges.update(
-        (flow_threshold_violation['PlanningUnitID'].astype(str) + 
-        flow_threshold_violation['Gauge'].astype(str) + 
-        flow_threshold_violation['Code'].astype(str)).tolist())
+    flow_threshold_violation = df[(df['FlowThresholdMax'] > 0) & ~(
+        df['FlowThresholdMin'] <= df['FlowThresholdMax'])]
 
     # Target Frequency Check
-    target_frequency_violation = df[~((df['TargetFrequencyMin'] <= df['TargetFrequency']) \
-                                      & (df['TargetFrequency'] <= df['TargetFrequencyMax']))]
-    target_frequency_gauges.update(
-        (target_frequency_violation['PlanningUnitID'].astype(str) + 
-        target_frequency_violation['Gauge'].astype(str) + 
-        target_frequency_violation['Code'].astype(str)).tolist()
-    )
 
-    # duplicate_EWR planning units and gauges
-    df['unique_ID'] = df['Gauge']+df['PlanningUnitID']+df['Code']
+    target_frequency_violation = df[(df['TargetFrequencyMax'] > 0) & ~((df['TargetFrequencyMin'] <= df['TargetFrequency'])
+                                                                       & (df['TargetFrequency'] <= df['TargetFrequencyMax']))]
+
+    # duplicate_EWR planning units and gauges 
+    df['unique_ID'] = df['Gauge']+'_'+df['PlanningUnitID']+'_'+df['Code']
     duplicates = df[df.duplicated('unique_ID', keep=False)]
     dup_set = set(duplicates['unique_ID'])
+
+   # special characters not allowed to be in the dataframe
+    allowed = list('.') + list('_') + list('-')
+    punc_and_spaces = string.whitespace + string.punctuation
+    not_allowed = ''.join([re.escape(c)
+                          for c in punc_and_spaces if c not in allowed])
+    special_char_bool = df.apply(lambda x: x.astype(
+        str).str.contains(not_allowed, regex=True)).any(axis=1)
 
     # Collect indices for each type of violation
     duration_violation_indices = duration_violation.index.tolist()
@@ -350,24 +335,27 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
     flow_threshold_violation_indices = flow_threshold_violation.index.tolist()
     target_frequency_violation_indices = target_frequency_violation.index.tolist()
     duplicate_indices = duplicates.index.tolist()
+    special_char_cols = special_char_bool[special_char_bool].index.tolist()
 
     # Print indices where violations occur
     print("Duration Violation at rows:", duration_violation_indices)
     print("Event Number Violation at rows:", event_number_violation_indices)
     print("MinSpell Violation at rows:", min_spell_violation_indices)
-    print("Flow Threshold Violation at rows:", flow_threshold_violation_indices)
-    print("Target Frequency Violation at rows:", target_frequency_violation_indices)
-    print("Duplicate rows:", duplicate_indices)
+    print("Flow Threshold Violation at rows:",
+          flow_threshold_violation_indices)
+    print("Target Frequency Violation at rows:",
+          target_frequency_violation_indices)
+    print("Duplicate rows:", duplicate_indices),
+    print("special characters in the following rows:", special_char_cols)
 
     # Check if there are no violations
     no_violations = all(len(v) == 0 for v in [
-        duration_violation, 
-        event_number_violation, 
-        min_spell_violation, 
-        flow_threshold_violation, 
-        target_frequency_violation, 
-        duplicates
+        duration_violation,
+        event_number_violation,
+        min_spell_violation,
+        flow_threshold_violation,
+        target_frequency_violation,
+        duplicates,
+        special_char_cols
     ])
     assert no_violations, "Errors were found with the logic in the EWR table"
-    
-
