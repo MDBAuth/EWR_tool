@@ -1,12 +1,14 @@
 from pathlib import Path
 import io
-
 import pandas as pd
 from pandas._testing import assert_frame_equal
 import numpy as np
 import requests
 from datetime import datetime
 import os
+import random
+import string
+import re
 
 from py_ewr import data_inputs
 import pytest
@@ -41,7 +43,6 @@ def test_get_EWR_table():
     '''
     # Test 1
     proxies={} # Populate with your proxy settings
-    #my_url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
     df = pd.read_csv(url,
                         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
@@ -245,7 +246,7 @@ def generate_years(start, end, leap=False):
     return rand_year
 
 
-def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
+def check_EWR_logic(df: pd.DataFrame, year: int):
     '''
     Checks the logic between columns that specify aspects of the flow regime related to timing
     1. DURATION CHECK: 
@@ -254,12 +255,14 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
         Checks that the sum of events*event number per year <= 365 days.
     3. minSpell is not greater than duration
     4. FLOW THRESHOLD CHECK: 
-        Checks: minimum flow threshold  =< flow threshold >= maximum flow threshold
+        Checks: minimum flow threshold  =< maximum flow threshold
     5. TARGET FREQUENCY CHECK:
         Checks minimum target frequenc =< target_frequency >= maximum target frequency
-    6. DUPLICATE ROW CHECK
+    6. LEVEL THRESHOLD CHECK
+        Check minimum level threshold =< maximum level threshold. 
+    7. DUPLICATE ROW CHECK
         Check unique combinations of planning unit, gauge occur only once in the dataset
-    7. SPECIAL CHARACTER CHECK
+    8. SPECIAL CHARACTER CHECK
         Checks if the dataframe is free of special characters.
     
 
@@ -269,20 +272,31 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
     return: 
         number of rows per dataset that violate the conditions described above.
     '''
+    # special characters not allowed to be in the dataframe, 
+    # added here because all cells are strings when output 
+    # from the get_EWR_table function
+    allowed = list('.') + list('_') + list('-')
+    punc_and_spaces = string.whitespace + string.punctuation
+    not_allowed = ''.join([re.escape(c)
+                          for c in punc_and_spaces if c not in allowed])
+    special_char_bool = df.apply(lambda x: x.astype(
+        str).str.contains(not_allowed, regex=True)).any(axis=1)
+
     # Handle StartMonth and EndMonth parsing
     df[['StartMonth', 'StartDay']] = df['StartMonth'].str.split(
         '.', expand=True).fillna(1).astype(int)
     df[['EndMonth', 'EndDay']] = df['EndMonth'].str.split(
         '.', expand=True).fillna(1).astype(int)
 
+    # this shouldn't be needed for the default parameter sheet
     date_cols = ['StartMonth', 'StartDay', 'EndMonth', 'EndDay']
     df[date_cols] = df[date_cols].replace(0, 1)
 
     df['StartDate'] = pd.to_datetime(df.apply(
         lambda row: f"{year}-{row['StartMonth']:02d}-{row['StartDay']:02d}", axis=1))
 
-    df['EndDate'] = pd.to_datetime(df.apply(lambda row: f"{year+1 if row['StartMonth'] >= row['StartDay'] else year} \
-                                            -{row['EndMonth']+1:02d}-{row['EndDay']:02d}", axis=1)) - pd.Timedelta(days=1)
+    df['EndDate'] = pd.to_datetime(df.apply(
+        lambda row: f"{year+1 if row['StartMonth'] > row['EndMonth'] else year}-{row['EndMonth']: 02d}-{row['EndDay']: 02d}", axis=1))+pd.offsets.MonthEnd(1)
 
     df['DaysBetween'] = (df['EndDate'] - df['StartDate']).dt.days + 1
 
@@ -310,29 +324,27 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
     flow_threshold_violation = df[(df['FlowThresholdMax'] > 0) & ~(
         df['FlowThresholdMin'] <= df['FlowThresholdMax'])]
 
-    # Target Frequency Check
+    # level Threshold Check
+    level_threshold_violation = df[(df['LevelThresholdMax'] > 0) & ~(
+        df['LevelThresholdMin'] <= df['LevelThresholdMax'])]
+    # level Threshold Check
 
-    target_frequency_violation = df[(df['TargetFrequencyMax'] > 0) & ~((df['TargetFrequencyMin'] <= df['TargetFrequency'])
-                                                                       & (df['TargetFrequency'] <= df['TargetFrequencyMax']))]
+    # Target Frequency Check
+    target_frequency_violation = df[(df['TargetFrequencyMax'] > 0) & 
+    ~((df['TargetFrequencyMin'] <= df['TargetFrequency']) | (df['TargetFrequency'] <= df['TargetFrequencyMax']))]
 
     # duplicate_EWR planning units and gauges 
     df['unique_ID'] = df['Gauge']+'_'+df['PlanningUnitID']+'_'+df['Code']
     duplicates = df[df.duplicated('unique_ID', keep=False)]
     dup_set = set(duplicates['unique_ID'])
 
-   # special characters not allowed to be in the dataframe
-    allowed = list('.') + list('_') + list('-')
-    punc_and_spaces = string.whitespace + string.punctuation
-    not_allowed = ''.join([re.escape(c)
-                          for c in punc_and_spaces if c not in allowed])
-    special_char_bool = df.apply(lambda x: x.astype(
-        str).str.contains(not_allowed, regex=True)).any(axis=1)
 
     # Collect indices for each type of violation
     duration_violation_indices = duration_violation.index.tolist()
     event_number_violation_indices = event_number_violation.index.tolist()
     min_spell_violation_indices = min_spell_violation.index.tolist()
     flow_threshold_violation_indices = flow_threshold_violation.index.tolist()
+    level_threshold_violation_indices = level_threshold_violation.index.tolist()
     target_frequency_violation_indices = target_frequency_violation.index.tolist()
     duplicate_indices = duplicates.index.tolist()
     special_char_cols = special_char_bool[special_char_bool].index.tolist()
@@ -343,6 +355,8 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
     print("MinSpell Violation at rows:", min_spell_violation_indices)
     print("Flow Threshold Violation at rows:",
           flow_threshold_violation_indices)
+    print("Level Threshold Violation at rows:",
+          level_threshold_violation_indices)
     print("Target Frequency Violation at rows:",
           target_frequency_violation_indices)
     print("Duplicate rows:", duplicate_indices),
@@ -354,8 +368,23 @@ def check_EWR_logic(df: pd.DataFrame, year: int) -> str:
         event_number_violation,
         min_spell_violation,
         flow_threshold_violation,
+        level_threshold_violation,
         target_frequency_violation,
         duplicates,
         special_char_cols
     ])
     assert no_violations, "Errors were found with the logic in the EWR table"
+
+# run EWR_table checks
+#real_EWR_table = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
+real_EWR_table = '/home/azureuser/cloudfiles/code/Users/Elisha.Freedman/EWR_tool/unit_testing_files/parameter_sheet_small.csv'
+EWR_table, bad_EWRs = data_inputs.get_EWR_table(file_path = real_EWR_table)
+# non leap year check
+non_leap = generate_years(1900, 2023, leap = False)
+print('checking EWR table with a non leap year first:')
+check_EWR_logic(EWR_table, non_leap)
+
+# leap year check
+leap = generate_years(1900, 2023, leap = True)
+print('now checking EWR table against a leap year:')
+check_EWR_logic(EWR_table, leap)
