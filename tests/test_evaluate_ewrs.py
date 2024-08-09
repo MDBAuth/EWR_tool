@@ -7,6 +7,26 @@ import numpy as np
 
 from py_ewr import evaluate_EWRs, data_inputs
 
+def test_component_pull():
+    # Sample DataFrame for testing
+    mock_data = {
+        'Gauge': ['G001', 'G002', 'G001', 'G003'],
+        'Code': ['EWR1', 'EWR2', 'EWR1', 'EWR3'],
+        'PlanningUnitID': ['PU1', 'PU2', 'PU1', 'PU3'],
+        'Component1': ['Value1', 'Value2', 'Value3', 'Value4'],
+        'Component2': ['Val1', 'Val2', 'Val3', 'Val4']
+    }
+    ewr_table_mock=pd.DataFrame(mock_data)
+    result = evaluate_EWRs.component_pull(ewr_table_mock, 'G001', 'PU1', 'EWR1', 'Component1')
+    assert result== 'Value1'
+    with pytest.raises(IndexError):
+        evaluate_EWRs.component_pull(ewr_table_mock, 'G999', 'PU1', 'EWR1', 'Component1')
+    with pytest.raises(KeyError):
+        evaluate_EWRs.component_pull(ewr_table_mock, 'G001', 'PU1', 'EWR1', 'InvalidComponent')
+    with pytest.raises(IndexError):
+        empty_df = pd.DataFrame(columns=mock_data.keys())
+        evaluate_EWRs.component_pull(empty_df, 'G001', 'PU1', 'EWR1', 'Component1')
+
 def test_ctf_handle():
     '''
     1. Ensure all parts of the function generate expected output
