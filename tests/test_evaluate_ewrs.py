@@ -27,6 +27,37 @@ def test_component_pull():
         empty_df = pd.DataFrame(columns=mock_data.keys())
         evaluate_EWRs.component_pull(empty_df, 'G001', 'PU1', 'EWR1', 'Component1')
 
+def test_is_multigauge():
+    mock_multigauge_data=pd.DataFrame({
+            'Gauge': [0.8, 0.8, 1.2],
+            'Code': ['EWR001', 'EWR002', 'EWR003'],
+            'PlanningUnitID': ['PU1', 'PU1', 'PU2'],
+            'Multigauge': ['1', '', '0']
+        })
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 0.8,  'EWR001', 'PU1')
+    assert result == True
+    # test empty
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 0.8,  'EWR002', 'PU1')
+    assert result == False
+    #test where is zero
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.2,  'EWR002', 'PU2')
+    assert result == False
+    #test no matching
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.0,  'EWR999', 'PU1')
+    assert result == False
+
+
+
+
+
+
+
+
+
+
+
+
+
 def test_ctf_handle():
     '''
     1. Ensure all parts of the function generate expected output
