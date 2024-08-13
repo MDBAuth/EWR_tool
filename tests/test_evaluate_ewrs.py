@@ -46,6 +46,31 @@ def test_is_multigauge():
     result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.0,  'EWR999', 'PU1')
     assert result == False
 
+def test_get_second_multigauge():
+    mock_parameter_sheet=pd.DataFrame({
+            'Gauge': [1.0, 2.0, 3.0, 4.0],
+            'Code': ['EWR1', 'EWR2', 'EWR3', 'EWR4'],
+            'PlanningUnitID': ['PU1', 'PU2', 'PU3', 'PU4'],
+            'Multigauge': ['MG1', 'MG2', '', 'MG4']
+        })
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,1.0, 'EWR1', 'PU1')
+    assert result == 'MG1'
+    #test empty
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,3.0, 'EWR3', 'PU3')
+    assert result == ''
+    #no matching row
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,5.0, 'EWR5', 'PU5')
+    assert result== ''
+    #test with multiple rows matching to retune first match
+    mock_parameter_sheet_1=pd.DataFrame({
+            'Gauge': [1.0, 1.0],
+            'Code': ['EWR1', 'EWR1'],
+            'PlanningUnitID': ['PU1', 'PU1'],
+            'Multigauge': ['MG1', 'MG5']
+        })
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet_1,1.0, 'EWR1', 'PU1')
+    assert result== 'MG1'
+
 
 
 
