@@ -16,7 +16,7 @@ def test_ctf_handle():
     gauge = '410007'
     EWR = 'CF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[0]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*10+[0]*345+[0]*1+[0]*9 + [0]*5+[0]*351+[0]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
@@ -55,7 +55,7 @@ def test_lowflow_handle():
     gauge = '410007'
     EWR = 'BF1_a'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[249]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[249]*345+[0]*1+[249]*17 + [0]*5+[249]*351+[249]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
@@ -95,7 +95,7 @@ def test_flow_handle():
     gauge = '410007'
     EWR = 'SF1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[250]*350+[450]*10+[0]*4 + 
                                [0]*360+[450]*5 + 
                                [450]*5+[250]*345+[0]*1+[450]*14 + 
@@ -212,7 +212,7 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         '422016': ( [2500]*10+[0]*355   + 
                                     [0]*365 + 
                                     [0]*365 + 
@@ -245,7 +245,7 @@ def test_level_handle():
     gauge = '425022'
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
                                [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
                                [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + 
@@ -309,7 +309,7 @@ def test_nest_handle():
     threshold_flows = threshold_flows + [5300]*50
     # input data for df_F:
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: ([0]*76+acceptable_flows+[0]*229 + 
                                 [0]*76+unnacceptable_flows+[0]*229 + 
                                 [0]*76+threshold_flows+[0]*229 + 
@@ -373,7 +373,7 @@ def test_flow_handle_multi():
     gauge1_flows = ([0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*77+[1250]*5+[0]*229+[0]*55)
     gauge2_flows = ([0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*76+[1250]*5+[0]*230+[0]*55)
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: gauge1_flows,
                         gauge2: gauge2_flows
                     }
@@ -418,7 +418,7 @@ def test_lowflow_handle_multi():
     gauge2 = '421088'
     EWR = 'BF1_a'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: [40]*76+[1250]*5+[40]*229+[40]*15+[0]*40 + [40]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [40]*75+[0]*50+[40]*230+[40]*10 + [0]*77+[40]*5+[0]*229+[40]*55,
                         gauge2: [40]*76+[1250]*5+[40]*229+[0]*40+[40]*15 + [40]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [40]*75+[0]*50+[40]*230+[40]*10 + [0]*76+[40]*5+[0]*230+[40]*55
                     }
@@ -460,7 +460,7 @@ def test_ctf_handle_multi():
     gauge2 = '421088'
     EWR = 'CF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10,
                         gauge2: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10
                     }
@@ -836,7 +836,7 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
 
 
 @pytest.mark.parametrize("data_for_df_F,EWR,main_gauge,expected_events,pu_df_data", [
-    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         'A4261002': (
                                [5000]*62 + [16500]*122 + [5000]*181 + 
                                 [5000]*62 + [16500]*122 + [5000]*181 +
@@ -858,7 +858,7 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
                             'CLLMM1a_P_maxRollingEvents': [1, 1, 1, 1], 'CLLMM1a_P_maxRollingAchievement': [1, 1, 1, 1],
                             'CLLMM1a_P_missingDays': [0,0,0,0], 'CLLMM1a_P_totalPossibleDays': [365,365,365,366]}
                         ),
-    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         'A4261002': (
                                [5000]*62 + [16500]*122 + [5000]*181 + 
                                 [5000]*62 + [16500]*122 + [5000]*181 +
@@ -948,7 +948,7 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
     gauge_levels_data = { gauge:gauge_levels for gauge in barrage_gauges }
 
     EWR_table = sa_parameter_sheet
-    DATE = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()}
+    DATE = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))}#.to_period()}
     
     data_for_df_L = {**DATE, **gauge_levels_data}
     df_L = pd.DataFrame(data = data_for_df_L)
@@ -1001,7 +1001,7 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
 
     EWR_table = sa_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: (
                                 [0]*31+ [400 + i*400 for i in range(30)] + [12001]*61 + [10000] + 
                                 [9900 - i*200 for i in range(30)] + [0]*212 + 
@@ -1098,7 +1098,7 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: (  [0]*365 + # first dry spell
                                 [19]*10 + # in between
                                 [0]*365 + # second dry spell
@@ -1157,7 +1157,7 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: (
                                 [15400]*20+[0]*345 + 
                                 [0]*365 + 
@@ -1168,7 +1168,7 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
 
     df_F = df_F.set_index('Date')
     
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         "422034": (
                                [1.]*10 +[1.3]*3+[1.]*5+[0]*347  + 
                                 [0]*365 + 
@@ -1401,7 +1401,7 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: (    [0]*31 + [71]*10 + [0]*324 + 
                                     [0]*365 + 
                                     [0]*365 + 
@@ -1410,7 +1410,7 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
 
     df_F = df_F.set_index('Date')
     
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         "416011": (     [1]*365 + 
                                         [0]*365 + 
                                         [0]*365 + 
@@ -1468,7 +1468,7 @@ def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expe
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         "422015": (     [2]*31 + [1]*10 + [2]*324 +
                                         [2]*365 + 
                                         [2]*365 + 
@@ -1525,7 +1525,7 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         '416011': (    [0]*350+[5600]*15 + 
 	                                   [5600]*11+ [0]*354 + 
 									   [0]*365 +
@@ -1675,7 +1675,7 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
 def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
     EWR_table = vic_parameter_sheet
 
-    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: gauge_data } 
     
 
@@ -1737,7 +1737,7 @@ def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expect
     
     EWR_table = vic_parameter_sheet
 
-    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: gauge_data } 
     
 
