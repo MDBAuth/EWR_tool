@@ -73,21 +73,34 @@ def test_get_second_multigauge():
 
 
 
-# def test_calculate_n_day_moving_average():
-#     mock_df=pd.DataFrame({
-#             'Gauge1': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-#             'Gauge2': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-#         })
-#     days=3
-#     #test NAN
-#     #test 000
-#     expected_df = pd.DataFrame({
-#             'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
-#             'Gauge2': [10, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
-#         })
+def test_calculate_n_day_moving_average():
+    mock_df=pd.DataFrame({
+            'Gauge1': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            'Gauge2': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        })
+    days=3
     
-#     result_df=evaluate_EWRs.calculate_n_day_moving_average(mock_df,days)
-#     assert_frame_equal(result_df, expected_df)
+    expected_df = pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': [10, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_1= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': ['NAN', 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_2= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            '': ['NAN', 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_3= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': [0, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    result_df=evaluate_EWRs.calculate_n_day_moving_average(mock_df,days)
+    assert_frame_equal(result_df, expected_df)
+    AssertionError(result_df, unexpected_df_1)
+    AssertionError(result_df, unexpected_df_2)
+    AssertionError(result_df, unexpected_df_3)
     
 
 
