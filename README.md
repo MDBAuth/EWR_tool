@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.2.3 README**
+### **EWR tool version 2.2.4 README**
 
 ### **Notes on recent version update**
 - Remove TQDM loading bars

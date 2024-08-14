@@ -520,8 +520,8 @@ def test_flow_calc(flows,expected_all_events,expected_all_no_events):
 	# Set up input data
 	EWR_info = {'min_flow': 5, 'max_flow': 20, 'gap_tolerance': 0, 'min_event':10, 'duration': 10}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	# Set up expected output data        
 	expected_durations = [10]*4
 	# Send inputs to test function and test
@@ -542,8 +542,8 @@ def test_lowflow_calc():
 	EWR_info = {'min_flow': 10, 'max_flow': 20, 'min_event':1, 'duration': 300, 'duration_VD': 10}
 	flows = np.array([5]*295+[0]*25+[10]*45 + [0]*355+[5000]*10 + [0]*355+[10]*10 + [5]*295+[0]*25+[10]*45+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	# Set up expected output data
 	expected_all_events = {2012: [[(date(2013, 5, 17), 10), (date(2013, 5, 18), 10), (date(2013, 5, 19), 10), 
 	(date(2013, 5, 20), 10), (date(2013, 5, 21), 10), (date(2013, 5, 22), 10), (date(2013, 5, 23), 10), 
@@ -590,8 +590,8 @@ def test_lowflow_calc():
 					'duration_VD': 5, 'start_month': 7, 'end_month': 12, 'start_day': None, 'end_day': None}
 	flows = np.array([10]*5+[0]*35+[5]*5+[0]*295+[0]*25 + [0]*355+[5]*10 + [10]*10+[0]*355 + [5]*295+[0]*25+[10]*45+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	masked_dates = masked_dates[((masked_dates.month >= 7) & (masked_dates.month <= 12))] # Just want the dates in the date range
 	# Set up expected output data
 	expected_all_events = {2012: [[(date(2012, 7, 1), 10), (date(2012, 7, 2), 10), (date(2012, 7, 3), 10), 
@@ -618,8 +618,8 @@ def test_ctf_calc():
 	EWR_info = {'min_flow': 0, 'max_flow': 1, 'min_event':5, 'duration': 20, 'duration_VD': 10}
 	flows = np.array([5]*295+[0]*25+[10]*45 + [20]*355+[5000]*5+[0]*5 + [0]*355+[10]*10 + [1]*295+[20]*25+[0]*45+[0]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	# Set up expected output data
 	expected_all_events = {2012: [[(date(2013, 4, 22)+timedelta(days=i), 0) for i in range(25)]],
 	  					   2013: [[(date(2014, 6, 26)+timedelta(days=i), 0) for i in range(5)]], 
@@ -643,8 +643,8 @@ def test_ctf_calc():
 	[10]*10+[0]*355 +
 	[5]*295+[0]*25+[10]*45+[10]*1)
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	masked_dates = masked_dates[((masked_dates.month >= 7) & (masked_dates.month <= 12))] # Just want the dates in the date range
 	# Set up expected output data
 	expected_all_events = {2012: [[(date(2012, 7, 1)+timedelta(days=i), 10) for i in range(5)],
@@ -738,7 +738,7 @@ def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	# Set up input data
 	EWR_info = {'min_flow': 0, 'max_flow': 1, 'min_event':5, 'duration': 20, 'duration_VD': 10}
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	# Send to test function and then test
 	all_events, durations = evaluate_EWRs.ctf_calc_anytime(EWR_info, flows, water_years, dates)
 	for year in all_events:
@@ -799,7 +799,7 @@ def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	expected_durations = [10]*4
 	# Send to test function and then test
 	dates = 1
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	all_events, durations = evaluate_EWRs.flow_calc_anytime(EWR_info, flows, water_years, dates)
 
 	for year in all_events:
@@ -808,8 +808,8 @@ def test_flow_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	assert durations == expected_durations
 
 
-def test_get_index_date(period_date, stamp_date):
-	assert evaluate_EWRs.get_index_date(period_date) == evaluate_EWRs.get_index_date(stamp_date)
+def test_get_index_date(datetime_date, stamp_date):#period_date
+	assert evaluate_EWRs.get_index_date(datetime_date) == evaluate_EWRs.get_index_date(stamp_date)
 
 
 @pytest.mark.parametrize("EWR_info,flows,expected_all_events,expected_all_no_events",[
@@ -870,7 +870,7 @@ def test_get_index_date(period_date, stamp_date):
 def test_cumulative_calc(EWR_info, flows, expected_all_events, expected_all_no_events):
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	all_events, durations = evaluate_EWRs.cumulative_calc(EWR_info, flows, water_years, dates, masked_dates)
 
 	assert all_events == expected_all_events
@@ -932,7 +932,7 @@ def test_cumulative_calc_qld(EWR_info, flows, expected_all_events):
 	"""
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	all_events, _ = evaluate_EWRs.cumulative_calc_qld(EWR_info, flows, water_years, dates, masked_dates)
 
 	assert all_events == expected_all_events
@@ -2112,7 +2112,7 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 	"""
 	# non changing parameters
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	
 	all_events, _  = evaluate_EWRs.nest_calc_percent_trigger(EWR_info, flows, water_years, dates)
 								
@@ -3176,8 +3176,8 @@ def test_coorong_check(EWR_info, iteration, levels_data, event, all_events,
 ])
 def test_coorong_level_calc(EWR_info, levels_data, expected_all_events):
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	levels = pd.Series(levels_data, index=dates)
 
 	all_events, _ = evaluate_EWRs.coorong_level_calc(EWR_info, levels, water_years, dates, masked_dates)
@@ -3258,8 +3258,8 @@ def test_lower_lakes_level_check(EWR_info, iteration, levels_data, event, all_ev
 def test_lower_lakes_level_calc(EWR_info, levels_data, expected_all_events):
 
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	levels = pd.Series(levels_data, index=dates)
 
 	all_events, _ = evaluate_EWRs.lower_lakes_level_calc(EWR_info, levels, water_years, dates, masked_dates)
@@ -3382,8 +3382,8 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
 	"""
 	
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	flow_series = pd.Series(flows_data, index=dates)
 
 	all_events, _ = evaluate_EWRs.flow_calc_sa(EWR_info, flow_series, water_years, dates, masked_dates)
@@ -3805,8 +3805,8 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	'''
 	
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	flows = pd.Series(flows_data, index=dates)
 
 	all_events, _ = evaluate_EWRs.flow_calc_check_ctf(EWR_info, flows, water_years, dates, masked_dates)
@@ -4083,7 +4083,7 @@ def test_cumulative_calc_bbr(EWR_info, flows, levels, expected_all_events, expec
 	"""
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	all_events, _ = evaluate_EWRs.cumulative_calc_bbr(EWR_info, flows, levels, water_years, dates, masked_dates)
 
 	assert all_events == expected_all_events
@@ -4117,7 +4117,7 @@ def test_achieved_min_volume(event, EWR_info, expected_result):
 	
 @pytest.mark.parametrize("flow_date, flows, iteration, EWR_info, expected_results", [
 	(
-	pd.Period('2023-05-24', freq='D'),
+	pd.to_datetime('2023-05-24', format='%Y-%m-%d'),#pd.Period('2023-05-24', freq='D'),
 	[1,1,3,4,5,6,7,1,1,1],
 	6,
 	{"larvae_days_spell":1,"eggs_days_spell":2},
@@ -4209,7 +4209,7 @@ def test_check_water_stability_flow(flows, iteration, EWR_info, expected_result)
 ])
 def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, expected_all_events):
 	
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	flow_date = dates[iteration]
 	
@@ -4370,9 +4370,9 @@ def test_water_stability_calc(EWR_info, flows, levels, expected_all_events):
 	5. meeting 2 opportunity but second one the last day is outside window
 	"""
 
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	
 	all_events, _ = evaluate_EWRs.water_stability_calc(EWR_info, flows, levels,water_years, dates, masked_dates)
 
@@ -4508,7 +4508,7 @@ def test_check_water_stability_height(levels, iteration, EWR_info, expected_resu
 ])
 def test_water_stability_level_check(EWR_info, iteration, all_events, levels, expected_all_events):
 	
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	flow_date = dates[iteration]
 	
@@ -4573,9 +4573,9 @@ def test_water_stability_level_calc(EWR_info, levels, expected_all_events):
 	2. meeting 2 opportunity but second one the last day is outside window
 	"""
 
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	
 	all_events, _ = evaluate_EWRs.water_stability_level_calc(EWR_info, levels, water_years, dates, masked_dates)
 
@@ -4801,9 +4801,9 @@ def test_check_period_flow_change_stepped(flows, EWR_info, iteration, mode, expe
 ])
 def test_rate_rise_flow_calc(EWR_info, flows, expected_all_events):
     # non changing variable
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 
 	all_events, _ = evaluate_EWRs.rate_rise_flow_calc(EWR_info, flows, water_years, dates, masked_dates)
 
@@ -4960,9 +4960,9 @@ def test_rate_rise_flow_check(EWR_info, iteration, event, all_events, total_even
 ])
 def test_rate_fall_flow_calc(EWR_info, flows, expected_all_events):
 	  # non changing variable
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 
 	all_events, _ = evaluate_EWRs.rate_fall_flow_calc(EWR_info, flows, water_years, dates, masked_dates)
 
@@ -5118,9 +5118,9 @@ def test_rate_fall_flow_check(EWR_info, iteration, event, all_events, total_even
 def test_rate_rise_level_calc(EWR_info, levels, expected_all_events):
 	
 	# non changing variable
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 
 	all_events, _ = evaluate_EWRs.rate_rise_level_calc(EWR_info, levels, water_years, dates, masked_dates)
 
@@ -5279,9 +5279,9 @@ def test_rate_rise_level_check(EWR_info, iteration, event, all_events, total_eve
 def test_rate_fall_level_calc(EWR_info, levels, expected_all_events):
 
 	# non changing variable
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 
 	all_events, _ = evaluate_EWRs.rate_fall_level_calc(EWR_info, levels, water_years, dates, masked_dates)
 
@@ -5548,9 +5548,9 @@ def test_level_change_check(EWR_info, iteration, event, all_events, total_event,
 def test_level_change_calc(EWR_info, levels, expected_all_events):
 	
 	# non changing variable
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
+	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 
 	all_events, _ = evaluate_EWRs.level_change_calc(EWR_info, levels, water_years, dates, masked_dates)
 
