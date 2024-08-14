@@ -102,6 +102,30 @@ def test_calculate_n_day_moving_average():
     AssertionError(result_df, unexpected_df_2)
     AssertionError(result_df, unexpected_df_3)
     
+def test_get_month_mask():
+    mock_date=pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    mock_df=pd.DataFrame({'value': range(len(mock_date))},index=mock_date)
+    #print(mock_df)
+    #within the same year test
+    result=evaluate_EWRs.get_month_mask(3,5,mock_df)
+    expected=set(mock_df.loc['2023-03-01':'2023-05-31'].index)
+    assert result==expected
+    #test across years
+    result=evaluate_EWRs.get_month_mask(11,2,mock_df)
+    expected=set(mock_df.loc['2023-11-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-02-28'].index))
+    assert result==expected
+    #test all of the year
+    result=evaluate_EWRs.get_month_mask(1,12,mock_df)
+    expected=set(mock_df.index)
+    assert result==expected
+    # test a month only
+    result=evaluate_EWRs.get_month_mask(8,8,mock_df)
+    expected = set(mock_df.loc['2023-08-01':'2023-08-31'].index)
+    # test incorrect range
+    result=evaluate_EWRs.get_month_mask(5,3,mock_df)
+    expected = set(mock_df.loc['2023-05-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-03-31'].index))
+    assert result==expected
+
 
 
 
