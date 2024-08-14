@@ -437,31 +437,37 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
     else:
         return True
 
+# def calculate_n_day_moving_average(df: pd.DataFrame, days: int) -> pd.DataFrame:
+#     '''Calculates the n day moving average for a given gauges
+    
+#     Args:
+#         df (pd.DataFrame): Daily flow data
+#         gauge (str): Gauge ID
+#         n (int): Number of days to calculate moving average over
+    
+#     Results:
+#         pd.DataFrame: Daily flow data with an additional column for the moving average
+    
+#     '''
+#     gauges = [col for col in df.columns]
+#     original_df = df[gauges]
+#     original_df = original_df.expanding(min_periods=1).mean() 
+#     original_df = original_df[:days-1]
+
+
+#     for gauge in gauges:
+#         df[gauge] = df[gauge].rolling(window=days).mean()
+#     df = df[days-1:]
+
+#     result_df = pd.concat([original_df, df], sort = False, axis = 0)
+
+#     return result_df
 def calculate_n_day_moving_average(df: pd.DataFrame, days: int) -> pd.DataFrame:
-    '''Calculates the n day moving average for a given gauges
-    
-    Args:
-        df (pd.DataFrame): Daily flow data
-        gauge (str): Gauge ID
-        n (int): Number of days to calculate moving average over
-    
-    Results:
-        pd.DataFrame: Daily flow data with an additional column for the moving average
-    
-    '''
-    gauges = [col for col in df.columns]
-    original_df = df[gauges]
-    original_df = original_df.expanding(min_periods=1).mean() 
-    original_df = original_df[:days-1]
+    '''Calculates the n day moving average for a given gauges'''
+ 
+    moving_avg_df = df.rolling(window=days, min_periods=1).mean()
 
-
-    for gauge in gauges:
-        df[gauge] = df[gauge].rolling(window=days).mean()
-    df = df[days-1:]
-
-    result_df = pd.concat([original_df, df], sort = False, axis = 0)
-
-    return result_df
+    return moving_avg_df
 
 #------------------------ Masking timeseries data to dates in EWR requirement --------------------#
 
