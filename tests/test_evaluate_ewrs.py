@@ -4,6 +4,7 @@ import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
 import numpy as np
+import xarray as xr
 
 from py_ewr import evaluate_EWRs, data_inputs
 
@@ -212,7 +213,8 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
+    end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         '422016': ( [2500]*10+[0]*355   + 
                                     [0]*365 + 
                                     [0]*365 + 
@@ -245,7 +247,8 @@ def test_level_handle():
     gauge = '425022'
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
+                                           end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
                                [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
                                [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + 
@@ -309,7 +312,8 @@ def test_nest_handle():
     threshold_flows = threshold_flows + [5300]*50
     # input data for df_F:
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
+                                           end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: ([0]*76+acceptable_flows+[0]*229 + 
                                 [0]*76+unnacceptable_flows+[0]*229 + 
                                 [0]*76+threshold_flows+[0]*229 + 
@@ -1738,7 +1742,7 @@ def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expect
     EWR_table = vic_parameter_sheet
 
     data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-                        gauge: gauge_data } 
+                    gauge: gauge_data} 
     
 
     df_L = pd.DataFrame(data = data_for_df)
@@ -1759,4 +1763,52 @@ def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expect
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
+
+
+@pytest.mark.parametrize("EWR_info, start_date, end_date, expected_output, year_format", [
+    ({'start_month': 7, 'end_month': 6}, '2012-07-01', '2014-06-30', np.array([2012]*365 + [2013]*365), 'year_dash'),
+    ({'start_month': 7, 'end_month': 9}, '2012-07-01', '2014-06-30', np.array([2012]*365 + [2013]*365), 'year_dash'),
+    ({'start_month': 9, 'end_month': 6}, '2012-07-01', '2014-06-30', np.array([2012]*365 + [2013]*365), 'year_dash'),
+    ({'start_month': 1, 'end_month': 12}, '2012-07-01', '2014-06-30', np.array([2012]*184 + [2013]*365 + [2014]*181), 'year_dash')
+    ,
+
+    ({'start_month': 7, 'end_month': 6}, '01/07/2012', '30/06/2014', np.array([2012]*365 + [2013]*365), 'slash'),
+    ({'start_month': 7, 'end_month': 9}, '01/07/2012', '30/06/2014', np.array([2012]*365 + [2013]*365), 'slash'),
+    ({'start_month': 9, 'end_month': 6}, '01/07/2012', '30/06/2014', np.array([2012]*365 + [2013]*365), 'slash'),
+    ({'start_month': 1, 'end_month': 12}, '01/07/2012', '30/06/2014', np.array([2012]*184 + [2013]*365 + [2014]*181), 'slash'),
+])
+
+def test_wateryear_daily(EWR_info, start_date, end_date, expected_output, year_format):
+    '''
+    1. test that the returned numpy array contains the right instances of the year number for:
+        a) both date formates
+        b) whole year
+        c) start month after the start of the water year
+        d) start month before the start of the water year
+    '''
     
+    date_format = '%Y-%m-%d' if year_format == 'year_dash' else '%d/%m/%Y'
+    
+    df_F = pd.DataFrame({
+        'Date': pd.date_range(start=datetime.strptime(start_date, date_format),
+                              end=datetime.strptime(end_date, date_format)),
+        '416011': [0] * ((pd.to_datetime(end_date, format=date_format) - pd.to_datetime(start_date, format=date_format)).days + 1)
+    })
+    df_F = df_F.set_index('Date')
+    test_wateryear = evaluate_EWRs.wateryear_daily(df_F, EWR_info)
+    np.testing.assert_array_equal(test_wateryear, expected_output)
+
+
+
+@pytest.mark.parametrize("flow_date, expected_output", [
+    ('2012-07-01', date(2012, 7, 1)),
+    ('01/07/2012', date(2012, 7, 1))
+ ])
+
+def test_get_index_date(flow_date, expected_output):
+    '''
+    1. test that both types of input date format can be properly converted into a datet object.
+    '''
+    test_date = evaluate_EWRs.get_index_date(flow_date)
+
+    assert test_date == expected_output

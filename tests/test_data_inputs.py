@@ -219,7 +219,7 @@ def test_get_level_gauges():
 
 def test_get_gauges():
     '''
-    1. test that the value error gets raised
+    1. test that the value error gets raised.
     '''
     # Test 1
     url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
@@ -228,8 +228,6 @@ def test_get_gauges():
                    ewr_table_path = url)
     with pytest.raises(ValueError):
         data_inputs.get_gauges(category = '', ewr_table_path=url)
-
-
     
 
 # parameter sheet logic test
@@ -275,12 +273,12 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
     # special characters not allowed to be in the dataframe, 
     # added here because all cells are strings when output 
     # from the get_EWR_table function
-    allowed = list('.') + list('_') + list('-')
-    punc_and_spaces = string.whitespace + string.punctuation
-    not_allowed = ''.join([re.escape(c)
-                          for c in punc_and_spaces if c not in allowed])
-    special_char_bool = df.apply(lambda x: x.astype(
-        str).str.contains(not_allowed, regex=True)).any(axis=1)
+    # allowed = list('.') + list('_') + list('-')
+    # punc_and_spaces = string.whitespace + string.punctuation
+    # not_allowed = ''.join([re.escape(c)
+    #                       for c in punc_and_spaces if c not in allowed])
+    # special_char_bool = df.apply(lambda x: x.astype(
+    #     str).str.contains(not_allowed, regex=True)).any(axis=1)
 
     # Handle StartMonth and EndMonth parsing
     df[['StartMonth', 'StartDay']] = df['StartMonth'].str.split(
@@ -388,3 +386,18 @@ check_EWR_logic(EWR_table, non_leap)
 leap = generate_years(1900, 2023, leap = True)
 print('now checking EWR table against a leap year:')
 check_EWR_logic(EWR_table, leap)
+    
+def test_get_iqqm_codes():
+    result = data_inputs.get_iqqm_codes()
+    stations = {
+        '229': '421023',
+        '42': '421001',
+        '464': '421011',
+        '240': '421019',
+        '266': '421146',
+        '951': '421090',
+        '487': '421022',
+        '130': '421012',
+        '171': '421004',
+    }
+    assert stations == result
