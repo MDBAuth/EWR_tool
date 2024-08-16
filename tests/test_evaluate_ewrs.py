@@ -126,6 +126,203 @@ def test_get_month_mask():
     expected = set(mock_df.loc['2023-05-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-03-31'].index))
     assert result==expected
 
+def test_get_day_mask():
+    date_rng = pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    sample_df = pd.DataFrame(date_rng, columns=['date'])
+    sample_df.set_index('date', inplace=True)
+    sample_df['value'] = range(len(sample_df))
+    print(sample_df)
+    # test where startMonth == endMonth
+    result = evaluate_EWRs.get_day_mask(10, 20, 5, 5, sample_df)
+    expected = set(sample_df.loc['2023-05-10':'2023-05-20'].index)
+    
+    assert result==expected
+
+    #test startMonth > endMonth
+    result = evaluate_EWRs.get_day_mask(25, 5, 12, 1, sample_df)
+    expected_dates = set(pd.date_range(start='2023-12-25', end='2023-12-31', freq='D').tolist()) |\
+                         set(pd.date_range(start='2023-01-01', end='2023-01-05', freq='D').tolist())
+    assert result==expected_dates
+
+    # test startMonth < endMonth (within the same year)
+    result = evaluate_EWRs.get_day_mask(15, 10, 3, 7, sample_df)
+    expected_dates = set(pd.date_range(start='2023-03-15', end='2023-07-10', freq='D').tolist())
+    assert result==expected_dates
+
+    #test range is invalid
+    result = evaluate_EWRs.get_day_mask(20, 10, 8, 8, sample_df)
+    expected_dates = set()
+    assert result==expected_dates
+
+
+
+
+
+import unittest
+class TestMaskDates(unittest.TestCase):
+
+    def setUp(self):
+
+        self.input_df = pd.DataFrame({
+                    'date': pd.date_range(start='2020-01-01', end='2020-12-31'),
+                    'value': range(366)
+                }).set_index('date')
+        
+
+    def test_month_mask_within_same_year(self):
+        EWR_info = {'start_month': 3, 'end_month': 5, 'start_day': None, 'end_day': None}
+        expected_date = set(pd.date_range(start='2020-03-01', end='2020-05-31', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+  
+        
+        self.assertSetEqual(result, expected_dates)
+
+
+    def test_day_and_month_mask_same_month(self):
+        EWR_info = {'start_month': 6, 'end_month': 6, 'start_day': 10, 'end_day': 20}
+        expected_date = set(pd.date_range(start='2020-06-10', end='2020-06-20', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_day_and_month_mask_across_year(self):
+        EWR_info = {'start_month': 12, 'end_month': 1, 'start_day': 25, 'end_day': 10}
+        expected_date = set(pd.date_range(start='2020-12-25', end='2020-12-31', freq='D').union(
+                             pd.date_range(start='2020-01-01', end='2020-01-10', freq='D')).to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_day_and_month_mask_start_end_same(self):
+        EWR_info = {'start_month': 3, 'end_month': 3, 'start_day': 15, 'end_day': 15}
+        expected_dates = {pd.Timestamp(2020, 3, 15)}#.to_pydatetime()
+        #expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_month_mask_within_same_year(self):
+        EWR_info = {'start_month': 3, 'end_month': 5, 'start_day': None, 'end_day': None}
+        expected_date = set(pd.date_range(start='2020-03-01', end='2020-05-31', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+class test_water_year_daily(unittest.TestCase):
+    def test_standard_water_year(self):
+        # Test case for standard water year (July - June)
+        
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # EWRs dictionary with standard water year
+        ewrs = {
+            'start_month': 7,  
+            'end_month': 6     
+        }
+        
+        expected_water_years = np.array([2022] * 181 + [2023] * 184)
+        
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+
+        # Test case for non-standard water year (March - February)
+        
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+    def test_non_standard_water_year(self):   
+        # EWRs dictionary with non-standard water year
+        ewrs = {
+            'start_month': 3,  # March
+            'end_month': 2     # February
+        }
+        
+        expected_water_years = np.array([2022] * 181 + [2023] * 184)
+
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # Call the function
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+    def test_leap_year(self):
+        # Test case including a leap year (February 29)
+        
+        # Create a sample DataFrame from January 1, 2020 to December 31, 2020 (Leap year)
+        date_range = pd.date_range(start="2020-01-01", end="2020-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # EWRs dictionary with non-standard water year
+        ewrs = {
+            'start_month': 3,  # March
+            'end_month': 2     # February
+        }
+        
+        expected_water_years = np.array([2019] * 182 + [2020] * 184)
+        
+        
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+
+def test_construct_event_dict():
+    #basic functionality
+    water_years = np.array([2001, 2002, 2003, 2001, 2002])
+    expected = {
+            2001: [],
+            2002: [],
+            2003: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    #test empty input
+    water_years = np.array([])
+    expected = {}
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    # test single year
+    water_years = np.array([2001])
+    expected = {
+            2001: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    # test unsorted
+    water_years = np.array([2003, 2001, 2002])
+    expected = {
+            2001: [],
+            2002: [],
+            2003: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+
+    # test duplicate
+    water_years = np.array([2001, 2001, 2001])
+    expected = {
+            2001: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+
+
+
+
+ 
+    
+
 
 
 
