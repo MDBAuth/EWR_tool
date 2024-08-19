@@ -4,7 +4,7 @@ import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
 import numpy as np
-
+import unittest
 from py_ewr import evaluate_EWRs, data_inputs
 
 def test_component_pull():
@@ -131,7 +131,7 @@ def test_get_day_mask():
     sample_df = pd.DataFrame(date_rng, columns=['date'])
     sample_df.set_index('date', inplace=True)
     sample_df['value'] = range(len(sample_df))
-    print(sample_df)
+
     # test where startMonth == endMonth
     result = evaluate_EWRs.get_day_mask(10, 20, 5, 5, sample_df)
     expected = set(sample_df.loc['2023-05-10':'2023-05-20'].index)
@@ -154,11 +154,15 @@ def test_get_day_mask():
     expected_dates = set()
     assert result==expected_dates
 
+    # Across water year
+
+    # Across water year with days also specified
 
 
 
 
-import unittest
+
+
 class TestMaskDates(unittest.TestCase):
 
     def setUp(self):
@@ -317,7 +321,20 @@ def test_construct_event_dict():
     result = evaluate_EWRs.construct_event_dict(water_years)
     assert result == expected
 
+# def test_ctf_check():
+#     EWR_info={
+#         'min_flow':5.0,
+#         'max_flow':10.0,
+#         'duration':3
+#     }
+#     flows=np.array([6.0])
+#     water_years=np.array([2001])
+#     event=[]
+#     all_events={2001:[]}
+#     flow_date=date(2001,1,1)
 
+#     event,all_events=evaluate_EWRs.ctf_check(EWR_info, 0, flows[0],event, all_events, water_years,flow_date)
+#     expected= [(0,6.0)]
 
 
  

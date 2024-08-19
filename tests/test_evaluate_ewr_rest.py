@@ -440,6 +440,28 @@ def test_ctf_check():
 	for year in all_events:
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
+	def test_ctf_check_2():
+		# 2. Flow meets the threshold and should be added to the event list
+		EWR_info = {'min_flow': 0, 'max_flow': 1}
+		flow = 0.5  
+		iteration = 100
+		event = []
+		flow_date = date(2015, 5, 20)
+		all_events = {2015: []}
+		water_years = np.array([2015] * 365)
+
+		event, all_events = evaluate_EWRs.ctf_check(EWR_info, iteration, flow, event, all_events, water_years, flow_date)
+		assert event == [(datetime.date(2015, 5, 20), 0.5)]
+	def test_ctf_check_3():
+		# 4. Flow below minimum threshold but no event yet started
+		EWR_info = {'min_flow': 0, 'max_flow': 1}
+		flow = -1  # below bounds
+		iteration = 300
+		event = []
+
+		event, all_events = evaluate_EWRs.ctf_check(EWR_info, iteration, flow, event, all_events, water_years, flow_date)
+		assert event == []
+		assert all_events == {2015: []}
                 
 @pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
 						 [ 
