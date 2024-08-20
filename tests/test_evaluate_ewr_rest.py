@@ -154,7 +154,37 @@ def test_get_event_years():
 	event_years = evaluate_EWRs.get_event_years(EWR_info, events, unique_water_years, durations)
 	expected_event_years = [1,0,1,0]
 	assert event_years == expected_event_years
+import unittest
+class TestEventFunctions(unittest.TestCase):
 
+    def setUp(self):
+        self.EWR_info = {
+            "min_event": 3,
+            "events_per_year": 2
+        }
+        self.events = {
+            2001: [[1, 2, 3], [4, 5, 6, 7], [8]],
+            2002: [[1, 2], [3, 4, 5], [6, 7, 8]],
+            2003: [[1, 2, 3, 4], [5]],
+            2004: [[1, 2, 3], [4, 5, 6]]
+        }
+        self.unique_water_years = {2001, 2002, 2003, 2004}
+        self.durations = [4, 5, 3, 6]
+
+    def test_filter_min_events(self):
+        expected_filtered_events = {
+            2001: [[1, 2, 3], [4, 5, 6, 7]], 
+            2002: [[3, 4, 5], [6, 7, 8]],     
+            2003: [[1, 2, 3, 4]],             
+            2004: [[1, 2, 3], [4, 5, 6]]      
+        }
+        filtered_events = evaluate_EWRs.filter_min_events(self.EWR_info, self.events)
+        self.assertEqual(filtered_events, expected_filtered_events)
+
+    def test_get_event_years(self):
+        expected_event_years = [1, 1, 0, 1]
+        event_years = evaluate_EWRs.get_event_years(self.EWR_info, self.events, self.unique_water_years, self.durations)
+        self.assertEqual(event_years, expected_event_years)
 
 @pytest.mark.parametrize("events,unique_water_years,expected_event_years", [
 					 ( 
