@@ -767,6 +767,49 @@ def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
+	def test_ctf_calc_short_events():
+
+		# Set up input data
+		EWR_info = {'min_flow': 0, 'max_flow': 1, 'min_event': 5, 'duration': 5, 'duration_VD': 10}
+		water_years = np.array([2018]*365 + [2019]*365 + [2020]*366)
+		dates = pd.date_range(start=datetime.strptime('2018-01-01', '%Y-%m-%d'), end=datetime.strptime('2020-12-31', '%Y-%m-%d'))
+		
+		# Flow array with events of varying lengths:
+		flows = np.array(
+			[1]*10 +  # Initial flow period (should be ignored)
+			[0]*3 +   # Event shorter than the minimum required duration (3 days)
+			[1]*10 +  # No event
+			[0]*5 +   # Event exactly meeting the required duration (5 days)
+			[1]*10 +  # No event
+			[0]*7 +   # Event exceeding the required duration (7 days)
+			[1]*315 +  # Remainder of the year with no events
+			[1]*366   # Next year with no events
+		)
+
+		# Expected results: Only two events should be counted (5-day and 7-day events)
+		expected_all_events = {
+			2018: [],
+			2019: [[0, 0, 0, 0, 0]],  # 5-day event
+			2020: [[0, 0, 0, 0, 0, 0, 0]]  # 7-day event
+		}
+		
+		expected_all_no_events = {
+			2018: [[0, 0, 0]],  # The 3-day event that should be ignored
+		}
+		
+		# Send to test function and then test
+		all_events, durations = evaluate_EWRs.ctf_calc_anytime(EWR_info, flows, water_years, dates)
+		
+		for year in all_events:
+			assert len(all_events[year]) == len(expected_all_events[year])
+			for i, event in enumerate(all_events[year]):
+				assert event == expected_all_events[year][i]
+		
+		# Check that the disqualified events were correctly ignored
+		for year in expected_all_no_events:
+			assert len(all_events[year]) == len(expected_all_events[year])
+			for i, event in enumerate(all_events[year]):
+				assert event != expected_all_no_events[year][i]
 
 
 @pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
