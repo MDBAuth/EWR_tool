@@ -4,7 +4,7 @@ import numpy as np
 from pathlib import Path
 import os
 import logging
-
+from typing import Tuple
 from cachetools import cached, TTLCache
 
 log = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
     return ewr_calc_config
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path:str = None) -> tuple[pd.DataFrame, pd.DataFrame]:
+def get_EWR_table(file_path:str = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
     
     ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
@@ -300,7 +300,7 @@ def weirpool_type(EWR: str) -> str:
 
     return 'raising' if EWR == 'WP2' else 'falling'
 
-@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+# @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 
 # def get_planning_unit_info() -> pd.DataFrame:
 #     '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP.
