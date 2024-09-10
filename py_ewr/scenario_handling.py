@@ -258,7 +258,7 @@ def cleaner_MDBA(input_df: pd.DataFrame) -> pd.DataFrame:
     
     cleaned_df = input_df.rename(columns={'Mn': 'Month', 'Dy': 'Day'})
     cleaned_df['Date'] = pd.to_datetime(cleaned_df[['Year', 'Month', 'Day']], format = '%Y-%m-%d')
-    cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
+    # cleaned_df['Date'] = cleaned_df['Date'].apply(lambda x: x.to_period(freq='D'))
     cleaned_df = cleaned_df.drop(['Day', 'Month', 'Year'], axis = 1)
     cleaned_df = cleaned_df.set_index('Date')
     
@@ -436,6 +436,40 @@ def extract_gauge_from_string(input_string: str) -> str:
     gauge = input_string.split('_')[0]
     return gauge
 
+# def match_MDBA_nodes_dev(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
+#     '''
+#     Iterate over the gauges in the parameter sheet, 
+#     find all the occurences of that gauge in the ARWC column in the model metadata file,
+#     for each match, search for the matching siteID in the model file,
+#     append the column to the flow dataframe.
+
+#     Args:
+#         input_df (pd.DataFrame): flow/water level dataframe
+#         model_metadata (pd.DataFrame): dataframe linking model nodes to gauges
+
+#     Returns:
+#         tuple[pd.DataFrame, pd.DataFrame]: flow dataframe, water level dataframe
+
+#     '''
+#     df_flow = pd.DataFrame(index = input_df.index)
+#     df_level = pd.DataFrame(index = input_df.index)
+
+#     unique_gauges = #Get unique gauges from the parameter sheet
+#     #TODO: include logic to have the measurand included
+#     for i in unique_gauges:
+#         # Subset of the SiteID file with the gauges
+#         subset_df = model_metadata[model_metadata['AWRC'] == i]
+#         # Iterate over the occurences of the gauge and check if the matching SiteID file is in the model file
+#         for j in subset_df.iterrows:
+#             site_mm = j['SITEID']
+#             if site_mm in input_df.columns:
+#                 df_flow[i] = input_df[site_mm+INPUT_MEASURAND+ANY_QUALITY_CODE]
+#                 or
+#                 df_level[i] = input_df[site_mm+INPUT_MEASURAND+ANY_QUALITY_CODE]
+
+#     if df_flow.empty and df_level.empty:
+#         raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
+#     return df_flow, df_level
 
 def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str):
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 

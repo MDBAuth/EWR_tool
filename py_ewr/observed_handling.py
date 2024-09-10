@@ -130,7 +130,7 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
     start_date = datetime(dates['start_date'].year, dates['start_date'].month, dates['start_date'].day)
     end_date = datetime(dates['end_date'].year, dates['end_date'].month, dates['end_date'].day)
     
-    df_index = pd.date_range(start=start_date,end=end_date - timedelta(days=1)).to_period()
+    df_index = pd.date_range(start=start_date,end=end_date - timedelta(days=1))#.to_period()
     gauge_data_df = pd.DataFrame()
     gauge_data_df['Date'] = df_index
     gauge_data_df = gauge_data_df.set_index('Date')
@@ -139,7 +139,7 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
     
     
     input_df['Date'] = pd.to_datetime(input_df['DATETIME'], format = '%Y-%m-%d')
-    input_df['Date'] = input_df['Date'].apply(lambda x: x.to_period(freq='D'))
+    # input_df['Date'] = input_df['Date'].apply(lambda x: x.to_period(freq='D'))
 
     # Check with states for more codes:
     bad_data_codes = data_inputs.get_bad_QA_codes()

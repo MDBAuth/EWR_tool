@@ -417,3 +417,27 @@ def get_scenario_gauges(gauge_results: dict) -> list:
         for gauge in scenario.keys():
             scenario_gauges.append(gauge)
     return list(set(scenario_gauges))
+
+
+def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
+    '''
+    Returns a dictionary of flow, level, and lake level gauges based on the parameter sheet and some hard coding of other EWRs
+
+    Args:
+        parameter_sheet (pd.DataFrame): input parameter sheet
+    
+    Returns:
+        dict: keys as flow, level, and lake level gauges, values as the list of gauges
+    '''
+    
+    # Hard coded gauges for the CLLMM EWRs
+    hard_code_levels = ['A4260527', 'A4260524', 'A4260633', 'A4261209', 'A4261165']
+    hard_code_lake_levels = ['A4261133', 'A4260574', 'A4260575']
+
+    flow_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'F']['Gauge']) + set(parameter_sheet['Multigauge'])
+    level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'L']['Gauge']) + set(parameter_sheet['WeirpoolGauge']) + set(hard_code_levels)
+    lake_level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'LL']['Gauge'])+set(hard_code_lake_levels)
+
+    return flow_gauges, level_gauges, lake_level_gauges
+
+# def gauges_to_measurand()
