@@ -221,7 +221,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
         okay_df['LevelThresholdMin'] > okay_df['LevelThresholdMax'])]
 
     # Target Frequency Check
-    target_frequency_violation = df[
+    target_frequency_violation = okay_df[
         (okay_df['TargetFrequencyMax'] > 0) & 
         (
             (okay_df['TargetFrequencyMin'] >= okay_df['TargetFrequency']) | 
