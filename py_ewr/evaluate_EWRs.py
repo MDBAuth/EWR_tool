@@ -4496,7 +4496,7 @@ def get_event_years(EWR_info:Dict, events:Dict, unique_water_years:set, duration
         combined_len = 0
         for e in events_filtered[year]:
             combined_len += len(e)
-        if ((combined_len >= durations[index] and len(events_filtered[year])>=EWR_info['events_per_year'])):
+        if ((combined_len >= EWR_info['duration'] and len(events_filtered[year])>=EWR_info['events_per_year'])):
             event_years.append(1)
         else:
             event_years.append(0)
