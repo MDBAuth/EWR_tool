@@ -208,7 +208,7 @@ def test_cumulative_handle():
  'BBR2_maxRollingAchievement': {2012: 0, 2013: 0, 2014: 0, 2015: 0},
    'BBR2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
    'BBR2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
 def test_cumulative_handle_qld(qld_parameter_sheet: pd.DataFrame,expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
     # Set up input data
@@ -252,9 +252,9 @@ def test_level_handle():
     gauge = '425022'
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
-                                           end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
+                                           end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+                                           ,
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
                                [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
                                [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + 
@@ -319,8 +319,6 @@ def test_nest_handle():
     # input data for df_F:
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
-                                           end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
                         gauge: ([0]*76+acceptable_flows+[0]*229 + 
                                 [0]*76+unnacceptable_flows+[0]*229 + 
                                 [0]*76+threshold_flows+[0]*229 + 
@@ -460,6 +458,7 @@ def test_lowflow_handle_multi():
             assert len(events[index][year]) == len(expected_events[index][year])
             for i, event in enumerate(events[index][year]):
                 assert event == expected_events[index][year][i]
+
 
 def test_ctf_handle_multi():
     '''

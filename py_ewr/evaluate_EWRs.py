@@ -562,9 +562,9 @@ def flow_handle_anytime(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     water_years = wateryear_daily(df_F, EWR_info)
     # Check flow data against EWR requirements and then perform analysis on the results
     if ((EWR_info['start_month'] == 7) and (EWR_info['end_month'] == 6)):
-        E,  D = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
+        E = flow_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
     else:
-        E,  D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+        E = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
     return PU_df, tuple([E])
 
@@ -939,7 +939,7 @@ def flow_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df
         summed flows at these two gauges.''')
         flows = flows1
 
-    E, D = flow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
+    E = flow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
     return PU_df, tuple([E])
 
@@ -977,8 +977,8 @@ def lowflow_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
         summed flows at these two gauges.''')
         flows = flows1
     # Check flow data against EWR requirements and then perform analysis on the results: 
-    E, D = lowflow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)  
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
+    E = lowflow_calc(EWR_info, flows, water_years, df_F.index, masked_dates)  
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, water_years)
     return PU_df, tuple([E])
  
 def ctf_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
@@ -1019,7 +1019,7 @@ def ctf_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_
         E, D = ctf_calc_anytime(EWR_info, df_F[gauge].values, water_years, df_F.index)
     else:
         E, D = ctf_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, water_years)
     return PU_df, tuple([E])
 
 def cumulative_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
@@ -1056,7 +1056,7 @@ def cumulative_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFra
         summed flows at these two gauges.''')
         flows = flows1
     E, D = cumulative_calc(EWR_info, flows, water_years, df_F.index, masked_dates)
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)    
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, water_years)    
     return PU_df, tuple([E])
 
 
@@ -1086,7 +1086,7 @@ def flow_handle_sa(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F:
     water_years = wateryear_daily(df_F, EWR_info)
 
     E, D = flow_calc_sa(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, water_years)
     return PU_df, tuple([E])
 
 def barrage_flow_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
@@ -1118,7 +1118,7 @@ def barrage_flow_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
             df = df_F.copy(deep=True)
             df['combined_flow'] = df[all_required_gauges].sum(axis=1)
             E, D = barrage_flow_calc(EWR_info, df['combined_flow'], water_years, df_F.index)
-            PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
+            PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, water_years)
             return PU_df, tuple([E])
     else:
         print(f'Missing data for barrage gauges {" ".join(all_required_gauges)}')
@@ -1160,7 +1160,7 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
             if cllmm_type == 'd':
                 E, D = coorong_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
         
-        PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, D, water_years)    
+        PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, water_years)    
         return PU_df, tuple([E])
 
     else:
@@ -1201,7 +1201,7 @@ def rise_and_fall_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
     if 'RFL' in EWR:
         E, D = rate_fall_level_calc(EWR_info, df_L[gauge].values, water_years, df_F.index, masked_dates)
 
-    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, D, water_years)
+    PU_df = event_stats(df_F, PU_df, gauge, EWR, EWR_info, E, water_years)
 
     return PU_df, tuple([E])
 
@@ -4335,7 +4335,7 @@ def get_event_years(EWR_info:Dict, events:Dict, unique_water_years:set, duration
     return event_years
 
 
-def get_achievements(EWR_info:Dict, events:Dict, unique_water_years:set, durations:List) -> List:
+def get_achievements(EWR_info:Dict, events:Dict, unique_water_years:set) -> List:
     '''Returns a list of number of events per year.
     
     Args:
@@ -4354,7 +4354,7 @@ def get_achievements(EWR_info:Dict, events:Dict, unique_water_years:set, duratio
         yearly_events = 0
         for e in events_filtered[year]:
             combined_len += len(e)
-            if combined_len >= durations[index]:
+            if combined_len >= EWR_info['Duration']:
                 yearly_events += 1
                 combined_len = 0
         total = yearly_events/EWR_info['events_per_year']
@@ -4830,7 +4830,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
-    num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations)
+    num_event_achievements = get_achievements(EWR_info, events, unique_water_years)
 
     if EWR_info['EWR_code'] in ['rANA']:
         num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
