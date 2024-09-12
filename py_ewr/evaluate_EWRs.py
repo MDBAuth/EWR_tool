@@ -4779,7 +4779,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     '''
     unique_water_years = set(water_years)
     # Years with events
-    years_with_events = get_event_years(EWR_info, events, unique_water_years, EWR_info['duration'])
+    years_with_events = get_event_years(EWR_info, events, unique_water_years)
 
     ## reset the no_events to keep functionality but switched off
     no_events = construct_event_dict(water_years)
@@ -4796,7 +4796,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
-    num_event_achievements = get_achievements(EWR_info, events, unique_water_years, EWR_info['duration'])
+    num_event_achievements = get_achievements(EWR_info, events, unique_water_years)
 
     if EWR_info['EWR_code'] in ['rANA']:
         num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
@@ -4804,7 +4804,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
     PU_df = pd.concat([PU_df, NEA], axis = 1)
     # Total number of events THIS ONE IS ONLY ACHIEVED due to Filter Applied
-    num_events = get_number_events(EWR_info, events, unique_water_years, EWR_info['duration'])
+    num_events = get_number_events(EWR_info, events, unique_water_years)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
     PU_df = pd.concat([PU_df, NE], axis = 1)
     # Total number of events THIS ONE IS ALL EVENTS
@@ -4850,7 +4850,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
         PU_df = pd.concat([PU_df, MR], axis = 1)
         log.error(e)
     # Max rolling duration achieved
-    achieved_max_rolling_duration = get_max_rolling_duration_achievement(EWR_info['duration'], max_consecutive_days)
+    achieved_max_rolling_duration = get_max_rolling_duration_achievement(EWR_info, max_consecutive_days)
     MRA = pd.Series(name = str(EWR + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
     PU_df = pd.concat([PU_df, MRA], axis = 1)
     # Append information around available and missing data:

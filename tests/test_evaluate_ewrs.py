@@ -35,17 +35,12 @@ def test_ctf_handle():
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[[(date(2012, 7, 1)+timedelta(days=i),0) for i in range(1461)]]}
-    expected_events = tuple([expected_events])
-
-
-
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i] 
-
-    
+    # Assuming `events` is a dictionary with years as keys and lists of events as values
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
+        
 def test_lowflow_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -78,13 +73,11 @@ def test_lowflow_handle():
 
     # Setting up expected output - events, and testing
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[]}
-    expected_events = tuple([expected_events])
-
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]  
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_flow_handle():
     '''Things to calc in this function:
@@ -132,12 +125,11 @@ def test_flow_handle():
                         2015: [[(date(2015, 7, 6) + timedelta(days=i), 450) for i in range(10)],
                             [(date(2015, 7, 17) + timedelta(days=i), 450) for i in range(10)],     
                             [(date(2016, 6, 21) + timedelta(days=i), 450) for i in range(10)]]}
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i] 
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_cumulative_handle():
     '''
@@ -173,12 +165,11 @@ def test_cumulative_handle():
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing 
     expected_events = {2012:[[(date(2013, 6, 21), 22000)]], 2013:[], 2014:[], 2015:[]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
     (
@@ -229,12 +220,11 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
     
     PU_df, events = evaluate_EWRs.cumulative_handle_qld(PU, gauge, EWR, EWR_table, df_F, PU_df)
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_level_handle():
     '''
@@ -272,12 +262,11 @@ def test_level_handle():
                         2013:[], 
                         2014:[], 
                         2015:[[(date(2015, 6, 30) + timedelta(days=i), 56) for i in range(90)]]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i] 
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_nest_handle():
     '''
@@ -353,12 +342,11 @@ def test_nest_handle():
                               (date(2015, 9, 24), 6302.494097246094), (date(2015, 9, 25), 5987.369392383789)],
                               [(date(2015, 9, 27) + timedelta(days=i), 5300.0) for i in range(49)]
                               ]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 def test_flow_handle_multi():
@@ -401,12 +389,11 @@ def test_flow_handle_multi():
                        2014:[ [(date(2014, 7, 1) + timedelta(days=i), 2500) for i in range(3)], [(date(2014, 11, 7) + timedelta(days=i), 2500) for i in range(5)]], 
                        2015:[[(date(2015, 9, 16) + timedelta(days=i), 2500) for i in range(4)]]}
     
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_lowflow_handle_multi():
     '''
@@ -443,12 +430,11 @@ def test_lowflow_handle_multi():
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
     2013:[], 2014:[], 2015:[]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_ctf_handle_multi():
     '''
@@ -489,12 +475,11 @@ def test_ctf_handle_multi():
                        2014:[ [(date(2014, 6, 26) + timedelta(days=i), 0) for i in range(15)], 
                        [(date(2015, 6, 21), 0)]], 
                        2015:[[(date(2015, 7, 1) + timedelta(days=i), 0) for i in range(366)]]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_cumulative_handle_multi():
     '''
@@ -543,13 +528,12 @@ def test_cumulative_handle_multi():
                        2013:[], 
                        2014:[], 
                        2015:[[(date(2015, 7, 24), 60000), (date(2015, 7, 25), 61000), (date(2015, 7, 26), 62000), (date(2015, 7, 27), 63000), (date(2015, 7, 28), 64000), (date(2015, 7, 29), 65000), (date(2015, 7, 30), 66000), (date(2015, 7, 31), 67000), (date(2015, 8, 1), 68000), (date(2015, 8, 2), 69000), (date(2015, 8, 3), 70000), (date(2015, 8, 4), 71000), (date(2015, 8, 5), 72000), (date(2015, 8, 6), 73000), (date(2015, 8, 7), 74000), (date(2015, 8, 8), 75000), (date(2015, 8, 9), 76000), (date(2015, 8, 10), 77000), (date(2015, 8, 11), 78000), (date(2015, 8, 12), 79000), (date(2015, 8, 13), 80000), (date(2015, 8, 14), 81000), (date(2015, 8, 15), 82000), (date(2015, 8, 16), 83000), (date(2015, 8, 17), 84000), (date(2015, 8, 18), 85000), (date(2015, 8, 19), 86000), (date(2015, 8, 20), 87000), (date(2015, 8, 21), 88000), (date(2015, 8, 22), 89000), (date(2015, 8, 23), 90000), (date(2015, 8, 24), 91000), (date(2015, 8, 25), 92000), (date(2015, 8, 26), 93000), (date(2015, 8, 27), 94000), (date(2015, 8, 28), 95000), (date(2015, 8, 29), 96000), (date(2015, 8, 30), 97000), (date(2015, 8, 31), 98000), (date(2015, 9, 1), 99000), (date(2015, 9, 2), 100000), (date(2015, 9, 3), 101000), (date(2015, 9, 4), 102000), (date(2015, 9, 5), 103000), (date(2015, 9, 6), 104000), (date(2015, 9, 7), 105000), (date(2015, 9, 8), 106000), (date(2015, 9, 9), 107000), (date(2015, 9, 10), 108000), (date(2015, 9, 11), 109000), (date(2015, 9, 12), 110000), (date(2015, 9, 13), 111000), (date(2015, 9, 14), 112000), (date(2015, 9, 15), 113000), (date(2015, 9, 16), 114000), (date(2015, 9, 17), 115000), (date(2015, 9, 18), 116000), (date(2015, 9, 19), 117000), (date(2015, 9, 20), 118000), (date(2015, 9, 21), 119000), (date(2015, 9, 22), 120000), (date(2015, 9, 23), 121000), (date(2015, 9, 24), 122000), (date(2015, 9, 25), 123000), (date(2015, 9, 26), 124000), (date(2015, 9, 27), 125000), (date(2015, 9, 28), 126000), (date(2015, 9, 29), 117000), (date(2015, 9, 30), 108000), (date(2015, 10, 1), 99000), (date(2015, 10, 2), 90000), (date(2015, 10, 3), 90000), (date(2015, 10, 4), 90000), (date(2015, 10, 5), 90000), (date(2015, 10, 6), 90000), (date(2015, 10, 7), 90000), (date(2015, 10, 8), 90000), (date(2015, 10, 9), 90000), (date(2015, 10, 10), 90000), (date(2015, 10, 11), 90000), (date(2015, 10, 12), 90000), (date(2015, 10, 13), 90000), (date(2015, 10, 14), 90000), (date(2015, 10, 15), 90000), (date(2015, 10, 16), 90000), (date(2015, 10, 17), 90000), (date(2015, 10, 18), 90000), (date(2015, 10, 19), 90000), (date(2015, 10, 20), 90000), (date(2015, 10, 21), 90000), (date(2015, 10, 22), 90000), (date(2015, 10, 23), 90000), (date(2015, 10, 24), 90000), (date(2015, 10, 25), 90000), (date(2015, 10, 26), 90000), (date(2015, 10, 27), 90000), (date(2015, 10, 28), 90000), (date(2015, 10, 29), 90000), (date(2015, 10, 30), 90000), (date(2015, 10, 31), 90000), (date(2015, 11, 1), 90000), (date(2015, 11, 2), 90000), (date(2015, 11, 3), 90000), (date(2015, 11, 4), 90000), (date(2015, 11, 5), 90000), (date(2015, 11, 6), 90000), (date(2015, 11, 7), 90000), (date(2015, 11, 8), 90000), (date(2015, 11, 9), 90000), (date(2015, 11, 10), 90000), (date(2015, 11, 11), 90000), (date(2015, 11, 12), 90000), (date(2015, 11, 13), 90000), (date(2015, 11, 14), 90000), (date(2015, 11, 15), 90000), (date(2015, 11, 16), 90000), (date(2015, 11, 17), 90000), (date(2015, 11, 18), 90000), (date(2015, 11, 19), 90000), (date(2015, 11, 20), 90000), (date(2015, 11, 21), 90000), (date(2015, 11, 22), 90000), (date(2015, 11, 23), 90000), (date(2015, 11, 24), 90000), (date(2015, 11, 25), 90000), (date(2015, 11, 26), 90000), (date(2015, 11, 27), 90000), (date(2015, 11, 28), 90000), (date(2015, 11, 29), 90000), (date(2015, 11, 30), 90000), (date(2015, 12, 1), 90000), (date(2015, 12, 2), 90000), (date(2015, 12, 3), 90000), (date(2015, 12, 4), 90000), (date(2015, 12, 5), 90000), (date(2015, 12, 6), 90000), (date(2015, 12, 7), 90000), (date(2015, 12, 8), 90000), (date(2015, 12, 9), 90000), (date(2015, 12, 10), 90000), (date(2015, 12, 11), 90000), (date(2015, 12, 12), 90000), (date(2015, 12, 13), 90000), (date(2015, 12, 14), 90000), (date(2015, 12, 15), 90000), (date(2015, 12, 16), 90000), (date(2015, 12, 17), 90000), (date(2015, 12, 18), 90000), (date(2015, 12, 19), 90000), (date(2015, 12, 20), 90000), (date(2015, 12, 21), 90000), (date(2015, 12, 22), 90000), (date(2015, 12, 23), 90000), (date(2015, 12, 24), 90000), (date(2015, 12, 25), 90000), (date(2015, 12, 26), 90000), (date(2015, 12, 27), 90000), (date(2015, 12, 28), 90000), (date(2015, 12, 29), 90000), (date(2015, 12, 30), 90000), (date(2015, 12, 31), 90000), (date(2016, 1, 1), 89900), (date(2016, 1, 2), 89800), (date(2016, 1, 3), 89700), (date(2016, 1, 4), 89600), (date(2016, 1, 5), 89500), (date(2016, 1, 6), 89400), (date(2016, 1, 7), 89300), (date(2016, 1, 8), 89200), (date(2016, 1, 9), 89100), (date(2016, 1, 10), 89000), (date(2016, 1, 11), 88000), (date(2016, 1, 12), 87000), (date(2016, 1, 13), 86900), (date(2016, 1, 14), 86800), (date(2016, 1, 15), 86700), (date(2016, 1, 16), 86600), (date(2016, 1, 17), 86500), (date(2016, 1, 18), 86400), (date(2016, 1, 19), 86300), (date(2016, 1, 20), 86200), (date(2016, 1, 21), 86100), (date(2016, 1, 22), 86000), (date(2016, 1, 23), 85500), (date(2016, 1, 24), 85000), (date(2016, 1, 25), 84500), (date(2016, 1, 26), 84000), (date(2016, 1, 27), 83500), (date(2016, 1, 28), 83000), (date(2016, 1, 29), 82500), (date(2016, 1, 30), 82000), (date(2016, 1, 31), 81500), (date(2016, 2, 1), 81000), (date(2016, 2, 2), 80500), (date(2016, 2, 3), 80000), (date(2016, 2, 4), 79500), (date(2016, 2, 5), 79000), (date(2016, 2, 6), 78500), (date(2016, 2, 7), 78000), (date(2016, 2, 8), 77500), (date(2016, 2, 9), 77000), (date(2016, 2, 10), 76500), (date(2016, 2, 11), 76000), (date(2016, 2, 12), 75500), (date(2016, 2, 13), 75000), (date(2016, 2, 14), 74500), (date(2016, 2, 15), 74000), (date(2016, 2, 16), 73500), (date(2016, 2, 17), 73000), (date(2016, 2, 18), 72500), (date(2016, 2, 19), 72000), (date(2016, 2, 20), 71500), (date(2016, 2, 21), 71000), (date(2016, 2, 22), 70500), (date(2016, 2, 23), 70000), (date(2016, 2, 24), 69500), (date(2016, 2, 25), 69000), (date(2016, 2, 26), 68500), (date(2016, 2, 27), 68000), (date(2016, 2, 28), 67500), (date(2016, 2, 29), 67000), (date(2016, 3, 1), 66500), (date(2016, 3, 2), 66000), (date(2016, 3, 3), 65500), (date(2016, 3, 4), 65000), (date(2016, 3, 5), 64500), (date(2016, 3, 6), 64000), (date(2016, 3, 7), 63500), (date(2016, 3, 8), 63000), (date(2016, 3, 9), 62500), (date(2016, 3, 10), 62000), (date(2016, 3, 11), 61500), (date(2016, 3, 12), 61000), (date(2016, 3, 13), 60500), (date(2016,3,14), 60000)]]}
-    expected_events = tuple([expected_events])
+    
 
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 @pytest.mark.parametrize("date,water_year",
         [ (date(2022,6,29), 2021),
@@ -703,15 +687,15 @@ def test_get_max_consecutive_event_days(gauge_events, unique_water_years, max_co
     assert result == max_consecutive_events
 
 
-@pytest.mark.parametrize("durations,max_consecutive_days,duration_achievement",
-        [ ( [5,5,5,5],
+@pytest.mark.parametrize("EWR_info, max_consecutive_days,duration_achievement",
+        [ ({'duration':5},
             [1,5,6,0],
             [0,1,1,0]
               ),
               ],
 )
-def test_get_max_rolling_duration_achievement(durations, max_consecutive_days,duration_achievement):
-    result = evaluate_EWRs.get_max_rolling_duration_achievement(durations, max_consecutive_days)
+def test_get_max_rolling_duration_achievement(EWR_info, max_consecutive_days,duration_achievement):
+    result = evaluate_EWRs.get_max_rolling_duration_achievement(EWR_info, max_consecutive_days)
     assert result == duration_achievement
 
 @pytest.mark.parametrize("iteration,flows,expected_result",[
@@ -902,12 +886,11 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
     PU_df.index = PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 
@@ -961,12 +944,11 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
 
     assert PU_df.to_dict() == expected_PU_df_data
     
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
@@ -1023,12 +1005,11 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
     
     
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("flows, iteration, period, expected_result",[
@@ -1118,12 +1099,11 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
@@ -1187,12 +1167,11 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 
@@ -1427,12 +1406,11 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
@@ -1485,12 +1463,11 @@ def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expe
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
+    
 
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
@@ -1544,12 +1521,11 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
@@ -1693,12 +1669,11 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
@@ -1753,10 +1728,9 @@ def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expect
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
     
