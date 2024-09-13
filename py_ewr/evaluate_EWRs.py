@@ -239,12 +239,12 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
     #     ewrs['ctf_threshold'] = float(ctf_threshold)
     if 'StartMonth' in components:
         start_date = str(component_pull(EWR_table, gauge, PU, EWR, 'StartMonth'))
-    if '.' in start_date:
-        ewrs['start_day'] = int(start_date.split('.')[1])
-        ewrs['start_month'] = int(start_date.split('.')[0])
-    else:
-        ewrs['start_day'] = None
-        ewrs['start_month'] = int(start_date)
+        if '.' in start_date:
+            ewrs['start_day'] = int(start_date.split('.')[1])
+            ewrs['start_month'] = int(start_date.split('.')[0])
+        else:
+            ewrs['start_day'] = None
+            ewrs['start_month'] = int(start_date)
     if 'EndMonth' in components:
         end_date = str(component_pull(EWR_table, gauge, PU, EWR, 'EndMonth'))
         if '.' in end_date:  
@@ -4477,7 +4477,7 @@ def filter_min_events(EWR_info:Dict, events:Dict)-> Dict:
 
     return filtered_events
 
-def get_event_years(EWR_info:Dict, events:Dict, unique_water_years:set, durations:List) -> List:
+def get_event_years(EWR_info:Dict, events:Dict, unique_water_years:set) -> List:
     '''Returns a list of years with events (represented by a 1), and years without events (0)
     
     Args:
