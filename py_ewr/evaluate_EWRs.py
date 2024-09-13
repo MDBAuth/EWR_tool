@@ -79,7 +79,165 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
     ewrs['planning_unit'] = PU
     ewrs['EWR_code'] = EWR
     
-    if 'SM' in components:
+    # if 'SM' in components:
+    #     start_date = str(component_pull(EWR_table, gauge, PU, EWR, 'StartMonth'))
+    #     if '.' in start_date:
+    #         ewrs['start_day'] = int(start_date.split('.')[1])
+    #         ewrs['start_month'] = int(start_date.split('.')[0])
+    #     else:
+    #         ewrs['start_day'] = None
+    #         ewrs['start_month'] = int(start_date)
+    # if 'EM' in components:
+    #     end_date = str(component_pull(EWR_table, gauge, PU, EWR, 'EndMonth'))
+    #     if '.' in end_date:  
+    #         ewrs['end_day'] = int(end_date.split('.')[1])
+    #         ewrs['end_month'] = int(end_date.split('.')[0])
+    #     else:
+    #         ewrs['end_day'] = None
+    #         ewrs['end_month'] =int(end_date)
+    # if 'MINF' in components:
+    #     min_flow = int(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMin'))
+    #     ewrs['min_flow'] = int(min_flow)
+    # if 'MAXF' in components:
+    #     max_flow = int(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMax'))
+    #     ewrs['max_flow'] = int(max_flow)
+    # if 'MINL' in components:
+    #     min_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMin'))
+    #     ewrs['min_level'] = min_level
+    # if 'MAXL' in components:
+    #     max_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMax'))
+    #     ewrs['max_level'] = max_level
+    # if 'MINV' in components:
+    #     min_volume = int(component_pull(EWR_table, gauge, PU, EWR, 'VolumeThreshold'))
+    #     ewrs['min_volume'] = int(min_volume)
+    # if 'DUR' in components:
+    #     duration = int(component_pull(EWR_table, gauge, PU, EWR, 'Duration'))
+    #     ewrs['duration'] = int(duration)
+    # if 'GP' in components:
+    #     gap_tolerance = int(component_pull(EWR_table, gauge, PU, EWR, 'WithinEventGapTolerance'))
+    #     ewrs['gap_tolerance'] = gap_tolerance
+    # if 'EPY' in components:
+    #     events_per_year = int(component_pull(EWR_table, gauge, PU, EWR, 'EventsPerYear'))
+    #     ewrs['events_per_year'] = events_per_year       
+    # if 'ME' in components:
+    #     min_event = int(component_pull(EWR_table, gauge, PU, EWR, 'MinSpell'))
+    #     ewrs['min_event'] = int(min_event)
+    # if 'MD' in components:
+    #     max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
+    #     if '%' in str(max_drawdown):
+    #         value_only = int(max_drawdown.replace('%', ''))
+    #         ewrs['drawdown_rate'] = str(int(value_only))+'%'
+    #     else:
+    #         ewrs['drawdown_rate'] = str(float(max_drawdown)) #TODO check this works
+    #     if max_drawdown == 0:
+    #         # Large value set to ensure that drawdown check is always passed in this case
+    #         ewrs['drawdown_rate'] = int(1000000)          
+    # if 'WPG' in components:
+    #     weirpool_gauge = component_pull(EWR_table, gauge, PU, EWR, 'WeirpoolGauge')
+    #     ewrs['weirpool_gauge'] =str(weirpool_gauge)
+    # if 'MG' in components:       
+    #     ewrs['second_gauge'] = get_second_multigauge(EWR_table, gauge, EWR, PU)    
+    # if 'TF' in components:
+    #     try:
+    #         ewrs['frequency'] = component_pull(EWR_table, gauge, PU, EWR, 'TargetFrequency')
+    #     except IndexError:
+    #         ewrs['frequency'] = None
+    # if 'MIE' in components:
+    #     try:
+    #         ewrs['max_inter-event'] = float(component_pull(EWR_table, gauge, PU, EWR, 'MaxInter-event'))
+    #     except IndexError:
+    #         ewrs['max_inter-event'] = None
+    # if 'AP' in components:
+    #     accumulation_period = component_pull(EWR_table, gauge, PU, EWR, 'AccumulationPeriod')
+    #     ewrs['accumulation_period'] = int(accumulation_period)
+    # if 'FLV' in components:
+    #     flow_level_volume = component_pull(EWR_table, gauge, PU, EWR, 'FlowLevelVolume')
+    #     ewrs['flow_level_volume'] = flow_level_volume
+    # if 'MAXD' in components:
+    #     max_duration = component_pull(EWR_table, gauge, PU, EWR, 'MaxSpell')
+    #     ewrs['max_duration'] = int(max_duration) if max_duration else 1_000_000
+    # if 'TD' in components:
+    #     trigger_day = component_pull(EWR_table, gauge, PU, EWR, 'TriggerDay')
+    #     ewrs['trigger_day'] = int(trigger_day)
+    # if 'TM' in components:
+    #     trigger_month = component_pull(EWR_table, gauge, PU, EWR, 'TriggerMonth')
+    #     ewrs['trigger_month'] = int(trigger_month)
+    # if 'WDD' in components:
+    #     try: # The rate is represented in cm
+    #         drawdown_rate_week = component_pull(EWR_table, gauge, PU, EWR, 'DrawDownRateWeek')
+    #         ewrs['drawdown_rate_week'] = str(float(drawdown_rate_week)/100)#TODO check this works
+    #     except ValueError: # In this case set a large number
+    #         ewrs['drawdown_rate_week'] = int(1000000)
+    # if 'ML' in components:
+    #     max_level = component_pull(EWR_table, gauge, PU, EWR, 'MaxLevelRise')
+    #     ewrs['max_level_raise'] = float(max_level)
+    # if 'ABF' in components:
+    #     annual_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'AnnualBarrageFlow')
+    #     ewrs['annual_barrage_flow'] = int(annual_barrage_flow)
+    # if 'TYBF' in components:
+    #     three_years_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'ThreeYearsBarrageFlow')
+    #     ewrs['three_years_barrage_flow'] = int(three_years_barrage_flow)
+    # if 'HRWS' in components:
+    #     high_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowStart')
+    #     ewrs['high_release_window_start'] = int(high_release_window_start)
+    # if 'HRWE' in components:
+    #     high_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowEnd')
+    #     ewrs['high_release_window_end'] = int(high_release_window_end)
+    # if 'LRWS' in components:
+    #     low_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowStart')
+    #     ewrs['low_release_window_start'] = int(low_release_window_start)
+    # if 'LRWE' in components:
+    #     low_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowEnd')
+    #     ewrs['low_release_window_end'] = int(low_release_window_end)
+    # if 'PLWS' in components:
+    #     peak_level_window_start = component_pull(EWR_table, gauge, PU, EWR, 'PeakLevelWindowStart')
+    #     ewrs['peak_level_window_start'] = int(peak_level_window_start)
+    # if 'PLWE' in components:
+    #     peak_level_window_end = component_pull(EWR_table, gauge, PU, EWR, 'PeakLevelWindowEnd')
+    #     ewrs['peak_level_window_end'] = int(peak_level_window_end)
+    # if 'LLWS' in components:
+    #     low_level_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowLevelWindowStart')
+    #     ewrs['low_level_window_start'] = int(low_level_window_start)
+    # if 'LLWE' in components:
+    #     low_level_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowLevelWindowEnd')
+    #     ewrs['low_level_window_end'] = int(low_level_window_end)
+    # if 'NFS' in components:
+    #     non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'NonFlowSpell')
+    #     ewrs['non_flow_spell'] = int(non_flow_spell)
+    # if 'EDS' in components: 
+    #     non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'EggsDaysSpell')
+    #     ewrs['eggs_days_spell'] = int(non_flow_spell)
+    # if 'LDS' in components: 
+    #     non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'LarvaeDaysSpell')
+    #     ewrs['larvae_days_spell'] = int(non_flow_spell)
+    # if 'MLR' in components: 
+    #     min_level_rise = component_pull(EWR_table, gauge, PU, EWR, 'MinLevelRise')
+    #     ewrs['min_level_rise'] = float(min_level_rise)
+    # if 'RRM1' in components:
+    #     rate_of_rise_max1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax1')
+    #     ewrs['rate_of_rise_max1'] = float(rate_of_rise_max1)
+    # if 'RRM2' in components:
+    #     rate_of_rise_max1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax2')
+    #     ewrs['rate_of_rise_max2'] = float(rate_of_rise_max1)
+    # if 'RFM' in components:
+    #     rate_of_fall_min = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallMin')
+    #     ewrs['rate_of_fall_min'] = float(rate_of_fall_min)
+    # if 'RRT1' in components:
+    #     rate_of_rise_threshold1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseThreshold1')
+    #     ewrs['rate_of_rise_threshold1'] = float(rate_of_rise_threshold1)
+    # if 'RRT2' in components:
+    #     rate_of_rise_threshold2 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseThreshold2')
+    #     ewrs['rate_of_rise_threshold2'] = float(rate_of_rise_threshold2)
+    # if 'RRL' in components:
+    #     rate_of_rise_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseRiverLevel')
+    #     ewrs['rate_of_rise_river_level'] = float(rate_of_rise_river_level)
+    # if 'RFL' in components:
+    #     rate_of_fall_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallRiverLevel')
+    #     ewrs['rate_of_fall_river_level'] = float(rate_of_fall_river_level)
+    # if 'CTFT' in components:
+    #     ctf_threshold = component_pull(EWR_table, gauge, PU, EWR, 'CtfThreshold')
+    #     ewrs['ctf_threshold'] = float(ctf_threshold)
+    if 'StartMonth' in components:
         start_date = str(component_pull(EWR_table, gauge, PU, EWR, 'StartMonth'))
         if '.' in start_date:
             ewrs['start_day'] = int(start_date.split('.')[1])
@@ -87,154 +245,152 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
         else:
             ewrs['start_day'] = None
             ewrs['start_month'] = int(start_date)
-    if 'EM' in components:
+    if 'EndMonth' in components:
         end_date = str(component_pull(EWR_table, gauge, PU, EWR, 'EndMonth'))
         if '.' in end_date:  
             ewrs['end_day'] = int(end_date.split('.')[1])
             ewrs['end_month'] = int(end_date.split('.')[0])
         else:
             ewrs['end_day'] = None
-            ewrs['end_month'] =int(end_date)
-    if 'MINF' in components:
+            ewrs['end_month'] = int(end_date)
+    if 'FlowThresholdMin' in components:
         min_flow = int(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMin'))
         ewrs['min_flow'] = int(min_flow)
-    if 'MAXF' in components:
+    if 'FlowThresholdMax' in components:
         max_flow = int(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMax'))
         ewrs['max_flow'] = int(max_flow)
-    if 'MINL' in components:
+    if 'LevelThresholdMin' in components:
         min_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMin'))
         ewrs['min_level'] = min_level
-    if 'MAXL' in components:
+    if 'LevelThresholdMax' in components:
         max_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMax'))
         ewrs['max_level'] = max_level
-    if 'MINV' in components:
-        min_volume = int(component_pull(EWR_table, gauge, PU, EWR, 'VolumeThreshold'))
-        ewrs['min_volume'] = int(min_volume)
-    if 'DUR' in components:
+    if 'Duration' in components:
         duration = int(component_pull(EWR_table, gauge, PU, EWR, 'Duration'))
         ewrs['duration'] = int(duration)
-    if 'GP' in components:
+    if 'WithinEventGapTolerance' in components:
         gap_tolerance = int(component_pull(EWR_table, gauge, PU, EWR, 'WithinEventGapTolerance'))
         ewrs['gap_tolerance'] = gap_tolerance
-    if 'EPY' in components:
+    if 'EventsPerYear' in components:
         events_per_year = int(component_pull(EWR_table, gauge, PU, EWR, 'EventsPerYear'))
         ewrs['events_per_year'] = events_per_year       
-    if 'ME' in components:
+    if 'MinSpell' in components:
         min_event = int(component_pull(EWR_table, gauge, PU, EWR, 'MinSpell'))
         ewrs['min_event'] = int(min_event)
-    if 'MD' in components:
+    if 'DrawdownRate' in components:
         max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
         if '%' in str(max_drawdown):
             value_only = int(max_drawdown.replace('%', ''))
-            ewrs['drawdown_rate'] = str(int(value_only))+'%'
+            ewrs['drawdown_rate'] = str(int(value_only)) + '%'
         else:
-            ewrs['drawdown_rate'] = str(float(max_drawdown)) #TODO check this works
+            ewrs['drawdown_rate'] = str(float(max_drawdown)) # TODO check this works
         if max_drawdown == 0:
             # Large value set to ensure that drawdown check is always passed in this case
             ewrs['drawdown_rate'] = int(1000000)          
-    if 'WPG' in components:
+    if 'WeirpoolGauge' in components:
         weirpool_gauge = component_pull(EWR_table, gauge, PU, EWR, 'WeirpoolGauge')
-        ewrs['weirpool_gauge'] =str(weirpool_gauge)
-    if 'MG' in components:       
+        ewrs['weirpool_gauge'] = str(weirpool_gauge)
+    if 'MultiGauge' in components:       
         ewrs['second_gauge'] = get_second_multigauge(EWR_table, gauge, EWR, PU)    
-    if 'TF' in components:
+    if 'TargetFrequency' in components:
         try:
             ewrs['frequency'] = component_pull(EWR_table, gauge, PU, EWR, 'TargetFrequency')
         except IndexError:
             ewrs['frequency'] = None
-    if 'MIE' in components:
+    if 'MaxInter-event' in components:
         try:
             ewrs['max_inter-event'] = float(component_pull(EWR_table, gauge, PU, EWR, 'MaxInter-event'))
         except IndexError:
             ewrs['max_inter-event'] = None
-    if 'AP' in components:
+    if 'AccumulationPeriod' in components:
         accumulation_period = component_pull(EWR_table, gauge, PU, EWR, 'AccumulationPeriod')
         ewrs['accumulation_period'] = int(accumulation_period)
-    if 'FLV' in components:
+    if 'FlowLevelVolume' in components:
         flow_level_volume = component_pull(EWR_table, gauge, PU, EWR, 'FlowLevelVolume')
         ewrs['flow_level_volume'] = flow_level_volume
-    if 'MAXD' in components:
+    if 'MaxSpell' in components:
         max_duration = component_pull(EWR_table, gauge, PU, EWR, 'MaxSpell')
         ewrs['max_duration'] = int(max_duration) if max_duration else 1_000_000
-    if 'TD' in components:
+    if 'TriggerDay' in components:
         trigger_day = component_pull(EWR_table, gauge, PU, EWR, 'TriggerDay')
         ewrs['trigger_day'] = int(trigger_day)
-    if 'TM' in components:
+    if 'TriggerMonth' in components:
         trigger_month = component_pull(EWR_table, gauge, PU, EWR, 'TriggerMonth')
         ewrs['trigger_month'] = int(trigger_month)
-    if 'WDD' in components:
-        try: # The rate is represented in cm
+    if 'DrawDownRateWeek' in components:
+        try:
             drawdown_rate_week = component_pull(EWR_table, gauge, PU, EWR, 'DrawDownRateWeek')
-            ewrs['drawdown_rate_week'] = str(float(drawdown_rate_week)/100)#TODO check this works
-        except ValueError: # In this case set a large number
+            ewrs['drawdown_rate_week'] = str(float(drawdown_rate_week) / 100) # TODO check this works
+        except ValueError:
             ewrs['drawdown_rate_week'] = int(1000000)
-    if 'ML' in components:
+    if 'MaxLevelRise' in components:
         max_level = component_pull(EWR_table, gauge, PU, EWR, 'MaxLevelRise')
         ewrs['max_level_raise'] = float(max_level)
-    if 'ABF' in components:
+    if 'AnnualBarrageFlow' in components:
         annual_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'AnnualBarrageFlow')
         ewrs['annual_barrage_flow'] = int(annual_barrage_flow)
-    if 'TYBF' in components:
+    if 'ThreeYearsBarrageFlow' in components:
         three_years_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'ThreeYearsBarrageFlow')
         ewrs['three_years_barrage_flow'] = int(three_years_barrage_flow)
-    if 'HRWS' in components:
+    if 'HighReleaseWindowStart' in components:
         high_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowStart')
         ewrs['high_release_window_start'] = int(high_release_window_start)
-    if 'HRWE' in components:
+    if 'HighReleaseWindowEnd' in components:
         high_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowEnd')
         ewrs['high_release_window_end'] = int(high_release_window_end)
-    if 'LRWS' in components:
+    if 'LowReleaseWindowStart' in components:
         low_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowStart')
         ewrs['low_release_window_start'] = int(low_release_window_start)
-    if 'LRWE' in components:
+    if 'LowReleaseWindowEnd' in components:
         low_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowEnd')
         ewrs['low_release_window_end'] = int(low_release_window_end)
-    if 'PLWS' in components:
+    if 'PeakLevelWindowStart' in components:
         peak_level_window_start = component_pull(EWR_table, gauge, PU, EWR, 'PeakLevelWindowStart')
         ewrs['peak_level_window_start'] = int(peak_level_window_start)
-    if 'PLWE' in components:
+    if 'PeakLevelWindowEnd' in components:
         peak_level_window_end = component_pull(EWR_table, gauge, PU, EWR, 'PeakLevelWindowEnd')
         ewrs['peak_level_window_end'] = int(peak_level_window_end)
-    if 'LLWS' in components:
+    if 'LowLevelWindowStart' in components:
         low_level_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowLevelWindowStart')
         ewrs['low_level_window_start'] = int(low_level_window_start)
-    if 'LLWE' in components:
+    if 'LowLevelWindowEnd' in components:
         low_level_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowLevelWindowEnd')
         ewrs['low_level_window_end'] = int(low_level_window_end)
-    if 'NFS' in components:
+    if 'NonFlowSpell' in components:
         non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'NonFlowSpell')
         ewrs['non_flow_spell'] = int(non_flow_spell)
-    if 'EDS' in components: 
-        non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'EggsDaysSpell')
-        ewrs['eggs_days_spell'] = int(non_flow_spell)
-    if 'LDS' in components: 
-        non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'LarvaeDaysSpell')
-        ewrs['larvae_days_spell'] = int(non_flow_spell)
-    if 'MLR' in components: 
+    if 'EggsDaysSpell' in components:
+        eggs_days_spell = component_pull(EWR_table, gauge, PU, EWR, 'EggsDaysSpell')
+        ewrs['eggs_days_spell'] = int(eggs_days_spell)
+    if 'LarvaeDaysSpell' in components:
+        larvae_days_spell = component_pull(EWR_table, gauge, PU, EWR, 'LarvaeDaysSpell')
+        ewrs['larvae_days_spell'] = int(larvae_days_spell)
+    if 'MinLevelRise' in components:
         min_level_rise = component_pull(EWR_table, gauge, PU, EWR, 'MinLevelRise')
         ewrs['min_level_rise'] = float(min_level_rise)
-    if 'RRM1' in components:
+    if 'RateOfRiseMax1' in components:
         rate_of_rise_max1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax1')
         ewrs['rate_of_rise_max1'] = float(rate_of_rise_max1)
-    if 'RRM2' in components:
-        rate_of_rise_max1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax2')
-        ewrs['rate_of_rise_max2'] = float(rate_of_rise_max1)
-    if 'RFM' in components:
+
+    if 'RateOfRiseMax2' in components:
+        rate_of_rise_max2 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseMax2')
+        ewrs['rate_of_rise_max2'] = float(rate_of_rise_max2)
+    if 'RateOfFallMin' in components:
         rate_of_fall_min = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallMin')
         ewrs['rate_of_fall_min'] = float(rate_of_fall_min)
-    if 'RRT1' in components:
+    if 'RateOfRiseThreshold1' in components:
         rate_of_rise_threshold1 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseThreshold1')
         ewrs['rate_of_rise_threshold1'] = float(rate_of_rise_threshold1)
-    if 'RRT2' in components:
+    if 'RateOfRiseThreshold2' in components:
         rate_of_rise_threshold2 = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseThreshold2')
         ewrs['rate_of_rise_threshold2'] = float(rate_of_rise_threshold2)
-    if 'RRL' in components:
+    if 'RateOfRiseRiverLevel' in components:
         rate_of_rise_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfRiseRiverLevel')
         ewrs['rate_of_rise_river_level'] = float(rate_of_rise_river_level)
-    if 'RFL' in components:
+    if 'RateOfFallRiverLevel' in components:
         rate_of_fall_river_level = component_pull(EWR_table, gauge, PU, EWR, 'RateOfFallRiverLevel')
         ewrs['rate_of_fall_river_level'] = float(rate_of_fall_river_level)
-    if 'CTFT' in components:
+    if 'CtfThreshold' in components:
         ctf_threshold = component_pull(EWR_table, gauge, PU, EWR, 'CtfThreshold')
         ewrs['ctf_threshold'] = float(ctf_threshold)
 
@@ -281,31 +437,37 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
     else:
         return True
 
+# def calculate_n_day_moving_average(df: pd.DataFrame, days: int) -> pd.DataFrame:
+#     '''Calculates the n day moving average for a given gauges
+    
+#     Args:
+#         df (pd.DataFrame): Daily flow data
+#         gauge (str): Gauge ID
+#         n (int): Number of days to calculate moving average over
+    
+#     Results:
+#         pd.DataFrame: Daily flow data with an additional column for the moving average
+    
+#     '''
+#     gauges = [col for col in df.columns]
+#     original_df = df[gauges]
+#     original_df = original_df.expanding(min_periods=1).mean() 
+#     original_df = original_df[:days-1]
+
+
+#     for gauge in gauges:
+#         df[gauge] = df[gauge].rolling(window=days).mean()
+#     df = df[days-1:]
+
+#     result_df = pd.concat([original_df, df], sort = False, axis = 0)
+
+#     return result_df
 def calculate_n_day_moving_average(df: pd.DataFrame, days: int) -> pd.DataFrame:
-    '''Calculates the n day moving average for a given gauges
-    
-    Args:
-        df (pd.DataFrame): Daily flow data
-        gauge (str): Gauge ID
-        n (int): Number of days to calculate moving average over
-    
-    Results:
-        pd.DataFrame: Daily flow data with an additional column for the moving average
-    
-    '''
-    gauges = [col for col in df.columns]
-    original_df = df[gauges]
-    original_df = original_df.expanding(min_periods=1).mean() 
-    original_df = original_df[:days-1]
+    '''Calculates the n day moving average for a given gauges'''
+ 
+    moving_avg_df = df.rolling(window=days, min_periods=1).mean()
 
-
-    for gauge in gauges:
-        df[gauge] = df[gauge].rolling(window=days).mean()
-    df = df[days-1:]
-
-    result_df = pd.concat([original_df, df], sort = False, axis = 0)
-
-    return result_df
+    return moving_avg_df
 
 #------------------------ Masking timeseries data to dates in EWR requirement --------------------#
 

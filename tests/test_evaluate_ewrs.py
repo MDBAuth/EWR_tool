@@ -4,8 +4,350 @@ import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
 import numpy as np
-
+import unittest
 from py_ewr import evaluate_EWRs, data_inputs
+
+def test_component_pull():
+    # Sample DataFrame for testing
+    mock_data = {
+        'Gauge': ['G001', 'G002', 'G001', 'G003'],
+        'Code': ['EWR1', 'EWR2', 'EWR1', 'EWR3'],
+        'PlanningUnitID': ['PU1', 'PU2', 'PU1', 'PU3'],
+        'Component1': ['Value1', 'Value2', 'Value3', 'Value4'],
+        'Component2': ['Val1', 'Val2', 'Val3', 'Val4']
+    }
+    ewr_table_mock=pd.DataFrame(mock_data)
+    result = evaluate_EWRs.component_pull(ewr_table_mock, 'G001', 'PU1', 'EWR1', 'Component1')
+    assert result== 'Value1'
+    with pytest.raises(IndexError):
+        evaluate_EWRs.component_pull(ewr_table_mock, 'G999', 'PU1', 'EWR1', 'Component1')
+    with pytest.raises(KeyError):
+        evaluate_EWRs.component_pull(ewr_table_mock, 'G001', 'PU1', 'EWR1', 'InvalidComponent')
+    with pytest.raises(IndexError):
+        empty_df = pd.DataFrame(columns=mock_data.keys())
+        evaluate_EWRs.component_pull(empty_df, 'G001', 'PU1', 'EWR1', 'Component1')
+
+def test_is_multigauge():
+    mock_multigauge_data=pd.DataFrame({
+            'Gauge': [0.8, 0.8, 1.2],
+            'Code': ['EWR001', 'EWR002', 'EWR003'],
+            'PlanningUnitID': ['PU1', 'PU1', 'PU2'],
+            'Multigauge': ['1', '', '0']
+        })
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 0.8,  'EWR001', 'PU1')
+    assert result == True
+    # test empty
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 0.8,  'EWR002', 'PU1')
+    assert result == False
+    #test where is zero
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.2,  'EWR002', 'PU2')
+    assert result == False
+    #test no matching
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.0,  'EWR999', 'PU1')
+    assert result == False
+
+def test_get_second_multigauge():
+    mock_parameter_sheet=pd.DataFrame({
+            'Gauge': [1.0, 2.0, 3.0, 4.0],
+            'Code': ['EWR1', 'EWR2', 'EWR3', 'EWR4'],
+            'PlanningUnitID': ['PU1', 'PU2', 'PU3', 'PU4'],
+            'Multigauge': ['MG1', 'MG2', '', 'MG4']
+        })
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,1.0, 'EWR1', 'PU1')
+    assert result == 'MG1'
+    #test empty
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,3.0, 'EWR3', 'PU3')
+    assert result == ''
+    #no matching row
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,5.0, 'EWR5', 'PU5')
+    assert result== ''
+    #test with multiple rows matching to retune first match
+    mock_parameter_sheet_1=pd.DataFrame({
+            'Gauge': [1.0, 1.0],
+            'Code': ['EWR1', 'EWR1'],
+            'PlanningUnitID': ['PU1', 'PU1'],
+            'Multigauge': ['MG1', 'MG5']
+        })
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet_1,1.0, 'EWR1', 'PU1')
+    assert result== 'MG1'
+
+
+
+def test_calculate_n_day_moving_average():
+    mock_df=pd.DataFrame({
+            'Gauge1': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            'Gauge2': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        })
+    days=3
+    
+    expected_df = pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': [10, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_1= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': ['NAN', 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_2= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            '': ['NAN', 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_3= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': [0, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    result_df=evaluate_EWRs.calculate_n_day_moving_average(mock_df,days)
+    assert_frame_equal(result_df, expected_df)
+    AssertionError(result_df, unexpected_df_1)
+    AssertionError(result_df, unexpected_df_2)
+    AssertionError(result_df, unexpected_df_3)
+    
+def test_get_month_mask():
+    mock_date=pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    mock_df=pd.DataFrame({'value': range(len(mock_date))},index=mock_date)
+    #print(mock_df)
+    #within the same year test
+    result=evaluate_EWRs.get_month_mask(3,5,mock_df)
+    expected=set(mock_df.loc['2023-03-01':'2023-05-31'].index)
+    assert result==expected
+    #test across years
+    result=evaluate_EWRs.get_month_mask(11,2,mock_df)
+    expected=set(mock_df.loc['2023-11-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-02-28'].index))
+    assert result==expected
+    #test all of the year
+    result=evaluate_EWRs.get_month_mask(1,12,mock_df)
+    expected=set(mock_df.index)
+    assert result==expected
+    # test a month only
+    result=evaluate_EWRs.get_month_mask(8,8,mock_df)
+    expected = set(mock_df.loc['2023-08-01':'2023-08-31'].index)
+    # test incorrect range
+    result=evaluate_EWRs.get_month_mask(5,3,mock_df)
+    expected = set(mock_df.loc['2023-05-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-03-31'].index))
+    assert result==expected
+
+def test_get_day_mask():
+    date_rng = pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    sample_df = pd.DataFrame(date_rng, columns=['date'])
+    sample_df.set_index('date', inplace=True)
+    sample_df['value'] = range(len(sample_df))
+
+    # test where startMonth == endMonth
+    result = evaluate_EWRs.get_day_mask(10, 20, 5, 5, sample_df)
+    expected = set(sample_df.loc['2023-05-10':'2023-05-20'].index)
+    
+    assert result==expected
+
+    #test startMonth > endMonth
+    result = evaluate_EWRs.get_day_mask(25, 5, 12, 1, sample_df)
+    expected_dates = set(pd.date_range(start='2023-12-25', end='2023-12-31', freq='D').tolist()) |\
+                         set(pd.date_range(start='2023-01-01', end='2023-01-05', freq='D').tolist())
+    assert result==expected_dates
+
+    # test startMonth < endMonth (within the same year)
+    result = evaluate_EWRs.get_day_mask(15, 10, 3, 7, sample_df)
+    expected_dates = set(pd.date_range(start='2023-03-15', end='2023-07-10', freq='D').tolist())
+    assert result==expected_dates
+
+    #test range is invalid
+    result = evaluate_EWRs.get_day_mask(20, 10, 8, 8, sample_df)
+    expected_dates = set()
+    assert result==expected_dates
+
+    # Across water year
+
+    # Across water year with days also specified
+
+
+
+
+
+
+class TestMaskDates(unittest.TestCase):
+
+    def setUp(self):
+
+        self.input_df = pd.DataFrame({
+                    'date': pd.date_range(start='2020-01-01', end='2020-12-31'),
+                    'value': range(366)
+                }).set_index('date')
+        
+
+    def test_month_mask_within_same_year(self):
+        EWR_info = {'start_month': 3, 'end_month': 5, 'start_day': None, 'end_day': None}
+        expected_date = set(pd.date_range(start='2020-03-01', end='2020-05-31', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+  
+        
+        self.assertSetEqual(result, expected_dates)
+
+
+    def test_day_and_month_mask_same_month(self):
+        EWR_info = {'start_month': 6, 'end_month': 6, 'start_day': 10, 'end_day': 20}
+        expected_date = set(pd.date_range(start='2020-06-10', end='2020-06-20', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_day_and_month_mask_across_year(self):
+        EWR_info = {'start_month': 12, 'end_month': 1, 'start_day': 25, 'end_day': 10}
+        expected_date = set(pd.date_range(start='2020-12-25', end='2020-12-31', freq='D').union(
+                             pd.date_range(start='2020-01-01', end='2020-01-10', freq='D')).to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_day_and_month_mask_start_end_same(self):
+        EWR_info = {'start_month': 3, 'end_month': 3, 'start_day': 15, 'end_day': 15}
+        expected_dates = {pd.Timestamp(2020, 3, 15)}#.to_pydatetime()
+        #expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_month_mask_within_same_year(self):
+        EWR_info = {'start_month': 3, 'end_month': 5, 'start_day': None, 'end_day': None}
+        expected_date = set(pd.date_range(start='2020-03-01', end='2020-05-31', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+class test_water_year_daily(unittest.TestCase):
+    def test_standard_water_year(self):
+        # Test case for standard water year (July - June)
+        
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # EWRs dictionary with standard water year
+        ewrs = {
+            'start_month': 7,  
+            'end_month': 6     
+        }
+        
+        expected_water_years = np.array([2022] * 181 + [2023] * 184)
+        
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+
+        # Test case for non-standard water year (March - February)
+        
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+    def test_non_standard_water_year(self):   
+        # EWRs dictionary with non-standard water year
+        ewrs = {
+            'start_month': 3,  # March
+            'end_month': 2     # February
+        }
+        
+        expected_water_years = np.array([2022] * 181 + [2023] * 184)
+
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # Call the function
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+    def test_leap_year(self):
+        # Test case including a leap year (February 29)
+        
+        # Create a sample DataFrame from January 1, 2020 to December 31, 2020 (Leap year)
+        date_range = pd.date_range(start="2020-01-01", end="2020-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # EWRs dictionary with non-standard water year
+        ewrs = {
+            'start_month': 3,  # March
+            'end_month': 2     # February
+        }
+        
+        expected_water_years = np.array([2019] * 182 + [2020] * 184)
+        
+        
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+
+def test_construct_event_dict():
+    #basic functionality
+    water_years = np.array([2001, 2002, 2003, 2001, 2002])
+    expected = {
+            2001: [],
+            2002: [],
+            2003: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    #test empty input
+    water_years = np.array([])
+    expected = {}
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    # test single year
+    water_years = np.array([2001])
+    expected = {
+            2001: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    # test unsorted
+    water_years = np.array([2003, 2001, 2002])
+    expected = {
+            2001: [],
+            2002: [],
+            2003: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+
+    # test duplicate
+    water_years = np.array([2001, 2001, 2001])
+    expected = {
+            2001: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+
+# def test_ctf_check():
+#     EWR_info={
+#         'min_flow':5.0,
+#         'max_flow':10.0,
+#         'duration':3
+#     }
+#     flows=np.array([6.0])
+#     water_years=np.array([2001])
+#     event=[]
+#     all_events={2001:[]}
+#     flow_date=date(2001,1,1)
+
+#     event,all_events=evaluate_EWRs.ctf_check(EWR_info, 0, flows[0],event, all_events, water_years,flow_date)
+#     expected= [(0,6.0)]
+
+
+ 
+    
+
+
+
+
+
+
+
+
+
 
 def test_ctf_handle():
     '''
