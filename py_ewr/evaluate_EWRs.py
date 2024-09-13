@@ -4704,7 +4704,7 @@ def get_all_event_days(yearly_events:dict)-> List:
     """
     return [len(list(chain(*yearly_events[year]))) for year in sorted(yearly_events.keys())]
 
-def get_achieved_event_days(EWR_info:Dict, yearly_events:dict)-> List:
+def get_achieve)-> List:
     """count the events days in a collection of years. Filter events below min_event
 
     Args:
@@ -4780,7 +4780,6 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     unique_water_years = set(water_years)
     # Years with events
     years_with_events = get_event_years(EWR_info, events, unique_water_years)
-
     ## reset the no_events to keep functionality but switched off
     no_events = construct_event_dict(water_years)
 
