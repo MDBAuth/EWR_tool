@@ -1,16 +1,12 @@
 from datetime import datetime, date, timedelta
-from typing import Hashable, Literal
-from typing import Hashable, Literal
-from numpy._typing._generic_alias import NDArray
 
-from numpy._typing._generic_alias import NDArray
 import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
 import numpy as np
-import xarray as xr
 
 from py_ewr import evaluate_EWRs, data_inputs
+
 
 
 def test_ctf_handle():
@@ -547,9 +543,9 @@ def test_cumulative_handle_multi():
 @pytest.mark.parametrize("date,water_year",
         [ (date(2022,6,29), 2021),
          (date(2022,6,20), 2021),
-         (date(2022,7,1): date, 2022),],: Literal[2021] | Literal[2022]
+         (date(2022,7,1),2022),]
 )
-def test_water_year(date: date, water_year: Literal[2021] | Literal[2022]):
+def test_water_year(date: date, water_year):
     result = evaluate_EWRs.water_year(date)
     assert result == water_year
 
@@ -559,7 +555,7 @@ def test_water_year(date: date, water_year: Literal[2021] | Literal[2022]):
           (date(2022,6,1),date(2023,7,29), [2021,2022,2023]),
         ],: date: date: list[int]
 )
-def test_water_year_touches(start_date: date, end_date: date, water_years: list[int]):
+def test_water_year_touches(start_date: date, end_date: date, water_years):
     result = evaluate_EWRs.water_year_touches(start_date, end_date)
     assert result == water_years
 
@@ -606,9 +602,9 @@ def test_water_year_touches(start_date: date, end_date: date, water_years: list[
              (date(2014, 11, 1), date(2014, 11, 5), 5, [2014]),
              (date(2015, 6, 26), date(2015, 6, 30), 5, [2014]),
              (date(2015, 11, 1), date(2015, 11, 5), 5, [2015])])
-        ],: dict[int, list[list[tuple[date, int]]]]: list[tuple[date, date, int, list[int]]]
+        ]
 )
-def test_return_events_list_info(gauge_events: dict[int, list[list[tuple[date, int]]]], events_info: list[tuple[date, date, int, list[int]]]):
+def test_return_events_list_info(gauge_events, events_info):
     result = evaluate_EWRs.return_events_list_info(gauge_events)
     assert result == events_info
 
@@ -629,9 +625,9 @@ def test_return_events_list_info(gauge_events: dict[int, list[list[tuple[date, i
              (date(2015, 6, 26), date(2015, 6, 30), 5, [2014]),
              (date(2015, 11, 1), date(2015, 11, 5), 5, [2015])] ,
              {2012: [5, 5], 2013: [7, 3, 3], 2014: [5, 5], 2015: [5]} )
-        ],: list[tuple[date, date, int, list[int]]]: dict[int, list[int]]
+        ]
 )
-def test_lengths_to_years(events_info: list[tuple[date, date, int, list[int]]],water_year_maxs: dict[int, list[int]]):
+def test_lengths_to_years(events_info,water_year_maxs):
     result = evaluate_EWRs.lengths_to_years(events_info)
     assert result == water_year_maxs
 
@@ -641,9 +637,9 @@ def test_lengths_to_years(events_info: list[tuple[date, date, int, list[int]]],w
     ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(376)],
     (date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013])),
     ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(5)],
-    (date(2012, 6, 25), date(201: list[tuple[date, int]]2, 6, 29), 5, [2011]): tuple[date, date, int, list[int]]),
+    (date(2012, 6, 25), date(2012, 6, 29), 5, [2011])),
 ],)
-def test_return_event_info(event: list[tuple[date, int]], expected_event_info: tuple[date, date, int, list[int]]):
+def test_return_event_info(event: list[tuple[date, int]], expected_event_info):
     result = evaluate_EWRs.return_event_info(event)
     assert result == expected_event_info
 
@@ -654,9 +650,9 @@ def test_return_event_info(event: list[tuple[date, int]], expected_event_info: t
     ((date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013]),
     [6,371,5]),
     ((date(2012, 6, 25), date(2012, 7, 29), 5, [2011]),
-    [5]),: tuple[date, date, int, list[int]]: list[int]
+    [5])]
 ],)
-def test_years_lengths(event_info: tuple[date, date, int, list[int]], expected_years_lengths_list: list[int]):
+def test_years_lengths(event_info, expected_years_lengths_list):
     result = evaluate_EWRs.years_lengths(event_info)
     assert result == expected_years_lengths_list
 
@@ -689,9 +685,9 @@ def test_years_lengths(event_info: tuple[date, date, int, list[int]], expected_y
             [i for i in range(2012,2015+1)],
             [5, 370, 374, 5]),
           
-        ],: dict[int, list[list[tuple[date, int]]]]: list[int]: list[int]
+        ]
 )
-def test_get_max_consecutive_event_days(gauge_events: dict[int, list[list[tuple[date, int]]]], unique_water_years: list[int], max_consecutive_events: list[int]):
+def test_get_max_consecutive_event_days(gauge_events, unique_water_years, max_consecutive_events):
     result = evaluate_EWRs.get_max_consecutive_event_days(gauge_events,unique_water_years)
     assert result == max_consecutive_events
 
@@ -711,10 +707,9 @@ def test_get_max_rolling_duration_achievement(EWR_info, max_consecutive_days,dur
     (1,[100,80],-20),
     (1,[0,80], 0),
     (0,[80,50], 0),
-    (1,[100,120], 20),
-: Literal[1] | Literal[0]: list[int]: Literal[-20] | Literal[0] | Literal[20]
+    (1,[100,120], 20)
 ],)
-def test_calc_flow_percent_change(iteration: Literal[1] | Literal[0], flows: list[int], expected_result: Literal[-20] | Literal[0] | Literal[20]):
+def test_calc_flow_percent_change(iteration, expected_result):
     result = evaluate_EWRs.calc_flow_percent_change(iteration,flows)
     assert result == pytest.approx(expected_result)
 
@@ -740,9 +735,9 @@ def test_check_nest_percent_drawdown(flow_percent_change: Literal[-10] | Literal
     ({'end_month': 9, 'end_day': None}, 0, date(2012, 9, 30)),
     ({'end_month': 12, 'end_day': None}, 0, date(2012, 12, 31)),
     ({'end_month': 4, 'end_day': None}, 366, date(2013, 4, 30)),
-    ({'end_month': 4, 'end_day': 15}: dict[str, int | None] | dict[str, int], 366, date: Literal[0] | Literal[366](2013, 4, 15)),: date
-],)
-def test_calc_nest_cut_date(EWR_info: dict[str, int | None] | dict[str, int], iteration: Literal[0] | Literal[366],expected_result: date):
+    ({'end_month': 4, 'end_day': 15}, 366,date(2013, 4, 15))
+])
+def test_calc_nest_cut_date(EWR_info, iteration,expected_result: date):
     dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
     result = evaluate_EWRs.calc_nest_cut_date(EWR_info,iteration, dates)
     assert result == expected_result
@@ -755,8 +750,8 @@ def test_calc_nest_cut_date(EWR_info: dict[str, int | None] | dict[str, int], it
     ( [10, 10, 10, 10, 9.8, 9.7, 9.7], {"drawdown_rate_week" : "0.3"}, 6, 6, False),
     ( [10, 10, 10, 9.8, 9.7, 9.7], {"drawdown_rate_week" : "0.3"}, 5, 5, False),
     ( [10 , 10, 10, 10, 10, 10, 9.8, 9.7, 9.8], {"drawdown_rate_week" : "0.3"}, 8, 8, True),
-    ( [10], {"drawdown_rate_week" : ": list[int | float] | list[int]0.3"}, 0, : dict[str, str]0, True),: Literal[2] | Literal[1] | Literal[6] | Literal[5] | Literal[8] | Literal[0]: Literal[2] | Literal[1] | Literal[6] | Literal[5] | Literal[8] | Literal[0]: bool
-],)
+    ( [10], {"drawdown_rate_week" : "0.3"}, 0, 0, True)
+])
 def test_check_weekly_drawdown(levels: list[int | float] | list[int], EWR_info: dict[str, str], iteration: Literal[2] | Literal[1] | Literal[6] | Literal[5] | Literal[8] | Literal[0], event_length: Literal[2] | Literal[1] | Literal[6] | Literal[5] | Literal[8] | Literal[0], expected_result: bool):
     result = evaluate_EWRs.check_weekly_drawdown(levels, EWR_info, iteration, event_length)
     assert result == expected_result
@@ -1445,9 +1440,9 @@ def test_water_stability_handle(qld_parameter_sheet: pd.DataFrame, expected_even
   'FrL2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
   'FrL2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}
   },
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_water_stability_level_handle(qld_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000991'
     gauge = '422015'
@@ -1501,9 +1496,9 @@ def test_water_stability_level_handle(qld_parameter_sheet: pd.DataFrame, expecte
  'FD1_maxRollingAchievement': {2012: 1, 2013: 1, 2014: 0, 2015: 0}, 
  'FD1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
  'FD1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_flow_handle_anytime(qld_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000999'
     gauge = '416011'
@@ -1655,9 +1650,9 @@ def test_flow_handle_anytime(qld_parameter_sheet: pd.DataFrame, expected_events:
        'RFL_su_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
        'RFL_su_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
        'RFL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
-    ),: Literal['PU_0000189'] | Literal['PU_0000192']: Literal['405203'] | Literal['405200']: Literal['RFF'] | Literal['RRF'] | Literal['RRL_su'] | Literal['RFL_su']: NDArray[Any] | NDArray: dict[int, list[list[tuple[date, int]]]] | dict[int, list[list[tuple[date, float]]]]: dict[str, dict[int, int] | dict[int, float]]: pd.DataFrame
+    )
 ])
-def test_rise_and_fall_handle(pu: Literal['PU_0000189'] | Literal['PU_0000192'], gauge: Literal['405203'] | Literal['405200'], ewr: Literal['RFF'] | Literal['RRF'] | Literal['RRL_su'] | Literal['RFL_su'], gauge_data: NDArray[Any] | NDArray, expected_events: dict[int, list[list[tuple[date, int]]]] | dict[int, list[list[tuple[date, float]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]], vic_parameter_sheet: pd.DataFrame):
+def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet: pd.DataFrame):
     EWR_table = vic_parameter_sheet
 
     data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
@@ -1715,9 +1710,9 @@ def test_rise_and_fall_handle(pu: Literal['PU_0000189'] | Literal['PU_0000192'],
        'F3_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
        'F3_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
        'F3_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
-    ),: Literal['PU_0000191']: Literal['405202']: Literal['F3']: NDArray[Any]: dict[int, list[list[tuple[date, float]]]]: dict[str, dict[int, int] | dict[int, float]]: pd.DataFrame
+    )
 ])
-def test_level_change_handle(pu: Literal['PU_0000191'], gauge: Literal['405202'], ewr: Literal['F3'], gauge_data: NDArray[Any], expected_events: dict[int, list[list[tuple[date, float]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]], vic_parameter_sheet: pd.DataFrame):
+def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet: pd.DataFrame):
     
     EWR_table = vic_parameter_sheet
 
