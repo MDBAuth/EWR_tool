@@ -4704,7 +4704,7 @@ def get_all_event_days(yearly_events:dict)-> List:
     """
     return [len(list(chain(*yearly_events[year]))) for year in sorted(yearly_events.keys())]
 
-def get_achieve)-> List:
+def get_achieved_event_days(EWR_info:Dict, yearly_events:dict)-> List:
     """count the events days in a collection of years. Filter events below min_event
 
     Args:
