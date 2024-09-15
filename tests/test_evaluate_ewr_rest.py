@@ -166,8 +166,7 @@ def test_which_wateryear():
 	((date(2012, 6, 25), date(2012, 7, 6), 12, [2011, 2012]), 7, 2012),
 	((date(2012, 6, 24), date(2012, 7, 6), 13, [2011, 2012]), 7, 2011),
 	((date(2012, 6, 23), date(2012, 7, 6), 14, [2011, 2012]), 7, 2011),
-	((date(2012, 6, 23), date(2012, 7, 7), 15, [2011, 2012]), 7, 2012),
-],)
+	((date(2012, 6, 23), date(2012, 7, 7), 15, [2011, 2012]), 7, 2012)])
 def test_which_year_lake_event(event_info, min_duration, expected_year):
 	result = evaluate_EWRs.which_year_lake_event(event_info, min_duration)
 	assert result == expected_year
@@ -206,7 +205,7 @@ def test_get_event_years():
             		  2014:[[(date(2014, 11, 1) + timedelta(days=i), 0) for i in range(5)]], 
             		  2015:[]},
 					  [2012, 2013, 2014, 2015],
-					  [1,1,1,0]),
+					  [1,1,1,0])
 					  ]
 )
 def test_get_event_years_max_rolling_days(events, unique_water_years, expected_event_years):
@@ -228,8 +227,8 @@ def test_get_event_years_max_rolling_days(events, unique_water_years, expected_e
 	   2014: [[50]*20],
 	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
 	   2012: []},
-	   [0,4,1,3]),
-],)
+	   [0,4,1,3])
+])
 def test_get_all_events(events, expected_results):
 	result = evaluate_EWRs.get_all_events(events)
 	assert result == expected_results
@@ -244,8 +243,7 @@ def test_get_all_events(events, expected_results):
 	   2014: [[50]*20],
 	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
 	   2012: []},
-	   [0,26,20,18]),
-],)
+	   [0,26,20,18])])
 def test_get_all_event_days(events, expected_results):
 	result = evaluate_EWRs.get_all_event_days(events)
 	assert result == expected_results
@@ -263,8 +261,7 @@ def test_get_all_event_days(events, expected_results):
 	   2014: [[50]*20],
 	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
 	   2012: []},
-	   [0,16,20,8]),
-],)
+	   [0,16,20,8])])
 def test_get_achieved_event_days(EWR_info, events, expected_results):
 	result = evaluate_EWRs.get_achieved_event_days(EWR_info, events)
 	assert result == expected_results
@@ -701,7 +698,7 @@ def test_ctf_check():
 			for i, event in enumerate(all_events[year]):
 					assert event == expected_all_events[year][i]
                 
-@pytest.mark.parametrize("test_ID, flows,expected_all_events, expected_all_no_events",
+@pytest.mark.parametrize("test_ID, flows,expected_all_events",
 						 [ 
 				            ('test_case_1', np.array([0]*350+[10]*15 + 
 	                                   [10]*11+ [0]*354 + 
@@ -963,7 +960,7 @@ def test_ctf_calc():
 						   2013: [], 
 						   2014: [], 
 						   2015: []},
-					  {2012: [[344]], 2013: [], 2014: [], 2015: [[1096]]}),			   
+					  {2012: [[344]], 2013: [], 2014: [], 2015: [[1096]]})			   
 														])
 def test_ctf_calc_anytime(flows, expected_all_events, expected_all_no_events):
 	'''
@@ -1109,8 +1106,8 @@ def test_get_index_date(datetime_date, stamp_date):#period_date
     (date(2013, 7, 14), 120)]],
 	2014: [],
 	2015: []},
-	{2012: [[350]], 2013: [[5]], 2014: [], 2015: [[1082]]}),
-],
+	{2012: [[350]], 2013: [[5]], 2014: [], 2015: [[1082]]})
+]
 )
 def test_cumulative_calc(EWR_info, flows, expected_all_events, expected_all_no_events):
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
@@ -1167,9 +1164,9 @@ def test_cumulative_calc(EWR_info, flows, expected_all_events, expected_all_no_e
 			(date(2013, 7, 6), 140),
 			(date(2013, 7, 7), 120)]],
 		2014: [],
-		2015: []}),
+		2015: []})
  
-],)
+])
 def test_cumulative_calc_qld(EWR_info, flows, expected_all_events):
 	""" 1. reaches volume from day 6 to day 14 of the flows within the accumulation period and records the event
 	    2. reaches volume from day beyond accumulation period and does not record the event
@@ -1314,8 +1311,7 @@ def test_volume_check_qld(EWR_info,iteration,flows,event,all_events,all_no_event
 	(0,date(2000,1,1),{'start_month': 10},0),
 	(5,date(2000,1,1),{'start_month': 10},5),
 	(5,date(2000,7,1),{'start_month': 7},0),
-	(5,date(2000,10,1),{'start_month': 10},0),
-],)
+	(5,date(2000,10,1),{'start_month': 10},0)])
 def test_check_roller_reset_points(roller, flow_date, EWR_info,expected_roller):
 	result = evaluate_EWRs.check_roller_reset_points(roller, flow_date, EWR_info)
 	assert result == expected_roller
@@ -1384,8 +1380,7 @@ def test_get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_year
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
 	("421004", "CF" , "PU_0000129", False),
 	("421090", "CF" , "PU_0000130", True),
-	("11111", "XX" , "DD", False),
-],)
+	("11111", "XX" , "DD", False)])
 def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	result = evaluate_EWRs.is_multigauge(parameter_sheet, gauge, ewr, pu)
 	assert result == expected_result
@@ -1394,16 +1389,14 @@ def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
 	("414203", "VF" , "PU_0000260", True),
 	("414203", "WP2" , "PU_0000260", True),
-	("11111", "XX" , "DD", False),
-],)
+	("11111", "XX" , "DD", False)])
 def test_is_weirpool_gauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	result = evaluate_EWRs.is_weirpool_gauge(parameter_sheet, gauge, ewr, pu)
 	assert result == expected_result
 
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("421090", "CF" , "PU_0000130", "421088"),
-],)
+	("421090", "CF" , "PU_0000130", "421088")])
 def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	result = evaluate_EWRs.get_second_multigauge(parameter_sheet, gauge, ewr, pu)
 	assert result == expected_result
@@ -1413,8 +1406,7 @@ def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result)
 	("raising", 5 , {'min_level': 5, 'max_level': 10}, True),
 	("raising", 4 , {'min_level': 5, 'max_level': 10}, False),
 	("falling", 4 , {'min_level': 5, 'max_level': 10}, True),
-	("falling", 11 , {'min_level': 5, 'max_level': 10}, False),
-],)
+	("falling", 11 , {'min_level': 5, 'max_level': 10}, False)])
 def test_check_wp_level(weirpool_type, level, EWR_info,expected_result):
 	result = evaluate_EWRs.check_wp_level(weirpool_type, level, EWR_info)
 	assert result == expected_result
@@ -1427,8 +1419,7 @@ def test_check_wp_level(weirpool_type, level, EWR_info,expected_result):
 	(0.03, {'drawdown_rate': 0.04}, True),
 	(0.03, {'drawdown_rate': 0.0}, True),
 	(-1, {'drawdown_rate': 0.0}, True),
-	(1000000, {'drawdown_rate': 0.0}, True),
-],)
+	(1000000, {'drawdown_rate': 0.0}, True)])
 def test_check_draw_down(level_change, EWR_info, expected_result):
 	result = evaluate_EWRs.check_draw_down(level_change, EWR_info)
 	assert result == expected_result
@@ -1504,8 +1495,7 @@ def test_check_draw_down(level_change, EWR_info, expected_result):
 		2014: [], 
 		2015: []},
 	[],	
-	 ),
-],)
+	 )])
 def test_weirpool_check(EWR_info, iteration, flow, level, event, all_events, all_no_events, weirpool_type, level_change,total_event,
 	expected_all_events, expected_event):
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
@@ -1620,8 +1610,7 @@ def test_weirpool_check(EWR_info, iteration, flow, level, event, all_events, all
 	  2014: [[(date(2015, 6, 11) + timedelta(days=i), 5) for i in range(15)]], 
 	  2015: [[(date(2016, 6, 10) + timedelta(days=i), 5) for i in range(15)]]},
 	 {2012: [[345]], 2013: [[350]], 2014: [[350]], 2015: [[350],[6]]}
-	 ),
-],)
+	 )])
 def test_weirpool_calc(EWR_info, flows, levels, weirpool_type, expected_all_events, expected_all_no_events):
 	"""
 	1. test flow and level outside requirements at the same time
@@ -1982,8 +1971,7 @@ def test_level_check(EWR_info, iteration, level, level_change, event, all_events
 	  2014: [], 
 	  2015: []},
 	 {2012: [[360]], 2013: [], 2014: [], 2015: [[1091]]}
-	),
-],)
+	)])
 def test_lake_calc(EWR_info, levels, expected_all_events, expected_all_no_events):
 	"""
 	0: when event start and finish goes beyond boundary of 2 water years 
@@ -2030,8 +2018,7 @@ def test_lake_calc(EWR_info, levels, expected_all_events, expected_all_no_events
 @pytest.mark.parametrize('gauge,PU,EWR,component,expected_result',[
 	('409025','PU_0000253','NestS1','TriggerDay', '15'),
 	('409025','PU_0000253','NestS1','TriggerMonth', '9'),
-	('414203','PU_0000260','NestS1a','DrawDownRateWeek', '30%'),
-],)
+	('414203','PU_0000260','NestS1a','DrawDownRateWeek', '30%')])
 def test_component_pull_nest(gauge, PU, EWR, component, expected_result):
 	'''
 	1. Test pulling TriggerDay
@@ -2445,8 +2432,7 @@ def test_nest_calc_percent_trigger(EWR_info, flows, expected_all_events, expecte
 		2014: [], 
 		2015: []},
 	[],	
-	 ),
-],)
+	 )])
 def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events, all_no_events, weirpool_type, levels,total_event,
 	expected_all_events, expected_event):
 	"""
@@ -2575,8 +2561,7 @@ def test_nest_weirpool_check(EWR_info, iteration, flow, level, event, all_events
 	  2014: [[(date(2014,9,1) + timedelta(days=i), 5) for i in range(122)]], 
 	  2015: [[(date(2015,9,1) + timedelta(days=i), 5) for i in range(122)]]},
 	 {2012: [[62]], 2013: [[243]], 2014: [[243]], 2015: [[243], [182]]}
-	 ),
-],)
+	 )])
 def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all_events, expected_all_no_events):
 	"""
 	0: test event meeting requirements outside time window
@@ -2612,8 +2597,7 @@ def test_nest_calc_weirpool(EWR_info, flows, levels, weirpool_type, expected_all
 	  2013: [], 
 	  2014: [[(date(2014,9,1) + timedelta(days=i), 5) for i in range(10)]], 
 	  2015: [[(date(2015,9,1) + timedelta(days=i), 5) for i in range(15)]]}
-	  ),
-],)
+	  )])
 def test_filter_min_events(EWR_info,events,expected_result):
 	result = evaluate_EWRs.filter_min_events(EWR_info, events)
 	assert result == expected_result
@@ -2681,7 +2665,7 @@ def test_get_handle_function(function_name, expected_result):
 	"EWR_table": "EWR_table", 
 	"df_L": "df_L", 
 	"PU_df": "PU_df", 
-	}),
+	})
 ])
 def test_build_args(args, function_name, expected_result):
 	function = evaluate_EWRs.HANDLING_FUNCTIONS[function_name]
@@ -2821,8 +2805,7 @@ def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, ex
 		2014: [], 
 		2015: []},
 	[] ,	
-	 ),
-],)
+	 )])
 def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, all_no_events, level_change, levels,total_event,
 	expected_all_events, expected_event):
 	""" Test the flow level check function.
@@ -3197,7 +3180,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 			  { 2012:[], 
 				2013:[], 
 				2014:[[(date(2015,6,30) , 9684000)]], 
-				2015:[[(date(2016,6,30) , 9689000)]]}),
+				2015:[[(date(2016,6,30) , 9689000)]]})
 ])
 def test_barrage_flow_calc(EWR_info,flows,expected_all_events):
 
@@ -4314,9 +4297,9 @@ def test_volume_level_check_bbr(EWR_info, iteration, flow, total_event, levels,e
 		2013: [],
 		2014: [],
 		2015: []},
-	{2012: [], 2013: [], 2014: [], 2015: []}),
+	{2012: [], 2013: [], 2014: [], 2015: []})
 
-],)
+])
 def test_cumulative_calc_bbr(EWR_info, flows, levels, expected_all_events, expected_all_no_events):
 	"""
 	1. Not reaching the min flow condition
@@ -5753,7 +5736,7 @@ def test_evaluate_level_change(EWR_info, levels, iteration, expected):
 			2014: [], 
 			2015: []},
 		[],
-	),
+	)
 ])
 def test_level_change_check(EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event):
 

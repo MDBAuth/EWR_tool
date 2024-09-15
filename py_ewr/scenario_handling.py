@@ -471,7 +471,73 @@ def extract_gauge_from_string(input_string: str) -> str:
 #         raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
 #     return df_flow, df_level
 
-def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str):
+#------ adding logic to check if gauges present -------#
+
+# def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str):
+#     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
+#     the columns with EWRs available. Renames columns to gauges
+    
+#     Args:
+#         input_df (pd.DataFrame): flow/water level dataframe
+#         model_metadata (pd.DataFrame): dataframe linking model nodes to gauges
+
+#     Returns:
+#         tuple[pd.DataFrame, pd.DataFrame]: flow dataframe, water level dataframe
+
+#     '''
+
+#     flow_gauges = data_inputs.get_gauges(
+#         'flow gauges', ewr_table_path=ewr_table_path)
+#     level_gauges = data_inputs.get_gauges(
+#         'level gauges', ewr_table_path=ewr_table_path)
+    
+
+    
+#     columns = ['gauge', 'found', 'site', 'measuarand_type']
+#     flow = pd.DataFrame(columns=columns)
+#     level = pd.DataFrame(columns=columns)
+
+#     flow.assign(gauge = flow_gauges, measurand_type='1', found='N', site='')
+
+#     level.assign(gauge = level_gauges, measurand_type='35', found='N', site='')
+
+#     output_comp = pd.concat([flow, level], ignore_index=True)
+
+#     measurands = ['1', '35']
+#     df_flow = pd.DataFrame(index=input_df.index)
+#     df_level = pd.DataFrame(index=input_df.index)
+#     for col in input_df.columns:
+#         col_clean = col.replace(' ', '')
+#         site = col_clean.split('-')[0]
+#         measure = col_clean.split('-')[1]
+#         if ((measure in measurands) and (model_metadata['SITEID'] == site).any()):
+#             subset = model_metadata.query("SITEID==@site")
+#             for iset in range(len(subset)):
+#                 gauge = subset["AWRC"].iloc[iset]
+
+#                 if gauge in flow_gauges and measure == '1':
+#                     df_flow[gauge] = input_df[col]
+#                     output_comp.loc[(output_comp['measuarand_type'] == 'flow') &
+#                                     (output_comp['gauge'] == gauge), ['found', 'site']] = ["Y", site]
+
+#                 if gauge in level_gauges and measure == '35':
+#                     output_comp.loc[(output_comp['measuarand_type'] == 'level') &
+#                                     (output_comp['gauge'] == gauge), ['found', 'site']] = ["Y", site]
+#                     aa = input_df[[col]]
+#                     if (len(aa.columns) > 1):
+#                         print(
+#                             'More than one site has been identified, the first site is used')
+#                         print('Site info: ', col)
+#                         df_level[gauge] = aa.iloc[:, 0]
+#                     else:
+#                         df_level[gauge] = input_df[col]
+#     if df_flow.empty:
+#         raise ValueError(
+#             'No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')
+
+#     return df_flow, df_level, output_comp
+
+def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
     the columns with EWRs available. Renames columns to gauges
     
@@ -484,26 +550,11 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
 
     '''
 
-    flow_gauges = data_inputs.get_gauges(
-        'flow gauges', ewr_table_path=ewr_table_path)
-    level_gauges = data_inputs.get_gauges(
-        'level gauges', ewr_table_path=ewr_table_path)
-    
-
-    
-    columns = ['gauge', 'found', 'site', 'measuarand_type']
-    flow = pd.DataFrame(columns=columns)
-    level = pd.DataFrame(columns=columns)
-
-    flow.assign(gauge = flow_gauges, measurand_type='1', found='N', site='')
-
-    level.assign(gauge = level_gauges, measurand_type='35', found='N', site='')
-
-    output_comp = pd.concat([flow, level], ignore_index=True)
-
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
     measurands = ['1', '35']
-    df_flow = pd.DataFrame(index=input_df.index)
-    df_level = pd.DataFrame(index=input_df.index)
+    df_flow = pd.DataFrame(index = input_df.index)
+    df_level = pd.DataFrame(index = input_df.index)
     for col in input_df.columns:
         col_clean = col.replace(' ', '')
         site = col_clean.split('-')[0]
@@ -512,29 +563,19 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
             subset = model_metadata.query("SITEID==@site")
             for iset in range(len(subset)):
                 gauge = subset["AWRC"].iloc[iset]
-
                 if gauge in flow_gauges and measure == '1':
                     df_flow[gauge] = input_df[col]
-                    output_comp.loc[(output_comp['measuarand_type'] == 'flow') &
-                                    (output_comp['gauge'] == gauge), ['found', 'site']] = ["Y", site]
-
                 if gauge in level_gauges and measure == '35':
-                    output_comp.loc[(output_comp['measuarand_type'] == 'level') &
-                                    (output_comp['gauge'] == gauge), ['found', 'site']] = ["Y", site]
-                    aa = input_df[[col]]
-                    if (len(aa.columns) > 1):
-                        print(
-                            'More than one site has been identified, the first site is used')
+                    aa=input_df[[col]]
+                    if (len(aa.columns)>1):
+                        print('More than one site has been identified, the first site is used')
                         print('Site info: ', col)
-                        df_level[gauge] = aa.iloc[:, 0]
+                        df_level[gauge] = aa.iloc[:,0]
                     else:
                         df_level[gauge] = input_df[col]
     if df_flow.empty:
-        raise ValueError(
-            'No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')
-
-    return df_flow, df_level, output_comp
-
+        raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
+    return df_flow, df_level
 
 def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 

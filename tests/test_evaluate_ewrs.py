@@ -197,7 +197,7 @@ def test_cumulative_handle():
    'BBR2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
     )
 ])
-def test_cumulative_handle_qld(qld_parameter_sheet: pd.DataFrame,expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_df_data):
     # Set up input data
     PU = 'PU_0000991'
     gauge = '422016'
@@ -529,11 +529,11 @@ def test_cumulative_handle_multi():
 
     assert_frame_equal(PU_df, expected_PU_df)   
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[(date(2013, 6, 16), 60120)]], 
-                       2013:[], 
-                       2014:[], 
-                       2015:[[(date(2015, 7, 24), 60000), (date(2015, 7, 25), 61000), (date(2015, 7, 26), 62000), (date(2015, 7, 27), 63000), (date(2015, 7, 28), 64000), (date(2015, 7, 29), 65000), (date(2015, 7, 30), 66000), (date(2015, 7, 31), 67000), (date(2015, 8, 1), 68000), (date(2015, 8, 2), 69000), (date(2015, 8, 3), 70000), (date(2015, 8, 4), 71000), (date(2015, 8, 5), 72000), (date(2015, 8, 6), 73000), (date(2015, 8, 7), 74000), (date(2015, 8, 8), 75000), (date(2015, 8, 9), 76000), (date(2015, 8, 10), 77000), (date(2015, 8, 11), 78000), (date(2015, 8, 12), 79000), (date(2015, 8, 13), 80000), (date(2015, 8, 14), 81000), (date(2015, 8, 15), 82000), (date(2015, 8, 16), 83000), (date(2015, 8, 17), 84000), (date(2015, 8, 18), 85000), (date(2015, 8, 19), 86000), (date(2015, 8, 20), 87000), (date(2015, 8, 21), 88000), (date(2015, 8, 22), 89000), (date(2015, 8, 23), 90000), (date(2015, 8, 24), 91000), (date(2015, 8, 25), 92000), (date(2015, 8, 26), 93000), (date(2015, 8, 27), 94000), (date(2015, 8, 28), 95000), (date(2015, 8, 29), 96000), (date(2015, 8, 30), 97000), (date(2015, 8, 31), 98000), (date(2015, 9, 1), 99000), (date(2015, 9, 2), 100000), (date(2015, 9, 3), 101000), (date(2015, 9, 4), 102000), (date(2015, 9, 5), 103000), (date(2015, 9, 6), 104000), (date(2015, 9, 7), 105000), (date(2015, 9, 8), 106000), (date(2015, 9, 9), 107000), (date(2015, 9, 10), 108000), (date(2015, 9, 11), 109000), (date(2015, 9, 12), 110000), (date(2015, 9, 13), 111000), (date(2015, 9, 14), 112000), (date(2015, 9, 15), 113000), (date(2015, 9, 16), 114000), (date(2015, 9, 17), 115000), (date(2015, 9, 18), 116000), (date(2015, 9, 19), 117000), (date(2015, 9, 20), 118000), (date(2015, 9, 21), 119000), (date(2015, 9, 22), 120000), (date(2015, 9, 23), 121000), (date(2015, 9, 24), 122000), (date(2015, 9, 25), 123000), (date(2015, 9, 26), 124000), (date(2015, 9, 27), 125000), (date(2015, 9, 28), 126000), (date(2015, 9, 29), 117000), (date(2015, 9, 30), 108000), (date(2015, 10, 1), 99000), (date(2015, 10, 2), 90000), (date(2015, 10, 3), 90000), (date(2015, 10, 4), 90000), (date(2015, 10, 5), 90000), (date(2015, 10, 6), 90000), (date(2015, 10, 7), 90000), (date(2015, 10, 8), 90000), (date(2015, 10, 9), 90000), (date(2015, 10, 10), 90000), (date(2015, 10, 11), 90000), (date(2015, 10, 12), 90000), (date(2015, 10, 13), 90000), (date(2015, 10, 14), 90000), (date(2015, 10, 15), 90000), (date(2015, 10, 16), 90000), (date(2015, 10, 17), 90000), (date(2015, 10, 18), 90000), (date(2015, 10, 19), 90000), (date(2015, 10, 20), 90000), (date(2015, 10, 21), 90000), (date(2015, 10, 22), 90000), (date(2015, 10, 23), 90000), (date(2015, 10, 24), 90000), (date(2015, 10, 25), 90000), (date(2015, 10, 26), 90000), (date(2015, 10, 27), 90000), (date(2015, 10, 28), 90000), (date(2015, 10, 29), 90000), (date(2015, 10, 30), 90000), (date(2015, 10, 31), 90000), (date(2015, 11, 1), 90000), (date(2015, 11, 2), 90000), (date(2015, 11, 3), 90000), (date(2015, 11, 4), 90000), (date(2015, 11, 5), 90000), (date(2015, 11, 6), 90000), (date(2015, 11, 7), 90000), (date(2015, 11, 8), 90000), (date(2015, 11, 9), 90000), (date(2015, 11, 10), 90000), (date(2015, 11, 11), 90000), (date(2015, 11, 12), 90000), (date(2015, 11, 13), 90000), (date(2015, 11, 14), 90000), (date(2015, 11, 15), 90000), (date(2015, 11, 16), 90000), (date(2015, 11, 17), 90000), (date(2015, 11, 18), 90000), (date(2015, 11, 19), 90000), (date(2015, 11, 20), 90000), (date(2015, 11, 21), 90000), (date(2015, 11, 22), 90000), (date(2015, 11, 23), 90000), (date(2015, 11, 24), 90000), (date(2015, 11, 25), 90000), (date(2015, 11, 26), 90000), (date(2015, 11, 27), 90000), (date(2015, 11, 28), 90000), (date(2015, 11, 29), 90000), (date(2015, 11, 30), 90000), (date(2015, 12, 1), 90000), (date(2015, 12, 2), 90000), (date(2015, 12, 3), 90000), (date(2015, 12, 4), 90000), (date(2015, 12, 5), 90000), (date(2015, 12, 6), 90000), (date(2015, 12, 7), 90000), (date(2015, 12, 8), 90000), (date(2015, 12, 9), 90000), (date(2015, 12, 10), 90000), (date(2015, 12, 11), 90000), (date(2015, 12, 12), 90000), (date(2015, 12, 13), 90000), (date(2015, 12, 14), 90000), (date(2015, 12, 15), 90000), (date(2015, 12, 16), 90000), (date(2015, 12, 17), 90000), (date(2015, 12, 18), 90000), (date(2015, 12, 19), 90000), (date(2015, 12, 20), 90000), (date(2015, 12, 21), 90000), (date(2015, 12, 22), 90000), (date(2015, 12, 23), 90000), (date(2015, 12, 24), 90000), (date(2015, 12, 25), 90000), (date(2015, 12, 26), 90000), (date(2015, 12, 27), 90000), (date(2015, 12, 28), 90000), (date(2015, 12, 29), 90000), (date(2015, 12, 30), 90000), (date(2015, 12, 31), 90000), (date(2016, 1, 1), 89900), (date(2016, 1, 2), 89800), (date(2016, 1, 3), 89700), (date(2016, 1, 4), 89600), (date(2016, 1, 5), 89500), (date(2016, 1, 6), 89400), (date(2016, 1, 7), 89300), (date(2016, 1, 8), 89200), (date(2016, 1, 9), 89100), (date(2016, 1, 10), 89000), (date(2016, 1, 11), 88000), (date(2016, 1, 12), 87000), (date(2016, 1, 13), 86900), (date(2016, 1, 14), 86800), (date(2016, 1, 15), 86700), (date(2016, 1, 16), 86600), (date(2016, 1, 17), 86500), (date(2016, 1, 18), 86400), (date(2016, 1, 19), 86300), (date(2016, 1, 20), 86200), (date(2016, 1, 21), 86100), (date(2016, 1, 22), 86000), (date(2016, 1, 23), 85500), (date(2016, 1, 24), 85000), (date(2016, 1, 25), 84500), (date(2016, 1, 26), 84000), (date(2016, 1, 27), 83500), (date(2016, 1, 28), 83000), (date(2016, 1, 29), 82500), (date(2016, 1, 30), 82000), (date(2016, 1, 31), 81500), (date(2016, 2, 1), 81000), (date(2016, 2, 2), 80500), (date(2016, 2, 3), 80000), (date(2016, 2, 4), 79500), (date(2016, 2, 5), 79000), (date(2016, 2, 6), 78500), (date(2016, 2, 7), 78000), (date(2016, 2, 8), 77500), (date(2016, 2, 9), 77000), (date(2016, 2, 10), 76500), (date(2016, 2, 11), 76000), (date(2016, 2, 12), 75500), (date(2016, 2, 13), 75000), (date(2016, 2, 14), 74500), (date(2016, 2, 15), 74000), (date(2016, 2, 16), 73500), (date(2016, 2, 17), 73000), (date(2016, 2, 18), 72500), (date(2016, 2, 19), 72000), (date(2016, 2, 20), 71500), (date(2016, 2, 21), 71000), (date(2016, 2, 22), 70500), (date(2016, 2, 23), 70000), (date(2016, 2, 24), 69500), (date(2016, 2, 25), 69000), (date(2016, 2, 26), 68500), (date(2016, 2, 27), 68000), (date(2016, 2, 28), 67500), (date(2016, 2, 29), 67000), (date(2016, 3, 1), 66500), (date(2016, 3, 2), 66000), (date(2016, 3, 3), 65500), (date(2016, 3, 4), 65000), (date(2016, 3, 5), 64500), (date(2016, 3, 6), 64000), (date(2016, 3, 7), 63500), (date(2016, 3, 8), 63000), (date(2016, 3, 9), 62500), (date(2016, 3, 10), 62000), (date(2016, 3, 11), 61500), (date(2016, 3, 12), 61000), (date(2016, 3, 13), 60500), (date(2016,3,14), 60000)]]}
-    
+    expected_events = {2012: [[(date(2013, 6, 16), 60120)]],
+                       2013: [],
+                       2014: [],
+                       2015: [[(date(2015, 7, 24), 60000), (date(2015, 7, 25), 61000), (date(2015, 7, 26), 62000), (date(2015, 7, 27), 63000), (date(2015, 7, 28), 64000), (date(2015, 7, 29), 65000), (date(2015, 7, 30), 66000), (date(2015, 7, 31), 67000), (date(2015, 8, 1), 68000), (date(2015, 8, 2), 69000), (date(2015, 8, 3), 70000), (date(2015, 8, 4), 71000), (date(2015, 8, 5), 72000), (date(2015, 8, 6), 73000), (date(2015, 8, 7), 74000), (date(2015, 8, 8), 75000), (date(2015, 8, 9), 76000), (date(2015, 8, 10), 77000), (date(2015, 8, 11), 78000), (date(2015, 8, 12), 79000), (date(2015, 8, 13), 80000), (date(2015, 8, 14), 81000), (date(2015, 8, 15), 82000), (date(2015, 8, 16), 83000), (date(2015, 8, 17), 84000), (date(2015, 8, 18), 85000), (date(2015, 8, 19), 86000), (date(2015, 8, 20), 87000), (date(2015, 8, 21), 88000), (date(2015, 8, 22), 89000), (date(2015, 8, 23), 90000), (date(2015, 8, 24), 91000), (date(2015, 8, 25), 92000), (date(2015, 8, 26), 93000), (date(2015, 8, 27), 94000), (date(2015, 8, 28), 95000), (date(2015, 8, 29), 96000), (date(2015, 8, 30), 97000), (date(2015, 8, 31), 98000), (date(2015, 9, 1), 99000), (date(2015, 9, 2), 100000), (date(2015, 9, 3), 101000), (date(2015, 9, 4), 102000), (date(2015, 9, 5), 103000), (date(2015, 9, 6), 104000), (date(2015, 9, 7), 105000), (date(2015, 9, 8), 106000), (date(2015, 9, 9), 107000), (date(2015, 9, 10), 108000), (date(2015, 9, 11), 109000), (date(2015, 9, 12), 110000), (date(2015, 9, 13), 111000), (date(2015, 9, 14), 112000), (date(2015, 9, 15), 113000), (date(2015, 9, 16), 114000), (date(2015, 9, 17), 115000), (date(2015, 9, 18), 116000), (date(2015, 9, 19), 117000), (date(2015, 9, 20), 118000), (date(2015, 9, 21), 119000), (date(2015, 9, 22), 120000), (date(2015, 9, 23), 121000), (date(2015, 9, 24), 122000), (date(2015, 9, 25), 123000), (date(2015, 9, 26), 124000), (date(2015, 9, 27), 125000), (date(2015, 9, 28), 126000), (date(2015, 9, 29), 117000), (date(2015, 9, 30), 108000), (date(2015, 10, 1), 99000), (date(2015, 10, 2), 90000), (date(2015, 10, 3), 90000), (date(2015, 10, 4), 90000), (date(2015, 10, 5), 90000), (date(2015, 10, 6), 90000), (date(2015, 10, 7), 90000), (date(2015, 10, 8), 90000), (date(2015, 10, 9), 90000), (date(2015, 10, 10), 90000), (date(2015, 10, 11), 90000), (date(2015, 10, 12), 90000), (date(2015, 10, 13), 90000), (date(2015, 10, 14), 90000), (date(2015, 10, 15), 90000), (date(2015, 10, 16), 90000), (date(2015, 10, 17), 90000), (date(2015, 10, 18), 90000), (date(2015, 10, 19), 90000), (date(2015, 10, 20), 90000), (date(2015, 10, 21), 90000), (date(2015, 10, 22), 90000), (date(2015, 10, 23), 90000), (date(2015, 10, 24), 90000), (date(2015, 10, 25), 90000), (date(2015, 10, 26), 90000), (date(2015, 10, 27), 90000), (date(2015, 10, 28), 90000), (date(2015, 10, 29), 90000), (date(2015, 10, 30), 90000), (date(2015, 10, 31), 90000), (date(2015, 11, 1), 90000), (date(2015, 11, 2), 90000), (date(2015, 11, 3), 90000), (date(2015, 11, 4), 90000), (date(2015, 11, 5), 90000), (date(2015, 11, 6), 90000), (date(2015, 11, 7), 90000), (date(2015, 11, 8), 90000), (date(2015, 11, 9), 90000), (date(2015, 11, 10), 90000), (date(2015, 11, 11), 90000), (date(2015, 11, 12), 90000), (date(2015, 11, 13), 90000), (date(2015, 11, 14), 90000), (date(2015, 11, 15), 90000), (date(2015, 11, 16), 90000), (date(2015, 11, 17), 90000), (date(2015, 11, 18), 90000), (date(2015, 11, 19), 90000), (date(2015, 11, 20), 90000), (date(2015, 11, 21), 90000), (date(2015, 11, 22), 90000), (date(2015, 11, 23), 90000), (date(2015, 11, 24), 90000), (date(2015, 11, 25), 90000), (date(2015, 11, 26), 90000), (date(2015, 11, 27), 90000), (date(2015, 11, 28), 90000), (date(2015, 11, 29), 90000), (date(2015, 11, 30), 90000), (date(2015, 12, 1), 90000), (date(2015, 12, 2), 90000), (date(2015, 12, 3), 90000), (date(2015, 12, 4), 90000), (date(2015, 12, 5), 90000), (date(2015, 12, 6), 90000), (date(2015, 12, 7), 90000), (date(2015, 12, 8), 90000), (date(2015, 12, 9), 90000), (date(2015, 12, 10), 90000), (date(2015, 12, 11), 90000), (date(2015, 12, 12), 90000), (date(2015, 12, 13), 90000), (date(2015, 12, 14), 90000), (date(2015, 12, 15), 90000), (date(2015, 12, 16), 90000), (date(2015, 12, 17), 90000), (date(2015, 12, 18), 90000), (date(2015, 12, 19), 90000), (date(2015, 12, 20), 90000), (date(2015, 12, 21), 90000), (date(2015, 12, 22), 90000), (date(2015, 12, 23), 90000), (date(2015, 12, 24), 90000), (date(2015, 12, 25), 90000), (date(2015, 12, 26), 90000), (date(2015, 12, 27), 90000), (date(2015, 12, 28), 90000), (date(2015, 12, 29), 90000), (date(2015, 12, 30), 90000), (date(2015, 12, 31), 90000), (date(2016, 1, 1), 89900), (date(2016, 1, 2), 89800), (date(2016, 1, 3), 89700), (date(2016, 1, 4), 89600), (date(2016, 1, 5), 89500), (date(2016, 1, 6), 89400), (date(2016, 1, 7), 89300), (date(2016, 1, 8), 89200), (date(2016, 1, 9), 89100), (date(2016, 1, 10), 89000), (date(2016, 1, 11), 88000), (date(2016, 1, 12), 87000), (date(2016, 1, 13), 86900), (date(2016, 1, 14), 86800), (date(2016, 1, 15), 86700), (date(2016, 1, 16), 86600), (date(2016, 1, 17), 86500), (date(2016, 1, 18), 86400), (date(2016, 1, 19), 86300), (date(2016, 1, 20), 86200), (date(2016, 1, 21), 86100), (date(2016, 1, 22), 86000), (date(2016, 1, 23), 85500), (date(2016, 1, 24), 85000), (date(2016, 1, 25), 84500), (date(2016, 1, 26), 84000), (date(2016, 1, 27), 83500), (date(2016, 1, 28), 83000), (date(2016, 1, 29), 82500), (date(2016, 1, 30), 82000), (date(2016, 1, 31), 81500), (date(2016, 2, 1), 81000), (date(2016, 2, 2), 80500), (date(2016, 2, 3), 80000), (date(2016, 2, 4), 79500), (date(2016, 2, 5), 79000), (date(2016, 2, 6), 78500), (date(2016, 2, 7), 78000), (date(2016, 2, 8), 77500), (date(2016, 2, 9), 77000), (date(2016, 2, 10), 76500), (date(2016, 2, 11), 76000), (date(2016, 2, 12), 75500), (date(2016, 2, 13), 75000), (date(2016, 2, 14), 74500), (date(2016, 2, 15), 74000), (date(2016, 2, 16), 73500), (date(2016, 2, 17), 73000), (date(2016, 2, 18), 72500), (date(2016, 2, 19), 72000), (date(2016, 2, 20), 71500), (date(2016, 2, 21), 71000), (date(2016, 2, 22), 70500), (date(2016, 2, 23), 70000), (date(2016, 2, 24), 69500), (date(2016, 2, 25), 69000), (date(2016, 2, 26), 68500), (date(2016, 2, 27), 68000), (date(2016, 2, 28), 67500), (date(2016, 2, 29), 67000), (date(2016, 3, 1), 66500), (date(2016, 3, 2), 66000), (date(2016, 3, 3), 65500), (date(2016, 3, 4), 65000), (date(2016, 3, 5), 64500), (date(2016, 3, 6), 64000), (date(2016, 3, 7), 63500), (date(2016, 3, 8), 63000), (date(2016, 3, 9), 62500), (date(2016, 3, 10), 62000), (date(2016, 3, 11), 61500), (date(2016, 3, 12), 61000), (date(2016, 3, 13), 60500), (date(2016, 3, 14), 60000)]]}
+
 
     for year, year_events in events.items():
         assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
@@ -553,7 +553,7 @@ def test_water_year(date: date, water_year):
         [ ( date(2022,6,1), date(2022,6,29), [2021]),
           ( date(2022,6,1), date(2022,7,29), [2021,2022]),
           (date(2022,6,1),date(2023,7,29), [2021,2022,2023]),
-        ],: date: date: list[int]
+        ]
 )
 def test_water_year_touches(start_date: date, end_date: date, water_years):
     result = evaluate_EWRs.water_year_touches(start_date, end_date)
@@ -639,7 +639,7 @@ def test_lengths_to_years(events_info,water_year_maxs):
     ([(date(2012, 6, 25) + timedelta(days=i), 0) for i in range(5)],
     (date(2012, 6, 25), date(2012, 6, 29), 5, [2011])),
 ],)
-def test_return_event_info(event: list[tuple[date, int]], expected_event_info):
+def test_return_event_info(event, expected_event_info):
     result = evaluate_EWRs.return_event_info(event)
     assert result == expected_event_info
 
@@ -650,8 +650,8 @@ def test_return_event_info(event: list[tuple[date, int]], expected_event_info):
     ((date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013]),
     [6,371,5]),
     ((date(2012, 6, 25), date(2012, 7, 29), 5, [2011]),
-    [5])]
-],)
+    [5])])
+
 def test_years_lengths(event_info, expected_years_lengths_list):
     result = evaluate_EWRs.years_lengths(event_info)
     assert result == expected_years_lengths_list
@@ -709,7 +709,7 @@ def test_get_max_rolling_duration_achievement(EWR_info, max_consecutive_days,dur
     (0,[80,50], 0),
     (1,[100,120], 20)
 ],)
-def test_calc_flow_percent_change(iteration, expected_result):
+def test_calc_flow_percent_change(iteration, flows, expected_result):
     result = evaluate_EWRs.calc_flow_percent_change(iteration,flows)
     assert result == pytest.approx(expected_result)
 
@@ -719,10 +719,9 @@ def test_calc_flow_percent_change(iteration, expected_result):
     (-20, 10, True),
     (-40, 11, True),
     (-40, 9, False),
-    (10, 10,True),
-: Literal[-10] | Literal[-20] | Literal[-40] | Literal[10]: Literal[5] | Literal[10] | Literal[11] | Literal[9]: bool
-],)
-def test_check_nest_percent_drawdown(flow_percent_change: Literal[-10] | Literal[-20] | Literal[-40] | Literal[10], flow: Literal[5] | Literal[10] | Literal[11] | Literal[9], expected_result: bool):
+    (10, 10,True)
+])
+def test_check_nest_percent_drawdown(flow_percent_change, flow, expected_result):
     EWR_info = {'max_flow':10, 'drawdown_rate':"15%"}
 
     result = evaluate_EWRs.check_nest_percent_drawdown(flow_percent_change, EWR_info, flow)
@@ -752,15 +751,15 @@ def test_calc_nest_cut_date(EWR_info, iteration,expected_result: date):
     ( [10 , 10, 10, 10, 10, 10, 9.8, 9.7, 9.8], {"drawdown_rate_week" : "0.3"}, 8, 8, True),
     ( [10], {"drawdown_rate_week" : "0.3"}, 0, 0, True)
 ])
-def test_check_weekly_drawdown(levels: list[int | float] | list[int], EWR_info: dict[str, str], iteration: Literal[2] | Literal[1] | Literal[6] | Literal[5] | Literal[8] | Literal[0], event_length: Literal[2] | Literal[1] | Literal[6] | Literal[5] | Literal[8] | Literal[0], expected_result: bool):
+def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expected_result):
     result = evaluate_EWRs.check_weekly_drawdown(levels, EWR_info, iteration, event_length)
     assert result == expected_result
 
 
 @pytest.mark.parametrize("gauge",[
-    ("425010"),: tuple[Hashable, Hashable]: Any: dict: Literal['425010']
-],)
-def test_calc_sorter_wp(wp_df_F_df_L: tuple[Hashable, Hashable], wp_EWR_table: Any, ewr_calc_config: dict, gauge: Literal['425010']):
+    ("425010")
+])
+def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
     
     df_F, df_L = wp_df_F_df_L
     print(df_F)
@@ -803,9 +802,9 @@ def test_calc_sorter_wp(wp_df_F_df_L: tuple[Hashable, Hashable], wp_EWR_table: A
     'SF_WP/WP3_eventYears': [1,1,1,1], 
     'LF2_WP/WP4_eventYears': [0,0,1,1]
     }
-    ),: pd.DataFrame: list[str]: dict[str, dict[int, int]]: dict[str, dict[int, int]]: dict[str, list[int]]
-],)
-def test_merge_weirpool_with_freshes(PU_df_wp: pd.DataFrame, wp_freshes: list[str], freshes_eventYears: dict[str, dict[int, int]], wp_eventYears: dict[str, dict[int, int]], merged_eventYears: dict[str, list[int]]):
+    )
+])
+def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, wp_eventYears, merged_eventYears):
     weirpool_pair = {'SF_WP':'WP3',
                       'LF2_WP': 'WP4' }
 
@@ -866,9 +865,9 @@ def test_merge_weirpool_with_freshes(PU_df_wp: pd.DataFrame, wp_freshes: list[st
                             'CLLMM1b_totalEventDaysAchieved': [0, 0, 1, 1],'CLLMM1b_maxEventDays':[0, 0, 1, 1],
                             'CLLMM1b_maxRollingEvents': [0, 0, 1, 1], 'CLLMM1b_maxRollingAchievement': [0, 0, 1, 1],
                             'CLLMM1b_missingDays': [0,0,0,0], 'CLLMM1b_totalPossibleDays': [365,365,365,366]}
-                        ),: dict[str, DatetimeIndex | list[int]]: Literal['CLLMM1a_P'] | Literal['CLLMM1b']: Literal['A4261002']: dict[int, list[list[tuple[date, int]]]]: dict[str, list[int] | list[float]]: pd.DataFrame
+                        )
 ])
-def test_barrage_flow_handle(data_for_df_F: dict[str, DatetimeIndex | list[int]], EWR: Literal['CLLMM1a_P'] | Literal['CLLMM1b'], main_gauge: Literal['A4261002'], expected_events: dict[int, list[list[tuple[date, int]]]], pu_df_data: dict[str, list[int] | list[float]], sa_parameter_sheet: pd.DataFrame):
+def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
 
     # Set up input data
     PU = 'PU_0000029'
@@ -919,9 +918,9 @@ def test_barrage_flow_handle(data_for_df_F: dict[str, DatetimeIndex | list[int]]
        'CLLMM1c_P_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},
        'CLLMM1c_P_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
        'CLLMM1c_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
-    ): pd.DataFrame: dict[int, list[list[tuple[date, float]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, float]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events, expected_PU_df_data):
     # Set up input data
     PU = 'PU_0000029'
     gauge = 'A4260527'
@@ -977,9 +976,9 @@ def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events:
     'IC1_P_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
     'IC1_P_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
     'IC1_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_flow_handle_sa(sa_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000027'
     gauge = 'A4261001'
@@ -1043,9 +1042,9 @@ def test_flow_handle_sa(sa_parameter_sheet: pd.DataFrame, expected_events: dict[
     105,
     3,
     False
-    ),: list[int]: Literal[99] | Literal[105]: Literal[3]: bool
+    )
 ])
-def test_check_cease_flow_period(flows: list[int], iteration: Literal[99] | Literal[105], period: Literal[3], expected_result: bool):
+def test_check_cease_flow_period(flows, iteration, period, expected_result):
     result = evaluate_EWRs.check_cease_flow_period(flows, iteration, period)
     assert result == expected_result
 
@@ -1073,9 +1072,9 @@ def test_check_cease_flow_period(flows: list[int], iteration: Literal[99] | Lite
  'FD1_maxRollingAchievement': {2012: 1, 2013: 1, 2014: 1, 2015: 0}, 
  'FD1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
  'FD1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_flow_handle_check_ctf(qld_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000991'
     gauge = '422015'
@@ -1131,9 +1130,9 @@ def test_flow_handle_check_ctf(qld_parameter_sheet: pd.DataFrame, expected_event
      'BBR1_a_maxRollingAchievement': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
      'BBR1_a_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
      'BBR1_a_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_cumulative_handle_bbr(qld_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000991'
     gauge = '422016'
@@ -1211,10 +1210,9 @@ def test_cumulative_handle_bbr(qld_parameter_sheet: pd.DataFrame, expected_event
     (
        [],
         0 
-    ),
-       : list[list[tuple[date, int]]]: Literal[28] | Literal[0] | Literal[20]
+    )
 ])
-def test_get_min_gap(events: list[list[tuple[date, int]]], expected_result: Literal[28] | Literal[0] | Literal[20]):
+def test_get_min_gap(events, expected_result):
     result = evaluate_EWRs.get_min_gap(events)
     assert result == expected_result
 
@@ -1249,10 +1247,9 @@ def test_get_min_gap(events: list[list[tuple[date, int]]], expected_result: Lite
     (
        [],
         0 
-    ),
-       : list[list[tuple[date, int]]]: Literal[28] | Literal[0]
+    )
 ])
-def test_get_max_gap(events: list[list[tuple[date, int]]], expected_result: Literal[28] | Literal[0]):
+def test_get_max_gap(events, expected_result):
     result = evaluate_EWRs.get_max_gap(events)
     assert result == expected_result
 
@@ -1287,10 +1284,9 @@ def test_get_max_gap(events: list[list[tuple[date, int]]], expected_result: Lite
     (
        [],
         0 
-    ),
-       : list[list[tuple[date, int]]]: Literal[5] | Literal[3] | Literal[31] | Literal[10] | Literal[0]
+    )
 ])
-def test_get_max_event_length(events: list[list[tuple[date, int]]], expected_result: Literal[5] | Literal[3] | Literal[31] | Literal[10] | Literal[0]):
+def test_get_max_event_length(events, expected_result):
     result = evaluate_EWRs.get_max_event_length(events)
     assert result == expected_result
 
@@ -1315,9 +1311,9 @@ def test_get_max_event_length(events: list[list[tuple[date, int]]], expected_res
      2015: [],
     },
     [1,1,0,0]
-    ): dict[int, list[list[tuple[date, int]]]]: int
+    )
 ])
-def test_get_event_years_connecting_events(event_years: dict[int, list[list[tuple[date, int]]]], expected_results: int):
+def test_get_event_years_connecting_events(event_years, expected_results):
     unique_water_years = [2012, 2013, 2014, 2015]
     result = evaluate_EWRs.get_event_years_connecting_events(event_years, unique_water_years)
     assert result == expected_results
@@ -1344,9 +1340,9 @@ def test_get_event_years_connecting_events(event_years: dict[int, list[list[tupl
      2015: [[(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)]],
     },
     [1,3,0,1]
-    ): dict[int, list[list[tuple[date, int]]]]: int
+    )
 ])
-def test_get_achievements_connecting_events(event_years: dict[int, list[list[tuple[date, int]]]], expected_results: int):
+def test_get_achievements_connecting_events(event_years, expected_results):
     unique_water_years = [2012, 2013, 2014, 2015]
     result = evaluate_EWRs.get_achievements_connecting_events(event_years, unique_water_years)
     assert result == expected_results
@@ -1374,9 +1370,9 @@ def test_get_achievements_connecting_events(event_years: dict[int, list[list[tup
   'FrW2_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0},  
   'FrW2_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
   'FrW2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
-    ): pd.DataFrame: dict[int, list[list[tuple[date, int]]]]: dict[str, dict[int, int] | dict[int, float]]
+    )
 ])
-def test_water_stability_handle(qld_parameter_sheet: pd.DataFrame, expected_events: dict[int, list[list[tuple[date, int]]]], expected_PU_df_data: dict[str, dict[int, int] | dict[int, float]]):
+def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000999'
     gauge = '416011'
@@ -1652,7 +1648,7 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
        'RFL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
     )
 ])
-def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet: pd.DataFrame):
+def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
     EWR_table = vic_parameter_sheet
 
     data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
@@ -1712,7 +1708,7 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
        'F3_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
     )
 ])
-def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet: pd.DataFrame):
+def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
     
     EWR_table = vic_parameter_sheet
 
