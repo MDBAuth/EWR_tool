@@ -1,20 +1,20 @@
 from pathlib import Path
 import io
 import pandas as pd
-from pandas._testing import assert_frame_equal
 import numpy as np
 import requests
 from datetime import datetime
 import os
 import random
 import string
-import re
-import random
-import string
+from unittest.mock import mock_open, patch
+from pathlib import Path
+import json
+import pytest
 import re
 
+from pandas._testing import assert_frame_equal
 from py_ewr import data_inputs
-import pytest
 
 BASE_PATH = Path(__file__).resolve().parents[1]   
     
@@ -118,9 +118,53 @@ def test_get_ewr_calc_config():
     assert it returns a dictionary
     '''
     ewr_calc_config = data_inputs.get_ewr_calc_config()
+    # Test with a valid file_path
+    mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
+    mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
+    
+    with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
+        result = data_inputs.get_ewr_calc_config(mock_file_path)
+        assert result == mock_config
 
-    assert isinstance(ewr_calc_config, dict)
-    assert "flow_handle" in ewr_calc_config.keys()
+    # Test with the default path
+    default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
+    default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
+    
+    with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
+        ewr_calc_config = data_inputs.get_ewr_calc_config()
+        assert isinstance(ewr_calc_config, dict)
+        assert "flow_handle" in ewr_calc_config.keys()
+    def find_unusual_characters(s):
+        # Define a regex pattern for unusual characters
+        pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
+        
+        # Find all unusual characters
+        unusual_chars = set(re.findall(pattern, s))
+    
+        return unusual_chars
+    # Test for rogue characters
+    #rogue_chars = {'@', '$', '#', "*",''}
+    # Test for rogue characters
+    test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
+    rogue_chars =find_unusual_characters(test_string)
+    unique_chars = set()
+    for k, v in ewr_calc_config.items():
+        for char in k:
+            unique_chars.add(char)
+        for char in v:
+            unique_chars.add(char)
+    
+    assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
+
+    # Test with a nonexistent file
+    mock_file_path = "/mock/path/to/nonexistent_config.json"
+    
+    with patch("builtins.open", mock_open()) as mock_file:
+        mock_file.side_effect = FileNotFoundError
+        with pytest.raises(FileNotFoundError):
+            data_inputs.get_ewr_calc_config(mock_file_path)
+
+
 
 
 def test_get_barrage_flow_gauges():
@@ -196,18 +240,45 @@ def test_get_qld_level_gauges():
     for item in result:
         assert isinstance(item, str)
 
+
 # scenario gauges
-@pytest.mark.parametrize('expected_results', 
-[
-    (
-    ['A4260527', 'A4260633', 'A4260634', 'A4260635', 'A4260637', 'A4261002']
-    )
-])
-
-
+      
+@pytest.mark.parametrize(
+    "gauge_results, expected_results",
+    [
+        # Test Case 1: Basic scenario
+        (
+            {
+                "scenario1": {"A4260527": {"data": [1, 2, 3]}, "A4260633": {"data": [4, 5, 6]}},
+                "scenario2": {"A4260527": {"data": [7, 8, 9]}, "A4260634": {"data": [10, 11, 12]}},
+                "scenario3": {"A4260527": {"data": [13, 14, 15]}, "A4260635": {"data": [16, 17, 18]}},
+            },
+            ['A4260527', 'A4260633', 'A4260634', 'A4260635']
+        ),
+        # Test Case 2: Empty scenario
+        (
+            {},
+            []
+        ),
+        # Test Case 3: Single scenario with single gauge
+        (
+            {"scenario1": {"A4260527": {"data": [1, 2, 3]}}},
+            ['A4260527']
+        ),
+        # Test Case 4: Multiple scenarios with overlapping gauges
+        (
+            {
+                "scenario1": {"A4260527": {"data": [1, 2, 3]}},
+                "scenario2": {"A4260527": {"data": [4, 5, 6]}, "A4260633": {"data": [7, 8, 9]}},
+            },
+            ["A4260527", "A4260633"]
+        ),
+    ]
+)
 def test_get_scenario_gauges(gauge_results, expected_results):
     result = data_inputs.get_scenario_gauges(gauge_results)
     assert sorted(result) == expected_results
+
 
 def test_get_level_gauges():
     level_result, weirpool_result = data_inputs.get_level_gauges()
@@ -405,3 +476,37 @@ def test_get_iqqm_codes():
 #     EWR_table, bad_EWRs = data_inputs.get_EWR_table(url)
 #     check_EWR_logic(EWR_table, non_leap)
 #     check_EWR_logic(EWR_table, leap)
+
+def test_get_bad_QA_codes():
+        expected_result = [151, 152, 153, 155, 180, 201, 202, 204, 205, 207, 223, 255]
+        assert data_inputs.get_bad_QA_codes() == expected_result
+
+def test_ewr_parameter_grabber():
+    mock_data={
+            'Gauge': ['G1', 'G2', 'G1', 'G3'],
+            'Code': ['EWR1', 'EWR2', 'EWR1', 'EWR3'],
+            'PlanningUnitName': ['PU1', 'PU2', 'PU1', 'PU3'],
+            'Parameter1': ['Value1', 'Value2', 'Value3', 'Value4'],
+            'Parameter2': ['Value5', 'Value6', 'Value7', 'Value8']
+        }
+    ewr_table_mock=pd.DataFrame(mock_data)
+    result=data_inputs.ewr_parameter_grabber(ewr_table_mock,'G1', 'PU1', 'EWR1', 'Parameter1')
+    #testing basic functionality
+    assert result == 'Value1'
+    #testing non matching data
+    with pytest.raises(IndexError):
+        data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'Parameter1')
+    with pytest.raises(KeyError):
+        data_inputs.ewr_parameter_grabber(ewr_table_mock, 'G4', 'PU1', 'EWR1', 'NonExistingParameter')
+    with pytest.raises(IndexError):
+        empty_df = pd.DataFrame(columns=mock_data.keys())
+        data_inputs.ewr_parameter_grabber(empty_df, 'G4', 'PU1', 'EWR1', 'Parameter1')
+
+   
+  
+def test_weirpool_type():
+    assert data_inputs.weirpool_type('WP1') == 'falling'
+    assert data_inputs.weirpool_type('WP2') == 'raising'
+    assert data_inputs.weirpool_type('WP3') == 'falling'
+    assert data_inputs.weirpool_type('WP4') == 'falling'
+
