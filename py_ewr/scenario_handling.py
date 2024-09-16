@@ -9,7 +9,7 @@ import logging
 import pandas as pd
 import xarray as xr
 import netCDF4
- 
+
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
@@ -628,8 +628,8 @@ class ScenarioHandler:
 
         if not self.yearly_events:
             self.process_scenarios()
-        
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+    
         all_events = summarise_results.process_all_events_results(events_to_process)
 
         all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge'],
