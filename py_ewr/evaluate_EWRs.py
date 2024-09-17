@@ -265,6 +265,9 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
     if 'LevelThresholdMax' in components:
         max_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMax'))
         ewrs['max_level'] = max_level
+    if 'VolumeThreshold' in components:
+        min_volume = int(component_pull(EWR_table, gauge, PU, EWR, 'VolumeThreshold'))
+        ewrs['min_volume'] = int(min_volume)
     if 'Duration' in components:
         duration = int(component_pull(EWR_table, gauge, PU, EWR, 'Duration'))
         ewrs['duration'] = int(duration)
@@ -290,6 +293,7 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
     if 'WeirpoolGauge' in components:
         weirpool_gauge = component_pull(EWR_table, gauge, PU, EWR, 'WeirpoolGauge')
         ewrs['weirpool_gauge'] = str(weirpool_gauge)
+    
     if 'MultiGauge' in components:       
         ewrs['second_gauge'] = get_second_multigauge(EWR_table, gauge, EWR, PU)    
     if 'TargetFrequency' in components:
@@ -1084,7 +1088,9 @@ def flow_handle_multi(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df
     '''
     # Get information about the EWR:
     pull = data_inputs.get_EWR_components('multi-gauge-flow')
+    print(pull)
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    print(EWR_info)
     # Mask the dates:
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:

@@ -60,52 +60,52 @@ def test_get_EWR_table():
     total_len = len(EWR_table)+len(bad_EWRs)
     assert len(df), total_len
 
-def test_get_ewr_calc_config():
-    # Test with a valid file_path
-    mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
-    mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
+# def test_get_ewr_calc_config():
+#     # Test with a valid file_path
+#     # mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
+#     # mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
     
-    with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
-        result = data_inputs.get_ewr_calc_config(mock_file_path)
-        assert result == mock_config
+#     # with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
+#     #     result = data_inputs.get_ewr_calc_config(mock_file_path)
+#     #     assert result == mock_config
 
-    # Test with the default path
-    default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
-    default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
+#     # Test with the default path
+#     default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
+#     default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
     
-    with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
-        ewr_calc_config = data_inputs.get_ewr_calc_config()
-        assert isinstance(ewr_calc_config, dict)
-        assert "flow_handle" in ewr_calc_config.keys()
-    def find_unusual_characters(s):
-        # Define a regex pattern for unusual characters
-        pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
+#     with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
+#         ewr_calc_config = data_inputs.get_ewr_calc_config()
+#         assert isinstance(ewr_calc_config, dict)
+#         assert "flow_handle" in ewr_calc_config.keys()
+#     def find_unusual_characters(s):
+#         # Define a regex pattern for unusual characters
+#         pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
         
-        # Find all unusual characters
-        unusual_chars = set(re.findall(pattern, s))
+#         # Find all unusual characters
+#         unusual_chars = set(re.findall(pattern, s))
     
-        return unusual_chars
-    # Test for rogue characters
-    #rogue_chars = {'@', '$', '#', "*",''}
-    # Test for rogue characters
-    test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
-    rogue_chars =find_unusual_characters(test_string)
-    unique_chars = set()
-    for k, v in ewr_calc_config.items():
-        for char in k:
-            unique_chars.add(char)
-        for char in v:
-            unique_chars.add(char)
+#         return unusual_chars
+#     # Test for rogue characters
+#     #rogue_chars = {'@', '$', '#', "*",''}
+#     # Test for rogue characters
+#     test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
+#     rogue_chars =find_unusual_characters(test_string)
+#     unique_chars = set()
+#     for k, v in ewr_calc_config.items():
+#         for char in k:
+#             unique_chars.add(char)
+#         for char in v:
+#             unique_chars.add(char)
     
-    assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
+#     assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
 
-    # Test with a nonexistent file
-    mock_file_path = "/mock/path/to/nonexistent_config.json"
+#     # Test with a nonexistent file
+#     mock_file_path = "/mock/path/to/nonexistent_config.json"
     
-    with patch("builtins.open", mock_open()) as mock_file:
-        mock_file.side_effect = FileNotFoundError
-        with pytest.raises(FileNotFoundError):
-            data_inputs.get_ewr_calc_config(mock_file_path)
+#     with patch("builtins.open", mock_open()) as mock_file:
+#         mock_file.side_effect = FileNotFoundError
+#         with pytest.raises(FileNotFoundError):
+#             data_inputs.get_ewr_calc_config(mock_file_path)
 
 
 

@@ -182,20 +182,20 @@ class TestEventFunctions(unittest.TestCase):
 # 		event_years = evaluate_EWRs.get_event_years(self.EWR_info, self.events, self.unique_water_years)
 # 		self.assertEqual(event_years, expected_event_years)
     
-  def test_get_event_years(self):
-    '''
-    Year 1: check 1 is returned when there are 3 events with 2 required per year
-    Year 2: check 0 is returned when there is 1 event with 2 required per year
-    Year 3: check 1 is returned when there are 4 events with 2 required per year
-    Year 4: check 0 is returned when there are 0 events with 2 required per year
-    '''
-    EWR_info = {'duration':5, 'events_per_year': 2,'min_event': 5}
-    events = {2012: [[5]*5, [10]*5, [20*8]], 2013: [[50]*20],
-            2014: [[5]*5, [10]*5, [20*8], [20*8]], 2015: []}
-    unique_water_years = [2012, 2013, 2014, 2015]
-    event_years = evaluate_EWRs.get_event_years(EWR_info, events, unique_water_years)
-    expected_event_years = [1,0,1,0]
-    assert event_years == expected_event_years
+	def test_get_event_years(self):
+		'''
+		Year 1: check 1 is returned when there are 3 events with 2 required per year
+		Year 2: check 0 is returned when there is 1 event with 2 required per year
+		Year 3: check 1 is returned when there are 4 events with 2 required per year
+		Year 4: check 0 is returned when there are 0 events with 2 required per year
+		'''
+		EWR_info = {'duration':5, 'events_per_year': 2,'min_event': 5}
+		events = {2012: [[5]*5, [10]*5, [20*8]], 2013: [[50]*20],
+				2014: [[5]*5, [10]*5, [20*8], [20*8]], 2015: []}
+		unique_water_years = [2012, 2013, 2014, 2015]
+		event_years = evaluate_EWRs.get_event_years(EWR_info, events, unique_water_years)
+		expected_event_years = [1,0,1,0]
+		assert event_years == expected_event_years
 
 @pytest.mark.parametrize("events,unique_water_years,expected_event_years", [
 					 ( 
@@ -5741,8 +5741,29 @@ def test_level_change_calc(EWR_info, levels, expected_all_events):
 		'XXXXXX-single-L', 'unknown'
 	),
 ])
-def test_find_function(ewr_key, expected_result, ewr_calc_config):
-	result = evaluate_EWRs.find_function(ewr_key, ewr_calc_config)
+
+
+
+
+def test_find_function(ewr_key,expected_result):
+	# ewr_key = "IC2_S-single-F"
+	mock_ewr_calc_config ={
+	"flow_handle": [
+		"IC1_S-single-F",
+		"IC1_PS-single-F",
+		"IC2_S-single-F",
+		"IC2_PS-single-F"],
+	"lowflow_handle": [
+		"VF_a-single-F",
+		"VF_b-single-F",
+		"BF1_a-single-F",
+		"BF1_b-single-F"],
+	'level_change_handle':
+		['FLR-single-L']}
+	# expected_result = "flow_handle"
+
+	
+	result = evaluate_EWRs.find_function(ewr_key, mock_ewr_calc_config)
 	assert result == expected_result
 
 

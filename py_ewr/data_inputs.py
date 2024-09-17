@@ -251,16 +251,16 @@ def get_EWR_components(category):
         pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'DrawdownRate', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume', 'TriggerDay', 'TriggerMonth', 'WithinEventGapTolerance']
     elif category == 'multi-gauge-flow':
         #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME',  'GP', 'EPY', 'MG', 'MIE', 'FLV']
-        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'WithinEventGapTolerance', 'EventsPerYear', 'SecondGauge', 'MaxInter-event', 'FlowLevelVolume']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'WithinEventGapTolerance', 'EventsPerYear', 'MultiGauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-low flow':
         #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MG', 'MIE', 'FLV']
-        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'SecondGauge', 'MaxInter-event', 'FlowLevelVolume']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'MultiGauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-cease to flow':
         #pull = ['SM', 'EM', 'MINF', 'MAXF', 'DUR', 'ME', 'EPY', 'MG', 'MIE', 'FLV']
-        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'SecondGauge', 'MaxInter-event', 'FlowLevelVolume']
+        pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'MultiGauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-cumulative':
         #pull =  ['SM', 'EM', 'MINV', 'DUR', 'ME', 'EPY', 'MINF', 'MAXF','MG', 'MIE','AP','GP', 'FLV']
-        pull=['StartMonth', 'EndMonth', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'SecondGauge', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume']
+        pull=['StartMonth', 'EndMonth', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MultiGauge', 'MaxInter-event', 'AccumulationPeriod', 'WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'flood-plains':
         #pull=['SM', 'EM', 'MINF', 'MAXF', 'MAXL', 'DUR', 'ME',  'MD', 'ML','EPY','WPG', 'MIE', 'FLV', 'GP']
         pull=['StartMonth', 'EndMonth', 'FlowThresholdMin', 'FlowThresholdMax', 'LevelThresholdMax', 'Duration', 'MinSpell', 'DrawdownRate', 'MaxLevelRise', 'EventsPerYear', 'WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'WithinEventGapTolerance']
