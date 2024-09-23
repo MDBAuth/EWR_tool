@@ -207,6 +207,30 @@ class TestEventFunctions(unittest.TestCase):
             		  2015:[]},
 					  [2012, 2013, 2014, 2015],
 					  [1,1,1,0]),
+					  # Case 2: No events for any years
+					(
+						{2012: [], 2013: [], 2014: [], 2015: []},
+						[2012, 2013, 2014, 2015],
+						[0, 0, 0, 0]
+					),
+					# Case 2: No events for any years
+					(
+						{2012: [], 2013: [], 2014: [], 2015: []},
+						[2012, 2013, 2014, 2015],
+						[0, 0, 0, 0]
+					),
+					# Case 3: No events
+					(
+						{2012: [[(date(2012, 1, 1) + timedelta(days=i), 0) for i in range(3)]],
+						2013: [], 2014: []},
+						[2012, 2013, 2014],
+						[0, 0, 0]
+					),
+					(
+						None,  # Force the exception handling scenario
+						[2012, 2013, 2014],
+						[0, 0, 0]
+					)
 					  ]
 )
 def test_get_event_years_max_rolling_days(events, unique_water_years, expected_event_years):
