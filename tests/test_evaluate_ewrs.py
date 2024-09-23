@@ -1677,12 +1677,23 @@ def test_get_event_years_connecting_events(event_years, expected_results):
         [(date(2014, 10, 20) + timedelta(days=i), 0) for i in range(29)],
       ],
      2015: [[(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)]],
+     2020: [], #no events in a year
+     2017: [
+         [(date(2017, 1, 1) + timedelta(days=i), 0) for i in range(89)]], # short event
+     2018: [[(date(2018, 1, 1) + timedelta(days=i), 0) for i in range(10)],
+             [(date(2018, 1, 15) + timedelta(days=i), 0) for i in range(5)]], #less than 27 days
+     2019: [[(date(2019, 1, 1) + timedelta(days=i), 0) for i in range(10)],
+             [(date(2019, 4, 15) + timedelta(days=i), 0) for i in range(5)]], # greater than 90 days
+     2022: [[(date(2022, 1, 1) + timedelta(days=i), 0) for i in range(10)],
+             [(date(2022, 2, 28) + timedelta(days=i), 0) for i in range(5)],
+             [(date(2022, 5, 1) + timedelta(days=i), 0) for i in range(5)]] # achieve 2 events
+
     },
-    [1,3,0,1]
+    [1,3,0,1,0,0,0,0,2]
     )
 ])
 def test_get_achievements_connecting_events(event_years, expected_results):
-    unique_water_years = [2012, 2013, 2014, 2015]
+    unique_water_years = [2012, 2013, 2014, 2015, 2020, 2017, 2018, 2019, 2022]
     result = evaluate_EWRs.get_achievements_connecting_events(event_years, unique_water_years)
     assert result == expected_results
 
