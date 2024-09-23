@@ -3493,7 +3493,7 @@ def flow_calc(EWR_info: dict, flows: np.array, water_years: np.array, dates: np.
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
-        event, all_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, gap_track, water_years, total_event,flow_date)   
+        event, all_events, gap_track, total_event = flow_check(EWR_info, -1, flows[-1], event, all_events, gap_track, water_years, total_event, flow_date)   
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
         total_event = 0
