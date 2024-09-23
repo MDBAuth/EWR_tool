@@ -810,7 +810,7 @@ class test_ctf_check_function(unittest.TestCase):
 
 
                 
-@pytest.mark.parametrize("flows,expected_all_events,expected_all_no_events",
+@pytest.mark.parametrize("test_ID, flows,expected_all_events",
 						 [ 
 				            ('test_case_1', np.array([0]*350+[10]*15 + 
 	                                   [10]*11+ [0]*354 + 
@@ -862,7 +862,7 @@ class test_ctf_check_function(unittest.TestCase):
 								        [(date(2015, 10, 10)+timedelta(days=i),10) for i in range(265)]] }
 							 )])
 
-def test_flow_calc(test_ID, flows,expected_all_events):
+def test_flow_calc(test_ID, flows, expected_all_events):
 	"""
 	1: when event start and finish goes beyond boundary of 2 water years and there are sufficient days in both years
 	   then : each year gets the part of the event as a separate event
