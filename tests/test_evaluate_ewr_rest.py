@@ -1283,6 +1283,21 @@ def test_check_roller_reset_points(roller, flow_date, EWR_info,expected_roller):
             		  2015:[]},
 					  [2012, 2013, 2014, 2015],
 					  [10,3,5,0]),
+						# Case 1: Empty events dictionary
+					 ({2012:[],2013:[]}, [2012, 2013], [0,0]),
+					# Case 3: Same max volume in all events for a year
+					 ({2012: [[(date(2012, 11, 1) + timedelta(days=i), 4) for i in range(5)], 
+							[(date(2012, 6, 26), 4)]],
+					  2013: [[(date(2013, 11, 2), 3)]],
+					 }, [2012, 2013], [4, 3]),
+					# Case 4: Duplicate years in input
+					 ({2012: [[(date(2012, 11, 1), 8)]], 
+					  2013: [[(date(2013, 11, 2), 5)]], 
+					 }, [2012, 2013], [8, 5]),
+					# Case 5: Negative and zero volumes
+					({2012: [[(date(2012, 11, 1), 0)], [(date(2012, 11, 2), -3)]], 
+					2013: [[(date(2013, 11, 2), -1), (date(2013, 11, 3), 2)]], 
+					}, [2012, 2013], [0, 2])
 					  ]
 )
 def test_get_max_volume(events,unique_water_years,expected_max_vols):
