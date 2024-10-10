@@ -281,6 +281,40 @@ def test_build_MDBA_columns():
     expected_result = expected_result.astype({'Dy': 'int32', 'Mn': 'int32', 'Year': 'int32'})
     assert_frame_equal(data, expected_result)        
 
+def test_cleaner_ten_thousand_year():
+    '''
+    1. Test one flow gauge
+    2. Test one level gauge
+    3. Test multiple flow and level gauges
+    4. Test no compatible gauges
+    '''
+
+    date_start = '0105-07-01'
+    date_end = '9999-06-30'
+    date_range = pd.period_range(date_start, date_end, freq = 'D')
+    data_for_input_df = {'Date': date_range, '409025_flow': [50]*3613709}
+    input_df = pd.DataFrame(data_for_input_df)
+    str_df = input_df.copy(deep=True)
+    str_df['Date'] = str_df['Date'].astype('str')
+    def add_0 (row):
+        j = row.split('-')
+        if len(j[0]) < 4:
+            new_row = '0'+ row
+        else:
+            new_row = row
+        return new_row
+    str_df['Date'] = str_df['Date'].apply(add_0)
+    str_df = str_df.set_index('Date')
+    df_f, df_l = scenario_handling.cleaner_ten_thousand_year(str_df)
+    
+    # Set up expected data and test:
+    expected_df_flow = input_df.copy(deep=True)
+    expected_df_flow = expected_df_flow.set_index('Date')
+    expected_df_flow.columns = ['409025']
+    expected_df_level = pd.DataFrame(index = expected_df_flow.index)
+    
+    assert_frame_equal(expected_df_level, df_l)
+    assert_frame_equal(expected_df_flow, df_f)
 
 def test_unpack_model_file():
     '''

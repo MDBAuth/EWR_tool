@@ -5,7 +5,7 @@ import urllib
 import re
 from datetime import datetime, date
 import logging
-
+import numpy as np
 import pandas as pd
 import xarray as xr
 import netCDF4

@@ -445,10 +445,19 @@ def get_index_date(date_index:Any)-> datetime.date:
     """
     if type(date_index) == pd._libs.tslibs.timestamps.Timestamp:
         return date_index.date()
-    # if type(date_index) == pd._libs.tslibs.period.Period:
-    #     return date_index.date()#.to_timestamp()
-    else:
+    if type(date_index) == pd._libs.tslibs.period.Period:
+        date_index_str = date_index.strftime('%Y-%m-%d')
+        # For dates between the years 100 and 999 we need to add a 0 onto the date string so strptime doesnt break
+        if ((int(date_index_str.split('-')[0]) >= 100) and (int(date_index_str.split('-')[0]) < 1000)):
+            date_index_str = '0' + date_index_str
+        n = datetime.datetime.strptime(date_index_str, '%Y-%m-%d').date()
+        return n
+    if type(date_index) == str:
+        n = datetime.datetime.strptime(date_index, '%Y-%m-%d').date()
+        return n
+    if type(date_index) == datetime.date:
         return date_index
+    #     return date_index #TODO: should this break? i.e. we arent expecting other date formats
 
 #----------------------------------- EWR handling functions --------------------------------------#
 
@@ -1958,7 +1967,8 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, all_events:D
     if levels_are_stable:
         # record event opportunity for the next n days for the total period of (EggDaysSpell)+ larvae (LarvaeDaysSpell)
         # if the last day of the event is not over the last day of the event window
-        iteration_date = flow_date.date()#flow_date.to_timestamp().date()
+        iteration_date = get_index_date(flow_date)
+        # iteration_date = flow_date.date()#flow_date.to_timestamp().date()
         last_day_window = get_last_day_of_window(iteration_date, EWR_info['end_month'])
         event_size = EWR_info['eggs_days_spell'] + EWR_info['larvae_days_spell']
         if is_date_in_window(iteration_date, last_day_window, event_size):
@@ -1995,7 +2005,8 @@ def water_stability_level_check(EWR_info:Dict, iteration:int, all_events:Dict, w
     if levels_are_stable:
         # record event opportunity for the next n days for the total period of (EggDaysSpell)+ larvae (LarvaeDaysSpell)
         # if the last day of the event is not over the last day of the event window
-        iteration_date = flow_date.date()#flow_date.to_timestamp().date()
+        iteration_date = get_index_date(flow_date)
+        # iteration_date = flow_date.date()#flow_date.to_timestamp().date()
         last_day_window = get_last_day_of_window(iteration_date, EWR_info['end_month'])
         event_size = EWR_info['eggs_days_spell'] + EWR_info['larvae_days_spell']
         if is_date_in_window(iteration_date, last_day_window, event_size):
@@ -2617,7 +2628,8 @@ def create_water_stability_event(flow_date: pd.Timestamp, flows:List, iteration:
     """
     event_size = EWR_info['eggs_days_spell'] + EWR_info['larvae_days_spell']
     event_flows = flows[iteration: iteration + event_size]
-    start_event_date = flow_date.date()#flow_date.to_timestamp().date()
+    start_event_date = get_index_date(flow_date)
+    # start_event_date = flow_date.date()#flow_date.to_timestamp().date()
     event_dates = [ start_event_date + timedelta(i) for i in range(event_size)]
     
     return [(d, flow)  for d, flow in zip(event_dates, event_flows)]
@@ -3800,6 +3812,7 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     Returns:
         tuple: final output with the calculation of volume all_events, durations
     """
+    #TODO can we clean up the flow_date and iteration_date parts
     event = []
     total_event = 0
     all_events = construct_event_dict(water_years)
@@ -3807,19 +3820,25 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     gap_track = 0
     for i, flow in enumerate(flows[:-1]):   
             flow_date = dates[i]
+            iteration_date = get_index_date(flow_date)
             flow_percent_change = calc_flow_percent_change(i, flows)
             trigger_day = date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
             cut_date = calc_nest_cut_date(EWR_info, i, dates)
-            is_in_trigger_window = dates[i].date() >= trigger_day \
-                                   and dates[i].date() <= trigger_day + timedelta(days=14) #.to_timestamp() .to_timestamp()
+            is_in_trigger_window = iteration_date >= trigger_day \
+                                   and iteration_date <= trigger_day + timedelta(days=14) #.to_timestamp() .to_timestamp()
+            # is_in_trigger_window = dates[i].date() >= trigger_day \
+            #                        and dates[i].date() <= trigger_day + timedelta(days=14) #.to_timestamp() .to_timestamp()
             iteration_no_event = 0
             
             ## if there IS an ongoing event check if we are on the trigger season window 
             # if yes then check the current flow
             if total_event > 0:
-                if (dates[i].date() >= trigger_day) and (dates[i].date() <= cut_date):
+                if (iteration_date >= trigger_day) and (iteration_date <= cut_date):
                     event, all_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, 
                                                          gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event) #.to_timestamp() .to_timestamp()
+                # if (dates[i].date() >= trigger_day) and (dates[i].date() <= cut_date):
+                #     event, all_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, 
+                #                                          gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event) #.to_timestamp() .to_timestamp()
 
                 # this path will only be executed if an event extends beyond the cut date    
                 else:
@@ -3840,18 +3859,23 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     # reset all variable to last flow
-    flow_date = dates[-1].date()#.to_timestamp()
+
+    # flow_date = dates[-1].date()#.to_timestamp()
+    flow_date = dates[-1]
+    iteration_date = get_index_date(dates[-1])
     flow_percent_change = calc_flow_percent_change(-1, flows)
     trigger_day = date(dates[-1].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
     cut_date = calc_nest_cut_date(EWR_info, -1, dates)
-    is_in_trigger_window = dates[-1].date() >= trigger_day - timedelta(days=7) \
-    and dates[-1].date() <= trigger_day + timedelta(days=7) #.to_timestamp() .to_timestamp()
+    is_in_trigger_window = iteration_date >= trigger_day - timedelta(days=7) \
+    and iteration_date <= trigger_day + timedelta(days=7) #.to_timestamp() .to_timestamp()
+    # is_in_trigger_window = dates[-1].date() >= trigger_day - timedelta(days=7) \
+    # and dates[-1].date() <= trigger_day + timedelta(days=7) #.to_timestamp() .to_timestamp()
     iteration_no_event = 0
 
     if total_event > 0:
 
-        if (flow_date >= trigger_day ) \
-            and (flow_date <= cut_date):
+        if (iteration_date >= trigger_day ) \
+            and (iteration_date <= cut_date): # Was flow_date instead of iteration date in both instances
             event, all_events,  gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, -1, flows[-1], event, all_events, 
                                                              gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 

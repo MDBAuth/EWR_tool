@@ -35,7 +35,6 @@ def categorise_gauges(gauges: list, ewr_table_path:str = None) -> tuple:
         if gauge in gauges:
             level_gauges.append(gauge)
     lake_level_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='LL']['Gauge'].to_list()
-    # print(lake_level_gauges_to_add)
     for gauge in lake_level_gauges_to_add:
         if gauge in gauges:
             lake_level_gauges.append(gauge)
@@ -178,12 +177,12 @@ class ObservedHandler:
         
         # Classify gauges:
         flow_gauges, level_gauges, lake_level_gauges = categorise_gauges(self.gauges, self.parameter_sheet)
-        print('flow gauges')
-        print(flow_gauges)
-        print('level gauges')
-        print(level_gauges)
-        print('lake level gauges')
-        print(lake_level_gauges)
+        # print('flow gauges')
+        # print(flow_gauges)
+        # print('level gauges')
+        # print(level_gauges)
+        # print('lake level gauges')
+        # print(lake_level_gauges)
         # Call state API for flow and level gauge data, then combine to single dataframe
         log.info(f'Including gauges: flow gauges: { ", ".join(flow_gauges)} level gauges: { ", ".join(level_gauges)} lake level gauges: { ", ".join(lake_level_gauges)}')
         

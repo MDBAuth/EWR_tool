@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from datetime import date, timedelta, datetime
 import logging
+import copy
 
 from . import data_inputs, evaluate_EWRs
 #--------------------------------------------------------------------------------------------------
@@ -182,6 +183,10 @@ def get_events_to_process(gauge_events: dict)-> List:
         for gauge in gauge_events[scenario]:
             for pu in gauge_events[scenario][gauge]:
                 for ewr in gauge_events[scenario][gauge][pu]:
+                    # print('#################################')
+                    # print(gauge_events[scenario][gauge][pu][ewr])
+                    # print(type(gauge_events[scenario][gauge][pu][ewr]))
+                    # print('#################################')
                     try:
                         item = {}
                         item["scenario"] = scenario
@@ -533,7 +538,22 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
             df_subset = pd.DataFrame(data=data)
 
             # Calculate the interevent length
-            df_subset['interEventLength'] = (pd.to_datetime(df_subset['endDate']) - pd.to_datetime(df_subset['startDate'])).dt.days + 1
+            #Need to change to element-wise calculation to avoid relying on pandas datetime
+            #------
+            df_subset['interEventLength'] = None
+            for index, row in df_subset.iterrows():
+                # print(row['endDate'])
+                # print(type(row['endDate']))
+
+                # end = evaluate_EWRs.get_index_date(row['endDate'])
+                # start = evaluate_EWRs.get_index_date(row['startDate'])
+                # interEventLength = row['endDate'] - row['startDate'].day+1#end-start.dt.days+1 # Attempt 1
+                #TODO: explain in comments why we're adding a single day to this
+                interEventLength = (row['endDate'] - row['startDate']).days#row['startDate']-#(row['startDate'] + timedelta(days=1))
+                interEventLength += 1
+                df_subset.at[index, 'interEventLength'] = interEventLength
+            #------
+            # df_subset['interEventLength'] = (pd.to_datetime(df_subset['endDate']) - pd.to_datetime(df_subset['startDate'])).dt.days + 1
             # Remove 0 length entries (these can happen if there was an event on the first or last day of timeseries)
             df_subset = df_subset.drop(df_subset[df_subset.interEventLength == 0].index)
             
@@ -587,7 +607,11 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     '''
     Determines the rolling maximum interevent period for each year.
     Args:
-        yearly_df (pd.DataFrame): used to get list of all EWRs.
+        df (pd.DataFrame): interevent dataframe
+        start_date: Not used TODO: delete
+        end_date: Not used TODO: delete
+        yearly_df (pd.DataFrame): used to get list of all EWRs
+        ewr_table_path: where to pull the EWR table from (local or custom)
     Results:
         pd.DataFrame: 
     
@@ -646,10 +670,21 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             EWR_info['end_day'] = None
             EWR_info['end_month'] =int(EWR_info['end_date'])        
 
+        #--------------
+        # for i, row in df_subset.iterrows():
+        #     start = row['startDate']
+        #     end = row['endDate']
+        #     date_list = []
+        #     current_date = copy.deepcopy(start)
+        #     while current_date<=end:
+        #         date_list.append(current_date)
+        #         current_date += timedelta(days=1)
+
+        #--------------
         # Iterate over the interevent periods for this EWR
         for i, row in df_subset.iterrows():
             # Get the date range:
-            period = pd.date_range(df_subset.loc[i, 'startDate'],df_subset.loc[i, 'endDate'])
+            period = pd.period_range(row['startDate'],row['endDate'])
             # Save to pd.df for function compatibility
             dates_df = pd.DataFrame(index = period)
             # Convert year to water year using the existing function            
