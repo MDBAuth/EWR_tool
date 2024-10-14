@@ -509,7 +509,7 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
                     else:
                         df_level[gauge] = input_df[col]
 
-    if df_flow.empty:
+    if df_flow.empty and df_level.empty:
         raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
     return df_flow, df_level
 
