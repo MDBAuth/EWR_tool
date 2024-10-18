@@ -1,7 +1,7 @@
 from typing import Dict, List
 import csv
 import os
-import urllib
+import urllib.request
 import re
 from datetime import datetime, date
 import logging
