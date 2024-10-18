@@ -3,9 +3,11 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.2.5 README**
+### **EWR tool version 2.2.6 README**
 
 ### **Notes on recent version updates**
+- Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
+- Adding lat and lon to the parameter sheet
 - ten thousand year handling - this has been brought back online.
 - Remove TQDM loading bars
 - Handle duplicate sites in MDBA siteID file - where a duplicate exists, the first match is used and the rest are skipped over
@@ -16,7 +18,7 @@
 
 ### **Installation**
 
-Note - requires Python 3.8 or newer
+Note - requires Python 3.8 to 3.12 (inclusive)
 
 Step 1. 
 Upgrade pip
