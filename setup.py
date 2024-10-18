@@ -37,7 +37,6 @@ setup(
         "mdba-gauge-getter==0.5.1",
         "cachetools==5.2.0",
         "xarray==2023.01.0",
-        "hdf5",
         "netCDF4==1.6.4",
         "numpy<2"
     ],
