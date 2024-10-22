@@ -18,7 +18,7 @@
 
 ### **Installation**
 
-Note - requires Python 3.8 to 3.12 (inclusive)
+Note - requires Python 3.9 to 3.12 (inclusive)
 
 Step 1. 
 Upgrade pip
