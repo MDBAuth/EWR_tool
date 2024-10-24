@@ -32,14 +32,14 @@ setup(
     ],
     packages=find_packages(exclude=["tests"]),
     install_requires=[
-        "pandas==2.0.3",
-        "requests==2.25.1",
+        "pandas>2",#==2.0.3",
+        "requests>2",#==2.25.1",
         "mdba-gauge-getter==0.5.1",
-        "cachetools==5.2.0",
+        "cachetools>5",#==5.2.0",
         "xarray",#==2023.09.0",
         "h5py",#==3.12.1",
         "netCDF4",#==1.6.4",
-        "numpy<2"
+        "numpy"#<2"
     ],
     package_data={'': ["model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
 )
