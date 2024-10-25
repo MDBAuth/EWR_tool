@@ -13,6 +13,12 @@ def test_match_MDBA_nodes():
     '''
     1. Ensure dataframe with flows and levels is split into two dataframes (one flow and one level dataframe)
     2. Ensure first column is used when duplicate columns are loaded
+    3. If there are flows and not levels
+    4. If there are levels and not flows
+    5. If there are neither flows or levels - should raise ValueError
+    6. If there is a measurand that is not 1 or 35, skip this
+    7. If there is a SiteID that links to 2 gauges, assign to both
+    8. Multiple different sites with different flows/levels
     '''
     # TEST 1 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
@@ -70,6 +76,173 @@ def test_match_MDBA_nodes():
     
     assert_frame_equal(df_F, expected_df_F)
     assert_frame_equal(df_L, expected_df_L)
+
+    # TEST 3 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                # 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    
+    # print(df_L.empty)
+    # Set up expected outputs and test:
+    # data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    #                         '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+    #                         }
+    # expected_df_L = pd.DataFrame(data_expected_df_L)
+    # expected_df_L = expected_df_L.set_index('Date') 
+
+    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414203': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F.set_index('Date')
+    
+    assert_frame_equal(df_F, expected_df_F)
+    assert df_L.empty == True 
+
+    # TEST 4 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                # 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    
+    # Set up expected outputs and test:
+    data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_L = pd.DataFrame(data_expected_df_L)
+    expected_df_L = expected_df_L.set_index('Date') 
+    # data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    #                         '414203': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+    #                         }
+    # expected_df_F = pd.DataFrame(data_expected_df_F)
+    # expected_df_F = expected_df_F.set_index('Date')
+    
+    assert df_F.empty == True
+    assert_frame_equal(df_L, expected_df_L)
+
+    # TEST 5 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'EUSTDS56-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'EUSTUS209348-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+
+    with pytest.raises(ValueError):
+        df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+
+    # TEST 6 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'EUSTUS-5-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    
+    # Set up expected outputs and test:
+    # data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+    #                         '414209': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+    #                         }
+    # expected_df_L = pd.DataFrame(data_expected_df_L)
+    # expected_df_L = expected_df_L.set_index('Date') 
+    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            '414203': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F.set_index('Date')
+    
+    assert_frame_equal(df_F, expected_df_F)
+    assert df_L.empty == True
+
+    # TEST 7 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'LOCK7US-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'LOCK7US-35-8': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    
+    # Set up expected outputs and test:
+    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            'A4260507': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F.set_index('Date')
+
+    data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            'A4260508': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
+                            }
+    expected_df_L = pd.DataFrame(data_expected_df_L)
+    expected_df_L = expected_df_L.set_index('Date') 
+
+    
+    assert_frame_equal(df_F, expected_df_F)
+    assert_frame_equal(df_L, expected_df_L)
+
+    # TEST 8 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # Set up input data and pass to test function:
+    model_metadata = data_inputs.get_MDBA_codes()
+    data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                'LOCK7US-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'LOCK7US-35-8': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'PACKERS-1-8': [0]*1+[255]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'MILANG-35-8': [0]*1+[2]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'COONWSI-35-8': [0]*1+[5]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'BARRAGE-1-8': [0]*1+[5000]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'WETHER-35-8': [0]*1+[1]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                'WETHERL-35-8': [0]*1+[1]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # This will get skipped (same site as WETHER)
+                }
+    df = pd.DataFrame(data = data_df)
+    df = df.set_index('Date')
+    
+    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    
+    # Set up expected outputs and test:
+    data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                          'A4260507': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                          '425019': [0]*1+[255]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                          'A4261002': [0]*1+[5000]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                            }
+    expected_df_F = pd.DataFrame(data_expected_df_F)
+    expected_df_F = expected_df_F.set_index('Date')
+
+    data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
+                            'A4260508': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                            'A4260524': [0]*1+[2]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                            'A4261165': [0]*1+[5]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                            '425020': [0]*1+[1]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
+                            }
+    expected_df_L = pd.DataFrame(data_expected_df_L)
+    expected_df_L = expected_df_L.set_index('Date') 
+    assert_frame_equal(df_F.sort_index(axis=1), expected_df_F.sort_index(axis=1))
+    print('actual:')
+    print(df_L.columns)
+    print('expected:')
+    print(expected_df_L.columns)
+    assert_frame_equal(df_L.sort_index(axis=1), expected_df_L.sort_index(axis=1))
 
 def test_match_NSW_nodes():
     '''
