@@ -121,7 +121,7 @@ def get_MDBA_codes() -> pd.DataFrame:
         pd.DataFrame: dataframe for linking MDBA model nodes to gauges
 
     '''
-    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str, encoding='windows-1252')
+    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)#, encoding='windows-1252')
 
     return metadata
   
@@ -392,12 +392,12 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     multi_gauges = get_multi_gauges('gauges')
     multi_gauges = list(multi_gauges.values())
     if category == 'all gauges':
-        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges)
+        return set(EWR_table['Gauge'].to_list()+menindee_gauges+wp_gauges+multi_gauges+flow_barrage_gauges+level_barrage_gauges+qld_flow_gauges+qld_level_gauges+vic_level_gauges)
     elif category == 'flow gauges':
         return set(EWR_table['Gauge'].to_list() + multi_gauges + flow_barrage_gauges + qld_flow_gauges) 
     elif category == 'level gauges':
         level_gauges = EWR_table[EWR_table['FlowLevelVolume']=='L']['Gauge'].to_list()
-        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + level_gauges)
+        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + level_gauges + vic_level_gauges)
     else:
         raise ValueError('''No gauge category sent to the "get_gauges" function''')
     
@@ -440,3 +440,17 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
     return flow_gauges, level_gauges, lake_level_gauges
 
 # def gauges_to_measurand()
+
+def get_causal_ewr() -> dict:
+
+    ewr2obj_path = os.path.join(BASE_PATH, "parameter_metadata/ewr2obj.csv")
+    obj2target_path = os.path.join(BASE_PATH, "parameter_metadata/obj2target.csv")
+    obj2yrtarget_path = os.path.join(BASE_PATH, "parameter_metadata/obj2yrtarget.csv")
+
+    causal_ewr = {
+        "ewr2obj": pd.read_csv(ewr2obj_path),
+        "obj2target": pd.read_csv(obj2target_path),
+        "obj2yrtarget":pd.read_csv(obj2yrtarget_path)
+    }
+
+    return causal_ewr
