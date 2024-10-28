@@ -4925,23 +4925,26 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     TD_B = pd.Series(name = str(EWR + '_totalPossibleDays'), data = total_days, index = unique_water_years)
     # PU_df = pd.concat([PU_df, YG], axis = 1)
     # PU_df = pd.concat([PU_df, TD], axis = 1)
-    PU_df = pd.concat([PU_df, 
-                       NEA,
-                       NE,
-                       NEALL,
-                       MIP,
-                       MIPA,
-                       AL,
-                       ALA,
-                       TDA,
-                       MD,
-                       MR,
-                       MRA,
-                       TD_B, 
-                       TD_A,
-                       YG,
-                       YWE
-                       ], axis = 1)
+    PU_df = pd.concat(
+        [PU_df,
+         YWE,
+         NEA,
+         NE,
+         NEALL,
+         MIP,
+         MIPA,
+         AL,
+         ALA,
+         TD_A,
+         TDA,
+         MD,
+         MR,
+         MRA,
+         YG,
+         TD_B
+         ],
+        axis=1
+    )
     
     return PU_df
 
