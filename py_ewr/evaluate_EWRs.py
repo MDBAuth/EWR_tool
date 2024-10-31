@@ -4859,7 +4859,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
         years_with_events = get_event_years_volume_achieved(events, unique_water_years)
 
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
-    PU_df = pd.concat([PU_df, YWE], axis = 1)
+    # PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations)
 
@@ -4867,64 +4867,84 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
         num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
 
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
-    PU_df = pd.concat([PU_df, NEA], axis = 1)
+    # PU_df = pd.concat([PU_df, NEA], axis = 1)
     # Total number of events THIS ONE IS ONLY ACHIEVED due to Filter Applied
     num_events = get_number_events(EWR_info, events, unique_water_years, durations)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
-    PU_df = pd.concat([PU_df, NE], axis = 1)
+    # PU_df = pd.concat([PU_df, NE], axis = 1)
     # Total number of events THIS ONE IS ALL EVENTS
     num_events_all = get_all_events(events)
     NEALL = pd.Series(name = str(EWR + '_numEventsAll'), data= num_events_all, index = unique_water_years)
-    PU_df = pd.concat([PU_df, NEALL], axis = 1)
+    # PU_df = pd.concat([PU_df, NEALL], axis = 1)
     # Max inter event period
     max_inter_period = get_max_inter_event_days(no_events, unique_water_years)
     MIP = pd.Series(name = str(EWR + '_maxInterEventDays'), data= max_inter_period, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MIP], axis = 1)
+    # PU_df = pd.concat([PU_df, MIP], axis = 1)
     # Max inter event period achieved
     max_inter_period_achieved = get_event_max_inter_event_achieved(EWR_info, no_events, unique_water_years)
     MIPA = pd.Series(name = str(EWR + '_maxInterEventDaysAchieved'), data= max_inter_period_achieved, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MIPA], axis = 1)
+    # PU_df = pd.concat([PU_df, MIPA], axis = 1)
     # Average length of events
     av_length = get_average_event_length(events, unique_water_years)
     AL = pd.Series(name = str(EWR + '_eventLength'), data = av_length, index = unique_water_years)
-    PU_df = pd.concat([PU_df, AL], axis = 1)
+    # PU_df = pd.concat([PU_df, AL], axis = 1)
     # Average length of events ONLY the ACHIEVED
     av_length_achieved = get_average_event_length_achieved(EWR_info, events)
     ALA = pd.Series(name = str(EWR + '_eventLengthAchieved' ), data = av_length_achieved, index = unique_water_years)
-    PU_df = pd.concat([PU_df, ALA], axis = 1)
+    # PU_df = pd.concat([PU_df, ALA], axis = 1)
     # Total event days
     total_days = get_total_days(events, unique_water_years)
-    TD = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
-    PU_df = pd.concat([PU_df, TD], axis = 1)
+    TD_A = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
+    # PU_df = pd.concat([PU_df, TD], axis = 1)
     # Total event days ACHIEVED
     total_days_achieved = get_achieved_event_days(EWR_info, events)
     TDA = pd.Series(name = str(EWR + '_totalEventDaysAchieved'), data = total_days_achieved, index = unique_water_years)
-    PU_df = pd.concat([PU_df, TDA], axis = 1)
+    # PU_df = pd.concat([PU_df, TDA], axis = 1)
     # Max event days
     max_days = get_max_event_days(events, unique_water_years)
     MD = pd.Series(name = str(EWR + '_maxEventDays'), data = max_days, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MD], axis = 1)
+    # PU_df = pd.concat([PU_df, MD], axis = 1)
     # Max rolling consecutive event days
     try:
         max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
         MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
-        PU_df = pd.concat([PU_df, MR], axis = 1)
+        # PU_df = pd.concat([PU_df, MR], axis = 1)
     except Exception as e:
         max_consecutive_days = [0]*len(unique_water_years)
         MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
-        PU_df = pd.concat([PU_df, MR], axis = 1)
+        # PU_df = pd.concat([PU_df, MR], axis = 1)
         log.error(e)
     # Max rolling duration achieved
     achieved_max_rolling_duration = get_max_rolling_duration_achievement(durations, max_consecutive_days)
     MRA = pd.Series(name = str(EWR + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MRA], axis = 1)
+    # PU_df = pd.concat([PU_df, MRA], axis = 1)
     # Append information around available and missing data:
     yearly_gap = get_data_gap(df, water_years, gauge)
     total_days = get_total_series_days(water_years)
     YG = pd.Series(name = str(EWR + '_missingDays'), data = yearly_gap, index = unique_water_years)
-    TD = pd.Series(name = str(EWR + '_totalPossibleDays'), data = total_days, index = unique_water_years)
-    PU_df = pd.concat([PU_df, YG], axis = 1)
-    PU_df = pd.concat([PU_df, TD], axis = 1)
+    TD_B = pd.Series(name = str(EWR + '_totalPossibleDays'), data = total_days, index = unique_water_years)
+    # PU_df = pd.concat([PU_df, YG], axis = 1)
+    # PU_df = pd.concat([PU_df, TD], axis = 1)
+    PU_df = pd.concat(
+        [PU_df,
+         YWE,
+         NEA,
+         NE,
+         NEALL,
+         MIP,
+         MIPA,
+         AL,
+         ALA,
+         TD_A,
+         TDA,
+         MD,
+         MR,
+         MRA,
+         YG,
+         TD_B
+         ],
+        axis=1
+    )
     
     return PU_df
 
