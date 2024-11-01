@@ -448,8 +448,9 @@ def get_index_date(date_index:Any)-> datetime.date:
     if type(date_index) == pd._libs.tslibs.period.Period:
         date_index_str = date_index.strftime('%Y-%m-%d')
         # For dates between the years 100 and 999 we need to add a 0 onto the date string so strptime doesnt break
-        if ((int(date_index_str.split('-')[0]) >= 100) and (int(date_index_str.split('-')[0]) < 1000)):
-            date_index_str = '0' + date_index_str
+	if len(date_index_str.split('-')[0]) < 4:
+	    if ((int(date_index_str.split('-')[0]) >= 100) and (int(date_index_str.split('-')[0]) < 1000)):
+	        date_index_str = '0' + date_index_str
         n = datetime.datetime.strptime(date_index_str, '%Y-%m-%d').date()
         return n
     if type(date_index) == str:
