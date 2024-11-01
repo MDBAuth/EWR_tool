@@ -39,7 +39,7 @@ setup(
         "xarray",#==2023.09.0",
         "h5py",#==3.12.1",
         "netCDF4",#==1.6.4",
-        "numpy"#<2"
+        "numpy<2"
     ],
     package_data={'': ["model_metadata/*.csv", "parameter_metadata/*.csv","parameter_metadata/*.json"]},
 )
