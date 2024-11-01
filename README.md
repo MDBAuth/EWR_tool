@@ -6,12 +6,13 @@
 ### **EWR tool version 2.2.6 README**
 
 ### **Notes on recent version updates**
-- Including draft objective mapping files in the package (see below sub heading **Objective mapping** for more information)
+- Including draft objective mapping files in the package (see below sub heading **Objective mapping** for more information). Objective mapping has been therefore pulled out of the parameter sheet
+- Including an example parallel processing script for running the EWR tool
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
+- Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet
 - ten thousand year handling - this has been brought back online.
 - Remove TQDM loading bars
-- Handle duplicate sites in MDBA siteID file - where a duplicate exists, the first match is used and the rest are skipped over
 - Adding new model format handling - 'IQQM - netcdf'
 - Standard time-series handling added - each column needs a gauge, followed by and underscore, followed by either flow or level (e.g. 409025_flow). This handling also has missing date filling - so any missing dates will be filled with NaN values in all columns.
 - bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table, fixed misclassification of some gauges to flow, level, and lake level categories
@@ -19,7 +20,7 @@
 
 ### **Installation**
 
-Note - requires Python 3.9 to 3.12 (inclusive)
+Note - requires Python 3.9 to 3.13 (inclusive)
 
 Step 1. 
 Upgrade pip
@@ -96,7 +97,7 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
         | 1895-07-02 | 8510 | 5.26 | 8505 |
 
     - 'ten thousand year'
-        This has the sSame formatting requirements as the 'Standard time-series'. This can handle ten thousand years worth of hydrology data.
+        This has the same formatting requirements as the 'Standard time-series'. This can handle ten thousand years worth of hydrology data.
         The first column header should be *Date* with the date values in the YYYY-MM-DD format.
         The next columns should have the *gauge* followed by *_* followed by either *flow* or *level*
         E.g.
@@ -222,6 +223,7 @@ NSW:
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
 **Objective mapping**
-Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with the relevant states. The files are intended to be used together to link EWRs to the detailed objectives, thematic targets and specific goals. The threse sheets are located in the py_ewr/parameter_metadata folder:
-- ewr2obj.csv: For each planning unit, gauge, ewr combination there are either one or many env_obj codes. These env_obj codes come under one of five different thematic targets (Native Fish, Native vegetation, Waterbirds, Other species or Ecosystem functions)
-- obj2target.csv: env_obj's are unique to their planning unit in the LTWP (noting there are often a lot of similarities between env_obj's in the same states). The plain english wording of the env objectives is also contained in this csv. The LTWP, planning unit and env_obj rows are repeated for each specific goal related to that LTWP, planning unit and env_obj. The specific goal can vary significantly in its granularity and may be species specific much more course than this.
+Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
+- ewr2obj.csv: For each planning unit, gauge, ewr combination there are either one or many env_obj codes. These env_obj codes come under one of five different theme level targets (Native Fish, Native vegetation, Waterbirds, Other species or Ecosystem functions)
+- obj2target.csv: env_obj's are unique to their planning unit in the LTWP (noting there are often a lot of similarities between env_obj's in the same states). The plain english wording of the env objectives is also contained in this csv. The LTWP, planning unit and env_obj rows are repeated for each specific goal related to that LTWP, planning unit and env_obj. 
+- obj2yrtarget.csv: The environmental objectives are related to 5, 10 and 20 year targets
