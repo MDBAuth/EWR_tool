@@ -186,9 +186,9 @@ class ObservedHandler:
         # Call state API for flow and level gauge data, then combine to single dataframe
         log.info(f'Including gauges: flow gauges: { ", ".join(flow_gauges)} level gauges: { ", ".join(level_gauges)} lake level gauges: { ", ".join(lake_level_gauges)}')
         
-        flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F')
-        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L')
-        lake_levels = gg.gauge_pull(lake_level_gauges, start_time_user=self.dates['start_date'], end_time_user=self.dates['end_date'], var='LL')
+        flows = gg.gauge_pull(flow_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'F', data_source="BOM")
+        levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L', data_source="BOM")
+        lake_levels = gg.gauge_pull(lake_level_gauges, start_time_user=self.dates['start_date'], end_time_user=self.dates['end_date'], var='LL', data_source="BOM")
 
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
