@@ -168,6 +168,7 @@ class ObservedHandler:
         self.calc_config_path = calc_config_path
         self.flow_data = None
         self.level_data = None
+        self.gauge_data =None
 
     def process_gauges(self):
         '''ingests a list of gauges and user defined parameters
@@ -190,6 +191,8 @@ class ObservedHandler:
         levels = gg.gauge_pull(level_gauges, start_time_user = self.dates['start_date'], end_time_user = self.dates['end_date'], var = 'L', data_source="BOM")
         lake_levels = gg.gauge_pull(lake_level_gauges, start_time_user=self.dates['start_date'], end_time_user=self.dates['end_date'], var='LL', data_source="BOM")
 
+        self.gauge_data=pd.concat([flows,levels,lake_levels])
+        
         # Clean observed data:
         df_F = observed_cleaner(flows, self.dates)
         df_L = observed_cleaner(levels, self.dates)
@@ -217,9 +220,17 @@ class ObservedHandler:
         self.flow_data = df_F
         self.level_data = df_L
 
-    def get_gauge_data(self)-> pd.DataFrame:
+    def get_gauge_data_flow(self)-> pd.DataFrame:
         self.process_gauges()
-        return pd.concat([self.flow_data,self.level_data])
+        return self.gauge_data
+    
+    def get_gauge_data_flow(self)-> pd.DataFrame:
+        self.process_gauges()
+        return self.flow_data
+    
+    def get_gauge_data_level(self)-> pd.DataFrame:
+        self.process_gauges()
+        return self.level_data
         
     def get_all_events(self)-> pd.DataFrame:
 
