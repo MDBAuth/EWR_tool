@@ -220,7 +220,7 @@ class ObservedHandler:
         self.flow_data = df_F
         self.level_data = df_L
 
-    def get_gauge_data_flow(self)-> pd.DataFrame:
+    def get_gauge_data(self)-> pd.DataFrame:
         self.process_gauges()
         return self.gauge_data
     
