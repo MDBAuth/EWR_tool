@@ -221,15 +221,18 @@ class ObservedHandler:
         self.level_data = df_L
 
     def get_gauge_data(self)-> pd.DataFrame:
-        self.process_gauges()
+        if not self.yearly_events:
+            self.process_gauges()
         return self.gauge_data
     
     def get_gauge_data_flow(self)-> pd.DataFrame:
-        self.process_gauges()
+        if not self.yearly_events:
+            self.process_gauges()
         return self.flow_data
     
     def get_gauge_data_level(self)-> pd.DataFrame:
-        self.process_gauges()
+        if not self.yearly_events:
+            self.process_gauges()
         return self.level_data
         
     def get_all_events(self)-> pd.DataFrame:
