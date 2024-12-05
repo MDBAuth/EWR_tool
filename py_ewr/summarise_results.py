@@ -414,11 +414,11 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                       right_on=['scenario', 'gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
 
-    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge'],
+    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge', 'State', 'SWSDLName'],
                                 left_table=final_summary_output,
                                 left_on=['gauge','pu','ewrCode'],
                                 selected_columns=["scenario",'gauge',
-                                                    'pu', 
+                                                    'pu', 'State', 'SWSDLName', 
                                                     'ewrCode',
                                                     'Multigauge',
                                                     'EventYears',
@@ -436,7 +436,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
-                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
+                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
                                     'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
                                     'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
                                     'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
