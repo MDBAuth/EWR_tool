@@ -653,10 +653,10 @@ class ScenarioHandler:
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events = summarise_results.process_all_events_results(events_to_process)
 
-        all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'sdl_unit'],
+        all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events,
                         left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'sdl_unit', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -673,10 +673,10 @@ class ScenarioHandler:
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events_temp = summarise_results.process_all_events_results(events_to_process)
 
-        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'sdl_unit'],
+        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp,
                         left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'sdl_unit', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -701,10 +701,10 @@ class ScenarioHandler:
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events_temp1 = summarise_results.process_all_events_results(events_to_process)
 
-        all_events_temp1 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'sdl_unit'],
+        all_events_temp1 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp1,
                         left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'sdl_unit', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -723,10 +723,10 @@ class ScenarioHandler:
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events_temp2 = summarise_results.process_all_events_results(events_to_process)
 
-        all_events_temp2 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'sdl_unit'],
+        all_events_temp2 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp2,
                         left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'sdl_unit', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -760,24 +760,24 @@ class ScenarioHandler:
         to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
         yearly_ewr_results = summarise_results.process_df_results(to_process)
                                 
-        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'sdl_unit'],
+        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                                 left_table=yearly_ewr_results,
                                 left_on=['gauge','pu','ewrCode'],
                                 selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
                                              'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'ewrCode',
-                                            'scenario', 'gauge', 'pu', 'State', 'sdl_unit', 'Multigauge'],
+                                            'scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
 
         # Setting up the dictionary of yearly rolling maximum interevent periods:
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events_temp = summarise_results.process_all_events_results(events_to_process)
 
-        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'sdl_unit'],
+        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp,
                         left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'sdl_unit', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
