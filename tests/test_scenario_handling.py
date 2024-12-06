@@ -543,50 +543,50 @@ def test_get_all_events(scenario_handler_instance):
 
     all_events = scenario_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (26, 10)
-    assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+    assert all_events.shape == (26, 12)
+    assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
         
 def test_get_all_interEvents(scenario_handler_instance):
 
     all_interEvents = scenario_handler_instance.get_all_interEvents()
     assert type(all_interEvents) == pd.DataFrame
-    assert all_interEvents.shape == (26, 7)
-    assert all_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'startDate', 'endDate', 'interEventLength']
+    assert all_interEvents.shape == (26, 9)
+    assert all_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'startDate', 'endDate', 'interEventLength']
 
 def test_get_all_successful_events(scenario_handler_instance):
 
     all_successful_events = scenario_handler_instance.get_all_successful_events()
     assert type(all_successful_events) == pd.DataFrame
-    assert all_successful_events.shape == (24, 10)
+    assert all_successful_events.shape == (24, 12)
     assert all_successful_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
-                                                       'eventDuration', 'eventLength', 'Multigauge']
+                                                       'eventDuration', 'eventLength', 'State', 'SWSDLName', 'Multigauge']
 
 def test_get_all_successful_interEvents(scenario_handler_instance):
 
     all_successful_interEvents = scenario_handler_instance.get_all_successful_interEvents()
     assert type(all_successful_interEvents) == pd.DataFrame
-    assert all_successful_interEvents.shape == (24, 7)
-    assert all_successful_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'startDate', 'endDate', 'interEventLength']
+    assert all_successful_interEvents.shape == (24, 9)
+    assert all_successful_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'startDate', 'endDate', 'interEventLength']
 
 def test_get_yearly_ewr_results(scenario_handler_instance):
 
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
 
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (126, 21)
+    assert yearly_results.shape == (126, 23)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
         'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 
+       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'Multigauge', 
        'rollingMaxInterEvent', 'rollingMaxInterEventAchieved'] 
 
 def test_get_ewr_results(scenario_handler_instance):
 
     ewr_results = scenario_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (21, 19)
-    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
+    assert ewr_results.shape == (21, 21)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
@@ -628,4 +628,4 @@ def test_netcdf_processes():
     
     ewr_summary = ewr_sh.get_ewr_results()
 
-    assert ewr_summary.shape == (202, 19)
+    assert ewr_summary.shape == (202, 21)

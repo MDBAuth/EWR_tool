@@ -414,11 +414,11 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                       right_on=['scenario', 'gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
 
-    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge'],
+    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge', 'State', 'SWSDLName'],
                                 left_table=final_summary_output,
                                 left_on=['gauge','pu','ewrCode'],
                                 selected_columns=["scenario",'gauge',
-                                                    'pu', 
+                                                    'pu', 'State', 'SWSDLName', 
                                                     'ewrCode',
                                                     'Multigauge',
                                                     'EventYears',
@@ -436,7 +436,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
-                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
+                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
                                     'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
                                     'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
                                     'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
@@ -507,7 +507,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
     # Create the unique ID field
     df_events['ID'] = df_events['scenario']+df_events['gauge']+df_events['pu']+df_events['ewr']
     unique_ID = df_events['ID'].unique()
-    all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'ID', 
+    all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'ID', 
                                                 'startDate', 'endDate', 'interEventLength'])
 
     for i in unique_ID:
@@ -530,10 +530,12 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
             new_scenario = [contain_values['scenario'].iloc[0]]*length
             new_gauge = [contain_values['gauge'].iloc[0]]*length
             new_pu = [contain_values['pu'].iloc[0]]*length
+            new_state = [contain_values['State'].iloc[0]]*length
+            new_sdl = [contain_values['SWSDLName'].iloc[0]]*length
             new_ewr = [contain_values['ewr'].iloc[0]]*length
             new_ID = [contain_values['ID'].iloc[0]]*length
 
-            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
+            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'State': new_state, 'SWSDLName': new_sdl, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
 
             df_subset = pd.DataFrame(data=data)
 
