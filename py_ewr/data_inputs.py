@@ -50,7 +50,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     
     if file_path:
         df = pd.read_csv(file_path,
-         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
@@ -66,7 +66,7 @@ def get_EWR_table(file_path:str = None) -> dict:
         my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
         proxies={} # Populate with your proxy settings
         df = pd.read_csv(my_url,
-            usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+            usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise', 'AccumulationPeriod',

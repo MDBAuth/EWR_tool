@@ -169,6 +169,8 @@ def test_events_to_interevents(interEvent_item_to_process):
     expected_data = {'scenario': ['example_scenario']*12, 
                     'gauge': ['409025']*8+['410007']*4, 
                     'pu': ['Murray River - Yarrawonga to Barmah']*8+['Upper Yanco Creek']*4, 
+                    'State': ['NSW']*12,
+                    'SWSDLName': ['New South Wales Murray']*8+['Murrumbidgee']*4,
                     'ewr': ['VF']*4+['LF2']*4+['SF2']*4,
                     'startDate': [date(1901,7,1), date(1901, 9, 1), date(1901, 12, 16), date(1904, 4, 1), date(1901,7,1), date(1901, 8, 26), date(1901, 12, 11), date(1904, 2, 16), date(1901, 7, 1), date(1901, 8, 16), date(1901, 12, 9), date(1904, 2, 6)],
                     'endDate': [date(1901, 7, 31), date(1901, 11, 30), date(1904, 1, 30), date(1905,6,30), date(1901, 8, 4), date(1901, 11, 30), date(1904, 1, 30), date(1905,6,30), date(1901, 8, 9), date(1901, 12, 5), date(1904, 1, 30), date(1905,6,30)],
