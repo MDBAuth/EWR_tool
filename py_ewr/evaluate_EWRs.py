@@ -1148,13 +1148,15 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
     Returns:
         tuple[pd.DataFrame, tuple[dict]]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information
     """
+    print(df_L.head())
     barrage_level_gauges = data_inputs.get_barrage_level_gauges()
     all_required_gauges = barrage_level_gauges.get(gauge)
     # if all_required_gauges:
     #     all_required_gauges_in_df_L = all(gauge in df_L.columns for gauge in all_required_gauges)
     if all_required_gauges:
-        all_required_gauges_in_df_L = any(gauge in df_L.columns for gauge in all_required_gauges) #TODO - double check any works as intended here
-    # check if current gauge is the main barrage gauge
+        all_required_gauges_in_df_L = [gauge for gauge in all_required_gauges if gauge in df_L.columns] 
+        #NOTE as all_required_gauges_in_df_L is boolean, the indexing is stil including all gauges in all_required_gauges.
+        # directly subset and use all_required_gauges_in_df_L as the new list. 
     if all_required_gauges_in_df_L:
         pull = data_inputs.get_EWR_components('barrage-level')
         EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
@@ -1165,7 +1167,7 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
         df = df_L.copy(deep=True)
         # calculate 5 day moving average and average of all required gauges
         df_5_day_averages = calculate_n_day_moving_average(df,5)
-        df_5_day_averages['mean'] = df[all_required_gauges].mean(axis=1)
+        df_5_day_averages['mean'] = df[all_required_gauges_in_df_L].mean(axis=1)
         cllmm_type = what_cllmm_type(EWR_info)
         if cllmm_type == 'c':
             E, D = lower_lakes_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
