@@ -3,9 +3,10 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.3.1 README**
+### **EWR tool version 2.3.2 README**
 
 ### **Notes on recent version updates**
+- CLLMM_c and CLLMM_d ewrs are now able to be calculated without all barrage level gauges being present in the model file. 
 - Including draft objective mapping files in the package (see below sub heading **Objective mapping** for more information). Objective mapping has been therefore pulled out of the parameter sheet
 - Including an example parallel processing script for running the EWR tool
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
