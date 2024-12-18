@@ -1148,7 +1148,6 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
     Returns:
         tuple[pd.DataFrame, tuple[dict]]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information
     """
-    print(df_L.head())
     barrage_level_gauges = data_inputs.get_barrage_level_gauges()
     all_required_gauges = barrage_level_gauges.get(gauge)
     # if all_required_gauges:
