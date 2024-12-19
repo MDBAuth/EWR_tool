@@ -517,7 +517,19 @@
         "BF4-single-F",
         "BF5-single-F",
         "BF_FD1-single-F",
-        "BF_FD2-single-F"
+        "BF_FD2-single-F",
+        "BF1_1-single-F",
+        "BF1_2-single-F",
+        "BF1_3-single-F",
+        "BF1_4-single-F",
+        "BF1_5-single-F",
+        "BF1_6-single-F",
+        "BF1_7-single-F",
+        "BF1_8-single-F",
+        "BF1_9-single-F",
+        "BF1_10-single-F",
+        "BF1_11-single-F",
+        "BF1_12-single-F"
     ],
     "ctf_handle_multi": [
         "CF-multigauge-F"
