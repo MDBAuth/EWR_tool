@@ -749,6 +749,9 @@ def water_stability_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.Da
     # Get information about EWR:
     pull = data_inputs.get_EWR_components('water_stability_level') 
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L)
      # If there is no level data loaded in, let user know and skip the analysis
@@ -783,6 +786,9 @@ def level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: p
     # Get information about EWR:
     pull = data_inputs.get_EWR_components('level')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
@@ -848,6 +854,9 @@ def weirpool_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F
     elif weirpool_type == 'falling':
         pull = data_inputs.get_EWR_components('weirpool-falling')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates for both the flow and level dataframes:
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
@@ -887,6 +896,9 @@ def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
     else:
         pull = data_inputs.get_EWR_components('nest-percent')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
     water_years = wateryear_daily(df_F, EWR_info)
