@@ -811,6 +811,10 @@ def level_change_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     # Get information about EWR:
     pull = data_inputs.get_EWR_components('level')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+        # Check if gauge exists in DataFrame
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
