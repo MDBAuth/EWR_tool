@@ -825,7 +825,20 @@ def level_change_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)
-    E, D = level_change_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+        # Perform level change calculation (updated to avoid KeyError)
+    try:
+        E, D = level_change_calc(
+            EWR_info,
+            df_L[gauge].values,  # This will trigger KeyError if gauge is missing
+            water_years,
+            df_L.index,
+            masked_dates
+        )
+    except KeyError:
+        print(f"Error: Gauge_level {gauge} not found during calculation.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
+    
+    #E, D = level_change_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
   
 
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, D, water_years)
