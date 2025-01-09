@@ -35,8 +35,7 @@ def get_relevant_EWRs(EWR_df,
     print("step1:", merged_df)
 
     # Filter dataframe for relevant EWRs. Assume that if there is no entry, the EWR is relevant.
-    relevant_EWRs = merged_df[(merged_df['relevant'] != '0')]
-    # TODO change the column to be a number not a string
+    relevant_EWRs = merged_df[(merged_df['relevant'] != 0)]
     print("step 2:",relevant_EWRs)
 
     # Tidy up and remove the relevance column
@@ -58,10 +57,13 @@ if __name__ == "__main__":
     base_path = os.path.join(BASE_PATH,"py_ewr/parameter_metadata")
     parameter_sheet = os.path.join(base_path,"parameter_sheet.csv")
     ewr_relevance = os.path.join(base_path,"ewr_relevance.csv")
+    small_relevance = os.path.join(base_path,"small_relevance.csv")
 
     # What column headings we should join on. One-to-one relationship
-    EWR_join = ['PlanningUnitName','LTWPShortName','Gauge', 'Code'] # todo NOTE there are duplicates in this version
-    relevance_join = ['PlanningUnitName','LTWPShortName','Gauge','Code']
+    # EWR_join = ['PlanningUnitName','LTWPShortName','Gauge', 'Code'] # todo NOTE there are duplicates in this version
+    # relevance_join = ['PlanningUnitName','LTWPShortName','gauge','Code']
+    EWR_join = ['Gauge']
+    relevance_join = ['gauge']
 
     # Load data
     EWR_df = pd.read_csv(parameter_sheet,
@@ -74,10 +76,24 @@ if __name__ == "__main__":
                          dtype='str', 
                          encoding='cp1252'
                          )
-    relevance_df = pd.read_csv(ewr_relevance,
-                               usecols=['PlanningUnitName','LTWPShortName', 'Gauge', 'Code', 'relevant'],
-                               dtype='str', 
-                               encoding='utf-8-sig'
-                               )
+    # relevance_df = pd.read_csv(ewr_relevance,
+    #                            usecols=['PlanningUnitName','LTWPShortName', 'gauge', 'Code', 'relevant'],
+    #                            dtype={
+    #                                'PlanningUnitName':'str',
+    #                                'LTWPShortName':'str', 
+    #                                'Gauge':'str', 
+    #                                'Code':'str',
+    #                                'relevant':'float'
+    #                            },
+    #                         #    dtype='str', 
+    #                            encoding='utf-8-sig'
+                            #    )
+    relevance_df = pd.read_csv(small_relevance,
+                               usecols=['gauge','relevant'],
+                               dtype={
+                                   'gauge':'str',
+                                   'relevant':'float'
+                               },
+                               encoding='utf-8-sig')
     
     get_relevant_EWRs(EWR_df, relevance_df,EWR_join, relevance_join)
