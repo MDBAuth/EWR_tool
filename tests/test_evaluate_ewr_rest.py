@@ -901,7 +901,7 @@ class test_ctf_check_function(unittest.TestCase):
 							pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
 							pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
 							 )])
-def test_flow_calc(flows,expected_all_events,expected_all_no_events,dates,masked_dates):
+def test_flow_calc(test_ID, flows,expected_all_events,expected_all_no_events,dates,masked_dates):
 	"""
 	Part A
 	0: when event start and finish goes beyond boundary of 2 water years and there are sufficient days in both years
