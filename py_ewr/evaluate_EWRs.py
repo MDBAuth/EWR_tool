@@ -611,10 +611,20 @@ def get_index_date(date_index:Any)-> datetime.date:
     """
     if type(date_index) == pd._libs.tslibs.timestamps.Timestamp:
         return date_index.date()
-    # if type(date_index) == pd._libs.tslibs.period.Period:
-    #     return date_index.date()#.to_timestamp()
-    else:
+    if type(date_index) == pd._libs.tslibs.period.Period:
+        date_index_str = date_index.strftime('%Y-%m-%d')
+        # For dates between the years 100 and 999 we need to add a 0 onto the date string so strptime doesnt break
+        if len(date_index_str.split('-')[0]) < 4:
+            if ((int(date_index_str.split('-')[0]) >= 100) and (int(date_index_str.split('-')[0]) < 1000)):
+                date_index_str = '0' + date_index_str
+        n = datetime.datetime.strptime(date_index_str, '%Y-%m-%d').date()
+        return n
+    if type(date_index) == str:
+        n = datetime.datetime.strptime(date_index, '%Y-%m-%d').date()
+        return n
+    if type(date_index) == datetime.date:
         return date_index
+    #     return date_index #TODO: should this break? i.e. we arent expecting other date formats
 
 #----------------------------------- EWR handling functions --------------------------------------#
 
@@ -1308,31 +1318,32 @@ def barrage_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame,
     """
     barrage_level_gauges = data_inputs.get_barrage_level_gauges()
     all_required_gauges = barrage_level_gauges.get(gauge)
+    # if all_required_gauges:
+    #     all_required_gauges_in_df_L = all(gauge in df_L.columns for gauge in all_required_gauges)
     if all_required_gauges:
-        all_required_gauges_in_df_L = all(gauge in df_L.columns for gauge in all_required_gauges)
-    # check if current gauge is the main barrage gauge
-        if all_required_gauges_in_df_L:
-            pull = data_inputs.get_EWR_components('barrage-level')
-            EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
-            masked_dates = mask_dates(EWR_info, df_L)
-            # Extract a daily timeseries for water years:
-            water_years = wateryear_daily(df_L, EWR_info)
-            # If there is no level data loaded in, let user know and skip the analysis
-            df = df_L.copy(deep=True)
-            # calculate 5 day moving average and average of all required gauges
-            df_5_day_averages = calculate_n_day_moving_average(df,5)
-            df_5_day_averages['mean'] = df[all_required_gauges].mean(axis=1)
-            cllmm_type = what_cllmm_type(EWR_info)
-            if cllmm_type == 'c':
-                E = lower_lakes_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
-            if cllmm_type == 'd':
-                E = coorong_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
+        all_required_gauges_in_df_L = [gauge for gauge in all_required_gauges if gauge in df_L.columns] 
+    if all_required_gauges_in_df_L:
+        pull = data_inputs.get_EWR_components('barrage-level')
+        EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+        masked_dates = mask_dates(EWR_info, df_L)
+        # Extract a daily timeseries for water years:
+        water_years = wateryear_daily(df_L, EWR_info)
+        # If there is no level data loaded in, let user know and skip the analysis
+        df = df_L.copy(deep=True)
+        # calculate 5 day moving average and average of all required gauges
+        df_5_day_averages = calculate_n_day_moving_average(df,5)
+        df_5_day_averages['mean'] = df[all_required_gauges_in_df_L].mean(axis=1)
+        cllmm_type = what_cllmm_type(EWR_info)
+        if cllmm_type == 'c':
+            E = lower_lakes_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
+        if cllmm_type == 'd':
+            E = coorong_level_calc(EWR_info, df_5_day_averages['mean'], water_years, df_L.index, masked_dates)
         
         PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, water_years)    
         return PU_df, E
 
     else:
-        print(f'skipping calculation because gauge {" ".join(all_required_gauges)} is not the main barrage level gauge ')
+        print(f'skipping calculation because gauge {" ".join(all_required_gauges)} is not the main barrage level gauge ') #TODO: improve error message
         return PU_df, None
 
 def rise_and_fall_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
@@ -2126,7 +2137,8 @@ def water_stability_check(EWR_info:Dict, iteration:int, flows:List, all_events:D
     if levels_are_stable:
         # record event opportunity for the next n days for the total period of (EggDaysSpell)+ larvae (LarvaeDaysSpell)
         # if the last day of the event is not over the last day of the event window
-        iteration_date = flow_date.date()#flow_date.to_timestamp().date()
+        iteration_date = get_index_date(flow_date)
+        # iteration_date = flow_date.date()#flow_date.to_timestamp().date()
         last_day_window = get_last_day_of_window(iteration_date, EWR_info['end_month'])
         event_size = EWR_info['eggs_days_spell'] + EWR_info['larvae_days_spell']
         if is_date_in_window(iteration_date, last_day_window, event_size):
@@ -2163,7 +2175,8 @@ def water_stability_level_check(EWR_info:Dict, iteration:int, all_events:Dict, w
     if levels_are_stable:
         # record event opportunity for the next n days for the total period of (EggDaysSpell)+ larvae (LarvaeDaysSpell)
         # if the last day of the event is not over the last day of the event window
-        iteration_date = flow_date.date()#flow_date.to_timestamp().date()
+        iteration_date = get_index_date(flow_date)
+        # iteration_date = flow_date.date()#flow_date.to_timestamp().date()
         last_day_window = get_last_day_of_window(iteration_date, EWR_info['end_month'])
         event_size = EWR_info['eggs_days_spell'] + EWR_info['larvae_days_spell']
         if is_date_in_window(iteration_date, last_day_window, event_size):
@@ -2785,7 +2798,8 @@ def create_water_stability_event(flow_date: pd.Timestamp, flows:List, iteration:
     """
     event_size = EWR_info['eggs_days_spell'] + EWR_info['larvae_days_spell']
     event_flows = flows[iteration: iteration + event_size]
-    start_event_date = flow_date.date()#flow_date.to_timestamp().date()
+    start_event_date = get_index_date(flow_date)
+    # start_event_date = flow_date.date()#flow_date.to_timestamp().date()
     event_dates = [ start_event_date + timedelta(i) for i in range(event_size)]
     
     return [(d, flow)  for d, flow in zip(event_dates, event_flows)]
@@ -3935,6 +3949,7 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     Returns:
         tuple: final output with the calculation of volume all_events, durations
     """
+    #TODO can we clean up the flow_date and iteration_date parts
     event = []
     total_event = 0
     all_events = construct_event_dict(water_years)
@@ -3942,19 +3957,25 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     gap_track = 0
     for i, flow in enumerate(flows[:-1]):   
             flow_date = dates[i]
+            iteration_date = get_index_date(flow_date)
             flow_percent_change = calc_flow_percent_change(i, flows)
             trigger_day = date(dates[i].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
             cut_date = calc_nest_cut_date(EWR_info, i, dates)
-            is_in_trigger_window = dates[i].date() >= trigger_day \
-                                   and dates[i].date() <= trigger_day + timedelta(days=14) #.to_timestamp() .to_timestamp()
+            is_in_trigger_window = iteration_date >= trigger_day \
+                                   and iteration_date <= trigger_day + timedelta(days=14) #.to_timestamp() .to_timestamp()
+            # is_in_trigger_window = dates[i].date() >= trigger_day \
+            #                        and dates[i].date() <= trigger_day + timedelta(days=14) #.to_timestamp() .to_timestamp()
             iteration_no_event = 0
             
             ## if there IS an ongoing event check if we are on the trigger season window 
             # if yes then check the current flow
             if total_event > 0:
-                if (dates[i].date() >= trigger_day) and (dates[i].date() <= cut_date):
+                if (iteration_date >= trigger_day) and (iteration_date <= cut_date):
                     event, all_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, 
                                                          gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event) #.to_timestamp() .to_timestamp()
+                # if (dates[i].date() >= trigger_day) and (dates[i].date() <= cut_date):
+                #     event, all_events, gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, i, flow, event, all_events, 
+                #                                          gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event) #.to_timestamp() .to_timestamp()
 
                 # this path will only be executed if an event extends beyond the cut date    
                 else:
@@ -3975,18 +3996,23 @@ def nest_calc_percent_trigger(EWR_info:Dict, flows:List, water_years:List, dates
     
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     # reset all variable to last flow
-    flow_date = dates[-1].date()#.to_timestamp()
+
+    # flow_date = dates[-1].date()#.to_timestamp()
+    flow_date = dates[-1]
+    iteration_date = get_index_date(dates[-1])
     flow_percent_change = calc_flow_percent_change(-1, flows)
     trigger_day = date(dates[-1].year,EWR_info["trigger_month"], EWR_info["trigger_day"])
     cut_date = calc_nest_cut_date(EWR_info, -1, dates)
-    is_in_trigger_window = dates[-1].date() >= trigger_day - timedelta(days=7) \
-    and dates[-1].date() <= trigger_day + timedelta(days=7) #.to_timestamp() .to_timestamp()
+    is_in_trigger_window = iteration_date >= trigger_day - timedelta(days=7) \
+    and iteration_date <= trigger_day + timedelta(days=7) #.to_timestamp() .to_timestamp()
+    # is_in_trigger_window = dates[-1].date() >= trigger_day - timedelta(days=7) \
+    # and dates[-1].date() <= trigger_day + timedelta(days=7) #.to_timestamp() .to_timestamp()
     iteration_no_event = 0
 
     if total_event > 0:
 
-        if (flow_date >= trigger_day ) \
-            and (flow_date <= cut_date):
+        if (iteration_date >= trigger_day ) \
+            and (iteration_date <= cut_date): # Was flow_date instead of iteration date in both instances
             event, all_events,  gap_track, total_event, iteration_no_event = nest_flow_check(EWR_info, -1, flows[-1], event, all_events, 
                                                              gap_track, water_years, total_event, flow_date, flow_percent_change, iteration_no_event)
 
@@ -4961,7 +4987,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
         years_with_events = get_event_years_volume_achieved(events, unique_water_years)
 
     YWE = pd.Series(name = str(EWR + '_eventYears'), data = years_with_events, index = unique_water_years)
-    PU_df = pd.concat([PU_df, YWE], axis = 1)
+    # PU_df = pd.concat([PU_df, YWE], axis = 1)
     # Number of event achievements:
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years)
 
@@ -4969,64 +4995,84 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
         num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
 
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
-    PU_df = pd.concat([PU_df, NEA], axis = 1)
+    # PU_df = pd.concat([PU_df, NEA], axis = 1)
     # Total number of events THIS ONE IS ONLY ACHIEVED due to Filter Applied
     num_events = get_number_events(EWR_info, events, unique_water_years)
     NE = pd.Series(name = str(EWR + '_numEvents'), data= num_events, index = unique_water_years)
-    PU_df = pd.concat([PU_df, NE], axis = 1)
+    # PU_df = pd.concat([PU_df, NE], axis = 1)
     # Total number of events THIS ONE IS ALL EVENTS
     num_events_all = get_all_events(events)
     NEALL = pd.Series(name = str(EWR + '_numEventsAll'), data= num_events_all, index = unique_water_years)
-    PU_df = pd.concat([PU_df, NEALL], axis = 1)
+    # PU_df = pd.concat([PU_df, NEALL], axis = 1)
     # Max inter event period
     max_inter_period = get_max_inter_event_days(no_events, unique_water_years)
     MIP = pd.Series(name = str(EWR + '_maxInterEventDays'), data= max_inter_period, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MIP], axis = 1)
+    # PU_df = pd.concat([PU_df, MIP], axis = 1)
     # Max inter event period achieved
     max_inter_period_achieved = get_event_max_inter_event_achieved(EWR_info, no_events, unique_water_years)
     MIPA = pd.Series(name = str(EWR + '_maxInterEventDaysAchieved'), data= max_inter_period_achieved, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MIPA], axis = 1)
+    # PU_df = pd.concat([PU_df, MIPA], axis = 1)
     # Average length of events
     av_length = get_average_event_length(events, unique_water_years)
     AL = pd.Series(name = str(EWR + '_eventLength'), data = av_length, index = unique_water_years)
-    PU_df = pd.concat([PU_df, AL], axis = 1)
+    # PU_df = pd.concat([PU_df, AL], axis = 1)
     # Average length of events ONLY the ACHIEVED
     av_length_achieved = get_average_event_length_achieved(EWR_info, events)
     ALA = pd.Series(name = str(EWR + '_eventLengthAchieved' ), data = av_length_achieved, index = unique_water_years)
-    PU_df = pd.concat([PU_df, ALA], axis = 1)
+    # PU_df = pd.concat([PU_df, ALA], axis = 1)
     # Total event days
     total_days = get_total_days(events, unique_water_years)
-    TD = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
-    PU_df = pd.concat([PU_df, TD], axis = 1)
+    TD_A = pd.Series(name = str(EWR + '_totalEventDays'), data = total_days, index = unique_water_years)
+    # PU_df = pd.concat([PU_df, TD], axis = 1)
     # Total event days ACHIEVED
     total_days_achieved = get_achieved_event_days(EWR_info, events)
     TDA = pd.Series(name = str(EWR + '_totalEventDaysAchieved'), data = total_days_achieved, index = unique_water_years)
-    PU_df = pd.concat([PU_df, TDA], axis = 1)
+    # PU_df = pd.concat([PU_df, TDA], axis = 1)
     # Max event days
     max_days = get_max_event_days(events, unique_water_years)
     MD = pd.Series(name = str(EWR + '_maxEventDays'), data = max_days, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MD], axis = 1)
+    # PU_df = pd.concat([PU_df, MD], axis = 1)
     # Max rolling consecutive event days
     try:
         max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
         MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
-        PU_df = pd.concat([PU_df, MR], axis = 1)
+        # PU_df = pd.concat([PU_df, MR], axis = 1)
     except Exception as e:
         max_consecutive_days = [0]*len(unique_water_years)
         MR = pd.Series(name = str(EWR + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
-        PU_df = pd.concat([PU_df, MR], axis = 1)
+        # PU_df = pd.concat([PU_df, MR], axis = 1)
         log.error(e)
     # Max rolling duration achieved
     achieved_max_rolling_duration = get_max_rolling_duration_achievement(EWR_info, max_consecutive_days)
     MRA = pd.Series(name = str(EWR + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
-    PU_df = pd.concat([PU_df, MRA], axis = 1)
+    # PU_df = pd.concat([PU_df, MRA], axis = 1)
     # Append information around available and missing data:
     yearly_gap = get_data_gap(df, water_years, gauge)
     total_days = get_total_series_days(water_years)
     YG = pd.Series(name = str(EWR + '_missingDays'), data = yearly_gap, index = unique_water_years)
-    TD = pd.Series(name = str(EWR + '_totalPossibleDays'), data = total_days, index = unique_water_years)
-    PU_df = pd.concat([PU_df, YG], axis = 1)
-    PU_df = pd.concat([PU_df, TD], axis = 1)
+    TD_B = pd.Series(name = str(EWR + '_totalPossibleDays'), data = total_days, index = unique_water_years)
+    # PU_df = pd.concat([PU_df, YG], axis = 1)
+    # PU_df = pd.concat([PU_df, TD], axis = 1)
+    PU_df = pd.concat(
+        [PU_df,
+         YWE,
+         NEA,
+         NE,
+         NEALL,
+         MIP,
+         MIPA,
+         AL,
+         ALA,
+         TD_A,
+         TDA,
+         MD,
+         MR,
+         MRA,
+         YG,
+         TD_B
+         ],
+        axis=1
+    )
     
     return PU_df
 

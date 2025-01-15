@@ -230,6 +230,7 @@ def test_get_iqqm_codes():
     }
     assert stations == result
 
+
 # def generate_years(start, end, leap = False):
 #     if leap == True:
 #         leaps =  [year for year in range(start, end + 1) \
@@ -422,3 +423,17 @@ def test_weirpool_type():
     assert data_inputs.weirpool_type('WP2') == 'raising'
     assert data_inputs.weirpool_type('WP3') == 'falling'
     assert data_inputs.weirpool_type('WP4') == 'falling'
+=======
+def test_get_causal_ewr():
+
+    causal_ewr = data_inputs.get_causal_ewr()
+    assert isinstance(causal_ewr, dict)
+
+    assert len(causal_ewr) > 0
+    
+    expected_keys = {"ewr2obj", "obj2target", "obj2yrtarget"}
+    assert set(causal_ewr.keys()) == expected_keys
+    
+    for value in causal_ewr.values():
+        assert isinstance(value, pd.DataFrame)
+

@@ -284,6 +284,8 @@ def interEvent_item_to_process():
     return {'scenario': ['example_scenario']*9,
             'gauge': ['409025']*6+['410007']*3, 
             'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'State': ['NSW']*9,
+            'SWSDLName': ['New South Wales Murray']*6+['Murrumbidgee']*3, 
             'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
