@@ -423,7 +423,6 @@ def test_weirpool_type():
     assert data_inputs.weirpool_type('WP2') == 'raising'
     assert data_inputs.weirpool_type('WP3') == 'falling'
     assert data_inputs.weirpool_type('WP4') == 'falling'
-=======
 def test_get_causal_ewr():
 
     causal_ewr = data_inputs.get_causal_ewr()
