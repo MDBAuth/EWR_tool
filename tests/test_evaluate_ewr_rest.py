@@ -1020,7 +1020,7 @@ def test_lowflow_calc():
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
 
-					assert event == expected_all_events[year][i], f"event list does not match expected_all_events[year][i] {test_ID}"
+					assert event == expected_all_events[year][i]
 	#------------------------------------------------
 	# Test 1 with period time
 	# set up input data 
@@ -1160,7 +1160,7 @@ def test_ctf_calc():
 						   2015: [[(date(2015, 7, 1)+timedelta(days=i), 1) for i in range(295)], 
 						   [(date(2016, 5, 16)+timedelta(days=i), 0) for i in range(46)]]}
 	# Send to test function and then test
-	all_events, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, dates, masked_dates)
+	all_events = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, dates, masked_dates)
 	for year in all_events:
 			assert len(all_events[year]) == len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -1187,7 +1187,7 @@ def test_ctf_calc():
 	2015: [[(date(2015, 7, 1)+timedelta(days=i), 5) for i in range(184)]] 
 	}
 	# Send to test function and then test
-	all_events, _ = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, dates, masked_dates)
+	all_events = evaluate_EWRs.ctf_calc(EWR_info, flows, water_years, dates, masked_dates)
 	for year in all_events:
 			assert len(all_events[year]) ==len(expected_all_events[year])
 			for i, event in enumerate(all_events[year]):
@@ -1641,7 +1641,7 @@ def test_cumulative_calc_qld(EWR_info, flows, expected_all_events, dates, masked
 	# dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
 	# masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
-	all_events, _ = evaluate_EWRs.cumulative_calc_qld(EWR_info, flows, water_years, dates, masked_dates)
+	all_events = evaluate_EWRs.cumulative_calc_qld(EWR_info, flows, water_years, dates, masked_dates)
 
 	assert all_events == expected_all_events
 
