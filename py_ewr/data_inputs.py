@@ -49,10 +49,7 @@ def get_EWR_table(file_path:str = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
     '''
 
-    
-    if file_path:
-        df = pd.read_csv(file_path,
-         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+    cols_keep = ['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
