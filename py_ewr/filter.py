@@ -26,12 +26,8 @@ def get_relevant_EWRs(EWR_df,
     Results:
         EWRs (pd.DataFrame): Dataframe containing only those EWRs that are relevant
     '''
-    # find duplicates
-    find_duplicates(EWR_df, EWR_join)
-    find_duplicates(relevance_df, relevance_join)
-
-    # Merge dataframes on their unique identifiers, and if there are duplicates (i.e. the unique ID is not unique) remove them
-    merged_df = pd.merge(EWR_df,relevance_df, left_on=EWR_join, right_on=relevance_join, how="left").drop_duplicates(EWR_join)
+    # Merge dataframes on desired columns
+    merged_df = pd.merge(EWR_df,relevance_df, left_on=EWR_join, right_on=relevance_join, how="left")
     print("step1:", merged_df)
 
     # Filter dataframe for relevant EWRs. Assume that if there is no entry, the EWR is relevant.
@@ -45,6 +41,12 @@ def get_relevant_EWRs(EWR_df,
 
 
 def find_duplicates(df,primary_key):
+    '''
+    Used for sanity check of the primary key, to ensure there aren't duplicate rows where there
+    shouldn't be (there are rip).
+    There used to be a functionality in get_relevant_ewrs to remove duplicates, but I've taken that away
+    as it's not relevant
+    '''
 
     df_copy = df.loc[:]
     df_copy['duplicate_rows'] = df_copy.duplicated(subset=primary_key)
@@ -68,27 +70,27 @@ if __name__ == "__main__":
     # Load data
     EWR_df = pd.read_csv(parameter_sheet,
                          usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
-                            #   'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
-                            #   'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                            #   'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
-                            #   'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'=
+                              'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
+                              'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'
                          ],
                          dtype='str', 
                          encoding='cp1252'
                          )
-    # relevance_df = pd.read_csv(ewr_relevance,
-    #                            usecols=['PlanningUnitName','LTWPShortName', 'gauge', 'Code', 'relevant'],
-    #                            dtype={
-    #                                'PlanningUnitName':'str',
-    #                                'LTWPShortName':'str', 
-    #                                'Gauge':'str', 
-    #                                'Code':'str',
-    #                                'relevant':'float'
-    #                            },
-    #                         #    dtype='str', 
-    #                            encoding='utf-8-sig'
-                            #    )
-    relevance_df = pd.read_csv(small_relevance,
+    relevance_df = pd.read_csv(ewr_relevance,
+                               usecols=['PlanningUnitName','LTWPShortName', 'gauge', 'Code', 'relevant'],
+                               dtype={
+                                   'PlanningUnitName':'str',
+                                   'LTWPShortName':'str', 
+                                   'Gauge':'str', 
+                                   'Code':'str',
+                                   'relevant':'float'
+                               },
+                            #    dtype='str', 
+                               encoding='utf-8-sig'
+                               )
+    small_relevance_df = pd.read_csv(small_relevance,
                                usecols=['gauge','relevant'],
                                dtype={
                                    'gauge':'str',
@@ -96,4 +98,4 @@ if __name__ == "__main__":
                                },
                                encoding='utf-8-sig')
     
-    get_relevant_EWRs(EWR_df, relevance_df,EWR_join, relevance_join)
+    get_relevant_EWRs(EWR_df, small_relevance_df,EWR_join, relevance_join)
