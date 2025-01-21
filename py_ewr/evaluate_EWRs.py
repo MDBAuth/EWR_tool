@@ -4994,8 +4994,8 @@ def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFr
         pd.DataFrame: Return Dataframe with the statistics of the merged EWR
     """
 
-    weirpool_pair = {'SF_WP':'WP3',
-                      'LF2_WP': 'WP4' }
+    weirpool_pair = {'SF-WP':'WP3',
+                      'LF2-WP': 'WP4' }
 
     for fresh in wp_freshes:
         try:
