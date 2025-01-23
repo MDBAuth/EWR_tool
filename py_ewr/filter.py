@@ -30,15 +30,21 @@ def get_relevant_EWRs(
     merged_df = pd.merge(
         EWR_df, relevance_df, left_on=EWR_join, right_on=relevance_join, how="left"
     )
-    print("step1:", merged_df)
+    print("step 1, initial merged dataframe:", merged_df)
+
+    # Write merged dataframe to a csv (for demo)
+    # path = os.path.join(base_path,"merged_df.csv")
+    # merged_df.to_csv(path)
 
     # Filter dataframe for relevant EWRs. Assume that if there is no entry, the EWR is relevant.
     relevant_EWRs = merged_df[(merged_df["relevant"] != 0)]
-    print("step 2:", relevant_EWRs)
+    print("step 2, merged filtered df:", relevant_EWRs)
 
-    # Tidy up and remove the relevance column
-    relevant_EWRs = relevant_EWRs.drop("relevant", axis=1)
-    print("step3:", relevant_EWRs)
+    # Tidy up and remove the extra columns
+    difference_cols = relevant_EWRs.columns.difference(EWR_df.columns)
+    relevant_EWRs = relevant_EWRs.drop(difference_cols, axis=1)
+    print("step3, filtered df (without new columns):", relevant_EWRs)
+    
     return relevant_EWRs
 
 
@@ -62,12 +68,6 @@ if __name__ == "__main__":
     parameter_sheet = os.path.join(base_path, "parameter_sheet.csv")
     ewr_relevance = os.path.join(base_path, "ewr_relevance.csv")
     small_relevance = os.path.join(base_path, "small_relevance.csv")
-
-    # What column headings we should join on. One-to-one relationship
-    # EWR_join = ['PlanningUnitName','LTWPShortName','Gauge', 'Code'] # todo NOTE there are duplicates in this version
-    # relevance_join = ['PlanningUnitName','LTWPShortName','gauge','Code']
-    EWR_join = ["Gauge"]
-    relevance_join = ["gauge"]
 
     # Load data
     EWR_df = pd.read_csv(
@@ -117,7 +117,6 @@ if __name__ == "__main__":
             "Code": "str",
             "relevant": "float",
         },
-        #    dtype='str',
         encoding="utf-8-sig",
     )
     small_relevance_df = pd.read_csv(
@@ -126,5 +125,11 @@ if __name__ == "__main__":
         dtype={"gauge": "str", "relevant": "float"},
         encoding="utf-8-sig",
     )
+
+    # What column headings we should join on. One-to-one relationship
+    # EWR_join = ['PlanningUnitName','LTWPShortName','Gauge', 'Code'] # todo NOTE there are duplicates in this version
+    # relevance_join = ['PlanningUnitName','LTWPShortName','gauge','Code']
+    EWR_join = ["Gauge"]
+    relevance_join = ["gauge"]
 
     get_relevant_EWRs(EWR_df, small_relevance_df, EWR_join, relevance_join)
