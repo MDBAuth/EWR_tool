@@ -847,7 +847,7 @@ EUROBIN,Ovens River at Eurobin,,403250A,4
 EURSTP,Euroa STP,,,4
 EUS2MIL,Euston to Mildura Reach,,,
 EUSTDS,River Murray D/S Euston Weir,,414203,4
-EUSTON ,River Murray U/S Euston Weir,,414209,4
+EUSTON,River Murray U/S Euston Weir,,414209,4
 EUSTUS,River Murray U/S Euston Weir,,414209,4
 EWDFFCL,Env water Flora Fauna -Cardross Lakes,Environmental Water Deliveries from Flora & Fauna Ent,,4
 EWEI,Lake Alexandrina U/S Ewe Island and Barrages,Ewe Island Dual Vertical Slot fishway,,5
@@ -1348,8 +1348,9 @@ LOCK7US,River Murray U/S Lock 7,,A4260508,5
 LOCK8DS,River Murray D/S Lock 8,,4260507,5
 LOCK8US,River Murray U/S Lock 8,,426506,5
 LOCK8US,River Murray U/S Lock 8,,A426506,5
+LOCK8US,River Murray U/S Lock 8,,A4260506,5
 LOCK9DS,River Murray D/S Lock 9,,4260505,5
-LOCK 9 ,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
+LOCK 9,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
 LOCK9US,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
 LOCKING,Lockington Main Drain,Lockington Main Drain Shepparton,407712,4
 LOCKRIC,Lockington Main Drain adj to Richardsons,Lockington Main Drain adjacent to Richardsons,,4

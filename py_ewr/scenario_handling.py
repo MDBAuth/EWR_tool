@@ -336,7 +336,7 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
-def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
+def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict, , ewr_table_path: str) -> pd.DataFrame:
 
     '''Ingests dataframe, cleans up into a format matching IQQM csv
     
@@ -370,8 +370,8 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict) -> pd.DataFrame:
     cleaned_df.index.names = ['Date']
 
     # Split gauges into flow and level, allocate to respective dataframe
-    flow_gauges = data_inputs.get_gauges('flow gauges')
-    level_gauges = data_inputs.get_gauges('level gauges')
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)
     for gauge in cleaned_df.columns:
@@ -455,7 +455,7 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
     df_flow = pd.DataFrame(index = input_df.index)
     df_level = pd.DataFrame(index = input_df.index)
 
-    unique_gauges = data_inputs.get_gauges('all gauges')
+    unique_gauges = data_inputs.get_gauges('all gauges', ewr_table_path=ewr_table_path)
     flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
     level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
     
@@ -488,7 +488,8 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
     # report.to_csv('report_v1.csv')  
     return df_flow, df_level
 
-def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tuple:
+
+def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
     the columns with EWRs available. Renames columns to gauges
     
@@ -500,8 +501,8 @@ def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame) -> tup
         tuple[pd.DataFrame, pd.DataFrame]: flow dataframe, water level dataframe
     
     '''
-    flow_gauges = data_inputs.get_gauges('flow gauges')
-    level_gauges = data_inputs.get_gauges('level gauges')
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
     df_flow = pd.DataFrame(index = input_df.index)
     df_level = pd.DataFrame(index = input_df.index)
     for col in input_df.columns:
