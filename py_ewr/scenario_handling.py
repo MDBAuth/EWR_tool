@@ -336,7 +336,7 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level
 
-def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict, , ewr_table_path: str) -> pd.DataFrame:
+def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path: str) -> pd.DataFrame:
 
     '''Ingests dataframe, cleans up into a format matching IQQM csv
     
