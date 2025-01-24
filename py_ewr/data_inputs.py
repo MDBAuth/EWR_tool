@@ -446,11 +446,13 @@ def get_causal_ewr() -> dict:
     ewr2obj_path = os.path.join(BASE_PATH, "parameter_metadata/ewr2obj.csv")
     obj2target_path = os.path.join(BASE_PATH, "parameter_metadata/obj2target.csv")
     obj2yrtarget_path = os.path.join(BASE_PATH, "parameter_metadata/obj2yrtarget.csv")
+    ewr_target_priority_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_target_priority.csv")
 
     causal_ewr = {
         "ewr2obj": pd.read_csv(ewr2obj_path),
         "obj2target": pd.read_csv(obj2target_path),
-        "obj2yrtarget":pd.read_csv(obj2yrtarget_path)
+        "obj2yrtarget":pd.read_csv(obj2yrtarget_path),
+        "ewr_target_priority":pd.read_csv(ewr_target_priority_path)
     }
 
     return causal_ewr
