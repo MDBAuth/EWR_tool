@@ -622,7 +622,7 @@ class ScenarioHandler:
 
             elif self.model_format == 'IQQM - netcdf':
                 df_unpacked = unpack_netcdf_as_dataframe(scenarios[scenario])
-                df_F, df_L = cleaner_netcdf_werp(df_unpacked, data_inputs.get_iqqm_codes())
+                df_F, df_L = cleaner_netcdf_werp(df_unpacked, data_inputs.get_iqqm_codes(),self.parameter_sheet)
 
             elif self.model_format == 'ten thousand year':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
