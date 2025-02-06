@@ -6643,9 +6643,9 @@ def test_level_change_calc(EWR_info, levels, expected_all_events):
 	( 
 		'IC2_S-single-F', 'flow_handle'
 	),
-	( 
-		'FLR-single-L', 'level_change_handle'
-	),
+	# ( 
+	# 	'FLR-single-L', 'level_change_handle'
+	# ),
 	( 
 		'XXXXXX-single-L', 'unknown'
 	),

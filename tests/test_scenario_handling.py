@@ -30,7 +30,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -60,7 +60,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
 
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -87,7 +87,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # print(df_L.empty)
     # Set up expected outputs and test:
@@ -116,7 +116,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -144,7 +144,7 @@ def test_match_MDBA_nodes():
     df = df.set_index('Date')
 
     with pytest.raises(ValueError):
-        df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+        df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
 
     # TEST 6 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
@@ -156,7 +156,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     # data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -183,7 +183,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -218,7 +218,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -312,7 +312,7 @@ def test_cleaner_standard_timeseries():
     data_for_input_df = {'Date': date_range, '409025_flow': [50]*len(date_range)}
     input_df = pd.DataFrame(data_for_input_df)
     input_df = input_df.set_index('Date')
-    df_f, df_l = scenario_handling.cleaner_standard_timeseries(input_df)
+    df_f, df_l, report = scenario_handling.cleaner_standard_timeseries(input_df)
 
     # Set up expected data and test:
     expected_df_flow = input_df.copy(deep=True)
@@ -336,7 +336,7 @@ def test_cleaner_standard_timeseries():
     input_df = input_df.set_index('Date')
     cut_df = input_df.drop([datetime(1900, 7, 5),datetime(1900,7,8)], axis = 0)
 
-    df_f, df_l = scenario_handling.cleaner_standard_timeseries(cut_df)
+    df_f, df_l, report = scenario_handling.cleaner_standard_timeseries(cut_df)
     
     expected_df_flow = cut_df.copy(deep = True)
     expected_df_flow.loc[datetime(1900, 7, 5), '409025_flow'] = np.nan

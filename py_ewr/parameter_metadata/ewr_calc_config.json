@@ -26,6 +26,7 @@
         "LF2-single-F",
         "BK1-single-F",
         "OB1-single-F",
+        "OB1_a-single-F",
         "OB2-single-F",
         "OB3-single-F",
         "BK2_P-single-F",
@@ -279,6 +280,7 @@
         "F5_b-single-F",
         "F6_a-single-F",
         "F6_b-single-F",
+        "F6_c-single-F",
         "BK1_a_P-single-F",
         "BK1_b_P-single-F",
         "BK1_a_S-single-F",
@@ -503,7 +505,10 @@
         "BF1_b_P-single-F",
         "BF1_b_S-single-F",
         "BF3_a-single-F",
+        "BF3_a_S-single-F",
+        "BF3_a_P-single-F",
         "BF3_b-single-F",
+        "BF3_c-single-F",
         "BF1_P-single-F",
         "BF1_S-single-F",
         "BF1_PS-single-F",
@@ -600,7 +605,19 @@
         "OB-L2_P-single-V",
         "OB-L2_S-single-V",
         "WL2-single-V",
-        "WL4-single-V"
+        "WL4-single-V",
+        "BF1_1-single-V",
+        "BF1_2-single-V",
+        "BF1_3-single-V",
+        "BF1_4-single-V",
+        "BF1_5-single-V",
+        "BF1_6-single-V",
+        "BF1_7-single-V",
+        "BF1_8-single-V",
+        "BF1_9-single-V",
+        "BF1_10-single-V",
+        "BF1_11-single-V",
+        "BF1_12-single-V"
     ],
     "level_handle": [
         "WL3_S-single-L",
@@ -671,8 +688,5 @@
         "RFL_wi-single-L",
         "RRL_sp-single-L",
         "RFL_sp-single-L"
-    ],
-    "level_change_handle": [
-        "FLR-single-L"
     ]
 }
