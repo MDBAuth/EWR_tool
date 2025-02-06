@@ -646,9 +646,12 @@ class ScenarioHandler:
                 all_data = []
                 for scenario_file in scenario:
                     print(scenario_file)
-                    data, header = unpack_model_file(scenario_file, 'Dy', 'Field')
-                    data = build_MDBA_columns(data, header)
-                    all_data.append(data)
+                    try:
+                        data, header = unpack_model_file(scenario_file, 'Dy', 'Field')
+                        data = build_MDBA_columns(data, header)
+                        all_data.append(data)
+                    except Exception:
+                        print(f"failed on {scenario_file}!!")
 
                 merged_data = all_data[0]
                 for i in range(1, len(all_data)):
