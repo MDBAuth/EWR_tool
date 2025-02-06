@@ -749,6 +749,9 @@ def water_stability_level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.Da
     # Get information about EWR:
     pull = data_inputs.get_EWR_components('water_stability_level') 
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L)
      # If there is no level data loaded in, let user know and skip the analysis
@@ -783,6 +786,9 @@ def level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: p
     # Get information about EWR:
     pull = data_inputs.get_EWR_components('level')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
@@ -811,11 +817,28 @@ def level_change_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, 
     # Get information about EWR:
     pull = data_inputs.get_EWR_components('level')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+        # Check if gauge exists in DataFrame
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates:
     masked_dates = mask_dates(EWR_info, df_L) 
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)
-    E, D = level_change_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
+        # Perform level change calculation (updated to avoid KeyError)
+    try:
+        E, D = level_change_calc(
+            EWR_info,
+            df_L[gauge].values,  # This will trigger KeyError if gauge is missing
+            water_years,
+            df_L.index,
+            masked_dates
+        )
+    except KeyError:
+        print(f"Error: Gauge_level {gauge} not found during calculation.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
+    
+    #E, D = level_change_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
   
 
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, D, water_years)
@@ -844,6 +867,9 @@ def weirpool_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F
     elif weirpool_type == 'falling':
         pull = data_inputs.get_EWR_components('weirpool-falling')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     # Mask dates for both the flow and level dataframes:
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
@@ -883,6 +909,9 @@ def nest_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F: pd
     else:
         pull = data_inputs.get_EWR_components('nest-percent')
     EWR_info = get_EWRs(PU, gauge, EWR, EWR_table, pull)
+    if gauge not in df_L.columns:
+        print(f"Warning: Gauge_level for {gauge} not found in DataFrame. Skipping this iteration.")
+        return PU_df, tuple([{}])  # Return empty event tuple to avoid crashing
     masked_dates = mask_dates(EWR_info, df_F)
     # Extract a daily timeseries for water years:
     water_years = wateryear_daily(df_F, EWR_info)
@@ -4965,8 +4994,8 @@ def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFr
         pd.DataFrame: Return Dataframe with the statistics of the merged EWR
     """
 
-    weirpool_pair = {'SF_WP':'WP3',
-                      'LF2_WP': 'WP4' }
+    weirpool_pair = {'SF-WP':'WP3',
+                      'LF2-WP': 'WP4' }
 
     for fresh in wp_freshes:
         try:
