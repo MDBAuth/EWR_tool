@@ -326,15 +326,24 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
     df_flow.index.name = 'Date'
     df_level.index.name = 'Date'
 
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
+    
+    report = pd.DataFrame(index = list(set(list(flow_gauges) + list(level_gauges))), columns = ['flow', 'level'])
+    report['flow'] = 'N'
+    report['level'] = 'N'
+
     for gauge in cleaned_df.columns:
         gauge_only = extract_gauge_from_string(gauge)
         if 'flow' in gauge:
             df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
+            report.at[gauge_only, 'flow'] = 'Y'
         if 'level' in gauge:
             df_level[gauge_only] = cleaned_df[gauge].copy(deep=True)
+            report.at[gauge_only, 'level'] = 'Y'
         if not gauge_only:
             log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
-    return df_flow, df_level
+    return df_flow, df_level, report
 
 def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path: str) -> pd.DataFrame:
 
@@ -486,7 +495,7 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
         raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file') 
  
     # report.to_csv('report_v1.csv')  
-    return df_flow, df_level
+    return df_flow, df_level, report
 
 
 # def match_MDBA_nodes_old(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
@@ -597,7 +606,10 @@ class ScenarioHandler:
         
     def process_scenarios(self):
 
-        scenarios = self._get_file_names(self.scenario_file)
+        if self.model_format != 'All Bigmod':
+            scenarios = self._get_file_names(self.scenario_file)
+        else:
+            scenarios = [self.scenario_file]
 
         # Analyse all scenarios for EWRs
         detailed_results = {}
@@ -608,11 +620,12 @@ class ScenarioHandler:
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
                 data = build_MDBA_columns(data, header)
                 df_clean = cleaner_MDBA(data)
-                df_F, df_L = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
+                self.df_clean = df_clean
+                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
                                
             elif self.model_format == 'Standard time-series':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
-                df_F, df_L = cleaner_standard_timeseries(df, self.parameter_sheet)
+                df_F, df_L, self.report = cleaner_standard_timeseries(df, self.parameter_sheet)
 
             elif self.model_format == 'Source - NSW (res.csv)':
                 data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')
@@ -627,7 +640,27 @@ class ScenarioHandler:
             elif self.model_format == 'ten thousand year':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
                 df_F, df_L = cleaner_ten_thousand_year(df, self.parameter_sheet)
-            
+
+            elif self.model_format == 'All Bigmod':
+
+                all_data = []
+                for scenario_file in scenario:
+                    print(scenario_file)
+                    try:
+                        data, header = unpack_model_file(scenario_file, 'Dy', 'Field')
+                        data = build_MDBA_columns(data, header)
+                        all_data.append(data)
+                    except Exception:
+                        print(f"failed on {scenario_file}!!")
+
+                merged_data = all_data[0]
+                for i in range(1, len(all_data)):
+                    merged_data = merged_data.merge(all_data[i], on=['Dy','Mn','Year'])
+
+                df_clean = cleaner_MDBA(merged_data)
+                self.df_clean = df_clean
+                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
+                         
             gauge_results = {}
             gauge_events = {}
 
@@ -637,6 +670,10 @@ class ScenarioHandler:
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
                                                                                         EWR_table, calc_config) 
+                
+            if self.model_format == 'All Bigmod':
+                scenario = scenario_file[-10:-4]
+
             detailed_results[scenario] = gauge_results
             detailed_events[scenario] = gauge_events
             self.pu_ewr_statistics = detailed_results
@@ -808,4 +845,227 @@ class ScenarioHandler:
         if not self.pu_ewr_statistics:
             self.process_scenarios()
 
-        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)
+        self.ewr_results = summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)
+        
+        return self.ewr_results
+
+
+    def log_analysed_results(self):
+        '''
+        For each unique ewr/pu/gauge - examines the ewr_results dataframe and if it exists here, then it is set to True in the logging_sheet dataframe.
+        Create corresponding column in logging_sheet to log info.
+        '''
+        results = self.ewr_results[["PlanningUnit", "Gauge", "EwrCode"]].copy()
+        results["Analysed?"] = True
+        self.logging_sheet = self.logging_sheet.merge(right = results, left_on=["PlanningUnitName", "Primary Gauge", "Code"], right_on=["PlanningUnit", "Gauge", "EwrCode"], how="left")
+        self.logging_sheet["Analysed?"] = ~self.logging_sheet["Analysed?"].isna()
+        self.logging_sheet["Gauge"] = self.logging_sheet["Gauge_x"].copy()
+
+    
+    def log_if_node_in_siteID(self):
+        '''
+        For each node, checks if the node is in the siteid file. Note, this is a preliminary check, as it doesn't reveal if a match in the SITEID was made with model data.
+        Create corresponding column in logging_sheet to log info.
+        TODO: make work with non 'Bigmod - MDBA' siteid's
+        '''
+
+        if self.model_format == 'Bigmod - MDBA':
+            self.site_id_df = data_inputs.get_MDBA_codes()[["AWRC", "SITEID"]]
+        elif self.model_format == 'All Bigmod':
+            self.site_id_df = data_inputs.get_MDBA_codes()[["AWRC", "SITEID"]]            
+        elif self.model_format == 'Source - NSW (res.csv)':
+            pass
+        elif self.model_format == 'Standard time-series':
+            self.site_id_df = data_inputs.get_MDBA_codes()[["AWRC", "SITEID"]]
+        elif self.model_format == 'IQQM - netcdf':
+            pass
+        elif self.model_format == 'ten thousand year':
+            pass
+
+        self.logging_sheet["node_in_siteID?"] = self.logging_sheet["Gauge"].isin(self.site_id_df["AWRC"].unique())
+    
+    def log_if_gauge_in_model_file(self):
+        '''
+        For each gauge, check if is in the list of all gauges corresponding to siteID's in the model file.
+        Create corresponding column in logging_sheet to log info.
+        '''
+        site_id_in_model_file = [n for name in self.df_clean.columns for n in name.split("-")]
+        self.site_id_df["IN_MODELFILE"] = self.site_id_df["SITEID"].isin(site_id_in_model_file)
+        self.gauges_in_model_file = self.site_id_df[self.site_id_df.IN_MODELFILE]["AWRC"]
+        self.logging_sheet["gauge_in_model_file?"] = self.logging_sheet["Gauge"].isin(self.gauges_in_model_file)
+    
+    def log_measurand_info(self):
+        '''
+        Log if the flow and level data has been read in for each gauge.
+        Create corresponding column in logging_sheet to log info.
+        '''
+        self.logging_sheet.loc[:, "gaugeANDmeasurand_in_model_file? (Yes/No)"] = False
+
+        for idx, row in self.logging_sheet[["Gauge", "GaugeType"]].drop_duplicates().iterrows():
+
+            gauge = row["Gauge"]
+            gauge_type = row["GaugeType"]
+
+            if gauge_type == 'F':
+                full_gauge_type = 'flow'
+            else:
+                full_gauge_type = 'level'
+
+            if gauge in set(self.report.index):
+                self.logging_sheet.loc[(self.logging_sheet.Gauge == gauge) & (self.logging_sheet.GaugeType == gauge_type), "gaugeANDmeasurand_in_model_file? (Yes/No)"] = self.report.loc[gauge, full_gauge_type] == 'Y'
+
+        return self.logging_sheet
+    
+    def log_calc_config_info(self):
+        '''
+        See if a calc config matches for each gauge/pu/ewr combination.
+        TODO: make calc config a function with the option to just return the already calculated values
+        '''        
+        calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
+
+        invalid_calc_configs = []
+        ewr_keys_in_parameter_sheet = []
+        self.logging_sheet["EWR_key"] = None
+
+        for gauge in self.logging_sheet['Primary Gauge'].unique():
+
+            PU_items = self.logging_sheet.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1)
+            gauge_table = self.logging_sheet[self.logging_sheet['Primary Gauge'] == gauge]
+
+            for PU in set(gauge_table['PlanningUnitID']):
+
+                PU_table = gauge_table[gauge_table['PlanningUnitID'] == PU]
+                EWR_categories = PU_table['FlowLevelVolume'].values
+                EWR_codes = PU_table['Code']
+
+                for cat, EWR in zip(EWR_categories, EWR_codes):
+
+                    ## CUSTOM MULTIGAUGE CHECK
+                    item = self.logging_sheet[(self.logging_sheet['Primary Gauge']==gauge) & (self.logging_sheet['Code']==EWR) & (self.logging_sheet['PlanningUnitID']==PU)]
+                    item = item.replace({np.nan: None})
+                    mg = item['Multigauge'].to_list()
+
+                    if not mg[0]:
+                        gauge_calc_type = 'single'
+                    elif mg[0] == '':
+                        gauge_calc_type = 'single'
+                    else:
+                        gauge_calc_type = 'multigauge'
+                    ####
+
+                    ewr_key = f'{EWR}-{gauge_calc_type}-{cat}'
+                    self.logging_sheet.loc[((self.logging_sheet['Primary Gauge']==gauge) & (self.logging_sheet['Code']==EWR) & (self.logging_sheet['PlanningUnitID']==PU)), "EWR_key"] = ewr_key
+                    function_name = evaluate_EWRs.find_function(ewr_key, calc_config)                    
+                    ewr_keys_in_parameter_sheet.append(ewr_key)
+
+                    if function_name == 'unknown':
+                        invalid_calc_configs.append(ewr_key)
+                        continue
+                    handle_function = evaluate_EWRs.get_handle_function(function_name)
+                    if not handle_function:
+                        invalid_calc_configs.append(ewr_key)
+                        continue
+
+        self.logging_sheet["is_in_calc_config?"] = ~self.logging_sheet["EWR_key"].isin(invalid_calc_configs)
+
+    def log_siteID_info(self):
+        """
+        Add the siteID info to the logging_sheet. Add the siteID of that gauge it matched with, as well as a list of all siteIDs for that gauge that it didn't match with. (i.e. the "spares" not in the model file.)
+        """
+        ## add the matching siteID info
+        spare_siteID_df = self.site_id_df[self.site_id_df.AWRC.isin(self.gauges_in_model_file) & ~self.site_id_df.IN_MODELFILE].astype(str)
+        spare_siteID_df = spare_siteID_df.groupby("AWRC").agg({'SITEID': 'sum'})
+        # spare_siteID_df = spare_siteID_df.groupby("AWRC").agg({'SITEID': lambda x: list(x)})
+        spare_siteID_df = spare_siteID_df.rename(columns={"SITEID": "spare_SITEID"})
+
+        self.logging_sheet = self.logging_sheet.merge(right = spare_siteID_df, left_on=["Gauge"], right_index=True, how="left")
+
+        ### section to add the used SITEID
+        used_siteID_df = self.site_id_df[self.site_id_df.IN_MODELFILE][["AWRC", "SITEID"]]
+        used_siteID_df = used_siteID_df.rename(columns={"SITEID": "matched_SITEID"})
+        used_siteID_df = used_siteID_df.set_index("AWRC")
+
+        self.logging_sheet = self.logging_sheet.merge(right = used_siteID_df, left_on=["Gauge"], right_index=True, how="left")
+        
+        # mark spare_SITEID column of those that dont have more than one SITEID to match with as EXACT MATCHES
+        self.logging_sheet.loc[~self.logging_sheet.matched_SITEID.isna() & self.logging_sheet.spare_SITEID.isna(), "spare_SITEID"] = "EXACT_MATCH"
+
+
+    def create_multi_index(self, logging_sheet):
+        
+        logging_sheet.insert(loc=4, column='Primary Gauge', value=logging_sheet.Gauge.values)
+
+        ## Multigauge
+
+        rows_to_duplicate = logging_sheet.loc[(~logging_sheet["Multigauge"].isna()),:]
+
+        for counter, (idx, row) in enumerate(rows_to_duplicate.iterrows()):
+            updated_idx = counter + idx # update idx to account for all inserted rows
+            duplicate_row = logging_sheet.loc[updated_idx, :].copy()
+            duplicate_row["Gauge"] = logging_sheet.loc[updated_idx, "Multigauge"]
+            logging_sheet = pd.DataFrame(np.insert(logging_sheet.values, updated_idx+1, values=duplicate_row.values, axis=0), columns=logging_sheet.columns)
+
+        ## Weirpool
+
+        rows_to_duplicate = logging_sheet.loc[(~logging_sheet["WeirpoolGauge"].isna()),:]
+
+        for counter, (idx, row) in enumerate(rows_to_duplicate.iterrows()):
+            updated_idx = counter + idx # update idx to account for all inserted rows
+            duplicate_row = logging_sheet.loc[updated_idx, :].copy()
+            duplicate_row["Gauge"] = logging_sheet.loc[updated_idx, "WeirpoolGauge"]
+            duplicate_row["GaugeType"] = "L"
+            logging_sheet = pd.DataFrame(np.insert(logging_sheet.values, updated_idx+1, values=duplicate_row.values, axis=0), columns=logging_sheet.columns)   
+
+        ## Barrage Gauges
+
+        barrage_flow_gauges = data_inputs.get_barrage_flow_gauges()
+        barrage_level_gauges = data_inputs.get_barrage_level_gauges()
+
+        ## Because all barrage flow gauges have GaugeType flow, and all barrage level gauges have GaugeType level, the logic of the code to copy the GaugeType and modify the gauge name means they can be done at the same time.
+
+        dict_gauges = {**barrage_flow_gauges, **barrage_level_gauges}
+
+        for gauge, gauge_list in dict_gauges.items():
+            
+            counter = 0
+            rows_to_duplicate = logging_sheet.loc[(logging_sheet["Primary Gauge"] == gauge),:]
+
+            for idx, row in rows_to_duplicate.iterrows():
+
+                updated_idx = idx + counter # update idx to account for all inserted rows
+                duplicate_row = logging_sheet.loc[updated_idx, :].copy()
+
+                rows_to_insert = pd.DataFrame([duplicate_row] * len(gauge_list))
+                rows_to_insert["Gauge"] = gauge_list
+
+                logging_sheet.drop(index=updated_idx, axis=0, inplace=True)
+
+                logging_sheet = pd.DataFrame(np.insert(logging_sheet.values, updated_idx, values=rows_to_insert.values, axis=0), columns=logging_sheet.columns)      
+
+                counter += len(gauge_list) - 1
+
+        return logging_sheet
+
+    def get_logs(self) -> pd.DataFrame:
+        """
+        Create the logging sheet
+        TODO: ensure that self.get_ewr_results() has been run and if not make it run.
+        """
+        parameter_sheet = pd.read_csv(self.parameter_sheet)
+
+        self.logging_sheet = parameter_sheet.copy()[["PlanningUnitName", "Code", "Gauge", "GaugeType", 'PlanningUnitID', 'FlowLevelVolume', "Multigauge", "WeirpoolGauge"]]
+
+        self.logging_sheet = self.create_multi_index(self.logging_sheet)
+
+        self.log_analysed_results()
+        self.log_if_node_in_siteID()
+        self.log_if_gauge_in_model_file()
+        self.log_measurand_info()
+        self.log_calc_config_info()
+        self.log_siteID_info()
+
+        self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", "Gauge", "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?"]]
+
+        return self.logging_sheet
+    
+    
