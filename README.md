@@ -219,6 +219,7 @@ NSW:
 - Scenario data input by the user
 - Model metadata for location association between gauge ID's and model nodes
 - EWR parameter sheet
+- **Optional** EWR filter sheet - used to specify EWRs to exclude from the assessment
 
 **Running the tool**
 

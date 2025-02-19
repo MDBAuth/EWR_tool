@@ -158,16 +158,20 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
 
 class ObservedHandler:
     
-    def __init__(self, gauges:List, dates:Dict, parameter_sheet:str = None, calc_config_path:str = None):
+    def __init__(self, gauges:List, dates:Dict, parameter_sheet:str = None, calc_config_path:str = None, filter_sheet:str = None):
         self.gauges = gauges
         self.dates = dates
         self.yearly_events = None
         self.pu_ewr_statistics = None
         self.summary_results = None
-        self.parameter_sheet = parameter_sheet
         self.calc_config_path = calc_config_path
         self.flow_data = None
         self.level_data = None
+        self.filter_sheet = filter_sheet
+        self.parameter_sheet = (if self.filter_sheet: parameter_sheet)
+
+        
+        
 
     def process_gauges(self):
         '''ingests a list of gauges and user defined parameters
