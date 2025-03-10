@@ -436,10 +436,10 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
-                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
-                                    'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
-                                    'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
-                                    'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
+                                # renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
+                                #     'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
+                                #     'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
+                                #     'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
                                     parameter_sheet_path=parameter_sheet_path)
     
     return final_merged
