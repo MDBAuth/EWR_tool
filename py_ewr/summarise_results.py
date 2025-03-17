@@ -387,18 +387,18 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     # aggregate by "gauge","pu","ewrCode"
     final_summary_output = (yearly_ewr_results
     .groupby(["scenario","gauge","pu","ewrCode"])
-    .agg( EventYears = ("eventYears", sum),
+    .agg( EventYears = ("eventYears", 'sum'),
           Frequency = ("eventYears", get_frequency),
-          AchievementCount = ("numAchieved", sum),
+          AchievementCount = ("numAchieved", 'sum'),
           AchievementPerYear = ("numAchieved", 'mean'),
-          EventCount = ("numEvents",sum),
-          EventCountAll = ("numEventsAll",sum),
+          EventCount = ("numEvents",'sum'),
+          EventCountAll = ("numEventsAll",'sum'),
           EventsPerYear = ("numEvents",'mean'),
           EventsPerYearAll = ("numEventsAll",'mean'),
-          ThresholdDays = ("totalEventDays", sum),
+          ThresholdDays = ("totalEventDays", 'sum'),
         #   InterEventExceedingCount = ("rollingMaxInterEventAchieved", sum_0),#"maxInterEventDaysAchieved"
-          NoDataDays =  ("missingDays" , sum),
-          TotalDays = ("totalPossibleDays" , sum),
+          NoDataDays =  ("missingDays" , 'sum'),
+          TotalDays = ("totalPossibleDays" , 'sum'),
           )
     )
     # summarize gauge events

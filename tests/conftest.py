@@ -247,10 +247,10 @@ def sa_parameter_sheet():
 @pytest.fixture(scope="function")
 def wp_EWR_table(parameter_sheet):
 
-    wp_flow_level_gauges = ['414203', '414209', '425010', '4260501' ]
+    wp_flow_level_gauges = ['414203', '414209', '425010', 'A4260501' ]
 
 
-    return parameter_sheet[(parameter_sheet["Gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2_WP","SF_WP"]))] 
+    return parameter_sheet[(parameter_sheet["Gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2-WP","SF-WP"]))] 
 
 
 @pytest.fixture(scope="function")
@@ -266,15 +266,15 @@ def PU_df_wp():
               'WP4_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
               'WP4_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
               
-              'SF_WP_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
-              'SF_WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'SF_WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'SF_WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
+              'SF-WP_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
+              'SF-WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'SF-WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'SF-WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
               
-              'LF2_WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}, 
-              'LF2_WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'LF2_WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'LF2_WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1}
+              'LF2-WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}, 
+              'LF2-WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'LF2-WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'LF2-WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1}
               } 
 
     return pd.DataFrame(df_data)
