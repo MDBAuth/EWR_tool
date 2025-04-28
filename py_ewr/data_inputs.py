@@ -441,7 +441,9 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
 
 # def gauges_to_measurand()
 
-def get_obj_mapping() -> dict:
+def get_obj_mapping(
+    param_sheet_cols = ['LTWPShortName', 'PlanningUnitName', 'SWSDLName', 'State', 'Gauge', 'Code', 'env_obj']
+) -> dict:
     '''
     retrieves causal network and merges with parameter sheet
     '''
@@ -450,7 +452,7 @@ def get_obj_mapping() -> dict:
 
     
     okay_EWRs, _ = get_EWR_table()
-    okay_EWRs_sub = okay_EWRs[['LTWPShortName', 'PlanningUnitName', 'SWSDLName', 'State', 'Gauge', 'Code', 'env_obj']]
+    okay_EWRs_sub = okay_EWRs[[param_sheet_cols]]
 
     
 
