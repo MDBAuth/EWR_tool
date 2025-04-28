@@ -50,7 +50,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     
     if file_path:
         df = pd.read_csv(file_path,
-         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'env_obj', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
@@ -66,7 +66,7 @@ def get_EWR_table(file_path:str = None) -> dict:
         my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
         proxies={} # Populate with your proxy settings
         df = pd.read_csv(my_url,
-            usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+            usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State','env_obj', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise', 'AccumulationPeriod',
@@ -441,16 +441,27 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
 
 # def gauges_to_measurand()
 
-def get_causal_ewr() -> dict:
+def get_obj_mapping() -> dict:
+    '''
+    retrieves causal network and merges with parameter sheet
+    '''
+    obj_ref_path = os.path.join(BASE_PATH, "parameter_metadata/obj_reference.csv")
+    obj_ref = pd.read_csv(obj_ref_path)
 
-    ewr2obj_path = os.path.join(BASE_PATH, "parameter_metadata/ewr2obj.csv")
-    obj2target_path = os.path.join(BASE_PATH, "parameter_metadata/obj2target.csv")
-    obj2yrtarget_path = os.path.join(BASE_PATH, "parameter_metadata/obj2yrtarget.csv")
+    
+    okay_EWRs, _ = get_EWR_table()
+    okay_EWRs_sub = okay_EWRs[['LTWPShortName', 'PlanningUnitName', 'SWSDLName', 'State', 'Gauge', 'Code', 'env_obj']]
 
-    causal_ewr = {
-        "ewr2obj": pd.read_csv(ewr2obj_path),
-        "obj2target": pd.read_csv(obj2target_path),
-        "obj2yrtarget":pd.read_csv(obj2yrtarget_path)
-    }
+    
 
-    return causal_ewr
+    longform_ewr =  okay_EWRs_sub.assign(
+        env_obj = okay_EWRs['env_obj'].str.split('+')).explode('env_obj').drop_duplicates()
+
+    merged_df = longform_ewr.merge(
+            obj_ref,
+            left_on=['LTWPShortName', 'PlanningUnitName', 'env_obj', 'SWSDLName', 'State'],
+            right_on=['LTWPShortName', 'planning_unit_name', 'env_obj', 'SWSDLName', 'state'], 
+            how='left'
+    )
+
+    return merged_df

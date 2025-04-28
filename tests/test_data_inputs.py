@@ -121,15 +121,14 @@ def test_get_iqqm_codes():
     }
     assert stations == result
 
-def test_get_causal_ewr():
+def test_get_obj_mapping():
 
-    causal_ewr = data_inputs.get_causal_ewr()
-    assert isinstance(causal_ewr, dict)
+    obj_data = data_inputs.get_obj_mapping()
+    assert isinstance(obj_data, pd.DataFrame)
 
-    assert len(causal_ewr) > 0
-    
-    expected_keys = {"ewr2obj", "obj2target", "obj2yrtarget"}
-    assert set(causal_ewr.keys()) == expected_keys
-    
-    for value in causal_ewr.values():
-        assert isinstance(value, pd.DataFrame)
+    assert len(obj_data) > 0
+
+    contains_blanks = len(obj_data[obj_data.isnull().any(axis=1)])
+    print(contains_blanks)
+
+    assert contains_blanks == 0, f'rows with blanks exist in the causal network indicating mismatched values'
