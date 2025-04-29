@@ -334,7 +334,7 @@ def test_get_achievements():
 	1. Testing 1 event per year requirement with four unique events per year ranges
 	2. Testing 2 events per year requirement with four unique events per year ranges
 	'''
-	EWR_info = {'events_per_year': 1, 'min_event':5}
+	EWR_info = {'duration':5, 'events_per_year': 1, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -343,7 +343,7 @@ def test_get_achievements():
 	assert num_events == expected_num_events
 	#-------------------------------------------------
 	# Test 2
-	EWR_info = {'events_per_year': 2, 'min_event':5}
+	EWR_info = {'duration':5, 'events_per_year': 2, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -357,7 +357,7 @@ def test_get_number_events():
 	2. Testing 2 events per year requirement with four unique events per year ranges
 	'''
 	# Test 1
-	EWR_info = {'events_per_year': 1, 'min_event':5}
+	EWR_info = {'duration': 5, 'events_per_year': 1, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
@@ -366,7 +366,7 @@ def test_get_number_events():
 	assert num_events == expected_num_events
 	#--------------------------------------------------
 	# Test 2
-	EWR_info = {'events_per_year': 2, 'min_event':5}
+	EWR_info = {'duration': 5, 'events_per_year': 2, 'min_event':5}
 	events = {2012: [[5]*5, [10]*5, [20]*8], 2013: [[50]*20],
 					2014: [[5]*5, [10]*5, [20]*8, [20]*8], 2015: []}
 	unique_water_years = [2012, 2013, 2014, 2015]
