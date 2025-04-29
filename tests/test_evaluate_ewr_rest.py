@@ -272,8 +272,7 @@ class TestEventFunctions(unittest.TestCase):
 						[2012, 2013, 2014],
 						[0, 0, 0]
 					)
-					  [1,1,1,0])
-					  ]
+				]
 )
 def test_get_event_years_max_rolling_days(events, unique_water_years, expected_event_years):
 	'''
