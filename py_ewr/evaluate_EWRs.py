@@ -1003,6 +1003,7 @@ def weirpool_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F
         tuple[pd.DataFrame, dict]: EWR results for the current planning unit iteration (updated); dictionary of EWR event information
     
     '''
+
     # Get information about EWR (changes depending on the weirpool type):
     weirpool_type = data_inputs.weirpool_type(EWR)
     if weirpool_type == 'raising':
@@ -1017,6 +1018,7 @@ def weirpool_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_F
     # If there is no level data loaded in, let user know and skip the analysis
     try:
         levels = df_L[EWR_info['weirpool_gauge']].values
+        
     except KeyError:
         print(f'''Cannot evaluate this ewr for {gauge} {EWR}, due to missing data. Specifically this EWR 
         also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
@@ -5089,8 +5091,8 @@ def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFr
         pd.DataFrame: Return Dataframe with the statistics of the merged EWR
     """
 
-    weirpool_pair = {'SF_WP':'WP3',
-                      'LF2_WP': 'WP4' }
+    weirpool_pair = {'SF-WP':'WP3',
+                      'LF2-WP': 'WP4' }
 
     for fresh in wp_freshes:
         try:
@@ -5130,7 +5132,7 @@ def merge_weirpool_with_freshes(wp_freshes:List, PU_df:pd.DataFrame)-> pd.DataFr
             column_attributes = list(set([col.split("_")[-1] for col in PU_df.columns if "eventYears" not in col]))
             for col in column_attributes:
                 PU_df[f"{fresh}/{weirpool_pair[fresh]}_{col}"] = np.nan
-
+    
     return PU_df
 
 # make handling function available to process
@@ -5257,6 +5259,7 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, EWR_table:pd.Da
         EWR_codes = PU_table['Code']
         PU_df = pd.DataFrame()
         PU_events = {}
+
         for i, EWR in enumerate(EWR_codes):
             events = {}
 
@@ -5289,10 +5292,10 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, EWR_table:pd.Da
             PU_df, events = handle_function(**kwargs)
             if events != {}:
                 PU_events[str(EWR)]=events
-        
-        wp_freshes = [ewr for ewr in EWR_codes if ewr in ["SF_WP","LF2_WP"]]
-        if wp_freshes:
-            PU_df = merge_weirpool_with_freshes(wp_freshes, PU_df)
+
+        # wp_freshes = [ewr for ewr in EWR_codes.to_list() if ewr in ["SF-WP","LF2-WP"]]
+        # if wp_freshes:
+        #     PU_df = merge_weirpool_with_freshes(wp_freshes, PU_df)
             
         PU_name = PU_items['PlanningUnitName'].loc[PU_items[PU_items['PlanningUnitID'] == PU].index[0]]
         

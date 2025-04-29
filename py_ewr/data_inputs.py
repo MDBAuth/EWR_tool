@@ -110,8 +110,8 @@ def get_EWR_table(file_path:str = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
     bad_EWRs = bad_EWRs.drop_duplicates()
 
     # Changing the flow and level max threshold to a high value when there is none available:
-    okay_EWRs['FlowThresholdMax'].replace({'':'1000000'}, inplace = True)
-    okay_EWRs['LevelThresholdMax'].replace({'':'1000000'}, inplace = True)
+    okay_EWRs['FlowThresholdMax'] = okay_EWRs['FlowThresholdMax'].replace({'':'1000000'})
+    okay_EWRs['LevelThresholdMax'] = okay_EWRs['LevelThresholdMax'].replace({'':'1000000'})
     
     return okay_EWRs, bad_EWRs
 
