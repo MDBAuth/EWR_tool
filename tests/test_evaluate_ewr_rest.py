@@ -103,7 +103,7 @@ def test_wateryear_daily():
 	array = evaluate_EWRs.wateryear_daily(df, EWR_info)
 	assert np.array_equal(array, expected_array)
 
-
+#TODO check these tests and decide if needs to be uncommented
 # @pytest.mark.parametrize("EWR_info, start_date, end_date, expected_output, year_format", [
 #     ({'start_month': 7, 'end_month': 6}, '2012-07-01',
 #      '2014-06-30', np.array([2012]*365 + [2013]*365), 'year_dash'),
