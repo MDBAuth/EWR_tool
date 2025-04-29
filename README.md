@@ -3,20 +3,27 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.2.4 README**
+### **EWR tool version 2.3.7 README**
 
-### **Notes on recent version update**
+### **Notes on recent version updates**
+- Including metadata report (this is still being ironed out and tested)
+- CLLMM_c and CLLMM_d ewrs are now able to be calculated without all barrage level gauges being present in the model file. 
+- Including draft objective mapping files in the package (see below sub heading **Objective mapping** for more information). Objective mapping has been therefore pulled out of the parameter sheet
+- Including an example parallel processing script for running the EWR tool
+- Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
+- Fix SDL resource unit mapping in the parameter sheet
+- Adding lat and lon to the parameter sheet
+- ten thousand year handling - this has been brought back online.
 - Remove TQDM loading bars
-- Handle duplicate sites in MDBA siteID file - where a duplicate exists, the first match is used and the rest are skipped over
 - Adding new model format handling - 'IQQM - netcdf'
 - Standard time-series handling added - each column needs a gauge, followed by and underscore, followed by either flow or level (e.g. 409025_flow). This handling also has missing date filling - so any missing dates will be filled with NaN values in all columns.
-- ten thousand year handling - This has been briefly taken offline for this version.
 - bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table, fixed misclassification of some gauges to flow, level, and lake level categories
 - New EWRs: New Qld EWRs - SF_FD and BF_FD used to look into the FD EWRs in closer detail.
+- Adding state and Surface Water SDL (SWSDL) to py-ewr output tables
 
 ### **Installation**
 
-Note - requires Python 3.8 or newer
+Note - requires Python 3.9 to 3.13 (inclusive)
 
 Step 1. 
 Upgrade pip
@@ -78,7 +85,30 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 ### Option 2: Running model scenarios through the EWR tool
 
 1. Tell the tool where the model files are (can either be local or in a remote location)
-2. Tell the tool what format the model files are in (Current model format options: 'Bigmod - MDBA', 'Source - NSW (res.csv)', 'Standard time-series' - see manual for formatting requirements)
+2. Tell the tool what format the model files are in. The current model format options are: 
+    - 'Bigmod - MDBA'
+        Bigmod formatted outputs
+    - 'Source - NSW (res.csv)'
+        Source res.csv formatted outputs
+    - 'Standard time-series'
+        The first column header should be *Date* with the date values in the YYYY-MM-DD format.
+        The next columns should have the *gauge* followed by *_* followed by either *flow* or *level*
+        E.g.
+        | Date | 409025_flow | 409025_level | 414203_flow |
+        | --- | --- | --- | --- |
+        | 1895-07-01 | 8505 | 5.25 | 8500 |
+        | 1895-07-02 | 8510 | 5.26 | 8505 |
+
+    - 'ten thousand year'
+        This has the same formatting requirements as the 'Standard time-series'. This can handle ten thousand years worth of hydrology data.
+        The first column header should be *Date* with the date values in the YYYY-MM-DD format.
+        The next columns should have the *gauge* followed by *_* followed by either *flow* or *level*
+        E.g.
+        | Date | 409025_flow | 409025_level | 414203_flow |
+        | --- | --- | --- | --- |
+        | 105-07-01 | 8505 | 5.25 | 8500 |
+        | 105-07-02 | 8510 | 5.26 | 8505 |
+
 
 ```python
 #USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -168,11 +198,11 @@ For issues relating to the script, a tutorial, or feedback please contact Lara P
 
 
 **Disclaimer**
-Every effort has been taken to ensure the EWR database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the EWR parameter sheet and/or EWR tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
+Every effort has been taken to ensure the EWR database represents the original EWRs from state Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the EWR parameter sheet and/or EWR tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
 
 
 **Notes on development of the dataset of EWRs**
-The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state Long Term Water Plans (LTWPs) to the machine readable format found in the parameter sheet within this tool. 
+The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state LTWPs and EWMPs to the machine readable format found in the parameter sheet within this tool. 
 
 **Compatibility**
 
@@ -195,11 +225,8 @@ NSW:
 
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
-To disable progress bars, as for example when running remote scripted runs, use 
-
-``` python
-import os
-os.environ["TQDM_DISABLE"] = "1"
-```
-*before* importing py-ewr in your script.
-
+**Objective mapping**
+Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
+- ewr2obj.csv: For each planning unit, gauge, ewr combination there are either one or many env_obj codes. These env_obj codes come under one of five different theme level targets (Native Fish, Native vegetation, Waterbirds, Other species or Ecosystem functions)
+- obj2target.csv: env_obj's are unique to their planning unit in the LTWP (noting there are often a lot of similarities between env_obj's in the same states). The plain english wording of the env objectives is also contained in this csv. The LTWP, planning unit and env_obj rows are repeated for each specific goal related to that LTWP, planning unit and env_obj. 
+- obj2yrtarget.csv: The environmental objectives are related to 5, 10 and 20 year targets

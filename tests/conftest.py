@@ -247,10 +247,10 @@ def sa_parameter_sheet():
 @pytest.fixture(scope="function")
 def wp_EWR_table(parameter_sheet):
 
-    wp_flow_level_gauges = ['414203', '414209', '425010', '4260501' ]
+    wp_flow_level_gauges = ['414203', '414209', '425010', 'A4260501' ]
 
 
-    return parameter_sheet[(parameter_sheet["Gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2_WP","SF_WP"]))] 
+    return parameter_sheet[(parameter_sheet["Gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2-WP","SF-WP"]))] 
 
 
 @pytest.fixture(scope="function")
@@ -266,15 +266,15 @@ def PU_df_wp():
               'WP4_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
               'WP4_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
               
-              'SF_WP_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
-              'SF_WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'SF_WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'SF_WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
+              'SF-WP_eventYears': {1896: 1, 1897: 1, 1898: 0, 1895: 0}, 
+              'SF-WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'SF-WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'SF-WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1},  
               
-              'LF2_WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}, 
-              'LF2_WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'LF2_WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
-              'LF2_WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1}
+              'LF2-WP_eventYears': {1896: 0, 1897: 0, 1898: 1, 1895: 1}, 
+              'LF2-WP_numAchieved': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'LF2-WP_numEvents': {1896: 1, 1897: 1, 1898: 1, 1895: 1}, 
+              'LF2-WP_numEventsAll': {1896: 1, 1897: 1, 1898: 1, 1895: 1}
               } 
 
     return pd.DataFrame(df_data)
@@ -284,6 +284,8 @@ def interEvent_item_to_process():
     return {'scenario': ['example_scenario']*9,
             'gauge': ['409025']*6+['410007']*3, 
             'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'State': ['NSW']*9,
+            'SWSDLName': ['New South Wales Murray']*6+['Murrumbidgee']*3, 
             'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 

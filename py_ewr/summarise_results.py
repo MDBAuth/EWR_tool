@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from datetime import date, timedelta, datetime
 import logging
+import copy
 
 from . import data_inputs, evaluate_EWRs
 #--------------------------------------------------------------------------------------------------
@@ -183,6 +184,10 @@ def get_events_to_process(gauge_events: dict)-> List:
         for gauge in gauge_events[scenario]:
             for pu in gauge_events[scenario][gauge]:
                 for ewr in gauge_events[scenario][gauge][pu]:
+                    # print('#################################')
+                    # print(gauge_events[scenario][gauge][pu][ewr])
+                    # print(type(gauge_events[scenario][gauge][pu][ewr]))
+                    # print('#################################')
                     try:
                         item = {}
                         item["scenario"] = scenario
@@ -383,18 +388,18 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     # aggregate by "gauge","pu","ewrCode"
     final_summary_output = (yearly_ewr_results
     .groupby(["scenario","gauge","pu","ewrCode"])
-    .agg( EventYears = ("eventYears", sum),
+    .agg( EventYears = ("eventYears", 'sum'),
           Frequency = ("eventYears", get_frequency),
-          AchievementCount = ("numAchieved", sum),
+          AchievementCount = ("numAchieved", 'sum'),
           AchievementPerYear = ("numAchieved", 'mean'),
-          EventCount = ("numEvents",sum),
-          EventCountAll = ("numEventsAll",sum),
+          EventCount = ("numEvents",'sum'),
+          EventCountAll = ("numEventsAll",'sum'),
           EventsPerYear = ("numEvents",'mean'),
           EventsPerYearAll = ("numEventsAll",'mean'),
-          ThresholdDays = ("totalEventDays", sum),
+          ThresholdDays = ("totalEventDays", 'sum'),
         #   InterEventExceedingCount = ("rollingMaxInterEventAchieved", sum_0),#"maxInterEventDaysAchieved"
-          NoDataDays =  ("missingDays" , sum),
-          TotalDays = ("totalPossibleDays" , sum),
+          NoDataDays =  ("missingDays" , 'sum'),
+          TotalDays = ("totalPossibleDays" , 'sum'),
           )
     )
     # summarize gauge events
@@ -410,11 +415,11 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                       right_on=['scenario', 'gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
 
-    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge'],
+    final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge', 'State', 'SWSDLName'],
                                 left_table=final_summary_output,
                                 left_on=['gauge','pu','ewrCode'],
                                 selected_columns=["scenario",'gauge',
-                                                    'pu', 
+                                                    'pu', 'State', 'SWSDLName', 
                                                     'ewrCode',
                                                     'Multigauge',
                                                     'EventYears',
@@ -432,7 +437,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
-                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
+                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
                                     'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
                                     'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
                                     'MaxInterEventYears', 'NoDataDays', 'TotalDays'],
@@ -503,7 +508,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
     # Create the unique ID field
     df_events['ID'] = df_events['scenario']+df_events['gauge']+df_events['pu']+df_events['ewr']
     unique_ID = df_events['ID'].unique()
-    all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'ID', 
+    all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'ID', 
                                                 'startDate', 'endDate', 'interEventLength'])
 
     for i in unique_ID:
@@ -526,15 +531,32 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
             new_scenario = [contain_values['scenario'].iloc[0]]*length
             new_gauge = [contain_values['gauge'].iloc[0]]*length
             new_pu = [contain_values['pu'].iloc[0]]*length
+            new_state = [contain_values['State'].iloc[0]]*length
+            new_sdl = [contain_values['SWSDLName'].iloc[0]]*length
             new_ewr = [contain_values['ewr'].iloc[0]]*length
             new_ID = [contain_values['ID'].iloc[0]]*length
 
-            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
+            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'State': new_state, 'SWSDLName': new_sdl, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
 
             df_subset = pd.DataFrame(data=data)
 
             # Calculate the interevent length
-            df_subset['interEventLength'] = (pd.to_datetime(df_subset['endDate']) - pd.to_datetime(df_subset['startDate'])).dt.days + 1
+            #Need to change to element-wise calculation to avoid relying on pandas datetime
+            #------
+            df_subset['interEventLength'] = None
+            for index, row in df_subset.iterrows():
+                # print(row['endDate'])
+                # print(type(row['endDate']))
+
+                # end = evaluate_EWRs.get_index_date(row['endDate'])
+                # start = evaluate_EWRs.get_index_date(row['startDate'])
+                # interEventLength = row['endDate'] - row['startDate'].day+1#end-start.dt.days+1 # Attempt 1
+                #TODO: explain in comments why we're adding a single day to this
+                interEventLength = (row['endDate'] - row['startDate']).days#row['startDate']-#(row['startDate'] + timedelta(days=1))
+                interEventLength += 1
+                df_subset.at[index, 'interEventLength'] = interEventLength
+            #------
+            # df_subset['interEventLength'] = (pd.to_datetime(df_subset['endDate']) - pd.to_datetime(df_subset['startDate'])).dt.days + 1
             # Remove 0 length entries (these can happen if there was an event on the first or last day of timeseries)
             df_subset = df_subset.drop(df_subset[df_subset.interEventLength == 0].index)
             
@@ -588,7 +610,11 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     '''
     Determines the rolling maximum interevent period for each year.
     Args:
-        yearly_df (pd.DataFrame): used to get list of all EWRs.
+        df (pd.DataFrame): interevent dataframe
+        start_date: Not used TODO: delete
+        end_date: Not used TODO: delete
+        yearly_df (pd.DataFrame): used to get list of all EWRs
+        ewr_table_path: where to pull the EWR table from (local or custom)
     Results:
         pd.DataFrame: 
     
@@ -647,10 +673,21 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             EWR_info['end_day'] = None
             EWR_info['end_month'] =int(EWR_info['end_date'])        
 
+        #--------------
+        # for i, row in df_subset.iterrows():
+        #     start = row['startDate']
+        #     end = row['endDate']
+        #     date_list = []
+        #     current_date = copy.deepcopy(start)
+        #     while current_date<=end:
+        #         date_list.append(current_date)
+        #         current_date += timedelta(days=1)
+
+        #--------------
         # Iterate over the interevent periods for this EWR
         for i, row in df_subset.iterrows():
             # Get the date range:
-            period = pd.date_range(df_subset.loc[i, 'startDate'],df_subset.loc[i, 'endDate'])
+            period = pd.period_range(row['startDate'],row['endDate'])
             # Save to pd.df for function compatibility
             dates_df = pd.DataFrame(index = period)
             # Convert year to water year using the existing function            

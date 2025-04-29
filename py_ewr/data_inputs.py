@@ -6,6 +6,7 @@ import os
 import logging
 from typing import Tuple
 from cachetools import cached, TTLCache
+from typing import Tuple
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -47,10 +48,8 @@ def get_EWR_table(file_path:str = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
     Returns:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
     '''
-    
-    if file_path:
-        df = pd.read_csv(file_path,
-         usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+
+    cols_keep = ['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'State', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise','AccumulationPeriod',
@@ -58,26 +57,30 @@ def get_EWR_table(file_path:str = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
                               'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                               'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell',
                               'LarvaeDaysSpell','MinLevelRise', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType'],
-                               dtype='str', encoding='cp1252') 	
-
-
+                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType']
+    if file_path:
+        try:
+            df = pd.read_csv(file_path,
+                                usecols=cols_keep, 
+                                dtype='str', 
+                                encoding='cp1252')
+        except FileNotFoundError:
+            raise FileNotFoundError("File cannot be found, please check the file path is correct")
+        except ValueError as e:
+            missing_cols = str(e)
+            raise ValueError(f"Unable to read in parameter sheet as your .csv file does not contain the following required columns: {missing_cols}")
+            
     if not file_path:
-        my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
+        url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
         proxies={} # Populate with your proxy settings
-        df = pd.read_csv(my_url,
-            usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
-                              'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
-                              'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelRise', 'AccumulationPeriod',
-                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualFlowSum','AnnualBarrageFlow',
-                              'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
-                              'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
-                              'LarvaeDaysSpell','MinLevelRise', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                              'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType'],
-                        dtype='str', encoding='cp1252'
-                        )
 
+        df = pd.read_csv(url,
+                         usecols= cols_keep,
+                         dtype='str',
+                         encoding='cp1252'
+                        )
+    
+    # clean_up
     df = df.replace('?','')
     df = df.fillna('')
     # removing the 'See notes'
@@ -107,8 +110,8 @@ def get_EWR_table(file_path:str = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
     bad_EWRs = bad_EWRs.drop_duplicates()
 
     # Changing the flow and level max threshold to a high value when there is none available:
-    okay_EWRs['FlowThresholdMax'].replace({'':'1000000'}, inplace = True)
-    okay_EWRs['LevelThresholdMax'].replace({'':'1000000'}, inplace = True)
+    okay_EWRs['FlowThresholdMax'] = okay_EWRs['FlowThresholdMax'].replace({'':'1000000'})
+    okay_EWRs['LevelThresholdMax'] = okay_EWRs['LevelThresholdMax'].replace({'':'1000000'})
     
     return okay_EWRs, bad_EWRs
 
@@ -121,7 +124,7 @@ def get_MDBA_codes() -> pd.DataFrame:
         pd.DataFrame: dataframe for linking MDBA model nodes to gauges
 
     '''
-    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str, encoding='windows-1252')
+    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)#, encoding='windows-1252')
 
     return metadata
   
@@ -416,12 +419,12 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
     multi_gauges = get_multi_gauges('gauges')
     multi_gauges = list(multi_gauges.values())
     if category == 'all gauges':
-        return set(EWR_table['Gauge'].to_list() + menindee_gauges + wp_gauges + multi_gauges)
+        return set(EWR_table['Gauge'].to_list()+menindee_gauges+wp_gauges+multi_gauges+flow_barrage_gauges+level_barrage_gauges+qld_flow_gauges+qld_level_gauges+vic_level_gauges)
     elif category == 'flow gauges':
         return set(EWR_table['Gauge'].to_list() + multi_gauges + flow_barrage_gauges + qld_flow_gauges) 
     elif category == 'level gauges':
         level_gauges = EWR_table[EWR_table['FlowLevelVolume']=='L']['Gauge'].to_list()
-        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + level_gauges)
+        return set(menindee_gauges + wp_gauges + level_barrage_gauges + qld_level_gauges + level_gauges + vic_level_gauges)
     else:
         raise ValueError('''No gauge category sent to the "get_gauges" function''')
     
@@ -464,3 +467,17 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
     return flow_gauges, level_gauges, lake_level_gauges
 
 # def gauges_to_measurand()
+
+def get_causal_ewr() -> dict:
+
+    ewr2obj_path = os.path.join(BASE_PATH, "parameter_metadata/ewr2obj.csv")
+    obj2target_path = os.path.join(BASE_PATH, "parameter_metadata/obj2target.csv")
+    obj2yrtarget_path = os.path.join(BASE_PATH, "parameter_metadata/obj2yrtarget.csv")
+
+    causal_ewr = {
+        "ewr2obj": pd.read_csv(ewr2obj_path),
+        "obj2target": pd.read_csv(obj2target_path),
+        "obj2yrtarget":pd.read_csv(obj2yrtarget_path)
+    }
+
+    return causal_ewr
