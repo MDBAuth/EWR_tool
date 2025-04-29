@@ -4,8 +4,350 @@ import pandas as pd
 from pandas._testing import assert_frame_equal
 import pytest
 import numpy as np
-
+import unittest
 from py_ewr import evaluate_EWRs, data_inputs
+
+def test_component_pull():
+    # Sample DataFrame for testing
+    mock_data = {
+        'Gauge': ['G001', 'G002', 'G001', 'G003'],
+        'Code': ['EWR1', 'EWR2', 'EWR1', 'EWR3'],
+        'PlanningUnitID': ['PU1', 'PU2', 'PU1', 'PU3'],
+        'Component1': ['Value1', 'Value2', 'Value3', 'Value4'],
+        'Component2': ['Val1', 'Val2', 'Val3', 'Val4']
+    }
+    ewr_table_mock=pd.DataFrame(mock_data)
+    result = evaluate_EWRs.component_pull(ewr_table_mock, 'G001', 'PU1', 'EWR1', 'Component1')
+    assert result== 'Value1'
+    with pytest.raises(IndexError):
+        evaluate_EWRs.component_pull(ewr_table_mock, 'G999', 'PU1', 'EWR1', 'Component1')
+    with pytest.raises(KeyError):
+        evaluate_EWRs.component_pull(ewr_table_mock, 'G001', 'PU1', 'EWR1', 'InvalidComponent')
+    with pytest.raises(IndexError):
+        empty_df = pd.DataFrame(columns=mock_data.keys())
+        evaluate_EWRs.component_pull(empty_df, 'G001', 'PU1', 'EWR1', 'Component1')
+
+def test_is_multigauge():
+    mock_multigauge_data=pd.DataFrame({
+            'Gauge': [0.8, 0.8, 1.2],
+            'Code': ['EWR001', 'EWR002', 'EWR003'],
+            'PlanningUnitID': ['PU1', 'PU1', 'PU2'],
+            'Multigauge': ['1', '', '0']
+        })
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 0.8,  'EWR001', 'PU1')
+    assert result == True
+    # test empty
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 0.8,  'EWR002', 'PU1')
+    assert result == False
+    #test where is zero
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.2,  'EWR002', 'PU2')
+    assert result == False
+    #test no matching
+    result=evaluate_EWRs.is_multigauge(mock_multigauge_data, 1.0,  'EWR999', 'PU1')
+    assert result == False
+
+def test_get_second_multigauge():
+    mock_parameter_sheet=pd.DataFrame({
+            'Gauge': [1.0, 2.0, 3.0, 4.0],
+            'Code': ['EWR1', 'EWR2', 'EWR3', 'EWR4'],
+            'PlanningUnitID': ['PU1', 'PU2', 'PU3', 'PU4'],
+            'Multigauge': ['MG1', 'MG2', '', 'MG4']
+        })
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,1.0, 'EWR1', 'PU1')
+    assert result == 'MG1'
+    #test empty
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,3.0, 'EWR3', 'PU3')
+    assert result == ''
+    #no matching row
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet,5.0, 'EWR5', 'PU5')
+    assert result== ''
+    #test with multiple rows matching to retune first match
+    mock_parameter_sheet_1=pd.DataFrame({
+            'Gauge': [1.0, 1.0],
+            'Code': ['EWR1', 'EWR1'],
+            'PlanningUnitID': ['PU1', 'PU1'],
+            'Multigauge': ['MG1', 'MG5']
+        })
+    result=evaluate_EWRs.get_second_multigauge(mock_parameter_sheet_1,1.0, 'EWR1', 'PU1')
+    assert result== 'MG1'
+
+
+
+def test_calculate_n_day_moving_average():
+    mock_df=pd.DataFrame({
+            'Gauge1': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            'Gauge2': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        })
+    days=3
+    
+    expected_df = pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': [10, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_1= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': ['NAN', 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_2= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            '': ['NAN', 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    unexpected_df_3= pd.DataFrame({
+            'Gauge1': [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9],
+            'Gauge2': [0, 9.5, 9, 8, 7, 6, 5, 4, 3, 2]
+        })
+    result_df=evaluate_EWRs.calculate_n_day_moving_average(mock_df,days)
+    assert_frame_equal(result_df, expected_df)
+    AssertionError(result_df, unexpected_df_1)
+    AssertionError(result_df, unexpected_df_2)
+    AssertionError(result_df, unexpected_df_3)
+    
+def test_get_month_mask():
+    mock_date=pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    mock_df=pd.DataFrame({'value': range(len(mock_date))},index=mock_date)
+    #print(mock_df)
+    #within the same year test
+    result=evaluate_EWRs.get_month_mask(3,5,mock_df)
+    expected=set(mock_df.loc['2023-03-01':'2023-05-31'].index)
+    assert result==expected
+    #test across years
+    result=evaluate_EWRs.get_month_mask(11,2,mock_df)
+    expected=set(mock_df.loc['2023-11-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-02-28'].index))
+    assert result==expected
+    #test all of the year
+    result=evaluate_EWRs.get_month_mask(1,12,mock_df)
+    expected=set(mock_df.index)
+    assert result==expected
+    # test a month only
+    result=evaluate_EWRs.get_month_mask(8,8,mock_df)
+    expected = set(mock_df.loc['2023-08-01':'2023-08-31'].index)
+    # test incorrect range
+    result=evaluate_EWRs.get_month_mask(5,3,mock_df)
+    expected = set(mock_df.loc['2023-05-01':'2023-12-31'].index).union(set(mock_df.loc['2023-01-01':'2023-03-31'].index))
+    assert result==expected
+
+def test_get_day_mask():
+    date_rng = pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    sample_df = pd.DataFrame(date_rng, columns=['date'])
+    sample_df.set_index('date', inplace=True)
+    sample_df['value'] = range(len(sample_df))
+
+    # test where startMonth == endMonth
+    result = evaluate_EWRs.get_day_mask(10, 20, 5, 5, sample_df)
+    expected = set(sample_df.loc['2023-05-10':'2023-05-20'].index)
+    
+    assert result==expected
+
+    #test startMonth > endMonth
+    result = evaluate_EWRs.get_day_mask(25, 5, 12, 1, sample_df)
+    expected_dates = set(pd.date_range(start='2023-12-25', end='2023-12-31', freq='D').tolist()) |\
+                         set(pd.date_range(start='2023-01-01', end='2023-01-05', freq='D').tolist())
+    assert result==expected_dates
+
+    # test startMonth < endMonth (within the same year)
+    result = evaluate_EWRs.get_day_mask(15, 10, 3, 7, sample_df)
+    expected_dates = set(pd.date_range(start='2023-03-15', end='2023-07-10', freq='D').tolist())
+    assert result==expected_dates
+
+    #test range is invalid
+    result = evaluate_EWRs.get_day_mask(20, 10, 8, 8, sample_df)
+    expected_dates = set()
+    assert result==expected_dates
+
+    # Across water year
+
+    # Across water year with days also specified
+
+
+
+
+
+
+class TestMaskDates(unittest.TestCase):
+
+    def setUp(self):
+
+        self.input_df = pd.DataFrame({
+                    'date': pd.date_range(start='2020-01-01', end='2020-12-31'),
+                    'value': range(366)
+                }).set_index('date')
+        
+
+    def test_month_mask_within_same_year(self):
+        EWR_info = {'start_month': 3, 'end_month': 5, 'start_day': None, 'end_day': None}
+        expected_date = set(pd.date_range(start='2020-03-01', end='2020-05-31', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+  
+        
+        self.assertSetEqual(result, expected_dates)
+
+
+    def test_day_and_month_mask_same_month(self):
+        EWR_info = {'start_month': 6, 'end_month': 6, 'start_day': 10, 'end_day': 20}
+        expected_date = set(pd.date_range(start='2020-06-10', end='2020-06-20', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_day_and_month_mask_across_year(self):
+        EWR_info = {'start_month': 12, 'end_month': 1, 'start_day': 25, 'end_day': 10}
+        expected_date = set(pd.date_range(start='2020-12-25', end='2020-12-31', freq='D').union(
+                             pd.date_range(start='2020-01-01', end='2020-01-10', freq='D')).to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_day_and_month_mask_start_end_same(self):
+        EWR_info = {'start_month': 3, 'end_month': 3, 'start_day': 15, 'end_day': 15}
+        expected_dates = {pd.Timestamp(2020, 3, 15)}#.to_pydatetime()
+        #expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+    def test_month_mask_within_same_year(self):
+        EWR_info = {'start_month': 3, 'end_month': 5, 'start_day': None, 'end_day': None}
+        expected_date = set(pd.date_range(start='2020-03-01', end='2020-05-31', freq='D').to_pydatetime())
+        expected_dates = {pd.Timestamp(date) for date in expected_date}
+        result = evaluate_EWRs.mask_dates(EWR_info, self.input_df)
+        self.assertSetEqual(result, expected_dates)
+
+class test_water_year_daily(unittest.TestCase):
+    def test_standard_water_year(self):
+        # Test case for standard water year (July - June)
+        
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # EWRs dictionary with standard water year
+        ewrs = {
+            'start_month': 7,  
+            'end_month': 6     
+        }
+        
+        expected_water_years = np.array([2022] * 181 + [2023] * 184)
+        
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+
+        # Test case for non-standard water year (March - February)
+        
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+    def test_non_standard_water_year(self):   
+        # EWRs dictionary with non-standard water year
+        ewrs = {
+            'start_month': 3,  # March
+            'end_month': 2     # February
+        }
+        
+        expected_water_years = np.array([2022] * 181 + [2023] * 184)
+
+        # Create a sample DataFrame from January 1, 2023 to December 31, 2023
+        date_range = pd.date_range(start="2023-01-01", end="2023-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # Call the function
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+    def test_leap_year(self):
+        # Test case including a leap year (February 29)
+        
+        # Create a sample DataFrame from January 1, 2020 to December 31, 2020 (Leap year)
+        date_range = pd.date_range(start="2020-01-01", end="2020-12-31", freq='D')
+        data = np.random.rand(len(date_range))  # Random flow values
+        input_df = pd.DataFrame(data, index=date_range, columns=['flow'])
+        
+        # EWRs dictionary with non-standard water year
+        ewrs = {
+            'start_month': 3,  # March
+            'end_month': 2     # February
+        }
+        
+        expected_water_years = np.array([2019] * 182 + [2020] * 184)
+        
+        
+        result = evaluate_EWRs.wateryear_daily(input_df, ewrs)
+        
+        # Assert that the output matches the expected water years
+        np.testing.assert_array_equal(result, expected_water_years)
+
+def test_construct_event_dict():
+    #basic functionality
+    water_years = np.array([2001, 2002, 2003, 2001, 2002])
+    expected = {
+            2001: [],
+            2002: [],
+            2003: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    #test empty input
+    water_years = np.array([])
+    expected = {}
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    # test single year
+    water_years = np.array([2001])
+    expected = {
+            2001: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+    # test unsorted
+    water_years = np.array([2003, 2001, 2002])
+    expected = {
+            2001: [],
+            2002: [],
+            2003: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+
+    # test duplicate
+    water_years = np.array([2001, 2001, 2001])
+    expected = {
+            2001: []
+        }
+    result = evaluate_EWRs.construct_event_dict(water_years)
+    assert result == expected
+
+# def test_ctf_check():
+#     EWR_info={
+#         'min_flow':5.0,
+#         'max_flow':10.0,
+#         'duration':3
+#     }
+#     flows=np.array([6.0])
+#     water_years=np.array([2001])
+#     event=[]
+#     all_events={2001:[]}
+#     flow_date=date(2001,1,1)
+
+#     event,all_events=evaluate_EWRs.ctf_check(EWR_info, 0, flows[0],event, all_events, water_years,flow_date)
+#     expected= [(0,6.0)]
+
+
+ 
+    
+
+
+
+
+
+
+
+
+
 
 def test_ctf_handle():
     '''
@@ -35,17 +377,12 @@ def test_ctf_handle():
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[[(date(2012, 7, 1)+timedelta(days=i),0) for i in range(1461)]]}
-    expected_events = tuple([expected_events])
-
-
-
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i] 
-
-    
+    # Assuming `events` is a dictionary with years as keys and lists of events as values
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
+        
 def test_lowflow_handle():
     '''
     1. Ensure all parts of the function generate expected output
@@ -78,13 +415,11 @@ def test_lowflow_handle():
 
     # Setting up expected output - events, and testing
     expected_events = {2012:[], 2013:[], 2014:[], 2015:[]}
-    expected_events = tuple([expected_events])
-
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]  
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_flow_handle():
     '''Things to calc in this function:
@@ -132,12 +467,11 @@ def test_flow_handle():
                         2015: [[(date(2015, 7, 6) + timedelta(days=i), 450) for i in range(10)],
                             [(date(2015, 7, 17) + timedelta(days=i), 450) for i in range(10)],     
                             [(date(2016, 6, 21) + timedelta(days=i), 450) for i in range(10)]]}
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i] 
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_cumulative_handle():
     '''
@@ -173,12 +507,11 @@ def test_cumulative_handle():
     assert_frame_equal(PU_df, expected_PU_df)
     # Setting up expected output - events - and testing 
     expected_events = {2012:[[(date(2013, 6, 21), 22000)]], 2013:[], 2014:[], 2015:[]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
     (
@@ -212,7 +545,8 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
 
     EWR_table = qld_parameter_sheet
 
-    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
+    data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
+    end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         '422016': ( [2500]*10+[0]*355   + 
                                     [0]*365 + 
                                     [0]*365 + 
@@ -229,12 +563,11 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
     
     PU_df, events = evaluate_EWRs.cumulative_handle_qld(PU, gauge, EWR, EWR_table, df_F, PU_df)
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_level_handle():
     '''
@@ -245,7 +578,9 @@ def test_level_handle():
     gauge = '425022'
     EWR = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
+    data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), 
+                                           end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
+                                           ,
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
                                [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
                                [0]*5+[0]*345+[0]*1+[0]*13+[56]*1 + 
@@ -272,12 +607,11 @@ def test_level_handle():
                         2013:[], 
                         2014:[], 
                         2015:[[(date(2015, 6, 30) + timedelta(days=i), 56) for i in range(90)]]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i] 
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_nest_handle():
     '''
@@ -353,12 +687,11 @@ def test_nest_handle():
                               (date(2015, 9, 24), 6302.494097246094), (date(2015, 9, 25), 5987.369392383789)],
                               [(date(2015, 9, 27) + timedelta(days=i), 5300.0) for i in range(49)]
                               ]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 def test_flow_handle_multi():
@@ -401,12 +734,11 @@ def test_flow_handle_multi():
                        2014:[ [(date(2014, 7, 1) + timedelta(days=i), 2500) for i in range(3)], [(date(2014, 11, 7) + timedelta(days=i), 2500) for i in range(5)]], 
                        2015:[[(date(2015, 9, 16) + timedelta(days=i), 2500) for i in range(4)]]}
     
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_lowflow_handle_multi():
     '''
@@ -443,12 +775,11 @@ def test_lowflow_handle_multi():
     # Setting up expected output - events - and testing
     expected_events = {2012:[[(date(2012, 9, 15) + timedelta(days=i), 2500) for i in range(5)]], 
     2013:[], 2014:[], 2015:[]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_ctf_handle_multi():
     '''
@@ -489,12 +820,11 @@ def test_ctf_handle_multi():
                        2014:[ [(date(2014, 6, 26) + timedelta(days=i), 0) for i in range(15)], 
                        [(date(2015, 6, 21), 0)]], 
                        2015:[[(date(2015, 7, 1) + timedelta(days=i), 0) for i in range(366)]]}
-    expected_events = tuple([expected_events])
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 def test_cumulative_handle_multi():
     '''
@@ -539,24 +869,23 @@ def test_cumulative_handle_multi():
 
     assert_frame_equal(PU_df, expected_PU_df)   
     # Setting up expected output - events - and testing
-    expected_events = {2012:[[(date(2013, 6, 16), 60120)]], 
-                       2013:[], 
-                       2014:[], 
-                       2015:[[(date(2015, 7, 24), 60000), (date(2015, 7, 25), 61000), (date(2015, 7, 26), 62000), (date(2015, 7, 27), 63000), (date(2015, 7, 28), 64000), (date(2015, 7, 29), 65000), (date(2015, 7, 30), 66000), (date(2015, 7, 31), 67000), (date(2015, 8, 1), 68000), (date(2015, 8, 2), 69000), (date(2015, 8, 3), 70000), (date(2015, 8, 4), 71000), (date(2015, 8, 5), 72000), (date(2015, 8, 6), 73000), (date(2015, 8, 7), 74000), (date(2015, 8, 8), 75000), (date(2015, 8, 9), 76000), (date(2015, 8, 10), 77000), (date(2015, 8, 11), 78000), (date(2015, 8, 12), 79000), (date(2015, 8, 13), 80000), (date(2015, 8, 14), 81000), (date(2015, 8, 15), 82000), (date(2015, 8, 16), 83000), (date(2015, 8, 17), 84000), (date(2015, 8, 18), 85000), (date(2015, 8, 19), 86000), (date(2015, 8, 20), 87000), (date(2015, 8, 21), 88000), (date(2015, 8, 22), 89000), (date(2015, 8, 23), 90000), (date(2015, 8, 24), 91000), (date(2015, 8, 25), 92000), (date(2015, 8, 26), 93000), (date(2015, 8, 27), 94000), (date(2015, 8, 28), 95000), (date(2015, 8, 29), 96000), (date(2015, 8, 30), 97000), (date(2015, 8, 31), 98000), (date(2015, 9, 1), 99000), (date(2015, 9, 2), 100000), (date(2015, 9, 3), 101000), (date(2015, 9, 4), 102000), (date(2015, 9, 5), 103000), (date(2015, 9, 6), 104000), (date(2015, 9, 7), 105000), (date(2015, 9, 8), 106000), (date(2015, 9, 9), 107000), (date(2015, 9, 10), 108000), (date(2015, 9, 11), 109000), (date(2015, 9, 12), 110000), (date(2015, 9, 13), 111000), (date(2015, 9, 14), 112000), (date(2015, 9, 15), 113000), (date(2015, 9, 16), 114000), (date(2015, 9, 17), 115000), (date(2015, 9, 18), 116000), (date(2015, 9, 19), 117000), (date(2015, 9, 20), 118000), (date(2015, 9, 21), 119000), (date(2015, 9, 22), 120000), (date(2015, 9, 23), 121000), (date(2015, 9, 24), 122000), (date(2015, 9, 25), 123000), (date(2015, 9, 26), 124000), (date(2015, 9, 27), 125000), (date(2015, 9, 28), 126000), (date(2015, 9, 29), 117000), (date(2015, 9, 30), 108000), (date(2015, 10, 1), 99000), (date(2015, 10, 2), 90000), (date(2015, 10, 3), 90000), (date(2015, 10, 4), 90000), (date(2015, 10, 5), 90000), (date(2015, 10, 6), 90000), (date(2015, 10, 7), 90000), (date(2015, 10, 8), 90000), (date(2015, 10, 9), 90000), (date(2015, 10, 10), 90000), (date(2015, 10, 11), 90000), (date(2015, 10, 12), 90000), (date(2015, 10, 13), 90000), (date(2015, 10, 14), 90000), (date(2015, 10, 15), 90000), (date(2015, 10, 16), 90000), (date(2015, 10, 17), 90000), (date(2015, 10, 18), 90000), (date(2015, 10, 19), 90000), (date(2015, 10, 20), 90000), (date(2015, 10, 21), 90000), (date(2015, 10, 22), 90000), (date(2015, 10, 23), 90000), (date(2015, 10, 24), 90000), (date(2015, 10, 25), 90000), (date(2015, 10, 26), 90000), (date(2015, 10, 27), 90000), (date(2015, 10, 28), 90000), (date(2015, 10, 29), 90000), (date(2015, 10, 30), 90000), (date(2015, 10, 31), 90000), (date(2015, 11, 1), 90000), (date(2015, 11, 2), 90000), (date(2015, 11, 3), 90000), (date(2015, 11, 4), 90000), (date(2015, 11, 5), 90000), (date(2015, 11, 6), 90000), (date(2015, 11, 7), 90000), (date(2015, 11, 8), 90000), (date(2015, 11, 9), 90000), (date(2015, 11, 10), 90000), (date(2015, 11, 11), 90000), (date(2015, 11, 12), 90000), (date(2015, 11, 13), 90000), (date(2015, 11, 14), 90000), (date(2015, 11, 15), 90000), (date(2015, 11, 16), 90000), (date(2015, 11, 17), 90000), (date(2015, 11, 18), 90000), (date(2015, 11, 19), 90000), (date(2015, 11, 20), 90000), (date(2015, 11, 21), 90000), (date(2015, 11, 22), 90000), (date(2015, 11, 23), 90000), (date(2015, 11, 24), 90000), (date(2015, 11, 25), 90000), (date(2015, 11, 26), 90000), (date(2015, 11, 27), 90000), (date(2015, 11, 28), 90000), (date(2015, 11, 29), 90000), (date(2015, 11, 30), 90000), (date(2015, 12, 1), 90000), (date(2015, 12, 2), 90000), (date(2015, 12, 3), 90000), (date(2015, 12, 4), 90000), (date(2015, 12, 5), 90000), (date(2015, 12, 6), 90000), (date(2015, 12, 7), 90000), (date(2015, 12, 8), 90000), (date(2015, 12, 9), 90000), (date(2015, 12, 10), 90000), (date(2015, 12, 11), 90000), (date(2015, 12, 12), 90000), (date(2015, 12, 13), 90000), (date(2015, 12, 14), 90000), (date(2015, 12, 15), 90000), (date(2015, 12, 16), 90000), (date(2015, 12, 17), 90000), (date(2015, 12, 18), 90000), (date(2015, 12, 19), 90000), (date(2015, 12, 20), 90000), (date(2015, 12, 21), 90000), (date(2015, 12, 22), 90000), (date(2015, 12, 23), 90000), (date(2015, 12, 24), 90000), (date(2015, 12, 25), 90000), (date(2015, 12, 26), 90000), (date(2015, 12, 27), 90000), (date(2015, 12, 28), 90000), (date(2015, 12, 29), 90000), (date(2015, 12, 30), 90000), (date(2015, 12, 31), 90000), (date(2016, 1, 1), 89900), (date(2016, 1, 2), 89800), (date(2016, 1, 3), 89700), (date(2016, 1, 4), 89600), (date(2016, 1, 5), 89500), (date(2016, 1, 6), 89400), (date(2016, 1, 7), 89300), (date(2016, 1, 8), 89200), (date(2016, 1, 9), 89100), (date(2016, 1, 10), 89000), (date(2016, 1, 11), 88000), (date(2016, 1, 12), 87000), (date(2016, 1, 13), 86900), (date(2016, 1, 14), 86800), (date(2016, 1, 15), 86700), (date(2016, 1, 16), 86600), (date(2016, 1, 17), 86500), (date(2016, 1, 18), 86400), (date(2016, 1, 19), 86300), (date(2016, 1, 20), 86200), (date(2016, 1, 21), 86100), (date(2016, 1, 22), 86000), (date(2016, 1, 23), 85500), (date(2016, 1, 24), 85000), (date(2016, 1, 25), 84500), (date(2016, 1, 26), 84000), (date(2016, 1, 27), 83500), (date(2016, 1, 28), 83000), (date(2016, 1, 29), 82500), (date(2016, 1, 30), 82000), (date(2016, 1, 31), 81500), (date(2016, 2, 1), 81000), (date(2016, 2, 2), 80500), (date(2016, 2, 3), 80000), (date(2016, 2, 4), 79500), (date(2016, 2, 5), 79000), (date(2016, 2, 6), 78500), (date(2016, 2, 7), 78000), (date(2016, 2, 8), 77500), (date(2016, 2, 9), 77000), (date(2016, 2, 10), 76500), (date(2016, 2, 11), 76000), (date(2016, 2, 12), 75500), (date(2016, 2, 13), 75000), (date(2016, 2, 14), 74500), (date(2016, 2, 15), 74000), (date(2016, 2, 16), 73500), (date(2016, 2, 17), 73000), (date(2016, 2, 18), 72500), (date(2016, 2, 19), 72000), (date(2016, 2, 20), 71500), (date(2016, 2, 21), 71000), (date(2016, 2, 22), 70500), (date(2016, 2, 23), 70000), (date(2016, 2, 24), 69500), (date(2016, 2, 25), 69000), (date(2016, 2, 26), 68500), (date(2016, 2, 27), 68000), (date(2016, 2, 28), 67500), (date(2016, 2, 29), 67000), (date(2016, 3, 1), 66500), (date(2016, 3, 2), 66000), (date(2016, 3, 3), 65500), (date(2016, 3, 4), 65000), (date(2016, 3, 5), 64500), (date(2016, 3, 6), 64000), (date(2016, 3, 7), 63500), (date(2016, 3, 8), 63000), (date(2016, 3, 9), 62500), (date(2016, 3, 10), 62000), (date(2016, 3, 11), 61500), (date(2016, 3, 12), 61000), (date(2016, 3, 13), 60500), (date(2016,3,14), 60000)]]}
-    expected_events = tuple([expected_events])
+    expected_events = {2012: [[(date(2013, 6, 16), 60120)]],
+                       2013: [],
+                       2014: [],
+                       2015: [[(date(2015, 7, 24), 60000), (date(2015, 7, 25), 61000), (date(2015, 7, 26), 62000), (date(2015, 7, 27), 63000), (date(2015, 7, 28), 64000), (date(2015, 7, 29), 65000), (date(2015, 7, 30), 66000), (date(2015, 7, 31), 67000), (date(2015, 8, 1), 68000), (date(2015, 8, 2), 69000), (date(2015, 8, 3), 70000), (date(2015, 8, 4), 71000), (date(2015, 8, 5), 72000), (date(2015, 8, 6), 73000), (date(2015, 8, 7), 74000), (date(2015, 8, 8), 75000), (date(2015, 8, 9), 76000), (date(2015, 8, 10), 77000), (date(2015, 8, 11), 78000), (date(2015, 8, 12), 79000), (date(2015, 8, 13), 80000), (date(2015, 8, 14), 81000), (date(2015, 8, 15), 82000), (date(2015, 8, 16), 83000), (date(2015, 8, 17), 84000), (date(2015, 8, 18), 85000), (date(2015, 8, 19), 86000), (date(2015, 8, 20), 87000), (date(2015, 8, 21), 88000), (date(2015, 8, 22), 89000), (date(2015, 8, 23), 90000), (date(2015, 8, 24), 91000), (date(2015, 8, 25), 92000), (date(2015, 8, 26), 93000), (date(2015, 8, 27), 94000), (date(2015, 8, 28), 95000), (date(2015, 8, 29), 96000), (date(2015, 8, 30), 97000), (date(2015, 8, 31), 98000), (date(2015, 9, 1), 99000), (date(2015, 9, 2), 100000), (date(2015, 9, 3), 101000), (date(2015, 9, 4), 102000), (date(2015, 9, 5), 103000), (date(2015, 9, 6), 104000), (date(2015, 9, 7), 105000), (date(2015, 9, 8), 106000), (date(2015, 9, 9), 107000), (date(2015, 9, 10), 108000), (date(2015, 9, 11), 109000), (date(2015, 9, 12), 110000), (date(2015, 9, 13), 111000), (date(2015, 9, 14), 112000), (date(2015, 9, 15), 113000), (date(2015, 9, 16), 114000), (date(2015, 9, 17), 115000), (date(2015, 9, 18), 116000), (date(2015, 9, 19), 117000), (date(2015, 9, 20), 118000), (date(2015, 9, 21), 119000), (date(2015, 9, 22), 120000), (date(2015, 9, 23), 121000), (date(2015, 9, 24), 122000), (date(2015, 9, 25), 123000), (date(2015, 9, 26), 124000), (date(2015, 9, 27), 125000), (date(2015, 9, 28), 126000), (date(2015, 9, 29), 117000), (date(2015, 9, 30), 108000), (date(2015, 10, 1), 99000), (date(2015, 10, 2), 90000), (date(2015, 10, 3), 90000), (date(2015, 10, 4), 90000), (date(2015, 10, 5), 90000), (date(2015, 10, 6), 90000), (date(2015, 10, 7), 90000), (date(2015, 10, 8), 90000), (date(2015, 10, 9), 90000), (date(2015, 10, 10), 90000), (date(2015, 10, 11), 90000), (date(2015, 10, 12), 90000), (date(2015, 10, 13), 90000), (date(2015, 10, 14), 90000), (date(2015, 10, 15), 90000), (date(2015, 10, 16), 90000), (date(2015, 10, 17), 90000), (date(2015, 10, 18), 90000), (date(2015, 10, 19), 90000), (date(2015, 10, 20), 90000), (date(2015, 10, 21), 90000), (date(2015, 10, 22), 90000), (date(2015, 10, 23), 90000), (date(2015, 10, 24), 90000), (date(2015, 10, 25), 90000), (date(2015, 10, 26), 90000), (date(2015, 10, 27), 90000), (date(2015, 10, 28), 90000), (date(2015, 10, 29), 90000), (date(2015, 10, 30), 90000), (date(2015, 10, 31), 90000), (date(2015, 11, 1), 90000), (date(2015, 11, 2), 90000), (date(2015, 11, 3), 90000), (date(2015, 11, 4), 90000), (date(2015, 11, 5), 90000), (date(2015, 11, 6), 90000), (date(2015, 11, 7), 90000), (date(2015, 11, 8), 90000), (date(2015, 11, 9), 90000), (date(2015, 11, 10), 90000), (date(2015, 11, 11), 90000), (date(2015, 11, 12), 90000), (date(2015, 11, 13), 90000), (date(2015, 11, 14), 90000), (date(2015, 11, 15), 90000), (date(2015, 11, 16), 90000), (date(2015, 11, 17), 90000), (date(2015, 11, 18), 90000), (date(2015, 11, 19), 90000), (date(2015, 11, 20), 90000), (date(2015, 11, 21), 90000), (date(2015, 11, 22), 90000), (date(2015, 11, 23), 90000), (date(2015, 11, 24), 90000), (date(2015, 11, 25), 90000), (date(2015, 11, 26), 90000), (date(2015, 11, 27), 90000), (date(2015, 11, 28), 90000), (date(2015, 11, 29), 90000), (date(2015, 11, 30), 90000), (date(2015, 12, 1), 90000), (date(2015, 12, 2), 90000), (date(2015, 12, 3), 90000), (date(2015, 12, 4), 90000), (date(2015, 12, 5), 90000), (date(2015, 12, 6), 90000), (date(2015, 12, 7), 90000), (date(2015, 12, 8), 90000), (date(2015, 12, 9), 90000), (date(2015, 12, 10), 90000), (date(2015, 12, 11), 90000), (date(2015, 12, 12), 90000), (date(2015, 12, 13), 90000), (date(2015, 12, 14), 90000), (date(2015, 12, 15), 90000), (date(2015, 12, 16), 90000), (date(2015, 12, 17), 90000), (date(2015, 12, 18), 90000), (date(2015, 12, 19), 90000), (date(2015, 12, 20), 90000), (date(2015, 12, 21), 90000), (date(2015, 12, 22), 90000), (date(2015, 12, 23), 90000), (date(2015, 12, 24), 90000), (date(2015, 12, 25), 90000), (date(2015, 12, 26), 90000), (date(2015, 12, 27), 90000), (date(2015, 12, 28), 90000), (date(2015, 12, 29), 90000), (date(2015, 12, 30), 90000), (date(2015, 12, 31), 90000), (date(2016, 1, 1), 89900), (date(2016, 1, 2), 89800), (date(2016, 1, 3), 89700), (date(2016, 1, 4), 89600), (date(2016, 1, 5), 89500), (date(2016, 1, 6), 89400), (date(2016, 1, 7), 89300), (date(2016, 1, 8), 89200), (date(2016, 1, 9), 89100), (date(2016, 1, 10), 89000), (date(2016, 1, 11), 88000), (date(2016, 1, 12), 87000), (date(2016, 1, 13), 86900), (date(2016, 1, 14), 86800), (date(2016, 1, 15), 86700), (date(2016, 1, 16), 86600), (date(2016, 1, 17), 86500), (date(2016, 1, 18), 86400), (date(2016, 1, 19), 86300), (date(2016, 1, 20), 86200), (date(2016, 1, 21), 86100), (date(2016, 1, 22), 86000), (date(2016, 1, 23), 85500), (date(2016, 1, 24), 85000), (date(2016, 1, 25), 84500), (date(2016, 1, 26), 84000), (date(2016, 1, 27), 83500), (date(2016, 1, 28), 83000), (date(2016, 1, 29), 82500), (date(2016, 1, 30), 82000), (date(2016, 1, 31), 81500), (date(2016, 2, 1), 81000), (date(2016, 2, 2), 80500), (date(2016, 2, 3), 80000), (date(2016, 2, 4), 79500), (date(2016, 2, 5), 79000), (date(2016, 2, 6), 78500), (date(2016, 2, 7), 78000), (date(2016, 2, 8), 77500), (date(2016, 2, 9), 77000), (date(2016, 2, 10), 76500), (date(2016, 2, 11), 76000), (date(2016, 2, 12), 75500), (date(2016, 2, 13), 75000), (date(2016, 2, 14), 74500), (date(2016, 2, 15), 74000), (date(2016, 2, 16), 73500), (date(2016, 2, 17), 73000), (date(2016, 2, 18), 72500), (date(2016, 2, 19), 72000), (date(2016, 2, 20), 71500), (date(2016, 2, 21), 71000), (date(2016, 2, 22), 70500), (date(2016, 2, 23), 70000), (date(2016, 2, 24), 69500), (date(2016, 2, 25), 69000), (date(2016, 2, 26), 68500), (date(2016, 2, 27), 68000), (date(2016, 2, 28), 67500), (date(2016, 2, 29), 67000), (date(2016, 3, 1), 66500), (date(2016, 3, 2), 66000), (date(2016, 3, 3), 65500), (date(2016, 3, 4), 65000), (date(2016, 3, 5), 64500), (date(2016, 3, 6), 64000), (date(2016, 3, 7), 63500), (date(2016, 3, 8), 63000), (date(2016, 3, 9), 62500), (date(2016, 3, 10), 62000), (date(2016, 3, 11), 61500), (date(2016, 3, 12), 61000), (date(2016, 3, 13), 60500), (date(2016, 3, 14), 60000)]]}
 
-    for index, tuple_ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 @pytest.mark.parametrize("date,water_year",
         [ (date(2022,6,29), 2021),
          (date(2022,6,20), 2021),
-         (date(2022,7,1), 2022),],
+         (date(2022,7,1),2022),]
 )
-def test_water_year(date, water_year):
+def test_water_year(date: date, water_year):
     result = evaluate_EWRs.water_year(date)
     assert result == water_year
 
@@ -564,9 +893,9 @@ def test_water_year(date, water_year):
         [ ( date(2022,6,1), date(2022,6,29), [2021]),
           ( date(2022,6,1), date(2022,7,29), [2021,2022]),
           (date(2022,6,1),date(2023,7,29), [2021,2022,2023]),
-        ],
+        ]
 )
-def test_water_year_touches(start_date, end_date, water_years):
+def test_water_year_touches(start_date: date, end_date: date, water_years):
     result = evaluate_EWRs.water_year_touches(start_date, end_date)
     assert result == water_years
 
@@ -613,7 +942,7 @@ def test_water_year_touches(start_date, end_date, water_years):
              (date(2014, 11, 1), date(2014, 11, 5), 5, [2014]),
              (date(2015, 6, 26), date(2015, 6, 30), 5, [2014]),
              (date(2015, 11, 1), date(2015, 11, 5), 5, [2015])])
-        ],
+        ]
 )
 def test_return_events_list_info(gauge_events, events_info):
     result = evaluate_EWRs.return_events_list_info(gauge_events)
@@ -636,7 +965,7 @@ def test_return_events_list_info(gauge_events, events_info):
              (date(2015, 6, 26), date(2015, 6, 30), 5, [2014]),
              (date(2015, 11, 1), date(2015, 11, 5), 5, [2015])] ,
              {2012: [5, 5], 2013: [7, 3, 3], 2014: [5, 5], 2015: [5]} )
-        ],
+        ]
 )
 def test_lengths_to_years(events_info,water_year_maxs):
     result = evaluate_EWRs.lengths_to_years(events_info)
@@ -661,8 +990,8 @@ def test_return_event_info(event, expected_event_info):
     ((date(2012, 6, 25), date(2013, 7, 5), 376, [2011, 2012, 2013]),
     [6,371,5]),
     ((date(2012, 6, 25), date(2012, 7, 29), 5, [2011]),
-    [5]),
-],)
+    [5])])
+
 def test_years_lengths(event_info, expected_years_lengths_list):
     result = evaluate_EWRs.years_lengths(event_info)
     assert result == expected_years_lengths_list
@@ -696,30 +1025,29 @@ def test_years_lengths(event_info, expected_years_lengths_list):
             [i for i in range(2012,2015+1)],
             [5, 370, 374, 5]),
           
-        ],
+        ]
 )
 def test_get_max_consecutive_event_days(gauge_events, unique_water_years, max_consecutive_events):
     result = evaluate_EWRs.get_max_consecutive_event_days(gauge_events,unique_water_years)
     assert result == max_consecutive_events
 
 
-@pytest.mark.parametrize("durations,max_consecutive_days,duration_achievement",
-        [ ( [5,5,5,5],
+@pytest.mark.parametrize("EWR_info, max_consecutive_days,duration_achievement",
+        [ ({'duration':5},
             [1,5,6,0],
             [0,1,1,0]
               ),
               ],
 )
-def test_get_max_rolling_duration_achievement(durations, max_consecutive_days,duration_achievement):
-    result = evaluate_EWRs.get_max_rolling_duration_achievement(durations, max_consecutive_days)
+def test_get_max_rolling_duration_achievement(EWR_info, max_consecutive_days,duration_achievement):
+    result = evaluate_EWRs.get_max_rolling_duration_achievement(EWR_info, max_consecutive_days)
     assert result == duration_achievement
 
 @pytest.mark.parametrize("iteration,flows,expected_result",[
     (1,[100,80],-20),
     (1,[0,80], 0),
     (0,[80,50], 0),
-    (1,[100,120], 20),
-
+    (1,[100,120], 20)
 ],)
 def test_calc_flow_percent_change(iteration, flows, expected_result):
     result = evaluate_EWRs.calc_flow_percent_change(iteration,flows)
@@ -731,9 +1059,8 @@ def test_calc_flow_percent_change(iteration, flows, expected_result):
     (-20, 10, True),
     (-40, 11, True),
     (-40, 9, False),
-    (10, 10,True),
-
-],)
+    (10, 10,True)
+])
 def test_check_nest_percent_drawdown(flow_percent_change, flow, expected_result):
     EWR_info = {'max_flow':10, 'drawdown_rate':"15%"}
 
@@ -747,9 +1074,9 @@ def test_check_nest_percent_drawdown(flow_percent_change, flow, expected_result)
     ({'end_month': 9, 'end_day': None}, 0, date(2012, 9, 30)),
     ({'end_month': 12, 'end_day': None}, 0, date(2012, 12, 31)),
     ({'end_month': 4, 'end_day': None}, 366, date(2013, 4, 30)),
-    ({'end_month': 4, 'end_day': 15}, 366, date(2013, 4, 15)),
-],)
-def test_calc_nest_cut_date(EWR_info, iteration,expected_result):
+    ({'end_month': 4, 'end_day': 15}, 366,date(2013, 4, 15))
+])
+def test_calc_nest_cut_date(EWR_info, iteration,expected_result: date):
     dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
     result = evaluate_EWRs.calc_nest_cut_date(EWR_info,iteration, dates)
     assert result == expected_result
@@ -762,11 +1089,12 @@ def test_calc_nest_cut_date(EWR_info, iteration,expected_result):
     ( [10, 10, 10, 10, 9.8, 9.7, 9.7], {"drawdown_rate_week" : "0.3"}, 6, 6, False),
     ( [10, 10, 10, 9.8, 9.7, 9.7], {"drawdown_rate_week" : "0.3"}, 5, 5, False),
     ( [10 , 10, 10, 10, 10, 10, 9.8, 9.7, 9.8], {"drawdown_rate_week" : "0.3"}, 8, 8, True),
-    ( [10], {"drawdown_rate_week" : "0.3"}, 0, 0, True),
-],)
+    ( [10], {"drawdown_rate_week" : "0.3"}, 0, 0, True)
+])
 def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expected_result):
     result = evaluate_EWRs.check_weekly_drawdown(levels, EWR_info, iteration, event_length)
     assert result == expected_result
+
 
 
 # @pytest.mark.parametrize("gauge",[
@@ -776,13 +1104,16 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     
 #     df_F, df_L = wp_df_F_df_L
 
+
 #     location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, wp_EWR_table, ewr_calc_config)
+
 
 #     pu_df = location_results['Murray River - Lock 10 to Lock 9']
 
 #     data_result =  pu_df.to_dict()
 #     assert data_result['SF-WP/WP3_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
 #     assert data_result['LF2-WP/WP4_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
+
 
 
 @pytest.mark.parametrize("wp_freshes,freshes_eventYears,wp_eventYears,merged_eventYears",[
@@ -813,8 +1144,8 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     'SF-WP/WP3_eventYears': [1,1,1,1], 
     'LF2-WP/WP4_eventYears': [0,0,1,1]
     }
-    ),
-],)
+    )
+])
 def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, wp_eventYears, merged_eventYears):
     weirpool_pair = {'SF-WP':'WP3','LF2-WP': 'WP4' }
 
@@ -875,7 +1206,7 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
                             'CLLMM1b_totalEventDaysAchieved': [0, 0, 1, 1],'CLLMM1b_maxEventDays':[0, 0, 1, 1],
                             'CLLMM1b_maxRollingEvents': [0, 0, 1, 1], 'CLLMM1b_maxRollingAchievement': [0, 0, 1, 1],
                             'CLLMM1b_missingDays': [0,0,0,0], 'CLLMM1b_totalPossibleDays': [365,365,365,366]}
-                        ),
+                        )
 ])
 def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
 
@@ -899,12 +1230,11 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
     PU_df.index = PU_df.index.astype('int64')
     assert_frame_equal(PU_df, expected_PU_df)
     
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 
@@ -931,7 +1261,7 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
        'CLLMM1c_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
     )
 ])
-def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_df_data):
+def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events, expected_PU_df_data):
     # Set up input data
     PU = 'PU_0000029'
     gauge = 'A4260527'
@@ -958,12 +1288,11 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
 
     assert PU_df.to_dict() == expected_PU_df_data
     
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
@@ -1020,12 +1349,11 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
     
     
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("flows, iteration, period, expected_result",[
@@ -1055,7 +1383,7 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
     105,
     3,
     False
-    ),
+    )
 ])
 def test_check_cease_flow_period(flows, iteration, period, expected_result):
     result = evaluate_EWRs.check_cease_flow_period(flows, iteration, period)
@@ -1115,12 +1443,11 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+        assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+        for i, event in enumerate(year_events):
+            assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("expected_events,expected_PU_df_data",[
@@ -1184,12 +1511,11 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 
@@ -1225,8 +1551,7 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
     (
        [],
         0 
-    ),
-       
+    )
 ])
 def test_get_min_gap(events, expected_result):
     result = evaluate_EWRs.get_min_gap(events)
@@ -1263,8 +1588,7 @@ def test_get_min_gap(events, expected_result):
     (
        [],
         0 
-    ),
-       
+    )
 ])
 def test_get_max_gap(events, expected_result):
     result = evaluate_EWRs.get_max_gap(events)
@@ -1301,8 +1625,7 @@ def test_get_max_gap(events, expected_result):
     (
        [],
         0 
-    ),
-       
+    )
 ])
 def test_get_max_event_length(events, expected_result):
     result = evaluate_EWRs.get_max_event_length(events)
@@ -1356,12 +1679,23 @@ def test_get_event_years_connecting_events(event_years, expected_results):
         [(date(2014, 10, 20) + timedelta(days=i), 0) for i in range(29)],
       ],
      2015: [[(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)]],
+     2020: [], #no events in a year
+     2017: [
+         [(date(2017, 1, 1) + timedelta(days=i), 0) for i in range(89)]], # short event
+     2018: [[(date(2018, 1, 1) + timedelta(days=i), 0) for i in range(10)],
+             [(date(2018, 1, 15) + timedelta(days=i), 0) for i in range(5)]], #less than 27 days
+     2019: [[(date(2019, 1, 1) + timedelta(days=i), 0) for i in range(10)],
+             [(date(2019, 4, 15) + timedelta(days=i), 0) for i in range(5)]], # greater than 90 days
+     2022: [[(date(2022, 1, 1) + timedelta(days=i), 0) for i in range(10)],
+             [(date(2022, 2, 28) + timedelta(days=i), 0) for i in range(5)],
+             [(date(2022, 5, 1) + timedelta(days=i), 0) for i in range(5)]] # achieve 2 events
+
     },
-    [1,3,0,1]
+    [1,3,0,1,0,0,0,0,2]
     )
 ])
 def test_get_achievements_connecting_events(event_years, expected_results):
-    unique_water_years = [2012, 2013, 2014, 2015]
+    unique_water_years = [2012, 2013, 2014, 2015, 2020, 2017, 2018, 2019, 2022]
     result = evaluate_EWRs.get_achievements_connecting_events(event_years, unique_water_years)
     assert result == expected_results
 
@@ -1424,12 +1758,11 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
@@ -1482,12 +1815,11 @@ def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expe
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
+    
 
 
 @pytest.mark.parametrize("expected_events, expected_PU_df_data", [
@@ -1541,12 +1873,11 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
@@ -1667,7 +1998,7 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
        'RFL_su_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
        'RFL_su_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
        'RFL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
-    ),
+    )
 ])
 def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
     EWR_table = vic_parameter_sheet
@@ -1690,12 +2021,11 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
 
 
 @pytest.mark.parametrize("pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data", [
@@ -1728,14 +2058,16 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
        'F3_maxRollingAchievement': {2012: 1, 2013: 0, 2014: 0, 2015: 0}, 
        'F3_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
        'F3_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
-    ),
+    )
 ])
 def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
     
     EWR_table = vic_parameter_sheet
 
-    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')), #.to_period(),
                         gauge: gauge_data } 
+    data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')), #.to_period(),
+                    gauge: gauge_data} 
     
 
     df_L = pd.DataFrame(data = data_for_df)
@@ -1750,10 +2082,9 @@ def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expect
 
     assert PU_df.to_dict() == expected_PU_df_data
 
-    expected_events = tuple([expected_events])
-    for index, _ in enumerate(events):
-        for year in events[index]:
-            assert len(events[index][year]) == len(expected_events[index][year])
-            for i, event in enumerate(events[index][year]):
-                assert event == expected_events[index][year][i]
+    
+    for year, year_events in events.items():
+            assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
+            for i, event in enumerate(year_events):
+                assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
     
