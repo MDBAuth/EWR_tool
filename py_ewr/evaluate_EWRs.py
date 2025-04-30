@@ -159,10 +159,10 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
         ewrs['max_duration'] = float(max_duration) if max_duration else 1_000_000
     if 'TriggerDay' in components:
         trigger_day = component_pull(EWR_table, gauge, PU, EWR, 'TriggerDay')
-        ewrs['trigger_day'] = int(trigger_day)
+        ewrs['trigger_day'] = float(trigger_day)
     if 'TriggerMonth' in components:
         trigger_month = component_pull(EWR_table, gauge, PU, EWR, 'TriggerMonth')
-        ewrs['trigger_month'] = int(trigger_month)
+        ewrs['trigger_month'] = float(trigger_month)
     if 'DrawDownRateWeek' in components:
         try:
             drawdown_rate_week = component_pull(EWR_table, gauge, PU, EWR, 'DrawDownRateWeek')
