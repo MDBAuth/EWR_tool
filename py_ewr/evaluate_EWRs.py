@@ -96,10 +96,10 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
             ewrs['end_day'] = None
             ewrs['end_month'] = int(end_date)
     if 'FlowThresholdMin' in components:
-        min_flow = int(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMin'))
-        ewrs['min_flow'] = int(min_flow)
+        min_flow = int(float(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMin')))
+        ewrs['min_flow'] = int(float(min_flow))
     if 'FlowThresholdMax' in components:
-        max_flow = int(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMax'))
+        max_flow = int(float(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMax')))
         ewrs['max_flow'] = int(max_flow)
     if 'LevelThresholdMin' in components:
         min_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMin'))
