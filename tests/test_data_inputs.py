@@ -43,9 +43,9 @@ def test_get_EWR_table():
     '''
     # Test 1
     proxies={} # Populate with your proxy settings
-    url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
+    url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     df = pd.read_csv(url,
-                        usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
+                        usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'SWSDLName', 'env_obj', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
                               'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
                               'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                               'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
@@ -208,7 +208,8 @@ def test_get_gauges():
     1. test that the value error gets raised.
     '''
     # Test 1
-    url = os.path.join(BASE_PATH, "unit_testing_files/parameter_sheet.csv")
+    url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
+    print(url)
     with pytest.raises(ValueError):
         data_inputs.get_gauges(category = 'not_a_category', 
                    ewr_table_path = url)
@@ -423,16 +424,20 @@ def test_weirpool_type():
     assert data_inputs.weirpool_type('WP2') == 'raising'
     assert data_inputs.weirpool_type('WP3') == 'falling'
     assert data_inputs.weirpool_type('WP4') == 'falling'
-def test_get_causal_ewr():
 
-    causal_ewr = data_inputs.get_causal_ewr()
-    assert isinstance(causal_ewr, dict)
+def test_get_obj_mapping():
 
-    assert len(causal_ewr) > 0
-    
-    expected_keys = {"ewr2obj", "obj2target", "obj2yrtarget"}
-    assert set(causal_ewr.keys()) == expected_keys
-    
-    for value in causal_ewr.values():
-        assert isinstance(value, pd.DataFrame)
+    obj_data = data_inputs.get_obj_mapping()
+    assert isinstance(obj_data, pd.DataFrame)
 
+    assert len(obj_data) > 0
+
+    contains_blanks = len(obj_data[obj_data.isnull().any(axis=1)])
+  
+
+    #---- check rows when something is wrong: ----#
+
+    # contains_blanks = obj_data[obj_data.isnull().any(axis=1)]
+    # print(contains_blanks[['LTWPShortName', 'PlanningUnitName', 'SWSDLName', 'State', 'Gauge', 'Code', 'env_obj']])
+
+    assert contains_blanks == 0, f'rows with blanks exist in the causal network indicating mismatched values'

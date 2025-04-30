@@ -1096,7 +1096,6 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     assert result == expected_result
 
 
-
 # @pytest.mark.parametrize("gauge",[
 #     ("425010"),
 # ],)
@@ -1104,17 +1103,13 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     
 #     df_F, df_L = wp_df_F_df_L
 
-
 #     location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, wp_EWR_table, ewr_calc_config)
-
 
 #     pu_df = location_results['Murray River - Lock 10 to Lock 9']
 
 #     data_result =  pu_df.to_dict()
 #     assert data_result['SF-WP/WP3_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
 #     assert data_result['LF2-WP/WP4_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
-
-
 
 @pytest.mark.parametrize("wp_freshes,freshes_eventYears,wp_eventYears,merged_eventYears",[
     (["SF-WP","LF2-WP"],
@@ -1208,12 +1203,15 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
                             'CLLMM1b_missingDays': [0,0,0,0], 'CLLMM1b_totalPossibleDays': [365,365,365,366]}
                         )
 ])
-def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
+def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, parameter_sheet):
 
     # Set up input data
     PU = 'PU_0000029'
 
-    EWR_table = sa_parameter_sheet
+    param_sheet = parameter_sheet
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == PU) & (param_sheet['Gauge'] == main_gauge) & (param_sheet['Code'] == EWR)]
+
 	 
     df_F = pd.DataFrame(data = data_for_df_F)
     df_F = df_F.set_index('Date')
@@ -1261,7 +1259,7 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
        'CLLMM1c_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
     )
 ])
-def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events, expected_PU_df_data):
+def test_barrage_level_handle(parameter_sheet: pd.DataFrame, expected_events, expected_PU_df_data):
     # Set up input data
     PU = 'PU_0000029'
     gauge = 'A4260527'
@@ -1274,7 +1272,11 @@ def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events,
                 ) 
     gauge_levels_data = { gauge:gauge_levels for gauge in barrage_gauges }
 
-    EWR_table = sa_parameter_sheet
+
+    param_sheet = parameter_sheet
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == PU) & (param_sheet['Gauge'] == gauge) & (param_sheet['Code'] == EWR)]
+    
     DATE = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))}#.to_period()}
     
     data_for_df_L = {**DATE, **gauge_levels_data}
@@ -1319,13 +1321,17 @@ def test_barrage_level_handle(sa_parameter_sheet: pd.DataFrame, expected_events,
     'IC1_P_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}  
     )
 ])
-def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data):
+
+
+def test_flow_handle_sa(parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000027'
     gauge = 'A4261001'
     EWR = 'IC1_P'
 
-    EWR_table = sa_parameter_sheet
+    param_sheet = parameter_sheet
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == PU) & (param_sheet['Gauge'] == gauge) & (param_sheet['Code'] == EWR)]
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: (
@@ -1335,6 +1341,9 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
                                 [0]*365 + 
                                 [0]*366
                         )} 
+
+    print(data_for_df_F)
+    
     df_F = pd.DataFrame(data = data_for_df_F)
 
     df_F = df_F.set_index('Date')
@@ -1724,13 +1733,16 @@ def test_get_achievements_connecting_events(event_years, expected_results):
   'FrW2_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}},
     )
 ])
-def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
+def test_water_stability_handle(parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000999'
     gauge = '416011'
     EWR = 'FrW2'
 
-    EWR_table = qld_parameter_sheet
+    param_sheet = parameter_sheet
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == PU) & (param_sheet['Gauge'] == gauge) & (param_sheet['Code'] == EWR)]
+
 
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: (    [0]*31 + [71]*10 + [0]*324 + 
@@ -1790,13 +1802,15 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
   },
     )
 ])
-def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
+def test_water_stability_level_handle(parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000991'
     gauge = '422015'
     EWR = 'FrL2'
 
-    EWR_table = qld_parameter_sheet
+    param_sheet = parameter_sheet
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == PU) & (param_sheet['Gauge'] == gauge) & (param_sheet['Code'] == EWR)]
 
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         "422015": (     [2]*31 + [1]*10 + [2]*324 +
@@ -2000,8 +2014,13 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
        'RFL_su_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
     )
 ])
-def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
-    EWR_table = vic_parameter_sheet
+def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, parameter_sheet):
+    param_sheet = parameter_sheet
+
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == pu) & (param_sheet['Gauge'] == gauge) & (param_sheet['Code'] == ewr)]
+    
+    
 
     data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: gauge_data } 
@@ -2060,9 +2079,10 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
        'F3_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
     )
 ])
-def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, vic_parameter_sheet):
-    
-    EWR_table = vic_parameter_sheet
+def test_level_change_handle(pu, gauge, ewr, gauge_data, expected_events, expected_PU_df_data, parameter_sheet):
+    param_sheet = parameter_sheet
+    EWR_table = param_sheet[
+        (param_sheet['PlanningUnitID'] == pu) & (param_sheet['Gauge'] == gauge) & (param_sheet['Code'] == ewr)]
 
     data_for_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')), #.to_period(),
                         gauge: gauge_data } 
