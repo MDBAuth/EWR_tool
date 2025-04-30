@@ -1096,34 +1096,20 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     assert result == expected_result
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a8b082b4631d1d793322f880e876104ba5a7efa0
 # @pytest.mark.parametrize("gauge",[
 #     ("425010"),
 # ],)
 # def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
     
 #     df_F, df_L = wp_df_F_df_L
-<<<<<<< HEAD
-=======
-
->>>>>>> a8b082b4631d1d793322f880e876104ba5a7efa0
 
 #     location_results, _ = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, wp_EWR_table, ewr_calc_config)
-
 
 #     pu_df = location_results['Murray River - Lock 10 to Lock 9']
 
 #     data_result =  pu_df.to_dict()
 #     assert data_result['SF-WP/WP3_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
 #     assert data_result['LF2-WP/WP4_eventYears'] == {1896: 1, 1897: 1, 1898: 1, 1895: 1} 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> a8b082b4631d1d793322f880e876104ba5a7efa0
 
 @pytest.mark.parametrize("wp_freshes,freshes_eventYears,wp_eventYears,merged_eventYears",[
     (["SF-WP","LF2-WP"],
@@ -1336,6 +1322,7 @@ def test_barrage_level_handle(parameter_sheet: pd.DataFrame, expected_events, ex
     )
 ])
 
+
 def test_flow_handle_sa(parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
     PU = 'PU_0000027'
@@ -1354,6 +1341,9 @@ def test_flow_handle_sa(parameter_sheet, expected_events, expected_PU_df_data):
                                 [0]*365 + 
                                 [0]*366
                         )} 
+
+    print(data_for_df_F)
+    
     df_F = pd.DataFrame(data = data_for_df_F)
 
     df_F = df_F.set_index('Date')

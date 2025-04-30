@@ -1021,6 +1021,4 @@ class ScenarioHandler:
         self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", "Gauge", "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?"]]
 
         return self.logging_sheet
-    
-    
 
