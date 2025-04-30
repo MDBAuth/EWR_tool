@@ -54,17 +54,17 @@ def items_to_process(pu_df):
 
 @pytest.fixture(scope="function")
 def gauge_events():
-    return  {'observed': {'419001': {'Keepit to Boggabri': {'CF1_a': ({2010: [],
+    return  {'observed': {'419001': {'Keepit to Boggabri': {'CF1_a': {2010: [],
                 2011: [],
                 2012: [],
                 2013: [],
-                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
+                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}}
                                 },
-                         '419002': {'Keepit to Boggabri': {'CF1_a': ({2010: [],
+                         '419002': {'Keepit to Boggabri': {'CF1_a': {2010: [],
                 2011: [],
                 2012: [],
                 2013: [],
-                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
+                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}}
                                 }
                      },                
             }
@@ -337,22 +337,16 @@ def gauge_results():
             }
     }
 
+
 @pytest.fixture(scope="function")
 def gauge_results_before_process():
     with open(f"unit_testing_files/gauge_results_before_process.pickle", "rb") as fp:
         gauge_results = pickle.load(fp)
     return gauge_results
 
-
-@pytest.fixture(scope="function")
-def qld_parameter_sheet():
-    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/qld_parameter_sheet.csv")
-    return EWR_table
-
-
-@pytest.fixture(scope="function")
-def vic_parameter_sheet():
-    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/vic_parameter_sheet.csv")
+@pytest.fixture(scope='function')
+def parameter_sheet():
+    EWR_table, _ = data_inputs.get_EWR_table()
     return EWR_table
 
 def gg_pull_mock(*args, **kwargs):
@@ -363,6 +357,7 @@ def gg_pull_mock(*args, **kwargs):
     gg_response = pd.DataFrame(data)
 
     return gg_response
+
 
 @pytest.fixture(scope="module")
 def observed_handler_instance():

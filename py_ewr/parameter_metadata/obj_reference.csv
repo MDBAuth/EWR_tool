@@ -791,7 +791,7 @@ Culgoa River,Intersecting_Streams,EF7,Provide movement and dispersal opportuniti
 Narran River,Intersecting_Streams,EF7,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Intersecting Streams
 Warrego River,Intersecting_Streams,EF7,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Intersecting Streams
 Wee Waa to Barwon River,Namoi,EF7,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Namoi
-Murrumbidgee (MR),ACT,F4 ,Re-establish viable and resilient populations of Trout Cod,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,F4,Re-establish viable and resilient populations of Trout Cod,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,IC4,Native vegetation,Native Vegetation,VIC,Broken
 Broken River Reach 2: Hollands Creek to Caseys Weir,Broken River EMWP,IC4,Native vegetation,Native Vegetation,VIC,Broken
 Broken River Reach 3: Caseys Weir to the Goulburn River,Broken River EMWP,IC4,Native vegetation,Native Vegetation,VIC,Broken
@@ -1981,9 +1981,9 @@ Murray River - Lock 7 to SA border,Murray Lower Darling,OS4,Maintain water-depen
 Belubula River,Lachlan,OS4,Maintain water-dependent species richness,Other Species,NSW,Lachlan
 Belubula River,Lachlan,OS1,Maintain species richness of flow-dependent frog communities,Other Species,NSW,Lachlan
 Belubula River,Lachlan,OS2,Maintain successful26 breeding opportunities for flow-dependent frog species,Other Species,NSW,Lachlan
-Murrumbidgee (MR),ACT,PEF 3a,in-stream habitat: pool scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF 5 ,drought refuge,Native Fish,ACT,Australian Capital Territory (Surface Water)
-Cotter River (CR2): Below Cotter Dam ,ACT,PEF 5 ,drought refuge,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,PEF3a,in-stream habitat: pool scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF5,drought refuge,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR2): Below Cotter Dam ,ACT,PEF5,drought refuge,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD,Paroo
 Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego Paroo Bulloo Nebine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD,Paroo
 Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego Paroo Bulloo Nebine,Q-OS1,"Critical habitat for eastern snake-necked turtles, including for breeding",Other Species,QLD,Warrego
@@ -2143,7 +2143,7 @@ Warrego River,Intersecting_Streams,EF2,Provide movement and dispersal opportunit
 Wee Waa to Barwon River,Namoi,EF2,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Namoi
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF6,"Create quality instream, floodplain and wetland habitat",Ecosystem Function,NSW,NSW Border Rivers
 Murrumbidgee (MR),ACT,F2,Improved and resilient populations of Macquarie Perch,Native Fish,ACT,Australian Capital Territory (Surface Water)
-Murrumbidgee (MR),ACT,F6 ,Resilient populations of Golden Perch,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,F6,Resilient populations of Golden Perch,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,G1,Geomorphology,Ecosystem Function,VIC,Broken
 Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,G1,Invertebrates,Ecosystem Function,VIC,Broken
 Broken River Reach 2: Hollands Creek to Caseys Weir,Broken River EMWP,G1,Geomorphology,Ecosystem Function,VIC,Broken
@@ -3284,8 +3284,8 @@ Murrumbidgee (MR),ACT,O4, Improved and resilient populations of Murray Crayfish,
 Birchs Creek Reach 1,Birch Creek EWMP,P2,Platypus,Other Species,VIC,Loddon
 Birchs Creek Reach 2,Birch Creek EWMP,P2,Platypus,Other Species,VIC,Loddon
 Birchs Creek Reach 3,Birch Creek EWMP,P2,Platypus,Other Species,VIC,Loddon
-Murrumbidgee (MR),ACT,PEF 3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Murrumbidgee (MR),ACT,PEF 4,productivity ,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,PEF3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,PEF4,productivity ,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
 Warrego Paroo Bulloo and Nebine Long-term watering plan,Warrego Paroo Bulloo Nebine,Q-NV1,Inundation of floodplain vegetation,Native Vegetation,QLD,Nebine
 Condamine and Balonne Long-term watering plan,Condamine and Balonne,Q-NV2,Increased frequency/duration of flows that maintain the condition and extent of vegetation to support bird breeding opportunities.,Native Vegetation,QLD,Condamine-Balonne
 Condamine and Balonne Long-term watering plan,Condamine and Balonne,Q-NV2,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD,Condamine-Balonne
@@ -3293,9 +3293,9 @@ Condamine and Balonne Long-term watering plan,Condamine and Balonne,Q-WB3,Increa
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V3_a,"Maintain a viable, functioning River Red Gum population within the Floodplain PEA_In standardised transects that span the Floodplain PEA elevation gradient and existing spatial distribution, >70% of all trees have a Tree Condition Index Score (TCI) ?10.",Native Vegetation,SA,South Australian Murray
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V3_b,"Maintain a viable, functioning River Red Gum population within the Floodplain PEA_A sustainable demographic20 that matches the modelled profile for a viable population is established within existing communities across the floodplain elevation gradient.",Native Vegetation,SA,South Australian Murray
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V4_a,"Maintain a viable, functioning Black Box population within the Floodplain PEA_In standardised transects that span the Floodplain PEA elevation gradient and existing spatial distribution, >70% of all trees have a TCI ?1019",Native Vegetation,SA,South Australian Murray
-SA River Murray Floodplain,South Australia River Murray,SA_FP_V4_b,"Maintain a viable, functioning Black Box population within the Floodplain PEA_A sustainable demographic19 that matches the modelled profile for a viable population is established within existing communities across the floodplain elevation gradient",Native Vegetation,SA,South Australian Murray
+SA River Murray Floodplain,South Australia River Murray,SA_FP_V4_b,"Maintain a viable, functioning Black Box population within the Floodplain PEA_A sustainable demographic that matches the modelled profile for a viable population is established within existing communities across the floodplain elevation gradient",Native Vegetation,SA,South Australian Murray
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V5_a,"Maintain a viable, functioning River Cooba population within the Floodplain PEA_In standardised transects that span the Floodplain PEA elevation gradient and existing spatial distribution, >70% of all trees have a TCI ?1019",Native Vegetation,SA,South Australian Murray
-SA River Murray Floodplain,South Australia River Murray,SA_FP_V5_b,"Maintain a viable, functioning River Cooba population within the Floodplain PEA_A sustainable demographic19 that matches the modelled profile for a viable population is established within existing communities across the floodplain elevation gradient",Native Vegetation,SA,South Australian Murray
+SA River Murray Floodplain,South Australia River Murray,SA_FP_V5_b,"Maintain a viable, functioning River Cooba population within the Floodplain PEA_A sustainable demographic that matches the modelled profile for a viable population is established within existing communities across the floodplain elevation gradient",Native Vegetation,SA,South Australian Murray
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V6_a,"Maintain a viable, functioning Lignum population within the Floodplain PEA_In standardised transects that span the floodplain elevation gradient and existing spatial distribution, ?70% of Lignum plants have a Lignum Condition Score (LCI) ?6 for colour21",Native Vegetation,SA,South Australian Murray
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V7_a,"Establish and maintain diverse water dependent vegetation within aquatic zones across the Floodplain PEA_In aquatic zones, a minimum of 40% of cells either inundated or dry containing inundation-dependent or amphibious plant taxa once every two years on average with maximum interval no greater than 4 years22. Native water dependent species richness >30 across the Floodplain PEA.",Native Vegetation,SA,South Australian Murray
 SA River Murray Floodplain,South Australia River Murray,SA_FP_V7_b,"Establish and maintain diverse water dependent vegetation within aquatic zones across the Floodplain PEA_In aquatic zones, a minimum of 80% of cells either inundated or dry containing native flood dependent or amphibious plant taxa once every four years on average with maximum interval no greater than 6 years22 Native water dependent species richness >50 across the Floodplain PEA.",Native Vegetation,SA,South Australian Murray
@@ -3423,7 +3423,7 @@ Reach 1: Lake Eildon to Yea River,Goulburn River 2015,4,Macroinvertebrates,Ecosy
 Reach 2: Yea River to Sunday Creek (Seymour),Goulburn River 2015,4,Macroinvertebrates,Ecosystem Function,VIC,Goulburn
 Reach 3: Sunday Creek (Seymour) to Goulburn Weir,Goulburn River 2015,4,Macroinvertebrates,Ecosystem Function,VIC,Goulburn
 Reach 4: Nagambie (downstream of Goulburn Weir) to Loch Garry,Goulburn River 2015,4,Macroinvertebrates,Ecosystem Function,VIC,Goulburn
-Murrumbidgee (MR),ACT,C1 ,Longitudinal connectivity is improved and maintained during all conditions,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,C1,Longitudinal connectivity is improved and maintained during all conditions,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
 Murray River - Lock 15 weir pool to Lock 10,Murray Lower Darling,EF3a,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Lower Darling
 Carole Creek,Gwydir,EF3b,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Gwydir
 Central Mehi,Gwydir,EF3b,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Gwydir
@@ -3654,8 +3654,8 @@ Mooki River Water Source,Namoi,NV4f,Maintain or increase the extent and maintain
 Mooki River Water Source,Namoi,NV4f,"Maintain or increase the extent & maintain or improve the condition of native forest, woodland & shrubland communities on floodplains",Native Vegetation,NSW,Namoi
 Coxs Creek Water Source,Namoi,NV4f,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW,Namoi
 Coxs Creek Water Source,Namoi,NV4f,"Maintain or increase the extent & maintain or improve the condition of native forest, woodland & shrubland communities on floodplains",Native Vegetation,NSW,Namoi
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF 3a,in-stream habitat: pool scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Cotter River (CR2): Below Cotter Dam ,ACT,PEF 3a,in-stream habitat: pool scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF3a,in-stream habitat: pool scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR2): Below Cotter Dam ,ACT,PEF3a,in-stream habitat: pool scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
 Loddon River: Lower Loddon River at Reach 5,Loddon River EWMP,PP1,Platypus,Other Species,VIC,Loddon
 Loddon River: Mid Loddon River System at Reach 4a,Loddon River EWMP,PP1,Platypus,Other Species,VIC,Loddon
 Loddon River: Mid Loddon River System at Reach 4c,Loddon River EWMP,PP1,Platypus,Other Species,VIC,Loddon
@@ -3916,11 +3916,11 @@ Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV4b,"Maintai
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV4b,"Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains, River red gum woodland",Native Vegetation,NSW,NSW Border Rivers
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV4b,"Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains, Lignum shrublands",Native Vegetation,NSW,NSW Border Rivers
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV4b,"Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains, Coolibah woodland",Native Vegetation,NSW,NSW Border Rivers
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF 3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Cotter River (CR2): Below Cotter Dam ,ACT,PEF 3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF 4 ,productivity ,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Cotter River (CR2): Below Cotter Dam ,ACT,PEF 4 ,productivity ,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
-Murrumbidgee (MR),ACT,PEF 5 ,drought refuge,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR2): Below Cotter Dam ,ACT,PEF3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,PEF4,productivity ,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR2): Below Cotter Dam ,ACT,PEF4,productivity ,Ecosystem Function,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,PEF5,drought refuge,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Border Rivers and Moonie Long-term watering plan,Border Rivers and Moonie,Q-EF2,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Function,QLD,Queensland Border Rivers
 Birchs Creek Reach 1,Birch Creek EWMP,S3,Macroinvertebrates,Ecosystem Function,VIC,Loddon
 Birchs Creek Reach 2,Birch Creek EWMP,S3,Macroinvertebrates,Ecosystem Function,VIC,Loddon
@@ -4105,7 +4105,7 @@ Narran River,Intersecting_Streams,EF1,Provide movement and dispersal opportuniti
 Warrego River,Intersecting_Streams,EF1,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Intersecting Streams
 Wee Waa to Barwon River,Namoi,EF1,Provide movement and dispersal opportunities for water dependent biota to complete lifecycles and disperse into new habitats between catchments,Ecosystem Function,NSW,Namoi
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Function,NSW,NSW Border Rivers
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,F4 ,Re-establish viable and resilient populations of Trout Cod,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir  ,ACT,F4,Re-establish viable and resilient populations of Trout Cod,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Murrumbidgee (MR),ACT,F5,Improved and resilient populations of Murray Cod,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Birchs Creek Reach 3,Birch Creek EWMP,MI3,Macroinvertebrates,Ecosystem Function,VIC,Loddon
 Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,MI3,Geomorphology,Ecosystem Function,VIC,Broken
@@ -4216,7 +4216,7 @@ Mooki River Water Source,Namoi,NV4b,"Maintain or increase the extent & maintain 
 Coxs Creek Water Source,Namoi,NV4b,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW,Namoi
 Coxs Creek Water Source,Namoi,NV4b,"Maintain or increase the extent & maintain or improve the condition of native forest, woodland & shrubland communities on floodplains",Native Vegetation,NSW,Namoi
 Belubula River,Lachlan,NV4b,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW,Lachlan
-Murrumbidgee (MR),ACT,O1 ,Resilient Frog populations,Other Species,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,O1,Resilient Frog populations,Other Species,ACT,Australian Capital Territory (Surface Water)
 Birchs Creek Reach 1,Birch Creek EWMP,P1,Native Fish,Native Fish,VIC,Loddon
 Birchs Creek Reach 1,Birch Creek EWMP,P1,Blackfish,Native Fish,VIC,Loddon
 Birchs Creek Reach 2,Birch Creek EWMP,P1,Native Fish,Native Fish,VIC,Loddon
@@ -4259,7 +4259,7 @@ Twelve Mile Creek Anabranch [Mid Loddon River System] at Reach 4b,Loddon River E
 Coliban River at Reach 1,Coliban River EWMP,V1,Instream aquatics,Native Vegetation,VIC,Campaspe
 Coliban River at Reach 1,Coliban River EWMP,V1,Emergent Vegetation,Native Vegetation,VIC,Campaspe
 Coliban River at Reach 1,Coliban River EWMP,V1,Adult riparian vegetatation,Native Vegetation,VIC,Campaspe
-Cotter River (CR2): Below Cotter Dam ,ACT,V1 ,"Improved condition, connectivity, and resilience of native riparian vegetation species ",Native Vegetation,ACT,Australian Capital Territory (Surface Water)
+Cotter River (CR2): Below Cotter Dam ,ACT,V1,"Improved condition, connectivity, and resilience of native riparian vegetation species ",Native Vegetation,ACT,Australian Capital Territory (Surface Water)
 Coliban River at Reach 1,Coliban River EWMP,V3,Instream aquatics,Native Vegetation,VIC,Campaspe
 Coliban River at Reach 1,Coliban River EWMP,V3,Emergent Vegetation,Native Vegetation,VIC,Campaspe
 Coliban River at Reach 1,Coliban River EWMP,V3,Adult riparian vegetatation,Native Vegetation,VIC,Campaspe
@@ -4458,8 +4458,7 @@ Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,W1,N
 Broken River Reach 2: Hollands Creek to Caseys Weir,Broken River EMWP,W1,Native vegetation,Native Vegetation,VIC,Broken
 Broken River Reach 3: Caseys Weir to the Goulburn River,Broken River EMWP,W1,Native vegetation,Native Vegetation,VIC,Broken
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF7,"Create quality instream, floodplain and wetland habitat",Ecosystem Function,NSW,NSW Border Rivers
-Murrumbidgee (MR),ACT,"F3 
-",Re-establish viable and resilient populations of Silver Perch,Native Fish,ACT,Australian Capital Territory (Surface Water)
+Murrumbidgee (MR),ACT,F3,Re-establish viable and resilient populations of Silver Perch,Native Fish,ACT,Australian Capital Territory (Surface Water)
 Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,G6,Geomorphology,Ecosystem Function,VIC,Broken
 Broken River Reach 1: Lake Nillahcootie to Hollands Creek,Broken River EMWP,G6,Invertebrates,Ecosystem Function,VIC,Broken
 Broken River Reach 2: Hollands Creek to Caseys Weir,Broken River EMWP,G6,Geomorphology,Ecosystem Function,VIC,Broken

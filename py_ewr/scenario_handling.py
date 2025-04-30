@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 import netCDF4
- 
+
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
@@ -498,51 +498,6 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
     return df_flow, df_level, report
 
 
-# def match_MDBA_nodes_old(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
-#     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
-#     the columns with EWRs available. Renames columns to gauges
-    
-#     Args:
-#         input_df (pd.DataFrame): flow/water level dataframe
-#         model_metadata (pd.DataFrame): dataframe linking model nodes to gauges
-
-#     Returns:
-#         tuple[pd.DataFrame, pd.DataFrame]: flow dataframe, water level dataframe
-
-#     '''
-
-#     flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
-#     level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
-#     measurands = ['1', '35']
-#     df_flow = pd.DataFrame(index = input_df.index)
-#     df_level = pd.DataFrame(index = input_df.index)
-#     for col in input_df.columns:
-#         col_clean = col.replace(' ', '')
-#         site = col_clean.split('-')[0]
-#         measure = col_clean.split('-')[1]
-#         if ((measure in measurands) and (model_metadata['SITEID'] == site).any()):
-#             subset = model_metadata.query("SITEID==@site")
-#             for iset in range(len(subset)):
-#                 gauge = subset["AWRC"].iloc[iset]
-#                 if gauge in flow_gauges and measure == '1':
-#                     df_flow[gauge] = input_df[col]
-#                 if gauge in level_gauges and measure == '35':
-#                     aa=input_df[[col]]
-#                     if (len(aa.columns)>1):
-#                         print('More than one site has been identified, the first site is used')
-#                         print('Site info: ', col)
-#                         df_level[gauge] = aa.iloc[:,0]
-#                     else:
-#                         df_level[gauge] = input_df[col]
-
-#     if df_flow.empty and df_level.empty:
-#         raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
-    
-#     df_flow.to_csv('existing_flow_mapped.csv')
-#     df_level.to_csv('existing_level_mapped.csv')
-
-#     return df_flow, df_level
-
 def match_NSW_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_table_path: str) -> tuple:
     '''Checks if the source file columns have EWRs available, returns a flow and level dataframe with only 
     the columns with EWRs available. Renames columns to gauges
@@ -587,7 +542,8 @@ class ScenarioHandler:
         self.parameter_sheet = parameter_sheet
         self.calc_config_path = calc_config_path
         self.flow_data = None
-        self.level_data = None
+        self.level_data = None,
+        self.run_report = None,
 
     def _get_file_names(self, loaded_files):
 
@@ -686,8 +642,8 @@ class ScenarioHandler:
 
         if not self.yearly_events:
             self.process_scenarios()
-        
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+    
         all_events = summarise_results.process_all_events_results(events_to_process)
 
         all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
@@ -838,10 +794,8 @@ class ScenarioHandler:
         return yearly_ewr_results
 
 
-
-
     def get_ewr_results(self) -> pd.DataFrame:
-        
+
         if not self.pu_ewr_statistics:
             self.process_scenarios()
 
