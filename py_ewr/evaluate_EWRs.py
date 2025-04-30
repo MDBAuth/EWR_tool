@@ -96,11 +96,11 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
             ewrs['end_day'] = None
             ewrs['end_month'] = int(end_date)
     if 'FlowThresholdMin' in components:
-        min_flow = int(float(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMin')))
-        ewrs['min_flow'] = int(float(min_flow))
+        min_flow = float(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMin'))
+        ewrs['min_flow'] = float(min_flow)
     if 'FlowThresholdMax' in components:
-        max_flow = int(float(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMax')))
-        ewrs['max_flow'] = int(max_flow)
+        max_flow = float(component_pull(EWR_table, gauge, PU, EWR, 'FlowThresholdMax'))
+        ewrs['max_flow'] = float(max_flow)
     if 'LevelThresholdMin' in components:
         min_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMin'))
         ewrs['min_level'] = min_level
@@ -108,11 +108,11 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
         max_level = float(component_pull(EWR_table, gauge, PU, EWR, 'LevelThresholdMax'))
         ewrs['max_level'] = max_level
     if 'VolumeThreshold' in components:
-        min_volume = int(component_pull(EWR_table, gauge, PU, EWR, 'VolumeThreshold'))
-        ewrs['min_volume'] = int(min_volume)
+        min_volume = float(component_pull(EWR_table, gauge, PU, EWR, 'VolumeThreshold'))
+        ewrs['min_volume'] = float(min_volume)
     if 'Duration' in components:
-        duration = int(component_pull(EWR_table, gauge, PU, EWR, 'Duration'))
-        ewrs['duration'] = int(duration)
+        duration = float(component_pull(EWR_table, gauge, PU, EWR, 'Duration'))
+        ewrs['duration'] = float(duration)
     if 'WithinEventGapTolerance' in components:
         gap_tolerance = int(component_pull(EWR_table, gauge, PU, EWR, 'WithinEventGapTolerance'))
         ewrs['gap_tolerance'] = gap_tolerance
