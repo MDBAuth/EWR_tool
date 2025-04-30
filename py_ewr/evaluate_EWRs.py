@@ -120,8 +120,8 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
         events_per_year = int(component_pull(EWR_table, gauge, PU, EWR, 'EventsPerYear'))
         ewrs['events_per_year'] = events_per_year       
     if 'MinSpell' in components:
-        min_event = int(component_pull(EWR_table, gauge, PU, EWR, 'MinSpell'))
-        ewrs['min_event'] = int(min_event)
+        min_event = float(component_pull(EWR_table, gauge, PU, EWR, 'MinSpell'))
+        ewrs['min_event'] = float(min_event)
     if 'DrawdownRate' in components:
         max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
         if '%' in str(max_drawdown):
