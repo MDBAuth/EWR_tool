@@ -114,10 +114,10 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
         duration = float(component_pull(EWR_table, gauge, PU, EWR, 'Duration'))
         ewrs['duration'] = float(duration)
     if 'WithinEventGapTolerance' in components:
-        gap_tolerance = int(component_pull(EWR_table, gauge, PU, EWR, 'WithinEventGapTolerance'))
+        gap_tolerance = float(component_pull(EWR_table, gauge, PU, EWR, 'WithinEventGapTolerance'))
         ewrs['gap_tolerance'] = gap_tolerance
     if 'EventsPerYear' in components:
-        events_per_year = int(component_pull(EWR_table, gauge, PU, EWR, 'EventsPerYear'))
+        events_per_year = float(component_pull(EWR_table, gauge, PU, EWR, 'EventsPerYear'))
         ewrs['events_per_year'] = events_per_year       
     if 'MinSpell' in components:
         min_event = float(component_pull(EWR_table, gauge, PU, EWR, 'MinSpell'))
@@ -125,8 +125,8 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
     if 'DrawdownRate' in components:
         max_drawdown = component_pull(EWR_table, gauge, PU, EWR, 'DrawdownRate')
         if '%' in str(max_drawdown):
-            value_only = int(max_drawdown.replace('%', ''))
-            ewrs['drawdown_rate'] = str(int(value_only)) + '%'
+            value_only = float(max_drawdown.replace('%', ''))
+            ewrs['drawdown_rate'] = str(float(value_only)) + '%'
         else:
             ewrs['drawdown_rate'] = str(float(max_drawdown)) # TODO check this works
         if max_drawdown == 0:
@@ -150,13 +150,13 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
             ewrs['max_inter-event'] = None
     if 'AccumulationPeriod' in components:
         accumulation_period = component_pull(EWR_table, gauge, PU, EWR, 'AccumulationPeriod')
-        ewrs['accumulation_period'] = int(accumulation_period)
+        ewrs['accumulation_period'] = float(accumulation_period)
     if 'FlowLevelVolume' in components:
         flow_level_volume = component_pull(EWR_table, gauge, PU, EWR, 'FlowLevelVolume')
         ewrs['flow_level_volume'] = flow_level_volume
     if 'MaxSpell' in components:
         max_duration = component_pull(EWR_table, gauge, PU, EWR, 'MaxSpell')
-        ewrs['max_duration'] = int(max_duration) if max_duration else 1_000_000
+        ewrs['max_duration'] = float(max_duration) if max_duration else 1_000_000
     if 'TriggerDay' in components:
         trigger_day = component_pull(EWR_table, gauge, PU, EWR, 'TriggerDay')
         ewrs['trigger_day'] = int(trigger_day)
@@ -174,43 +174,43 @@ def get_EWRs(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, components:
         ewrs['max_level_raise'] = float(max_level)
     if 'AnnualBarrageFlow' in components:
         annual_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'AnnualBarrageFlow')
-        ewrs['annual_barrage_flow'] = int(annual_barrage_flow)
+        ewrs['annual_barrage_flow'] = float(annual_barrage_flow)
     if 'ThreeYearsBarrageFlow' in components:
         three_years_barrage_flow = component_pull(EWR_table, gauge, PU, EWR, 'ThreeYearsBarrageFlow')
-        ewrs['three_years_barrage_flow'] = int(three_years_barrage_flow)
+        ewrs['three_years_barrage_flow'] = float(three_years_barrage_flow)
     if 'HighReleaseWindowStart' in components:
         high_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowStart')
-        ewrs['high_release_window_start'] = int(high_release_window_start)
+        ewrs['high_release_window_start'] = float(high_release_window_start)
     if 'HighReleaseWindowEnd' in components:
         high_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'HighReleaseWindowEnd')
-        ewrs['high_release_window_end'] = int(high_release_window_end)
+        ewrs['high_release_window_end'] = float(high_release_window_end)
     if 'LowReleaseWindowStart' in components:
         low_release_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowStart')
-        ewrs['low_release_window_start'] = int(low_release_window_start)
+        ewrs['low_release_window_start'] = float(low_release_window_start)
     if 'LowReleaseWindowEnd' in components:
         low_release_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowReleaseWindowEnd')
-        ewrs['low_release_window_end'] = int(low_release_window_end)
+        ewrs['low_release_window_end'] = float(low_release_window_end)
     if 'PeakLevelWindowStart' in components:
         peak_level_window_start = component_pull(EWR_table, gauge, PU, EWR, 'PeakLevelWindowStart')
-        ewrs['peak_level_window_start'] = int(peak_level_window_start)
+        ewrs['peak_level_window_start'] = float(peak_level_window_start)
     if 'PeakLevelWindowEnd' in components:
         peak_level_window_end = component_pull(EWR_table, gauge, PU, EWR, 'PeakLevelWindowEnd')
-        ewrs['peak_level_window_end'] = int(peak_level_window_end)
+        ewrs['peak_level_window_end'] = float(peak_level_window_end)
     if 'LowLevelWindowStart' in components:
         low_level_window_start = component_pull(EWR_table, gauge, PU, EWR, 'LowLevelWindowStart')
-        ewrs['low_level_window_start'] = int(low_level_window_start)
+        ewrs['low_level_window_start'] = float(low_level_window_start)
     if 'LowLevelWindowEnd' in components:
         low_level_window_end = component_pull(EWR_table, gauge, PU, EWR, 'LowLevelWindowEnd')
-        ewrs['low_level_window_end'] = int(low_level_window_end)
+        ewrs['low_level_window_end'] = float(low_level_window_end)
     if 'NonFlowSpell' in components:
         non_flow_spell = component_pull(EWR_table, gauge, PU, EWR, 'NonFlowSpell')
-        ewrs['non_flow_spell'] = int(non_flow_spell)
+        ewrs['non_flow_spell'] = float(non_flow_spell)
     if 'EggsDaysSpell' in components:
         eggs_days_spell = component_pull(EWR_table, gauge, PU, EWR, 'EggsDaysSpell')
-        ewrs['eggs_days_spell'] = int(eggs_days_spell)
+        ewrs['eggs_days_spell'] = float(eggs_days_spell)
     if 'LarvaeDaysSpell' in components:
         larvae_days_spell = component_pull(EWR_table, gauge, PU, EWR, 'LarvaeDaysSpell')
-        ewrs['larvae_days_spell'] = int(larvae_days_spell)
+        ewrs['larvae_days_spell'] = float(larvae_days_spell)
     if 'MinLevelRise' in components:
         min_level_rise = component_pull(EWR_table, gauge, PU, EWR, 'MinLevelRise')
         ewrs['min_level_rise'] = float(min_level_rise)
