@@ -379,4 +379,4 @@ class ObservedHandler:
         if not self.pu_ewr_statistics:
             self.process_gauges()
 
-        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events)
+        return summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)
