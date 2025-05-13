@@ -204,6 +204,8 @@ Every effort has been taken to ensure the EWR database represents the original E
 **Notes on development of the dataset of EWRs**
 The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state LTWPs and EWMPs to the machine readable format found in the parameter sheet within this tool. 
 
+Environmental Water Requirements (EWRs) in the tool are subject to change when the relevant documents including Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) are updated or move from draft to final versions. LTWPs that are currently in draft form include the ACT and the upper Murrumbidgee section of the NSW Murrumbidgee LTWP.
+
 **Compatibility**
 
 NSW:
@@ -227,6 +229,10 @@ Consult the user manual for instructions on how to run the tool. Please email th
 
 **Objective mapping**
 Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
-- ewr2obj.csv: For each planning unit, gauge, ewr combination there are either one or many env_obj codes. These env_obj codes come under one of five different theme level targets (Native Fish, Native vegetation, Waterbirds, Other species or Ecosystem functions)
-- obj2target.csv: env_obj's are unique to their planning unit in the LTWP (noting there are often a lot of similarities between env_obj's in the same states). The plain english wording of the env objectives is also contained in this csv. The LTWP, planning unit and env_obj rows are repeated for each specific goal related to that LTWP, planning unit and env_obj. 
-- obj2yrtarget.csv: The environmental objectives are related to 5, 10 and 20 year targets
+ - obj_reference.csv
+
+   - contains the individual environmnetal objectives listed in the 'env_obj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName). 
+
+the function ```get_obj_mapping()``` is available to automatically merge the information from obj_reference.csv with the parameter sheet to link these objectives with their specific ewr_codes. 
+
+
