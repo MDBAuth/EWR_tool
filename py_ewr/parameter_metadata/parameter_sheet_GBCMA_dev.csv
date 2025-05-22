@@ -14,27 +14,27 @@ PU_SS0601,Goulburn river,Goulburn River Flow Study,Goulburn River at McCoy's Bri
 PU_SS0601,Goulburn river,Goulburn River Flow Study,Goulburn River at McCoy's Bridge,405232,F_Autumn3,3,5,100,,,1,7,7,5700,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Goulburn,,,V-NF5+V-EF8+V-NV7+V-EF3
 PU_SS0601,Goulburn river,Goulburn River Flow Study,Goulburn River at McCoy's Bridge,405232,F_LateSpring1,9,11,100,,,1,2,2,7500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Goulburn,,,V-NF6+V-EF8+V-EF3
 PU_SS0601,Goulburn river,Goulburn River Flow Study,Goulburn River at McCoy's Bridge,405232,F_LateSpring2,9,11,100,,,1,2,2,5600,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Goulburn,,,V-NF6+V-EF8+V-EF3
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF5a,7,6,90,,,1,270,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV8 
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF5b,7,6,80,60,100,1,150,1,12000,1000000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV8 
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF6a,7,6,65,40,90,1,90,1,15000,1000000,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF6b,7,6,40,30,50,1,30,1,35000,1000000,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF6c,7,6,15,10,20,1,30,1,55000,1000000,12,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF7ai,7,6,80,60,100,1,150,1,4000,25000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV10+V-WB1
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF7aii,7,6,80,60,100,1,150,1,12000,25000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV10+V-WB1
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF7b,7,6,90,,,1,360,1,0,10400,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF7+V-OS4+V-OS5+V-OS6
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF7c,7,6,65,30,100,1,270,1,4500,12000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF7+V-OS5
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF7d,7,6,40,30,50,1,30,1,35000,1000000,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB1
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF7e,7,6,15,10,20,1,30,1,55000,1000000,12,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB1
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF8a,7,6,40,,,1,300,1,18000,1000000,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB2
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF8b,7,6,80,60,100,1,150,1,18000,1000000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB2
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF8c,7,6,40,,,1,300,1,18000,1000000,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB2
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF10a,7,6,90,,,1,360,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF8
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF10b,7,6,65,30,100,1,270,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF8
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF12a,7,6,90,,,1,360,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF12b,7,6,65,30,100,1,270,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF13a,7,6,90,,,1,360,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-EF9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF13b,7,6,40,,,1,300,1,18000,1000000,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-EF9
-PU_SS0201,Barmah Millewa,Barmah EWMP 2023,,409025,BMF13c,7,6,90,,,1,360,1,3000,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-EF9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF5a,7,6,90,,,1,270,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV8 
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF5b,7,6,80,60,100,1,150,1,12000,1000000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV8 
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF6a,7,6,65,40,90,1,90,1,15000,1000000,4,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF6b,7,6,40,30,50,1,30,1,35000,1000000,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF6c,7,6,15,10,20,1,30,1,55000,1000000,12,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF7ai,7,6,80,60,100,1,150,1,4000,25000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV10+V-WB1
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF7aii,7,6,80,60,100,1,150,1,12000,25000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NV10+V-WB1
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF7b,7,6,90,,,1,360,1,0,10400,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF7+V-OS4+V-OS5+V-OS6
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF7c,7,6,65,30,100,1,270,1,4500,12000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF7+V-OS5
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF7d,7,6,40,30,50,1,30,1,35000,1000000,5,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB1
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF7e,7,6,15,10,20,1,30,1,55000,1000000,12,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB1
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF8a,7,6,40,,,1,300,1,18000,1000000,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB2
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF8b,7,6,80,60,100,1,150,1,18000,1000000,3,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB2
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF8c,7,6,40,,,1,300,1,18000,1000000,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-WB2
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF10a,7,6,90,,,1,360,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF8
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF10b,7,6,65,30,100,1,270,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF8
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF12a,7,6,90,,,1,360,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF12b,7,6,65,30,100,1,270,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-NF9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF13a,7,6,90,,,1,360,1,4500,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-EF9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF13b,7,6,40,,,1,300,1,18000,1000000,2,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-EF9
+PU_SS0201,Barmah Millewa,Barmah Millewa EWMP 2023,,409025,BMF13c,7,6,90,,,1,360,1,3000,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Victorian Murray,,,V-EF9
 PU_SS0501,Lower Broken River Reach 1,Lower Broken Creek Flows study 2019,,405738,BF,7,6,100,,,1,365,1,20,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Broken,,,V-V1.2+V-V1.5+V-M1.1+V-F1.1+V-P1.1+V-T1.1
 PU_SS0501,Lower Broken River Reach 1,Lower Broken Creek Flows study 2019,,405738,F_WinSpr,6,11,100,,,1,7,7,100,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Broken,,,V-V1.4+V-M1.2+V-F1.2
 PU_SS0502,Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,,405738,BF,7,6,100,,,1,365,1,20,1000000,1,0,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Goulburn-Broken,Broken,,,V-V2.2+V-V2.5+V-M2.1+V-F2.1+V-P2.1+V-T2.1
