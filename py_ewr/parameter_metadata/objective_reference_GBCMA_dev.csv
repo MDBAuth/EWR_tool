@@ -23,18 +23,18 @@ Goulburn river,Goulburn River Flow Study,V-NF5,All Fish - Provides cues for move
 Goulburn river,Goulburn River Flow Study,V-EF8,"Macroinvertebrates - High flows scour old biofilms from hard substrates, resetting them and improving food resources",Ecosystem Functions,VIC,Goulburn
 Goulburn river,Goulburn River Flow Study,V-NV7,"Mid-Bank Vegetation - If summer flows have been consistently low, high flows in autumn can reinvigorate drying vegetation on the bank, providing some growth before the weather cools and vegetation strops growing",Native Vegetation,VIC,Goulburn
 Goulburn river,Goulburn River Flow Study,V-NF6,Periodic Fish - Provides cues for adult golden perch in the Goulburn to move downstream and spawn. Water temperatures must be over 19 degrees celsius,Native Fish,VIC,Goulburn
-Barmah Millewa,Barmah Millewa EWMP,V-NV8 ,Improve condition of native non-woody aquatic vegetation,Native Vegetation,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-NV9,improve condition of native woody vegetation,Native Vegetation,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-NV10,Restore representative subpopulations of native water dependent biota - for plants,Native Vegetation,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-WB1,Restore representative subpopulations of native water dependent biota - for waterbirds,Waterbirds,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-NF7,Restore representative subpopulations of native water dependent biota - for fish,Native Fish,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-OS4,Restore representative subpopulations of native water dependent biota - for turtles,Other Species,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-OS5,Restore representative subpopulations of native water dependent biota - for frogs,Other Species,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-OS6,Restore representative subpopulations of native water dependent biota - for crayfish,Other Species,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-WB2,Support waterfowl breeding and small-scale colonial breeding,Waterbirds,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-NF8,Support successful breeding and recruitment of native fish,Native Fish,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-NF9,Support small bodied fish and movement of large bodied riverine native fish,Native Fish,VIC,Victorian Murray
-Barmah Millewa,Barmah Millewa EWMP,V-EF9,Provide refugia to support the long-term survival of water-dependent biota,Ecosystem Functions,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-NV8 ,Improve condition of native non-woody aquatic vegetation,Native Vegetation,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-NV9,improve condition of native woody vegetation,Native Vegetation,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-NV10,Restore representative subpopulations of native water dependent biota - for plants,Native Vegetation,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-WB1,Restore representative subpopulations of native water dependent biota - for waterbirds,Waterbirds,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-NF7,Restore representative subpopulations of native water dependent biota - for fish,Native Fish,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-OS4,Restore representative subpopulations of native water dependent biota - for turtles,Other Species,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-OS5,Restore representative subpopulations of native water dependent biota - for frogs,Other Species,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-OS6,Restore representative subpopulations of native water dependent biota - for crayfish,Other Species,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-WB2,Support waterfowl breeding and small-scale colonial breeding,Waterbirds,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-NF8,Support successful breeding and recruitment of native fish,Native Fish,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-NF9,Support small bodied fish and movement of large bodied riverine native fish,Native Fish,VIC,Victorian Murray
+Barmah Millewa,Barmah Millewa EWMP 2023,V-EF9,Provide refugia to support the long-term survival of water-dependent biota,Ecosystem Functions,VIC,Victorian Murray
 Reach 1 - Lake Eildon to Yea River,Goulburn River Seasonal Watering Proposal 2023-2024,V-NF10,"Increase the abundance, spatial distribution and size class diversity of key native fish species (i.e. Macquarie perch, Murray cod, Trout cod, Golden and Silver perch)",Native Fish,VIC,Goulburn
 Reach 1 - Lake Eildon to Yea River,Goulburn River Seasonal Watering Proposal 2023-2024,V-NV11,Increase the abundance and richness of aquatic and flood dependant native species (i.e. instream and lower bank),Native Vegetation,VIC,Goulburn
 Reach 1 - Lake Eildon to Yea River,Goulburn River Seasonal Watering Proposal 2023-2024,V-EF10,Increase macroinvertebrate biomass and diversity,Ecosystem Functions,VIC,Goulburn
@@ -158,7 +158,7 @@ Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-V2.4,Promote th
 Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-V2.5,Promote the development of a diverse littoral vegetation community.,Native Vegetation,VIC,Broken
 Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-M2.1,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functions,VIC,Broken
 Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-M2.2,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functions,VIC,Broken
-Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-F2.1 ,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC,Broken
+Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-F2.1,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC,Broken
 Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-F2.2,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC,Broken
 Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-P2.1,Ensure that enough flow is maintained outside the irrigation season to provide suitable platypus foraging habitat and support the potential for safe juvenile dispersal into and through reach.,Other Species,VIC,Broken
 Lower Broken River Reach 2,Lower Broken Creek Flows study 2019,V-T2.1,Provide suitable flow/habitat conditions for turtles,Other Species,VIC,Broken
@@ -189,7 +189,7 @@ Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-V4.2,Reduce the
 Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-V4.3,Promote the development of a diverse littoral vegetation community.,Native Vegetation,VIC,Broken
 Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-M4.1,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functionss,VIC,Broken
 Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-M4.2,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functionss,VIC,Broken
-Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-F4.1 ,Maintain population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC,Broken
+Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-F4.1,Maintain population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC,Broken
 Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-F4.2,Maintain population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC,Broken
 Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-F4.3,Prevent fish kills from poor water quality.,Native Fish,VIC,Broken
 Lower Broken River Reach 4,Lower Broken Creek Flows study 2019,V-F4.4,Prevent fish kills from poor water quality.,Native Fish,VIC,Broken
