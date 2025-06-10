@@ -1,0 +1,334 @@
+planning_unit_name,LTWPShortName,env_obj,Objective,Target,state,SWSDLName
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V4,Minimise opportunities for perennial species such as rhizomatous emergent macrophytes or grasses to encroach into the channel,Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V5,Maintain in-channel bio-films at low levels of abundance and with diverse composition,Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V6,"Increase the abundance of native macrophytes in lowland reaches of the Kiewa River, and minimise the downstream expansion of introduced species",Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-V7,Maintain the presence and a diversity of epilithic micro-plants (bryophytes growing on bryophytes and rocks) in cascades and falls.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F1a,Restore self sustaining populations of Murray Cod - Provide low flow refuge habitat,Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F1b,Restore self sustaining populations of Murray Cod - Enable prespawning (upstream),Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F1c,Restore self sustaining populations of Murray Cod - Post-spawning downstream movement,Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F1d,Restore self sustaining populations of Murray Cod - Promote subsequent larval/juvenile survival through enhanced secondary productivity ,Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F2,Restore self sustaining populations of Murray Crayfish,Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e.g. River Blackfish, Twospined Blackfish)",Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish ,Native Fish,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 1 - Upper Kiewa River,Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V4,Minimise opportunities for perennial species such as rhizomatous emergent macrophytes or grasses to encroach into the channel,Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V5,Maintain in-channel bio-films at low levels of abundance and with diverse composition,Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V6,"Increase the abundance of native macrophytes in lowland reaches of the Kiewa River, and minimise the downstream expansion of introduced species",Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-V7,Maintain the presence and a diversity of epilithic micro-plants (bryophytes growing on bryophytes and rocks) in cascades and falls.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F1a,Restore self sustaining populations of Murray Cod - Provide low flow refuge habitat,Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F1b,Restore self sustaining populations of Murray Cod - Enable prespawning (upstream),Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F1c,Restore self sustaining populations of Murray Cod - Post-spawning downstream movement,Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F1d,Restore self sustaining populations of Murray Cod - Promote subsequent larval/juvenile survival through enhanced secondary productivity ,Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F2,Restore self sustaining populations of Murray Crayfish,Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e.g. River Blackfish, Twospined Blackfish)",Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish ,Native Fish,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 2 - Middle Kiewa River,Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V4,Minimise opportunities for perennial species such as rhizomatous emergent macrophytes or grasses to encroach into the channel,Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V5,Maintain in-channel bio-films at low levels of abundance and with diverse composition,Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V6,"Increase the abundance of native macrophytes in lowland reaches of the Kiewa River, and minimise the downstream expansion of introduced species",Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-V7,Maintain the presence and a diversity of epilithic micro-plants (bryophytes growing on bryophytes and rocks) in cascades and falls.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F1a,Restore self sustaining populations of Murray Cod - Provide low flow refuge habitat,Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F1b,Restore self sustaining populations of Murray Cod - Enable prespawning (upstream),Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F1c,Restore self sustaining populations of Murray Cod - Post-spawning downstream movement,Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F1d,Restore self sustaining populations of Murray Cod - Promote subsequent larval/juvenile survival through enhanced secondary productivity ,Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F2,Restore self sustaining populations of Murray Crayfish,Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e.g. River Blackfish, Twospined Blackfish)",Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish ,Native Fish,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 3 - Lower Kiewa River,Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V4,Minimise opportunities for perennial species such as rhizomatous emergent macrophytes or grasses to encroach into the channel,Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V5,Maintain in-channel bio-films at low levels of abundance and with diverse composition,Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V6,"Increase the abundance of native macrophytes in lowland reaches of the Kiewa River, and minimise the downstream expansion of introduced species",Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-V7,Maintain the presence and a diversity of epilithic micro-plants (bryophytes growing on bryophytes and rocks) in cascades and falls.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F1a,Restore self sustaining populations of Murray Cod - Provide low flow refuge habitat,Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F1b,Restore self sustaining populations of Murray Cod - Enable prespawning (upstream),Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F1c,Restore self sustaining populations of Murray Cod - Post-spawning downstream movement,Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F1d,Restore self sustaining populations of Murray Cod - Promote subsequent larval/juvenile survival through enhanced secondary productivity ,Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F2,Restore self sustaining populations of Murray Crayfish,Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e.g. River Blackfish, Twospined Blackfish)",Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish ,Native Fish,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 4 - Mountain Creek,Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V4,Minimise opportunities for perennial species such as rhizomatous emergent macrophytes or grasses to encroach into the channel,Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V5,Maintain in-channel bio-films at low levels of abundance and with diverse composition,Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V6,"Increase the abundance of native macrophytes in lowland reaches of the Kiewa River, and minimise the downstream expansion of introduced species",Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-V7,Maintain the presence and a diversity of epilithic micro-plants (bryophytes growing on bryophytes and rocks) in cascades and falls.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F1a,Restore self sustaining populations of Murray Cod - Provide low flow refuge habitat,Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F1b,Restore self sustaining populations of Murray Cod - Enable prespawning (upstream),Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F1c,Restore self sustaining populations of Murray Cod - Post-spawning downstream movement,Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F1d,Restore self sustaining populations of Murray Cod - Promote subsequent larval/juvenile survival through enhanced secondary productivity ,Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F2,Restore self sustaining populations of Murray Crayfish,Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e.g. River Blackfish, Twospined Blackfish)",Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish ,Native Fish,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 5 - Running Creek,Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V4,Minimise opportunities for perennial species such as rhizomatous emergent macrophytes or grasses to encroach into the channel,Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V5,Maintain in-channel bio-films at low levels of abundance and with diverse composition,Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V6,"Increase the abundance of native macrophytes in lowland reaches of the Kiewa River, and minimise the downstream expansion of introduced species",Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-V7,Maintain the presence and a diversity of epilithic micro-plants (bryophytes growing on bryophytes and rocks) in cascades and falls.,Native Vegetation,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F1a,Restore self sustaining populations of Murray Cod - Provide low flow refuge habitat,Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F1b,Restore self sustaining populations of Murray Cod - Enable prespawning (upstream),Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F1c,Restore self sustaining populations of Murray Cod - Post-spawning downstream movement,Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F1d,Restore self sustaining populations of Murray Cod - Promote subsequent larval/juvenile survival through enhanced secondary productivity ,Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F2,Restore self sustaining populations of Murray Crayfish,Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e.g. River Blackfish, Twospined Blackfish)",Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish ,Native Fish,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC,Kiewa
+Kiewa river reach 6 - Yackandandah Creek,Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC,Kiewa
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-F1,Maintain abundance and diversity of large and small bodied native fish species associated with main channel habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-F2,Maintain abundance and diversity of large and small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-F3,Maintain abundance and diversity of small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V1,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V2,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V3,"Maintain extent, condition and floristic diversity of fringing, emergent non- woody vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V4,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V5,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V6,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V7,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V8,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V9,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-V10,Minimise colonisation in instream habitats by riparian or terrestrial woody plants,Native Vegetation,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-MM1,Maintain aquatic mammal population and structure,Other Species,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-FR1,Maintain diversity of frogs and improve breeding and recruitment,Other Species,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-T1,Maintain presence of the three species of turtle in the Lower Ovens,Other Species,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-T2,Improve opportunities for breeding and recruitment of turtles,Other Species,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B1,Maintain diversity and abundance of large-bodied waders,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B2,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B3,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B4,Maintain diversity and abundance of piscivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B5,Maintain diversity and abundance of ducks,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B6,Maintain diversity and abundance of herbivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B7,Maintain diversity and abundance of shorebirds,Waterbirds,VIC,Ovens
+Lower Ovens reach 1,Lower Ovens Environmental Flow study (2024),V-B8,Maintain diversity and abundance of reed-inhabiting passerines,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-F1,Maintain abundance and diversity of large and small bodied native fish species associated with main channel habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-F2,Maintain abundance and diversity of large and small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-F3,Maintain abundance and diversity of small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V1,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V2,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V3,"Maintain extent, condition and floristic diversity of fringing, emergent non- woody vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V4,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V5,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V6,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V7,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V8,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V9,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-V10,Minimise colonisation in instream habitats by riparian or terrestrial woody plants,Native Vegetation,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-MM1,Maintain aquatic mammal population and structure,Other Species,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-FR1,Maintain diversity of frogs and improve breeding and recruitment,Other Species,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-T1,Maintain presence of the three species of turtle in the Lower Ovens,Other Species,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-T2,Improve opportunities for breeding and recruitment of turtles,Other Species,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B1,Maintain diversity and abundance of large-bodied waders,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B2,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B3,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B4,Maintain diversity and abundance of piscivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B5,Maintain diversity and abundance of ducks,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B6,Maintain diversity and abundance of herbivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B7,Maintain diversity and abundance of shorebirds,Waterbirds,VIC,Ovens
+Lower Ovens reach 2,Lower Ovens Environmental Flow study (2024),V-B8,Maintain diversity and abundance of reed-inhabiting passerines,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-F1,Maintain abundance and diversity of large and small bodied native fish species associated with main channel habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-F2,Maintain abundance and diversity of large and small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-F3,Maintain abundance and diversity of small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V1,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V2,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V3,"Maintain extent, condition and floristic diversity of fringing, emergent non- woody vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V4,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V5,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V6,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V7,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V8,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V9,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-V10,Minimise colonisation in instream habitats by riparian or terrestrial woody plants,Native Vegetation,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-MM1,Maintain aquatic mammal population and structure,Other Species,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-FR1,Maintain diversity of frogs and improve breeding and recruitment,Other Species,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-T1,Maintain presence of the three species of turtle in the Lower Ovens,Other Species,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-T2,Improve opportunities for breeding and recruitment of turtles,Other Species,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B1,Maintain diversity and abundance of large-bodied waders,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B2,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B3,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B4,Maintain diversity and abundance of piscivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B5,Maintain diversity and abundance of ducks,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B6,Maintain diversity and abundance of herbivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B7,Maintain diversity and abundance of shorebirds,Waterbirds,VIC,Ovens
+Lower Ovens reach 3,Lower Ovens Environmental Flow study (2024),V-B8,Maintain diversity and abundance of reed-inhabiting passerines,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-F1,Maintain abundance and diversity of large and small bodied native fish species associated with main channel habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-F2,Maintain abundance and diversity of large and small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-F3,Maintain abundance and diversity of small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V1,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V2,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V3,"Maintain extent, condition and floristic diversity of fringing, emergent non- woody vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V4,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V5,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V6,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V7,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V8,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V9,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-V10,Minimise colonisation in instream habitats by riparian or terrestrial woody plants,Native Vegetation,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-MM1,Maintain aquatic mammal population and structure,Other Species,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-FR1,Maintain diversity of frogs and improve breeding and recruitment,Other Species,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-T1,Maintain presence of the three species of turtle in the Lower Ovens,Other Species,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-T2,Improve opportunities for breeding and recruitment of turtles,Other Species,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B1,Maintain diversity and abundance of large-bodied waders,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B2,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B3,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B4,Maintain diversity and abundance of piscivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B5,Maintain diversity and abundance of ducks,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B6,Maintain diversity and abundance of herbivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B7,Maintain diversity and abundance of shorebirds,Waterbirds,VIC,Ovens
+Lower Ovens reach 4,Lower Ovens Environmental Flow study (2024),V-B8,Maintain diversity and abundance of reed-inhabiting passerines,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-F1,Maintain abundance and diversity of large and small bodied native fish species associated with main channel habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-F2,Maintain abundance and diversity of large and small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-F3,Maintain abundance and diversity of small bodied native fish species associated with floodplain habitats,Native Fish,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V1,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V2,"Maintain the extent, condition and floristic diversity of submerged vascular vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V3,"Maintain extent, condition and floristic diversity of fringing, emergent non- woody vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V4,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V5,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V6,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V7,"Maintain extent, condition and floristic diversity of riparian vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V8,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V9,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-V10,Minimise colonisation in instream habitats by riparian or terrestrial woody plants,Native Vegetation,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Function,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-MM1,Maintain aquatic mammal population and structure,Other Species,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-FR1,Maintain diversity of frogs and improve breeding and recruitment,Other Species,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-T1,Maintain presence of the three species of turtle in the Lower Ovens,Other Species,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-T2,Improve opportunities for breeding and recruitment of turtles,Other Species,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B1,Maintain diversity and abundance of large-bodied waders,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B2,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B3,Support breeding of colonial nesting species during periods of above average rainfall,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B4,Maintain diversity and abundance of piscivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B5,Maintain diversity and abundance of ducks,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B6,Maintain diversity and abundance of herbivores,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B7,Maintain diversity and abundance of shorebirds,Waterbirds,VIC,Ovens
+Lower Ovens reach 5,Lower Ovens Environmental Flow study (2024),V-B8,Maintain diversity and abundance of reed-inhabiting passerines,Waterbirds,VIC,Ovens
