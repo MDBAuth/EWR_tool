@@ -671,7 +671,7 @@ class ScenarioHandler:
                         left_on=['gauge','pu','ewr'],
                         selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
-                                'Multigauge'],
+                                'Multigauge', 'TotalDays'],
                         parameter_sheet_path=self.parameter_sheet)
 
         all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
@@ -721,7 +721,7 @@ class ScenarioHandler:
                         left_on=['gauge','pu','ewr'],
                         selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
-                                'Multigauge'],
+                                'Multigauge', 'TotalDays'],
                         parameter_sheet_path=self.parameter_sheet)
 
         all_events_temp2 = summarise_results.filter_duplicate_start_dates(all_events_temp2)
