@@ -182,7 +182,90 @@ def unpack_model_file(csv_file: str, main_key: str, header_key: str) -> tuple:
         headerData_df = headerData(csv_file, header_key, endLine, sep=",")
     
     return mainData_df, headerData_df
+#######################################################
+def unpack_model_file_DM(csv_file: str, main_key: str, header_key: str, mode: str = 'daily') -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Improved unpack_model_file for daily or monthly Bigmod CSVs.
+    Drops redundant 'Date' column so structure is uniform (Year/Month or Dy/Mn/Year + sites).
+    Handles both local and URL files.
 
+    Args:
+        csv_file (str): path or URL to csv
+        main_key (str): line marker for data start
+        header_key (str): line marker for header start
+        mode (str): 'daily' or 'monthly' (default 'daily')
+
+    Returns:
+        (mainData_df, headerData_df)
+    """
+    
+    def find_line_start(file_or_url, line_key):
+        if 'http' in file_or_url:
+            response = urllib.request.urlopen(file_or_url)
+            lines = [l.decode('utf-8') for l in response.readlines()]
+        else:
+            with open(file_or_url) as f:
+                lines = f.readlines()
+        for i, line in enumerate(lines):
+            if line.startswith(line_key):
+                return i
+        raise ValueError(f"Could not find line starting with {line_key}")
+
+    def load_header(file_or_url, start_line, end_line):
+        nrows = end_line - start_line - 1
+        if 'http' in file_or_url:
+            return pd.read_csv(file_or_url, header=start_line, nrows=nrows)
+        else:
+            return pd.read_csv(file_or_url, header=start_line, nrows=nrows)
+        
+    def load_daily_data(file_or_url, start_line):
+        if 'http' in file_or_url:
+            return pd.read_csv(file_or_url, header=start_line, dtype={'Dy': int, 'Mn': int, 'Year': int},
+                               skiprows=range(start_line+1, start_line+2)).dropna(axis=1, how='all')
+        else:
+            return pd.read_csv(file_or_url, header=start_line, dtype={'Dy': int, 'Mn': int, 'Year': int},
+                               skiprows=range(start_line+1, start_line+2)).dropna(axis=1, how='all')
+
+    def load_monthly_data(file_or_url, start_line):
+        if 'http' in file_or_url:
+            df = pd.read_csv(file_or_url, header=start_line).dropna(axis=1, how='all')
+        else:
+            df = pd.read_csv(file_or_url, header=start_line).dropna(axis=1, how='all')
+        # Only keep rows where 'Date' looks like 'YYYY.MM'
+        df = df[df['Date'].astype(str).str.match(r'^\d{4}\.\d{1,2}$')]
+        # Split Date into Year / Month if needed
+        if 'Date' in df.columns:
+            df[['Year', 'Mn']] = df['Date'].astype(str).str.split('.', expand=True)
+            df['Year'] = df['Year'].astype(int)
+            df['Mn'] = df['Mn'].astype(int)
+            df['Dy'] = 1
+            #data_df = data_df.drop(columns='Date')
+            date_cols = [ 'Dy' , 'Mn' , 'Year']
+            other_cols = [col for col in df.columns if col not in date_cols]
+            df = df[date_cols + other_cols]
+
+        return df
+
+    # --- Find lines ---
+    header_start = find_line_start(csv_file, header_key)
+    data_start = find_line_start(csv_file, main_key)
+    eoh_line = find_line_start(csv_file, 'EOH')
+
+    # --- Load header ---
+    header_df = load_header(csv_file, header_start, data_start)
+
+    # --- Load data ---
+    if mode == 'monthly':
+        data_df = load_monthly_data(csv_file, data_start)
+    else:
+        data_df = load_daily_data(csv_file, data_start)
+
+    # --- Drop 'Date' to standardise ---
+    if 'Date' in data_df.columns:
+        data_df = data_df.drop(columns=['Date'])
+
+    return data_df, header_df
+################################################################################################
 def build_MDBA_columns(input_data: pd.DataFrame, input_header: pd.DataFrame) -> pd.DataFrame:
     '''Takes in the header data file, trims it, and then renames the column headings with the full reference code
     returns a the dataframe with updated column headers (MDBA model formats).
@@ -223,6 +306,48 @@ def build_MDBA_columns(input_data: pd.DataFrame, input_header: pd.DataFrame) -> 
     input_data.columns = listOfCols
     
     return input_data
+ ###############################################################################################
+def build_MDBA_columns_DM(input_data: pd.DataFrame, input_header: pd.DataFrame) -> pd.DataFrame:
+    """
+    Takes header data file, trims it, and renames the column headings with full reference code.
+    Works for both daily (Dy, Mn, Year) and monthly (Year, Month) data.
+    """
+    # Clean dataframe
+    numRows = int(input_header['Field'].iloc[1])
+    df = input_header.drop([0,1])
+    df = df.astype(str)
+
+    # Remove rogue quotes, spaces, apostrophes
+    for col in ['Site', 'Measurand', 'Quality']:
+        df[col] = df[col].map(lambda x: x.replace("'", "").replace('"', '').replace(" ", ""))
+
+        # Ensure Measurand and Quality are integers then strings without '.0'
+    df['Measurand'] = df['Measurand'].astype(float).astype(int).astype(str)
+    df['Quality'] = df['Quality'].astype(float).astype(int).astype(str)
+
+    # Construct new column names
+    listOfCols = [f"{df['Site'].iloc[i]}-{df['Measurand'].iloc[i]}-{df['Quality'].iloc[i]}" 
+                  for i in range(numRows)]
+    
+    # Detect date structure
+    dateList = []
+    if {'Dy','Mn','Year'}.issubset(input_data.columns):
+        dateList = ['Dy', 'Mn', 'Year']
+    elif {'Year','Month'}.issubset(input_data.columns):
+        dateList = ['Year', 'Month']
+    elif 'Date' in input_data.columns:
+        dateList = ['Date']
+    else:
+        raise ValueError("Could not detect date columns in input data.")
+    
+    # Build final column list
+    listOfCols = dateList + listOfCols
+
+    # Rename columns
+    input_data.columns = listOfCols
+
+    return input_data
+
 
 def build_NSW_columns(input_data: pd.DataFrame, input_header: pd.DataFrame) -> pd.DataFrame:
     '''Takes in the header data file, trims it, and then renames the column headings with the full reference code
