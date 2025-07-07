@@ -253,12 +253,11 @@ def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -
         bool: returns True if it is a multigauge and False if not
     """
     item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    mg = item['Multigauge'].to_list()
-    if not mg:
-        return False
-    if mg[0] == '':
-        return False
-    return int(mg[0]) > 0
+    try:
+        mg = item['Multigauge'].values[0]
+        return bool(mg) 
+    except IndexError:
+        raise IndexError(f"EWR: gauge={gauge}, code={ewr}, pu={pu} is not in the parameter sheet")
 
 def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
     """check in the parameter sheet if currently iterated EWR is a weirpool gauge
@@ -273,13 +272,11 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
         bool: returns True if it is a weirpool gauge and False if not
     """
     item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    wp = item['WeirpoolGauge'].to_list()
-    if not wp:
-        return False
-    if wp[0] == '':
-        return False
-    else:
-        return True
+    try:
+        wp = item['WeirpoolGauge'].values[0]
+        return bool(wp)
+    except IndexError:
+        raise IndexError(f"EWR: gauge={gauge}, code={ewr}, pu={pu} is not in the parameter sheet")
 
 def calculate_n_day_moving_average(df: pd.DataFrame, days: int) -> pd.DataFrame:
     '''Calculates the n day moving average for a given gauges
@@ -350,7 +347,7 @@ def get_month_mask(start: int, end: int, input_df: pd.DataFrame) -> set:
     
     if start > end:
         month_mask = (input_df.index.month >= start) | (input_df.index.month <= end)
-    elif start <= end:
+    else:
         month_mask = (input_df.index.month >= start) & (input_df.index.month <= end)  
         
     input_df_timeslice = input_df.loc[month_mask]
@@ -1238,8 +1235,7 @@ def water_year_touches(start_date:date, end_date:date)->List[int]:
     """
     start_wy = water_year(start_date)
     end_wy = water_year(end_date)
-    span = end_wy - start_wy
-    return [start_wy + i for i in range(span + 1)]
+    return [wy for wy in range(start_wy, end_wy + 1)]
 
 def return_event_info(event:list)-> tuple:
     """given an event return information about an event
@@ -2325,13 +2321,13 @@ def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events
             start_date_peak = EWR_info['high_release_window_start']
             end_date_peak = EWR_info['high_release_window_end']
             high_release_window_flows = filter_timing_window_std(flows, flow_date, start_date_peak, end_date_peak)
-            if start_date_peak < 7 and end_date_peak > 7:
+            if start_date_peak < 7 and end_date_peak >= 7:
                 high_release_window_flows = filter_timing_window_non_std(flows, flow_date, start_date_peak, end_date_peak)
 
             start_date_min = EWR_info['low_release_window_start']
             end_date_min = EWR_info['low_release_window_end']
             low_release_window_flows = filter_timing_window_std(flows, flow_date, start_date_min, end_date_min)
-            if start_date_min < 7 and end_date_min > 7:
+            if start_date_min < 7 and end_date_min >= 7:
                 low_release_window_flows = filter_timing_window_non_std(flows, flow_date, start_date_min, end_date_min)
 
             if last_year_flows.sum() >= EWR_info['annual_barrage_flow'] and high_release_window_flows.sum() > low_release_window_flows.sum():

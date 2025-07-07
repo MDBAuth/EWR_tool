@@ -6,6 +6,7 @@ import numpy as np
 
 from py_ewr import evaluate_EWRs, data_inputs
 import pytest
+from contextlib import nullcontext
 
 def test_component_pull():
 	'''
@@ -1473,23 +1474,24 @@ def test_get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_year
 	assert result == expected_results
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("421004", "CF" , "PU_0000129", False),
-	("421090", "CF" , "PU_0000130", True),
-	("11111", "XX" , "DD", False),
+	("421004", "CF" , "PU_0000129", nullcontext(False)),
+	("421090", "CF" , "PU_0000130", nullcontext(True)),
+	("11111", "XX" , "DD", pytest.raises(IndexError, match="EWR: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
 ],)
 def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
-	result = evaluate_EWRs.is_multigauge(parameter_sheet, gauge, ewr, pu)
-	assert result == expected_result
-
+	with expected_result as e:
+		result = evaluate_EWRs.is_multigauge(parameter_sheet, gauge, ewr, pu)
+		assert result == e
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("414203", "VF" , "PU_0000260", True),
-	("414203", "WP2" , "PU_0000260", True),
-	("11111", "XX" , "DD", False),
+	("414203", "VF" , "PU_0000260", nullcontext(True)),
+	("414203", "WP2" , "PU_0000260", nullcontext(True)),
+	("11111", "XX" , "DD", pytest.raises(IndexError, match="EWR: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
 ],)
 def test_is_weirpool_gauge(parameter_sheet, gauge, ewr, pu, expected_result):
-	result = evaluate_EWRs.is_weirpool_gauge(parameter_sheet, gauge, ewr, pu)
-	assert result == expected_result
+	with expected_result as e:
+		result = evaluate_EWRs.is_weirpool_gauge(parameter_sheet, gauge, ewr, pu)
+		assert result == e
 
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
