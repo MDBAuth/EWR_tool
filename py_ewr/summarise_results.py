@@ -656,21 +656,10 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             master_dict[scenario][gauge][pu][ewr] = evaluate_EWRs.construct_event_dict(unique_years)
         # Pull EWR start and end date from EWR dataset and clean
         EWR_info = {}
-        EWR_info['start_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'StartMonth')
-        EWR_info['end_date'] = data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'EndMonth')
-        if '.' in EWR_info['start_date']:
-            EWR_info['start_day'] = int(EWR_info['start_date'].split('.')[1])
-            EWR_info['start_month'] = int(EWR_info['start_date'].split('.')[0])
-        else:
-            EWR_info['start_day'] = None
-            EWR_info['start_month'] = int(EWR_info['start_date'])
-
-        if '.' in EWR_info['end_date']:  
-            EWR_info['end_day'] = int(EWR_info['end_date'].split('.')[1])
-            EWR_info['end_month'] = int(EWR_info['end_date'].split('.')[0])
-        else:
-            EWR_info['end_day'] = None
-            EWR_info['end_month'] =int(EWR_info['end_date'])        
+        EWR_info['start_month'] = evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, 'StartMonth', pu_ID=False)
+        EWR_info['end_month'] = evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, 'EndMonth', pu_ID=False)
+        EWR_info['start_day'] = evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, 'StartDay', pu_ID=False)
+        EWR_info['end_day'] = evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, 'EndDay', pu_ID=False)      
 
         #--------------
         # for i, row in df_subset.iterrows():

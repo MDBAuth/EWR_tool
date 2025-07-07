@@ -17,7 +17,7 @@ def test_component_pull():
 	PU = 'PU_0000253'
 	EWR = 'SF1_P'
 	component = 'Duration'
-	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == '10'
+	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == 10
 
 def test_get_EWRs():
 	'''
@@ -27,9 +27,9 @@ def test_get_EWRs():
 	PU = 'PU_0000283'
 	gauge = '410007'
 	EWR = 'SF1_P'
-	components = ['SM', 'EM']
+	components = ['StartMonth', 'EndMonth']
 
-	expected = {'gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_day': None, 'start_month': 10, 'end_day': None, 'end_month':4}
+	expected = {'gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_month': 10, 'end_month':4}
 	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected
 
 def test_mask_dates():
@@ -1494,11 +1494,11 @@ def test_is_weirpool_gauge(parameter_sheet, gauge, ewr, pu, expected_result):
 		assert result == e
 
 
-@pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("421090", "CF" , "PU_0000130", "421088"),
+@pytest.mark.parametrize("gauge,pu,ewr,expected_result",[
+	("421090", "PU_0000130", "CF", "421088"),
 ],)
-def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
-	result = evaluate_EWRs.get_second_multigauge(parameter_sheet, gauge, ewr, pu)
+def test_get_second_multigauge(parameter_sheet, gauge, pu, ewr, expected_result):
+	result = evaluate_EWRs.component_pull(parameter_sheet, gauge, pu, ewr, 'Multigauge')
 	assert result == expected_result
 
 
@@ -2504,9 +2504,9 @@ def test_lake_calc(EWR_info, levels, expected_all_events, expected_all_no_events
 
 
 @pytest.mark.parametrize('gauge,PU,EWR,component,expected_result',[
-	('409025','PU_0000253','NestS1','TriggerDay', '15'),
-	('409025','PU_0000253','NestS1','TriggerMonth', '9'),
-	('414203','PU_0000260','NestS1a','DrawDownRateWeek', '30%'),
+	('409025','PU_0000253','NestS1','TriggerDay', 15),
+	('409025','PU_0000253','NestS1','TriggerMonth', 9),
+	('414203','PU_0000260','NestS1a','DrawDownRateWeek', 0.03),
 ],)
 def test_component_pull_nest(gauge, PU, EWR, component, expected_result):
 	'''
