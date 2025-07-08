@@ -3692,7 +3692,7 @@ def test_rolling_average(values, expected_result):
 
 @pytest.mark.parametrize("flows,EWR_info,interation,mode,period,expected_result",[
 	( [3000]*80 + [3000+460] + [3000+460+460] + [3000+460+460+460] + [3000+460+460+460]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "backwards",
@@ -3700,7 +3700,7 @@ def test_rolling_average(values, expected_result):
 	  False
 	),
 	( [3000]*80 + [3000+450] + [3000+450+450] + [3000+450+450+450] + [3000+450+450+450]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "backwards",
@@ -3708,7 +3708,7 @@ def test_rolling_average(values, expected_result):
 	  True
 	),
 	( [3000]*95 + [3000-200] + [3000-200-200] + [3000-200-200-200] + [3000-200-200-200-200]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "forwards",
@@ -3716,7 +3716,7 @@ def test_rolling_average(values, expected_result):
 	  True
 	),
 	( [3000]*90 + [3000-210] + [3000-210-210] + [3000-210-210-210] + [3000-210-210-210-210]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "forwards",
@@ -3724,7 +3724,7 @@ def test_rolling_average(values, expected_result):
 	  False
 	),
 	( [3000]*90 + [3000+210] + [3000+210+210] + [3000+210+210+210] + [3000+210+210+210+210]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "forwards",
@@ -3988,7 +3988,7 @@ def test_lower_lakes_level_calc(EWR_info, levels_data, expected_all_events):
 	(
 	 {'gap_tolerance': 0 ,
       'min_flow' : 70,
-      "max_level_raise": 100,
+      "max_level_change": 100,
       'drawdown_rate': 50,
 	   'duration':10 
     },
@@ -4036,7 +4036,7 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	(
 	   {'gap_tolerance': 0 ,
       'min_flow' : 70,
-      "max_level_raise": 100,
+      "max_level_change": 100,
       'drawdown_rate': 50,
 	   'duration':10 
     },
@@ -4053,7 +4053,7 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	(
 	   {'gap_tolerance': 0 ,
       'min_flow' : 150,
-      "max_level_raise": 10,
+      "max_level_change": 10,
       'drawdown_rate': 5,
 	   'duration':10 
     },
@@ -4070,7 +4070,7 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	(
 	   {'gap_tolerance': 0 ,
       'min_flow' : 150,
-      "max_level_raise": 10,
+      "max_level_change": 10,
       'drawdown_rate': 5,
 	   'duration':10 
     },
@@ -4851,19 +4851,19 @@ def test_create_water_stability_event(flow_date, flows, iteration, EWR_info, exp
 	(
 	[1,1,1,1,1,1],
 	0,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	{"max_level_change": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	True
 	),
 	(
 	[1,1.05,1.05,1.1,1,1],
 	0,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	{"max_level_change": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	False
 	),
 	(
 	[1,1.05,1,1,1,1],
 	0,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	{"max_level_change": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	False
 	),
 ])
@@ -4898,7 +4898,7 @@ def test_check_water_stability_flow(flows, iteration, EWR_info, expected_result)
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'end_month': 11
 	},
@@ -4942,7 +4942,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -4970,7 +4970,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -4997,7 +4997,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 1,	
@@ -5024,7 +5024,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5053,7 +5053,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5131,19 +5131,19 @@ def test_get_last_day_of_window(iteration_date, month_window_end, expected_resul
 
 @pytest.mark.parametrize('levels, EWR_info, expected_results',[
 	( [1,1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       False
 	),
 	( [1,1.04,1.04],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.01,1.02,1.01,1.02,1.01],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 ])
@@ -5153,19 +5153,19 @@ def test_is_egg_phase_stable(levels, EWR_info, expected_results):
 
 @pytest.mark.parametrize('levels, EWR_info, expected_results',[
 	( [1,1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       False
 	),
 	( [1,1.04,1.08,1.12],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.01,1.02,1.08,1.02,1.01],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       False
 	),
 ])
@@ -5201,7 +5201,7 @@ def test_check_water_stability_height(levels, iteration, EWR_info, expected_resu
 	  'max_level' : 1.65,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'end_month': 11
 	},
@@ -5241,7 +5241,7 @@ def test_water_stability_level_check(EWR_info, iteration, all_events, levels, ex
 	  'max_level' : 1.65,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5264,7 +5264,7 @@ def test_water_stability_level_check(EWR_info, iteration, all_events, levels, ex
 	  'max_level' : 1.65,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	

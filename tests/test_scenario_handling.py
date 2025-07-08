@@ -534,8 +534,13 @@ def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handl
     detailed = scenario_handler_instance.pu_ewr_statistics
     
     detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index = detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index.astype('int64')
-
-    assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
+    df = detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek']
+    
+    # ordering of columns shouldn't matter, values do.
+    df = df.reindex(sorted(df.columns), axis=1)
+    scenario_handler_expected_detail = scenario_handler_expected_detail.reindex(sorted(scenario_handler_expected_detail.columns), axis=1)
+    
+    assert_frame_equal(df, scenario_handler_expected_detail)
 
 
 def test_get_all_events(scenario_handler_instance):

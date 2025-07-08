@@ -616,8 +616,6 @@ def level_handle(PU: str, gauge: str, EWR: str, EWR_table: pd.DataFrame, df_L: p
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)  
     E, D = lake_calc(EWR_info, df_L[gauge].values, water_years, df_L.index, masked_dates)
-  
-
     PU_df = event_stats(df_L, PU_df, gauge, EWR, EWR_info, E, D, water_years)
     return PU_df, tuple([E])
 
@@ -2346,7 +2344,7 @@ def is_egg_phase_stable(levels:list, EWR_info: dict )-> bool:
     """Evaluate if water stability for egg is stable
     It calculated the difference between the max level in the period
     and the minimum and then evaluate if the difference is
-    less than the 'max_level_raise' parameter
+    less than the 'max_level_change' parameter
     True otherwise returns false
 
     Args:
@@ -2359,12 +2357,12 @@ def is_egg_phase_stable(levels:list, EWR_info: dict )-> bool:
     max_level_in_period = max(levels)
     min_level_in_period = min(levels)
     max_level_change = max_level_in_period - min_level_in_period
-    return max_level_change <= EWR_info["max_level_raise"]
+    return max_level_change <= EWR_info["max_level_change"]
 
 def is_larva_phase_stable(levels:list, EWR_info: dict )-> bool:
     """Evaluate if water stability for larva is stable
     If calculated the max daily change is less than
-    the 'max_level_raise' parameter then return
+    the 'max_level_change' parameter then return
     True otherwise returns false
 
     Args:
@@ -2376,7 +2374,7 @@ def is_larva_phase_stable(levels:list, EWR_info: dict )-> bool:
     """
     daily_changes = [ abs(levels[i] - levels[i-1]) for i in range(1, len(levels))]
     max_daily_change = max(daily_changes) if daily_changes else 0
-    return max_daily_change <= EWR_info["max_level_raise"]
+    return max_daily_change <= EWR_info["max_level_change"]
 
 
 def check_water_stability_level(levels: List, iteration:int, EWR_info:Dict)-> bool:
@@ -2510,9 +2508,8 @@ def check_period_flow_change(flows: list, EWR_info: dict, iteration: int, mode: 
         bool: Return True is meet condition and False if don't
     """
 
-    max_raise = float(EWR_info["max_level_raise"])
+    max_raise = float(EWR_info["max_level_change"])
     max_fall = float(EWR_info['drawdown_rate'])
-
 
     if mode == "backwards":
         last_30_days_flows = flows[iteration - 29:iteration + 1]

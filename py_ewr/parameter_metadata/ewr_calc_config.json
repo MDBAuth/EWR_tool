@@ -653,12 +653,12 @@
         "LDF-single-F",
         "WFT-single-F",
         "SF-FD1-single-F",
-        "SF-FD2-single-F"
+        "SF-FD2-single-F",
+        "FrC-single-F"
     ],
     "flow_handle_check_ctf": [
         "FD1-single-F",
-        "FD2-single-F",
-        "FrC-single-F"
+        "FD2-single-F"
     ],
     "cumulative_handle_bbr": [
         "BBR1_a-single-V",
