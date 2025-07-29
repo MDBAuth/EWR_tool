@@ -15,9 +15,9 @@ Stanthorpe,Border rivers,Q-EF8,Increase the frequency or duration of flows that 
 Warrego River,Warrego Paroo Bulloo Nebine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
 Upper Condamine,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
 Stanthorpe,Border rivers,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Warrego River,Warrego Paroo Bulloo Nebine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Upper Condamine,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Warrego River,Warrego Paroo Bulloo Nebine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
+Upper Condamine,Condamine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
+Stanthorpe,Border rivers,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Stanthorpe,Border rivers,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Upper Condamine,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
@@ -28,7 +28,7 @@ Upper Condamine,Condamine,Q-NF7,Increase duration of flow events that provide eg
 Stanthorpe,Border rivers,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
 Stanthorpe,Border rivers,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
 Upper Condamine,Condamine,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
-Warrego River,Warrego Paroo Bulloo Nebine,Q-OS1,"Critical habitat for eastern snake-necked turtles, including for breeding",Other Species,QLD
+Warrego River,Warrego Paroo Bulloo Nebine,Q-OS1,Critical habitat for eastern snake-necked turtles, including for breeding,Other Species,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-OS2,Improve breeding opportunities for flow-spawning and wetland specialist fish and  turtles.,Other Species,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-OS3,Increase frequency of flow events that provide breeding opportunities for turtles in floodplain wetlands,Other Species,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD
@@ -40,7 +40,7 @@ Mid Condamine,Condamine,Q-EF4,Increase the frequency of scouring flows that main
 Mid Condamine,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Mid Condamine,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
 Mid Condamine,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Mid Condamine,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Mid Condamine,Condamine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Mid Condamine,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Mid Condamine,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
 Mid Condamine,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
@@ -52,7 +52,7 @@ Maranoa,Condamine,Q-EF4,Increase the frequency of scouring flows that maintain w
 Maranoa,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Maranoa,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
 Maranoa,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Maranoa,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Maranoa,Condamine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Maranoa,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Maranoa,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
 Maranoa,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
@@ -64,7 +64,7 @@ Lower Balonne,Condamine,Q-EF4,Increase the frequency of scouring flows that main
 Lower Balonne,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Lower Balonne,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
 Lower Balonne,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Lower Balonne,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Lower Balonne,Condamine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Lower Balonne,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Lower Balonne,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
 Lower Balonne,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
@@ -77,7 +77,7 @@ Border Rivers,Border rivers,Q-EF4,Increase the frequency of scouring flows that 
 Border Rivers,Border rivers,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Border Rivers,Border rivers,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
 Border Rivers,Border rivers,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Border Rivers,Border rivers,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Border Rivers,Border rivers,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Border Rivers,Border rivers,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Border Rivers,Border rivers,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
 Border Rivers,Border rivers,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
@@ -88,7 +88,7 @@ Moonie,Border rivers,Q-EF4,Increase the frequency of scouring flows that maintai
 Moonie,Border rivers,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Moonie,Border rivers,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
 Moonie,Border rivers,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Moonie,Border rivers,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Moonie,Border rivers,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Moonie,Border rivers,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Moonie,Border rivers,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
 Moonie,Border rivers,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
@@ -98,10 +98,10 @@ Paroo River,Warrego Paroo Bulloo Nebine,Q-EF4,Increase the frequency of scouring
 Paroo River,Warrego Paroo Bulloo Nebine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-EF6,Maintain or increase the frequency or duration of flows that create connectivity with floodplains.,Ecosystem Functions,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Paroo River,Warrego Paroo Bulloo Nebine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Paroo River,Warrego Paroo Bulloo Nebine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-NF4,Improve opportunities for fish to move between main channels and floodplains,Native Fish,QLD
-Paroo River,Warrego Paroo Bulloo Nebine,Q-OS1,"Critical habitat for eastern snake-necked turtles, including for breeding",Other Species,QLD
+Paroo River,Warrego Paroo Bulloo Nebine,Q-OS1,Critical habitat for eastern snake-necked turtles, including for breeding,Other Species,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-OS2,Improve breeding opportunities for flow-spawning and wetland specialist fish and  turtles.,Other Species,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-OS3,Increase frequency of flow events that provide breeding opportunities for turtles in floodplain wetlands,Other Species,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD
@@ -111,10 +111,10 @@ Nebine Creek,Warrego Paroo Bulloo Nebine,Q-EF4,Increase the frequency of scourin
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-EF6,Maintain or increase the frequency or duration of flows that create connectivity with floodplains.,Ecosystem Functions,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Nebine Creek,Warrego Paroo Bulloo Nebine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Nebine Creek,Warrego Paroo Bulloo Nebine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-NF4,Improve opportunities for fish to move between main channels and floodplains,Native Fish,QLD
-Nebine Creek,Warrego Paroo Bulloo Nebine,Q-OS1,"Critical habitat for eastern snake-necked turtles, including for breeding",Other Species,QLD
+Nebine Creek,Warrego Paroo Bulloo Nebine,Q-OS1,Critical habitat for eastern snake-necked turtles, including for breeding,Other Species,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-OS2,Improve breeding opportunities for flow-spawning and wetland specialist fish and  turtles.,Other Species,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-OS3,Increase frequency of flow events that provide breeding opportunities for turtles in floodplain wetlands,Other Species,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD
@@ -124,10 +124,10 @@ Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-EF4,Increase the frequency of sco
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-EF6,Maintain or increase the frequency or duration of flows that create connectivity with floodplains.,Ecosystem Functions,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-NF2,Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers,Native Fish,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-NF4,Improve opportunities for fish to move between main channels and floodplains,Native Fish,QLD
-Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-OS1,"Critical habitat for eastern snake-necked turtles, including for breeding",Other Species,QLD
+Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-OS1,Critical habitat for eastern snake-necked turtles, including for breeding,Other Species,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-OS2,Improve breeding opportunities for flow-spawning and wetland specialist fish and  turtles.,Other Species,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-OS3,Increase frequency of flow events that provide breeding opportunities for turtles in floodplain wetlands,Other Species,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD
@@ -142,12 +142,12 @@ Warrego River,Warrego Paroo Bulloo Nebine,Q-NF9,Increase frequency of flow event
 Tenterfield Creek Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -160,22 +160,22 @@ Tenterfield Creek Water Source,NSW Border Rivers,WB2,Increase total waterbird ab
 Tenterfield Creek Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Tenterfield Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Mole River Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Mole River Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Mole River Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Mole River Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Mole River Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Mole River Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Mole River Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Mole River Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Mole River Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Mole River Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Mole River Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Mole River Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -188,22 +188,22 @@ Mole River Water Source,NSW Border Rivers,WB2,Increase total waterbird abundance
 Mole River Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Mole River Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Mole River Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Mole River Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Mole River Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Mole River Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Mole River Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Mole River Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Mole River Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Mole River Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Mole River Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Mole River Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Mole River Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Mole River Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Mole River Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Reedy Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Reedy Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Reedy Creek Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Reedy Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Reedy Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Reedy Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Reedy Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Reedy Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Reedy Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Reedy Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Reedy Creek Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -216,22 +216,22 @@ Reedy Creek Water Source,NSW Border Rivers,WB2,Increase total waterbird abundanc
 Reedy Creek Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Reedy Creek Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Reedy Creek Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Reedy Creek Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Reedy Creek Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Reedy Creek Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Reedy Creek Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Reedy Creek Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Reedy Creek Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Reedy Creek Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Reedy Creek Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Reedy Creek Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Reedy Creek Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Reedy Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Reedy Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Beardy River Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Beardy River Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Beardy River Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Beardy River Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Beardy River Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Beardy River Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Beardy River Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Beardy River Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Beardy River Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Beardy River Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Beardy River Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Beardy River Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -244,22 +244,22 @@ Beardy River Water Source,NSW Border Rivers,WB2,Increase total waterbird abundan
 Beardy River Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Beardy River Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Beardy River Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Beardy River Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Beardy River Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Beardy River Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Beardy River Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Beardy River Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Beardy River Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Beardy River Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Beardy River Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Beardy River Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Beardy River Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Beardy River Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Beardy River Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Glenn Innes Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Glenn Innes Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Glenn Innes Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Glenn Innes Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Glenn Innes Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Glenn Innes Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Glenn Innes Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Glenn Innes Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Glenn Innes Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Glenn Innes Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Glenn Innes Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -272,22 +272,22 @@ Glenn Innes Water Source,NSW Border Rivers,WB2,Increase total waterbird abundanc
 Glenn Innes Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Glenn Innes Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Glenn Innes Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Glenn Innes Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Glenn Innes Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Glenn Innes Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Glenn Innes Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Glenn Innes Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Glenn Innes Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Glenn Innes Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Glenn Innes Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Glenn Innes Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Glenn Innes Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Glenn Innes Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Glenn Innes Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Bonshaw Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Bonshaw Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Bonshaw Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Bonshaw Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Bonshaw Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Bonshaw Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Bonshaw Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Bonshaw Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Bonshaw Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Bonshaw Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Bonshaw Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Bonshaw Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -300,22 +300,22 @@ Bonshaw Water Source,NSW Border Rivers,WB2,Increase total waterbird abundance ac
 Bonshaw Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Bonshaw Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Bonshaw Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Bonshaw Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Bonshaw Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Bonshaw Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Bonshaw Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Bonshaw Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Bonshaw Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Bonshaw Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Bonshaw Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Bonshaw Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Bonshaw Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Bonshaw Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Bonshaw Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Kings Plains Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Kings Plains Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Kings Plains Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Kings Plains Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Kings Plains Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Kings Plains Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Kings Plains Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Kings Plains Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Kings Plains Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Kings Plains Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Kings Plains Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Kings Plains Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -328,22 +328,22 @@ Kings Plains Water Source,NSW Border Rivers,WB2,Increase total waterbird abundan
 Kings Plains Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Kings Plains Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Kings Plains Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Kings Plains Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Kings Plains Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Kings Plains Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Kings Plains Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Kings Plains Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Kings Plains Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Kings Plains Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Kings Plains Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Kings Plains Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Kings Plains Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Kings Plains Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Kings Plains Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Inverell Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Inverell Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Inverell Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Inverell Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Inverell Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Inverell Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Inverell Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Inverell Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Inverell Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Inverell Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Inverell Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Inverell Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -356,22 +356,22 @@ Inverell Water Source,NSW Border Rivers,WB2,Increase total waterbird abundance a
 Inverell Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Inverell Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Inverell Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Inverell Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Inverell Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Inverell Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Inverell Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Inverell Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Inverell Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Inverell Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Inverell Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Inverell Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Inverell Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Inverell Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Inverell Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -384,22 +384,22 @@ Campbells Creek and Camp Creek Water Source,NSW Border Rivers,WB2,Increase total
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Yetman Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Yetman Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Yetman Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Yetman Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Yetman Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Yetman Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Yetman Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Yetman Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Yetman Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Yetman Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Yetman Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Yetman Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -412,22 +412,22 @@ Yetman Water Source,NSW Border Rivers,WB2,Increase total waterbird abundance acr
 Yetman Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Yetman Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Yetman Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Yetman Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Yetman Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Yetman Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Yetman Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Yetman Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Yetman Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Yetman Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Yetman Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Yetman Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Yetman Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Yetman Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Yetman Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Ottleys Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Ottleys Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Ottleys Creek Water Source,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Ottleys Creek Water Source,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Ottleys Creek Water Source,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Ottleys Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Ottleys Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Ottleys Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -440,22 +440,22 @@ Ottleys Creek Water Source,NSW Border Rivers,WB2,Increase total waterbird abunda
 Ottleys Creek Water Source,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Ottleys Creek Water Source,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Ottleys Creek Water Source,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Ottleys Creek Water Source,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Ottleys Creek Water Source,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Ottleys Creek Water Source,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Ottleys Creek Water Source,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Ottleys Creek Water Source,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Ottleys Creek Water Source,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Ottleys Creek Water Source,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Ottleys Creek Water Source,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Ottleys Creek Water Source,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Ottleys Creek Water Source,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Ottleys Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Ottleys Creek Water Source,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -468,22 +468,22 @@ Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,WB2,Increase 
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -496,22 +496,22 @@ Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,WB2,Increas
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -524,22 +524,22 @@ Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,WB2,Increase total 
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF1,No loss of native fish species,Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,NF4,Improve native fish population structure for moderate to longlived flow pulse specialist native fish species,Native Fish,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,NF5,Improve native fish population structure for moderate to longlived riverine specialist native fish species,Native Fish,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,NF6,A 25% increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,NF4,Improve native fish population structure for moderate to long-lived flow pulse specialist native fish species,Native Fish,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,NF5,Improve native fish population structure for moderate to long-lived riverine specialist native fish species,Native Fish,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,NV1,Maintain the extent and viability of nonwoody vegetation communities occurring within channels,Native Vegetation,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NV4a,Maintain or increase the extent and maintain or improve the condition of native woodland and shrubland communities on floodplains (River red gum forest),Native Vegetation,NSW
@@ -552,10 +552,10 @@ Macintyre River and Boomi River floodplain,NSW Border Rivers,WB2,Increase total 
 Macintyre River and Boomi River floodplain,NSW Border Rivers,WB3,Increase opportunities for non-colonial waterbird breeding,Waterbirds,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,WB5,Maintain the extent and improve condition of waterbird habitats,Waterbirds,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,EF1,Provide and protect a diversity of refugia across the landscape,Ecosystem Functions,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,EF2,"Create quality instream, floodplain and wetland habitat",Ecosystem Functions,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,EF3a,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (within catchments)",Ecosystem Functions,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,EF3b,"Provide movement and dispersal opportunities within, and between, catchments for waterdependent biota to complete lifecycles and disperse into new habitats (between catchments)",Ecosystem Functions,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,EF2,Create quality instream, floodplain and wetland habitat,Ecosystem Functions,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,EF3a,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (within catchments),Ecosystem Functions,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,EF3b,Provide movement and dispersal opportunities within, and between, catchments for water-dependent biota to complete lifecycles and disperse into new habitats (between catchments),Ecosystem Functions,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,EF4,Support instream and floodplain productivity,Ecosystem Functions,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,EF5,Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands,Ecosystem Functions,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
-Macintyre River and Boomi River floodplain,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon–Darling from tributaries,Ecosystem Functions,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,EF7,Increase the contribution of flows into the Murray and Barwon-Darling from tributaries,Ecosystem Functions,NSW
