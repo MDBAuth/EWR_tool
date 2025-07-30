@@ -2,9 +2,9 @@ PlanningUnitID,PlanningUnitName,LTWPShortName,CompliancePoint/Node,Gauge,Code,St
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Wilby Wilby,422016,BBR1_a,7,6,,,,1,90,90,100,1000000,4,,422034,V,,1.08,154000,,90,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.4457,147.5289,Q-WB2+Q-WB3
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Wilby Wilby,422016,BBR1_b,7,6,,,,1,10,10,100,1000000,4,,422034,V,,1.08,20000,,10,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.4457,147.5289,Q-WB2+Q-WB3
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Wilby Wilby,422016,BBR2,7,6,76,,,1,1,1,0,1000000,,,,V,,,25000,,60,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.4457,147.5289,Q-WB3+Q-NV1
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,BF-FD1,7,6,,,,1,1,1,5,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,BF-FD1,7,6,,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
@@ -28,9 +28,9 @@ PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A
 PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
 PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
 PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,BF-FD2,7,6,,,,1,1,1,5,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,BF-FD2,7,6,,,,1,1,1,5,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,BF-FD2,7,6,,,,1,1,1,5,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,BF-FD2,7,6,,,,1,1,1,5,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,BF-FD2,7,6,,,,1,1,1,5,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,BF-FD2,7,6,,,,1,1,1,5,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,BF-FD2,7,6,,,,1,1,1,5,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,BF-FD2,7,6,,,,1,1,1,5,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
@@ -51,9 +51,9 @@ PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A
 PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,DR_S,7,6,,,,1,1,1,6100,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
 PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,DR_S,7,6,,,,1,1,1,14000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
 PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,DR_S,7,6,,,,1,1,1,7500,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,DR_S,7,6,,,,1,1,1,82000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,DR_S,7,6,,,,1,1,1,82000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,DR_S,7,6,,,,1,1,1,2300,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,DR_S,7,6,,,,1,1,1,47000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,DR_S,7,6,,,,1,1,1,47000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,DR_S,7,6,,,,1,1,1,22000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,DR_S,7,6,,,,1,1,1,19000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,DR_S,7,6,,,,1,1,1,52000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
@@ -64,9 +64,9 @@ PU_2600004,Lower Balonne,Condamine and Balonne,Ballandool River at Hebel Bollon 
 PU_2600004,Lower Balonne,Condamine and Balonne,Bokhara River at Hebel,422209A,DR_S,7,6,,,,1,1,1,7100,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Angledool 2,422030,DR_S,7,6,,,,1,1,1,17000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2700001,Nebine Creek,Warrego Paroo Bulloo Nebine,Nebine Creek at Roseleigh Crossing,422502A,DR1,7,6,100,,,1,1,1,2,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Nebine,-28.92255556,146.87775,Q-EF3
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,DR1,7,6,100,,,1,1,1,5,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,DR1,7,6,100,,,1,1,1,5,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF3
@@ -107,9 +107,9 @@ PU_2700001,Nebine Creek,Warrego Paroo Bulloo Nebine,Nebine Creek at Roseleigh Cr
 PU_2900001,Paroo River,Warrego Paroo Bulloo Nebine,Paroo River at Caiwarro,424201A,FD2,7,6,,,,1,8,8,3412,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Paroo,Paroo,-28.68951667,144.7862833,Q-NF1+Q-EF5+Q-NF2
 PU_2800002,Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Cuttaburra Creek at Turra,423005,FD2,7,6,,,,1,8,8,60,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Warrego,Warrego,-29.0573,145.4089,Q-NF1+Q-EF5+Q-NF2
 PU_2800001,Warrego River,Warrego Paroo Bulloo Nebine,Warrego River at Barringun 2,423004,FD2,7,6,,,,1,8,8,636,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Warrego,Warrego,-29.0874,145.7719,Q-NF1+Q-EF5+Q-NF2
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,FD1,7,6,,,,1,1,1,20,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,256,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF6+Q-EF7
@@ -119,9 +119,9 @@ PU_2600004,Lower Balonne,Condamine and Balonne,Briarie Creek at Wollerbilla-Hebe
 PU_2600004,Lower Balonne,Condamine and Balonne,Ballandool River at Hebel Bollon Road,422207A,FD1,7,6,,,,1,1,1,20,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.93765,147.7523667,Q-NF6+Q-EF7
 PU_2600004,Lower Balonne,Condamine and Balonne,Bokhara River at Hebel,422209A,FD1,7,6,,,,1,1,1,20,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.9694,147.7973,Q-NF6+Q-EF7
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Angledool 2,422030,FD1,7,6,,,,1,1,1,20,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.11489063,147.8940384,Q-NF6+Q-EF7
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,FD2,7,6,,,,1,8,8,7800,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,518,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,FD2,7,6,,,,1,8,8,7800,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,518,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,FD2,7,6,,,,1,8,8,2100,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,547,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,FD2,7,6,,,,1,8,8,21000,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,518,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,FD2,7,6,,,,1,8,8,21000,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,518,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,FD2,7,6,,,,1,8,8,6500,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,596,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,FD2,7,6,,,,1,8,8,8000,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,596,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,FD2,7,6,,,,1,8,8,5300,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,596,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF1+Q-EF5+Q-NF2
@@ -131,9 +131,9 @@ PU_2600004,Lower Balonne,Condamine and Balonne,Briarie Creek at Wollerbilla-Hebe
 PU_2600004,Lower Balonne,Condamine and Balonne,Ballandool River at Hebel Bollon Road,422207A,FD2,7,6,,,,1,8,8,320,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.93765,147.7523667,Q-NF1+Q-EF5+Q-NF2
 PU_2600004,Lower Balonne,Condamine and Balonne,Bokhara River at Hebel,422209A,FD2,7,6,,,,1,8,8,1000,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.9694,147.7973,Q-NF1+Q-EF5+Q-NF2
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Angledool 2,422030,FD2,7,6,,,,1,8,8,2100,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.11489063,147.8940384,Q-NF1+Q-EF5+Q-NF2
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,FR1,9,5,,,,1,8,8,7800,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,FR1,9,5,,,,1,8,8,7800,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,FR1,9,5,,,,1,8,8,2100,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,FR1,9,5,,,,1,8,8,21000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,FR1,9,5,,,,1,8,8,21000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,FR1,9,5,,,,1,8,8,6500,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,FR1,9,5,,,,1,8,8,8000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,FR1,9,5,,,,1,8,8,5300,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-NF3
@@ -179,9 +179,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre River at Goondiwindi
 PU_2400001,Border Rivers,Border Rivers and Moonie,Dumaresq River at Roseneath,416011,SF-FD2,7,6,,,,1,8,8,5500,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,-29.1155,151.4584,
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre River at Kanowna,416048,SF-FD2,7,6,,,,1,8,8,1700,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,-28.6961,149.388,
 PU_2700001,Nebine Creek,Warrego Paroo Bulloo Nebine,Nebine Creek at Roseleigh Crossing,422502A,SF-FD2,7,6,,,,1,8,8,8,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Nebine,-28.92255556,146.87775,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,SF-FD1,7,6,,,,1,1,1,20,,1.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,SF-FD1,7,6,,,,1,1,1,20,,0.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
@@ -207,9 +207,9 @@ PU_2600004,Lower Balonne,Condamine and Balonne,Briarie Creek at Wollerbilla-Hebe
 PU_2600004,Lower Balonne,Condamine and Balonne,Ballandool River at Hebel Bollon Road,422207A,SF-FD2,7,6,,,,1,8,8,320,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.93765,147.7523667,
 PU_2600004,Lower Balonne,Condamine and Balonne,Bokhara River at Hebel,422209A,SF-FD2,7,6,,,,1,8,8,1000,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.9694,147.7973,
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Angledool 2,422030,SF-FD2,7,6,,,,1,8,8,2100,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.11489063,147.8940384,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Balonne River at Weribone,422213A,SF-FD2,7,6,,,,1,8,8,7800,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,SF-FD2,7,6,,,,1,8,8,7800,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,SF-FD2,7,6,,,,1,8,8,2100,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
-PU_2600002,Mid Condamine ,Condamine and Balonne,Condamine River at Cotswold,422325A,SF-FD2,7,6,,,,1,8,8,21000,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
+PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,SF-FD2,7,6,,,,1,8,8,21000,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Bedarra,422344A,SF-FD2,7,6,,,,1,8,8,6500,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,the Condamine River at Brigalow,422336A,SF-FD2,7,6,,,,1,8,8,8000,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600001,Upper Condamine,Condamine and Balonne,Condamine River at Cecil Weir,422316A,SF-FD2,7,6,,,,1,8,8,5300,,1.6,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
