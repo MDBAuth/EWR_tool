@@ -1,98 +1,98 @@
 planning_unit_name,LTWPShortName,Env_obj,Objective,Target,state
-Stanthorpe,Border rivers,Q-EF1,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Functions,QLD
-Stanthorpe,Border rivers,Q-EF2,Improve opportunities for exchange of nutrients and energy between the anabranches and main channels.,Ecosystem Functions,QLD
+Stanthorpe,Border Rivers and Moonie,Q-EF1,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Functions,QLD
+Stanthorpe,Border Rivers and Moonie,Q-EF2,Improve opportunities for exchange of nutrients and energy between the anabranches and main channels.,Ecosystem Functions,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
-Upper Condamine,Condamine,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Upper Condamine,Condamine and Balonne,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Stanthorpe,Border rivers,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Upper Condamine,Condamine,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Stanthorpe,Border Rivers and Moonie,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Upper Condamine,Condamine and Balonne,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Upper Condamine,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Stanthorpe,Border rivers,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Upper Condamine,Condamine and Balonne,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Stanthorpe,Border Rivers and Moonie,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-EF6,Maintain or increase the frequency or duration of flows that create connectivity with floodplains.,Ecosystem Functions,QLD
-Upper Condamine,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
-Stanthorpe,Border rivers,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
+Upper Condamine,Condamine and Balonne,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
+Stanthorpe,Border Rivers and Moonie,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Upper Condamine,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Stanthorpe,Border Rivers and Moonie,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Upper Condamine,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Stanthorpe,Border Rivers and Moonie,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Upper Condamine,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Stanthorpe,Border Rivers and Moonie,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-NF4,Improve opportunities for fish to move between main channels and floodplains,Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
-Upper Condamine,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
-Upper Condamine,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Stanthorpe,Border rivers,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
-Upper Condamine,Condamine,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
+Stanthorpe,Border Rivers and Moonie,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Stanthorpe,Border Rivers and Moonie,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Stanthorpe,Border Rivers and Moonie,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-OS1,"Critical habitat for eastern snake-necked turtles, including for breeding",Other Species,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-OS2,Improve breeding opportunities for flow-spawning and wetland specialist fish and  turtles.,Other Species,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-OS3,Increase frequency of flow events that provide breeding opportunities for turtles in floodplain wetlands,Other Species,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD
 Warrego River,Warrego Paroo Bulloo Nebine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
-Upper Condamine,Condamine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
-Upper Condamine,Condamine,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
-Mid Condamine,Condamine,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
-Mid Condamine,Condamine,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Mid Condamine,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Mid Condamine,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
-Mid Condamine,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Mid Condamine,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Mid Condamine,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Mid Condamine,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
-Mid Condamine,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Mid Condamine,Condamine,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
-Mid Condamine,Condamine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
-Mid Condamine,Condamine,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
-Maranoa,Condamine,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
-Maranoa,Condamine,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Maranoa,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Maranoa,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
-Maranoa,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Maranoa,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Maranoa,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Maranoa,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
-Maranoa,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Maranoa,Condamine,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
-Maranoa,Condamine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
-Maranoa,Condamine,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
-Lower Balonne,Condamine,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
-Lower Balonne,Condamine,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Lower Balonne,Condamine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Lower Balonne,Condamine,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
-Lower Balonne,Condamine,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Lower Balonne,Condamine,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Lower Balonne,Condamine,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Lower Balonne,Condamine,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
-Lower Balonne,Condamine,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Lower Balonne,Condamine,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
-Lower Balonne,Condamine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
-Lower Balonne,Condamine,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
-Border Rivers,Border rivers,Q-EF1,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Functions,QLD
-Border Rivers,Border rivers,Q-EF2,Improve opportunities for exchange of nutrients and energy between the anabranches and main channels.,Ecosystem Functions,QLD
-Border Rivers,Border rivers,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Border Rivers,Border rivers,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Border Rivers,Border rivers,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
-Border Rivers,Border rivers,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Border Rivers,Border rivers,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Border Rivers,Border rivers,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Border Rivers,Border rivers,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
-Border Rivers,Border rivers,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Border Rivers,Border rivers,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
-Moonie,Border rivers,Q-EF1,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Functions,QLD
-Moonie,Border rivers,Q-EF2,Improve opportunities for exchange of nutrients and energy between the anabranches and main channels.,Ecosystem Functions,QLD
-Moonie,Border rivers,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
-Moonie,Border rivers,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
-Moonie,Border rivers,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
-Moonie,Border rivers,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
-Moonie,Border rivers,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
-Moonie,Border rivers,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
-Moonie,Border rivers,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
-Moonie,Border rivers,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
-Moonie,Border rivers,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
+Upper Condamine,Condamine and Balonne,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
+Upper Condamine,Condamine and Balonne,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
+Mid Condamine,Condamine and Balonne,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Mid Condamine,Condamine and Balonne,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Mid Condamine,Condamine and Balonne,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Mid Condamine,Condamine and Balonne,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
+Mid Condamine,Condamine and Balonne,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Mid Condamine,Condamine and Balonne,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Mid Condamine,Condamine and Balonne,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Mid Condamine,Condamine and Balonne,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
+Mid Condamine,Condamine and Balonne,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Mid Condamine,Condamine and Balonne,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
+Mid Condamine,Condamine and Balonne,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
+Mid Condamine,Condamine and Balonne,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
+Maranoa,Condamine and Balonne,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Maranoa,Condamine and Balonne,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Maranoa,Condamine and Balonne,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Maranoa,Condamine and Balonne,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
+Maranoa,Condamine and Balonne,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Maranoa,Condamine and Balonne,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Maranoa,Condamine and Balonne,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Maranoa,Condamine and Balonne,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
+Maranoa,Condamine and Balonne,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Maranoa,Condamine and Balonne,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
+Maranoa,Condamine and Balonne,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
+Maranoa,Condamine and Balonne,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
+Lower Balonne,Condamine and Balonne,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Lower Balonne,Condamine and Balonne,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Lower Balonne,Condamine and Balonne,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Lower Balonne,Condamine and Balonne,Q-EF7,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes.,Ecosystem Functions,QLD
+Lower Balonne,Condamine and Balonne,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Lower Balonne,Condamine and Balonne,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Lower Balonne,Condamine and Balonne,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Lower Balonne,Condamine and Balonne,Q-NF6,Increase frequency and/or duration of low in-channel flows that provide longitudinal connectivity between neighbouring waterholes for Native Fish outcomes.,Native Fish,QLD
+Lower Balonne,Condamine and Balonne,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Lower Balonne,Condamine and Balonne,Q-NV1,Improve condition of vegetation that supports bird breeding,Native Vegetation,QLD
+Lower Balonne,Condamine and Balonne,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
+Lower Balonne,Condamine and Balonne,Q-WB3,Increase opportunities for successful bird breeding,Waterbirds,QLD
+Border Rivers,Border Rivers and Moonie,Q-EF1,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Functions,QLD
+Border Rivers,Border Rivers and Moonie,Q-EF2,Improve opportunities for exchange of nutrients and energy between the anabranches and main channels.,Ecosystem Functions,QLD
+Border Rivers,Border Rivers and Moonie,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Border Rivers,Border Rivers and Moonie,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Border Rivers,Border Rivers and Moonie,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
+Border Rivers,Border Rivers and Moonie,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Border Rivers,Border Rivers and Moonie,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Border Rivers,Border Rivers and Moonie,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Border Rivers,Border Rivers and Moonie,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
+Border Rivers,Border Rivers and Moonie,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Border Rivers,Border Rivers and Moonie,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
+Moonie,Border Rivers and Moonie,Q-EF1,Increased frequency of flow events that fill anabranches to allow primary production.,Ecosystem Functions,QLD
+Moonie,Border Rivers and Moonie,Q-EF2,Improve opportunities for exchange of nutrients and energy between the anabranches and main channels.,Ecosystem Functions,QLD
+Moonie,Border Rivers and Moonie,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
+Moonie,Border Rivers and Moonie,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
+Moonie,Border Rivers and Moonie,Q-EF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Ecosystem Functions,QLD
+Moonie,Border Rivers and Moonie,Q-NF1,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Native Fish,QLD
+Moonie,Border Rivers and Moonie,Q-NF2,"Improve resilience of fish populations by allowing opportunities for fish to move between reaches, including passage past barriers",Native Fish,QLD
+Moonie,Border Rivers and Moonie,Q-NF3,Improve breeding opportunities for flow-spawning fish,Native Fish,QLD
+Moonie,Border Rivers and Moonie,Q-NF5,Improve breeding opportunities for flow-spawning and wetland specialist fish,Native Fish,QLD
+Moonie,Border Rivers and Moonie,Q-NF7,Increase duration of flow events that provide egg and larval development conditions for stable low-flow spawning fish.,Native Fish,QLD
+Moonie,Border Rivers and Moonie,Q-NF8,Increase the frequency or duration of flows that create connectivity with anabranches.,Native Fish,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-EF4,Increase the frequency of scouring flows that maintain waterhole depth,Ecosystem Functions,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-EF5,Increase frequency and/or duration of medium and high flows that provide longitudinal connectivity between river reaches.,Ecosystem Functions,QLD
@@ -132,9 +132,9 @@ Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-OS2,Improve breeding opportunitie
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-OS3,Increase frequency of flow events that provide breeding opportunities for turtles in floodplain wetlands,Other Species,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-WB1,Improve opportunities for successful bird breeding in floodplain wetlands,Waterbirds,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-WB2,Increase frequency/duration of flows that trigger bird breeding opportunities and sustain adults and fledgelings,Waterbirds,QLD
-Stanthorpe,Border rivers,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
-Border Rivers,Border rivers,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
-Moonie,Border rivers,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Stanthorpe,Border Rivers and Moonie,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Border Rivers,Border Rivers and Moonie,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
+Moonie,Border Rivers and Moonie,Q-EF3,Decrease the length of no flow spells that threaten waterhole persistence and/or habitat quality,Ecosystem Functions,QLD
 Nebine Creek,Warrego Paroo Bulloo Nebine,Q-NF9,Increase frequency of flow events that provide breeding opportunities for wetland specialist fish,Native Fish,QLD
 Paroo River,Warrego Paroo Bulloo Nebine,Q-NF9,Increase frequency of flow events that provide breeding opportunities for wetland specialist fish,Native Fish,QLD
 Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Q-NF9,Increase frequency of flow events that provide breeding opportunities for wetland specialist fish,Native Fish,QLD
@@ -147,6 +147,7 @@ Tenterfield Creek Water Source,NSW Border Rivers,NF5,Improve native fish populat
 Tenterfield Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Tenterfield Creek Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Tenterfield Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -175,6 +176,7 @@ Mole River Water Source,NSW Border Rivers,NF5,Improve native fish population str
 Mole River Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Mole River Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Mole River Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Mole River Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Mole River Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -203,6 +205,7 @@ Reedy Creek Water Source,NSW Border Rivers,NF5,Improve native fish population st
 Reedy Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Reedy Creek Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Reedy Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Reedy Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Reedy Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -231,6 +234,7 @@ Beardy River Water Source,NSW Border Rivers,NF5,Improve native fish population s
 Beardy River Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Beardy River Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Beardy River Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Beardy River Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Beardy River Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -259,6 +263,7 @@ Glenn Innes Water Source,NSW Border Rivers,NF5,Improve native fish population st
 Glenn Innes Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Glenn Innes Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Glenn Innes Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Glenn Innes Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Glenn Innes Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -287,6 +292,7 @@ Bonshaw Water Source,NSW Border Rivers,NF5,Improve native fish population struct
 Bonshaw Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Bonshaw Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Bonshaw Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Bonshaw Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Bonshaw Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -315,6 +321,7 @@ Kings Plains Water Source,NSW Border Rivers,NF5,Improve native fish population s
 Kings Plains Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Kings Plains Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Kings Plains Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Kings Plains Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Kings Plains Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -343,6 +350,7 @@ Inverell Water Source,NSW Border Rivers,NF5,Improve native fish population struc
 Inverell Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Inverell Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Inverell Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Inverell Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Inverell Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -371,6 +379,7 @@ Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF5,Improve native
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Campbells Creek and Camp Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -399,6 +408,7 @@ Yetman Water Source,NSW Border Rivers,NF5,Improve native fish population structu
 Yetman Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Yetman Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Yetman Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Yetman Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Yetman Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -427,6 +437,7 @@ Ottleys Creek Water Source,NSW Border Rivers,NF5,Improve native fish population 
 Ottleys Creek Water Source,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Ottleys Creek Water Source,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Ottleys Creek Water Source,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -455,6 +466,7 @@ Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF5,Improve n
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Confluence of Macintyre River and Dumaresq River,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -483,6 +495,7 @@ Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF5,Improve
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Macintyre River floodplain upstream of Boomi River,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -511,6 +524,7 @@ Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF5,Improve native 
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Whalan Creek and Croppa Creek subcatchment,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
@@ -539,6 +553,7 @@ Macintyre River and Boomi River floodplain,NSW Border Rivers,NF5,Improve native 
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF6,A 25 percent increase in abundance of mature (harvestable-sized) golden perch and Murray cod,Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF7,Increase the prevalence and/or expand the population of key short to moderate-lived floodplain specialist native fish species into new areas (within historical range),Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NF8,Increase the prevalence and/or expand the population of key moderate to long-lived riverine specialist native fish species into new areas (within historical range),Native Fish,NSW
+Macintyre River and Boomi River floodplain,NSW Border Rivers,NF9,Increase the prevalence and/or expand the population of key moderate to long-lived flow pulse specialists native fish species into new areas (within historical range),Native Fish,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NV1,Maintain the extent and viability of non-woody vegetation communities occurring within channels,Native Vegetation,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NV2,Maintain or increase the extent and maintain the viability of non-woody vegetation communities occurring in wetlands and on floodplains,Native Vegetation,NSW
 Macintyre River and Boomi River floodplain,NSW Border Rivers,NV3,Maintain the extent and improve the condition of river red gum communities closely fringing river channels,Native Vegetation,NSW
