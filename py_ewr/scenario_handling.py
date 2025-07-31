@@ -574,6 +574,120 @@ def any_cllmm_to_process(gauge_results: dict)->bool:
     cllmm_gauges = data_inputs.get_cllmm_gauges()
     processed_gauges = data_inputs.get_scenario_gauges(gauge_results)
     return any(gauge in processed_gauges for gauge in cllmm_gauges)
+def extract_gauge_from_parenthesis(input_string: str) -> str:
+    '''Takes in a strings with the gauge inbetween the parenthesis
+    
+    Args:
+        input_string (str): string which contains a gauge number between parenthesis
+
+    Returns:
+        str: Gauge number as a string
+    
+    '''
+
+    # Find positions of the first pair of brackets
+    start = input_string.index("(") + 1
+    end = input_string.index(")")
+    # Extract the substring
+    gauge = input_string[start:end]
+
+    return gauge
+
+def cleaner_res_csv_MDBA(input_df:pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
+    '''
+    Saves date column as a datetime object
+    Removes first row
+    Labels the column names with the gauge
+    Returns dataframe 
+    '''
+    
+    cleaned_df = input_df.copy(deep=True)
+    cleaned_df = cleaned_df.set_index('Date')
+    cleaned_df.index = pd.to_datetime(cleaned_df.index, format = '%Y-%m-%d')
+
+    df_flow = pd.DataFrame(index = cleaned_df.index)
+    df_level = pd.DataFrame(index = cleaned_df.index)
+    df_flow.index.name = 'Date'
+    df_level.index.name = 'Date'
+
+    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
+    
+    report = pd.DataFrame(index = list(set(list(flow_gauges) + list(level_gauges))), columns = ['flow', 'level'])
+    report['flow'] = 'N'
+    report['level'] = 'N'
+
+    for gauge in cleaned_df.columns:
+        gauge_only = extract_gauge_from_parenthesis(gauge)
+        gauge_only = str.upper(gauge_only)
+        df_flow[gauge_only] = cleaned_df[gauge].copy(deep=True)
+        report.at[gauge_only, 'flow'] = 'Y'
+
+        if not gauge_only:
+            log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
+    return df_flow, df_level, report
+
+def unpack_MDBA_res_csv_file(csv_file: str, main_key: str, header_key: str) -> tuple:
+    '''Ingesting scenario file locations of model files with all formats (excluding standard timeseries format), seperates the flow data and header data
+    returns a dictionary of flow dataframes with their associated header data
+    
+    Args:
+        csv_file (str): location of model file
+        main_key (str): unique identifier for the start of the flow data (dependent on model format type being uploaded)
+        header_key (str): unique identifier for the start of the header data (dependent on model format type being uploaded)
+    
+    Results:
+        tuple[pd.DataFrame, pd.DataFrame]: flow dataframe; header dataframe
+    
+    '''
+    if csv_file[-3:] != 'csv':
+        raise ValueError('''Incorrect file type selected, bigmod format requires a csv file.
+                         Rerun the program and try again.''')
+    
+    #--------functions for pulling main data-------#
+    
+    def mainData_url(url, line,**kwargs):
+        '''Get daily data (excluding the header data); remote file upload'''
+        response = urllib.request.urlopen(url)
+        lines = [l.decode('utf-8') for l in response.readlines()]
+        cr = csv.reader(lines)
+        pos = 0
+        for row in cr:
+            if row[0].startswith(line):
+                headerVal = pos
+                break
+            pos = pos + 1
+        if main_key == 'Date':
+            df = pd.read_csv(url, header=headerVal, skiprows=range(headerVal+1, headerVal+2))
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        
+        return df, headerVal
+        
+    def mainData(file, line,**kwargs):
+        '''Get daily data (excluding the header data); local file upload'''
+        if os.stat(file).st_size == 0:
+            raise ValueError("File is empty")
+        with open(file) as csv_file:
+            csv_reader = csv.reader(csv_file) #, delimiter=','
+            line_count = 0
+            for row in csv_reader:
+                if row[0].startswith(line):
+                    headerVal = line_count
+                    break
+                line_count = line_count + 1
+        if main_key == 'Date':
+            df = pd.read_csv(file, header=headerVal, skiprows=range(headerVal+1, headerVal+2))
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+
+        return df, headerVal
+    
+    
+    if 'http' in csv_file:
+        mainData_df, endLine = mainData_url(csv_file, main_key, sep=",")
+    else:
+        mainData_df, endLine = mainData(csv_file, main_key, sep=",")
+    
+    return mainData_df
 
 class ScenarioHandler:
     
@@ -622,6 +736,10 @@ class ScenarioHandler:
                 df_clean = cleaner_MDBA(data)
                 self.df_clean = df_clean
                 df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
+            
+            elif self.model_format == 'res.csv - MDBA':
+                data = unpack_MDBA_res_csv_file(scenarios[scenario], 'Date', 'Field')
+                df_F, df_L, self.report = cleaner_res_csv_MDBA(data, self.parameter_sheet)
                                
             elif self.model_format == 'Standard time-series':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
