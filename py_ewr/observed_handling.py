@@ -228,8 +228,8 @@ class ObservedHandler:
 
         all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                                 left_table=all_events,
-                                left_on=['gauge','pu','ewr'],
-                                selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                                left_on=['Gauge','pu','ewr'],
+                                selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                         'eventDuration', 'eventLength', 
                                         'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
@@ -248,8 +248,8 @@ class ObservedHandler:
 
         all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -276,8 +276,8 @@ class ObservedHandler:
 
         all_events_temp1 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp1,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -298,8 +298,8 @@ class ObservedHandler:
 
         all_events_temp2 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp2,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -331,12 +331,12 @@ class ObservedHandler:
 
         yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                                 left_table=yearly_ewr_results,
-                                left_on=['gauge','pu','ewrCode'],
+                                left_on=['Gauge','pu','ewrCode'],
                                 selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', 
                                             'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'ewrCode',
-                                            'scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'Multigauge'],
+                                            'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
 
         # Setting up the dictionary of yearly rolling maximum interevent periods:
@@ -345,8 +345,8 @@ class ObservedHandler:
 
         all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                                                                 left_table=all_events_temp,
-                                                                left_on=['gauge', 'pu', 'ewr'],
-                                                                selected_columns=['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr',
+                                                                left_on=['Gauge', 'pu', 'ewr'],
+                                                                selected_columns=['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr',
                                                                                   'waterYear', 'startDate', 'endDate',
                                                                                   'eventDuration', 'eventLength',
                                                                                   'Multigauge'],

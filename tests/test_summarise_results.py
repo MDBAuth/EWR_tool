@@ -51,11 +51,11 @@ def test_get_ewrs(pu_df):
 def test_pu_dfs_to_process(detailed_results, pu_df):
     result = summarise_results.pu_dfs_to_process(detailed_results)
     assert result == [{ "scenario" : 'observed',
-                         "gauge" : '419001',
+                         'Gauge' : '419001',
                          "pu" : 'Keepit to Boggabri',
                          "pu_df" : pu_df },
                          { "scenario" : 'observed',
-                         "gauge" : '419002',
+                         'Gauge' : '419002',
                          "pu" : 'Keepit to Boggabri',
                          "pu_df" : pu_df }]
 
@@ -64,7 +64,7 @@ def test_process_df(item_to_process):
     columns = result.columns.to_list()
     assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'Gauge', 'pu']
     assert result.shape == (2, 16)
 
 def test_process_df_results(items_to_process):
@@ -72,13 +72,13 @@ def test_process_df_results(items_to_process):
     columns = result.columns.to_list()
     assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu']
+       'totalPossibleDays', 'ewrCode', 'scenario', 'Gauge', 'pu']
     assert result.shape == (4, 16)
 
 def test_get_events_to_process(gauge_events):
     result = summarise_results.get_events_to_process(gauge_events)
     assert result == [ { "scenario" : 'observed',
-                          "gauge" : '419001',
+                          'Gauge' : '419001',
                           "pu" : 'Keepit to Boggabri',
                           "ewr": 'CF1_a',
                           "ewr_events" : {2010: [],
@@ -88,7 +88,7 @@ def test_get_events_to_process(gauge_events):
                             2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}
                             },
                        {"scenario" : 'observed',
-                          "gauge" : '419002',
+                          'Gauge' : '419002',
                           "pu" : 'Keepit to Boggabri',
                           "ewr": 'CF1_a',
                           "ewr_events" : {2010: [],
@@ -110,7 +110,7 @@ def test_process_yearly_events(event_item_to_process):
     result = summarise_results.process_yearly_events(**event_item_to_process)
     assert type(result) == pd.DataFrame
     assert result.to_dict() == {'scenario': {0: 'observed'},
-                                            'gauge': {0: '419001'},
+                                            'Gauge': {0: '419001'},
                                             'pu': {0: 'Keepit to Boggabri'},
                                             'ewrCode': {0: 'CF1_a'},
                                             'totalEvents': {0: 1},
@@ -122,7 +122,7 @@ def test_process_ewr_events_stats(event_items_to_process):
     assert type(result) == pd.DataFrame
     assert result.shape == (2, 7)
     assert result.to_dict() == {'scenario': {0: 'observed', 1: 'observed'},
-                                'gauge': {0: '419001', 1: '419002'},
+                                'Gauge': {0: '419001', 1: '419002'},
                                 'pu': {0: 'Keepit to Boggabri', 1: 'Keepit to Boggabri'},
                                 'ewrCode': {0: 'CF1_a', 1: 'CF1_a'},
                                 'totalEvents': {0: 1, 1: 1},
@@ -137,7 +137,7 @@ def test_summarise(detailed_results, gauge_events):
 def test_process_all_yearly_events(event_item_to_process):
     result = summarise_results.process_all_yearly_events(**event_item_to_process)
     assert result.to_dict() == {'scenario': {0: 'observed'},
-                                'gauge': {0: '419001'},
+                                'Gauge': {0: '419001'},
                                 'pu': {0: 'Keepit to Boggabri'},
                                 'ewr': {0: 'CF1_a'},
                                 'waterYear': {0: 2014},
@@ -149,7 +149,7 @@ def test_process_all_yearly_events(event_item_to_process):
 def test_process_all_events_results(event_items_to_process):
     result = summarise_results.process_all_events_results(event_items_to_process)
     assert result.to_dict() == {'scenario': {0: 'observed', 1: 'observed'},
-                                'gauge': {0: '419001', 1: '419002'},
+                                'Gauge': {0: '419001', 1: '419002'},
                                 'pu': {0: 'Keepit to Boggabri', 1: 'Keepit to Boggabri'},
                                 'ewr': {0: 'CF1_a', 1: 'CF1_a'},
                                 'waterYear': {0: 2014, 1: 2014},
@@ -167,7 +167,7 @@ def test_events_to_interevents(interEvent_item_to_process):
     all_interevents_df = summarise_results.events_to_interevents(start_date, end_date, all_events_df)
 
     expected_data = {'scenario': ['example_scenario']*12, 
-                    'gauge': ['409025']*8+['410007']*4, 
+                    'Gauge': ['409025']*8+['410007']*4, 
                     'pu': ['Murray River - Yarrawonga to Barmah']*8+['Upper Yanco Creek']*4, 
                     'State': ['NSW']*12,
                     'SWSDLName': ['New South Wales Murray']*8+['Murrumbidgee']*4,
@@ -185,7 +185,7 @@ def test_filter_successful_events(successfulEvent_item_to_process):
     all_interevents_df = summarise_results.filter_successful_events(all_events_df)
 
     expected_data = {'scenario': ['example_scenario']*6,
-            'gauge': ['409025']*5+['410007']*1, 
+            'Gauge': ['409025']*5+['410007']*1, 
             'pu': ['Murray River - Yarrawonga to Barmah']*5+['Upper Yanco Creek']*1, 
             'ewr': ['VF']*3+['LF2']*2+['SF2']*1,
             'waterYear': ['1901', '1901', '1904', '1901', '1904', '1904'], 
@@ -203,7 +203,7 @@ def test_filter_duplicate_start_dates(duplicate_event_item_to_process):
     df = summarise_results.filter_duplicate_start_dates(all_events_df)
 
     expected_data = {'scenario': ['example_scenario']*7,
-            'gauge': ['409025']*5+['410007']*2, 
+            'Gauge': ['409025']*5+['410007']*2, 
             'pu': ['Murray River - Yarrawonga to Barmah']*5+['Upper Yanco Creek']*2, 
             'ewr': ['VF']*2+['LF2']*3+['SF2']*2,
             'waterYear': ['1901', '1904', '1901', '1901', '1904','1901', '1904'], 

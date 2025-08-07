@@ -363,7 +363,7 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path:
     cleaned_df = input_df.reset_index(level = 'node')
     cleaned_df['node'] = cleaned_df['node'].astype(str)
 
-    cleaned_df['gauge'] = cleaned_df['node'].map(stations)
+    cleaned_df['Gauge'] = cleaned_df['node'].map(stations)
     cleaned_df = cleaned_df.drop('node', axis = 1) 
 
     # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
@@ -371,7 +371,7 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path:
     cleaned_df = cleaned_df.query('gauge.notna()')
 
     # give each gauge its own column- that's what the tool expects
-    cleaned_df = cleaned_df.pivot(columns = 'gauge', values = 'Simulated flow')
+    cleaned_df = cleaned_df.pivot(columns = 'Gauge', values = 'Simulated flow')
     cleaned_df.columns.name = None
 
     # the csvs return an 'object' type, not a datetime in the index
@@ -810,8 +810,8 @@ class ScenarioHandler:
 
         all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -830,8 +830,8 @@ class ScenarioHandler:
 
         all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -858,8 +858,8 @@ class ScenarioHandler:
 
         all_events_temp1 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp1,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -880,8 +880,8 @@ class ScenarioHandler:
 
         all_events_temp2 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp2,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -917,12 +917,12 @@ class ScenarioHandler:
                                 
         yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                                 left_table=yearly_ewr_results,
-                                left_on=['gauge','pu','ewrCode'],
+                                left_on=['Gauge','pu','ewrCode'],
                                 selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
                                              'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'ewrCode',
-                                            'scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'Multigauge'],
+                                            'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
 
         # Setting up the dictionary of yearly rolling maximum interevent periods:
@@ -931,8 +931,8 @@ class ScenarioHandler:
 
         all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp,
-                        left_on=['gauge','pu','ewr'],
-                        selected_columns= ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+                        left_on=['Gauge','pu','ewr'],
+                        selected_columns= ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
                                 'eventDuration', 'eventLength', 
                                 'Multigauge'],
                         parameter_sheet_path=self.parameter_sheet)
@@ -973,11 +973,11 @@ class ScenarioHandler:
         For each unique ewr/pu/gauge - examines the ewr_results dataframe and if it exists here, then it is set to True in the logging_sheet dataframe.
         Create corresponding column in logging_sheet to log info.
         '''
-        results = self.ewr_results[["PlanningUnit", "Gauge", "EwrCode"]].copy()
+        results = self.ewr_results[["PlanningUnit", 'Gauge', "EwrCode"]].copy()
         results["Analysed?"] = True
-        self.logging_sheet = self.logging_sheet.merge(right = results, left_on=["PlanningUnitName", "Primary Gauge", "Code"], right_on=["PlanningUnit", "Gauge", "EwrCode"], how="left")
+        self.logging_sheet = self.logging_sheet.merge(right = results, left_on=["PlanningUnitName", "Primary Gauge", "Code"], right_on=["PlanningUnit", 'Gauge', "EwrCode"], how="left")
         self.logging_sheet["Analysed?"] = ~self.logging_sheet["Analysed?"].isna()
-        self.logging_sheet["Gauge"] = self.logging_sheet["Gauge_x"].copy()
+        self.logging_sheet['Gauge'] = self.logging_sheet["Gauge_x"].copy()
 
     
     def log_if_node_in_siteID(self):
@@ -1000,7 +1000,7 @@ class ScenarioHandler:
         elif self.model_format == 'ten thousand year':
             pass
 
-        self.logging_sheet["node_in_siteID?"] = self.logging_sheet["Gauge"].isin(self.site_id_df["AWRC"].unique())
+        self.logging_sheet["node_in_siteID?"] = self.logging_sheet['Gauge'].isin(self.site_id_df["AWRC"].unique())
     
     def log_if_gauge_in_model_file(self):
         '''
@@ -1010,7 +1010,7 @@ class ScenarioHandler:
         site_id_in_model_file = [n for name in self.df_clean.columns for n in name.split("-")]
         self.site_id_df["IN_MODELFILE"] = self.site_id_df["SITEID"].isin(site_id_in_model_file)
         self.gauges_in_model_file = self.site_id_df[self.site_id_df.IN_MODELFILE]["AWRC"]
-        self.logging_sheet["gauge_in_model_file?"] = self.logging_sheet["Gauge"].isin(self.gauges_in_model_file)
+        self.logging_sheet["gauge_in_model_file?"] = self.logging_sheet['Gauge'].isin(self.gauges_in_model_file)
     
     def log_measurand_info(self):
         '''
@@ -1019,9 +1019,9 @@ class ScenarioHandler:
         '''
         self.logging_sheet.loc[:, "gaugeANDmeasurand_in_model_file? (Yes/No)"] = False
 
-        for idx, row in self.logging_sheet[["Gauge", "GaugeType"]].drop_duplicates().iterrows():
+        for idx, row in self.logging_sheet[['Gauge', "GaugeType"]].drop_duplicates().iterrows():
 
-            gauge = row["Gauge"]
+            gauge = row['Gauge']
             gauge_type = row["GaugeType"]
 
             if gauge_type == 'F':
@@ -1096,14 +1096,14 @@ class ScenarioHandler:
         # spare_siteID_df = spare_siteID_df.groupby("AWRC").agg({'SITEID': lambda x: list(x)})
         spare_siteID_df = spare_siteID_df.rename(columns={"SITEID": "spare_SITEID"})
 
-        self.logging_sheet = self.logging_sheet.merge(right = spare_siteID_df, left_on=["Gauge"], right_index=True, how="left")
+        self.logging_sheet = self.logging_sheet.merge(right = spare_siteID_df, left_on=['Gauge'], right_index=True, how="left")
 
         ### section to add the used SITEID
         used_siteID_df = self.site_id_df[self.site_id_df.IN_MODELFILE][["AWRC", "SITEID"]]
         used_siteID_df = used_siteID_df.rename(columns={"SITEID": "matched_SITEID"})
         used_siteID_df = used_siteID_df.set_index("AWRC")
 
-        self.logging_sheet = self.logging_sheet.merge(right = used_siteID_df, left_on=["Gauge"], right_index=True, how="left")
+        self.logging_sheet = self.logging_sheet.merge(right = used_siteID_df, left_on=['Gauge'], right_index=True, how="left")
         
         # mark spare_SITEID column of those that dont have more than one SITEID to match with as EXACT MATCHES
         self.logging_sheet.loc[~self.logging_sheet.matched_SITEID.isna() & self.logging_sheet.spare_SITEID.isna(), "spare_SITEID"] = "EXACT_MATCH"
@@ -1120,7 +1120,7 @@ class ScenarioHandler:
         for counter, (idx, row) in enumerate(rows_to_duplicate.iterrows()):
             updated_idx = counter + idx # update idx to account for all inserted rows
             duplicate_row = logging_sheet.loc[updated_idx, :].copy()
-            duplicate_row["Gauge"] = logging_sheet.loc[updated_idx, "Multigauge"]
+            duplicate_row['Gauge'] = logging_sheet.loc[updated_idx, "Multigauge"]
             logging_sheet = pd.DataFrame(np.insert(logging_sheet.values, updated_idx+1, values=duplicate_row.values, axis=0), columns=logging_sheet.columns)
 
         ## Weirpool
@@ -1130,7 +1130,7 @@ class ScenarioHandler:
         for counter, (idx, row) in enumerate(rows_to_duplicate.iterrows()):
             updated_idx = counter + idx # update idx to account for all inserted rows
             duplicate_row = logging_sheet.loc[updated_idx, :].copy()
-            duplicate_row["Gauge"] = logging_sheet.loc[updated_idx, "WeirpoolGauge"]
+            duplicate_row['Gauge'] = logging_sheet.loc[updated_idx, "WeirpoolGauge"]
             duplicate_row["GaugeType"] = "L"
             logging_sheet = pd.DataFrame(np.insert(logging_sheet.values, updated_idx+1, values=duplicate_row.values, axis=0), columns=logging_sheet.columns)   
 
@@ -1154,7 +1154,7 @@ class ScenarioHandler:
                 duplicate_row = logging_sheet.loc[updated_idx, :].copy()
 
                 rows_to_insert = pd.DataFrame([duplicate_row] * len(gauge_list))
-                rows_to_insert["Gauge"] = gauge_list
+                rows_to_insert['Gauge'] = gauge_list
 
                 logging_sheet.drop(index=updated_idx, axis=0, inplace=True)
 
@@ -1171,7 +1171,7 @@ class ScenarioHandler:
         """
         parameter_sheet = pd.read_csv(self.parameter_sheet)
 
-        self.logging_sheet = parameter_sheet.copy()[["PlanningUnitName", "Code", "Gauge", "GaugeType", 'PlanningUnitID', 'FlowLevelVolume', "Multigauge", "WeirpoolGauge"]]
+        self.logging_sheet = parameter_sheet.copy()[["PlanningUnitName", "Code", 'Gauge', "GaugeType", 'PlanningUnitID', 'FlowLevelVolume', "Multigauge", "WeirpoolGauge"]]
 
         self.logging_sheet = self.create_multi_index(self.logging_sheet)
 
@@ -1182,7 +1182,7 @@ class ScenarioHandler:
         self.log_calc_config_info()
         self.log_siteID_info()
 
-        self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", "Gauge", "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?"]]
+        self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", 'Gauge', "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?"]]
 
         return self.logging_sheet
     

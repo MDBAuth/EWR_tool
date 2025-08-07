@@ -769,7 +769,7 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     assert result == expected_result
 
 
-# @pytest.mark.parametrize("gauge",[
+# @pytest.mark.parametrize('Gauge',[
 #     ("425010"),
 # ],)
 # def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):

@@ -74,7 +74,7 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
     either observed or scenario and unpack items into a list of items.
     Each item is a dictionary with the following keys.
                 { "scenario" : scenario_name,
-                  "gauge" : gauge_id,
+                  'Gauge' : gauge_id,
                   "pu" : pu_name,
                   "pu_df : DataFrame}
 
@@ -97,14 +97,14 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
             for pu in detailed_results[scenario][gauge]:
                 item = {}
                 item["scenario"] = scenario
-                item["gauge"] = gauge
+                item['Gauge'] = gauge
                 item["pu"] = pu
                 item["pu_df"] = detailed_results[scenario][gauge][pu]
                 items_to_process.append(item)
     return items_to_process
 
 
-def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFrame:
+def process_df(scenario:str, Gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFrame:
     """Process all the pu_dfs into a tidy format
 
     Args:
@@ -126,7 +126,7 @@ def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
         ewr_df = ewr_df.reset_index().rename(columns={"index":'Year'})
         ewr_df["ewrCode"] = ewr
         ewr_df["scenario"] = scenario
-        ewr_df["gauge"] = gauge
+        ewr_df['Gauge'] = Gauge
         ewr_df["pu"] = pu
         ewr_df = ewr_df.loc[:,~ewr_df.columns.duplicated()]
         returned_dfs.append(ewr_df)
@@ -157,7 +157,7 @@ def get_events_to_process(gauge_events: dict)-> List:
     and unpack items into a list of items.
     Each item is a dictionary with the following keys.
                 { "scenario" : scenario_name,
-                  "gauge" : gauge_id,
+                  'Gauge' : gauge_id,
                   "pu" : pu_name,
                   "ewr": ewr_code
                   "ewr_events" : yearly_events_dictionary}
@@ -190,7 +190,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                     try:
                         item = {}
                         item["scenario"] = scenario
-                        item["gauge"] = gauge
+                        item['Gauge'] = gauge
                         item["pu"] = pu
                         item["ewr"] = ewr
                         item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
@@ -206,7 +206,6 @@ def count_events(yearly_events:dict)-> int:
 
     Args:
         yearly_events (dict): ewr yearly events dictionary of lists of lists
-
     Returns:
         int: count of length of all events in the collection of years
     """
@@ -227,7 +226,7 @@ def sum_events(yearly_events:dict)-> int:
     return len(list(chain(*flattened_events)))
 
 
-def process_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: Dict)-> pd.DataFrame:
+def process_yearly_events(scenario:str, Gauge:str, pu:str, ewr:str, ewr_events: Dict)-> pd.DataFrame:
     """process each item for the gauge and return the statistics in a DataFrame
 
     Args:
@@ -246,7 +245,7 @@ def process_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: 
     total_event_days = sum_events(yearly_events)
     average_event_length = total_event_days/total_events if total_events else 0
     row_data['scenario'].append(scenario)
-    row_data['gauge'].append(gauge)
+    row_data['Gauge'].append(Gauge)
     row_data['pu'].append(pu)
     row_data['ewrCode'].append(ewr)
     row_data['totalEvents'].append(total_events)
@@ -271,7 +270,7 @@ def process_ewr_events_stats(events_to_process: List[Dict])-> pd.DataFrame:
         returned_dfs.append(row_data)
     return pd.concat(returned_dfs, ignore_index=True)
 
-def process_all_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_events: Dict)-> pd.DataFrame():
+def process_all_yearly_events(scenario:str, Gauge:str, pu:str, ewr:str, ewr_events: Dict)-> pd.DataFrame():
     """process each item for the gauge and return all events. Each event is a row with a start and end date
     duration and event length
 
@@ -292,7 +291,7 @@ def process_all_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_even
             start_date, _ = ev[0]
             end_date, _ = ev[-1]
             df_data["scenario"].append(scenario)
-            df_data["gauge"].append(gauge)
+            df_data['Gauge'].append(Gauge)
             df_data["pu"].append(pu)
             df_data["ewr"].append(ewr)
             df_data["waterYear"].append(year)
@@ -384,9 +383,9 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     to_process = pu_dfs_to_process(input_dict)
     yearly_ewr_results = process_df_results(to_process)
     
-    # aggregate by "gauge","pu","ewrCode"
+    # aggregate by 'Gauge',"pu","ewrCode"
     final_summary_output = (yearly_ewr_results
-    .groupby(["scenario","gauge","pu","ewrCode"])
+    .groupby(["scenario",'Gauge',"pu","ewrCode"])
     .agg( EventYears = ("eventYears", 'sum'),
           Frequency = ("eventYears", get_frequency),
           AchievementCount = ("numAchieved", 'sum'),
@@ -410,14 +409,14 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     
     final_summary_output = final_summary_output.merge(ewr_event_stats, 
                                                       'left',
-                                                      left_on=['scenario', 'gauge','pu','ewrCode'], 
-                                                      right_on=['scenario', 'gauge','pu',"ewrCode"])
+                                                      left_on=['scenario', 'Gauge','pu','ewrCode'], 
+                                                      right_on=['scenario', 'Gauge','pu',"ewrCode"])
     # Join Ewr parameter to summary
 
     final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge', 'State', 'SWSDLName'],
                                 left_table=final_summary_output,
-                                left_on=['gauge','pu','ewrCode'],
-                                selected_columns=["scenario",'gauge',
+                                left_on=['Gauge','pu','ewrCode'],
+                                selected_columns=["scenario",'Gauge',
                                                     'pu', 'State', 'SWSDLName', 
                                                     'ewrCode',
                                                     'Multigauge',
@@ -459,7 +458,7 @@ def filter_duplicate_start_dates(df: pd.DataFrame) -> pd.DataFrame:
 
     '''
 
-    df.drop_duplicates(subset = ['scenario', 'gauge', 'pu', 'ewr', 'startDate'], keep='last', inplace=True)
+    df.drop_duplicates(subset = ['scenario', 'Gauge', 'pu', 'ewr', 'startDate'], keep='last', inplace=True)
 
     return df
 
@@ -505,9 +504,9 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
     
     '''
     # Create the unique ID field
-    df_events['ID'] = df_events['scenario']+df_events['gauge']+df_events['pu']+df_events['ewr']
+    df_events['ID'] = df_events['scenario']+df_events['Gauge']+df_events['pu']+df_events['ewr']
     unique_ID = df_events['ID'].unique()
-    all_interEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'ID', 
+    all_interEvents = pd.DataFrame(columns = ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'ID', 
                                                 'startDate', 'endDate', 'interEventLength'])
 
     for i in unique_ID:
@@ -528,14 +527,14 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
         if length > 0:
             # Create the new dataframe:
             new_scenario = [contain_values['scenario'].iloc[0]]*length
-            new_gauge = [contain_values['gauge'].iloc[0]]*length
+            new_gauge = [contain_values['Gauge'].iloc[0]]*length
             new_pu = [contain_values['pu'].iloc[0]]*length
             new_state = [contain_values['State'].iloc[0]]*length
             new_sdl = [contain_values['SWSDLName'].iloc[0]]*length
             new_ewr = [contain_values['ewr'].iloc[0]]*length
             new_ID = [contain_values['ID'].iloc[0]]*length
 
-            data = {'scenario': new_scenario, 'gauge': new_gauge, 'pu': new_pu, 'State': new_state, 'SWSDLName': new_sdl, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
+            data = {'scenario': new_scenario, 'Gauge': new_gauge, 'pu': new_pu, 'State': new_state, 'SWSDLName': new_sdl, 'ewr': new_ewr, 'ID': new_ID, 'startDate': inter_starts, 'endDate': inter_ends}
 
             df_subset = pd.DataFrame(data=data)
 
@@ -582,10 +581,10 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
 
     s = 'TEMPORARY_ID_SPLIT'
 
-    all_events['ID'] = all_events['scenario']+s+all_events['gauge']+s+all_events['pu']+s+all_events['ewr']
+    all_events['ID'] = all_events['scenario']+s+all_events['Gauge']+s+all_events['pu']+s+all_events['ewr']
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
-    all_successfulEvents = pd.DataFrame(columns = ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
+    all_successfulEvents = pd.DataFrame(columns = ['scenario', 'Gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
     
     # Filter out unsuccesful events
     # Iterate over the all_events dataframe
@@ -621,8 +620,8 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
 
     s = 'TEMPORARY_ID_SPLIT'
 
-    df['ID'] = df['scenario']+s+df['gauge']+s+df['pu']+s+df['ewr']
-    yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['gauge']+s+yearly_df['pu']+s+yearly_df['ewrCode']
+    df['ID'] = df['scenario']+s+df['Gauge']+s+df['pu']+s+df['ewr']
+    yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['Gauge']+s+yearly_df['pu']+s+yearly_df['ewrCode']
     unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
     master_dict = dict()
     unique_years = list(range(min(yearly_df['Year']),max(yearly_df['Year'])+1,1))
@@ -710,7 +709,7 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
         if any( cllmm in ewr for cllmm in cllmm_post_processed):
             continue
         scenario = yearly_df.loc[i, 'scenario']
-        gauge = yearly_df.loc[i, 'gauge']
+        gauge = yearly_df.loc[i, 'Gauge']
         pu = yearly_df.loc[i, 'pu']
         year = yearly_df.loc[i, 'Year']
         value_to_add = yearly_dict[scenario][gauge][pu][ewr][year]
@@ -736,7 +735,7 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_pa
 
     # Get EWR characteristics for current EWR
     for i, row in yearly_df.iterrows():
-        gauge = yearly_df.loc[i, 'gauge']
+        gauge = yearly_df.loc[i, 'Gauge']
         pu = yearly_df.loc[i, 'pu']
         ewr = yearly_df.loc[i, 'ewrCode']
 

@@ -29,7 +29,7 @@ def test_get_EWRs():
 	EWR = 'SF1_P'
 	components = ['StartMonth', 'EndMonth']
 
-	expected = {'gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_month': 10, 'end_month':4}
+	expected = {'Gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_month': 10, 'end_month':4}
 	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected
 
 def test_mask_dates():
@@ -3294,7 +3294,7 @@ def test_get_handle_function(function_name, expected_result):
 
 @pytest.mark.parametrize("args,function_name,expected_result",[
 	({"PU": "PU" , 
-	"gauge": "gauge", 
+	'gauge': 'gauge', 
 	"EWR": "EWR", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
@@ -3303,14 +3303,14 @@ def test_get_handle_function(function_name, expected_result):
 	},
 		'ctf_handle', 
 	{"PU": "PU" , 
-	"gauge": "gauge", 
+	'gauge': 'gauge', 
 	"EWR": "EWR", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"PU_df": "PU_df", 
 	}),
 	({"PU": "PU" , 
-	"gauge": "gauge", 
+	'gauge': 'gauge', 
 	"EWR": "EWR", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
@@ -3319,7 +3319,7 @@ def test_get_handle_function(function_name, expected_result):
 	},
 		'level_handle', 
 	{"PU": "PU" , 
-	"gauge": "gauge", 
+	'gauge': 'gauge', 
 	"EWR": "EWR", 
 	"EWR_table": "EWR_table", 
 	"df_L": "df_L", 
