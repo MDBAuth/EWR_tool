@@ -2117,7 +2117,7 @@ def what_cllmm_type(EWR_info: dict) -> str:
     Returns:
         str: 'a' if the EWR code contains '_a', 'b' otherwise
     """
-    ewr_code = EWR_info['EWR_code']
+    ewr_code = EWR_info['Code']
 
     return ewr_code.split('_')[0][-1]
 
@@ -2141,7 +2141,7 @@ def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events
     if cllmm_type == 'a':
         last_year_flows = filter_last_year_flows(flows, flow_date)
         
-        if 'S' in EWR_info['EWR_code']:
+        if 'S' in EWR_info['Code']:
             if last_year_flows.sum() >= EWR_info['annual_barrage_flow']:
                 threshold_flow = (get_index_date(flow_date), last_year_flows.sum())
                 event.append(threshold_flow)
@@ -4212,10 +4212,10 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     ## reset the no_events to keep functionality but switched off
     no_events = construct_event_dict(water_years)
 
-    if EWR_info['EWR_code'] in ['rANA']:
+    if EWR_info['Code'] in ['rANA']:
         years_with_events = get_event_years_connecting_events(events, unique_water_years)
     
-    if EWR_info['EWR_code'] in ['CF1_c','CF1_C']:
+    if EWR_info['Code'] in ['CF1_c','CF1_C']:
         years_with_events = get_event_years_max_rolling_days(events, unique_water_years)
 
     if EWR_info['flow_level_volume'] == 'V':
@@ -4226,7 +4226,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, EWR:str, EWR_inf
     # Number of event achievements:
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years, durations)
 
-    if EWR_info['EWR_code'] in ['rANA']:
+    if EWR_info['Code'] in ['rANA']:
         num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
 
     NEA = pd.Series(name = str(EWR + '_numAchieved'), data= num_event_achievements, index = unique_water_years)

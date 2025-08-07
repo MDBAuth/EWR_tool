@@ -29,7 +29,7 @@ def test_get_EWRs():
 	EWR = 'SF1_P'
 	components = ['StartMonth', 'EndMonth']
 
-	expected = {'Gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_month': 10, 'end_month':4}
+	expected = {'Gauge': '410007', 'planning_unit': 'PU_0000283', 'Code': 'SF1_P', 'start_month': 10, 'end_month':4}
 	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected
 
 def test_mask_dates():
@@ -3455,7 +3455,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1a",
+	  'Code': "CLLMM1a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3484,7 +3484,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1a",
+	  'Code': "CLLMM1a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3513,7 +3513,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1b",
+	  'Code': "CLLMM1b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3542,7 +3542,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1b",
+	  'Code': "CLLMM1b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3593,7 +3593,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_a",
+	  'Code': "CLLMM1_a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000,
 	  'duration': 1
@@ -3611,7 +3611,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_b",
+	  'Code': "CLLMM1_b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000,
 	  'duration': 1
@@ -3630,7 +3630,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_b",
+	  'Code': "CLLMM1_b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000,
 	  'duration': 1
@@ -5369,15 +5369,15 @@ def test_calculate_n_day_moving_average():
 
 @pytest.mark.parametrize("EWR_info, expected_type",[
 	(
-	{ 'EWR_code': "CLLMM1c_P"},
+	{ 'Code': "CLLMM1c_P"},
 	'c'
 	),
 	(
-	{ 'EWR_code': "CLLMM1d"},
+	{ 'Code': "CLLMM1d"},
 	'd'
 	),
 	(
-	{ 'EWR_code': "CLLMM1a_S"},
+	{ 'Code': "CLLMM1a_S"},
 	'a'
 	),
 ])

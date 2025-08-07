@@ -44,7 +44,6 @@ def unpack_netcdf_as_dataframe(netcdf_file: str) -> pd.DataFrame:
         
         # Open the NetCDF file
         dataset = xr.open_dataset(netcdf_file, engine='netcdf4')
-        
         # Check if the dataset is empty
         if dataset is None:
             raise ValueError("NetCDF dataset is empty.")
@@ -368,7 +367,7 @@ def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path:
 
     # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
         # This should be deprecated with the new way of choosing nodes on read-in, but being careful
-    cleaned_df = cleaned_df.query('gauge.notna()')
+    cleaned_df = cleaned_df.query('Gauge.notna()')
 
     # give each gauge its own column- that's what the tool expects
     cleaned_df = cleaned_df.pivot(columns = 'Gauge', values = 'Simulated flow')

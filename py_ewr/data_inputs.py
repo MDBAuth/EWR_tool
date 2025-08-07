@@ -152,7 +152,7 @@ def get_components_map() -> dict:
     components_map = {
         'PlanningUnitID': 'planning_unit',
         'Gauge': 'Gauge',
-        'Code': 'EWR_code',
+        'Code': 'Code',
         'FlowThresholdMin': 'min_flow',
         'FlowThresholdMax': 'max_flow',
         'VolumeThreshold': 'min_volume',
