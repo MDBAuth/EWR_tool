@@ -44,7 +44,7 @@ def get_ewr_columns(ewr:str, cols:List) -> List:
 
 
 def get_columns_attributes(cols: List)-> List:
-    """Takes a list of columns with the pattern EwrCode_Attribute
+    """Takes a list of columns with the pattern Code_Attribute
     and relates them returning only the Attribute name.
 
     Args:
@@ -435,7 +435,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
                                                     'MaxInter-event',
                                                     'NoDataDays',
                                                     'TotalDays'],
-                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
+                                renamed_columns=['Scenario','Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'Multigauge','EventYears', 'Frequency', 'TargetFrequency',
                                     'AchievementCount', 'AchievementPerYear', 'EventCount', 'EventCountAll','EventsPerYear', 'EventsPerYearAll',
                                     'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
                                     'MaxInterEventYears', 'NoDataDays', 'TotalDays'],

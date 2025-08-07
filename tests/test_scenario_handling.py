@@ -590,7 +590,7 @@ def test_get_ewr_results(scenario_handler_instance):
     ewr_results = scenario_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
     assert ewr_results.shape == (21, 21)
-    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'EwrCode', 'Multigauge','EventYears',
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',

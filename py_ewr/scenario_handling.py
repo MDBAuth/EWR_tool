@@ -972,9 +972,9 @@ class ScenarioHandler:
         For each unique ewr/pu/gauge - examines the ewr_results dataframe and if it exists here, then it is set to True in the logging_sheet dataframe.
         Create corresponding column in logging_sheet to log info.
         '''
-        results = self.ewr_results[["PlanningUnit", 'Gauge', "EwrCode"]].copy()
+        results = self.ewr_results[["PlanningUnit", 'Gauge', "Code"]].copy()
         results["Analysed?"] = True
-        self.logging_sheet = self.logging_sheet.merge(right = results, left_on=["PlanningUnitName", "Primary Gauge", "Code"], right_on=["PlanningUnit", 'Gauge', "EwrCode"], how="left")
+        self.logging_sheet = self.logging_sheet.merge(right = results, left_on=["PlanningUnitName", "Primary Gauge", "Code"], right_on=["PlanningUnit", 'Gauge', "Code"], how="left")
         self.logging_sheet["Analysed?"] = ~self.logging_sheet["Analysed?"].isna()
         self.logging_sheet['Gauge'] = self.logging_sheet["Gauge_x"].copy()
 
