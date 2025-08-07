@@ -2117,9 +2117,9 @@ def what_cllmm_type(EWR_info: dict) -> str:
     Returns:
         str: 'a' if the EWR code contains '_a', 'b' otherwise
     """
-    ewr_code = EWR_info['Code']
+    ewr = EWR_info['Code']
 
-    return ewr_code.split('_')[0][-1]
+    return ewr.split('_')[0][-1]
 
 
 def barrage_flow_check(EWR_info: dict, flows: pd.Series, event: list, all_events: dict, flow_date: date) -> tuple:

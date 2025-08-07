@@ -159,7 +159,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                 { "scenario" : scenario_name,
                   'Gauge' : gauge_id,
                   "pu" : pu_name,
-                  "ewr": ewr_code
+                  "ewr": ewr
                   "ewr_events" : yearly_events_dictionary}
 
     Args:
