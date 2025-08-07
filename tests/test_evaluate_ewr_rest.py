@@ -29,7 +29,7 @@ def test_get_EWRs():
 	EWR = 'SF1_P'
 	components = ['StartMonth', 'EndMonth']
 
-	expected = {'Gauge': '410007', 'planning_unit': 'PU_0000283', 'Code': 'SF1_P', 'start_month': 10, 'end_month':4}
+	expected = {'Gauge': '410007', 'PlanningUnit': 'PU_0000283', 'Code': 'SF1_P', 'start_month': 10, 'end_month':4}
 	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected
 
 def test_mask_dates():

@@ -150,7 +150,7 @@ def get_EWR_table(file_path:str = None) -> dict:
 
 def get_components_map() -> dict:
     components_map = {
-        'PlanningUnitID': 'planning_unit',
+        'PlanningUnitID': 'PlanningUnit',
         'Gauge': 'Gauge',
         'Code': 'Code',
         'FlowThresholdMin': 'min_flow',
