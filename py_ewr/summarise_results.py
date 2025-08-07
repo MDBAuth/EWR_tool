@@ -371,7 +371,7 @@ def sum_0(series:pd.Series) -> int:
 
 def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> pd.DataFrame:
     """orchestrate the processing of the pu_dfs items and the gauge events and join
-    in one summary DataFrame and join with EWR parameters for comparison
+    in one summary DataFrame and join with ewr parameters for comparison
 
     Args:
         input_dict (Dict): DataFrame result by yearly with statistics for the ewr calculations.
@@ -558,7 +558,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
             # Remove 0 length entries (these can happen if there was an event on the first or last day of timeseries)
             df_subset = df_subset.drop(df_subset[df_subset.interEventLength == 0].index)
             
-            # Add the EWR interevents onto the main dataframe:
+            # Add the ewr interevents onto the main dataframe:
             all_interEvents = pd.concat([all_interEvents, df_subset], ignore_index=True)
 
     # Remove the ID column before returning
@@ -595,7 +595,7 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
         pu = i.split('TEMPORARY_ID_SPLIT')[2]
         ewr = i.split('TEMPORARY_ID_SPLIT')[3]      
 
-        # Pull EWR minSpell value from EWR dataset
+        # Pull ewr minSpell value from ewr dataset
         minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
         # Filter out the events that fall under the minimum spell length
         df_subset = df_subset.drop(df_subset[df_subset.eventDuration < minSpell].index)
@@ -612,7 +612,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         start_date: Not used TODO: delete
         end_date: Not used TODO: delete
         yearly_df (pd.DataFrame): used to get list of all EWRs
-        ewr_table_path: where to pull the EWR table from (local or custom)
+        ewr_table_path: where to pull the ewr table from (local or custom)
     Results:
         pd.DataFrame: 
     
@@ -625,12 +625,12 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
     master_dict = dict()
     unique_years = list(range(min(yearly_df['Year']),max(yearly_df['Year'])+1,1))
-    # Load in EWR table to variable to access start and end dates of the EWR
+    # Load in ewr table to variable to access start and end dates of the ewr
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
     for unique_EWR in unique_ID:
         df_subset = df[df['ID'] == unique_EWR]
         yearly_df_subset = yearly_df[yearly_df['ID'] == unique_EWR]
-        # Get EWR characteristics for current EWR
+        # Get ewr characteristics for current ewr
         scenario = unique_EWR.split('TEMPORARY_ID_SPLIT')[0]
         gauge = unique_EWR.split('TEMPORARY_ID_SPLIT')[1]
         pu = unique_EWR.split('TEMPORARY_ID_SPLIT')[2]
@@ -653,7 +653,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
             master_dict[scenario][gauge][pu] = {}
         if ewr not in master_dict[scenario][gauge][pu]:
             master_dict[scenario][gauge][pu][ewr] = evaluate_EWRs.construct_event_dict(unique_years)
-        # Pull EWR start and end date from EWR dataset and clean
+        # Pull ewr start and end date from ewr dataset and clean
         EWR_info = {}
         EWR_info['start_month'] = evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, 'StartMonth', pu_ID=False)
         EWR_info['end_month'] = evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, 'EndMonth', pu_ID=False)
@@ -671,7 +671,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
         #         current_date += timedelta(days=1)
 
         #--------------
-        # Iterate over the interevent periods for this EWR
+        # Iterate over the interevent periods for this ewr
         for i, row in df_subset.iterrows():
             # Get the date range:
             period = pd.period_range(row['startDate'],row['endDate'])
@@ -697,7 +697,7 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
 
     Args:
         yearly_df (pd.DataFrame): Yearly results dataframe summary
-        yearly_dict (dict): Rolling maximum annual interevent period for every EWR
+        yearly_dict (dict): Rolling maximum annual interevent period for every ewr
     Returns:
         pd.DataFrame: Yearly results dataframe summary with the new column
     '''
@@ -719,7 +719,7 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
 
 def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:
     '''
-    For each EWR, check to see if the rolling max interevent achieves the minimum requirement.
+    For each ewr, check to see if the rolling max interevent achieves the minimum requirement.
 
     Args:
         yearly_df (pd.DataFrame): 
@@ -730,10 +730,10 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_pa
 
     yearly_df['rollingMaxInterEventAchieved'] = None
 
-    # Load in EWR table to variable to access start and end dates of the EWR
+    # Load in ewr table to variable to access start and end dates of the ewr
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
 
-    # Get EWR characteristics for current EWR
+    # Get ewr characteristics for current ewr
     for i, row in yearly_df.iterrows():
         gauge = yearly_df.loc[i, 'Gauge']
         pu = yearly_df.loc[i, 'pu']

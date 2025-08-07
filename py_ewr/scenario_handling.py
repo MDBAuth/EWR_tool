@@ -491,7 +491,7 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
                         report.at[gauge, 'level'] = 'Y'
 
     if df_flow.empty and df_level.empty:
-        raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file') 
+        raise ValueError('No relevant gauges and or measurands found in dataset, the ewr tool cannot evaluate this model output file') 
  
     # report.to_csv('report_v1.csv')  
     return df_flow, df_level, report
@@ -535,7 +535,7 @@ def match_MDBA_nodes(input_df: pd.DataFrame, model_metadata: pd.DataFrame, ewr_t
 #                         df_level[gauge] = input_df[col]
 
 #     if df_flow.empty and df_level.empty:
-#         raise ValueError('No relevant gauges and or measurands found in dataset, the EWR tool cannot evaluate this model output file')      
+#         raise ValueError('No relevant gauges and or measurands found in dataset, the ewr tool cannot evaluate this model output file')      
     
 #     df_flow.to_csv('existing_flow_mapped.csv')
 #     df_level.to_csv('existing_level_mapped.csv')
@@ -1049,16 +1049,16 @@ class ScenarioHandler:
             PU_items = self.logging_sheet.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1)
             gauge_table = self.logging_sheet[self.logging_sheet['Primary Gauge'] == gauge]
 
-            for PU in set(gauge_table['PlanningUnitID']):
+            for pu in set(gauge_table['PlanningUnitID']):
 
-                PU_table = gauge_table[gauge_table['PlanningUnitID'] == PU]
+                PU_table = gauge_table[gauge_table['PlanningUnitID'] == pu]
                 EWR_categories = PU_table['FlowLevelVolume'].values
                 EWR_codes = PU_table['Code']
 
-                for cat, EWR in zip(EWR_categories, EWR_codes):
+                for cat, ewr in zip(EWR_categories, EWR_codes):
 
                     ## CUSTOM MULTIGAUGE CHECK
-                    item = self.logging_sheet[(self.logging_sheet['Primary Gauge']==gauge) & (self.logging_sheet['Code']==EWR) & (self.logging_sheet['PlanningUnitID']==PU)]
+                    item = self.logging_sheet[(self.logging_sheet['Primary Gauge']==gauge) & (self.logging_sheet['Code']==ewr) & (self.logging_sheet['PlanningUnitID']==pu)]
                     item = item.replace({np.nan: None})
                     mg = item['Multigauge'].to_list()
 
@@ -1070,8 +1070,8 @@ class ScenarioHandler:
                         gauge_calc_type = 'multigauge'
                     ####
 
-                    ewr_key = f'{EWR}-{gauge_calc_type}-{cat}'
-                    self.logging_sheet.loc[((self.logging_sheet['Primary Gauge']==gauge) & (self.logging_sheet['Code']==EWR) & (self.logging_sheet['PlanningUnitID']==PU)), "EWR_key"] = ewr_key
+                    ewr_key = f'{ewr}-{gauge_calc_type}-{cat}'
+                    self.logging_sheet.loc[((self.logging_sheet['Primary Gauge']==gauge) & (self.logging_sheet['Code']==ewr) & (self.logging_sheet['PlanningUnitID']==pu)), "EWR_key"] = ewr_key
                     function_name = evaluate_EWRs.find_function(ewr_key, calc_config)                    
                     ewr_keys_in_parameter_sheet.append(ewr_key)
 

@@ -10,36 +10,36 @@ from contextlib import nullcontext
 
 def test_component_pull():
 	'''
-	1. Test correct value is pulled from EWR dataset
+	1. Test correct value is pulled from ewr dataset
 	'''
 	EWR_table, bad_EWRs = data_inputs.get_EWR_table()
 	gauge = '409025'
-	PU = 'PU_0000253'
-	EWR = 'SF1_P'
+	pu = 'PU_0000253'
+	ewr = 'SF1_P'
 	component = 'Duration'
-	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == 10
+	assert  evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, component) == 10
 
 def test_get_EWRs():
 	'''
-	1. Ensure requested parts of EWR are returned
+	1. Ensure requested parts of ewr are returned
 	'''
 	EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-	PU = 'PU_0000283'
+	pu = 'PU_0000283'
 	gauge = '410007'
-	EWR = 'SF1_P'
+	ewr = 'SF1_P'
 	components = ['StartMonth', 'EndMonth']
 
 	expected = {'Gauge': '410007', 'PlanningUnit': 'PU_0000283', 'Code': 'SF1_P', 'start_month': 10, 'end_month':4}
-	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected
+	assert evaluate_EWRs.get_EWRs(pu, gauge, ewr, EWR_table, components) == expected
 
 def test_mask_dates():
 	'''
 	This testing function will also be testing the functions get_month_mask, get_day_month_mask, and get_day_month_mask
-	1. Testing for no filtering (all year round EWR requirement)
+	1. Testing for no filtering (all year round ewr requirement)
 	2. Testing for a month subset
-	3. Testing for water year crossover EWR requirement
-	4. Testing for start day and end day within same month inclusion in the EWR requirement
-	5. Testing for start day and end day within different months inclusion in the EWR requirement:
+	3. Testing for water year crossover ewr requirement
+	4. Testing for start day and end day within same month inclusion in the ewr requirement
+	5. Testing for start day and end day within different months inclusion in the ewr requirement:
 	'''
 	#------------ Dataframe to be passed to all testing functions here ----------#
 
@@ -1476,7 +1476,7 @@ def test_get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_year
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
 	("421004", "CF" , "PU_0000129", nullcontext(False)),
 	("421090", "CF" , "PU_0000130", nullcontext(True)),
-	("11111", "XX" , "DD", pytest.raises(IndexError, match="EWR: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
+	("11111", "XX" , "DD", pytest.raises(IndexError, match="ewr: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
 ],)
 def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	with expected_result as e:
@@ -1486,7 +1486,7 @@ def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
 	("414203", "VF" , "PU_0000260", nullcontext(True)),
 	("414203", "WP2" , "PU_0000260", nullcontext(True)),
-	("11111", "XX" , "DD", pytest.raises(IndexError, match="EWR: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
+	("11111", "XX" , "DD", pytest.raises(IndexError, match="ewr: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
 ],)
 def test_is_weirpool_gauge(parameter_sheet, gauge, ewr, pu, expected_result):
 	with expected_result as e:
@@ -2503,19 +2503,19 @@ def test_lake_calc(EWR_info, levels, expected_all_events, expected_all_no_events
 	# 		assert event == expected_all_events[year][i]
 
 
-@pytest.mark.parametrize('gauge,PU,EWR,component,expected_result',[
+@pytest.mark.parametrize('gauge,pu,ewr,component,expected_result',[
 	('409025','PU_0000253','NestS1','TriggerDay', 15),
 	('409025','PU_0000253','NestS1','TriggerMonth', 9),
 	('414203','PU_0000260','NestS1a','DrawDownRateWeek', 0.03),
 ],)
-def test_component_pull_nest(gauge, PU, EWR, component, expected_result):
+def test_component_pull_nest(gauge, pu, ewr, component, expected_result):
 	'''
 	1. Test pulling TriggerDay
 	2. Test pulling TriggerMonth
 	'''
 	EWR_table, bad_EWRs = data_inputs.get_EWR_table('./unit_testing_files/MURRAY_MDBA_update_nest.csv')
 
-	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == expected_result
+	assert  evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, component) == expected_result
 
 @pytest.mark.parametrize("EWR_info,iteration,flow,flow_percent_change,event,all_events,all_no_events,total_event,expected_all_events,expected_event,dates",
 [
@@ -3293,34 +3293,34 @@ def test_get_handle_function(function_name, expected_result):
 	assert result.__name__ == expected_result
 
 @pytest.mark.parametrize("args,function_name,expected_result",[
-	({"PU": "PU" , 
+	({"pu": "pu" , 
 	'gauge': 'gauge', 
-	"EWR": "EWR", 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
 	},
 		'ctf_handle', 
-	{"PU": "PU" , 
+	{"pu": "pu" , 
 	'gauge': 'gauge', 
-	"EWR": "EWR", 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"PU_df": "PU_df", 
 	}),
-	({"PU": "PU" , 
+	({"pu": "pu" , 
 	'gauge': 'gauge', 
-	"EWR": "EWR", 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
 	},
 		'level_handle', 
-	{"PU": "PU" , 
+	{"pu": "pu" , 
 	'gauge': 'gauge', 
-	"EWR": "EWR", 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_L": "df_L", 
 	"PU_df": "PU_df", 

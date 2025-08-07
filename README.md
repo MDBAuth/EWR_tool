@@ -3,13 +3,13 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **EWR tool version 2.3.7 README**
+### **ewr tool version 2.3.7 README**
 
 ### **Notes on recent version updates**
 - Including metadata report (this is still being ironed out and tested)
 - CLLMM_c and CLLMM_d ewrs are now able to be calculated without all barrage level gauges being present in the model file. 
 - Including draft objective mapping files in the package (see below sub heading **Objective mapping** for more information). Objective mapping has been therefore pulled out of the parameter sheet
-- Including an example parallel processing script for running the EWR tool
+- Including an example parallel processing script for running the ewr tool
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
 - Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet
@@ -37,7 +37,7 @@ pip install py-ewr
 ``` 
 
 ### Option 1: Running the observed mode of the tool
-The EWR tool will use a second program called gauge getter to first download the river data at the locations and dates selected and then run this through the EWR tool
+The ewr tool will use a second program called gauge getter to first download the river data at the locations and dates selected and then run this through the ewr tool
 
 ```python
 
@@ -58,14 +58,14 @@ gauges = ['Gauge1', 'Gauge2']
 
 from py_ewr.observed_handling import ObservedHandler
 
-# Running the EWR tool:
+# Running the ewr tool:
 ewr_oh = ObservedHandler(gauges=gauges, dates=dates)
 
 # Generating tables:
-# Table 1: Summarised EWR results for the entire timeseries
+# Table 1: Summarised ewr results for the entire timeseries
 ewr_results = ewr_oh.get_ewr_results()
 
-# Table 2: Summarised EWR results, aggregated to water years:
+# Table 2: Summarised ewr results, aggregated to water years:
 yearly_ewr_results = ewr_oh.get_yearly_ewr_results()
 
 # Table 3: All events details regardless of duration 
@@ -82,7 +82,7 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 
 ```
 
-### Option 2: Running model scenarios through the EWR tool
+### Option 2: Running model scenarios through the ewr tool
 
 1. Tell the tool where the model files are (can either be local or in a remote location)
 2. Tell the tool what format the model files are in. The current model format options are: 
@@ -143,15 +143,15 @@ for scenario_name, scenario_list in scenarios.items():
     all_successful_interEvents = pd.DataFrame()
     for file in scenarios[scenario_name]:
 
-        # Running the EWR tool:
+        # Running the ewr tool:
         ewr_sh = ScenarioHandler(scenario_file = file, 
                                 model_format = model_format)
 
         # Return each table and stitch the different files of the same scenario together:
-        # Table 1: Summarised EWR results for the entire timeseries
+        # Table 1: Summarised ewr results for the entire timeseries
         temp_ewr_results = ewr_sh.get_ewr_results()
         ewr_results = pd.concat([ewr_results, temp_ewr_results], axis = 0)
-        # Table 2: Summarised EWR results, aggregated to water years:
+        # Table 2: Summarised ewr results, aggregated to water years:
         temp_yearly_ewr_results = ewr_sh.get_yearly_ewr_results()
         yearly_ewr_results = pd.concat([yearly_ewr_results, temp_yearly_ewr_results], axis = 0)
         # Table 3: All events details regardless of duration 
@@ -190,15 +190,15 @@ for scenario_name, scenario_list in scenarios.items():
 
 ### **Purpose**
 This tool has two purposes:
-1. Operational: Tracking EWR success at gauges of interest in real time - option 1 above.
-2. Planning: Comparing EWR success between scenarios (i.e. model runs) - option 2 above.
+1. Operational: Tracking ewr success at gauges of interest in real time - option 1 above.
+2. Planning: Comparing ewr success between scenarios (i.e. model runs) - option 2 above.
 
 **Support**
 For issues relating to the script, a tutorial, or feedback please contact Lara Palmer at lara.palmer@mdba.gov.au, Martin Job at martin.job@mdba.gov.au, or Joel Bailey at joel.bailey@mdba.gov.au
 
 
 **Disclaimer**
-Every effort has been taken to ensure the EWR database represents the original EWRs from state Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the EWR parameter sheet and/or EWR tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
+Every effort has been taken to ensure the ewr database represents the original EWRs from state Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the ewr parameter sheet and/or ewr tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
 
 
 **Notes on development of the dataset of EWRs**
@@ -212,21 +212,21 @@ NSW:
 - All South Australian catchments
 - All EWRs from river based Environmental Water Management Plans (EWMPs) in Victoria*
 
-*Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated EWR tool so the EWRs from these plans have been left out for now. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
+*Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated ewr tool so the EWRs from these plans have been left out for now. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
 
 **Input data**
 
 - Gauge data from the relevant Basin state websites and the Bureau of Meteorology website
 - Scenario data input by the user
 - Model metadata for location association between gauge ID's and model nodes
-- EWR parameter sheet
+- ewr parameter sheet
 
 **Running the tool**
 
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
 **Objective mapping**
-Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
+Objective mapping csv files are now included in the ewr tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
 - ewr2obj.csv: For each planning unit, gauge, ewr combination there are either one or many env_obj codes. These env_obj codes come under one of five different theme level targets (Native Fish, Native vegetation, Waterbirds, Other species or Ecosystem functions)
 - obj2target.csv: env_obj's are unique to their planning unit in the LTWP (noting there are often a lot of similarities between env_obj's in the same states). The plain english wording of the env objectives is also contained in this csv. The LTWP, planning unit and env_obj rows are repeated for each specific goal related to that LTWP, planning unit and env_obj. 
 - obj2yrtarget.csv: The environmental objectives are related to 5, 10 and 20 year targets

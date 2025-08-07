@@ -15,8 +15,8 @@ BASE_PATH = Path(__file__).resolve().parents[1]
     
 def test_get_multi_gauges():
     '''
-    1. Test for returning planning units and gauges where there are multi gauge EWR requirements
-    2. Test for returning the unique gauge to gauge dictionaries where there are multi gauge EWR requirements
+    1. Test for returning planning units and gauges where there are multi gauge ewr requirements
+    2. Test for returning the unique gauge to gauge dictionaries where there are multi gauge ewr requirements
     '''
     # Test 1
     expected_multi_gauges = {'PU_0000130': {'421090': '421088', '421088': '421090'},
@@ -59,7 +59,7 @@ def test_get_EWR_table():
 
 def test_get_ewr_calc_config():
     '''
-    1. Test for correct return of EWR calculation config
+    1. Test for correct return of ewr calculation config
     assert it returns a dictionary
     '''
 
