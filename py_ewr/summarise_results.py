@@ -124,7 +124,7 @@ def process_df(scenario:str, Gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
         column_attributes = get_columns_attributes(ewr_df.columns.to_list())
         ewr_df.columns = column_attributes
         ewr_df = ewr_df.reset_index().rename(columns={"index":'Year'})
-        ewr_df["ewrCode"] = ewr
+        ewr_df["Code"] = ewr
         ewr_df["scenario"] = scenario
         ewr_df['Gauge'] = Gauge
         ewr_df["pu"] = pu
@@ -247,7 +247,7 @@ def process_yearly_events(scenario:str, Gauge:str, pu:str, ewr:str, ewr_events: 
     row_data['scenario'].append(scenario)
     row_data['Gauge'].append(Gauge)
     row_data['pu'].append(pu)
-    row_data['ewrCode'].append(ewr)
+    row_data['Code'].append(ewr)
     row_data['totalEvents'].append(total_events)
     row_data['totalEventDays'].append(total_event_days)
     row_data['averageEventLength'].append(average_event_length)
@@ -383,9 +383,9 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     to_process = pu_dfs_to_process(input_dict)
     yearly_ewr_results = process_df_results(to_process)
     
-    # aggregate by 'Gauge',"pu","ewrCode"
+    # aggregate by 'Gauge',"pu","Code"
     final_summary_output = (yearly_ewr_results
-    .groupby(["scenario",'Gauge',"pu","ewrCode"])
+    .groupby(["scenario",'Gauge',"pu","Code"])
     .agg( EventYears = ("eventYears", 'sum'),
           Frequency = ("eventYears", get_frequency),
           AchievementCount = ("numAchieved", 'sum'),
@@ -409,16 +409,16 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     
     final_summary_output = final_summary_output.merge(ewr_event_stats, 
                                                       'left',
-                                                      left_on=['scenario', 'Gauge','pu','ewrCode'], 
-                                                      right_on=['scenario', 'Gauge','pu',"ewrCode"])
+                                                      left_on=['scenario', 'Gauge','pu','Code'], 
+                                                      right_on=['scenario', 'Gauge','pu',"Code"])
     # Join Ewr parameter to summary
 
     final_merged = join_ewr_parameters(cols_to_add=['TargetFrequency','MaxInter-event','Multigauge', 'State', 'SWSDLName'],
                                 left_table=final_summary_output,
-                                left_on=['Gauge','pu','ewrCode'],
+                                left_on=['Gauge','pu','Code'],
                                 selected_columns=["scenario",'Gauge',
                                                     'pu', 'State', 'SWSDLName', 
-                                                    'ewrCode',
+                                                    'Code',
                                                     'Multigauge',
                                                     'EventYears',
                                                     'Frequency',
@@ -621,7 +621,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     s = 'TEMPORARY_ID_SPLIT'
 
     df['ID'] = df['scenario']+s+df['Gauge']+s+df['pu']+s+df['ewr']
-    yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['Gauge']+s+yearly_df['pu']+s+yearly_df['ewrCode']
+    yearly_df['ID'] = yearly_df['scenario']+s+yearly_df['Gauge']+s+yearly_df['pu']+s+yearly_df['Code']
     unique_ID = list(OrderedDict.fromkeys(yearly_df['ID']))
     master_dict = dict()
     unique_years = list(range(min(yearly_df['Year']),max(yearly_df['Year'])+1,1))
@@ -703,8 +703,8 @@ def add_interevent_to_yearly_results(yearly_df: pd.DataFrame, yearly_dict:Dict) 
     '''
     yearly_df['rollingMaxInterEvent'] = None
     # iterate yearly df, but ignore merged ewrs
-    for i, row in yearly_df[~yearly_df['ewrCode'].str.contains('/', regex=False)].iterrows():
-        ewr = yearly_df.loc[i, 'ewrCode']
+    for i, row in yearly_df[~yearly_df['Code'].str.contains('/', regex=False)].iterrows():
+        ewr = yearly_df.loc[i, 'Code']
         cllmm_post_processed = ["CLLMM2_e", "CLLMM3_e", "CLLMM4_e","CLLMM1_e","CLLMM1S_e"]
         if any( cllmm in ewr for cllmm in cllmm_post_processed):
             continue
@@ -737,7 +737,7 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_pa
     for i, row in yearly_df.iterrows():
         gauge = yearly_df.loc[i, 'Gauge']
         pu = yearly_df.loc[i, 'pu']
-        ewr = yearly_df.loc[i, 'ewrCode']
+        ewr = yearly_df.loc[i, 'Code']
 
         if '/' in ewr:
             yearly_df.loc[i, 'rollingMaxInterEventAchieved'] = None

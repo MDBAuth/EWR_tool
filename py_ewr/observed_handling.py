@@ -331,11 +331,11 @@ class ObservedHandler:
 
         yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                                 left_table=yearly_ewr_results,
-                                left_on=['Gauge','pu','ewrCode'],
+                                left_on=['Gauge','pu','Code'],
                                 selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', 
                                             'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
-                                            'missingDays', 'totalPossibleDays', 'ewrCode',
+                                            'missingDays', 'totalPossibleDays', 'Code',
                                             'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
 

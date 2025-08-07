@@ -120,7 +120,7 @@ def test_get_yearly_ewr_results(observed_handler_instance):
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
+       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
 
 def test_get_ewr_results(observed_handler_instance):
 

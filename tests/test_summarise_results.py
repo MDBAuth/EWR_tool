@@ -64,7 +64,7 @@ def test_process_df(item_to_process):
     columns = result.columns.to_list()
     assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'Gauge', 'pu']
+       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'pu']
     assert result.shape == (2, 16)
 
 def test_process_df_results(items_to_process):
@@ -72,7 +72,7 @@ def test_process_df_results(items_to_process):
     columns = result.columns.to_list()
     assert columns == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll','eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved', "rollingMaxInterEventAchieved", 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'Gauge', 'pu']
+       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'pu']
     assert result.shape == (4, 16)
 
 def test_get_events_to_process(gauge_events):
@@ -112,7 +112,7 @@ def test_process_yearly_events(event_item_to_process):
     assert result.to_dict() == {'scenario': {0: 'observed'},
                                             'Gauge': {0: '419001'},
                                             'pu': {0: 'Keepit to Boggabri'},
-                                            'ewrCode': {0: 'CF1_a'},
+                                            'Code': {0: 'CF1_a'},
                                             'totalEvents': {0: 1},
                                             'totalEventDays': {0: 6},
                                             'averageEventLength': {0: 6.0}}
@@ -124,7 +124,7 @@ def test_process_ewr_events_stats(event_items_to_process):
     assert result.to_dict() == {'scenario': {0: 'observed', 1: 'observed'},
                                 'Gauge': {0: '419001', 1: '419002'},
                                 'pu': {0: 'Keepit to Boggabri', 1: 'Keepit to Boggabri'},
-                                'ewrCode': {0: 'CF1_a', 1: 'CF1_a'},
+                                'Code': {0: 'CF1_a', 1: 'CF1_a'},
                                 'totalEvents': {0: 1, 1: 1},
                                 'totalEventDays': {0: 6, 1: 6},
                                 'averageEventLength': {0: 6.0, 1: 6.0}}
