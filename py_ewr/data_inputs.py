@@ -14,14 +14,14 @@ BASE_PATH = Path(__file__).resolve().parent
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_ewr_calc_config(file_path:str = None) -> dict:
-    '''Loads the EWR calculation configuration file from repository or local file
+    '''Loads the ewr calculation configuration file from repository or local file
     system
     
     Args:
-        file_path (str): Location of the EWR calculation configuration file
+        file_path (str): Location of the ewr calculation configuration file
 
     Returns:
-        dict: Returns a dictionary of the EWR calculation configuration file
+        dict: Returns a dictionary of the ewr calculation configuration file
     '''
     
     if file_path:
@@ -37,7 +37,7 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
 
 def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
   
-    ''' Does all miscellaneous changes to the EWR table to get in the right format for all the handling functions. i.e. datatype changing, splitting day/month data, handling %
+    ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. i.e. datatype changing, splitting day/month data, handling %
     '''
 
     int_components = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 'Duration', 'WithinEventGapTolerance', 'EventsPerYear', 'MinSpell', 'AccumulationPeriod', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'AnnualBarrageFlow', 'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell', 'LarvaeDaysSpell', 'StartDay', 'EndDay', 'StartMonth', 'EndMonth']
@@ -79,7 +79,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     does some cleaning, including swapping out '?' in the frequency column with 0
     
     Args:
-        file_path (str): Location of the EWR dataset
+        file_path (str): Location of the ewr dataset
     Returns:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
     '''
@@ -150,9 +150,9 @@ def get_EWR_table(file_path:str = None) -> dict:
 
 def get_components_map() -> dict:
     components_map = {
-        'PlanningUnitID': 'planning_unit',
-        'Gauge': 'gauge',
-        'Code': 'EWR_code',
+        'PlanningUnitID': 'PlanningUnit',
+        'Gauge': 'Gauge',
+        'Code': 'Code',
         'FlowThresholdMin': 'min_flow',
         'FlowThresholdMax': 'max_flow',
         'VolumeThreshold': 'min_volume',
@@ -298,8 +298,8 @@ def get_multi_gauges(dataType: str) -> dict:
 
 def get_EWR_components(category):
     '''
-    Ingests EWR category, returns the components required to analyse this type of EWR. 
-    Each code represents a unique component in the EWR dataset.
+    Ingests ewr category, returns the components required to analyse this type of ewr. 
+    Each code represents a unique component in the ewr dataset.
 
     Args:
         category (str): options =   'flow', 'low flow', 'cease to flow', 'cumulative', 'level', 'weirpool-raising', 'weirpool-falling', 'nest-level', 'nest-percent',
@@ -307,7 +307,7 @@ def get_EWR_components(category):
                                     'simul-gauge-flow', 'simul-gauge-low flow', 'simul-gauge-cease to flow', 'complex'
 
     Returns:
-        list: Components needing to be pulled from the EWR dataset
+        list: Components needing to be pulled from the ewr dataset
     '''
 
     if category == 'flow':
@@ -363,18 +363,18 @@ def get_bad_QA_codes() -> list:
     '''
     return [151, 152, 153, 155, 180, 201, 202, 204, 205, 207, 223, 255]
 
-def weirpool_type(EWR: str) -> str:
-    '''Returns the type of Weirpool EWR. Currently only WP2 EWRs are classified as weirpool raisings
+def weirpool_type(ewr: str) -> str:
+    '''Returns the type of Weirpool ewr. Currently only WP2 EWRs are classified as weirpool raisings
     
     Args:
-        EWR (str): WP2 is considered raising, the remaining WP EWRs are considered falling
+        ewr (str): WP2 is considered raising, the remaining WP EWRs are considered falling
 
     Returns:
         str: either 'raising' or 'falling'
     
     '''
 
-    return 'raising' if EWR == 'WP2' else 'falling'
+    return 'raising' if ewr == 'WP2' else 'falling'
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_planning_unit_info() -> pd.DataFrame:
@@ -392,24 +392,24 @@ def get_planning_unit_info() -> pd.DataFrame:
 
 
 
-# Function to pull out the EWR parameter information
-def ewr_parameter_grabber(EWR_TABLE: pd.DataFrame, GAUGE: str, PU: str, EWR: str, PARAMETER: str) -> str:
+# Function to pull out the ewr parameter information
+def ewr_parameter_grabber(EWR_TABLE: pd.DataFrame, gauge: str, pu: str, ewr: str, PARAMETER: str) -> str:
     '''
-    Input an EWR table to pull data from, a gauge, planning unit, and EWR for the unique value, and a requested parameter
+    Input an ewr table to pull data from, a gauge, planning unit, and ewr for the unique value, and a requested parameter
 
     Args:
         EWR_TABLE (pd.DataFrame): dataset of EWRs
-        GAUGE (str): Gauge string
-        PU (str): Planning unit name
-        EWR (str): EWR string
-        PARAMETER (str): which parameter of the EWR to access
+        gauge (str): Gauge string
+        pu (str): Planning unit name
+        ewr (str): ewr string
+        PARAMETER (str): which parameter of the ewr to access
     Results:
-        str: requested EWR component
+        str: requested ewr component
     
     '''
-    component = (EWR_TABLE[((EWR_TABLE['Gauge'] == GAUGE) & 
-                           (EWR_TABLE['Code'] == EWR) &
-                           (EWR_TABLE['PlanningUnitName'] == PU)
+    component = (EWR_TABLE[((EWR_TABLE['Gauge'] == gauge) & 
+                           (EWR_TABLE['Code'] == ewr) &
+                           (EWR_TABLE['PlanningUnitName'] == pu)
                           )][PARAMETER]).to_list()[0]
     return component if component else 0
 
