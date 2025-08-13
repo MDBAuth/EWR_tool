@@ -36,7 +36,7 @@ def detailed_results(pu_df):
 def item_to_process(pu_df):
     return { "scenario" : 'observed',
                          'Gauge' : '419001',
-                         "pu" : 'Keepit to Boggabri',
+                         "PlanningUnit" : 'Keepit to Boggabri',
                          "pu_df" : pu_df }
 
 @pytest.fixture(scope="function")
@@ -44,11 +44,11 @@ def items_to_process(pu_df):
 
     return [ { "scenario" : 'observed',
                 'Gauge' : '419001',
-                "pu" : 'Keepit to Boggabri',
+                "PlanningUnit" : 'Keepit to Boggabri',
                 "pu_df" : pu_df },
              { "scenario" : 'observed',
                 'Gauge' : '419002',
-                "pu" : 'Keepit to Boggabri',
+                "PlanningUnit" : 'Keepit to Boggabri',
                 "pu_df" : pu_df }
            ]
 
@@ -81,8 +81,8 @@ def yearly_events():
 def event_item_to_process():
     return  {  "scenario" : 'observed',
                 'Gauge' : '419001',
-                "pu" : 'Keepit to Boggabri',
-                "ewr": 'CF1_a',
+                "PlanningUnit" : 'Keepit to Boggabri',
+                "Code": 'CF1_a',
                 "ewr_events" :  {  2010: [],
                                     2011: [],
                                     2012: [],
@@ -99,8 +99,8 @@ def event_item_to_process():
 def event_items_to_process():
     return  [{  "scenario" : 'observed',
                 'Gauge' : '419001',
-                "pu" : 'Keepit to Boggabri',
-                "ewr": 'CF1_a',
+                "PlanningUnit" : 'Keepit to Boggabri',
+                "Code": 'CF1_a',
                 "ewr_events" :  {  2010: [],
                                     2011: [],
                                     2012: [],
@@ -114,8 +114,8 @@ def event_items_to_process():
                                     },
                 {  "scenario" : 'observed',
                 'Gauge' : '419002',
-                "pu" : 'Keepit to Boggabri',
-                "ewr": 'CF1_a',
+                "PlanningUnit" : 'Keepit to Boggabri',
+                "Code": 'CF1_a',
                 "ewr_events" : {  2010: [],
                                     2011: [],
                                     2012: [],
@@ -283,10 +283,10 @@ def PU_df_wp():
 def interEvent_item_to_process():
     return {'scenario': ['example_scenario']*9,
             'Gauge': ['409025']*6+['410007']*3, 
-            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'PlanningUnit': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
             'State': ['NSW']*9,
             'SWSDLName': ['New South Wales Murray']*6+['Murrumbidgee']*3, 
-            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'Code': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
             'endDate': [date(1901, 8, 31), date(1901, 12, 15), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 10), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 2, 5)], 
@@ -298,8 +298,8 @@ def interEvent_item_to_process():
 def successfulEvent_item_to_process():
     return {'scenario': ['example_scenario']*9,
             'Gauge': ['409025']*6+['410007']*3, 
-            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
-            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'PlanningUnit': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'Code': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
             'endDate': [date(1901, 8, 31), date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 9), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 3, 5)], 
@@ -311,8 +311,8 @@ def successfulEvent_item_to_process():
 def duplicate_event_item_to_process():
     return {'scenario': ['example_scenario']*9,
             'Gauge': ['409025']*6+['410007']*3, 
-            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
-            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'PlanningUnit': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'Code': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 8, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1901, 12, 6)], 
             'endDate': [date(1901, 8, 31), date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 9), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 3, 5)], 
@@ -328,12 +328,12 @@ def ewr_calc_config():
 @pytest.fixture(scope="function")
 def gauge_results():
     return {"scenario":
-            {"A4261002":{"pu":"DataFrame"},
-            "A4260527":{"pu":"DataFrame"},
-            "A4260633":{"pu":"DataFrame"},
-            "A4260634":{"pu":"DataFrame"},
-            "A4260635":{"pu":"DataFrame"},
-            "A4260637":{"pu":"DataFrame"}
+            {"A4261002":{"PlanningUnit":"DataFrame"},
+            "A4260527":{"PlanningUnit":"DataFrame"},
+            "A4260633":{"PlanningUnit":"DataFrame"},
+            "A4260634":{"PlanningUnit":"DataFrame"},
+            "A4260635":{"PlanningUnit":"DataFrame"},
+            "A4260637":{"PlanningUnit":"DataFrame"}
             }
     }
 

@@ -548,7 +548,7 @@ def test_get_all_events(scenario_handler_instance):
     all_events = scenario_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
     assert all_events.shape == (26, 12)
-    assert all_events.columns.to_list() == ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+    assert all_events.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
         
 def test_get_all_interEvents(scenario_handler_instance):
@@ -556,14 +556,14 @@ def test_get_all_interEvents(scenario_handler_instance):
     all_interEvents = scenario_handler_instance.get_all_interEvents()
     assert type(all_interEvents) == pd.DataFrame
     assert all_interEvents.shape == (26, 9)
-    assert all_interEvents.columns.to_list() == ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'startDate', 'endDate', 'interEventLength']
+    assert all_interEvents.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'startDate', 'endDate', 'interEventLength']
 
 def test_get_all_successful_events(scenario_handler_instance):
 
     all_successful_events = scenario_handler_instance.get_all_successful_events()
     assert type(all_successful_events) == pd.DataFrame
     assert all_successful_events.shape == (24, 12)
-    assert all_successful_events.columns.to_list() == ['scenario', 'Gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+    assert all_successful_events.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'Code', 'waterYear', 'startDate', 'endDate',
                                                        'eventDuration', 'eventLength', 'State', 'SWSDLName', 'Multigauge']
 
 def test_get_all_successful_interEvents(scenario_handler_instance):
@@ -571,7 +571,7 @@ def test_get_all_successful_interEvents(scenario_handler_instance):
     all_successful_interEvents = scenario_handler_instance.get_all_successful_interEvents()
     assert type(all_successful_interEvents) == pd.DataFrame
     assert all_successful_interEvents.shape == (24, 9)
-    assert all_successful_interEvents.columns.to_list() == ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'startDate', 'endDate', 'interEventLength']
+    assert all_successful_interEvents.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'startDate', 'endDate', 'interEventLength']
 
 def test_get_yearly_ewr_results(scenario_handler_instance):
 
@@ -582,7 +582,7 @@ def test_get_yearly_ewr_results(scenario_handler_instance):
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
         'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'missingDays',
-       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge', 
+       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Multigauge', 
        'rollingMaxInterEvent', 'rollingMaxInterEventAchieved'] 
 
 def test_get_ewr_results(scenario_handler_instance):

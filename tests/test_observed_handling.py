@@ -109,7 +109,7 @@ def test_get_all_events(observed_handler_instance):
     all_events = observed_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
     assert all_events.shape == (76, 12)
-    assert all_events.columns.to_list() == ['scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'ewr', 'waterYear', 'startDate', 'endDate',
+    assert all_events.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
 
 def test_get_yearly_ewr_results(observed_handler_instance):
@@ -120,7 +120,7 @@ def test_get_yearly_ewr_results(observed_handler_instance):
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
        'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement','missingDays',
-       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'pu', 'State', 'SWSDLName', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
+       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Multigauge', 'rollingMaxInterEvent', 'rollingMaxInterEventAchieved']
 
 def test_get_ewr_results(observed_handler_instance):
 
