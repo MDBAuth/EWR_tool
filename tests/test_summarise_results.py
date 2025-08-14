@@ -51,12 +51,12 @@ def test_get_ewrs(pu_df):
 def test_pu_dfs_to_process(detailed_results, pu_df):
     result = summarise_results.pu_dfs_to_process(detailed_results)
     assert result == [{ "scenario" : 'observed',
-                         'Gauge' : '419001',
-                         "PlanningUnit" : 'Keepit to Boggabri',
+                         'gauge' : '419001',
+                         "pu" : 'Keepit to Boggabri',
                          "pu_df" : pu_df },
                          { "scenario" : 'observed',
-                         'Gauge' : '419002',
-                         "PlanningUnit" : 'Keepit to Boggabri',
+                         'gauge' : '419002',
+                         "pu" : 'Keepit to Boggabri',
                          "pu_df" : pu_df }]
 
 def test_process_df(item_to_process):
@@ -78,9 +78,9 @@ def test_process_df_results(items_to_process):
 def test_get_events_to_process(gauge_events):
     result = summarise_results.get_events_to_process(gauge_events)
     assert result == [ { "scenario" : 'observed',
-                          'Gauge' : '419001',
-                          "PlanningUnit" : 'Keepit to Boggabri',
-                          "Code": 'CF1_a',
+                          'gauge' : '419001',
+                          "pu" : 'Keepit to Boggabri',
+                          "ewr": 'CF1_a',
                           "ewr_events" : {2010: [],
                             2011: [],
                             2012: [],
@@ -88,9 +88,9 @@ def test_get_events_to_process(gauge_events):
                             2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}
                             },
                        {"scenario" : 'observed',
-                          'Gauge' : '419002',
-                          "PlanningUnit" : 'Keepit to Boggabri',
-                          "Code": 'CF1_a',
+                          'gauge' : '419002',
+                          "pu" : 'Keepit to Boggabri',
+                          "ewr": 'CF1_a',
                           "ewr_events" : {2010: [],
                             2011: [],
                             2012: [],
@@ -157,7 +157,6 @@ def test_process_all_events_results(event_items_to_process):
                                 'endDate': {0: date(2020, 12, 5), 1: date(2020, 12, 5)},
                                 'eventDuration': {0: 6, 1: 6},
                                 'eventLength': {0: 6, 1: 6}}
-
 
 def test_events_to_interevents(interEvent_item_to_process):
 

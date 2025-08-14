@@ -35,20 +35,20 @@ def detailed_results(pu_df):
 @pytest.fixture(scope="function")
 def item_to_process(pu_df):
     return { "scenario" : 'observed',
-                         'Gauge' : '419001',
-                         "PlanningUnit" : 'Keepit to Boggabri',
+                         'gauge' : '419001',
+                         "pu" : 'Keepit to Boggabri',
                          "pu_df" : pu_df }
 
 @pytest.fixture(scope="function")
 def items_to_process(pu_df):
 
     return [ { "scenario" : 'observed',
-                'Gauge' : '419001',
-                "PlanningUnit" : 'Keepit to Boggabri',
+                'gauge' : '419001',
+                "pu" : 'Keepit to Boggabri',
                 "pu_df" : pu_df },
              { "scenario" : 'observed',
-                'Gauge' : '419002',
-                "PlanningUnit" : 'Keepit to Boggabri',
+                'gauge' : '419002',
+                "pu" : 'Keepit to Boggabri',
                 "pu_df" : pu_df }
            ]
 
@@ -80,9 +80,9 @@ def yearly_events():
 @pytest.fixture(scope="function")
 def event_item_to_process():
     return  {  "scenario" : 'observed',
-                'Gauge' : '419001',
-                "PlanningUnit" : 'Keepit to Boggabri',
-                "Code": 'CF1_a',
+                'gauge' : '419001',
+                "pu" : 'Keepit to Boggabri',
+                "ewr": 'CF1_a',
                 "ewr_events" :  {  2010: [],
                                     2011: [],
                                     2012: [],
@@ -98,9 +98,9 @@ def event_item_to_process():
 @pytest.fixture(scope="function")
 def event_items_to_process():
     return  [{  "scenario" : 'observed',
-                'Gauge' : '419001',
-                "PlanningUnit" : 'Keepit to Boggabri',
-                "Code": 'CF1_a',
+                'gauge' : '419001',
+                "pu" : 'Keepit to Boggabri',
+                "ewr": 'CF1_a',
                 "ewr_events" :  {  2010: [],
                                     2011: [],
                                     2012: [],
@@ -113,9 +113,9 @@ def event_items_to_process():
                                             (date(2020, 12, 5), 0.0),]]}
                                     },
                 {  "scenario" : 'observed',
-                'Gauge' : '419002',
-                "PlanningUnit" : 'Keepit to Boggabri',
-                "Code": 'CF1_a',
+                'gauge' : '419002',
+                "pu" : 'Keepit to Boggabri',
+                "ewr": 'CF1_a',
                 "ewr_events" : {  2010: [],
                                     2011: [],
                                     2012: [],
