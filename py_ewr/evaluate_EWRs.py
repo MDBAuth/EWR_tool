@@ -3858,9 +3858,12 @@ def get_achievements_connecting_events(events: Dict, unique_water_years:set)->Li
             else:
                 for i in range(len(events_info)-1):
                     start_first, _, length, _ = events_info[i]
-                    start_second, _, _, _ = events_info[i+1]
-                    gap = (start_second - start_first).days
-                    achievement_count += 1 if (gap >= 27 and gap <= 90 or length >= 90) else 0
+                    achievement_met = 0
+                    for j in range(i+1, len(events_info)):
+                        start_second, _, _, _ = events_info[j]
+                        gap = (start_second - start_first).days
+                        achievement_met += bool(gap >= 27 and gap <= 90 or length >= 90)
+                    achievement_count += bool(achievement_met)
                 achievements_per_years.append(achievement_count)
     return achievements_per_years
 
