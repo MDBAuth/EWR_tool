@@ -221,7 +221,7 @@ def get_MDBA_codes(model_type: str) -> pd.DataFrame:
     if model_type == 'Bigmod - MDBA':
         metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)#, encoding='windows-1252')
     if model_type == 'FIRM - MDBA':
-        metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)
+        metadata = pd.read_csv( BASE_PATH / 'model_metadata/EWR_Sitelist_FIRM_20250718.csv', engine = 'python', dtype=str)
 
     return metadata
   
