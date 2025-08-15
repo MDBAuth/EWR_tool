@@ -12,9 +12,9 @@ def test_ctf_handle():
     1. Ensure all parts of the function generate expected output
     '''
     # set up input data
-    PU = 'PU_0000283'
+    pu = 'PU_0000283'
     gauge = '410007'
-    EWR = 'CF1'
+    ewr = 'CF1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[0]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*10+[0]*345+[0]*1+[0]*9 + [0]*5+[0]*351+[0]*10}
@@ -22,7 +22,7 @@ def test_ctf_handle():
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
     # Send input data to test function:
-    PU_df, events = evaluate_EWRs.ctf_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.ctf_handle(pu, gauge, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df
     data = {'CF1_eventYears': [0,0,0,1], 'CF1_numAchieved': [0,0,0,1], 'CF1_numEvents': [0,0,0,1], 'CF1_numEventsAll': [0,0,0,1], 
       'CF1_maxInterEventDays': [0,0,0,0],  'CF1_maxInterEventDaysAchieved': [1,1,1,1], 'CF1_eventLength': [0.0,0.0,0.0,1461.0], 'CF1_eventLengthAchieved': [0.0,0.0,0.0,1461.0], 
@@ -51,9 +51,9 @@ def test_lowflow_handle():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up input data
-    PU = 'PU_0000283'
+    pu = 'PU_0000283'
     gauge = '410007'
-    EWR = 'BF1_a'
+    ewr = 'BF1_a'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[249]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[249]*345+[0]*1+[249]*17 + [0]*5+[249]*351+[249]*10}
@@ -61,7 +61,7 @@ def test_lowflow_handle():
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.lowflow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.lowflow_handle(pu, gauge, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output data - PU_df, and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [0,0,0,0],
             'BF1_a_maxInterEventDays': [0,0,0,0], 
@@ -91,9 +91,9 @@ def test_flow_handle():
     1. Ensure all parts of the function generate expected output
     '''
     # Setting up input data
-    PU = 'PU_0000283'
+    pu = 'PU_0000283'
     gauge = '410007'
-    EWR = 'SF1_S'
+    ewr = 'SF1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[250]*350+[450]*10+[0]*4 + 
@@ -105,7 +105,7 @@ def test_flow_handle():
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.flow_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.flow_handle(pu, gauge, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'SF1_S_eventYears': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
             'SF1_S_numAchieved': {2012: 0, 2013: 0, 2014: 0, 2015: 1}, 
@@ -144,13 +144,13 @@ def test_cumulative_handle():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up input data
-    PU = 'PU_0000040'
+    pu = 'PU_0000040'
     gauge = '418068'
     gauge_flows = ([0]*1+[0]*350+[10000]*1+[3000]*4 +[0]*9 + 
                    [0]*360+[450]*3+[19000]*1+[1000]*1 + 
                    [450]*5+[250]*345+[0]*1+[0]*13+[5000]*1 + 
                    [5000]*4+[450]*10+[0]*2+[450]*10+[250]*330+[450]*10)
-    EWR = 'OB3_S'
+    ewr = 'OB3_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                         gauge: gauge_flows}
@@ -158,7 +158,7 @@ def test_cumulative_handle():
     df_F = df_F.set_index('Date')
     PU_df = pd.DataFrame()
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.cumulative_handle(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.cumulative_handle(pu, gauge, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'OB3_S_eventYears': [1,0,0,0], 'OB3_S_numAchieved': [1,0,0,0], 'OB3_S_numEvents': [1,0,0,0], 'OB3_S_numEventsAll': [1,0,0,0], 
             'OB3_S_maxInterEventDays': [0, 0, 0, 0], 
@@ -206,9 +206,9 @@ def test_cumulative_handle():
 ])
 def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_df_data):
     # Set up input data
-    PU = 'PU_0000991'
+    pu = 'PU_0000991'
     gauge = '422016'
-    EWR = 'BBR2'
+    ewr = 'BBR2'
 
     EWR_table = qld_parameter_sheet
 
@@ -227,7 +227,7 @@ def test_cumulative_handle_qld(qld_parameter_sheet,expected_events, expected_PU_
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.cumulative_handle_qld(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.cumulative_handle_qld(pu, gauge, ewr, EWR_table, df_F, PU_df)
 
     expected_events = tuple([expected_events])
     for index, _ in enumerate(events):
@@ -241,9 +241,9 @@ def test_level_handle():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up input data
-    PU = 'PU_0000266'
+    pu = 'PU_0000266'
     gauge = '425022'
-    EWR = 'LLLF'
+    ewr = 'LLLF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
@@ -254,7 +254,7 @@ def test_level_handle():
     df_L = df_L.set_index('Date')
     PU_df = pd.DataFrame()
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df)
+    PU_df, events = evaluate_EWRs.level_handle(pu, gauge, ewr, EWR_table, df_L, PU_df)
     # Setting up expected output - PU_df and test
     data = {'LLLF_eventYears': [1,0,0,1], 'LLLF_numAchieved': [1,0,0,1], 'LLLF_numEvents': [1,0,0,1], 'LLLF_numEventsAll': [1,0,0,1], 
             'LLLF_maxInterEventDays': [0, 0, 0, 0], 
@@ -284,9 +284,9 @@ def test_nest_handle():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up input data
-    PU = 'PU_0000253'
+    pu = 'PU_0000253'
     gauge = '409025'
-    EWR = 'NestS1'
+    ewr = 'NestS1'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     # input data up df_L:
     # flows declining at acceptable rate:
@@ -319,7 +319,7 @@ def test_nest_handle():
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
     # Pass input data to test function:
-    PU_df, events = evaluate_EWRs.nest_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df)
+    PU_df, events = evaluate_EWRs.nest_handle(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'NestS1_eventYears': [1,0,0,0], 'NestS1_numAchieved': [1,0,0,0], 'NestS1_numEvents': [1,0,0,0], 'NestS1_numEventsAll': [1,2,2,2], 
             'NestS1_maxInterEventDays': [0, 0, 0, 0], 
@@ -366,10 +366,10 @@ def test_flow_handle_multi():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up input data
-    PU = 'PU_0000130'
+    pu = 'PU_0000130'
     gauge1 = '421090'
     gauge2 = '421088'
-    EWR = 'LF1'
+    ewr = 'LF1'
     gauge1_flows = ([0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*77+[1250]*5+[0]*229+[0]*55)
     gauge2_flows = ([0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*76+[1250]*5+[0]*230+[0]*55)
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
@@ -382,7 +382,7 @@ def test_flow_handle_multi():
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
     # Send input data to test function
-    PU_df, events = evaluate_EWRs.flow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.flow_handle_multi(pu, gauge1, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'LF1_eventYears': [1,0,1,0], 'LF1_numAchieved': [1,0,1,0], 'LF1_numEvents': [1,0,1,0], 'LF1_numEventsAll': [1, 1, 2, 1], 
             'LF1_maxInterEventDays': [0, 0, 0, 0], 
@@ -413,10 +413,10 @@ def test_lowflow_handle_multi():
     1. Ensure all parts of the function generate expected output
     '''
     # Input data
-    PU = 'PU_0000130'
+    pu = 'PU_0000130'
     gauge1 = '421090'
     gauge2 = '421088'
-    EWR = 'BF1_a'
+    ewr = 'BF1_a'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: [40]*76+[1250]*5+[40]*229+[40]*15+[0]*40 + [40]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [40]*75+[0]*50+[40]*230+[40]*10 + [0]*77+[40]*5+[0]*229+[40]*55,
@@ -427,7 +427,7 @@ def test_lowflow_handle_multi():
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
     # Pass input data to test function
-    PU_df, events = evaluate_EWRs.lowflow_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.lowflow_handle_multi(pu, gauge1, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'BF1_a_eventYears': [0,0,0,0], 'BF1_a_numAchieved': [0,0,0,0], 'BF1_a_numEvents': [0,0,0,0], 'BF1_a_numEventsAll': [1,0,0,0], 
             'BF1_a_maxInterEventDays': [0, 0, 0, 0], 
@@ -455,10 +455,10 @@ def test_ctf_handle_multi():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up the input data
-    PU = 'PU_0000130'
+    pu = 'PU_0000130'
     gauge1 = '421090'
     gauge2 = '421088'
-    EWR = 'CF'
+    ewr = 'CF'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10,
@@ -469,7 +469,7 @@ def test_ctf_handle_multi():
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
     # Pass input data to the test function
-    PU_df, events = evaluate_EWRs.ctf_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.ctf_handle_multi(pu, gauge1, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'CF_eventYears': [1,0,1,1], 'CF_numAchieved': [2,0,2,1], 'CF_numEvents': [2,0,2,1], 'CF_numEventsAll': [2,0,2,1],
             'CF_maxInterEventDays': [0, 0, 0, 0], 
@@ -501,7 +501,7 @@ def test_cumulative_handle_multi():
     1. Ensure all parts of the function generate expected output
     '''
     # Set up input data
-    PU = 'PU_0000132'
+    pu = 'PU_0000132'
     gauge1 = '421090'
     gauge2 = '421088'
     gauge1_flows = ([0]*1+[0]*260+[334]*90+[0]*5+[0]*9 + 
@@ -512,7 +512,7 @@ def test_cumulative_handle_multi():
                     [0]*310+[0]*3+[0]*1+[0]*1+[500]*50 + 
                     [500]*40+[0]*310+[0]*1+[0]*13+[0]*1 + 
                     [5000]*4+[500]*90+[500]*90+[450]*10+[0]*2+ [450]*10+[250]*150+[450]*10)
-    EWR = 'OB-WS1_S'
+    ewr = 'OB-WS1_S'
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                         gauge1: gauge1_flows,
@@ -523,7 +523,7 @@ def test_cumulative_handle_multi():
     df_L = pd.DataFrame()
     PU_df = pd.DataFrame()
     # Pass input data to test function
-    PU_df, events = evaluate_EWRs.cumulative_handle_multi(PU, gauge1, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.cumulative_handle_multi(pu, gauge1, ewr, EWR_table, df_F, PU_df)
     # Setting up expected output - PU_df - and testing
     data = {'OB-WS1_S_eventYears': [1,0,0,1], 'OB-WS1_S_numAchieved': [1,0,0,1], 'OB-WS1_S_numEvents': [1,0,0,1], 'OB-WS1_S_numEventsAll': [1,0,0,1],
             'OB-WS1_S_maxInterEventDays': [0, 0, 0, 0],
@@ -769,7 +769,7 @@ def test_check_weekly_drawdown(levels, EWR_info, iteration, event_length, expect
     assert result == expected_result
 
 
-# @pytest.mark.parametrize("gauge",[
+# @pytest.mark.parametrize('Gauge',[
 #     ("425010"),
 # ],)
 # def test_calc_sorter_wp(wp_df_F_df_L, wp_EWR_table, ewr_calc_config, gauge):
@@ -832,7 +832,7 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
     assert expeted_pu_df.shape[0] == PU_df_wp.shape[0]
 
 
-@pytest.mark.parametrize("data_for_df_F,EWR,main_gauge,expected_events,pu_df_data", [
+@pytest.mark.parametrize("data_for_df_F,ewr,main_gauge,expected_events,pu_df_data", [
     ({'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         'A4261002': (
                                [5000]*62 + [16500]*122 + [5000]*181 + 
@@ -877,10 +877,10 @@ def test_merge_weirpool_with_freshes(PU_df_wp, wp_freshes, freshes_eventYears, w
                             'CLLMM1b_missingDays': [0,0,0,0], 'CLLMM1b_totalPossibleDays': [365,365,365,366]}
                         ),
 ])
-def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
+def test_barrage_flow_handle(data_for_df_F, ewr, main_gauge, expected_events, pu_df_data, sa_parameter_sheet):
 
     # Set up input data
-    PU = 'PU_0000029'
+    pu = 'PU_0000029'
 
     EWR_table = sa_parameter_sheet
 	 
@@ -890,7 +890,7 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
     PU_df = pd.DataFrame()
     # Pass input data to test function:
 
-    PU_df, events = evaluate_EWRs.barrage_flow_handle(PU, main_gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.barrage_flow_handle(pu, main_gauge, ewr, EWR_table, df_F, PU_df)
     
     # Setting up expected output - PU_df - and testing
     index = pd.Index([2012, 2013, 2014, 2015])
@@ -933,10 +933,10 @@ def test_barrage_flow_handle(data_for_df_F, EWR, main_gauge, expected_events, pu
 ])
 def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_df_data):
     # Set up input data
-    PU = 'PU_0000029'
+    pu = 'PU_0000029'
     gauge = 'A4260527'
     barrage_gauges =  ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575']
-    EWR = 'CLLMM1c_P'
+    ewr = 'CLLMM1c_P'
     gauge_levels = (  [.55]*66 + [.8]*5 + [.6]*115 + [.55]*179 + 
                             [0]*365 + 
                             [0]*365 + 
@@ -954,7 +954,7 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
     PU_df = pd.DataFrame()
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.barrage_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df)
+    PU_df, events = evaluate_EWRs.barrage_level_handle(pu, gauge, ewr, EWR_table, df_L, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
     
@@ -992,9 +992,9 @@ def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_d
 ])
 def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
-    PU = 'PU_0000027'
+    pu = 'PU_0000027'
     gauge = 'A4261001'
-    EWR = 'IC1_P'
+    ewr = 'IC1_P'
 
     EWR_table = sa_parameter_sheet
 
@@ -1014,7 +1014,7 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.flow_handle_sa(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.flow_handle_sa(pu, gauge, ewr, EWR_table, df_F, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
     
@@ -1054,9 +1054,9 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
 ])
 def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
-    PU = 'PU_0000991'
+    pu = 'PU_0000991'
     gauge = '422015'
-    EWR = 'FD1'
+    ewr = 'FD1'
 
     EWR_table = qld_parameter_sheet
 
@@ -1076,7 +1076,7 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.flow_handle_check_ctf(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.flow_handle_check_ctf(pu, gauge, ewr, EWR_table, df_F, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
 
@@ -1113,9 +1113,9 @@ def test_flow_handle_check_ctf(qld_parameter_sheet, expected_events, expected_PU
 ])
 def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
-    PU = 'PU_0000991'
+    pu = 'PU_0000991'
     gauge = '422016'
-    EWR = 'BBR1_a'
+    ewr = 'BBR1_a'
 
     EWR_table = qld_parameter_sheet
 
@@ -1145,7 +1145,7 @@ def test_cumulative_handle_bbr(qld_parameter_sheet, expected_events, expected_PU
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.cumulative_handle_bbr(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df)
+    PU_df, events = evaluate_EWRs.cumulative_handle_bbr(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
 
@@ -1201,13 +1201,22 @@ def test_get_event_years_connecting_events(event_years, expected_results):
         [(date(2014, 10, 1) + timedelta(days=i), 0) for i in range(5)] , 
         [(date(2014, 10, 20) + timedelta(days=i), 0) for i in range(29)],
       ],
-     2015: [[(date(2012, 10, 1) + timedelta(days=i), 0) for i in range(90)]],
+     2015: [[(date(2015, 10, 1) + timedelta(days=i), 0) for i in range(90)]]
+     ,
+     2017: [[(date(2016, 10, 1) + timedelta(days=i*2), 0)] for i in range(80)],
+     2020: [
+        [(date(2020, 10, 1) + timedelta(days=i), 0) for i in range(10)],
+        [(date(2020, 10, 15) + timedelta(days=i), 0) for i in range(2)],
+        [(date(2020, 11, 1) + timedelta(days=i), 0) for i in range(10)],
+        [(date(2020, 11, 12) + timedelta(days=i), 0) for i in range(3)], 
+        [(date(2021, 1, 2) + timedelta(days=i), 0) for i in range(14)], 
+     ]
     },
-    [1,3,0,1]
+    [1,3,0,1,66,4]
     )
 ])
 def test_get_achievements_connecting_events(event_years, expected_results):
-    unique_water_years = [2012, 2013, 2014, 2015]
+    unique_water_years = [2012, 2013, 2014, 2015, 2017, 2020]
     result = evaluate_EWRs.get_achievements_connecting_events(event_years, unique_water_years)
     assert result == expected_results
 
@@ -1238,9 +1247,9 @@ def test_get_achievements_connecting_events(event_years, expected_results):
 ])
 def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
-    PU = 'PU_0000999'
+    pu = 'PU_0000999'
     gauge = '416011'
-    EWR = 'FrW2'
+    ewr = 'FrW2'
 
     EWR_table = qld_parameter_sheet
 
@@ -1266,7 +1275,7 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.water_stability_handle(PU, gauge, EWR, EWR_table, df_F, df_L, PU_df)
+    PU_df, events = evaluate_EWRs.water_stability_handle(pu, gauge, ewr, EWR_table, df_F, df_L, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
 
@@ -1305,9 +1314,9 @@ def test_water_stability_handle(qld_parameter_sheet, expected_events, expected_P
 ])
 def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
-    PU = 'PU_0000991'
+    pu = 'PU_0000991'
     gauge = '422015'
-    EWR = 'FrL2'
+    ewr = 'FrL2'
 
     EWR_table = qld_parameter_sheet
 
@@ -1324,7 +1333,7 @@ def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expe
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.water_stability_level_handle(PU, gauge, EWR, EWR_table, df_L, PU_df)
+    PU_df, events = evaluate_EWRs.water_stability_level_handle(pu, gauge, ewr, EWR_table, df_L, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
 
@@ -1362,9 +1371,9 @@ def test_water_stability_level_handle(qld_parameter_sheet, expected_events, expe
 ])
 def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_df_data):
      # Set up input data
-    PU = 'PU_0000999'
+    pu = 'PU_0000999'
     gauge = '416011'
-    EWR = 'FD1'
+    ewr = 'FD1'
 
     EWR_table = qld_parameter_sheet
 
@@ -1383,7 +1392,7 @@ def test_flow_handle_anytime(qld_parameter_sheet, expected_events, expected_PU_d
     
     # Pass input data to test function:
     
-    PU_df, events = evaluate_EWRs.flow_handle_anytime(PU, gauge, EWR, EWR_table, df_F, PU_df)
+    PU_df, events = evaluate_EWRs.flow_handle_anytime(pu, gauge, ewr, EWR_table, df_F, PU_df)
 
     assert PU_df.to_dict() == expected_PU_df_data
 
