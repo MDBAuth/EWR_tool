@@ -22,7 +22,7 @@ def test_match_MDBA_nodes():
     '''
     # TEST 1 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -49,7 +49,7 @@ def test_match_MDBA_nodes():
 
     # TEST 2 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Use
                 'EUSTDS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
@@ -79,7 +79,7 @@ def test_match_MDBA_nodes():
 
     # TEST 3 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 # 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -108,7 +108,7 @@ def test_match_MDBA_nodes():
 
     # TEST 4 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 # 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -135,7 +135,7 @@ def test_match_MDBA_nodes():
 
     # TEST 5 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS56-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS209348-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -148,7 +148,7 @@ def test_match_MDBA_nodes():
 
     # TEST 6 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS-5-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -175,7 +175,7 @@ def test_match_MDBA_nodes():
 
     # TEST 7 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'LOCK7US-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'LOCK7US-35-8': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -204,7 +204,7 @@ def test_match_MDBA_nodes():
 
     # TEST 8 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'LOCK7US-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'LOCK7US-35-8': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,

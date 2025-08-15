@@ -209,7 +209,7 @@ def get_components_map() -> dict:
         }
     return components_map
 
-def get_MDBA_codes() -> pd.DataFrame:
+def get_MDBA_codes(model_type: str) -> pd.DataFrame:
     '''
     Load MDBA model metadata file containing model nodes
     and gauges they correspond to
@@ -218,7 +218,10 @@ def get_MDBA_codes() -> pd.DataFrame:
         pd.DataFrame: dataframe for linking MDBA model nodes to gauges
 
     '''
-    metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)#, encoding='windows-1252')
+    if model_type == 'Bigmod - MDBA':
+        metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)#, encoding='windows-1252')
+    if model_type == 'FIRM - MDBA':
+        metadata = pd.read_csv( BASE_PATH / 'model_metadata/SiteID_MDBA.csv', engine = 'python', dtype=str)
 
     return metadata
   

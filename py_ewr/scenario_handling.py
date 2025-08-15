@@ -734,8 +734,15 @@ class ScenarioHandler:
                 data = build_MDBA_columns(data, header)
                 df_clean = cleaner_MDBA(data)
                 self.df_clean = df_clean
-                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
+                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes('Bigmod - MDBA'), self.parameter_sheet)
             
+            elif self.model_format == 'FIRM - MDBA':
+                data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
+                data = build_MDBA_columns(data, header)
+                df_clean = cleaner_MDBA(data)
+                self.df_clean = df_clean
+                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes('FIRM - MDBA'), self.parameter_sheet)
+
             elif self.model_format == 'res.csv - MDBA':
                 data = unpack_MDBA_res_csv_file(scenarios[scenario], 'Date', 'Field')
                 df_F, df_L, self.report = cleaner_res_csv_MDBA(data, self.parameter_sheet)
