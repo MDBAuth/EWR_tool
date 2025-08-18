@@ -1,0 +1,255 @@
+SITEID,AWRC,SITEID_Hydro,Description,Measurand,Type
+N/A,403220,DSBUFFA,Downstream lake Buffalo,,F
+N/A,403223,403223,"King River at Docker Road,Ovens River EWMP",,F
+N/A,403227,CHESHUN,King River at Cheshunt,,F
+N/A,403230,ROCKYPT,Ovens River - Rocky Point,,F
+PEECHEL,403241,PEECHEL,Ovens River - Peechelba East,82,F
+N/A,404214,KATAMAT,BROKEN CREEK - KATAMATITE,,F
+404216,404216,404216,Broken River at Caseys Weir Head Gauge,1,F
+404243,404243,404243,Broken River at downstream back creek junction,1,F
+MURCHIS,405200,MURCHIS,Goulburn River at Murchison,1,F
+MURCHIS,405200,,Goulburn River at Murchison,35,L
+TRAWOOL,405201,405201,Goulburn River @ Trawool,1,F
+TRAWOOL,405201,,Goulburn River @ Trawool,35,L
+SEYMOUR,405202,SEYMOUR,Goulburn River at Seymour,1,F
+SEYMOUR,405202,,Goulburn River at Seymour,35,L
+405203,405203,405203,Goulburn River Downstream Eildon,1,F
+MCCOYSB,405232,MCCOYSB,Goulburn River at McCoys Bridge,89,F
+MALMSRB,406200,406200,Coliban River at Malmsbury Rail Bridge,1,F
+ROCHEST,406202,ROCHEST,Campaspe River - Rochester,89,F
+EPPALOC,406207,406207,Campaspe River at Eppalock,1,F
+N/A,407202,KERANGW,Loddon River - Kerang,,F
+407203,407203,407203,Loddon River at Laanecoorie,1,F
+APPIN,407205,16LAV05,Loddon River @ Appin South,89,F
+CAIRNCU,407210,407210,Loddon River at Cairn Curran Reservoir,1,F
+LODDWR,407224,407224,Loddon River at Loddon Weir,1,F
+LODRSW,407229,407229,Loddon River at Serpentine Weir,1,F
+TULLARO,407248,407248,"Tullarop Creek at Tullarop Reservoir, Loddon River",1,F
+N/A,407249,407249,Birch Creek at Newlyn Reservoir (Tail Gauge),,F
+N/A,407295,407295,"Box Creek at Mansfield Bridge, Lodden River",,F
+DENILQ,409003,DENILQ,Edward River @ Deniliquin,1,F
+DOCTORS,409017,DOCTORS,River Murray at Doctors Point,1,F
+WAKREG,409019,WAKREG,Wakool River D/S Offtake Regulator,1,F
+YALLREG,409020,YALLREG,Yallakool Creek D/S Offtake Regulator,1,F
+STEVSWR,409023,STEVSWR,EDWARD RIVER D/S STEVENS WEIR,1,F
+COLLREG,409024,COLLREG,Colligen Creek D/S Offtake Regulator,1,F
+YARRADS,409025,YARRADS,River Murray D/S Yarrawonga Weir,1,F
+NIEMBAR,409048,NIEMBAR,Niemur River at Barham Rd,1,F
+WAKDEN,409072,WAKDEN,Wakool River at Deni Wakool Rd,1,F
+TORRDS,409207,TORRDS,River Murray -D/S Torrumbarry Weir,1,F
+410001,410001,11GFWAG,Murrumbidgee River at Wagga Wagga,1,F
+410005,410005,11TFNAR,Murrumbidgee River at Narrandera,1,F
+410006,410006,11GFTUM,Tumut River @ Tumut,1,F
+410007,410007,11YNOFF,Yanco Creek D/S Offtake Regulator,1,F
+410008,410008,11BURRD,Murrumbidgee River at D/S Burrinjuck dam,1,F
+N/A,410014,11CLMOR,Colombo Creek @ Morundah,,F
+410015,410015,11YNMOR,Yanco Creek @ Morundah,1,F
+410016,410016,11FGJER,Billabong Creek at Jerilderie,1,F
+410021,410021,11GFDAR,Murrumbidgee River at Darlington Point,1,F
+N/A,410033,11UBMIT,Murrumbidgee River at Mittagang,,F
+410040,410040,11FGMAU,Murrumbidgee River D/S Maude Weir,1,F
+410093,410093,11GFKYW,Old Man Ck @ Kywong,1,F
+410130,410130,11FGBLW,Murrumbidgee River D/S Balranald,1,F
+DARLOT,410134,11FGDAR,Billabong Creek at Darlot,1,F
+410700,410700,,Cotter River at Kiosk,1,F
+410738,410738,,Murrumbidgee River at Mt MacDonald,1,F
+410747,410747,,Cotter River below Bendora Dam,1,F
+410752,410752,,Cotter River below Corin Dam,1,F
+410761,410761,,Murrumbidgee River at Lobbs Hole,1,F
+FGCOWRA,412002,10COWRG,Lachlan River at Cowra,1,F
+FGFORBE,412004,10GIR04,Lachlan River - Forbes (Cottons Weir),1,F
+FGBOOLG,412005,10BOOLG,Lachlan River at Booligal,1,F
+FGCARGW,412011,10CARGW,Lachlan River at Lake Cargelligo Weir,1,F
+N/A,412012,10WILEF,"Willandra at Road Bridge, Lachlan",,F
+FGOFICK,412016,10OFISK,"Wallamundry Creek at O/T Island Creek, Lachlan",1,F
+FGHELEN,412033,412033,"Belubula River at Helenshome, Lachlan ",1,F
+FGJEMAL,412036,10JEMAG,Lachlan River at Jemalong Weir,1,F
+FGWILLA,412038,10WILAN,Lachlan River u/s Willandra Weir,1,F
+FGHILST,412039,10HILST,Lachlan River at Hillston Weir ,1,F
+N/A,412042,412042,"Willandra Creek at Willandra Homestead, Lachlan ",,F
+N/A,412046,412046,Wallaroi Creek upstream Worrongorra Weir ,,F
+LCARSTOR,412107,412107,Lake Cargelligo at Storage ,319,LL
+FGMRCOB,412122,412122,Merrimajeel Creek at Cobb Hwy ,1,F
+FGMGCOB,412124,412124,Muggabah Creek at Cobb Hwy ,1,F
+MERRWOF,412163,10MERRW,Merrowie Ck at Offtake ,1,F
+N/A,412188,412188,Nerathong Creek at Nerathong ,,F
+BOOBOFF,412189,10BOOBO,Booberoi Creek at Offtake ,1,F
+EUSTDS,414203,EUSTDS,River Murray D/S Euston Weir,1,F
+LOCK15U,414209,,River Murray at Lock 15 Euston,35,L
+MUNGNDI,416001,9INMUNG,Barwon River - Mungindi,1,F
+MASCOT,416207A,,Weir River @ Mascot ,1,F
+TALWOOD,416202A,,Weir River @ Talwood,1,F
+CLIFTON,416003,5FCLIFG,Tenterfield creek at Clifton ,1,F
+ASHFDG,416006,5ASHFDG,Severn River @ Ashford,1,F
+BONSHW,416007,5BONSHW,Dumaresq River @ Bonshaw Weir,1,F
+HAYSTCK,416008,5BEARRI,Beardy River at Haystack,1,F
+FWALLG,416010,5FWALLG,Macintyre River @ Wallangra,1,F
+ROSEN2,416011,5ROSEN2,Dumaresq River @ Roseneath,1,F
+N/A,416011,,Dumaresq River @ Roseneath,,L
+HOLDFG,416012,5HOLDFG,Macintyre River @ Holdfast (Yelarbon Crossing),1,F
+BOOBSND,416415A,,Macintyre River @ Booba Sands,1,F
+COLATAI,416020,5OTTLKI,Ottleys Creek at Coolatai ,1,F
+416027,416027,6GILGIL,Gil Gil Creek @ Weemelah,1,F
+DONALDS,416032,5FDONAG,Mole River at Donaldson ,1,F
+BOOMOFF,416037,5BOOMWG,Boomi River at Boomi Weir Offtake ,1,F
+N/A,416039,5GIFR03,Severn River @ Strathbogie,,F
+FARNBO,416310A,,Severn River @ Farnbo,1,F
+GLENARB,416040,416040,Dumaresq River at Glenarbon ,1,F
+FTERRG,416047,5FTERRG,Macintyre River @ Terrewah,1,F
+KANOWNA,416048,5KANWNG,Macintyre River @ Kanowna,1,F
+KANOWNA,416048,,Macintyre River @ Kanowna,35,L
+416050,416050,9GSPRES,Barwon River u/s Presbury Weir,1,F
+416027,416052,6GALLGF,Gil Gil Creek @ Galloway,1,F
+N/A,416072,416072,Whalan at Euraba ,,F
+GNDWIND,416201A,5FGOONG,Macintyre at Goondiwindi,1,F
+FENTON,417204A,,Moonie River @ Fenton,1,F
+NINDIGL,417201B,,Moonie River @ Nindingully,1,F
+FLINTON,417205A,,Moonie River @ Flinton,1,F
+GUNDABA,417001,417001_,MOONIE RIVER - GUNDABLOUIE,1,F
+418002,418002,6MOREEG,MEHI RIVER AT MOREE,1,F
+418004,418004,6YARMAN,Gwydir River @ Yarraman Bridge,1,F
+418011,418011,6CAROLG,"Carole downstream Regulator, Gwydir ",1,F
+418013,418013,6GRAVEG,GWYDIR RIVER - GRAVESEND ROAD BRIDGE,1,F
+418026,418026,6FDSCOP,GWYDIR RIVER D/S COPETON DAM,1,F
+418037,418037,6USCOMG,Mehi River D/S of Combadello weir,1,F
+418048,418048,6COMBCG,Moomin Creek @ Combadello Cutting,1,F
+418049,418049,6MALLWA,Mallowa Creek @ Regulator,1,F
+418052,418052,6GARAHG,Carole Creek Outflow -Gwydir System,1,F
+418053,418053,6BRAGCG,Gwydir River at Brageen Crossing,1,F
+418055,418055,6COLARG,Mehi River Near Collarenebri,1,F
+418063,418063,6TYRELG,Gwydir River d/s Tyreel Offtake Regulator,1,F
+418066,418066,6MILLWG,Gwydir River at Millewa,1,F
+418066,418068,6BALLBG,Mehi River @ u/s Ballin Boora Creek,1,F
+N/A,418070,418070,"Moomin at Moomin Plains, Gwydir ",,F
+418074,418074,418074,"Gingham at Teralba, Gwydir",1,F
+418076,418076,418076,"Gingham at Tillaloo , Gwydir",1,F
+418078,418078,418078,Gwydir at Allambie ,1,F
+418079,418079,418079,"Gingham at Gingham Brd, Gwydir ",1,F
+418085,418085,6GUNDAG,"Mehi downstream Gundare, Gwydir ",1,F
+419001,419001,419001,NAMOI RIVER - GUNNEDAH,1,F
+CARROLG,419006,7CARGPG,Peel River @Carrol Gap,1,F
+419007,419007,7KEEPGF,Namoi River D/S Keepit Dam,1,F
+419012,419012,419012,Namoi River at Boggabri,1,F
+PIALLAM,419015,7PIALMG,Peel River @ Piallamore,1,F
+MULLACR,419016,7MULCKT,Cockburn River @ Mulla Crossing,1,F
+419020,419020,419020,Manilla River at Brabri (Merriwee),1,F
+419021,419021,7BUGILB,Namoi River @ Bugilbone (Riverview),1,F
+419022,419022,419022,Namoi River at Manilla railway Bridge,1,F
+GOANGRA,419026,7GOANGR,Namoi River at Goangra,1,F
+419027,419027,4190270,Mooki River @ Breeza,1,F
+N/A,419028,419028,"Macdonald River at Retreat, Namoi ",,F
+419032,419032,4190320,Coxs Creek @ Boggabri,1,F
+419039,419039,7MOLLGF,NAMOI RIVER - MOLLEE,1,F
+CHAFDAM,419045,7CHAFDH,Peel River D/S Chaffey Dam,1,F
+WAMINDA,419049,7WAMIND,Pian Creek at Waminda,1,F
+419091,419091,7WALGET,Namoi River at Walgett,1,F
+N/A,420020,8COONAG,Castlereagh River at Gungalman,,F
+DUBBOMQ,421001,8GFDUBB,Macquarie River at Dubbo,1,F
+WARRENW,421004,8WARREN,Macquarie River @ Warren Weir,1,F
+MARTHAG,421011,8CARMAR,Marthaguy Creek at Carinda,1,F
+CARINDA,421012,8FGCARR,Macquarie River at Carinda (Bells Bridge),1,F
+YAMBLEB,421019,8FGYAMB,Cudgegong River @ Yamble Bridge,1,F
+OXLEYST,421022,8FGOXLS,MACQUARIE RIVER - OXLEY STATION,1,F
+GONGOLG,421023,8GONGOG,Bogan River at Gongolgon,1,F
+MAREBBK,421088,,Marebone Break at DS Marebone regulator,1,F
+MAREBWR,421090,8MAERGF,Macquarie River D/S Marebone Weir,1,F
+BAROONA,421127,8BAROOG,Macquarie River @ Baroona,1,F
+GUMCOWA,421146,GUMCOW,Gum Cowal @ Bifurcation,1,F
+422001,422001,9GSWALG,Barwon River at Walgett (Dangar Bridge),1,F
+422002,422002,9GSBREW,Barwon River at Brewarrina,1,F
+422003,422003,9GSCOLL,Barwon River at Collarenebri Main Channel,1,F
+422004,422004,9GSMOGI,Barwon River at Mogil Mogil,1,F
+422005,422005,BOKHARA,Bokhara River at Bokhara (Goodwins),1,F
+422013,422013,422013A,BIRRIE RIVER AT NEAR GOODOOGA,1,F
+422015,422015,BRENDA,Culgoa River at Brenda,1,F
+422015,422015,,Culgoa River at Brenda,35,L
+422016,422016,422016_,Narran River at Wilby Wilby (Belvedere),1,F
+422025,422025,9GSTARA,Barwon River @ Tara (u/s Namoi Junction),1,F
+422026,422026,9GSBOOR,Barwon River @ Boorooma (u/s Macquarie Junction),1,F
+422027,422027,9GSGEER,Barwon River @ Geera (d/s Macquarie Junction),1,F
+422028,422028,9GSBEEM,Barwon River @ Beemery (u/s Culgoa Junction),1,F
+422030,422030,422012_,Narran River at New Angledool 2,1,F
+422030,422030,,Narran River at New Angledool 2,35,L
+BACKLAK,422034,,Narran River at Back Lake,35,L
+422207A,422207A,HEBELBO,Ballandool R at Hebel Bollon Rd,1,F
+422209A,422209A,HEBEL,Bokhara R at Hebel,1,F
+422211A,422211A,422211U,Briarie River @ Woolerbilla-Hebel,1,F
+422213A,422213A,,Balonne River @ Weribone,1,F
+422316A,422316A,,Condamine River @ Cecil Plain,1,F
+422325A,422325A,,Condamine River @ Cotswold,1,F
+422336A,422336A,,Condamine River @ Brigalow,1,F
+422344A,422344A,,Condamine River @ Bedarra,1,F
+422404A,422404A,,Maranoa River @ Cashmere,1,F
+422350A,422350A,,Oakey Creek @ Fairview,1,F
+422502A,422502A,422502A,Nebine Creek @ Roseleigh Crossing,1,F
+423001,423001,423001_,Warrego River at Fords Bridge (Main Channel),1,F
+N/A,423002,,Warrego River at Fords Bridge (Bywash),,F
+423003,423004,423003_,Warrego @ Barringun No 2,1,F
+423203A,423203A,,Warrego River @ Wyandra,1,F
+423005,423005,02EOR08,Cuttaburra at Turra,1,F
+424201A,424201A,424201A,Paroo R at Caiwarro,1,F
+425003,425003,9GSBOUR,Darling River at Bourke,1,F
+425004,425004,9GSLOUT,Darling River at Louth,1,F
+BURTUND,425007,BURTUND,Darling River @ Burtundy,1,F
+425008,425008,9GSWILC,Main Darling Channel at Wilcannia,1,F
+WENTWTH,425010,WENTWTH,River Murray D/S Wentworth Weir,1,F
+WEIR32,425012,WEIR32,Darling River @ Weir 32,1,F
+WYCOT,425013,WYCOT,Great Darling Anabranch at Wycot,1,F
+PACKERS,425019,PACKERS,Redbank Creek D/S of Packers Crossing,1,F
+WETHER,425020,WETHER,Lake Wetherell,35,LL
+LKMENIN,425022,LKMENIN,Lake Menindee (include Lake Speculation),35,LL
+CAWNDIL,425023,CAWNDIL,Lake Cawndilla,35,LL
+425039,425039,9GSWARR,Darling River @ Warraweena (d/s Culgoa Junction),1,F
+425900,425900,9GSTILP,Darling River @ Tilpa,1,F
+N/A,__BCR2,14BIT02,Birch Creek Model Node BC_R2,,F
+N/A,__BCR3,__BCR3,Broken Creek Model Node Reach 3,,F
+N/A,__BR2,__BR2,Broken River EMWP,,F
+406203,__CW,406203,Campaspe Weir Model Node,1,F
+N/A,__LR4b,__LR4b,Loddon River EWMP,,F
+N/A,__LR4c,__LR4c,Loddon River EWMP,,F
+N/A,__LRS1,__LRS1,Loddon River EWMP,,F
+N/A,__LRS3,__LRS3,Loddon River EWMP,,F
+N/A,1AS,1AS,Yanga (South  Redbank),,F
+N/A,1ES,,"Yanga (South  Redbank), combined 1AS and 1ES regulators",,F
+LOCK9US,A4260501,,Murray upstream Lock 9  ,35,L
+LOCK9US,A4260505,LOCK8US,Murray downstream Lock 9  ,1,F
+LOCK8US,A4260506,,Murray upstream Lock 8 ,35,L
+LOCK8US,A4260507,LOCK7US,Murray downstream Lock 8 ,1,F
+LOCK7US,A4260508,,Murray upstream Lock 7 ,35,L
+LOCK7US,A4260509,LOCK6US,Murray downstream Lock 7 ,1,F
+MILANG,A4260524,MILANG,Lake Alexandrina at Milang,35,L
+N/A,A4260527,TAUWDS,Tauw barrage -Barrage Flow,,L
+N/A,A4260574,,Lake Alexandrina near Mulgundawa,,L
+N/A,A4260575,,Lake Alexandrina at Poltalloch Plains,,L
+COO_056,A4260633,PRNPTUS,Coorong at Parnka Point,35,L
+FLOWSA,A4261001,FLOWSA ,Flow at South Australia border,1,F
+BARRAGE,A4261002,BARRAGE,Barrages near the Murray Mouth,1,F
+N/A,A4261133,,Lake Alexandrina at Beacon 97,,L
+COO_092,A4261165,SCOO90K,Coorong NW Snipe Island,35,L
+COO_079,A4261209,SCOO67K,Coorong near Woods Well,35,L
+N/A,Bills Pipe,Bills Pipe,Bills Pipe,,F
+N/A,Eulimbah_Nimmie Creek,Eulimbah_Nimmie Creek,"Eulimbah, Nimmie Creek",,F
+N/A,Glen Dee,Glen Dee,Glen Dee,,F
+N/A,Pattos Pipe,Pattos Pipe,Pattos Pipe,,F
+N/A,Pump direct from river,Pump direct from river,Pump direct from river,,F
+N/A,Pumped from Yanga Lake,Pumped from Yanga Lake,Pumped from Yanga Lake,,F
+415201B,415201B,415201B,Wimmera River at Glenochy Weir Tail Gauge,1,F
+BELLFIE,,BELLFIE,Lake Bellfields - Wimmera Mallee,35,
+FYANSLK,,FYANSLK,Lake Fyans - Wimmera Mallee,35,
+N/A,,GLEWIM,Glenelg River Catchment to Wimmera-Mallee,,
+LONSDAL,,LONSDAL,Lake Lonsdale - Wimmera Mallee,35,
+PINELAK,,PINELAK,Pine Lake - Wimmera Mallee,35,
+TAYLOR,,TAYLOR,Lake Taylor - Wimmera Mallee,35,
+TOOLOON,,TOOLOON,Tooloondo Reservoir - Wimmera Mallee,35,
+N/A,,WANWIM,Wannon River Catchment to Wimmera-Mallee,,
+WARTOOK,,WARTOOK,Wartook Reservoir - Wimmera Mallee,35,
+WIMHOR,415200,WIMHOR,Wimmera River @ Horsham Weir (Victoria),1,F
+WIMMERA,,WIMMALL,Wimmera Mallee - Diversions,70,
+WIMMDIM,415256A,WIMMDIM,Wimmera River U/S of Dimboola,1,F
+N/A,,WMWALL,Wimmera Mallee Water Supply System,,
+N/A,,WMWIMM,Wimmera - Private Unreg. Irrigation,,
+415223,415223,415223,"Burnt Creek @ Wonwondah East,Wimmera River System EWMP",1,
+,__WRBC1,__WRBC1,Wimmera River System Model Node WR_BC1,,
+,__WRBC2,__WRBC2,Wimmera River System Model Node WR_BC2,,
+,__WRMK1,__WRMK1,Wimmera River System Model Node WR_MK1,,
+,__WRYC1,__WRYC1,Wimmera River System Model Node WR_YC1,,
