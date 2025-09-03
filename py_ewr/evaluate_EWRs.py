@@ -1302,7 +1302,7 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
             ctf_state['events'].append(new_event)
             ctf_state['in_event'] = True
 
-    if flow > 1:
+    else:
         if ctf_state['in_event']:
             ctf_state['in_event'] = False
             if len(ctf_state['events'][-1]) < period:
