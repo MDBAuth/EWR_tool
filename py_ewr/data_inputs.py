@@ -124,25 +124,26 @@ def get_EWR_table(file_path:str = None) -> dict:
     # Combine the filters and get the okay and bad EWRs
     bad_EWRs_idx = see_notes_idx | no_thresh_idx | no_duration_idx | DSF_idx
     
-    okay_EWRs = df[~bad_EWRs_idx]
-    bad_EWRs = df[bad_EWRs_idx]
+    okay_EWRs = df[~bad_EWRs_idx].copy(deep=True)
+    bad_EWRs = df[bad_EWRs_idx].copy(deep=True)
 
     # Here are all the prior assumptions of what to fill in to the parameter sheet if the value is missing.
     # The aim is to remove all of these and have the parameter sheet be correct, the tool should not run
     # the calculation of an ewr with missing (or extra?) values.
-    okay_EWRs['FlowThresholdMax'] = okay_EWRs['FlowThresholdMax'].replace({'':'1000000'})
-    okay_EWRs['LevelThresholdMax'] = okay_EWRs['LevelThresholdMax'].replace({'':'1000000'})
-    okay_EWRs['FlowThresholdMin'] = okay_EWRs['FlowThresholdMin'].replace({'':'0'})
-    okay_EWRs['LevelThresholdMin'] = okay_EWRs['LevelThresholdMin'].replace({'':'0'})
-    okay_EWRs['MaxInter-event'] = okay_EWRs['MaxInter-event'].replace({'':'0'})
-    okay_EWRs['WithinEventGapTolerance'] = okay_EWRs['WithinEventGapTolerance'].replace({'':'0'})
-    okay_EWRs['CtfThreshold'] = okay_EWRs['CtfThreshold'].replace({'':'5'})
-    okay_EWRs['NonFlowSpell'] = okay_EWRs['NonFlowSpell'].replace({'':'0'})
-    okay_EWRs['DrawDownRateWeek'] = okay_EWRs['DrawDownRateWeek'].replace({'30':'0.03'})
-    okay_EWRs['DrawDownRateWeek'] = okay_EWRs['DrawDownRateWeek'].replace({'30%':'0.03'}) #just for test, change the PS in that test to reflect this
-    okay_EWRs['DrawdownRate'] = okay_EWRs['DrawdownRate'].replace({'':'1000000'})
-    okay_EWRs['MaxSpell'] = okay_EWRs['MaxSpell'].replace({'':'1000000'})
-    okay_EWRs['MaxLevelChange'] = okay_EWRs['MaxLevelChange'].replace({'':'1000000'})
+    okay_EWRs.loc[:, 'FlowThresholdMax'] = (okay_EWRs['FlowThresholdMax'].replace('', '1000000'))
+    okay_EWRs.loc[:, 'LevelThresholdMax'] = (okay_EWRs['LevelThresholdMax'].replace('', '1000000'))
+    okay_EWRs.loc[:, 'FlowThresholdMin'] = (okay_EWRs['FlowThresholdMin'].replace('', '0'))
+    okay_EWRs.loc[:, 'LevelThresholdMin'] = (okay_EWRs['LevelThresholdMin'].replace('', '0'))
+    okay_EWRs.loc[:, 'MaxInter-event'] = (okay_EWRs['MaxInter-event'].replace('', '0'))
+    okay_EWRs.loc[:, 'WithinEventGapTolerance'] = (okay_EWRs['WithinEventGapTolerance'].replace('', '0'))
+
+    okay_EWRs.loc[:, 'CtfThreshold'] = (okay_EWRs['CtfThreshold'].replace('', '5'))
+    okay_EWRs.loc[:, 'NonFlowSpell'] = (okay_EWRs['NonFlowSpell'].replace('', '0'))
+    okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30', '0.03'))
+    okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30%', '0.03'))#just for test, change the PS in that test to reflect this
+    okay_EWRs.loc[:, 'DrawdownRate'] = (okay_EWRs['DrawdownRate'].replace('', '1000000'))
+    okay_EWRs.loc[:, 'MaxSpell'] = (okay_EWRs['MaxSpell'].replace('', '1000000'))
+    okay_EWRs.loc[:, 'MaxLevelChange'] = (okay_EWRs['MaxLevelChange'].replace('', '1000000'))
 
     okay_EWRs = modify_EWR_table(okay_EWRs)
     
