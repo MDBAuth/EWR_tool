@@ -4418,9 +4418,9 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # second dry spell
 				[6]*325 +		      
-				[0]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[2]*365 + 
+				[2]*365 + 
+				[2]*366),
 	{2012:[], 
 	 2013:[], 
 	 2014:[], 
@@ -4439,9 +4439,9 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # second dry spell
 				[6]*325 +		      
-				[0]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[2]*365 + 
+				[2]*365 + 
+				[2]*366),
 	{2012:[
 			[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
 		   	 [(date(2012,7,16) + timedelta(days=i), 20) for i in range(10)] +
@@ -4466,9 +4466,9 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # third dry spell
 				[6]*300 +		      
-				[0]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[2]*365 + 
+				[2]*365 + 
+				[2]*366),
 	{2012:[
 			[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
 		   	 [(date(2012,7,16) + timedelta(days=i), 20) for i in range(10)] +
@@ -4497,17 +4497,16 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # second dry spell		      
 				[6]*365 + 
-				[0]*365 + 
+				[2]*365 + 
 				[0]*366),
 	{2012:[], 
 	 2013:[
 		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
 		   	 [(date(2013,6,6) + timedelta(days=i), 20) for i in range(10)] +
-			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
+			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)] +
 	 ], 
 	 2014:[], 
-	 2015:[]}
-	
+	 2015:[(date(2015,7,1) + timedelta(days=i), 0) for i in range(366)]}
 	),
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
