@@ -1308,7 +1308,7 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
             if len(ctf_state['events'][-1]) < period:
                 ctf_state['events'].pop()
 
-            if len(ctf_state['events'][-1]) >= 2 * period:
+            elif len(ctf_state['events'][-1]) >= 2 * period:
                 full_failed_event = get_full_failed_event(flows, iteration, ctf_state)
                 # records the failed event inclusive of dry spells in the all event year dictionary
                 all_events[water_years[iteration]].append(full_failed_event)
