@@ -25,9 +25,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Mascot,416207A,B
 PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Talwood,416202A,BF-FD2,7,6,,,,1,1,1,5,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre Brook at Booba Sands,416415A,BF-FD2,7,6,,,,1,1,1,5,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
 PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A,BF-FD2,7,6,,,,1,1,1,5,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,BF-FD2,7,6,,,,1,1,1,5,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,
 PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,BF-FD2,7,6,,,,1,1,1,5,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,BF-FD2,7,6,,,,1,1,1,5,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
 PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,BF-FD2,7,6,,,,1,1,1,5,,1.4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,
@@ -48,9 +48,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Mascot,416207A,D
 PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Talwood,416202A,DR_S,7,6,,,,1,1,1,16000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre Brook at Booba Sands,416415A,DR_S,7,6,,,,1,1,1,28000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
 PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A,DR_S,7,6,,,,1,1,1,1000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,DR_S,7,6,,,,1,1,1,6100,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,DR_S,7,6,,,,1,1,1,14000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,DR_S,7,6,,,,1,1,1,7500,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF4
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,DR_S,7,6,,,,1,1,1,6100,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-EF4
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,DR_S,7,6,,,,1,1,1,14000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-EF4
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,DR_S,7,6,,,,1,1,1,7500,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-EF4
 PU_2600002,Mid Condamine,Condamine and Balonne,Balonne River at Weribone,422213A,DR_S,7,6,,,,1,1,1,82000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600003,Maranoa,Condamine and Balonne,Maranoa River at Cashmere,422404A,DR_S,7,6,,,,1,1,1,2300,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
 PU_2600002,Mid Condamine,Condamine and Balonne,Condamine River at Cotswold,422325A,DR_S,7,6,,,,1,1,1,47000,,3,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,,,Q-EF4
@@ -90,9 +90,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Mascot,416207A,D
 PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Talwood,416202A,DR1,7,6,,,,1,1,1,5,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF3
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre Brook at Booba Sands,416415A,DR1,7,6,,,,1,1,1,5,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF3
 PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A,DR1,7,6,,,,1,1,1,5,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF3
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,DR1,7,6,,,,1,1,1,5,,0.9,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF3
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,DR1,7,6,,,,1,1,1,5,,0.9,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF3
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,DR1,7,6,,,,1,1,1,5,,0.9,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-EF3
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,DR1,7,6,,,,1,1,1,5,,0.9,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-EF3
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,DR1,7,6,,,,1,1,1,5,,0.9,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-EF3
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,DR1,7,6,,,,1,1,1,5,,0.9,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-EF3
 PU_2400001,Border Rivers,Border Rivers and Moonie,Dumaresq River at Roseneath,416011,FD2,7,6,,,,1,8,8,5500,,1,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,-29.1155,151.4584,Q-NF1+Q-EF5+Q-NF2
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre River at Kanowna,416048,FD2,7,6,,,,1,8,8,1700,,1,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,-28.6961,149.388,Q-NF1+Q-EF5+Q-NF2
 PU_2400001,Border Rivers,Border Rivers and Moonie,Barwon River at Mungundi,416001,FD2,7,6,,,,1,8,8,8200,,1,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
@@ -100,9 +100,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Mascot,416207A,F
 PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Talwood,416202A,FD2,7,6,,,,1,8,8,2900,,1,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre Brook at Booba Sands,416415A,FD2,7,6,,,,1,8,8,8300,,1,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
 PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A,FD2,7,6,,,,1,8,8,1000,,1,,,F,,,,,,,,,,,,,,,,,,,,,,365,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,621,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,FD2,7,6,,,,1,8,8,14000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,621,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,621,,,,,,,,,,5,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF1+Q-EF5+Q-NF2
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,621,,,,,,,,,,5,F,QLD,Border Rivers,Moonie,,,Q-NF1+Q-EF5+Q-NF2
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,FD2,7,6,,,,1,8,8,14000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,621,,,,,,,,,,5,F,QLD,Border Rivers,Moonie,,,Q-NF1+Q-EF5+Q-NF2
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,621,,,,,,,,,,5,F,QLD,Border Rivers,Moonie,,,Q-NF1+Q-EF5+Q-NF2
 PU_2700001,Nebine Creek,Warrego Paroo Bulloo Nebine,Nebine Creek at Roseleigh Crossing,422502A,FD2,7,6,,,,1,8,8,8,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Condamine-Balonne,Nebine,-28.92255556,146.87775,Q-NF1+Q-EF5+Q-NF2
 PU_2900001,Paroo River,Warrego Paroo Bulloo Nebine,Paroo River at Caiwarro,424201A,FD2,7,6,,,,1,8,8,3412,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Paroo,Paroo,-28.68951667,144.7862833,Q-NF1+Q-EF5+Q-NF2
 PU_2800002,Cuttaburra Creek,Warrego Paroo Bulloo Nebine,Cuttaburra Creek at Turra,423005,FD2,7,6,,,,1,8,8,60,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,548,,,,,,,,,,5,F,QLD,Warrego,Warrego,-29.0573,145.4089,Q-NF1+Q-EF5+Q-NF2
@@ -149,9 +149,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Mascot,416207A,F
 PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Talwood,416202A,FR1,9,5,,,,1,8,8,2900,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF3
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre Brook at Booba Sands,416415A,FR1,9,5,,,,1,8,8,8300,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF3
 PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A,FR1,9,5,,,,1,8,8,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF3
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,FR1,9,5,,,,1,8,8,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF3
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,FR1,9,5,,,,1,8,8,14000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF3
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,FR1,9,5,,,,1,8,8,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,Q-NF3
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,FR1,9,5,,,,1,8,8,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-NF3
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,FR1,9,5,,,,1,8,8,14000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-NF3
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,FR1,9,5,,,,1,8,8,1000,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,Q-NF3
 PU_2600004,Lower Balonne,Condamine and Balonne,Culgoa River at Brenda,422015,FR1,9,5,,,,1,8,8,1500,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.029613,147.313464,Q-NF3
 PU_2700001,Nebine Creek,Warrego Paroo Bulloo Nebine,Nebine Creek at Roseleigh Crossing,422502A,FrC,10,4,,,,1,8,8,8,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Nebine,-28.92255556,146.87775,Q-NF3
 PU_2900001,Paroo River,Warrego Paroo Bulloo Nebine,Paroo River at Caiwarro,424201A,FrC,10,4,,,,1,8,8,3412,,4,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Paroo,Paroo,-28.68951667,144.7862833,Q-NF3
@@ -199,9 +199,9 @@ PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Mascot,416207A,S
 PU_2400001,Border Rivers,Border Rivers and Moonie,Weir River at Talwood,416202A,SF-FD2,7,6,,,,1,8,8,2900,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
 PU_2400001,Border Rivers,Border Rivers and Moonie,Macintyre Brook at Booba Sands,416415A,SF-FD2,7,6,,,,1,8,8,8300,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
 PU_2400002,Stanthorpe,Border Rivers and Moonie,Dumaresq River at Farnbro,416310A,SF-FD2,7,6,,,,1,8,8,1000,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,SF-FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,SF-FD2,7,6,,,,1,8,8,14000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
-PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,SF-FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Queensland Border Rivers,,,
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Fenton gauging station,417204A,SF-FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Nindigully gauging station,417201B,SF-FD2,7,6,,,,1,8,8,14000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,
+PU_2500001,Moonie River,Border Rivers and Moonie,the Moonie River at Flinton gauging station,417205A,SF-FD2,7,6,,,,1,8,8,1000,,1.7,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Border Rivers,Moonie,,,
 PU_2600004,Lower Balonne,Condamine and Balonne,Culgoa River at Brenda,422015,SF-FD2,7,6,,,,1,8,8,1500,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.029613,147.313464,
 PU_2600004,Lower Balonne,Condamine and Balonne,Briarie Creek at Wollerbilla-Hebel Road,422211A,SF-FD2,7,6,,,,1,8,8,690,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.90811667,147.6888667,
 PU_2600004,Lower Balonne,Condamine and Balonne,Ballandool River at Hebel Bollon Road,422207A,SF-FD2,7,6,,,,1,8,8,320,,1.5,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-28.93765,147.7523667,
@@ -1881,3 +1881,4 @@ PU_0000251,Toorale,Intersecting Streams,Fords Bridge_Fords Bridge Bywash,423001,
 PU_0000251,Toorale,Intersecting Streams,Fords Bridge_Fords Bridge Bywash,423001,WL4,7,6,20,10,30,1,0,0,1,,10,0,,V,,,75000,,30,423002,,,,,,,,,,,,,,,,,,,,,,,,,,,F,NSW,Warrego,Intersecting Streams,-29.7526,145.4276,NF1+NF3+NF7+NV1+NV2+NV4b+NV4e+WB1+WB2+WB3+WB4+WB5+EF3a+EF4+EF6
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Wilby Wilby,422016,WL1,7,6,85,70,100,1,0,0,126,,2,0,,V,,,25000,,60,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.4457,147.5289,Q-WB3+Q-NV1
 PU_2600004,Lower Balonne,Condamine and Balonne,Narran River at Wilby Wilby,422016,WL3,7,6,25,20,30,1,0,0,126,,6,0,,V,,,154000,,90,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,QLD,Condamine-Balonne,Condamine-Balonne,-29.4457,147.5289,Q-WB2+Q-WB3
+
