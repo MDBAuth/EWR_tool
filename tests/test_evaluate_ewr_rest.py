@@ -4503,10 +4503,10 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 	 2013:[
 		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
 		   	 [(date(2013,6,6) + timedelta(days=i), 20) for i in range(10)] +
-			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)] +
+			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
 	 ], 
 	 2014:[], 
-	 2015:[(date(2015,7,1) + timedelta(days=i), 0) for i in range(366)]}
+	 2015:[[(date(2015,7,1) + timedelta(days=i), 0) for i in range(366)]]}
 	),
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
