@@ -1307,13 +1307,13 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
             ctf_state['in_event'] = False
             if len(ctf_state['events'][-1]) < period:
                 ctf_state['events'].pop()
-				
+
             if len(ctf_state['events'][-1]) >= 2 * period:
-				full_failed_event = get_full_failed_event(flows, iteration, ctf_state)
-				# records the failed event inclusive of dry spells in the all event year dictionary
-				all_events[water_years[iteration]].append(full_failed_event)
-				ctf_state['events'].pop()
-					
+                full_failed_event = get_full_failed_event(flows, iteration, ctf_state)
+                # records the failed event inclusive of dry spells in the all event year dictionary
+                all_events[water_years[iteration]].append(full_failed_event)
+                ctf_state['events'].pop()
+
             if len(ctf_state['events']) == 2:
                 flows_in_between_dry_spells = get_flows_in_between_dry_spells(flows, iteration, ctf_state)
                 events_in_between_dry_spells = get_threshold_events(EWR_info, flows_in_between_dry_spells)
