@@ -4496,9 +4496,11 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[0]*15 + # first dry spell
 				[20]*10 + # in between
 				[0]*15 + # second dry spell		      
-				[6]*365 + 
+				[21]*365 + 
 				[2]*365 + 
-				[0]*366),
+				[0]*365 +
+                [3]*1                     
+         ),
 	{2012:[], 
 	 2013:[
 		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
@@ -4506,8 +4508,45 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
 	 ], 
 	 2014:[], 
-	 2015:[[(date(2015,7,1) + timedelta(days=i), 0) for i in range(366)]]}
+	 2015:[[(date(2015,7,1) + timedelta(days=i), 0) for i in range(365)]]}
 	),
+    (
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
+    },
+		 np.array( 
+				[6]*325 +
+				[0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell		      
+				[21]*365 + 
+				[2]*365 +
+				[0]*50 +
+				[30]*4 +
+				[0]*50 +
+				[2]*261 +
+                [3]*1                     
+         ),
+	{2012:[], 
+	 2013:[
+		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2013,6,6) + timedelta(days=i), 20) for i in range(10)] +
+			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
+	 ], 
+	 2014:[], 
+	 2015:[
+         [(date(2015,7,1) + timedelta(days=i), 0) for i in range(50)],
+         [(date(2015,8,24) + timedelta(days=i), 0) for i in range(50)],
+         [(date(2015,7,1) + timedelta(days=i), 0) for i in range(50)]+
+         [(date(2015,8,20) + timedelta(days=i), 30) for i in range(4)]+
+         [(date(2015,8,24) + timedelta(days=i), 0) for i in range(50)]
+     ]}
+	),
+    
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	'''
@@ -4525,8 +4564,16 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	all_events, _ = evaluate_EWRs.flow_calc_check_ctf(EWR_info, flows, water_years, dates, masked_dates)
 
 	for year in all_events:
+		print('EVENT')
+		print(all_events[year])
+		print('EXPECTED')
+		print(expected_all_events[year])
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
+			# print('EVENT')
+			# print(event)
+			# print('EXPECTED')
+			# print(expected_all_events[year][i])
 			assert event == expected_all_events[year][i]
 
 

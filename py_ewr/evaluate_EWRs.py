@@ -1257,12 +1257,12 @@ def get_full_failed_event_single(flows:list, iteration:int, ctf_state:dict)->lis
         event: failed event inclusive of dry spells
     """
 
-    first_day_first_event = ctf_state['events'][0][0][0]
-    last_day_second_event = ctf_state['events'][0][-1][0]
+    first_day_first_event = ctf_state['events'][-1][0][0]
+    last_day_second_event = ctf_state['events'][-1][-1][0]
     distance_iteration = (last_day_second_event - first_day_first_event).days + 1
     full_failed_event_flows = flows[iteration - (distance_iteration) : iteration]
     event = [ (first_day_first_event + timedelta(days=i), f)  for i, f in zip(range(distance_iteration), full_failed_event_flows)]
-
+    
     return event
 
 def get_threshold_events(EWR_info:dict, flows:list)->list:
@@ -1325,13 +1325,13 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
     else:
         if ctf_state['in_event']:
             ctf_state['in_event'] = False
-            if len(ctf_state['events'][-1]) < period:
-                ctf_state['events'].pop()
-
-            elif len(ctf_state['events'][-1]) >= 2 * period:
+            
+            if len(ctf_state['events'][-1]) >= (2 * period):
                 full_failed_event = get_full_failed_event_single(flows, iteration, ctf_state)
                 # records the failed event inclusive of dry spells in the all event year dictionary
                 all_events[water_years[iteration]].append(full_failed_event)
+            
+            if len(ctf_state['events'][-1]) < period:
                 ctf_state['events'].pop()
 
             if len(ctf_state['events']) == 2:
