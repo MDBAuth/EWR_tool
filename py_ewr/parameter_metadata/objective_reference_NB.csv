@@ -157,7 +157,7 @@ Gwydir,EF6,Support groundwater conditions to sustain groundwater-dependent biota
 Gwydir,EF7,Increase the contribution of flows into the Barwon-Darling from tributaries,Ecosystem Functions,NSW
 Gwydir,OS1,Maintain species richness and distribution of flow-dependent frog communities,Other Species,NSW
 Gwydir,OS2,Maintain successful breeding opportunities for flow-dependent frog species,Other Species,NSW
-Gwydir,OS3,Maintain water-dependent species richness,Other Species,NSW
+Gwydir,OS4,Maintain water-dependent species richness,Other Species,NSW
 Barwon-Darling,NF1,No loss of native fish species,Native Fish,NSW
 Barwon-Darling,NF2,Increase the distribution and abundance of short to moderate-lived generalist native fish species,Native Fish,NSW
 Barwon-Darling,NF3,Increase the distribution and abundance of short to moderate-lived floodplain specialist native fish species,Native Fish,NSW
@@ -212,3 +212,4 @@ Intersecting Streams,EF4,Support instream and floodplain productivity,Ecosystem 
 Intersecting Streams,EF5,"Support nutrient, carbon and sediment transport along channels, and exchange between channels and floodplains/wetlands",Ecosystem Functions,NSW
 Intersecting Streams,EF6,Support groundwater conditions to sustain groundwater-dependent biota,Ecosystem Functions,NSW
 Intersecting Streams,EF7,Increase contribution from Intersecting Streams to Barwon-Darling,Ecosystem Functions,NSW
+
