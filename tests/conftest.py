@@ -35,7 +35,7 @@ def detailed_results(pu_df):
 @pytest.fixture(scope="function")
 def item_to_process(pu_df):
     return { "scenario" : 'observed',
-                         "gauge" : '419001',
+                         'gauge' : '419001',
                          "pu" : 'Keepit to Boggabri',
                          "pu_df" : pu_df }
 
@@ -43,11 +43,11 @@ def item_to_process(pu_df):
 def items_to_process(pu_df):
 
     return [ { "scenario" : 'observed',
-                "gauge" : '419001',
+                'gauge' : '419001',
                 "pu" : 'Keepit to Boggabri',
                 "pu_df" : pu_df },
              { "scenario" : 'observed',
-                "gauge" : '419002',
+                'gauge' : '419002',
                 "pu" : 'Keepit to Boggabri',
                 "pu_df" : pu_df }
            ]
@@ -80,7 +80,7 @@ def yearly_events():
 @pytest.fixture(scope="function")
 def event_item_to_process():
     return  {  "scenario" : 'observed',
-                "gauge" : '419001',
+                'gauge' : '419001',
                 "pu" : 'Keepit to Boggabri',
                 "ewr": 'CF1_a',
                 "ewr_events" :  {  2010: [],
@@ -98,7 +98,7 @@ def event_item_to_process():
 @pytest.fixture(scope="function")
 def event_items_to_process():
     return  [{  "scenario" : 'observed',
-                "gauge" : '419001',
+                'gauge' : '419001',
                 "pu" : 'Keepit to Boggabri',
                 "ewr": 'CF1_a',
                 "ewr_events" :  {  2010: [],
@@ -113,7 +113,7 @@ def event_items_to_process():
                                             (date(2020, 12, 5), 0.0),]]}
                                     },
                 {  "scenario" : 'observed',
-                "gauge" : '419002',
+                'gauge' : '419002',
                 "pu" : 'Keepit to Boggabri',
                 "ewr": 'CF1_a',
                 "ewr_events" : {  2010: [],
@@ -250,7 +250,7 @@ def wp_EWR_table(parameter_sheet):
     wp_flow_level_gauges = ['414203', '414209', '425010', 'A4260501' ]
 
 
-    return parameter_sheet[(parameter_sheet["Gauge"].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2-WP","SF-WP"]))] 
+    return parameter_sheet[(parameter_sheet['Gauge'].isin(wp_flow_level_gauges))&(parameter_sheet["Code"].isin(["WP3","WP4","LF2-WP","SF-WP"]))] 
 
 
 @pytest.fixture(scope="function")
@@ -282,11 +282,11 @@ def PU_df_wp():
 @pytest.fixture(scope="function")
 def interEvent_item_to_process():
     return {'scenario': ['example_scenario']*9,
-            'gauge': ['409025']*6+['410007']*3, 
-            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'Gauge': ['409025']*6+['410007']*3, 
+            'PlanningUnit': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
             'State': ['NSW']*9,
             'SWSDLName': ['New South Wales Murray']*6+['Murrumbidgee']*3, 
-            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'Code': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
             'endDate': [date(1901, 8, 31), date(1901, 12, 15), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 10), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 2, 5)], 
@@ -297,9 +297,9 @@ def interEvent_item_to_process():
 @pytest.fixture(scope="function")
 def successfulEvent_item_to_process():
     return {'scenario': ['example_scenario']*9,
-            'gauge': ['409025']*6+['410007']*3, 
-            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
-            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'Gauge': ['409025']*6+['410007']*3, 
+            'PlanningUnit': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'Code': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1904, 1, 31)], 
             'endDate': [date(1901, 8, 31), date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 9), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 3, 5)], 
@@ -310,9 +310,9 @@ def successfulEvent_item_to_process():
 @pytest.fixture(scope="function")
 def duplicate_event_item_to_process():
     return {'scenario': ['example_scenario']*9,
-            'gauge': ['409025']*6+['410007']*3, 
-            'pu': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
-            'ewr': ['VF']*3+['LF2']*3+['SF2']*3,
+            'Gauge': ['409025']*6+['410007']*3, 
+            'PlanningUnit': ['Murray River - Yarrawonga to Barmah']*6+['Upper Yanco Creek']*3, 
+            'Code': ['VF']*3+['LF2']*3+['SF2']*3,
             'waterYear': ['1901', '1901', '1904']*3, 
             'startDate': [date(1901, 8, 1), date(1901, 8, 1), date(1904, 1, 31), date(1901, 8, 5), date(1901, 12, 1), date(1904, 1, 31), date(1901, 8, 10), date(1901, 12, 6), date(1901, 12, 6)], 
             'endDate': [date(1901, 8, 31), date(1901, 12, 2), date(1904, 3, 31), date(1901, 8, 25), date(1901, 12, 9), date(1904, 2, 15), date(1901, 8, 15), date(1901, 12, 8), date(1904, 3, 5)], 
@@ -328,12 +328,12 @@ def ewr_calc_config():
 @pytest.fixture(scope="function")
 def gauge_results():
     return {"scenario":
-            {"A4261002":{"pu":"DataFrame"},
-            "A4260527":{"pu":"DataFrame"},
-            "A4260633":{"pu":"DataFrame"},
-            "A4260634":{"pu":"DataFrame"},
-            "A4260635":{"pu":"DataFrame"},
-            "A4260637":{"pu":"DataFrame"}
+            {"A4261002":{"PlanningUnit":"DataFrame"},
+            "A4260527":{"PlanningUnit":"DataFrame"},
+            "A4260633":{"PlanningUnit":"DataFrame"},
+            "A4260634":{"PlanningUnit":"DataFrame"},
+            "A4260635":{"PlanningUnit":"DataFrame"},
+            "A4260637":{"PlanningUnit":"DataFrame"}
             }
     }
 

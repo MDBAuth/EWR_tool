@@ -4,7 +4,7 @@ import os
 
 from py_ewr.scenario_handling import ScenarioHandler
 
-#####--------------------- DEFINE EWR TOOL RUN FUCTION -------------------------#####
+#####--------------------- DEFINE ewr TOOL RUN FUCTION -------------------------#####
 
 def run_EWR_tool(
         scenario_name,
@@ -20,14 +20,14 @@ def run_EWR_tool(
     all_successful_interEvents = pd.DataFrame()
 
     for file in scenario_files:
-        # Running the EWR tool:
+        # Running the ewr tool:
         ewr_sh = ScenarioHandler(scenario_file=file, model_format=model_format)
 
         # Return each table and stitch the different files of the same scenario together:
-        # Table 1: Summarised EWR results for the entire timeseries
+        # Table 1: Summarised ewr results for the entire timeseries
         temp_ewr_results = ewr_sh.get_ewr_results()
         ewr_results = pd.concat([ewr_results, temp_ewr_results], axis=0)
-        # Table 2: Summarised EWR results, aggregated to water years:
+        # Table 2: Summarised ewr results, aggregated to water years:
         temp_yearly_ewr_results = ewr_sh.get_yearly_ewr_results()
         yearly_ewr_results = pd.concat(
             [yearly_ewr_results, temp_yearly_ewr_results], axis=0

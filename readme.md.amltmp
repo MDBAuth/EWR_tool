@@ -1,7 +1,7 @@
 [![CI](https://github.com/MDBAuth/EWR_tool/actions/workflows/tox-test.yml/badge.svg)]()
 
 
-### **EWR tool beta 0.0.8 README**
+### **ewr tool beta 0.0.8 README**
 
 **Installation**
 
@@ -15,17 +15,17 @@ pip install py-ewr
 
 **Purpose**
 This tool has two purposes:
-1. Operational: Tracking EWR success at gauges of interest in real time.
-2. Planning: Comparing EWR success between scenarios (i.e. model runs)
+1. Operational: Tracking ewr success at gauges of interest in real time.
+2. Planning: Comparing ewr success between scenarios (i.e. model runs)
 
 **Support**
 For issues relating to the script, a tutorial, or feedback please contact Martin Job at martin.job@mdba.gov.au or Joel Bailey at joel.bailey@mdba.gov.au
 
 **Notes on development of the tool**
-This is the version 0.0.6 of the EWR tool. Testing is still being undertaken.
+This is the version 0.0.6 of the ewr tool. Testing is still being undertaken.
 
 **Disclaimer**
-Every effort has been taken to ensure the EWR database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the database and/or EWR tool. Please report any bugs to the issues tab under this GitHub project so we can investigate further. 
+Every effort has been taken to ensure the ewr database represents the original EWRs from state long term water plans as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the database and/or ewr tool. Please report any bugs to the issues tab under this GitHub project so we can investigate further. 
 
 
 **Notes on development of the database**
@@ -40,7 +40,7 @@ NSW:
 Work is currently underway to migrate the EWRs in the remaining Basin catchments.
 
 **Input data**
-- EWR information: This tool accesses the EWRs in the Environmental Assets & Functions Database (EAFD)
+- ewr information: This tool accesses the EWRs in the Environmental Assets & Functions Database (EAFD)
 - Climate data from the AWRA-L model
 - Gauge data from the relevant state websites
 - Scenario data input by the user
