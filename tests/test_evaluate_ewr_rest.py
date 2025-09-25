@@ -4522,12 +4522,12 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[6]*325 +
 				[0]*15 + # first dry spell
 				[20]*10 + # in between
-				[0]*15 + # second dry spell		      
+				[0]*15 + # second dry spell #1st event      
 				[21]*365 + 
 				[2]*365 +
-				[0]*50 +
-				[30]*4 +
-				[0]*50 +
+				[0]*50 + #2nd event (2x non_flow_spell)
+				[30]*4 + #2nd+notlongenough+3rd is its own 4th event
+				[0]*50 + #3rd event (2x non_flow_spell)
 				[2]*261 +
                 [3]*1                     
          ),
@@ -4546,6 +4546,36 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
          [(date(2015,8,24) + timedelta(days=i), 0) for i in range(50)]
      ]}
 	),
+    ## 6th test for final day edge case
+    (
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
+    },
+		 np.array( 
+				[6]*325 +
+				[5]*15 + 
+				[20]*10 +
+				[5]*15 +    
+				[21]*365 + 
+				[2]*365 +
+				[5]*50 +
+				[30]*4 +
+				[5]*50 +
+				[2]*211 +
+				[3]*1  +
+				[0]*50  #event we finish in
+         ),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[
+         [(date(2016,5,12) + timedelta(days=i), 0) for i in range(49)]
+     ]}        
+	)
     
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
@@ -4554,6 +4584,8 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 		2. Test a unsuccessful fish dispersal (RECORD)
 		3. Test a consecutive unsuccessful fish dispersal (RECORD 2 overlapping events)
 		4. Test a unsuccessful fish dispersal (RECORD) over a year boundary
+		5. Test multiple overlapping events (RECORD ALL 3)
+		6. Test final day is still an event edge case (RECORD)
 	'''
 	
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
@@ -4570,10 +4602,6 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 		print(expected_all_events[year])
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
-			# print('EVENT')
-			# print(event)
-			# print('EXPECTED')
-			# print(expected_all_events[year][i])
 			assert event == expected_all_events[year][i]
 
 

@@ -1289,7 +1289,7 @@ def get_threshold_events(EWR_info:dict, flows:list)->list:
         events.append(current_sublist)
     return events
 
-def process_checks_once_ctf_period_over(EWR_info: dict, iteration: int, flows: List, all_events: dict, ctf_state: dict) -> tuple:
+def process_checks_once_ctf_period_over(EWR_info: dict, iteration: int, flows: List, water_years: np.array, all_events: dict, ctf_state: dict) -> tuple:
     '''
     Each time a cease to flow period is finished these are the checks that are made. It also gets called on the end of the time series to check if we end in an event.
     '''
@@ -1351,7 +1351,7 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
             ctf_state['in_event'] = True
     else:
         if ctf_state['in_event']:
-            all_events, ctf_state = process_checks_once_ctf_period_over(EWR_info, iteration, flows, all_events, ctf_state)
+            all_events, ctf_state = process_checks_once_ctf_period_over(EWR_info, iteration, flows, water_years, all_events, ctf_state)
         
     return all_events, ctf_state
 
@@ -2970,7 +2970,8 @@ def flow_calc_check_ctf(EWR_info: dict, flows: np.array, water_years: np.array, 
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
-        all_events, ctf_state = process_checks_once_ctf_period_over(EWR_info, -1, flows, all_events, ctf_state)
+        if ctf_state['in_event']:
+            all_events, ctf_state = process_checks_once_ctf_period_over(EWR_info, -1, flows, water_years, all_events, ctf_state)
                 
     durations.append(EWR_info['duration'])
 
