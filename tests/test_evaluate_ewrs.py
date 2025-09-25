@@ -1034,20 +1034,22 @@ def test_flow_handle_sa(sa_parameter_sheet, expected_events, expected_PU_df_data
         2014:[ [(date(2012,7,1) + timedelta(days=i), 0) for i in range(365)] +
 		   	 [(date(2013,7,1) + timedelta(days=i), 19) for i in range(10)] +
 			 [(date(2013,7,11) + timedelta(days=i), 0) for i in range(365)]], 
-        2015:[]},
-{'FD1_eventYears': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
- 'FD1_numAchieved': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
- 'FD1_numEvents': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
- 'FD1_numEventsAll': {2012: 0, 2013: 0, 2014: 1, 2015: 0}, 
+        2015:[ [(date(2013,7,11) + timedelta(days=i), 0) for i in range(365)] +
+		   	 [(date(2014,7,11) + timedelta(days=i), 6) for i in range(355)] +
+			 [(date(2015,7,1) + timedelta(days=i), 0) for i in range(365)]]},
+{'FD1_eventYears': {2012: 0, 2013: 0, 2014: 1, 2015: 1}, 
+ 'FD1_numAchieved': {2012: 0, 2013: 0, 2014: 1, 2015: 1}, 
+ 'FD1_numEvents': {2012: 0, 2013: 0, 2014: 1, 2015: 1}, 
+ 'FD1_numEventsAll': {2012: 0, 2013: 0, 2014: 1, 2015: 1}, 
  'FD1_maxInterEventDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
  'FD1_maxInterEventDaysAchieved': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
- 'FD1_eventLength': {2012: 0.0, 2013: 0.0, 2014: 740.0, 2015: 0.0}, 
- 'FD1_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 740.0, 2015: 0.0}, 
- 'FD1_totalEventDays': {2012: 0, 2013: 0, 2014: 740, 2015: 0}, 
- 'FD1_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 740, 2015: 0}, 
- 'FD1_maxEventDays': {2012: 0, 2013: 0, 2014: 740, 2015: 0}, 
- 'FD1_maxRollingEvents': {2012: 365, 2013: 730, 2014: 740, 2015: 0},
- 'FD1_maxRollingAchievement': {2012: 1, 2013: 1, 2014: 1, 2015: 0}, 
+ 'FD1_eventLength': {2012: 0.0, 2013: 0.0, 2014: 740.0, 2015: 1085.0}, 
+ 'FD1_eventLengthAchieved': {2012: 0.0, 2013: 0.0, 2014: 740.0, 2015: 1085.0}, 
+ 'FD1_totalEventDays': {2012: 0, 2013: 0, 2014: 740, 2015: 1085},
+ 'FD1_totalEventDaysAchieved': {2012: 0, 2013: 0, 2014: 740, 2015: 1085}, 
+ 'FD1_maxEventDays': {2012: 0, 2013: 0, 2014: 740, 2015: 1085}, 
+ 'FD1_maxRollingEvents': {2012: 365, 2013: 730, 2014: 740, 2015: 1085},
+ 'FD1_maxRollingAchievement': {2012: 1, 2013: 1, 2014: 1, 2015: 1}, 
  'FD1_missingDays': {2012: 0, 2013: 0, 2014: 0, 2015: 0}, 
  'FD1_totalPossibleDays': {2012: 365, 2013: 365, 2014: 365, 2015: 366}}
     )

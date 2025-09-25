@@ -1289,6 +1289,35 @@ def get_threshold_events(EWR_info:dict, flows:list)->list:
         events.append(current_sublist)
     return events
 
+def process_checks_once_ctf_period_over(EWR_info: dict, iteration: int, flows: List, water_years: np.array, all_events: dict, ctf_state: dict) -> tuple:
+    '''
+    Each time a cease to flow period is finished these are the checks that are made. It also gets called on the end of the time series to check if we end in an event.
+    '''
+    ctf_state['in_event'] = False
+
+    if len(ctf_state['events'][-1]) >= (2 * EWR_info["non_flow_spell"]):
+        full_failed_event = get_full_failed_event_single(flows, iteration, ctf_state)
+        # records the failed event inclusive of dry spells in the all event year dictionary
+        all_events[water_years[iteration]].append(full_failed_event)
+
+    if len(ctf_state['events'][-1]) < EWR_info["non_flow_spell"]:
+        ctf_state['events'].pop()
+
+    if len(ctf_state['events']) == 2:
+        flows_in_between_dry_spells = get_flows_in_between_dry_spells(flows, iteration, ctf_state)
+        events_in_between_dry_spells = get_threshold_events(EWR_info, flows_in_between_dry_spells)
+        at_least_one_dispersal_opportunity = any([len(event) >= EWR_info['min_event'] for event in events_in_between_dry_spells])
+        if at_least_one_dispersal_opportunity:
+            ctf_state['events'].pop(0)
+        if not at_least_one_dispersal_opportunity:
+            full_failed_event = get_full_failed_event(flows, iteration, ctf_state)
+            # records the failed event inclusive of dry spells in the all event year dictionary
+            all_events[water_years[iteration]].append(full_failed_event)
+            ctf_state['events'].pop(0)
+
+    return all_events, ctf_state
+
+
 def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dict, water_years: np.array, flow_date: date, ctf_state: dict) -> tuple:
     '''Checks daily flow against ewr threshold and records dry spells
     in the ctf_state dictionary in the events key.
@@ -1310,7 +1339,6 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
         tuple: all_events, ctf_state
 
     '''
-    period = EWR_info["non_flow_spell"]
     flow = flows[iteration]
     if flow <= EWR_info["ctf_threshold"]:
         threshold_flow = (get_index_date(flow_date), flow)
@@ -1321,30 +1349,9 @@ def flow_check_ctf(EWR_info: dict, iteration: int, flows: List,  all_events: dic
             new_event.append(threshold_flow)
             ctf_state['events'].append(new_event)
             ctf_state['in_event'] = True
-
     else:
         if ctf_state['in_event']:
-            ctf_state['in_event'] = False
-            
-            if len(ctf_state['events'][-1]) >= (2 * period):
-                full_failed_event = get_full_failed_event_single(flows, iteration, ctf_state)
-                # records the failed event inclusive of dry spells in the all event year dictionary
-                all_events[water_years[iteration]].append(full_failed_event)
-            
-            if len(ctf_state['events'][-1]) < period:
-                ctf_state['events'].pop()
-
-            if len(ctf_state['events']) == 2:
-                flows_in_between_dry_spells = get_flows_in_between_dry_spells(flows, iteration, ctf_state)
-                events_in_between_dry_spells = get_threshold_events(EWR_info, flows_in_between_dry_spells)
-                at_least_one_dispersal_opportunity = any([len(event) >= EWR_info['min_event'] for event in events_in_between_dry_spells])
-                if at_least_one_dispersal_opportunity:
-                    ctf_state['events'].pop(0)
-                if not at_least_one_dispersal_opportunity:
-                    full_failed_event = get_full_failed_event(flows, iteration, ctf_state)
-                    # records the failed event inclusive of dry spells in the all event year dictionary
-                    all_events[water_years[iteration]].append(full_failed_event)
-                    ctf_state['events'].pop(0)
+            all_events, ctf_state = process_checks_once_ctf_period_over(EWR_info, iteration, flows, water_years, all_events, ctf_state)
         
     return all_events, ctf_state
 
@@ -2963,7 +2970,9 @@ def flow_calc_check_ctf(EWR_info: dict, flows: np.array, water_years: np.array, 
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
-        all_events, ctf_state = flow_check_ctf(EWR_info, -1, flows, all_events, water_years, flow_date, ctf_state)   
+        if ctf_state['in_event']:
+            all_events, ctf_state = process_checks_once_ctf_period_over(EWR_info, -1, flows, water_years, all_events, ctf_state)
+                
     durations.append(EWR_info['duration'])
 
     return all_events, durations
