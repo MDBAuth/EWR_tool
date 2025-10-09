@@ -99,7 +99,7 @@ def get_EWR_table(file_path:str = None) -> dict:
                           'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
                           'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
                           'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType'],
-                    dtype='str'#, encoding='cp1252'
+                    dtype='str', encoding='cp1252'
                     )
 
     df = df.replace('?','')
