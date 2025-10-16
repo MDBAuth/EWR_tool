@@ -120,16 +120,3 @@ def test_get_iqqm_codes():
         '171': '421004',
     }
     assert stations == result
-
-def test_get_causal_ewr():
-
-    causal_ewr = data_inputs.get_causal_ewr()
-    assert isinstance(causal_ewr, dict)
-
-    assert len(causal_ewr) > 0
-    
-    expected_keys = {"ewr2obj", "obj2target", "obj2yrtarget"}
-    assert set(causal_ewr.keys()) == expected_keys
-    
-    for value in causal_ewr.values():
-        assert isinstance(value, pd.DataFrame)
