@@ -204,6 +204,8 @@ Every effort has been taken to ensure the ewr database represents the original E
 **Notes on development of the dataset of EWRs**
 The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state LTWPs and EWMPs to the machine readable format found in the parameter sheet within this tool. 
 
+Environmental Water Requirements (EWRs) in the tool are subject to change when the relevant documents including Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) are updated or move from draft to final versions. LTWPs that are currently in draft form include the ACT and the upper Murrumbidgee section of the NSW Murrumbidgee LTWP.
+
 **Compatibility**
 
 NSW:
