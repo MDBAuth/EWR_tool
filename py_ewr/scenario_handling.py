@@ -755,7 +755,7 @@ class ScenarioHandler:
                 data, header = unpack_model_file(scenarios[scenario], 'Date', 'Field')
                 data = build_NSW_columns(data, header)
                 df_clean = cleaner_NSW(data)
-                df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes())
+                df_F, df_L = match_NSW_nodes(df_clean, data_inputs.get_NSW_codes(), self.parameter_sheet)
 
             elif self.model_format == 'IQQM - netcdf':
                 df_unpacked = unpack_netcdf_as_dataframe(scenarios[scenario])
