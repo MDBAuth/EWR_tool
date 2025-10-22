@@ -8,18 +8,12 @@
 ### **Notes on recent version updates**
 - Including metadata report (this is still being ironed out and tested)
 - CLLMM_c and CLLMM_d ewrs are now able to be calculated without all barrage level gauges being present in the model file. 
-- Including draft objective mapping files in the package (see below sub heading **Objective mapping** for more information). Objective mapping has been therefore pulled out of the parameter sheet
+- New format of objective mapping includes the adding of ojective mapping back into the parameter sheet. 
 - Including an example parallel processing script for running the ewr tool
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
 - Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet
-- ten thousand year handling - this has been brought back online.
-- Remove TQDM loading bars
-- Adding new model format handling - 'IQQM - netcdf'
-- Standard time-series handling added - each column needs a gauge, followed by and underscore, followed by either flow or level (e.g. 409025_flow). This handling also has missing date filling - so any missing dates will be filled with NaN values in all columns.
-- bug fixes: spells of length equal to the minimum required spell length were getting filtered out of the successful events table and successful interevents table, fixed misclassification of some gauges to flow, level, and lake level categories
-- New EWRs: New Qld EWRs - SF_FD and BF_FD used to look into the FD EWRs in closer detail.
-- Adding state and Surface Water SDL (SWSDL) to py-ewr output tables
+- 
 
 ### **Installation**
 
@@ -37,7 +31,8 @@ pip install py-ewr
 ``` 
 
 ### Option 1: Running the observed mode of the tool
-The ewr tool will use a second program called gauge getter to first download the river data at the locations and dates selected and then run this through the ewr tool
+The ewr tool will use a second program called gauge getter to first download the river data at the locations and dates selected and then run this through the ewr tool.
+For more information please visit the [MDBA Gauge Getter][https://github.com/MDBAuth/MDBA_Gauge_Getter] github page. 
 
 ```python
 
@@ -114,14 +109,16 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 #USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Minimum 1 scenario and 1 related file required
-scenarios = {'Scenario1': ['file/location/1', 'file/location/2', 'file/location/3'],
-             'Scenario2': ['file/location/1', 'file/location/2', 'file/location/3']}
+scenarios = {'Scenario1': ['path/to/file', 'path/to/file', 'path/to/file'],
+             'Scenario2': ['path/to/file', 'file/location/2', 'file/location/3']}
 
 model_format = 'Bigmod - MDBA'
+
 
 # END USER INPUT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 ```
+File names will be incorporated into the Scenario column of the ewr tool output tables for tracebility of ewr tool output and corresponding model file. In the code written below, scenario name will be appendeded to the file name. eg. Scenario_name1_all_results.csv, therefore it is suggested to have informative scenario names that can traceback to your model files as well.
 
 ``` python
 from py_ewr.scenario_handling import ScenarioHandler
@@ -228,7 +225,9 @@ NSW:
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
 **Objective mapping**
-Objective mapping csv files are now included in the ewr tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
-- ewr2obj.csv: For each planning unit, gauge, ewr combination there are either one or many env_obj codes. These env_obj codes come under one of five different theme level targets (Native Fish, Native vegetation, Waterbirds, Other species or Ecosystem functions)
-- obj2target.csv: env_obj's are unique to their planning unit in the LTWP (noting there are often a lot of similarities between env_obj's in the same states). The plain english wording of the env objectives is also contained in this csv. The LTWP, planning unit and env_obj rows are repeated for each specific goal related to that LTWP, planning unit and env_obj. 
-- obj2yrtarget.csv: The environmental objectives are related to 5, 10 and 20 year targets
+Objective mapping Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
+
+obj_reference.csv
+
+Contains the individual environmnetal objectives listed in the 'env_obj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName).
+the function get_obj_mapping() is available to automatically merge the information from obj_reference.csv with the parameter sheet to link these objectives with their specific ewr_codes.
