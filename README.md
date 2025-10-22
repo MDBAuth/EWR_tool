@@ -114,14 +114,15 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 #USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Minimum 1 scenario and 1 related file required
-scenarios = {'Scenario1': ['file/location/1', 'file/location/2', 'file/location/3'],
-             'Scenario2': ['file/location/1', 'file/location/2', 'file/location/3']}
+scenarios = {'Scenario_name1': ['path/to/file', 'path/to/file', 'path/to/file'],
+             'Scenario_name2': ['path/to/file', 'path/to/file', 'path/to/file']}
 
 model_format = 'Bigmod - MDBA'
 
 # END USER INPUT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 ```
+File names will be incorporated into the Scenario column of the ewr tool output tables for tracebility of ewr tool output and corresponding model file. In the code written below, scenario name will be appendeded to the file name. eg. Scenario_name1_all_results.csv, therefore it is suggested to have informative scenario names that can traceback to your model files as well. 
 
 ``` python
 from py_ewr.scenario_handling import ScenarioHandler
