@@ -183,7 +183,14 @@ for scenario_name, scenario_list in scenarios.items():
 
 
 ```
-
+#### Optional arugments for ScenarioHandler
+```
+        ewr_sh = ScenarioHandler(scenario_file = file, 
+                                model_format = model_format,
+                                parameter_sheet = parameter_sheet,
+                                calc_config_path = calc_config_path)
+```
+You may add a custom parameter sheet and or calc_config_file to your EWR tool run using the ```paramter_sheet``` and ```calc_config_path``` arguments.  These arguments Please check this ewr_calc_config.json file found [here] [https://github.com/MDBAuth/EWR_tool/blob/QA_checking_merge/py_ewr/parameter_metadata/ewr_calc_config.json] to see if any EWRs in your custom paramter sheet are not represented in the calc_config_file. If they are not, they need to be added. For an EWR to be calculated, it must be found in both calc_config.json and the parameter sheet.
 
 ### **Purpose**
 This tool has two purposes:
