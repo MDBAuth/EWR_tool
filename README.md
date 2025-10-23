@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.3.7 README**
+### **ewr tool version 2.3.8 README**
 
 ### **Notes on recent version updates**
 
@@ -12,16 +12,20 @@
 - New EWRs: New Qld EWRs - SF_FD and BF_FD used to look into the FD EWRs in closer detail.
 - Adding state and Surface Water SDL (SWSDL) to py-ewr output tables
 -  Including metadata report (this is still being ironed out and tested)
+-  New handling capabilities for FIRM model formated files
 
-#### parameter sheet and objective mapping
+#### Model metadata
+- Added new FIRM ID file mapping FIRM ID to gauge number.
+
+#### parameter metadata
 - Updated parameter sheet
--  Fix SDL resource unit mapping in the parameter sheet
+- Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet
 - Added in model handling for FIRM model outputs
 - Various minor variable renamings for consistency
 - Renamed MaxLevelRise to MaxLevelChange
 - Removed AnnualFlowSum column from parameter sheet
-- New format of objective mapping includes the adding of objective mapping back into the parameter sheet.
+- New format of objective mapping includes the adding of objective mapping back into the parameter sheet and one secondary dataframe (objective_reference.csv) in parameter metadata.
 
 ### **Installation**
 
@@ -69,7 +73,7 @@ ewr_oh = ObservedHandler(gauges=gauges, dates=dates)
 ewr_results = ewr_oh.get_ewr_results()
 
 # Table 2: Summarised ewr results, aggregated to water years:
-yearly_ewr_results = ewr_oh.get_yearly_ewr_results()
+yearly_results = ewr_oh.get_yearly_results()
 
 # Table 3: All events details regardless of duration 
 all_events = ewr_oh.get_all_events()
@@ -95,8 +99,13 @@ scenarios = {'Scenario1': ['path/to/file1', 'path/to/file2', 'path/to/file3'],
 2. Tell the tool what format the model files are in. The current model format options are: 
     - 'Bigmod - MDBA'
         Bigmod formatted outputs
+      
     - 'Source - NSW (res.csv)'
         Source res.csv formatted outputs
+      
+    - 'FIRM - MDBA'
+        FIRM ID formatted outputs
+      
     - 'Standard time-series'
         The first column header should be *Date* with the date values in the YYYY-MM-DD format.
         The next columns should have the *gauge* followed by *_* followed by either *flow* or *level*
@@ -126,6 +135,13 @@ scenarios = {'Scenario1': ['path/to/file1', 'path/to/file2', 'path/to/file3'],
 
 model_format = 'Bigmod - MDBA'
 
+#-----  other model formats include -----#
+# 'Bigmod - MDBA'
+# 'Source - NSW (res.csv)'
+# 'FIRM - MDBA'
+# 'Standard time-series'
+# 'ten thousand year'
+
 # END USER INPUT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 ```
@@ -135,7 +151,7 @@ File names will be incorporated into the Scenario column of the ewr tool output 
 from py_ewr.scenario_handling import ScenarioHandler
 import pandas as pd
 
-ewr_results_dict = {}
+summary_results_dict = {}
 yearly_results_dict = {}
 all_events_dict = {}
 all_interEvents_dict = {}
@@ -143,8 +159,8 @@ all_successful_Events_dict = {}
 all_successful_interEvents_dict = {}
 
 for scenario_name, scenario_list in scenarios.items():
-    ewr_results = pd.DataFrame()
-    yearly_ewr_results = pd.DataFrame()
+    summary_results = pd.DataFrame()
+    yearly_results = pd.DataFrame()
     all_events = pd.DataFrame()
     all_interEvents = pd.DataFrame()
     all_successful_Events = pd.DataFrame()
@@ -157,11 +173,11 @@ for scenario_name, scenario_list in scenarios.items():
 
         # Return each table and stitch the different files of the same scenario together:
         # Table 1: Summarised ewr results for the entire timeseries
-        temp_ewr_results = ewr_sh.get_ewr_results()
-        ewr_results = pd.concat([ewr_results, temp_ewr_results], axis = 0)
+        temp_summary_results = ewr_sh.get_ewr_results()
+        summary_results = pd.concat([summary_results, temp_summary_results], axis = 0)
         # Table 2: Summarised ewr results, aggregated to water years:
-        temp_yearly_ewr_results = ewr_sh.get_yearly_ewr_results()
-        yearly_ewr_results = pd.concat([yearly_ewr_results, temp_yearly_ewr_results], axis = 0)
+        temp_yearly_results = ewr_sh.get_yearly_ewr_results()
+        yearly_results = pd.concat([yearly_results, temp_yearly_results], axis = 0)
         # Table 3: All events details regardless of duration 
         temp_all_events = ewr_sh.get_all_events()
         all_events = pd.concat([all_events, temp_all_events], axis = 0)
@@ -177,31 +193,31 @@ for scenario_name, scenario_list in scenarios.items():
         
 
     # Optional code to output results to csv files:
-    ewr_results.to_csv(scenario_name + 'all_results.csv')
-    yearly_ewr_results.to_csv(scenario_name + 'yearly_ewr_results.csv')
+    summary_results.to_csv(scenario_name + 'summary_results.csv')
+    yearly_results.to_csv(scenario_name + 'yearly_results.csv')
     all_events.to_csv(scenario_name + 'all_events.csv')
     all_interEvents.to_csv(scenario_name + 'all_interevents.csv')
     all_successful_Events.to_csv(scenario_name + 'all_successful_Events.csv')
     all_successful_interEvents.to_csv(scenario_name + 'all_successful_interEvents.csv')
 
     # Save the final tables to the dictionaries:   
-    ewr_results_dict[scenario_name] = ewr_results
-    yearly_results_dict[scenario_name] = yearly_ewr_results
-    all_events_dict[scenario_name] = all_events_dict
+    summary_results_dict[scenario_name] = summary_results
+    yearly_results_dict[scenario_name] = yearly_results
+    all_events_dict[scenario_name] = all_events
     all_interEvents_dict[scenario_name] = all_interEvents
     all_successful_Events_dict[scenario_name] = all_successful_Events
     all_successful_interEvents_dict[scenario_name] = all_successful_interEvents
 
 
 ```
-#### Optional arugments for ScenarioHandler
-```
+#### Optional arguments for ScenarioHandler
+```python
         ewr_sh = ScenarioHandler(scenario_file = file, 
                                 model_format = model_format,
                                 parameter_sheet = parameter_sheet,
                                 calc_config_path = calc_config_path)
 ```
-You may add a custom parameter sheet and or calc_config_file to your EWR tool run using the ```paramter_sheet``` and ```calc_config_path``` arguments.  These arguments take a string file path pointing to files. Please check this ewr_calc_config.json file found [here](https://github.com/MDBAuth/EWR_tool/blob/QA_checking_merge/py_ewr/parameter_metadata/ewr_calc_config.json) to see if any EWRs in your custom paramter sheet are not represented in the calc_config_file. If they are not, they need to be added. For an EWR to be calculated, it must be found in both calc_config.json and the parameter sheet.
+You may add a custom parameter sheet and or calc_config_file to your EWR tool run using the ```parameter_sheet``` and ```calc_config_path``` arguments.  These arguments take a string file path pointing to files. Please check this ewr_calc_config.json file found in parameter metadata to see if any EWRs in your custom parameter sheet are not represented in the calc_config_file. For an EWR to be calculated, it must be found in both calc_config.json and the parameter sheet.
 
 ### **Purpose**
 This tool has two purposes:
@@ -209,7 +225,7 @@ This tool has two purposes:
 2. Planning: Comparing ewr success between scenarios (i.e. model runs) - option 2 above.
 
 **Support**
-For issues relating to the script, a tutorial, or feedback please contact Lara Palmer at lara.palmer@mdba.gov.au, Martin Job at martin.job@mdba.gov.au, or Joel Bailey at joel.bailey@mdba.gov.au
+For issues relating to the script, a tutorial, or feedback please contact Martin Job at martin.job@mdba.gov.au, Sirous Safari Pour at sirous.safaripour@mdba.gov.au, Elisha Freedman at elisha.freedman@mdba.gov.au, Joel Bailey at joel.bailey@mdba.gov.au, or Lara Palmer at lara.palmer@mdba.gov.au.
 
 
 **Disclaimer**
@@ -223,28 +239,27 @@ Environmental Water Requirements (EWRs) in the tool are subject to change when t
 
 **Compatibility**
 
-NSW:
 - All Queensland catchments
 - All New South Wales catchments
 - All South Australian catchments
 - All EWRs from river based Environmental Water Management Plans (EWMPs) in Victoria*
+- All EWRs for ACT (draft version)
 
-*Currently the wetland EWMPS and mixed wetland-river EWMPs in Victoria contain EWRs that cannot be evaluated by an automated ewr tool so the EWRs from these plans have been left out for now. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
+*The wetland EWMPS and mixed wetland-river EWMPs in Victoria are in progress. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
 
 **Input data**
 
 - Gauge data from the relevant Basin state websites and the Bureau of Meteorology website
 - Scenario data input by the user
 - Model metadata for location association between gauge ID's and model nodes
+#### optional
 - ewr parameter sheet
-
-**Running the tool**
-
-Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
+- calc_config.json 
 
 **Objective mapping**
 The objective mapping is located in the EWR tool package. This is intended to be used to link EWRs to the detailed objectives, theme level targets and specific goals. The objective reference file is located in the py_ewr/parameter_metadata folder:
 
+parameter_sheet.csv (EnvObj column)
 obj_reference.csv
 
 Contains the individual environmnetal objectives listed in the 'EnvObj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName).
