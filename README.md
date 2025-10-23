@@ -83,7 +83,11 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 
 ### Option 2: Running model scenarios through the ewr tool
 
-1. Tell the tool where the model files are (can either be local or in a remote location). 
+1. Tell the tool where the model files are (can either be local or in a remote location). For each scenario list the file path of each file. Python will default to the path relative to the directory it is being run from, but if you put a full file path you can choose any file.
+```python
+scenarios = {'Scenario1': ['path/to/file1', 'path/to/file2', 'path/to/file3'],
+             'Scenario2': ['path/to/file1', 'path/to/file2', 'path/to/file3']}
+```
 2. Tell the tool what format the model files are in. The current model format options are: 
     - 'Bigmod - MDBA'
         Bigmod formatted outputs
