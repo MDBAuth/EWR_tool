@@ -38,7 +38,7 @@ For more information please visit the [MDBA Gauge Getter][https://github.com/MDB
 
 from datetime import datetime
 
-#USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 dates = {'start_date': datetime(YYYY, 7, 1), 
         'end_date': datetime(YYYY, 6, 30)}
@@ -79,7 +79,7 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 
 ### Option 2: Running model scenarios through the ewr tool
 
-1. Tell the tool where the model files are (can either be local or in a remote location)
+1. Tell the tool where the model files are (can either be local or in a remote location). 
 2. Tell the tool what format the model files are in. The current model format options are: 
     - 'Bigmod - MDBA'
         Bigmod formatted outputs
@@ -106,14 +106,13 @@ all_successful_interEvents = ewr_oh.get_all_successful_interEvents()
 
 
 ```python
-#USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# USER INPUT REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Minimum 1 scenario and 1 related file required
-scenarios = {'Scenario1': ['path/to/file', 'path/to/file', 'path/to/file'],
-             'Scenario2': ['path/to/file', 'file/location/2', 'file/location/3']}
+scenarios = {'Scenario1': ['path/to/file1', 'path/to/file2', 'path/to/file3'],
+             'Scenario2': ['path/to/file1', 'path/to/file2', 'path/to/file3']}
 
 model_format = 'Bigmod - MDBA'
-
 
 # END USER INPUT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -232,9 +231,9 @@ NSW:
 Consult the user manual for instructions on how to run the tool. Please email the above email addresses for a copy of the user manual.
 
 **Objective mapping**
-Objective mapping Objective mapping csv files are now included in the EWR tool package. Currently this objective mapping is in an early draft format. The objective mapping will be finalised after consultation with relevant state representatives. The files are intended to be used together to link EWRs to the detailed objectives, theme level targets and specific goals. The three sheets are located in the py_ewr/parameter_metadata folder:
+The objective mapping is located in the EWR tool package. This is intended to be used to link EWRs to the detailed objectives, theme level targets and specific goals. The objective reference file is located in the py_ewr/parameter_metadata folder:
 
 obj_reference.csv
 
-Contains the individual environmnetal objectives listed in the 'env_obj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName).
+Contains the individual environmnetal objectives listed in the 'EnvObj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName).
 the function get_obj_mapping() is available to automatically merge the information from obj_reference.csv with the parameter sheet to link these objectives with their specific ewr_codes.
