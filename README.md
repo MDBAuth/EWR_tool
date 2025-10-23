@@ -6,14 +6,18 @@
 ### **ewr tool version 2.3.7 README**
 
 ### **Notes on recent version updates**
+- Updated parameter sheet
+- Added in model handling for FIRM model outputs
+- Various minor variable renamings for consistency
+- Renamed MaxLevelRise to MaxLevelChange
+- Removed AnnualFlowSum column from parameter sheet
 - Including metadata report (this is still being ironed out and tested)
 - CLLMM_c and CLLMM_d ewrs are now able to be calculated without all barrage level gauges being present in the model file. 
-- New format of objective mapping includes the adding of ojective mapping back into the parameter sheet. 
+- New format of objective mapping includes the adding of objective mapping back into the parameter sheet. 
 - Including an example parallel processing script for running the ewr tool
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
 - Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet
-- 
 
 ### **Installation**
 
