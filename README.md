@@ -32,7 +32,7 @@ pip install py-ewr
 
 ### Option 1: Running the observed mode of the tool
 The ewr tool will use a second program called gauge getter to first download the river data at the locations and dates selected and then run this through the ewr tool.
-For more information please visit the [MDBA Gauge Getter][https://github.com/MDBAuth/MDBA_Gauge_Getter] github page. 
+For more information please visit the [MDBA Gauge Getter](https://github.com/MDBAuth/MDBA_Gauge_Getter) github page. 
 
 ```python
 
@@ -189,7 +189,7 @@ for scenario_name, scenario_list in scenarios.items():
                                 parameter_sheet = parameter_sheet,
                                 calc_config_path = calc_config_path)
 ```
-You may add a custom parameter sheet and or calc_config_file to your EWR tool run using the ```paramter_sheet``` and ```calc_config_path``` arguments.  These arguments take a string file path pointing to the path of files. Please check this ewr_calc_config.json file found [here] [https://github.com/MDBAuth/EWR_tool/blob/QA_checking_merge/py_ewr/parameter_metadata/ewr_calc_config.json] to see if any EWRs in your custom paramter sheet are not represented in the calc_config_file. If they are not, they need to be added. For an EWR to be calculated, it must be found in both calc_config.json and the parameter sheet.
+You may add a custom parameter sheet and or calc_config_file to your EWR tool run using the ```paramter_sheet``` and ```calc_config_path``` arguments.  These arguments take a string file path pointing to files. Please check this ewr_calc_config.json file found [here] (https://github.com/MDBAuth/EWR_tool/blob/QA_checking_merge/py_ewr/parameter_metadata/ewr_calc_config.json) to see if any EWRs in your custom paramter sheet are not represented in the calc_config_file. If they are not, they need to be added. For an EWR to be calculated, it must be found in both calc_config.json and the parameter sheet.
 
 ### **Purpose**
 This tool has two purposes:
