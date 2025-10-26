@@ -847,7 +847,7 @@ EUROBIN,Ovens River at Eurobin,,403250A,4
 EURSTP,Euroa STP,,,4
 EUS2MIL,Euston to Mildura Reach,,,
 EUSTDS,River Murray D/S Euston Weir,,414203,4
-EUSTON ,River Murray U/S Euston Weir,,414209,4
+EUSTON,River Murray U/S Euston Weir,,414209,4
 EUSTUS,River Murray U/S Euston Weir,,414209,4
 EWDFFCL,Env water Flora Fauna -Cardross Lakes,Environmental Water Deliveries from Flora & Fauna Ent,,4
 EWEI,Lake Alexandrina U/S Ewe Island and Barrages,Ewe Island Dual Vertical Slot fishway,,5
@@ -1347,8 +1347,10 @@ LOCK7US,River Murray U/S Lock 7,,426508,5
 LOCK7US,River Murray U/S Lock 7,,A4260508,5
 LOCK8DS,River Murray D/S Lock 8,,4260507,5
 LOCK8US,River Murray U/S Lock 8,,426506,5
+LOCK8US,River Murray U/S Lock 8,,A426506,5
+LOCK8US,River Murray U/S Lock 8,,A4260506,5
 LOCK9DS,River Murray D/S Lock 9,,4260505,5
-LOCK 9 ,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
+LOCK 9,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
 LOCK9US,River Murray U/S Lock 9,SAMPLE AT GAUGING STATION,A4260501,5
 LOCKING,Lockington Main Drain,Lockington Main Drain Shepparton,407712,4
 LOCKRIC,Lockington Main Drain adj to Richardsons,Lockington Main Drain adjacent to Richardsons,,4
@@ -2685,16 +2687,20 @@ LOCK6US,A4260509,Murray downstream Lock 7 ,A4260509,5
 LOCK6US - Natural,A4260509,Murray downstream Lock 7 ,A4260509,5
 TAUWDS,A4260527,Barrages near the Murray Mouth,A4260527,5
 MOUTH,A4260527,Barrages near the Murray Mouth,A4260527,5
-FLOWSA ,A4261001,Flow at South Australia border,A4261001,5
+FLOWSA,A4261001,Flow at South Australia border,A4261001,5
 BARRAGE,A4261002,Barrages near the Murray Mouth,A4261002,5
 Bills Pipe,Bills Pipe,North Redbank,Bills Pipe,2
 "Eulimbah, Nimmie Creek","Eulimbah, Nimmie Creek","Gayini/ Nimmie-Caira, combined Eulimbah and Nimmie Creek regulators","Eulimbah, Nimmie Creek",2
+Eulimbah_Nimmie Creek,"Eulimbah, Nimmie Creek","Gayini/ Nimmie-Caira, combined Eulimbah and Nimmie Creek regulators","Eulimbah, Nimmie Creek",2
 Glen Dee,Glen Dee,"Western Lakes, Glenn Dee",Glen Dee,2
 Pattos Pipe,Pattos Pipe,North Redbank,Pattos Pipe,2
 Pump direct from river,Pump direct from river,"North Redbank, pumped direct from river",Pump direct from river,2
 Pumped from Yanga Lake,Pumped from Yanga Lake,Yanga (South  Redbank),Pumped from Yanga Lake,2
-410738,Murrumbidgee River at Mt. MacDonald,ACT - Environment, Planning and Sustainable Development Directorate,410738,3
-410761,Murrumbidgee River below Lobbs Hole Creek,ACT - Environment, Planning and Sustainable Development Directorate,410761,3
+410738,Murrumbidgee River at Mt. MacDonald,"ACT - Environment, Planning and Sustainable Development Directorate",410738,3
+11UBMAC,Murrumbidgee River at Mt. MacDonald,"ACT - Environment, Planning and Sustainable Development Directorate",410738,3
+410761,Murrumbidgee River below Lobbs Hole Creek,"ACT - Environment, Planning and Sustainable Development Directorate",410761,3
+11UBLOB,Murrumbidgee River below Lobbs Hole Creek,"ACT - Environment, Planning and Sustainable Development Directorate",410761,3
 410700,Cotter River at Kiosk,ACT - Icon Water Limited,410700,3
 410747,Cotter River below Bendora Dam,ACT - Icon Water Limited,410747,3
 410752,Cotter River below Corin Dam,ACT - Icon Water Limited,410752,3
+8MAREBON,Marebone Break @ d/s Marebone Regulator,Marebone Break @ d/s Marebone Regulator,421088,2

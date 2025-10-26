@@ -22,7 +22,7 @@ def test_match_MDBA_nodes():
     '''
     # TEST 1 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -30,7 +30,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -49,7 +49,7 @@ def test_match_MDBA_nodes():
 
     # TEST 2 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Use
                 'EUSTDS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10, # Skip
@@ -60,7 +60,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
 
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -79,7 +79,7 @@ def test_match_MDBA_nodes():
 
     # TEST 3 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 # 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -87,7 +87,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # print(df_L.empty)
     # Set up expected outputs and test:
@@ -108,7 +108,7 @@ def test_match_MDBA_nodes():
 
     # TEST 4 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 # 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -116,7 +116,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -135,7 +135,7 @@ def test_match_MDBA_nodes():
 
     # TEST 5 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS56-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS209348-35-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -144,11 +144,11 @@ def test_match_MDBA_nodes():
     df = df.set_index('Date')
 
     with pytest.raises(ValueError):
-        df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+        df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
 
     # TEST 6 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'EUSTDS-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'EUSTUS-5-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -156,7 +156,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     # data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -175,7 +175,7 @@ def test_match_MDBA_nodes():
 
     # TEST 7 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'LOCK7US-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'LOCK7US-35-8': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10
@@ -183,7 +183,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -204,7 +204,7 @@ def test_match_MDBA_nodes():
 
     # TEST 8 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Set up input data and pass to test function:
-    model_metadata = data_inputs.get_MDBA_codes()
+    model_metadata = data_inputs.get_MDBA_codes('Bigmod - MDBA')
     data_df = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                 'LOCK7US-1-8': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'LOCK7US-35-8': [0]*1+[251]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
@@ -218,7 +218,7 @@ def test_match_MDBA_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
+    df_F, df_L, report = scenario_handling.match_MDBA_nodes(df, model_metadata, 'py_ewr/parameter_metadata/parameter_sheet.csv')
     
     # Set up expected outputs and test:
     data_expected_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
@@ -257,7 +257,7 @@ def test_match_NSW_nodes():
     df = pd.DataFrame(data = data_df)
     df = df.set_index('Date')
     
-    df_F, df_L = scenario_handling.match_NSW_nodes(df, model_metadata)
+    df_F, df_L = scenario_handling.match_NSW_nodes(df, model_metadata,None)
     
     # Set up expected outputs and test:
     data_expected_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))}
@@ -312,7 +312,7 @@ def test_cleaner_standard_timeseries():
     data_for_input_df = {'Date': date_range, '409025_flow': [50]*len(date_range)}
     input_df = pd.DataFrame(data_for_input_df)
     input_df = input_df.set_index('Date')
-    df_f, df_l = scenario_handling.cleaner_standard_timeseries(input_df)
+    df_f, df_l, report = scenario_handling.cleaner_standard_timeseries(input_df)
 
     # Set up expected data and test:
     expected_df_flow = input_df.copy(deep=True)
@@ -336,7 +336,7 @@ def test_cleaner_standard_timeseries():
     input_df = input_df.set_index('Date')
     cut_df = input_df.drop([datetime(1900, 7, 5),datetime(1900,7,8)], axis = 0)
 
-    df_f, df_l = scenario_handling.cleaner_standard_timeseries(cut_df)
+    df_f, df_l, report = scenario_handling.cleaner_standard_timeseries(cut_df)
     
     expected_df_flow = cut_df.copy(deep = True)
     expected_df_flow.loc[datetime(1900, 7, 5), '409025_flow'] = np.nan
@@ -407,13 +407,12 @@ def test_cleaner_netcdf_werp():
     1. check ncdf is unpacked correctly
     '''
     df = scenario_handling.unpack_netcdf_as_dataframe('unit_testing_files/werp_ncdf.nc')
-    df_F, df_L = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes())
+    df_F, df_L = scenario_handling.cleaner_netcdf_werp(df, data_inputs.get_iqqm_codes(), None)
 
     # the test ncdf is too big to mock, so check properties
     assert df_F.dtypes.iloc[0] == 'float32'
     assert isinstance(df_F.index, pd.DatetimeIndex)
     assert all(df_F.columns == ['421001', '421004', '421012', '421019', '421022', '421023', '421090', '421146'])
-
 
 def test_csv_input():
     '''
@@ -535,58 +534,63 @@ def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handl
     detailed = scenario_handler_instance.pu_ewr_statistics
     
     detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index = detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index.astype('int64')
-
-    assert_frame_equal(detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'], scenario_handler_expected_detail)
+    df = detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek']
+    
+    # ordering of columns shouldn't matter, values do.
+    df = df.reindex(sorted(df.columns), axis=1)
+    scenario_handler_expected_detail = scenario_handler_expected_detail.reindex(sorted(scenario_handler_expected_detail.columns), axis=1)
+    
+    assert_frame_equal(df, scenario_handler_expected_detail)
 
 
 def test_get_all_events(scenario_handler_instance):
 
     all_events = scenario_handler_instance.get_all_events()
     assert type(all_events) == pd.DataFrame
-    assert all_events.shape == (26, 10)
-    assert all_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
+    assert all_events.shape == (26, 12)
+    assert all_events.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
                                      'eventDuration', 'eventLength', 'Multigauge']
         
 def test_get_all_interEvents(scenario_handler_instance):
 
     all_interEvents = scenario_handler_instance.get_all_interEvents()
     assert type(all_interEvents) == pd.DataFrame
-    assert all_interEvents.shape == (26, 7)
-    assert all_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'startDate', 'endDate', 'interEventLength']
+    assert all_interEvents.shape == (26, 9)
+    assert all_interEvents.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'startDate', 'endDate', 'interEventLength']
 
 def test_get_all_successful_events(scenario_handler_instance):
 
     all_successful_events = scenario_handler_instance.get_all_successful_events()
     assert type(all_successful_events) == pd.DataFrame
-    assert all_successful_events.shape == (24, 10)
-    assert all_successful_events.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'waterYear', 'startDate', 'endDate',
-                                                       'eventDuration', 'eventLength', 'Multigauge']
+    assert all_successful_events.shape == (24, 12)
+    assert all_successful_events.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'Code', 'waterYear', 'startDate', 'endDate',
+                                                       'eventDuration', 'eventLength', 'State', 'SWSDLName', 'Multigauge']
 
 def test_get_all_successful_interEvents(scenario_handler_instance):
 
     all_successful_interEvents = scenario_handler_instance.get_all_successful_interEvents()
     assert type(all_successful_interEvents) == pd.DataFrame
-    assert all_successful_interEvents.shape == (24, 7)
-    assert all_successful_interEvents.columns.to_list() == ['scenario', 'gauge', 'pu', 'ewr', 'startDate', 'endDate', 'interEventLength']
+    assert all_successful_interEvents.shape == (24, 9)
+    assert all_successful_interEvents.columns.to_list() == ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'startDate', 'endDate', 'interEventLength']
 
 def test_get_yearly_ewr_results(scenario_handler_instance):
 
     yearly_results = scenario_handler_instance.get_yearly_ewr_results()
 
     assert type(yearly_results) == pd.DataFrame
-    assert yearly_results.shape == (126, 21)
+    assert yearly_results.shape == (126, 23)
     assert yearly_results.columns.to_list() == ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
         'eventLength', 'eventLengthAchieved',
        'totalEventDays', 'totalEventDaysAchieved','maxEventDays', 'maxRollingEvents', 'maxRollingAchievement', 'missingDays',
-       'totalPossibleDays', 'ewrCode', 'scenario', 'gauge', 'pu', 'Multigauge', 
+       'totalPossibleDays', 'Code', 'scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Multigauge', 
        'rollingMaxInterEvent', 'rollingMaxInterEventAchieved'] 
 
 def test_get_ewr_results(scenario_handler_instance):
 
     ewr_results = scenario_handler_instance.get_ewr_results()
     assert type(ewr_results) == pd.DataFrame
-    assert ewr_results.shape == (21, 19)
-    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'EwrCode', 'Multigauge','EventYears',
+    assert ewr_results.shape == (21, 21)
+    assert ewr_results.columns.to_list() == ['Scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'Multigauge','EventYears',
        'Frequency', 'TargetFrequency', 'AchievementCount',
        'AchievementPerYear', 'EventCount', 'EventCountAll', 'EventsPerYear', 'EventsPerYearAll',
        'AverageEventLength', 'ThresholdDays', #'InterEventExceedingCount',
@@ -628,4 +632,4 @@ def test_netcdf_processes():
     
     ewr_summary = ewr_sh.get_ewr_results()
 
-    assert ewr_summary.shape == (202, 19)
+    assert ewr_summary.shape == (202, 21)

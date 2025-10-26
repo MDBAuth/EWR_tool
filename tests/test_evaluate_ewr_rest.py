@@ -6,39 +6,40 @@ import numpy as np
 
 from py_ewr import evaluate_EWRs, data_inputs
 import pytest
+from contextlib import nullcontext
 
 def test_component_pull():
 	'''
-	1. Test correct value is pulled from EWR dataset
+	1. Test correct value is pulled from ewr dataset
 	'''
 	EWR_table, bad_EWRs = data_inputs.get_EWR_table()
 	gauge = '409025'
-	PU = 'PU_0000253'
-	EWR = 'SF1_P'
+	pu = 'PU_0000253'
+	ewr = 'SF1_P'
 	component = 'Duration'
-	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == '10'
+	assert  evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, component) == 10
 
 def test_get_EWRs():
 	'''
-	1. Ensure requested parts of EWR are returned
+	1. Ensure requested parts of ewr are returned
 	'''
 	EWR_table, bad_EWRs = data_inputs.get_EWR_table()
-	PU = 'PU_0000283'
+	pu = 'PU_0000283'
 	gauge = '410007'
-	EWR = 'SF1_P'
-	components = ['SM', 'EM']
+	ewr = 'SF1_P'
+	components = ['StartMonth', 'EndMonth']
 
-	expected = {'gauge': '410007', 'planning_unit': 'PU_0000283', 'EWR_code': 'SF1_P', 'start_day': None, 'start_month': 10, 'end_day': None, 'end_month':4}
-	assert evaluate_EWRs.get_EWRs(PU, gauge, EWR, EWR_table, components) == expected
+	expected = {'Gauge': '410007', 'PlanningUnit': 'PU_0000283', 'Code': 'SF1_P', 'start_month': 10, 'end_month':4}
+	assert evaluate_EWRs.get_EWRs(pu, gauge, ewr, EWR_table, components) == expected
 
 def test_mask_dates():
 	'''
 	This testing function will also be testing the functions get_month_mask, get_day_month_mask, and get_day_month_mask
-	1. Testing for no filtering (all year round EWR requirement)
+	1. Testing for no filtering (all year round ewr requirement)
 	2. Testing for a month subset
-	3. Testing for water year crossover EWR requirement
-	4. Testing for start day and end day within same month inclusion in the EWR requirement
-	5. Testing for start day and end day within different months inclusion in the EWR requirement:
+	3. Testing for water year crossover ewr requirement
+	4. Testing for start day and end day within same month inclusion in the ewr requirement
+	5. Testing for start day and end day within different months inclusion in the ewr requirement:
 	'''
 	#------------ Dataframe to be passed to all testing functions here ----------#
 
@@ -192,23 +193,6 @@ def test_get_event_years_max_rolling_days(events, unique_water_years, expected_e
 def test_get_all_events(events, expected_results):
 	result = evaluate_EWRs.get_all_events(events)
 	assert result == expected_results
-
-@pytest.mark.parametrize("events,expected_results",[
-	({ 2012: [[5]*5, [10]*5, [20]*8], 
-	   2013: [[50]*20],
-	   2014: [[5]*5, [10]*5, [20]*8, [20]*8], 
-	   2015: []},
-	   [18,20,26,0]),
-	({ 2015: [[5]*5, [10]*5, [20]*8], 
-	   2014: [[50]*20],
-	   2013: [[5]*5, [10]*5, [20]*8, [20]*8], 
-	   2012: []},
-	   [0,26,20,18]),
-],)
-def test_get_all_event_days(events, expected_results):
-	result = evaluate_EWRs.get_all_event_days(events)
-	assert result == expected_results
-
 
 @pytest.mark.parametrize("EWR_info,events,expected_results",[
 	(	{'min_event':6},
@@ -1490,30 +1474,31 @@ def test_get_event_max_inter_event_achieved(EWR_info,no_events,unique_water_year
 	assert result == expected_results
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("421004", "CF" , "PU_0000129", False),
-	("421090", "CF" , "PU_0000130", True),
-	("11111", "XX" , "DD", False),
+	("421004", "CF" , "PU_0000129", nullcontext(False)),
+	("421090", "CF" , "PU_0000130", nullcontext(True)),
+	("11111", "XX" , "DD", pytest.raises(IndexError, match="ewr: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
 ],)
 def test_is_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
-	result = evaluate_EWRs.is_multigauge(parameter_sheet, gauge, ewr, pu)
-	assert result == expected_result
-
+	with expected_result as e:
+		result = evaluate_EWRs.is_multigauge(parameter_sheet, gauge, ewr, pu)
+		assert result == e
 
 @pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("414203", "VF" , "PU_0000260", True),
-	("414203", "WP2" , "PU_0000260", True),
-	("11111", "XX" , "DD", False),
+	("414203", "VF" , "PU_0000260", nullcontext(True)),
+	("414203", "WP2" , "PU_0000260", nullcontext(True)),
+	("11111", "XX" , "DD", pytest.raises(IndexError, match="ewr: gauge=11111, code=XX, pu=DD is not in the parameter sheet")),
 ],)
 def test_is_weirpool_gauge(parameter_sheet, gauge, ewr, pu, expected_result):
-	result = evaluate_EWRs.is_weirpool_gauge(parameter_sheet, gauge, ewr, pu)
-	assert result == expected_result
+	with expected_result as e:
+		result = evaluate_EWRs.is_weirpool_gauge(parameter_sheet, gauge, ewr, pu)
+		assert result == e
 
 
-@pytest.mark.parametrize("gauge,ewr,pu,expected_result",[
-	("421090", "CF" , "PU_0000130", "421088"),
+@pytest.mark.parametrize("gauge,pu,ewr,expected_result",[
+	("421090", "PU_0000130", "CF", "421088"),
 ],)
-def test_get_second_multigauge(parameter_sheet, gauge, ewr, pu, expected_result):
-	result = evaluate_EWRs.get_second_multigauge(parameter_sheet, gauge, ewr, pu)
+def test_get_second_multigauge(parameter_sheet, gauge, pu, ewr, expected_result):
+	result = evaluate_EWRs.component_pull(parameter_sheet, gauge, pu, ewr, 'Multigauge')
 	assert result == expected_result
 
 
@@ -2518,19 +2503,19 @@ def test_lake_calc(EWR_info, levels, expected_all_events, expected_all_no_events
 	# 		assert event == expected_all_events[year][i]
 
 
-@pytest.mark.parametrize('gauge,PU,EWR,component,expected_result',[
-	('409025','PU_0000253','NestS1','TriggerDay', '15'),
-	('409025','PU_0000253','NestS1','TriggerMonth', '9'),
-	('414203','PU_0000260','NestS1a','DrawDownRateWeek', '30%'),
+@pytest.mark.parametrize('gauge,pu,ewr,component,expected_result',[
+	('409025','PU_0000253','NestS1','TriggerDay', 15),
+	('409025','PU_0000253','NestS1','TriggerMonth', 9),
+	('414203','PU_0000260','NestS1a','DrawDownRateWeek', 0.03),
 ],)
-def test_component_pull_nest(gauge, PU, EWR, component, expected_result):
+def test_component_pull_nest(gauge, pu, ewr, component, expected_result):
 	'''
 	1. Test pulling TriggerDay
 	2. Test pulling TriggerMonth
 	'''
 	EWR_table, bad_EWRs = data_inputs.get_EWR_table('./unit_testing_files/MURRAY_MDBA_update_nest.csv')
 
-	assert  evaluate_EWRs.component_pull(EWR_table, gauge, PU, EWR, component) == expected_result
+	assert  evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, component) == expected_result
 
 @pytest.mark.parametrize("EWR_info,iteration,flow,flow_percent_change,event,all_events,all_no_events,total_event,expected_all_events,expected_event,dates",
 [
@@ -3299,15 +3284,6 @@ def test_get_gauge_calc_type(multigauge,expected_result):
 	calc_type = evaluate_EWRs.get_gauge_calc_type(multigauge)
 	assert calc_type == expected_result
 
-@pytest.mark.parametrize("ewr_code,prefixes,expected_result",[
-	("CF_P", ["CF","LF"],"CF"),
-	("LF_S", ["CF","LF"],"LF"),
-	("Gluble_Ubble", ["CF","LF"],"unknown"),
-])
-def test_get_ewr_prefix(ewr_code, prefixes, expected_result):
-	result = evaluate_EWRs.get_ewr_prefix(ewr_code, prefixes)
-	assert result == expected_result
-
 @pytest.mark.parametrize("function_name, expected_result",[
 	('ctf_handle','ctf_handle'),
 	('ctf_handle_multi','ctf_handle_multi'),
@@ -3317,34 +3293,34 @@ def test_get_handle_function(function_name, expected_result):
 	assert result.__name__ == expected_result
 
 @pytest.mark.parametrize("args,function_name,expected_result",[
-	({"PU": "PU" , 
-	"gauge": "gauge", 
-	"EWR": "EWR", 
+	({"pu": "pu" , 
+	'gauge': 'gauge', 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
 	},
 		'ctf_handle', 
-	{"PU": "PU" , 
-	"gauge": "gauge", 
-	"EWR": "EWR", 
+	{"pu": "pu" , 
+	'gauge': 'gauge', 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"PU_df": "PU_df", 
 	}),
-	({"PU": "PU" , 
-	"gauge": "gauge", 
-	"EWR": "EWR", 
+	({"pu": "pu" , 
+	'gauge': 'gauge', 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_F": "df_F", 
 	"df_L": "df_L",
 	"PU_df": "PU_df", 
 	},
 		'level_handle', 
-	{"PU": "PU" , 
-	"gauge": "gauge", 
-	"EWR": "EWR", 
+	{"pu": "pu" , 
+	'gauge': 'gauge', 
+	"ewr": "ewr", 
 	"EWR_table": "EWR_table", 
 	"df_L": "df_L", 
 	"PU_df": "PU_df", 
@@ -3353,351 +3329,6 @@ def test_get_handle_function(function_name, expected_result):
 def test_build_args(args, function_name, expected_result):
 	function = evaluate_EWRs.HANDLING_FUNCTIONS[function_name]
 	result = evaluate_EWRs.build_args(args, function)
-	assert result == expected_result
-
-
-@pytest.mark.parametrize("level_change,EWR_info,expected_result",[
-	(0.1, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, True),
-	(0.11, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, False),
-	(0.2, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, False),
-	(-0.45, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, True),
-	(-0.5, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, True),
-	(-0.6, {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, False),
-])
-def test_check_daily_level_change(level_change,EWR_info,expected_result):
-	result = evaluate_EWRs.check_daily_level_change(level_change,EWR_info)
-	assert result == expected_result
-
-@pytest.mark.parametrize("levels,EWR_info,iteration,event_length,expected_result",[
-	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 5, 6, True),
-	([0.1,0.2,0.3,0.4,0.5,0.8,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 5, 6, True),
-	([0.1,0.2,0.3,0.4,0.5,0.9,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 5, 6, False),
-	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 9, 10, True),
-	([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.2], {'drawdown_rate': 0.5 ,'max_level_raise': 0.1}, 9, 10, False),
-	([1.0,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1], {'drawdown_rate': 0.1 ,'max_level_raise': 0.1}, 9, 10, True),
-	([1.0,0.9,0.8,0.9,0.6,0.5,0.4,0.3,0.2,0.1], {'drawdown_rate': 0.1 ,'max_level_raise': 0.1}, 9, 10, False),
-])
-def test_check_weekly_level_change(levels, EWR_info, iteration, event_length, expected_result):
-	result = evaluate_EWRs.check_weekly_level_change(levels, EWR_info, iteration, event_length)
-	assert result == expected_result
-
-
-
-@pytest.mark.parametrize("EWR_info,iteration,flow,level,event,all_events,all_no_events,level_change,levels,total_event,expected_all_events,expected_event,dates",
-[
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
-	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
-     6,	
-	 5,
-	 5,
-	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)],
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 0.4,
-	 np.array(  [5] + [5] + [5] + [5] + [5] + [5] + [4.5] + [0]*358 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 0,
-	{ 2012: [], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(7)],
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
-	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
-     6,	
-	 5,
-	 5,
-	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)],
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 1,
-	 np.array(  [5] + [5] + [5] + [5] + [5] + [5] + [6] + [0]*358 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 0,
-	{ 2012: [[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)]], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[],
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))	
-	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
-	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
-     6,	
-	 5,
-	 5,
-	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)],
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 -1,
-	 np.array(  [5] + [5] + [5] + [5] + [5] + [5] + [4] + [0]*358 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 0,
-	{ 2012: [[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)]], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[] ,
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))	
-	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
-	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
-     6,	
-	 4,
-	 5,
-	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)],
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 -1,
-	 np.array(  [5] + [5] + [5] + [5] + [5] + [5] + [4] + [0]*358 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 0,
-	{ 2012: [[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)]], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[],
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))	
-	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'drawdown_rate': 0.1, 'max_level_raise': 0.1,
-	'min_event': 10, 'duration': 10, 'gap_tolerance':0},
-     6,	
-	 4,
-	 5,
-	[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)],
-	{2012:[], 
-	 2013:[], 
-	 2014:[], 
-	 2015:[]},
-	{2012:[],
-	 2014:[],
-	 2013: [], 
-	 2015:[]},
-	 -1,
-	 np.array(  [5] + [5] + [5] + [5] + [5] + [5] + [4] + [0]*358 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 0,
-	{ 2012: [[(date(2012,7,1) + timedelta(days=i), 5) for i in range(6)]], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-	[],
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()	
-	 ),
-],)
-def test_flow_level_check(EWR_info, iteration, flow, level, event, all_events, all_no_events, level_change, levels,total_event,
-	expected_all_events, expected_event, dates):
-	""" Test the flow level check function.
-	1. Test happy path level change and flow min is above threshold
-	2. Test Level change increase is above max allowed
-	3. Test Level change decrease is above max allowed
-	4. Test flow below min threshold
-	5. Same as 4 but with period time instead of pandas datetime
-	"""
-	# Tests for pandas datetime
-	# dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	flow_date = dates[iteration]
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	gap_track = 0
-	
-	event, all_events, gap_track, total_event = evaluate_EWRs.flow_level_check(EWR_info, iteration, flow, level, 
-									event, all_events, gap_track, 
-               						water_years, total_event, flow_date, level_change ,levels)
-	assert event == expected_event
-	assert all_events == expected_all_events
-	#-----------------------------
-	# Tests for period time
-	# dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# flow_date = dates[iteration]
-	# water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	# gap_track = 0
-	
-	# event, all_events, gap_track, total_event = evaluate_EWRs.flow_level_check(EWR_info, iteration, flow, level, 
-	# 								event, all_events, gap_track, 
-    #            						water_years, total_event, flow_date, level_change ,levels)
-	# assert event == expected_event
-	# assert all_events == expected_all_events
-
-
-@pytest.mark.parametrize("EWR_info,flows,levels,expected_all_events,expected_all_no_events,dates,masked_dates", [
-	({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
-	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
-	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	np.array([0]*31+ [0]*31 + [1]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 {2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(7)]], 
-	  2013: [], 
-	  2014: [], 
-	  2015: []},
-	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1391]]},
-	 pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-	 pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	 ),
-	 ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
-	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
-	 np.array([0]*31+ [0]*31 + [4]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	np.array([0]*31+ [0]*31 + [1]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 {2012: [], 
-	  2013: [], 
-	  2014: [], 
-	  2015: []},
-	 {2012: [], 2013: [], 2014: [], 2015: [[1460]]},
-	 pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-	 pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	 ),
-	  ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
-	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
-	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	np.array([0]*31+ [0]*31 + [1]*6+ [2] + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 {2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(6)]], 
-	  2013: [], 
-	  2014: [], 
-	  2015: []},
-	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1392]]},
-	 pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-	 pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	 ),
-	   ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
-	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
-	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	np.array([0]*31+ [0]*31 + [1]*6+ [0] + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 {2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(6)]], 
-	  2013: [], 
-	  2014: [], 
-	  2015: []},
-	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1392]]},
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	 ),
-	   ({'min_flow': 5, 'max_flow': 20, 'gap_tolerance':0,
-	 'drawdown_rate': 0.1, 'max_level_raise': 0.1, 'min_event': 10, 'duration': 10,
-	 'start_month': 9, 'end_month': 12, 'start_day': None, 'end_day': None},
-	 np.array([0]*31+ [0]*31 + [5]*7 + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	np.array([0]*31+ [0]*31 + [1]*6+ [0] + [0]*296 + 
-	 			[0]*365 + 
-				[0]*365 + 
-				[0]*366),
-	 {2012: [[(date(2012,9,1) + timedelta(days=i), 5) for i in range(6)]], 
-	  2013: [], 
-	  2014: [], 
-	  2015: []},
-	 {2012: [[62]], 2013: [], 2014: [], 2015: [[1392]]},
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period(),
-	pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	 ),
-])
-def test_flow_level_calc(EWR_info, flows, levels, expected_all_events, expected_all_no_events, dates, masked_dates):
-	""" Test the flow level calc function.
-	1. Test happy path level change and flow min is above threshold
-	2. Test flow below min threshold	
-	3. Test Level change increase is above max allowed
-	4. Test Level change decrease is above max allowed
-	5. Same as 4 but with period time instead of pandas datetime
-	"""
-	# Tests with pandas datetime
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	# dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	# masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	df_F = pd.DataFrame(index=dates)
-	masked_dates = evaluate_EWRs.mask_dates(EWR_info, df_F)
-	
-	all_events, _ = evaluate_EWRs.flow_level_calc(EWR_info, flows, levels, water_years, dates, masked_dates )
-
-
-	for year in all_events:
-		assert len(all_events[year]) == len(expected_all_events[year])
-		for i, event in enumerate(all_events[year]):
-			assert event == expected_all_events[year][i]
-	#----------------------------
-	# Tests with period time
-	# water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	# dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')).to_period()
-	# df_F = pd.DataFrame(index=dates)
-	# masked_dates = evaluate_EWRs.mask_dates(EWR_info, df_F)
-	
-	# all_events, _ = evaluate_EWRs.flow_level_calc(EWR_info, flows, levels, water_years, dates, masked_dates )
-
-
-	# for year in all_events:
-	# 	assert len(all_events[year]) == len(expected_all_events[year])
-	# 	for i, event in enumerate(all_events[year]):
-	# 		assert event == expected_all_events[year][i]
-
-@pytest.mark.parametrize("year,expected_result",[
-	(2000,True),
-	(2004,True),
-	(2005,False),
-	(1900,False),
-])
-def test_is_leap_year(year,expected_result):
-	result = evaluate_EWRs.is_leap_year(year)
 	assert result == expected_result
 
 @pytest.mark.parametrize("month,year,expected_result",[
@@ -3824,7 +3455,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1a",
+	  'Code': "CLLMM1a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3853,7 +3484,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1a",
+	  'Code': "CLLMM1a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3882,7 +3513,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1b",
+	  'Code': "CLLMM1b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3911,7 +3542,7 @@ def test_filter_timing_window_non_std(flows, start, end, flow_date, expected_sta
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1b",
+	  'Code': "CLLMM1b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000
 	  },
@@ -3962,7 +3593,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_a",
+	  'Code': "CLLMM1_a",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000,
 	  'duration': 1
@@ -3980,7 +3611,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_b",
+	  'Code': "CLLMM1_b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000,
 	  'duration': 1
@@ -3999,7 +3630,7 @@ def test_barrage_flow_check(EWR_info,flows,event,all_events,all_no_events,expect
 	  "low_release_window_end":8,
 	  "high_release_window_start":9, 
 	  "high_release_window_end":12,
-	  'EWR_code': "CLLMM1_b",
+	  'Code': "CLLMM1_b",
 	  'annual_barrage_flow': 2000000,
 	  'three_years_barrage_flow': 6000000,
 	  'duration': 1
@@ -4061,7 +3692,7 @@ def test_rolling_average(values, expected_result):
 
 @pytest.mark.parametrize("flows,EWR_info,interation,mode,period,expected_result",[
 	( [3000]*80 + [3000+460] + [3000+460+460] + [3000+460+460+460] + [3000+460+460+460]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "backwards",
@@ -4069,7 +3700,7 @@ def test_rolling_average(values, expected_result):
 	  False
 	),
 	( [3000]*80 + [3000+450] + [3000+450+450] + [3000+450+450+450] + [3000+450+450+450]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "backwards",
@@ -4077,7 +3708,7 @@ def test_rolling_average(values, expected_result):
 	  True
 	),
 	( [3000]*95 + [3000-200] + [3000-200-200] + [3000-200-200-200] + [3000-200-200-200-200]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "forwards",
@@ -4085,7 +3716,7 @@ def test_rolling_average(values, expected_result):
 	  True
 	),
 	( [3000]*90 + [3000-210] + [3000-210-210] + [3000-210-210-210] + [3000-210-210-210-210]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "forwards",
@@ -4093,7 +3724,7 @@ def test_rolling_average(values, expected_result):
 	  False
 	),
 	( [3000]*90 + [3000+210] + [3000+210+210] + [3000+210+210+210] + [3000+210+210+210+210]*80,
-	  {"max_level_raise": 450,
+	  {"max_level_change": 450,
        "drawdown_rate": 200},
 	  90,
 	  "forwards",
@@ -4357,7 +3988,7 @@ def test_lower_lakes_level_calc(EWR_info, levels_data, expected_all_events):
 	(
 	 {'gap_tolerance': 0 ,
       'min_flow' : 70,
-      "max_level_raise": 100,
+      "max_level_change": 100,
       'drawdown_rate': 50,
 	   'duration':10 
     },
@@ -4405,7 +4036,7 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	(
 	   {'gap_tolerance': 0 ,
       'min_flow' : 70,
-      "max_level_raise": 100,
+      "max_level_change": 100,
       'drawdown_rate': 50,
 	   'duration':10 
     },
@@ -4422,7 +4053,7 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	(
 	   {'gap_tolerance': 0 ,
       'min_flow' : 150,
-      "max_level_raise": 10,
+      "max_level_change": 10,
       'drawdown_rate': 5,
 	   'duration':10 
     },
@@ -4439,7 +4070,7 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	(
 	   {'gap_tolerance': 0 ,
       'min_flow' : 150,
-      "max_level_raise": 10,
+      "max_level_change": 10,
       'drawdown_rate': 5,
 	   'duration':10 
     },
@@ -4787,9 +4418,9 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # second dry spell
 				[6]*325 +		      
-				[0]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[2]*365 + 
+				[2]*365 + 
+				[2]*366),
 	{2012:[], 
 	 2013:[], 
 	 2014:[], 
@@ -4808,9 +4439,9 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # second dry spell
 				[6]*325 +		      
-				[0]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[2]*365 + 
+				[2]*365 + 
+				[2]*366),
 	{2012:[
 			[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
 		   	 [(date(2012,7,16) + timedelta(days=i), 20) for i in range(10)] +
@@ -4835,9 +4466,9 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[20]*10 + # in between
 				[0]*15 + # third dry spell
 				[6]*300 +		      
-				[0]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[2]*365 + 
+				[2]*365 + 
+				[2]*366),
 	{2012:[
 			[(date(2012,7,1) + timedelta(days=i), 0) for i in range(15)] +
 		   	 [(date(2012,7,16) + timedelta(days=i), 20) for i in range(10)] +
@@ -4865,9 +4496,11 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 				[0]*15 + # first dry spell
 				[20]*10 + # in between
 				[0]*15 + # second dry spell		      
-				[6]*365 + 
-				[0]*365 + 
-				[0]*366),
+				[21]*365 + 
+				[2]*365 + 
+				[0]*365 +
+                [3]*1                     
+         ),
 	{2012:[], 
 	 2013:[
 		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
@@ -4875,9 +4508,75 @@ def test_flow_check_ctf(EWR_info, iteration, flows, all_events, ctf_state, expec
 			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
 	 ], 
 	 2014:[], 
-	 2015:[]}
-	
+	 2015:[[(date(2015,7,1) + timedelta(days=i), 0) for i in range(365)]]}
 	),
+    (
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
+    },
+		 np.array( 
+				[6]*325 +
+				[0]*15 + # first dry spell
+				[20]*10 + # in between
+				[0]*15 + # second dry spell #1st event      
+				[21]*365 + 
+				[2]*365 +
+				[0]*50 + #2nd event (2x non_flow_spell)
+				[30]*4 + #2nd+notlongenough+3rd is its own 4th event
+				[0]*50 + #3rd event (2x non_flow_spell)
+				[2]*261 +
+                [3]*1                     
+         ),
+	{2012:[], 
+	 2013:[
+		     [(date(2013,5,22) + timedelta(days=i), 0) for i in range(15)] +
+		   	 [(date(2013,6,6) + timedelta(days=i), 20) for i in range(10)] +
+			 [(date(2013,6,16) + timedelta(days=i), 0) for i in range(15)]
+	 ], 
+	 2014:[], 
+	 2015:[
+         [(date(2015,7,1) + timedelta(days=i), 0) for i in range(50)],
+         [(date(2015,8,24) + timedelta(days=i), 0) for i in range(50)],
+         [(date(2015,7,1) + timedelta(days=i), 0) for i in range(50)]+
+         [(date(2015,8,20) + timedelta(days=i), 30) for i in range(4)]+
+         [(date(2015,8,24) + timedelta(days=i), 0) for i in range(50)]
+     ]}
+	),
+    ## 6th test for final day edge case
+    (
+ 	{
+      'min_flow' : 21,
+	   'duration':5,
+	   'min_event': 5,
+	   'non_flow_spell': 15,
+	   'ctf_threshold': 1
+    },
+		 np.array( 
+				[6]*325 +
+				[5]*15 + 
+				[20]*10 +
+				[5]*15 +    
+				[21]*365 + 
+				[2]*365 +
+				[5]*50 +
+				[30]*4 +
+				[5]*50 +
+				[2]*211 +
+				[3]*1  +
+				[0]*50  #event we finish in
+         ),
+	{2012:[], 
+	 2013:[], 
+	 2014:[], 
+	 2015:[
+         [(date(2016,5,12) + timedelta(days=i), 0) for i in range(49)]
+     ]}        
+	)
+    
 ])
 def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	'''
@@ -4885,6 +4584,8 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 		2. Test a unsuccessful fish dispersal (RECORD)
 		3. Test a consecutive unsuccessful fish dispersal (RECORD 2 overlapping events)
 		4. Test a unsuccessful fish dispersal (RECORD) over a year boundary
+		5. Test multiple overlapping events (RECORD ALL 3)
+		6. Test final day is still an event edge case (RECORD)
 	'''
 	
 	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
@@ -4895,6 +4596,10 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	all_events, _ = evaluate_EWRs.flow_calc_check_ctf(EWR_info, flows, water_years, dates, masked_dates)
 
 	for year in all_events:
+		print('EVENT')
+		print(all_events[year])
+		print('EXPECTED')
+		print(expected_all_events[year])
 		assert len(all_events[year]) == len(expected_all_events[year])
 		for i, event in enumerate(all_events[year]):
 			assert event == expected_all_events[year][i]
@@ -5220,19 +4925,19 @@ def test_create_water_stability_event(flow_date, flows, iteration, EWR_info, exp
 	(
 	[1,1,1,1,1,1],
 	0,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	{"max_level_change": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	True
 	),
 	(
 	[1,1.05,1.05,1.1,1,1],
 	0,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	{"max_level_change": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	False
 	),
 	(
 	[1,1.05,1,1,1,1],
 	0,
-	{"max_level_raise": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
+	{"max_level_change": 0.05, "drawdown_rate": 0.05, "eggs_days_spell":3,"larvae_days_spell":3},
 	False
 	),
 ])
@@ -5267,7 +4972,7 @@ def test_check_water_stability_flow(flows, iteration, EWR_info, expected_result)
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'end_month': 11
 	},
@@ -5311,7 +5016,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5339,7 +5044,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5366,7 +5071,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 1,	
@@ -5393,7 +5098,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5422,7 +5127,7 @@ def test_water_stability_check(EWR_info, iteration, flows, all_events, levels, e
 	  'max_flow' : 120,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5500,19 +5205,19 @@ def test_get_last_day_of_window(iteration_date, month_window_end, expected_resul
 
 @pytest.mark.parametrize('levels, EWR_info, expected_results',[
 	( [1,1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       False
 	),
 	( [1,1.04,1.04],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.01,1.02,1.01,1.02,1.01],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 ])
@@ -5522,19 +5227,19 @@ def test_is_egg_phase_stable(levels, EWR_info, expected_results):
 
 @pytest.mark.parametrize('levels, EWR_info, expected_results',[
 	( [1,1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.1,1],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       False
 	),
 	( [1,1.04,1.08,1.12],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       True
 	),
 	( [1,1.01,1.02,1.08,1.02,1.01],
-      {"max_level_raise": 0.05},
+      {"max_level_change": 0.05},
       False
 	),
 ])
@@ -5570,7 +5275,7 @@ def test_check_water_stability_height(levels, iteration, EWR_info, expected_resu
 	  'max_level' : 1.65,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'end_month': 11
 	},
@@ -5610,7 +5315,7 @@ def test_water_stability_level_check(EWR_info, iteration, all_events, levels, ex
 	  'max_level' : 1.65,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5633,7 +5338,7 @@ def test_water_stability_level_check(EWR_info, iteration, all_events, levels, ex
 	  'max_level' : 1.65,
 	  "eggs_days_spell": 3,
 	  "larvae_days_spell": 6,
-	  "max_level_raise" : 0.05,
+	  "max_level_change" : 0.05,
 	  "drawdown_rate" : 0.05,
 	  'min_event': 1,
 	  'duration': 0,	
@@ -5738,15 +5443,15 @@ def test_calculate_n_day_moving_average():
 
 @pytest.mark.parametrize("EWR_info, expected_type",[
 	(
-	{ 'EWR_code': "CLLMM1c_P"},
+	{ 'Code': "CLLMM1c_P"},
 	'c'
 	),
 	(
-	{ 'EWR_code': "CLLMM1d"},
+	{ 'Code': "CLLMM1d"},
 	'd'
 	),
 	(
-	{ 'EWR_code': "CLLMM1a_S"},
+	{ 'Code': "CLLMM1a_S"},
 	'a'
 	),
 ])
@@ -6466,185 +6171,9 @@ def test_rate_fall_level_check(EWR_info, iteration, event, all_events, total_eve
 	assert event == expected_event
 	assert all_events == expected_all_events
 
-
-@pytest.mark.parametrize("EWR_info, levels, iteration, expected", [
-    (
-		{'min_level_rise': .5},
-		[1, 2, 3, 4, 5, 6, 7], 
-		6,
-		 True
-		 ),
-    (
-		{'min_level_rise': .5},
-		[1.0, 1.2, 1.3, 1.4, 1.3, 1.4, 1.3], 
-		6,
-		 False
-		 ),
-])
-def test_evaluate_level_change(EWR_info, levels, iteration, expected):
-	
-	result = evaluate_EWRs.evaluate_level_change(EWR_info, levels, iteration)
-	
-	assert result == expected
-
-@pytest.mark.parametrize("EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event",[
-	(
-		{
-		  'gap_tolerance': 0,
-		  'min_level_rise': .5,
-		  'min_event':7,
-		  'start_month':7
-		  },
-		7,
-		[],
-		{ 2012: [], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-		0,
-		np.array( [1.0, 1.2, 1.3, 1.4, 1.3, 1.4, 1.3, 1.2, 1.4] + [0]*356 + 
-				  [0]*365 +
-				  [0]*365 + 
-				  [0]*366),
-		{ 2012: [], 
-			2013: [], 
-			2014: [], 
-			2015: []},
-		[],
-	),
-	(
-		{
-		  'gap_tolerance': 0,
-		  'min_level_rise': .5,
-		  'min_event':7,
-		  'start_month':7},
-		7,
-		[],
-		{ 2012: [], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-		0,
-		np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6] + [0]*357 + 
-				  [0]*365 +
-				  [0]*365 + 
-				  [0]*366),
-		{ 2012: [], 
-			2013: [], 
-			2014: [], 
-			2015: []},
-		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
-			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
-			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6)],
-	),
-	(
-		{
-		  'gap_tolerance': 0,
-		  'min_level_rise': .5,
-		  'min_event':7,
-		  'start_month':7},
-		8,
-		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
-			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
-			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6)],
-		{ 2012: [], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-		0,
-		np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6, 1.9] + [0]*356 + 
-				  [0]*365 +
-				  [0]*365 + 
-				  [0]*366),
-		{ 2012: [], 
-			2013: [], 
-			2014: [], 
-			2015: []},
-		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
-			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
-			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6),(date(2012, 7, 9), 1.9)],
-	),
-	(
-		{
-		  'gap_tolerance': 0,
-		  'min_level_rise': .5,
-		  'min_event':7,
-		  'start_month':7
-		  },
-		9,
-		[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
-			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
-			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6),(date(2012, 7, 9), 1.9)],
-		{ 2012: [], 
-		2013: [], 
-		2014: [], 
-		2015: []},
-		0,
-		np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6, 1.9, 1.5] + [0]*355 + 
-				  [0]*365 +
-				  [0]*365 + 
-				  [0]*366),
-		{ 2012: [[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), 
-			(date(2012, 7, 5), 1.3), (date(2012, 7, 6), 1.4), 
-			(date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6),(date(2012, 7, 9), 1.9)]], 
-			2013: [], 
-			2014: [], 
-			2015: []},
-		[],
-	),
-])
-def test_level_change_check(EWR_info, iteration, event, all_events, total_event, levels_data, expected_all_events,expected_event):
-
-	# non changing variable
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-	level_series = pd.Series(levels_data, index=dates)
-	level_date = dates[iteration]
-	gap_track = 0
-
-	event, all_events, _, _ = evaluate_EWRs.level_change_check(EWR_info, iteration, level_series, event, all_events, gap_track, 
-															water_years, total_event, level_date)
-
-	assert event == expected_event
-	assert all_events == expected_all_events
-
-
-
-@pytest.mark.parametrize("EWR_info, levels, expected_all_events",[
-	(   
-		{ 'gap_tolerance': 0,
-		  'min_level_rise': .5,
-		  'duration': 1,
-		  'min_event': 7,
-		  'start_month': 7,},	    
-	 np.array( [1.0, 1.0, 1.3, 1.4, 1.3, 1.4, 1.3, 1.6, 1.9, 1.5] + [0]*355 + 
-				  [0]*365 +
-				  [0]*365 + 
-				  [0]*366), 
-	{   2012: [[(date(2012, 7, 2), 1.0), (date(2012, 7, 3), 1.3), (date(2012, 7, 4), 1.4), (date(2012, 7, 5), 1.3), 
-			 (date(2012, 7, 6), 1.4), (date(2012, 7, 7), 1.3), (date(2012, 7, 8), 1.6), (date(2012, 7, 9), 1.9)]],
-		2013: [],
-		2014: [],
-		2015: []}
-	),
-])
-def test_level_change_calc(EWR_info, levels, expected_all_events):
-	
-	# non changing variable
-	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
-	water_years = np.array([2012]*365 + [2013]*365 + [2014]*365 + [2015]*366)
-	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
-
-	all_events, _ = evaluate_EWRs.level_change_calc(EWR_info, levels, water_years, dates, masked_dates)
-
-	assert all_events == expected_all_events
-
 @pytest.mark.parametrize("ewr_key, expected_result", [
 	( 
 		'IC2_S-single-F', 'flow_handle'
-	),
-	( 
-		'FLR-single-L', 'level_change_handle'
 	),
 	( 
 		'XXXXXX-single-L', 'unknown'
