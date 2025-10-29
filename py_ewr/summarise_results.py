@@ -582,6 +582,7 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
     s = 'TEMPORARY_ID_SPLIT'
 
     all_events['ID'] = all_events['scenario']+s+all_events['Gauge']+s+all_events['PlanningUnit']+s+all_events['Code']
+    print(all_events['ID'])
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
     all_successfulEvents = pd.DataFrame(columns = ['scenario', 'Gauge', 'PlanningUnit', 'Code', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
@@ -593,9 +594,12 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
         df_subset = all_events[all_events['ID'] == i]
         gauge = i.split('TEMPORARY_ID_SPLIT')[1]
         pu = i.split('TEMPORARY_ID_SPLIT')[2]
-        ewr = i.split('TEMPORARY_ID_SPLIT')[3]      
+        ewr = i.split('TEMPORARY_ID_SPLIT')[3]
 
         # Pull ewr minSpell value from ewr dataset
+        print(gauge)
+        print(pu)
+        print(ewr)
         minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
         # Filter out the events that fall under the minimum spell length
         df_subset = df_subset.drop(df_subset[df_subset.eventDuration < minSpell].index)
