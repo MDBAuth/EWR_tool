@@ -264,3 +264,9 @@ obj_reference.csv
 
 Contains the individual environmnetal objectives listed in the 'EnvObj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName).
 the function ```get_obj_mapping()``` is available to automatically merge the information from obj_reference.csv with the parameter sheet to link these objectives with their specific ewr_codes.
+usage:
+```python
+from py_ewr.data_inputs import get_obj_mapping
+
+obj_maping = get_obj_mapping()
+```
