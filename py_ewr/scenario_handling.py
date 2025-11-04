@@ -769,7 +769,6 @@ class ScenarioHandler:
 
                 all_data = []
                 for scenario_file in scenario:
-                    print(scenario_file)
                     try:
                         data, header = unpack_model_file(scenario_file, 'Dy', 'Field')
                         data = build_MDBA_columns(data, header)
