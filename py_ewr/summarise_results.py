@@ -582,7 +582,6 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
     s = 'TEMPORARY_ID_SPLIT'
 
     all_events['ID'] = all_events['scenario']+s+all_events['Gauge']+s+all_events['PlanningUnit']+s+all_events['Code']
-    print(all_events['ID'])
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
     all_successfulEvents = pd.DataFrame(columns = ['scenario', 'Gauge', 'PlanningUnit', 'Code', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
