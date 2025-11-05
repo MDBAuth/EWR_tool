@@ -556,7 +556,7 @@ def get_obj_mapping(
         obj_ref_path (str) = file path to objective mapping csv. If Not, default objective_reference.csv inside EWR tool is selected
     '''
     param_sheet_cols = [
-        'LTWPShortName', 'PlanningUnitName', 'SWSDLName', 'State', 'Gauge', 'Code', 'EnvObj'
+        'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EnvObj'
     ]
 
     if not obj_ref_path:
