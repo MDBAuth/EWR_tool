@@ -542,16 +542,43 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
 
 # def gauges_to_measurand()
 
-def get_causal_ewr() -> dict:
 
-    ewr2obj_path = os.path.join(BASE_PATH, "parameter_metadata/ewr2obj.csv")
-    obj2target_path = os.path.join(BASE_PATH, "parameter_metadata/obj2target.csv")
-    obj2yrtarget_path = os.path.join(BASE_PATH, "parameter_metadata/obj2yrtarget.csv")
+def get_obj_mapping(
+    parameter_sheet_path=None,
+    objective_reference_path=None
+) -> pd.DataFrame:
+    '''
+    Retrieves objective mapping and merges with parameter sheet on Gauge, Planning Unit, Code, and LTWPShortName
+    to create a longform table that lists the associations between each EWR and ecological objectives.
+    Returns a DataFrame with the merged result.
+    Args:
+        param_sheet_path (str) = file path to parameter sheet. If None, default parameter_sheet.csv inside the tool is selected
+        obj_ref_path (str) = file path to objective mapping csv. If Not, default objective_reference.csv inside EWR tool is selected
+    '''
+    param_sheet_cols = [
+        'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EnvObj'
+    ]
 
-    causal_ewr = {
-        "ewr2obj": pd.read_csv(ewr2obj_path),
-        "obj2target": pd.read_csv(obj2target_path),
-        "obj2yrtarget":pd.read_csv(obj2yrtarget_path)
-    }
+    if not obj_ref_path:
+        objective_reference_path = os.path.join(BASE_PATH, "parameter_metadata/obj_reference.csv")
+    
 
-    return causal_ewr
+    obj_ref = pd.read_csv(objective_reference_path)
+    
+
+    okay_EWRs, _ = get_EWR_table(file_path=parameter_sheet_path)
+    okay_EWRs_sub = okay_EWRs[param_sheet_cols]
+    
+    # Split 'EnvObj' by '+' and explode to long format
+    longform_ewr = okay_EWRs_sub.assign(
+        EnvObj=okay_EWRs_sub['EnvObj'].str.split('+')
+    ).explode('EnvObj').drop_duplicates()
+
+    merged_df = longform_ewr.merge(
+        obj_ref,
+        left_on= ['LTWPShortName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
+        right_on=['LTWPShortName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
+        how='left'
+    )
+
+    return merged_df

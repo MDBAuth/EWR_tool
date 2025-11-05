@@ -24,7 +24,7 @@
 - Added in model handling for FIRM model outputs
 - Various minor variable renamings for consistency
 - Renamed MaxLevelRise to MaxLevelChange
-- Removed AnnualFlowSum column from parameter sheet
+- Removed AnnualFlowSum and MinLevelRise column from parameter sheet
 - New format of objective mapping includes the adding of objective mapping back into the parameter sheet and one secondary dataframe (objective_reference.csv) in parameter metadata.
 
 ### **Installation**

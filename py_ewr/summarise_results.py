@@ -593,7 +593,7 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
         df_subset = all_events[all_events['ID'] == i]
         gauge = i.split('TEMPORARY_ID_SPLIT')[1]
         pu = i.split('TEMPORARY_ID_SPLIT')[2]
-        ewr = i.split('TEMPORARY_ID_SPLIT')[3]      
+        ewr = i.split('TEMPORARY_ID_SPLIT')[3]
 
         # Pull ewr minSpell value from ewr dataset
         minSpell = int(data_inputs.ewr_parameter_grabber(EWR_table, gauge, pu, ewr, 'MinSpell'))
