@@ -18,7 +18,7 @@
 - Added new FIRM ID file mapping FIRM ID to gauge number.
 
 #### parameter metadata
-- Updated parameter sheet
+- Updated parameter sheet and objective mapping correcting some mismatched links between environmental objectives and EWRs
 - Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet
 - Added in model handling for FIRM model outputs
