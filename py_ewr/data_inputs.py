@@ -556,10 +556,10 @@ def get_obj_mapping(
         obj_ref_path (str) = file path to objective mapping csv. If Not, default objective_reference.csv inside EWR tool is selected
     '''
     param_sheet_cols = [
-        'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EnvObj'
+        'PlanningUnitName', 'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EnvObj'
     ]
 
-    if not obj_ref_path:
+    if not objective_reference_path:
         objective_reference_path = os.path.join(BASE_PATH, "parameter_metadata/obj_reference.csv")
     
 
@@ -576,8 +576,8 @@ def get_obj_mapping(
 
     merged_df = longform_ewr.merge(
         obj_ref,
-        left_on= ['LTWPShortName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
-        right_on=['LTWPShortName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
+        left_on= ['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
+        right_on=['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
         how='left'
     )
 
