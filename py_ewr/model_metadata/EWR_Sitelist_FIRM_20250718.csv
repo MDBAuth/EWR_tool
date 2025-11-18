@@ -46,7 +46,7 @@ N/A,410014,11CLMOR,Colombo Creek @ Morundah,,F
 410015,410015,11YNMOR,Yanco Creek @ Morundah,1,F
 410016,410016,11FGJER,Billabong Creek at Jerilderie,1,F
 410021,410021,11GFDAR,Murrumbidgee River at Darlington Point,1,F
-N/A,410033,11UBMIT,Murrumbidgee River at Mittagang,,F
+410033,410033,11UBMIT,Murrumbidgee River at Mittagang,1,F
 410040,410040,11FGMAU,Murrumbidgee River D/S Maude Weir,1,F
 410093,410093,11GFKYW,Old Man Ck @ Kywong,1,F
 410130,410130,11FGBLW,Murrumbidgee River D/S Balranald,1,F
@@ -84,7 +84,7 @@ ASHFDG,416006,5ASHFDG,Severn River @ Ashford,1,F
 BONSHW,416007,5BONSHW,Dumaresq River @ Bonshaw Weir,1,F
 HAYSTCK,416008,5BEARRI,Beardy River at Haystack,1,F
 FWALLG,416010,5FWALLG,Macintyre River @ Wallangra,1,F
-ROSEN2,416011,5ROSEN2,Dumaresq River @ Roseneath,1,F
+ROSEN2,416011,5ROSEN2,Dumaresq River @ Roseneath (416011),1,F
 N/A,416011,,Dumaresq River @ Roseneath,,L
 HOLDFG,416012,5HOLDFG,Macintyre River @ Holdfast (Yelarbon Crossing),1,F
 BOOBSND,416415A,,Macintyre River @ Booba Sands,1,F
@@ -253,3 +253,4 @@ N/A,,WMWIMM,Wimmera - Private Unreg. Irrigation,,
 ,__WRBC2,__WRBC2,Wimmera River System Model Node WR_BC2,,
 ,__WRMK1,__WRMK1,Wimmera River System Model Node WR_MK1,,
 ,__WRYC1,__WRYC1,Wimmera River System Model Node WR_YC1,,
+
