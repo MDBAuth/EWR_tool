@@ -782,7 +782,7 @@ class ScenarioHandler:
 
                 df_clean = cleaner_MDBA(merged_data)
                 self.df_clean = df_clean
-                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes(), self.parameter_sheet)
+                df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes('FIRM - MDBA'), self.parameter_sheet)
                          
             gauge_results = {}
             gauge_events = {}
@@ -993,13 +993,13 @@ class ScenarioHandler:
         '''
 
         if self.model_format == 'Bigmod - MDBA':
-            self.site_id_df = data_inputs.get_MDBA_codes()[["AWRC", "SITEID"]]
+            self.site_id_df = data_inputs.get_MDBA_codes('Bigmod - MDBA')[["AWRC", "SITEID"]]
         elif self.model_format == 'All Bigmod':
-            self.site_id_df = data_inputs.get_MDBA_codes()[["AWRC", "SITEID"]]            
+            self.site_id_df = data_inputs.get_MDBA_codes('FIRM - MDBA')[["AWRC", "SITEID"]]            
         elif self.model_format == 'Source - NSW (res.csv)':
             pass
         elif self.model_format == 'Standard time-series':
-            self.site_id_df = data_inputs.get_MDBA_codes()[["AWRC", "SITEID"]]
+            self.site_id_df = data_inputs.get_MDBA_codes('FIRM - MDBA')[["AWRC", "SITEID"]]
         elif self.model_format == 'IQQM - netcdf':
             pass
         elif self.model_format == 'ten thousand year':
