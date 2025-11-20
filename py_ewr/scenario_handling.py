@@ -749,6 +749,7 @@ class ScenarioHandler:
                                
             elif self.model_format == 'Standard time-series':
                 df = pd.read_csv(scenarios[scenario], index_col = 'Date')
+                self.df_clean = df
                 df_F, df_L, self.report = cleaner_standard_timeseries(df, self.parameter_sheet)
 
             elif self.model_format == 'Source - NSW (res.csv)':
