@@ -416,7 +416,7 @@ Murray Lower Darling,OS4,Maintain water-dependant species richness,Other Species
 Murrumbidgee (MR),F4,Re-establish viable and resilient populations of Trout Cod,Native Fish,ACT
 Cotter River (CR1): Below Corin Dam to Cotter Reservoir,O2,Resilient populations of Platypus,Other Species,ACT
 Murrumbidgee (MR),O3,Resilient Turtle populations,Other Species,ACT
-Murrumbidgee (MR),PEF3a,in-stream habitat: pool scouring,Ecosystem Function,ACT
+Murrumbidgee (MR),PEF3a,in-stream habitat: pool scouring,Ecosystem Functions,ACT
 Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF5,drought refuge,Native Fish,ACT
 Cotter River (CR2): Below Cotter Dam,PEF5,drought refuge,Native Fish,ACT
 Murrumbidgee (MR),F2,Improved and resilient populations of Macquarie Perch,Native Fish,ACT
@@ -425,17 +425,17 @@ Cotter River (CR2): Below Cotter Dam,O2,Resilient populations of Platypus,Other 
 Murrumbidgee (MR),O2,Resilient populations of Platypus,Other Species,ACT
 Murrumbidgee (MR),O5,Improved and resilient populations of Rakali,Other Species,ACT
 Murrumbidgee (MR),O4,Improved and resilient populations of Murray Crayfish,Other Species,ACT
-Murrumbidgee (MR),PEF3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT
-Murrumbidgee (MR),PEF4,productivity,Ecosystem Function,ACT
-Murrumbidgee (MR),C1,Longitudinal connectivity is improved and maintained during all conditions,Ecosystem Function,ACT
+Murrumbidgee (MR),PEF3b,in-stream habitat: riffle scouring,Ecosystem Functions,ACT
+Murrumbidgee (MR),PEF4,productivity,Ecosystem Functions,ACT
+Murrumbidgee (MR),C1,Longitudinal connectivity is improved and maintained during all conditions,Ecosystem Functions,ACT
 Cotter River (CR1): Below Corin Dam to Cotter Reservoir,F1,Improved and resilient populations of Two-spined Blackfish,Native Fish,ACT
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF3a,in-stream habitat: pool scouring,Ecosystem Function,ACT
-Cotter River (CR2): Below Cotter Dam,PEF3a,in-stream habitat: pool scouring,Ecosystem Function,ACT
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF3a,in-stream habitat: pool scouring,Ecosystem Functions,ACT
+Cotter River (CR2): Below Cotter Dam,PEF3a,in-stream habitat: pool scouring,Ecosystem Functions,ACT
 Cotter River (CR1): Below Corin Dam to Cotter Reservoir,F2,Improved and resilient populations of Macquarie Perch,Native Fish,ACT
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT
-Cotter River (CR2): Below Cotter Dam,PEF3b,in-stream habitat: riffle scouring,Ecosystem Function,ACT
-Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF4,productivity,Ecosystem Function,ACT
-Cotter River (CR2): Below Cotter Dam,PEF4,productivity,Ecosystem Function,ACT
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF3b,in-stream habitat: riffle scouring,Ecosystem Functions,ACT
+Cotter River (CR2): Below Cotter Dam,PEF3b,in-stream habitat: riffle scouring,Ecosystem Functions,ACT
+Cotter River (CR1): Below Corin Dam to Cotter Reservoir,PEF4,productivity,Ecosystem Functions,ACT
+Cotter River (CR2): Below Cotter Dam,PEF4,productivity,Ecosystem Functions,ACT
 Murrumbidgee (MR),PEF5,drought refuge,Native Fish,ACT
 Cotter River (CR1): Below Corin Dam to Cotter Reservoir,F4,Re-establish viable and resilient populations of Trout Cod,Native Fish,ACT
 Murrumbidgee (MR),F5,Improved and resilient populations of Murray Cod,Native Fish,ACT
@@ -483,14 +483,14 @@ MacKenzie River and Burnt and Bangalally Creeks EWMP (2025),13,Maintain structur
 MacKenzie River and Burnt and Bangalally Creeks EWMP (2025),14,Maintain habitat values through prevention of streambed colonisation by terrestrial species - Burnt Creek.,Ecosystem Functions,VIC
 MacKenzie River and Burnt and Bangalally Creeks EWMP (2025),15,Improve channel diversity through increasing flow variability.,Ecosystem Functions,VIC
 MacKenzie River and Burnt and Bangalally Creeks EWMP (2025),16,Maintain a good diversity of macroinvertebrate species (based on MBI classifications) - Burnt Creek.,Other Species,VIC
-Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Function,VIC
+Kiewa FLOWs study 2008,V-P1,Maintain riffle substrate,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P2,Maintain pool volume,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P3,"Create bed form, bars and maintain channel depth",Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P4,Maintain pool habitat around large wood,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P5,Facilitate bench construction,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P6,"Continue plan-form development, maintain channel width",Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P7,Continue accretion of the floodplain,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-P8,Maintain the anabranching channel pattern,Ecosystem Functions,VIC
 Kiewa FLOWs study 2008,V-V1,Facilitate the return and/or persistence of native riparian vegetation on banks and in the riparian zone by maintaining an appropriate flow regime.,Native Vegetation,VIC
 Kiewa FLOWs study 2008,V-V2,Maintain the ruderal characteristics and low abundance of vegetation colonising gravel and cobble bars,Native Vegetation,VIC
 Kiewa FLOWs study 2008,V-V3,"Limit the establishment of terrestrial woody perennials, especially non-native species in the family Salicaceae on cobble and gravel bars.",Native Vegetation,VIC
@@ -507,16 +507,16 @@ Kiewa FLOWs study 2008,V-F3,"Restore self sustaining populations of Blackfish (e
 Kiewa FLOWs study 2008,V-F4,"Restore populations of small bodied native fish favouring wetland habitats (e.g. Galaxias rostratus, Nannoperca australis, Hypseleotris spp.)",Native Fish,VIC
 Kiewa FLOWs study 2008,V-F5,Restore self sufficient populations of Mountain Galaxias (Galaxias olidus spp.) in presence of introduced predators,Native Fish,VIC
 Kiewa FLOWs study 2008,V-F6,Enhance egg and larval survival of Two-spined Blackfish,Native Fish,VIC
-Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Function,VIC
-Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Function,VIC
+Kiewa FLOWs study 2008,V-M1,Maintain macroinvertebrate communities in riffles,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-M2,Maintain macroinvertebrate communities on snags,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-M3,Maintain macroinvertebrate communities in pools,Ecosystem Functions,VIC
+Kiewa FLOWs study 2008,V-W1,Maintain wetland resilience (capacity to recover) through appropriate water and land management,Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-G1,Scour sediments from base of pools to maintain deep pool habitat (refuge habitat),Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-G2,"Maintain channel form and key habitats, including in-channel bars and benches",Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-G3,Maintain bed diversity and substrate quality through turnover and mobilisation of bed sediments,Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-G4,Store sediments on floodplains,Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-G5,Scour biofilms from bed,Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-G6,Prevent riparian vegetation colonising the bed (terrestrialisation) to prevent catastrophic erosion processes,Ecosystem Functions,VIC
 Lower Ovens Environmental Flow study (2024),V-F1,Maintain abundance and diversity of large and small bodied native fish species associated with main channel habitats,Native Fish,VIC
 Lower Ovens Environmental Flow study (2024),V-F2,Maintain abundance and diversity of large and small bodied native fish species associated with floodplain habitats,Native Fish,VIC
 Lower Ovens Environmental Flow study (2024),V-F3,Maintain abundance and diversity of small bodied native fish species associated with floodplain habitats,Native Fish,VIC
@@ -530,8 +530,8 @@ Lower Ovens Environmental Flow study (2024),V-V7,"Maintain extent, condition and
 Lower Ovens Environmental Flow study (2024),V-V8,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC
 Lower Ovens Environmental Flow study (2024),V-V9,"Maintain extent, condition and floristic diversity of floodplain vegetation",Native Vegetation,VIC
 Lower Ovens Environmental Flow study (2024),V-V10,Minimise colonisation in instream habitats by riparian or terrestrial woody plants,Native Vegetation,VIC
-Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Function,VIC
-Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Function,VIC
+Lower Ovens Environmental Flow study (2024),V-M1,"Maintain abundance and diversity of wetland invertebrate  assemblages, including large-bodied long-lived species, e.g. mussels",Ecosystem Functions,VIC
+Lower Ovens Environmental Flow study (2024),V-M2,"Maintain abundance and diversity of pool, riffle and edge habitat macroinvertebrate assemblages",Ecosystem Functions,VIC
 Lower Ovens Environmental Flow study (2024),V-MM1,Maintain aquatic mammal population and structure,Other Species,VIC
 Lower Ovens Environmental Flow study (2024),V-FR1,Maintain diversity of frogs and improve breeding and recruitment,Other Species,VIC
 Lower Ovens Environmental Flow study (2024),V-T1,Maintain presence of the three species of turtle in the Lower Ovens,Other Species,VIC
@@ -552,7 +552,7 @@ Campaspe River EWMP,V-2.3,"Increase extent or maintain instream aquatic plants (
 Campaspe River EWMP,V-2.4,Control salinity and stratification in deep pools,Ecosystem Functions,VIC
 Campaspe River EWMP,V-3,"Facilitate recolonisation by native fish species that have been presumed lost e.g. Trout Cod, River Blackfish and Macquarie Perch.",Native Fish,VIC
 Campaspe River EWMP,V-4,Platypus - Maintain or increase resident breeding population by facilitating successful recruitment at least every second year and promote safe dispersal by juveniles,Other species,VIC
-Campaspe River EWMP,V-5,Maintain or Improve connectivity between the Campaspe River reaches and between the Campaspe River and the Murray River,Ecoystem Functions,VIC
+Campaspe River EWMP,V-5,Maintain or Improve connectivity between the Campaspe River reaches and between the Campaspe River and the Murray River,Ecosystem Functions,VIC
 Coliban River EWMP,V-F1,"Increase abundance and diversity of opportunistic small-bodied native fish such as Australian Smelt, Flat-headed Gudgeon and Mountain Galaxias.",Native Fish,VIC
 Coliban River EWMP,V-F2,Provide habitat and flow conditions that will allow River Blackfish to reestablish,Native Fish,VIC
 Coliban River EWMP,V-P1,Provide conditions that consistently support widespread successful breeding of Platypus to increase its resilience to future drought and floods and to provide surplus juveniles that can disperse to and colonise other suitable waterways,Other Species,VIC
@@ -628,27 +628,27 @@ Johnson Swamp EWMP,V-HJWB1,"Maintain all waterbird feeding guilds, a waterbird s
 Johnson Swamp EWMP,V-HJWB2,"Increase, or facilitate, breeding opportunities for waterbirds at Johnson Swamp through environmental water management by improving breeding habitat or prolonging inundation",Waterbirds,VIC
 Johnson Swamp EWMP,V-HJEF2,Create through flow conditions by rehabilitating lateral connectivity between wetland and Pyramid Creek,Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NF1,"All Fish - Baseflow for fish passage, at least 40cm and habitat diversity",Native Fish,VIC
-Goulburn River Flow Study,V-EF4,Instream Productivity (to support Macroinvertebrates),Ecosystem Function,VIC
-Goulburn River Flow Study,V-EF5,"Macroinvertebrates (to support fish, turtles and platypus) - Flows engage with littoral vegetation to provide edge habitat.",Ecosystem Function,VIC
+Goulburn River Flow Study,V-EF4,Instream Productivity (to support Macroinvertebrates),Ecosystem Functions,VIC
+Goulburn River Flow Study,V-EF5,"Macroinvertebrates (to support fish, turtles and platypus) - Flows engage with littoral vegetation to provide edge habitat.",Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NV1,Littoral Vegetation,Native Vegetation,VIC
 Goulburn River Flow Study,V-NV2,Midbank Vegetation,Native Vegetation,VIC
 Goulburn River Flow Study,V-NV3,Bank Stability,Native Vegetation,VIC
 Goulburn River Flow Study,V-OS1,Turtle feeding,Other Species,VIC
 Goulburn River Flow Study,V-NF2,Opportunistic Fish - Provides connectivity to off-channel habitats with greater food resources,Native Fish,VIC
 Goulburn River Flow Study,V-NF3,Periodic/Equilibrium Fish - Provides cues for movement through the system allowing dispersal,Native Fish,VIC
-Goulburn River Flow Study,V-EF1,"Instream Productivity - Return flows bring organic matter from the floodplain and offchannel habitats into the river channel, driving production and respiration",Ecosystem Function,VIC
-Goulburn River Flow Study,V-EF6,Macroinvertebrates - Benefit from higher instream productivity as a food source,Ecosystem Function,VIC
+Goulburn River Flow Study,V-EF1,"Instream Productivity - Return flows bring organic matter from the floodplain and offchannel habitats into the river channel, driving production and respiration",Ecosystem Functions,VIC
+Goulburn River Flow Study,V-EF6,Macroinvertebrates - Benefit from higher instream productivity as a food source,Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NV4,Littoral/Bank Vegetation - Return flows bring large amounts of sediments and propagules into the river channel system rebuilding vegetation habitat,Native Vegetation,VIC
 Goulburn River Flow Study,V-NV5,Floodplain Vegetation - Semi-regular inundation of floodplain vegetation is necessary for plant condition and as part of reproductive cycle,Native Vegetation,VIC
-Goulburn River Flow Study,V-EF2,"Instream Habitat Complexity - These are channel forming events that create inchannel complexity by scouring bed sediments to recreate pools and deposit those sediments onto higher levels to create bars and benches that provide variable level niches, providing dynamic habitat complexity",Ecosystem Function,VIC
+Goulburn River Flow Study,V-EF2,"Instream Habitat Complexity - These are channel forming events that create inchannel complexity by scouring bed sediments to recreate pools and deposit those sediments onto higher levels to create bars and benches that provide variable level niches, providing dynamic habitat complexity",Ecosystem Functions,VIC
 Goulburn River Flow Study,V-OS2,Turtles - Inundation of off-channel habitats creates superior nesting habitat for adults,Other Species,VIC
 Goulburn River Flow Study,V-OS3,Platypus - Inundation of off-channel habitats creates superior feeding habitat (especially beneficial in late autumn-winter to support reproductive success),Other Species,VIC
 Goulburn River Flow Study,V-NF4,All Fish - Provides cues for movement through the system allowing dispersal,Native Fish,VIC
-Goulburn River Flow Study,V-EF7,"Macroinvertebrates - High flows scour fine sediments from interstitial spaces, improving habitat",Ecosystem Function,VIC
+Goulburn River Flow Study,V-EF7,"Macroinvertebrates - High flows scour fine sediments from interstitial spaces, improving habitat",Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NV6,"Littoral/Bank Vegetation - High flows increase moisture in bank soils and provide a source of propagules, driving germination/establishment of new plants and growth of existing ones",Native Vegetation,VIC
-Goulburn River Flow Study,V-EF3,"Instream Habitat Complexity - Freshes transport fine sediments, helping to maintain within-channel habitat features",Ecosystem Function,VIC
+Goulburn River Flow Study,V-EF3,"Instream Habitat Complexity - Freshes transport fine sediments, helping to maintain within-channel habitat features",Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NF5,All Fish - Provides cues for movement through the system allowing dispersal. Autumn flows delivered while Murray River flows are relatively low can promote the migration of juvenile golden and silver perch into the Kaiela.,Native Fish,VIC
-Goulburn River Flow Study,V-EF8,"Macroinvertebrates - High flows scour old biofilms from hard substrates, resetting them and improving food resources",Ecosystem Function,VIC
+Goulburn River Flow Study,V-EF8,"Macroinvertebrates - High flows scour old biofilms from hard substrates, resetting them and improving food resources",Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NV7,"Mid-Bank Vegetation - If summer flows have been consistently low, high flows in autumn can reinvigorate drying vegetation on the bank, providing some growth before the weather cools and vegetation strops growing",Native Vegetation,VIC
 Goulburn River Flow Study,V-NF6,Periodic Fish - Provides cues for adult golden perch in the Goulburn to move downstream and spawn. Water temperatures must be over 19 C,Native Fish,VIC
 Barmah EWMP 2023,V-NV8,Improve condition of native non-woody aquatic vegetation,Native Vegetation,VIC
@@ -662,64 +662,64 @@ Barmah EWMP 2023,V-OS6,Restore representative subpopulations of native water dep
 Barmah EWMP 2023,V-WB2,Support waterfowl breeding and small-scale colonial breeding,Waterbirds,VIC
 Barmah EWMP 2023,V-NF8,Support successful breeding and recruitment of native fish,Native Fish,VIC
 Barmah EWMP 2023,V-NF9,Support small bodied fish and movement of large bodied riverine native fish,Native Fish,VIC
-Barmah EWMP 2023,V-EF9,Provide refugia to support the long-term survival of water-dependent biota,Ecosystem Function,VIC
+Barmah EWMP 2023,V-EF9,Provide refugia to support the long-term survival of water-dependent biota,Ecosystem Functions,VIC
 Goulburn River Seasonal Watering Proposal 2023-2024,V-NF10,"Increase the abundance, spatial distribution and size class diversity of key native fish species (i.e. Macquarie perch, Murray cod, Trout cod, Golden and Silver perch)",Native Fish,VIC
 Goulburn River Seasonal Watering Proposal 2023-2024,V-NV11,Increase the abundance and richness of aquatic and flood dependant native species (i.e. instream and lower bank),Native Vegetation,VIC
-Goulburn River Seasonal Watering Proposal 2023-2024,V-EF10,Increase macroinvertebrate biomass and diversity,Ecosystem Function,VIC
-Goulburn River Seasonal Watering Proposal 2023-2024,V-EF11,"Protect and promote natural channel form and dynamics (e.g. sediment diversity, rates of sediment transport and bank erosion rates)",Ecosystem Function,VIC
-Goulburn River Seasonal Watering Proposal 2023-2024,V-EF12,Increase instream physical habitat diversity (e.g. shallow and deep water habitats),Ecosystem Function,VIC
-Goulburn River Seasonal Watering Proposal 2023-2024,V-EF13,Provide sufficient rates of instream primary production and respiration to support native fish and macroinvertebrate communities,Ecosystem Function,VIC
+Goulburn River Seasonal Watering Proposal 2023-2024,V-EF10,Increase macroinvertebrate biomass and diversity,Ecosystem Functions,VIC
+Goulburn River Seasonal Watering Proposal 2023-2024,V-EF11,"Protect and promote natural channel form and dynamics (e.g. sediment diversity, rates of sediment transport and bank erosion rates)",Ecosystem Functions,VIC
+Goulburn River Seasonal Watering Proposal 2023-2024,V-EF12,Increase instream physical habitat diversity (e.g. shallow and deep water habitats),Ecosystem Functions,VIC
+Goulburn River Seasonal Watering Proposal 2023-2024,V-EF13,Provide sufficient rates of instream primary production and respiration to support native fish and macroinvertebrate communities,Ecosystem Functions,VIC
 Goulburn River Seasonal Watering Proposal 2023-2024,V-OS7,Maximise self sustaining populations of Platypus,Other Species,VIC
 Goulburn River Seasonal Watering Proposal 2023-2024,V-OS8,Maximise self sustaining populations of Turtles,Other Species,VIC
-Broken River EMWP,V-G1,Provide baseflow adequate to allow the persistence of aquatic macrophytes at the bank toe,Ecosystem Function,VIC
-Broken River EMWP,V-G2,Provide baseflow to prevent terrestrial vegetation colonizing the stream bed,Ecosystem Function,VIC
-Broken River EMWP,V-G3,Maintain the rates of bed material movement to maintain bed diversity (sand and gravel bed),Ecosystem Function,VIC
-Broken River EMWP,V-G4,Flows to turn over bed sediments in runs and scour around large wood.,Ecosystem Function,VIC
-Broken River EMWP,V-G5,Provide bench inundation to maintain bench form (and wet vegetation and promote the deposition/retention of organic matter).,Ecosystem Function,VIC
-Broken River EMWP,V-G6,"Maintain connectivity between the channel, anabranches and wetlands.",Ecosystem Function,VIC
+Broken River EMWP,V-G1,Provide baseflow adequate to allow the persistence of aquatic macrophytes at the bank toe,Ecosystem Functions,VIC
+Broken River EMWP,V-G2,Provide baseflow to prevent terrestrial vegetation colonizing the stream bed,Ecosystem Functions,VIC
+Broken River EMWP,V-G3,Maintain the rates of bed material movement to maintain bed diversity (sand and gravel bed),Ecosystem Functions,VIC
+Broken River EMWP,V-G4,Flows to turn over bed sediments in runs and scour around large wood.,Ecosystem Functions,VIC
+Broken River EMWP,V-G5,Provide bench inundation to maintain bench form (and wet vegetation and promote the deposition/retention of organic matter).,Ecosystem Functions,VIC
+Broken River EMWP,V-G6,"Maintain connectivity between the channel, anabranches and wetlands.",Ecosystem Functions,VIC
 Broken River EMWP,V-R1,"Improve the longitudinal and lateral extent and condition of remnant native vegetation at the top of the bank and on the floodplain, with a focus on Floodplain Riparian Woodland.",Native Vegetation,VIC
-Broken River EMWP,V-W1,"Maintain a mosaic of wetlands features, including maintenance of individual wetland/vegetation components within Floodplain Wetland Aggregate EVC.",Ecosystem Function,VIC
-Broken River EMWP,V-W2,Maintain lateral linkages (hydrological and biological) between floodplain wetlands and main-stream channel of river,Ecosystem Function,VIC
-Broken River EMWP,V-IC1,Maintain the ruderal-temporary character of cobble and gravel riffles,Ecosystem Function,VIC
+Broken River EMWP,V-W1,"Maintain a mosaic of wetlands features, including maintenance of individual wetland/vegetation components within Floodplain Wetland Aggregate EVC.",Ecosystem Functions,VIC
+Broken River EMWP,V-W2,Maintain lateral linkages (hydrological and biological) between floodplain wetlands and main-stream channel of river,Ecosystem Functions,VIC
+Broken River EMWP,V-IC1,Maintain the ruderal-temporary character of cobble and gravel riffles,Ecosystem Functions,VIC
 Broken River EMWP,V-IC2,Minimise the opportunities for woody species to establish and persist on in-channel cobble and gravel bars,Native Vegetation,VIC
 Broken River EMWP,V-IC3,Minimise the opportunities for woody species to establish and persist on in-channel sand bars,Native Vegetation,VIC
-Broken River EMWP,V-IC4,Slough filamentous algae and refresh biofilms on hard surfaces.,Ecosystem Function,VIC
+Broken River EMWP,V-IC4,Slough filamentous algae and refresh biofilms on hard surfaces.,Ecosystem Functions,VIC
 Broken River EMWP,V-IC5,Maintain in-channel native submerged and emergent vegetation,Native Vegetation,VIC
-Broken River EMWP,V-IC6,"Inundate benches, bars and low levels of the river bank to entrain organic matter and drive ecological processes such as carbon and nutrient cycling",Ecosystem Function,VIC
-Broken River EMWP,V-MI1,Maintain areas of riffles and runs,Ecosystem Function,VIC
-Broken River EMWP,V-MI2,Maintain hydraulic habitat diversity to ensure that there is sufficient water to provide flowing and slackwater habitats within the channel,Ecosystem Function,VIC
-Broken River EMWP,V-MI3,Maintain habitat for macrophytes that provide crucial habitat for macroinvertebrates,Ecosystem Function,VIC
-Broken River EMWP,V-MI4,Scour fine sediment from the surface of the substrate to promote biofilm productivity,Ecosystem Function,VIC
-Broken River EMWP,V-MI5,Provide floodplain connection for exchange of organic matter and fine sediment.,Ecosystem Function,VIC
-Broken River EMWP,V-MI6,Retain natural seasonality to ensure synchronicity of life cycle stages with appropriate flows,Ecosystem Function,VIC
+Broken River EMWP,V-IC6,"Inundate benches, bars and low levels of the river bank to entrain organic matter and drive ecological processes such as carbon and nutrient cycling",Ecosystem Functions,VIC
+Broken River EMWP,V-MI1,Maintain areas of riffles and runs,Ecosystem Functions,VIC
+Broken River EMWP,V-MI2,Maintain hydraulic habitat diversity to ensure that there is sufficient water to provide flowing and slackwater habitats within the channel,Ecosystem Functions,VIC
+Broken River EMWP,V-MI3,Maintain habitat for macrophytes that provide crucial habitat for macroinvertebrates,Ecosystem Functions,VIC
+Broken River EMWP,V-MI4,Scour fine sediment from the surface of the substrate to promote biofilm productivity,Ecosystem Functions,VIC
+Broken River EMWP,V-MI5,Provide floodplain connection for exchange of organic matter and fine sediment.,Ecosystem Functions,VIC
+Broken River EMWP,V-MI6,Retain natural seasonality to ensure synchronicity of life cycle stages with appropriate flows,Ecosystem Functions,VIC
 Broken River EMWP,V-NF1,"Provide low flows that maintain adequate habitat for native fish populations, particularly slackwater habitats and deep pools",Native Fish,VIC
 Broken River EMWP,V-NF2,Provide flows sufficient to allow fish passage,Native Fish,VIC
 Broken River EMWP,V-NF3,Provide to water access to billabongs and flood-runners to provide additional habitat diversity and food sources that contribute to production,Native Fish,VIC
 Broken River EMWP,V-NF4,Provide flow cues to stimulate movements,Native Fish,VIC
-Lower Broken Creek Flows study 2019,V-G1.1,Maintain channel form and where possible provide flows sufficient to mobilise sediments and maintain existing pools / restore infilled pools.,Ecosystem Function,VIC
-Lower Broken Creek Flows study 2019,V-G1.2,Prevent gross channel change.,Ecosystem Function,VIC
+Lower Broken Creek Flows study 2019,V-G1.1,Maintain channel form and where possible provide flows sufficient to mobilise sediments and maintain existing pools / restore infilled pools.,Ecosystem Functions,VIC
+Lower Broken Creek Flows study 2019,V-G1.2,Prevent gross channel change.,Ecosystem Functions,VIC
 Lower Broken Creek Flows study 2019,V-V1.1,Promote the germination and recruitment of eucalypts and ther riparian species ithin the riparian zone typical of the relevant EVC.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V1.2,Maintain and promote beds of V. australis.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V1.3,Deep inundation of benches to limit growth of terrestrial species.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V1.4,Create wetting and drying of littoral zone with appropriate timing to enable establishment and growth of vegetation.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V1.5,Provide gradual drawdown to allow terrestrial plants to colonise drying littoral habitats,Native Vegetation,VIC
-Lower Broken Creek Flows study 2019,V-M1.1,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Function,VIC
-Lower Broken Creek Flows study 2019,V-M1.2,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Function,VIC
+Lower Broken Creek Flows study 2019,V-M1.1,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functions,VIC
+Lower Broken Creek Flows study 2019,V-M1.2,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functions,VIC
 Lower Broken Creek Flows study 2019,V-F1.1,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC
 Lower Broken Creek Flows study 2019,V-F1.2,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC
 Lower Broken Creek Flows study 2019,V-P1.1,Ensure that enough flow is maintained outside the irrigation season to provide suitable platypus foraging habitat and support the potential for safe juvenile dispersal into and through reach.,Other Species,VIC
 Lower Broken Creek Flows study 2019,V-T1.1,Provide suitable flow/habitat conditions for turtles,Other Species,VIC
 Lower Broken Creek Flows study 2019,V-T1.2,Provide suitable flow/habitat conditions for turtles,Other Species,VIC
-Lower Broken Creek Flows study 2019,V-W1.1,Maintain water quality (limit suspended sediment),Ecosystem Function,VIC
-Lower Broken Creek Flows study 2019,V-G2.1,Maintain channel form and where possible provide flows sufficient to mobilise sediments and maintain existing pools / restore infilled pools.,Ecosystem Function,VIC
-Lower Broken Creek Flows study 2019,V-G2.2,Prevent gross channel change.,Ecosystem Function,VIC
+Lower Broken Creek Flows study 2019,V-W1.1,Maintain water quality (limit suspended sediment),Ecosystem Functions,VIC
+Lower Broken Creek Flows study 2019,V-G2.1,Maintain channel form and where possible provide flows sufficient to mobilise sediments and maintain existing pools / restore infilled pools.,Ecosystem Functions,VIC
+Lower Broken Creek Flows study 2019,V-G2.2,Prevent gross channel change.,Ecosystem Functions,VIC
 Lower Broken Creek Flows study 2019,V-V2.1,Promote the germination and recruitment of eucalypts and ther riparian species ithin the riparian zone typical of the relevant EVC.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V2.2,Promote establishment of beds of V. australis.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V2.3,Reduce the encroachment of riparian species into the creek channel.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V2.4,Promote the development of a diverse littoral vegetation community.,Native Vegetation,VIC
 Lower Broken Creek Flows study 2019,V-V2.5,Promote the development of a diverse littoral vegetation community.,Native Vegetation,VIC
-Lower Broken Creek Flows study 2019,V-M2.1,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Function,VIC
-Lower Broken Creek Flows study 2019,V-M2.2,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Function,VIC
+Lower Broken Creek Flows study 2019,V-M2.1,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functions,VIC
+Lower Broken Creek Flows study 2019,V-M2.2,"Maintain diversity and abundance of macroinvertebrate taxa, particularly species important as a food source for native fish and platypus.",Ecosystem Functions,VIC
 Lower Broken Creek Flows study 2019,V-F2.1,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC
 Lower Broken Creek Flows study 2019,V-F2.2,Improve population of small and large bodied native fish and expand range of suitable habitat.,Native Fish,VIC
 Lower Broken Creek Flows study 2019,V-P2.1,Ensure that enough flow is maintained outside the irrigation season to provide suitable platypus foraging habitat and support the potential for safe juvenile dispersal into and through reach.,Other Species,VIC
@@ -774,3 +774,4 @@ Upper Broken Creek Flows study 2017,V-P1.1,Maintain platypus population and supp
 Upper Broken Creek Flows study 2017,V-P1.2,Maintain platypus population and support successful breeding and juvenile dispersal,Other Species,VIC
 Upper Broken Creek Flows study 2017,V-P1.3,Maintain platypus population and support successful breeding and juvenile dispersal,Other Species,VIC
 Upper Broken Creek Flows study 2017,V-M1.1,Maintain self-sustaining populations of macroinvertebrates,Ecosystem Functions,VIC
+
