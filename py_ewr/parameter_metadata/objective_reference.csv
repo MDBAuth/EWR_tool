@@ -607,26 +607,26 @@ Gunbower creek system EWMP,V-1.6,Maintain feeding and breeding opportunities for
 Gunbower creek system EWMP,V-1.7,Maintain feeding and opportunistic breeding conditions for a diversity of waterbirds,Waterbirds,VIC
 Gunbower creek system EWMP,V-1.8,Maintain feeding and breeding opportunities for frogs,Other Species,VIC
 Gunbower creek system EWMP,V-1.9,"Restore connectivity between the creek, lagoons and their associated riparian zones",Ecosystem Functions,VIC
-Boort Wetlands EWMP,V-BV1,Restore the distribution of live river red gums and associated floristic community (EVC 292),Native Vegetation,VIC
-Boort Wetlands EWMP,V-BV2,Restore and rehabilitate vegetation species diversity typical of aquatic and semi-aquatic environments when the wetland is inundated.,Native Vegetation,VIC
-Boort Wetlands EWMP,V-BV3,Maintain current extent and restore health of Black Box vegetation surrounding the high water mark of Lake Boort (EVC 803: Plains woodland),Native Vegetation,VIC
-Lake Elizabeth EWMP,V-LEV1,"Maintain/ reinstate submerged aquatics (i.e. large-fruit sea tassel, stonewort and long-fruit water-mat)",Native Vegetation,VIC
-Lake Elizabeth EWMP,V-LEV2,Restore and maintain chenopod shrubland from the littoral zones to wetland margins,Native Vegetation,VIC
-Lake Elizabeth EWMP,V-LEV3,Restore littoral zone of wetland,Native Vegetation,VIC
-Lake Elizabeth EWMP,V-LEWB1,Restore breeding of waterbirds,Waterbirds,VIC
-Lake Elizabeth EWMP,V-LEWB2,Restore feeding opportunities (food source for waterbirds),Waterbirds,VIC
-Lake Elizabeth EWMP,V-LEO1,Restore diversity and abundance of invertebrates,Other Species,VIC
-Lake Elizabeth EWMP,V-LEF1,Maintain and support breeding of Murray hardyhead,Native Fish,VIC
-Lake Elizabeth EWMP,V-LEEF1,"Maintain salinity within 25,000 to 40,000 EC",Ecosystem Functions,VIC
-Hird Swamp EWMP,V-HJV1,"Restore wetland macrophyte community during watering events, and ensure successful reproduction through viable seeds and propagules",Native Vegetation,VIC
-Hird Swamp EWMP,V-HJEF1,Maintain open water habitats at current extent through wetland.,Ecosystem Functions,VIC
-Hird Swamp EWMP,V-HJV2,Reduce extent and density of Phragmites australis and Typha sp.,Native Vegetation,VIC
-Hird Swamp EWMP,V-HJV3,Maintain biota typical of lignum and chenopod woodland.,Native Vegetation,VIC
-Johnson Swamp EWMP,V-HJV4,Reduce extent of cumbungi in Tall Marsh (EVC 821) by 20 percent at Johnson Swamp west) by 2025,Native Vegetation,VIC
-Johnson Swamp EWMP,V-HJV5,Rehabilitate Intermittent Swampy Woodland (EVC 813) and Lignum Swampy Woodland (EVC 823) at Johnson Swamp West and East by 2025,Native Vegetation,VIC
-Johnson Swamp EWMP,V-HJWB1,"Maintain all waterbird feeding guilds, a waterbird species richness between 30 and 50 species and abundance levels in the thousands per month between October to January at Johnson Swamp, in three out of four targeted surveys over any 10 year period",Waterbirds,VIC
-Johnson Swamp EWMP,V-HJWB2,"Increase, or facilitate, breeding opportunities for waterbirds at Johnson Swamp through environmental water management by improving breeding habitat or prolonging inundation",Waterbirds,VIC
-Johnson Swamp EWMP,V-HJEF2,Create through flow conditions by rehabilitating lateral connectivity between wetland and Pyramid Creek,Ecosystem Functions,VIC
+Loddon Wetlands proxy,V-BV1,Restore the distribution of live river red gums and associated floristic community (EVC 292),Native Vegetation,VIC
+Loddon Wetlands proxy,V-BV2,Restore and rehabilitate vegetation species diversity typical of aquatic and semi-aquatic environments when the wetland is inundated.,Native Vegetation,VIC
+Loddon Wetlands proxy,V-BV3,Maintain current extent and restore health of Black Box vegetation surrounding the high water mark of Lake Boort (EVC 803: Plains woodland),Native Vegetation,VIC
+Loddon Wetlands proxy,V-LEV1,"Maintain/ reinstate submerged aquatics (i.e. large-fruit sea tassel, stonewort and long-fruit water-mat)",Native Vegetation,VIC
+Loddon Wetlands proxy,V-LEV2,Restore and maintain chenopod shrubland from the littoral zones to wetland margins,Native Vegetation,VIC
+Loddon Wetlands proxy,V-LEV3,Restore littoral zone of wetland,Native Vegetation,VIC
+Loddon Wetlands proxy,V-LEWB1,Restore breeding of waterbirds,Waterbirds,VIC
+Loddon Wetlands proxy,V-LEWB2,Restore feeding opportunities (food source for waterbirds),Waterbirds,VIC
+Loddon Wetlands proxy,V-LEO1,Restore diversity and abundance of invertebrates,Other Species,VIC
+Loddon Wetlands proxy,V-LEF1,Maintain and support breeding of Murray hardyhead,Native Fish,VIC
+Loddon Wetlands proxy,V-LEEF1,"Maintain salinity within 25,000 to 40,000 EC",Ecosystem Functions,VIC
+Loddon Wetlands proxy,V-HJV1,"Restore wetland macrophyte community during watering events, and ensure successful reproduction through viable seeds and propagules",Native Vegetation,VIC
+Loddon Wetlands proxy,V-HJEF1,Maintain open water habitats at current extent through wetland.,Ecosystem Functions,VIC
+Loddon Wetlands proxy,V-HJV2,Reduce extent and density of Phragmites australis and Typha sp.,Native Vegetation,VIC
+Loddon Wetlands proxy,V-HJV3,Maintain biota typical of lignum and chenopod woodland.,Native Vegetation,VIC
+Loddon Wetlands proxy,V-HJV4,Reduce extent of cumbungi in Tall Marsh (EVC 821) by 20 percent at Johnson Swamp west) by 2025,Native Vegetation,VIC
+Loddon Wetlands proxy,V-HJV5,Rehabilitate Intermittent Swampy Woodland (EVC 813) and Lignum Swampy Woodland (EVC 823) at Johnson Swamp West and East by 2025,Native Vegetation,VIC
+Loddon Wetlands proxy,V-HJWB1,"Maintain all waterbird feeding guilds, a waterbird species richness between 30 and 50 species and abundance levels in the thousands per month between October to January at Johnson Swamp, in three out of four targeted surveys over any 10 year period",Waterbirds,VIC
+Loddon Wetlands proxy,V-HJWB2,"Increase, or facilitate, breeding opportunities for waterbirds at Johnson Swamp through environmental water management by improving breeding habitat or prolonging inundation",Waterbirds,VIC
+Loddon Wetlands proxy,V-HJEF2,Create through flow conditions by rehabilitating lateral connectivity between wetland and Pyramid Creek,Ecosystem Functions,VIC
 Goulburn River Flow Study,V-NF1,"All Fish - Baseflow for fish passage, at least 40cm and habitat diversity",Native Fish,VIC
 Goulburn River Flow Study,V-EF4,Instream Productivity (to support Macroinvertebrates),Ecosystem Functions,VIC
 Goulburn River Flow Study,V-EF5,"Macroinvertebrates (to support fish, turtles and platypus) - Flows engage with littoral vegetation to provide edge habitat.",Ecosystem Functions,VIC
@@ -774,5 +774,6 @@ Upper Broken Creek Flows study 2017,V-P1.1,Maintain platypus population and supp
 Upper Broken Creek Flows study 2017,V-P1.2,Maintain platypus population and support successful breeding and juvenile dispersal,Other Species,VIC
 Upper Broken Creek Flows study 2017,V-P1.3,Maintain platypus population and support successful breeding and juvenile dispersal,Other Species,VIC
 Upper Broken Creek Flows study 2017,V-M1.1,Maintain self-sustaining populations of macroinvertebrates,Ecosystem Functions,VIC
+
 
 
