@@ -3324,9 +3324,9 @@ PU_SS20020,Lindsay-Mullaroo Connector,Lindsay Mulcra Wallpolla Icon Site EWMP 20
 PU_SS20026,Sandy Creek,Lindsay Mulcra Wallpolla Icon Site EWMP 2021,,A4250010,SF,7,6,80.0,,,1.0,16.0,16.0,32000.0,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,V-LMW1+V-LMW7+V-LMW9
 PU_SS20012,Finnigans Creek,Lindsay Mulcra Wallpolla Icon Site EWMP 2021,,A4250010,SF,7,6,80.0,,,1.0,19.0,19.0,12000.0,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,V-LMW1+V-LMW7+V-LMW9
 PU_SS20030,Wallpolla Creek East,Lindsay Mulcra Wallpolla Icon Site EWMP 2021,,A4250010,SF,7,6,40.0,,,1.0,23.0,23.0,56000.0,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,V-LMW1+V-LMW7+V-LMW9
-PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,20.0,10.0,30.0,1.0,122.0,122.0,56000.0,,10.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL1
-PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,50.0,20.0,100.0,1.0,183.0,183.0,56000.0,,12.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL2
-PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,30.0,20.0,30.0,1.0,183.0,183.0,56000.0,,8.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL3+HeL4
+PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,20.0,10.0,30.0,1.0,122.0,122.0,56000.0,,10.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,Hel1
+PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,50.0,20.0,100.0,1.0,183.0,183.0,56000.0,,12.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,Hel2
+PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,30.0,20.0,30.0,1.0,183.0,183.0,56000.0,,8.0,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,Hel3+Hel4
 PU_SS20003,Bottle Bend,Bottle Bend EWMP 2025,,414207A ,Wetland,7,6,20.0,10.0,30.0,1.0,122.0,60.0,350.0,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,BB1a+BB2+BB4
 PU_SS20003,Bottle Bend,Bottle Bend EWMP 2025,,414207A ,Wetland,7,6,20.0,,,1.0,122.0,60.0,350.0,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,BB1b
 PU_SS20003,Bottle Bend,Bottle Bend EWMP 2025,,414207A ,Wetland,7,6,20.0,,,1.0,122.0,60.0,350.0,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,BB3
