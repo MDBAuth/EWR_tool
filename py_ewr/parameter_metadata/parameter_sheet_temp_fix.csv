@@ -3324,9 +3324,9 @@ PU_SS20020,Lindsay-Mullaroo Connector,Lindsay Mulcra Wallpolla Icon Site EWMP 20
 PU_SS20026,Sandy Creek,Lindsay Mulcra Wallpolla Icon Site EWMP 2021,,A4250010,SF,7,6,80,,,1,16,16,32000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,V-LMW1+V-LMW7+V-LMW9
 PU_SS20012,Finnigans Creek,Lindsay Mulcra Wallpolla Icon Site EWMP 2021,,A4250010,SF,7,6,80,,,1,19,19,12000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,V-LMW1+V-LMW7+V-LMW9
 PU_SS20030,Wallpolla Creek East,Lindsay Mulcra Wallpolla Icon Site EWMP 2021,,A4250010,SF,7,6,40,,,1,23,23,56000,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,V-LMW1+V-LMW7+V-LMW9
-PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200A,Wetland,7,6,20,10,30,1,122,122,56000,,10,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,Hel1
-PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200A,Wetland,7,6,50,20,100,1,183,183,56000,,12,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL2
-PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200A,Wetland,7,6,30,20,30,1,183,183,56000,,8,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL3+HeL4
+PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,20,10,30,1,122,122,56000,,10,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,Hel1
+PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,50,20,100,1,183,183,56000,,12,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL2
+PU_SS20013,Heywood Lake & Little Heywood Lake,Heywood Lake EWMP 2024,,414200,Wetland,7,6,30,20,30,1,183,183,56000,,8,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,HeL3+HeL4
 PU_SS20003,Bottle Bend,Bottle Bend EWMP 2025,,414207A ,Wetland,7,6,20,10,30,1,122,60,350,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,BB1a+BB2+BB4
 PU_SS20003,Bottle Bend,Bottle Bend EWMP 2025,,414207A ,Wetland,7,6,20,,,1,122,60,350,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,BB1b
 PU_SS20003,Bottle Bend,Bottle Bend EWMP 2025,,414207A ,Wetland,7,6,20,,,1,122,60,350,,,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Victorian Murray,,,BB3
@@ -3362,3 +3362,4 @@ PU_SS20022,Murray River - Hume to Yarrawonga,Victorian Murray Floodplains,Murray
 PU_SS20022,Murray River - Hume to Yarrawonga,Victorian Murray Floodplains,Murray at Doctors Point,409017,OB4,7,6,20,,,1,4,4,70000,,7,5,,F,,,,0.15,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Murray,Victorian Murray,-36.11256944,146.9399083,NV4+WB1+WB2+EF1+EF2+EF3a+EF4+EF5
 PU_SS20022,Murray River - Hume to Yarrawonga,Victorian Murray Floodplains,Murray at Doctors Point,409017,BK1_S,7,6,70,60,80,1,10,1,25000,,3,5,,F,,,,0.13,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Murray,Victorian Murray,-36.11256944,146.9399083,NF3+NF4+NF7+NF9+NV2+NV3+NV4+EF1+EF2+EF3a+EF4+EF5+OS1+OS2+OS3b
 PU_SS20022,Murray River - Hume to Yarrawonga,Victorian Murray Floodplains,Murray at Doctors Point,409017,BK1_P,8,11,70,60,80,1,10,1,25000,,3,5,,F,,,,0.13,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,Murray,Victorian Murray,-36.11256944,146.9399083,NF3+NF4+NF7+NF9+NV2+NV3+NV4+EF1+EF2+EF3a+EF4+EF5+OS1+OS2+OS3b
+
