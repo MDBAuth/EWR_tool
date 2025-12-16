@@ -1,0 +1,329 @@
+Scenario,Gauge,PlanningUnit,State,SWSDLName,EwrCode,Multigauge,EventYears,Frequency,TargetFrequency,AchievementCount,AchievementPerYear,EventCount,EventCountAll,EventsPerYear,EventsPerYearAll,AverageEventLength,ThresholdDays,MaxInterEventYears,NoDataDays,TotalDays
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF1_a_P,,0.0,0,30,0.0,0.0,0.0,9.0,0.0,0.9,6.333333333333333,57.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF1_a_S,,0.0,0,30,0.0,0.0,0.0,48.0,0.0,4.8,4.25,204.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF1_b_P,,0.0,0,70,0.0,0.0,0.0,11.0,0.0,1.1,5.545454545454546,61.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF1_b_S,,1.0,10,70,1.0,0.1,1.0,45.0,0.1,4.5,30.711111111111112,1382.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF1_c_P,,1.0,10,100,1.0,0.1,1.0,45.0,0.1,4.5,30.711111111111112,1382.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF1_c_S,,9.0,90,100,9.0,0.9,9.0,10.0,0.9,1.0,150.9,1509.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF2_a,,0.0,0,30,0.0,0.0,0.0,10.0,0.0,0.9090909090909091,39.8,398.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF2_c_P,,0.0,0,100,0.0,0.0,0.0,10.0,0.0,0.9090909090909091,39.8,398.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BF2_c_S,,0.0,0,100,0.0,0.0,0.0,10.0,0.0,0.9090909090909091,41.1,411.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,BK1_a,,0.0,0,33,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,F1_P_pd,,0.0,0,100,0.0,0.0,2.0,4.0,0.2,0.4,10.25,41.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,F1_P_sd,,0.0,0,100,0.0,0.0,3.0,4.0,0.3,0.4,10.25,41.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,F1_S_pd,,0.0,0,100,0.0,0.0,6.0,9.0,0.6,0.9,7.111111111111111,64.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,F1_S_sd,,1.0,10,100,1.0,0.1,7.0,9.0,0.7,0.9,7.111111111111111,64.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,F2_a_P,,2.0,18,70,3.0,0.2727272727272727,15.0,15.0,1.3636363636363635,1.3636363636363635,15.133333333333333,227.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,F2_a_S,,3.0,27,70,6.0,0.5454545454545454,15.0,15.0,1.3636363636363635,1.3636363636363635,15.133333333333333,227.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,LF1_a_P,,0.0,0,0,0.0,0.0,2.0,2.0,0.2,0.2,8.5,17.0,0,21.0,3653.0
+NCCMA_flow,406200,Coliban River at Reach 1,VIC,Campaspe,LF1_a_S,,2.0,20,0,2.0,0.2,2.0,2.0,0.2,0.2,8.5,17.0,0,21.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF1_a,,1.0,10,30,1.0,0.1,1.0,72.0,0.1,7.2,19.27777777777778,1388.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF1_b_P,,6.0,60,70,6.0,0.6,6.0,24.0,0.6,2.4,72.375,1737.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF1_b_S,,6.0,60,70,6.0,0.6,6.0,34.0,0.6,3.4,49.088235294117645,1669.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF1_c,,7.0,70,100,7.0,0.7,7.0,18.0,0.7,1.8,99.16666666666667,1785.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF2_a,,0.0,0,30,0.0,0.0,0.0,47.0,0.0,4.2727272727272725,12.0,564.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF2_b,,1.0,9,70,1.0,0.09090909090909091,1.0,40.0,0.09090909090909091,3.6363636363636362,31.65,1266.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BF2_c,,2.0,18,100,2.0,0.18181818181818182,2.0,30.0,0.18181818181818182,2.727272727272727,56.46666666666667,1694.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BK1_pd,,3.0,30,0,5.0,0.5,5.0,6.0,0.5,0.6,3.1666666666666665,19.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,BK1_sd,,3.0,30,0,6.0,0.6,6.0,6.0,0.6,0.6,3.1666666666666665,19.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,CF1_a,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,CF1_b,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,CF1_c,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F1_a_P,,8.0,80,30,18.0,1.8,18.0,18.0,1.8,1.8,6.833333333333333,123.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F1_a_S,,10.0,100,70,24.0,2.4,24.0,24.0,2.4,2.4,9.125,219.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F1_b_P,,6.0,60,70,6.0,0.6,6.0,24.0,0.6,2.4,9.125,1737.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F1_b_S,,6.0,60,70,6.0,0.6,6.0,34.0,0.6,3.4,13.23076923076923,1669.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F1_c_P,,10.0,100,100,39.0,3.9,39.0,39.0,3.9,3.9,13.23076923076923,516.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F1_c_S,,10.0,100,100,30.0,3.0,30.0,30.0,3.0,3.0,24.766666666666666,743.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_a_P_pd,,2.0,20,30,3.0,0.3,11.0,17.0,1.1,1.7,5.882352941176471,100.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_a_P_sd,,3.0,30,30,4.0,0.4,13.0,17.0,1.3,1.7,5.882352941176471,100.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_a_S_pd,,5.0,50,30,6.0,0.6,19.0,29.0,1.9,2.9,6.724137931034483,195.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_a_S_sd,,6.0,60,30,7.0,0.7,21.0,29.0,2.1,2.9,6.724137931034483,195.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_b_P_pd,,5.0,50,70,6.0,0.6,19.0,29.0,1.9,2.9,6.724137931034483,195.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_b_P_sd,,6.0,60,70,7.0,0.7,21.0,29.0,2.1,2.9,6.724137931034483,195.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_b_S_pd,,9.0,90,70,13.0,1.3,30.0,41.0,3.0,4.1,8.585365853658537,352.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_b_S_sd,,9.0,90,70,17.0,1.7,37.0,41.0,3.7,4.1,8.585365853658537,352.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_c_P_pd,,9.0,90,100,13.0,1.3,30.0,41.0,3.0,4.1,8.585365853658537,352.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_c_P_sd,,9.0,90,100,17.0,1.7,37.0,41.0,3.7,4.1,8.585365853658537,352.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_c_S_pd,,9.0,90,100,17.0,1.7,38.0,50.0,3.8,5.0,12.9,645.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,F2_c_S_sd,,9.0,90,100,18.0,1.8,40.0,50.0,4.0,5.0,12.9,645.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF1_P_pd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF1_P_sd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF1_S_pd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF1_S_sd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF2_P_pd,,2.0,20,40,4.0,0.4,4.0,7.0,0.4,0.7,9.571428571428571,67.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF2_P_sd,,2.0,20,40,4.0,0.4,4.0,7.0,0.4,0.7,9.571428571428571,67.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF2_S_pd,,2.0,20,40,4.0,0.4,4.0,6.0,0.4,0.6,12.0,72.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,LF2_S_sd,,2.0,20,40,4.0,0.4,4.0,6.0,0.4,0.6,12.0,72.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,OB1,,2.0,20,0,2.0,0.2,2.0,2.0,0.2,0.2,4.0,8.0,0,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF1_a_P_pd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF1_a_P_sd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF1_a_S_pd,,1.0,10,70,1.0,0.1,1.0,3.0,0.1,0.3,2.3333333333333335,7.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF1_a_S_sd,,3.0,30,70,3.0,0.3,3.0,3.0,0.3,0.3,2.3333333333333335,7.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF2_a_P_pd,,2.0,20,70,3.0,0.3,3.0,5.0,0.3,0.5,9.0,45.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF2_a_P_sd,,2.0,20,70,5.0,0.5,5.0,5.0,0.5,0.5,9.0,45.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF2_a_S_pd,,9.0,90,70,14.0,1.4,14.0,15.0,1.4,1.5,6.6,99.0,4,22.0,3653.0
+NCCMA_flow,406202,Campaspe River at Reach 4,VIC,Campaspe,SF2_a_S_sd,,10.0,100,70,15.0,1.5,15.0,15.0,1.5,1.5,6.6,99.0,4,22.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF1_a,,4.0,40,30,4.0,0.4,4.0,22.0,0.4,2.2,70.54545454545455,1552.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF1_b_P,,5.0,50,70,5.0,0.5,5.0,17.0,0.5,1.7,99.88235294117646,1698.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF1_b_S,,5.0,50,70,5.0,0.5,5.0,17.0,0.5,1.7,99.05882352941177,1684.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF1_c,,5.0,50,100,5.0,0.5,5.0,17.0,0.5,1.7,99.88235294117646,1698.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF2_a,,0.0,0,30,0.0,0.0,0.0,21.0,0.0,1.9090909090909092,19.714285714285715,414.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF2_b,,1.0,9,70,1.0,0.09090909090909091,1.0,29.0,0.09090909090909091,2.6363636363636362,34.793103448275865,1009.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BF2_c,,5.0,45,100,5.0,0.45454545454545453,5.0,17.0,0.45454545454545453,1.5454545454545454,95.0,1615.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BK1_P_pd,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BK1_P_sd,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BK1_S_pd,,0.0,0,0,0.0,0.0,0.0,1.0,0.0,0.1,1.0,1.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,BK1_S_sd,,1.0,10,0,1.0,0.1,1.0,1.0,0.1,0.1,1.0,1.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,CF1_a,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,CF1_b,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,CF1_c_P_pd,,0.0,0,30,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,CF1_c_P_sd,,0.0,0,30,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,CF1_c_S_pd,,0.0,0,30,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,CF1_c_S_sd,,0.0,0,30,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F1_a_P,,9.0,90,30,18.0,1.8,18.0,18.0,1.8,1.8,8.444444444444445,152.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F1_a_S,,9.0,90,30,31.0,3.1,31.0,31.0,3.1,3.1,14.580645161290322,452.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F1_b_P,,5.0,50,70,5.0,0.5,5.0,17.0,0.5,1.7,14.580645161290322,1698.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F1_b_S,,5.0,50,70,5.0,0.5,5.0,17.0,0.5,1.7,36.7,1684.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F1_c_P,,0.0,0,100,0.0,0.0,0.0,0.0,0.0,0.0,36.7,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F1_c_S,,0.0,0,100,0.0,0.0,0.0,0.0,0.0,0.0,49.3125,0.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_a_P_pd,,4.0,40,30,4.0,0.4,11.0,12.0,1.1,1.2,8.666666666666666,104.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_a_P_sd,,4.0,40,30,4.0,0.4,11.0,12.0,1.1,1.2,8.666666666666666,104.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_a_S_pd,,6.0,60,30,6.0,0.6,16.0,18.0,1.6,1.8,12.944444444444445,233.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_a_S_sd,,7.0,70,30,7.0,0.7,18.0,18.0,1.8,1.8,12.944444444444445,233.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_b_P_pd,,6.0,60,70,6.0,0.6,16.0,18.0,1.6,1.8,12.944444444444445,233.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_b_P_sd,,7.0,70,70,7.0,0.7,18.0,18.0,1.8,1.8,12.944444444444445,233.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_b_S_pd,,7.0,70,70,9.0,0.9,24.0,26.0,2.4,2.6,20.653846153846153,537.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_b_S_sd,,7.0,70,70,9.0,0.9,25.0,26.0,2.5,2.6,20.653846153846153,537.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_c_P_pd,,7.0,70,100,9.0,0.9,24.0,26.0,2.4,2.6,20.653846153846153,537.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_c_P_sd,,7.0,70,100,9.0,0.9,25.0,26.0,2.5,2.6,20.653846153846153,537.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_c_S_pd,,4.0,40,100,5.0,0.5,16.0,16.0,1.6,1.6,47.6875,763.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,F2_c_S_sd,,4.0,40,100,5.0,0.5,16.0,16.0,1.6,1.6,47.6875,763.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF1_P_pd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF1_P_sd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF1_S_pd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF1_S_sd,,0.0,0,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF2_P_pd,,2.0,20,40,3.0,0.3,3.0,4.0,0.3,0.4,5.5,22.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF2_P_sd,,2.0,20,40,3.0,0.3,3.0,4.0,0.3,0.4,5.5,22.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF2_S_pd,,2.0,20,40,3.0,0.3,3.0,4.0,0.3,0.4,6.25,25.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,LF2_S_sd,,2.0,20,40,3.0,0.3,3.0,4.0,0.3,0.4,6.25,25.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,OB1,,1.0,10,0,1.0,0.1,1.0,1.0,0.1,0.1,1.0,1.0,0,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF1_a_P_pd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF1_a_P_sd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF1_a_S_pd,,2.0,20,70,2.0,0.2,2.0,2.0,0.2,0.2,4.5,9.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF1_a_S_sd,,2.0,20,70,2.0,0.2,2.0,2.0,0.2,0.2,4.5,9.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF2_a_P_pd,,2.0,20,70,2.0,0.2,2.0,2.0,0.2,0.2,8.5,17.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF2_a_P_sd,,2.0,20,70,2.0,0.2,2.0,2.0,0.2,0.2,8.5,17.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF2_a_S_pd,,9.0,90,70,9.0,0.9,9.0,10.0,0.9,1.0,6.5,65.0,4,245.0,3653.0
+NCCMA_flow,406207,Campaspe River at Reach 2,VIC,Campaspe,SF2_a_S_sd,,10.0,100,70,10.0,1.0,10.0,10.0,1.0,1.0,6.5,65.0,4,245.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BF1_P,,4.0,40,100,4.0,0.4,4.0,24.0,0.4,2.4,73.33333333333333,1760.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BF1_S,,8.0,80,100,8.0,0.8,8.0,11.0,0.8,1.1,164.63636363636363,1811.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BF2_P,,0.0,0,100,0.0,0.0,0.0,48.0,0.0,4.363636363636363,24.166666666666668,1160.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BF2_S,,0.0,0,100,0.0,0.0,0.0,49.0,0.0,4.454545454545454,25.775510204081634,1263.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BK1_pd,,1.0,10,0,3.0,0.3,3.0,3.0,0.3,0.3,10.333333333333334,31.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BK1_sd,,1.0,10,0,3.0,0.3,3.0,3.0,0.3,0.3,10.333333333333334,31.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BKPP_pd,,1.0,10,0,3.0,0.3,3.0,3.0,0.3,0.3,10.333333333333334,31.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,BKPP_sd,,1.0,10,0,3.0,0.3,3.0,3.0,0.3,0.3,10.333333333333334,31.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,F1_a,,1.0,10,70,1.0,0.1,1.0,3.0,0.1,0.3,18.333333333333332,55.0,2,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,F1_pd,,9.0,90,100,20.0,2.0,20.0,24.0,2.0,2.4,12.625,303.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,F1_sd,,9.0,90,100,23.0,2.3,23.0,24.0,2.3,2.4,12.625,303.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,F2_pd,,9.0,90,100,12.0,1.2,32.0,34.0,3.2,3.4,15.764705882352942,536.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,F2_sd,,9.0,90,100,12.0,1.2,33.0,34.0,3.3,3.4,15.764705882352942,536.0,0,52.0,3653.0
+NCCMA_flow,407202,Loddon River: Lower Loddon River at Reach 5,VIC,Loddon,LF1,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2,52.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF1_a_P,,5.0,50,70,5.0,0.5,5.0,17.0,0.5,1.7,103.23529411764706,1755.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF1_a_PS,,7.0,70,70,7.0,0.7,7.0,16.0,0.7,1.6,111.8125,1789.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF1_a_S,,7.0,70,70,7.0,0.7,7.0,14.0,0.7,1.4,128.07142857142858,1793.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF1_c,,9.0,90,100,9.0,0.9,9.0,13.0,0.9,1.3,138.46153846153845,1800.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF2_a_P,,0.0,0,70,0.0,0.0,0.0,48.0,0.0,4.363636363636363,23.75,1140.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF2_a_PS,,3.0,27,70,3.0,0.2727272727272727,3.0,33.0,0.2727272727272727,3.0,49.03030303030303,1618.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF2_a_S,,4.0,36,70,4.0,0.36363636363636365,4.0,21.0,0.36363636363636365,1.9090909090909092,80.57142857142857,1692.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF2_c_P,,4.0,36,100,4.0,0.36363636363636365,4.0,21.0,0.36363636363636365,1.9090909090909092,80.57142857142857,1692.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BF2_c_S,,6.0,55,100,6.0,0.5454545454545454,6.0,16.0,0.5454545454545454,1.4545454545454546,107.875,1726.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BK1_pd,,2.0,20,0,9.0,0.9,9.0,9.0,0.9,0.9,2.3333333333333335,21.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,BK1_sd,,2.0,20,0,6.0,0.6,6.0,9.0,0.6,0.9,2.3333333333333335,21.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F1_a_P,,5.0,50,70,5.0,0.5,5.0,17.0,0.5,1.7,6.761904761904762,1755.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F1_a_PS,,7.0,70,70,7.0,0.7,7.0,16.0,0.7,1.6,10.724137931034482,1789.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F1_a_S,,7.0,70,70,7.0,0.7,7.0,14.0,0.7,1.4,29.857142857142858,1793.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F1_c_P,,10.0,100,100,58.0,5.8,58.0,58.0,5.8,5.8,10.724137931034482,622.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F1_c_PS,,10.0,100,100,28.0,2.8,28.0,28.0,2.8,2.8,29.857142857142858,836.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F1_c_S,,10.0,100,100,12.0,1.2,12.0,12.0,1.2,1.2,74.08333333333333,889.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_a_PS_pd,,9.0,90,70,12.0,1.2,29.0,36.0,2.9,3.6,19.333333333333332,696.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_a_PS_sd,,9.0,90,70,15.0,1.5,33.0,36.0,3.3,3.6,19.333333333333332,696.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_a_P_pd,,8.0,80,70,12.0,1.2,28.0,38.0,2.8,3.8,13.473684210526315,512.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_a_P_sd,,10.0,100,70,18.0,1.8,38.0,38.0,3.8,3.8,13.473684210526315,512.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_a_S_pd,,3.0,30,70,5.0,0.5,18.0,21.0,1.8,2.1,39.23809523809524,824.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_a_S_sd,,3.0,30,70,5.0,0.5,19.0,21.0,1.9,2.1,39.23809523809524,824.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_c_P_pd,,9.0,90,100,12.0,1.2,29.0,36.0,2.9,3.6,19.333333333333332,696.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_c_P_sd,,9.0,90,100,15.0,1.5,33.0,36.0,3.3,3.6,19.333333333333332,696.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_c_SP_pd,,3.0,30,100,5.0,0.5,18.0,21.0,1.8,2.1,39.23809523809524,824.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_c_SP_sd,,3.0,30,100,5.0,0.5,19.0,21.0,1.9,2.1,39.23809523809524,824.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_c_S_pd,,1.0,10,100,1.0,0.1,11.0,14.0,1.1,1.4,63.07142857142857,883.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F2_c_S_sd,,1.0,10,100,1.0,0.1,12.0,14.0,1.2,1.4,63.07142857142857,883.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F3_a_pd,,0.0,0,70,0.0,0.0,0.0,2.0,0.0,0.2,1.0,2.0,3,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F3_a_sd,,2.0,20,70,2.0,0.2,2.0,2.0,0.2,0.2,1.0,2.0,3,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F4_a_pd,,2.0,20,70,5.0,0.5,5.0,5.0,0.5,0.5,18.0,90.0,3,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F4_a_sd,,2.0,20,70,5.0,0.5,5.0,5.0,0.5,0.5,18.0,90.0,3,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F5_pd,,2.0,20,40,3.0,0.3,3.0,5.0,0.3,0.5,18.0,90.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,F5_sd,,2.0,20,40,3.0,0.3,3.0,5.0,0.3,0.5,18.0,90.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,LF1_P_pd,,2.0,20,20,2.0,0.2,2.0,6.0,0.2,0.6,9.5,57.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,LF1_P_sd,,2.0,20,20,5.0,0.5,5.0,6.0,0.5,0.6,9.5,57.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,LF1_S_pd,,2.0,20,20,3.0,0.3,3.0,6.0,0.3,0.6,12.0,72.0,0,67.0,3653.0
+NCCMA_flow,407203,Loddon River: Upper Loddon River System at Reach 3a,VIC,Loddon,LF1_S_sd,,2.0,20,20,5.0,0.5,5.0,6.0,0.5,0.6,12.0,72.0,0,67.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,BF1_a,,4.0,40,70,4.0,0.4,4.0,26.0,0.4,2.6,51.34615384615385,1335.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,BF1_c_P,,5.0,50,100,5.0,0.5,5.0,22.0,0.5,2.2,78.5,1727.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,BF1_c_S,,8.0,80,100,8.0,0.8,8.0,13.0,0.8,1.3,138.6153846153846,1802.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,BF2_P,,1.0,9,100,1.0,0.09090909090909091,1.0,27.0,0.09090909090909091,2.4545454545454546,52.74074074074074,1424.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,BF2_S,,7.0,64,100,7.0,0.6363636363636364,7.0,13.0,0.6363636363636364,1.1818181818181819,133.53846153846155,1736.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F1_P_pd,,5.0,50,100,10.0,1.0,10.0,13.0,1.0,1.3,9.461538461538462,123.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F1_P_sd,,5.0,50,100,11.0,1.1,11.0,13.0,1.1,1.3,9.461538461538462,123.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F1_S_pd,,10.0,100,100,12.0,1.2,12.0,13.0,1.2,1.3,55.69230769230769,724.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F1_S_sd,,10.0,100,100,12.0,1.2,12.0,13.0,1.2,1.3,55.69230769230769,724.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F2_P_pd,,6.0,60,100,7.0,0.7,19.0,23.0,1.9,2.3,8.565217391304348,197.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F2_P_sd,,6.0,60,100,8.0,0.8,21.0,23.0,2.1,2.3,8.565217391304348,197.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F2_S_pd,,4.0,40,100,4.0,0.4,16.0,19.0,1.6,1.9,32.1578947368421,611.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,F2_S_sd,,4.0,40,100,4.0,0.4,16.0,19.0,1.6,1.9,32.1578947368421,611.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,LF1,,1.0,10,0,1.0,0.1,1.0,3.0,0.1,0.3,4.0,12.0,4,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,LF2_P_pd,,2.0,20,0,2.0,0.2,2.0,2.0,0.2,0.2,29.0,58.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,LF2_P_sd,,2.0,20,0,2.0,0.2,2.0,2.0,0.2,0.2,29.0,58.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,LF2_S_pd,,2.0,20,0,2.0,0.2,2.0,2.0,0.2,0.2,30.5,61.0,0,21.0,3653.0
+NCCMA_flow,407205,Loddon River: Mid Loddon River System at Reach 4d,VIC,Loddon,LF2_S_sd,,2.0,20,0,2.0,0.2,2.0,2.0,0.2,0.2,30.5,61.0,0,21.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BF1_a_P,,0.0,0,70,0.0,0.0,0.0,32.0,0.0,3.2,46.71875,1495.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BF1_a_S,,6.0,60,70,6.0,0.6,6.0,15.0,0.6,1.5,116.46666666666667,1747.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BF1_c,,7.0,70,100,7.0,0.7,7.0,12.0,0.7,1.2,146.25,1755.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BF2_a_P,,0.0,0,70,0.0,0.0,0.0,42.0,0.0,3.8181818181818183,16.952380952380953,712.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BF2_a_S,,0.0,0,70,0.0,0.0,0.0,40.0,0.0,3.6363636363636362,25.5,1020.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BF2_c,,1.0,9,100,1.0,0.09090909090909091,1.0,30.0,0.09090909090909091,2.727272727272727,49.333333333333336,1480.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BK1_pd,,2.0,20,0,5.0,0.5,5.0,7.0,0.5,0.7,2.5714285714285716,18.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,BK1_sd,,2.0,20,0,7.0,0.7,7.0,7.0,0.7,0.7,2.5714285714285716,18.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F1_a_P,,0.0,0,70,0.0,0.0,0.0,32.0,0.0,3.2,5.568181818181818,1495.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F1_a_S,,6.0,60,70,6.0,0.6,6.0,15.0,0.6,1.5,14.771428571428572,1747.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F1_c,,7.0,70,100,7.0,0.7,7.0,12.0,0.7,1.2,31.208333333333332,1755.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F2_a_P_pd,,8.0,80,70,9.0,0.9,25.0,27.0,2.5,2.7,16.85185185185185,455.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F2_a_P_sd,,8.0,80,70,10.0,1.0,26.0,27.0,2.6,2.7,16.85185185185185,455.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F2_a_S_pd,,7.0,70,70,9.0,0.9,22.0,23.0,2.2,2.3,27.304347826086957,628.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F2_a_S_sd,,7.0,70,70,9.0,0.9,22.0,23.0,2.2,2.3,27.304347826086957,628.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F2_c_pd,,5.0,50,100,5.0,0.5,17.0,18.0,1.7,1.8,41.44444444444444,746.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F2_c_sd,,6.0,60,100,6.0,0.6,18.0,18.0,1.8,1.8,41.44444444444444,746.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F3_a_P_pd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F3_a_P_sd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F3_a_S_pd,,2.0,20,70,3.0,0.3,3.0,4.0,0.3,0.4,4.0,16.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F3_a_S_sd,,3.0,30,70,4.0,0.4,4.0,4.0,0.4,0.4,4.0,16.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F4_a_P_pd,,3.0,30,70,6.0,0.6,6.0,6.0,0.6,0.6,9.166666666666666,55.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F4_a_P_sd,,3.0,30,70,6.0,0.6,6.0,6.0,0.6,0.6,9.166666666666666,55.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F4_a_S_pd,,6.0,60,70,11.0,1.1,11.0,12.0,1.1,1.2,8.083333333333334,97.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F4_a_S_sd,,6.0,60,70,12.0,1.2,12.0,12.0,1.2,1.2,8.083333333333334,97.0,3,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F5_P_pd,,2.0,20,40,4.0,0.4,4.0,6.0,0.4,0.6,9.166666666666666,55.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F5_P_sd,,2.0,20,40,4.0,0.4,4.0,6.0,0.4,0.6,9.166666666666666,55.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F5_S_pd,,4.0,40,40,6.0,0.6,6.0,12.0,0.6,1.2,8.083333333333334,97.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,F5_S_sd,,5.0,50,40,7.0,0.7,7.0,12.0,0.7,1.2,8.083333333333334,97.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,LF1_P_pd,,1.0,10,20,1.0,0.1,1.0,8.0,0.1,0.8,7.375,59.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,LF1_P_sd,,3.0,30,20,8.0,0.8,8.0,8.0,0.8,0.8,7.375,59.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,LF1_S_pd,,2.0,20,20,2.0,0.2,2.0,11.0,0.2,1.1,8.181818181818182,90.0,0,202.0,3653.0
+NCCMA_flow,407210,Loddon River: Upper Loddon River System at Reach 1,VIC,Loddon,LF1_S_sd,,6.0,60,20,11.0,1.1,11.0,11.0,1.1,1.1,8.181818181818182,90.0,0,202.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,BF1_a,,1.0,10,70,1.0,0.1,1.0,56.0,0.1,5.6,20.232142857142858,1133.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,BF1_c,,4.0,40,100,4.0,0.4,4.0,61.0,0.4,6.1,25.229508196721312,1539.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,BF2_P,,0.0,0,100,0.0,0.0,0.0,57.0,0.0,5.181818181818182,16.0,912.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,BF2_S,,4.0,36,100,4.0,0.36363636363636365,4.0,22.0,0.36363636363636365,2.0,74.81818181818181,1646.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F1_P_pd,,4.0,40,100,10.0,1.0,10.0,27.0,1.0,2.7,4.222222222222222,114.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F1_P_sd,,6.0,60,100,15.0,1.5,15.0,27.0,1.5,2.7,4.222222222222222,114.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F1_S_pd,,10.0,100,100,20.0,2.0,20.0,32.0,2.0,3.2,17.59375,563.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F1_S_sd,,10.0,100,100,21.0,2.1,21.0,32.0,2.1,3.2,17.59375,563.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F2_P_pd,,4.0,40,100,4.0,0.4,12.0,36.0,1.2,3.6,4.027777777777778,145.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F2_P_sd,,4.0,40,100,6.0,0.6,18.0,36.0,1.8,3.6,4.027777777777778,145.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F2_S_pd,,6.0,60,100,7.0,0.7,18.0,30.0,1.8,3.0,19.0,570.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,F2_S_sd,,6.0,60,100,7.0,0.7,18.0,30.0,1.8,3.0,19.0,570.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,LF1,,1.0,10,0,1.0,0.1,1.0,6.0,0.1,0.6,3.0,18.0,4,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,LF2_P_pd,,2.0,20,0,2.0,0.2,2.0,3.0,0.2,0.3,20.0,60.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,LF2_P_sd,,2.0,20,0,2.0,0.2,2.0,3.0,0.2,0.3,20.0,60.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,LF2_S_pd,,2.0,20,0,2.0,0.2,2.0,7.0,0.2,0.7,11.714285714285714,82.0,0,27.0,3653.0
+NCCMA_flow,407224,Loddon River: Mid Loddon River System at Reach 4a,VIC,Loddon,LF2_S_sd,,3.0,30,0,3.0,0.3,3.0,7.0,0.3,0.7,11.714285714285714,82.0,0,27.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BF1_a_P,,4.0,40,70,4.0,0.4,4.0,24.0,0.4,2.4,74.125,1779.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BF1_a_S,,4.0,40,70,4.0,0.4,4.0,17.0,0.4,1.7,105.76470588235294,1798.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BF1_c,,8.0,80,100,8.0,0.8,8.0,12.0,0.8,1.2,150.33333333333334,1804.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BF2_a_P,,3.0,27,70,3.0,0.2727272727272727,3.0,21.0,0.2727272727272727,1.9090909090909092,76.95238095238095,1616.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BF2_a_S,,3.0,27,70,3.0,0.2727272727272727,3.0,27.0,0.2727272727272727,2.4545454545454546,61.55555555555556,1662.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BF2_c,,3.0,27,100,3.0,0.2727272727272727,3.0,27.0,0.2727272727272727,2.4545454545454546,63.22222222222222,1707.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BK1_pd,,1.0,10,0,1.0,0.1,1.0,1.0,0.1,0.1,3.0,3.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,BK1_sd,,1.0,10,0,1.0,0.1,1.0,1.0,0.1,0.1,3.0,3.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F1_a_P,,4.0,40,70,4.0,0.4,4.0,24.0,0.4,2.4,7.2272727272727275,1779.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F1_a_S,,4.0,40,70,4.0,0.4,4.0,17.0,0.4,1.7,8.153846153846153,1798.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F1_c,,8.0,80,100,8.0,0.8,8.0,12.0,0.8,1.2,14.173913043478262,1804.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F2_a_P_pd,,7.0,70,70,9.0,0.9,25.0,33.0,2.5,3.3,19.848484848484848,655.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F2_a_P_sd,,8.0,80,70,12.0,1.2,29.0,33.0,2.9,3.3,19.848484848484848,655.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F2_a_S_pd,,7.0,70,70,9.0,0.9,22.0,29.0,2.2,2.9,24.413793103448278,708.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F2_a_S_sd,,7.0,70,70,10.0,1.0,25.0,29.0,2.5,2.9,24.413793103448278,708.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F2_c_pd,,4.0,40,100,9.0,0.9,27.0,31.0,2.7,3.1,25.967741935483872,805.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F2_c_sd,,4.0,40,100,11.0,1.1,29.0,31.0,2.9,3.1,25.967741935483872,805.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F3_a_P_pd,,1.0,10,70,1.0,0.1,1.0,2.0,0.1,0.2,1.5,3.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F3_a_P_sd,,2.0,20,70,2.0,0.2,2.0,2.0,0.2,0.2,1.5,3.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F3_a_S_pd,,2.0,20,70,2.0,0.2,2.0,5.0,0.2,0.5,6.4,32.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F3_a_S_sd,,3.0,30,70,5.0,0.5,5.0,5.0,0.5,0.5,6.4,32.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F4_a_P_pd,,2.0,20,70,5.0,0.5,5.0,5.0,0.5,0.5,19.0,95.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F4_a_P_sd,,2.0,20,70,5.0,0.5,5.0,5.0,0.5,0.5,19.0,95.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F4_a_S_pd,,7.0,70,70,9.0,0.9,9.0,9.0,0.9,0.9,15.88888888888889,143.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F4_a_S_sd,,7.0,70,70,9.0,0.9,9.0,9.0,0.9,0.9,15.88888888888889,143.0,3,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F5_P_pd,,2.0,20,40,4.0,0.4,4.0,5.0,0.4,0.5,19.0,95.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F5_P_sd,,2.0,20,40,5.0,0.5,5.0,5.0,0.5,0.5,19.0,95.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F5_S_pd,,6.0,60,40,7.0,0.7,7.0,9.0,0.7,0.9,15.88888888888889,143.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,F5_S_sd,,6.0,60,40,8.0,0.8,8.0,9.0,0.8,0.9,15.88888888888889,143.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,LF1_P_pd,,2.0,20,20,2.0,0.2,2.0,7.0,0.2,0.7,8.428571428571429,59.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,LF1_P_sd,,2.0,20,20,7.0,0.7,7.0,7.0,0.7,0.7,8.428571428571429,59.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,LF1_S_pd,,2.0,20,20,3.0,0.3,3.0,5.0,0.3,0.5,14.8,74.0,0,32.0,3653.0
+NCCMA_flow,407229,Loddon River: Upper Loddon River System at Reach 3b,VIC,Loddon,LF1_S_sd,,2.0,20,20,5.0,0.5,5.0,5.0,0.5,0.5,14.8,74.0,0,32.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BF1_a_P,,3.0,30,70,3.0,0.3,3.0,19.0,0.3,1.9,87.89473684210526,1670.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BF1_a_S,,6.0,60,70,6.0,0.6,6.0,14.0,0.6,1.4,126.14285714285714,1766.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BF1_c,,7.0,70,100,7.0,0.7,7.0,12.0,0.7,1.2,147.91666666666666,1775.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BF2_a_P,,0.0,0,70,0.0,0.0,0.0,34.0,0.0,3.090909090909091,13.0,442.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BF2_a_S,,0.0,0,70,0.0,0.0,0.0,39.0,0.0,3.5454545454545454,18.076923076923077,705.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BF2_c,,0.0,0,100,0.0,0.0,0.0,33.0,0.0,3.0,33.39393939393939,1102.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BK1_pd,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,BK1_sd,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F1_a,,3.0,30,70,3.0,0.3,3.0,19.0,0.3,1.9,16.541666666666668,1670.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F1_c,,7.0,70,100,7.0,0.7,7.0,12.0,0.7,1.2,31.45,1775.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F2_a_pd,,7.0,70,70,9.0,0.9,23.0,26.0,2.3,2.6,15.923076923076923,414.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F2_a_sd,,7.0,70,70,9.0,0.9,24.0,26.0,2.4,2.6,15.923076923076923,414.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F2_c_pd,,7.0,70,100,8.0,0.8,19.0,21.0,1.9,2.1,25.666666666666668,539.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F2_c_sd,,7.0,70,100,8.0,0.8,21.0,21.0,2.1,2.1,25.666666666666668,539.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F3_a_P_pd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F3_a_P_sd,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F3_a_S_pd,,1.0,10,70,1.0,0.1,1.0,1.0,0.1,0.1,2.0,2.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F3_a_S_sd,,1.0,10,70,1.0,0.1,1.0,1.0,0.1,0.1,2.0,2.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F4_a_P_pd,,1.0,10,70,2.0,0.2,2.0,2.0,0.2,0.2,5.0,10.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F4_a_P_sd,,1.0,10,70,2.0,0.2,2.0,2.0,0.2,0.2,5.0,10.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F4_a_S_pd,,3.0,30,70,5.0,0.5,5.0,5.0,0.5,0.5,7.4,37.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F4_a_S_sd,,3.0,30,70,5.0,0.5,5.0,5.0,0.5,0.5,7.4,37.0,3,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F5_P_pd,,1.0,10,40,1.0,0.1,1.0,2.0,0.1,0.2,5.0,10.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F5_P_sd,,1.0,10,40,2.0,0.2,2.0,2.0,0.2,0.2,5.0,10.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F5_S_pd,,3.0,30,40,4.0,0.4,4.0,5.0,0.4,0.5,7.4,37.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,F5_S_sd,,3.0,30,40,4.0,0.4,4.0,5.0,0.4,0.5,7.4,37.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,LF1_pd,,0.0,0,20,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,17.0,3653.0
+NCCMA_flow,407248,Tullaroop Creek (Upper Loddon River System) at Reach 2,VIC,Loddon,LF1_sd,,0.0,0,20,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,17.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,BF1_a,,0.0,0,70,0.0,0.0,0.0,47.0,0.0,4.7,11.063829787234043,520.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,BF1_c_P,,0.0,0,100,0.0,0.0,0.0,44.0,0.0,4.4,21.886363636363637,963.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,BF1_c_S,,0.0,0,100,0.0,0.0,0.0,48.0,0.0,4.8,24.958333333333332,1198.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,BF2_a,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,BF2_c,,0.0,0,100,0.0,0.0,0.0,18.0,0.0,1.6363636363636365,10.833333333333334,195.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,F1_a,,0.0,0,70,0.0,0.0,0.0,47.0,0.0,4.7,0.0,520.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,F1_c,,0.0,0,100,0.0,0.0,0.0,44.0,0.0,4.4,0.0,963.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,F2_a,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,F2_c,,0.0,0,100,0.0,0.0,0.0,18.0,0.0,1.6363636363636365,0.0,195.0,0,757.0,3653.0
+NCCMA_flow,407249,Birchs Creek Reach 2,VIC,Loddon,LF1_a,,0.0,0,70,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,757.0,3653.0
+NCCMA_flow,407295,Pyramid Creek at Whole Creek,VIC,Loddon,BF1_a,,3.0,30,70,3.0,0.3,3.0,15.0,0.3,1.5,106.06666666666666,1591.0,0,308.0,3653.0
+NCCMA_flow,407295,Pyramid Creek at Whole Creek,VIC,Loddon,BF2,,1.0,9,100,1.0,0.09090909090909091,1.0,18.0,0.09090909090909091,1.6363636363636365,74.66666666666667,1344.0,0,308.0,3653.0
+NCCMA_flow,407295,Pyramid Creek at Whole Creek,VIC,Loddon,F1_a,,3.0,30,70,3.0,0.3,3.0,15.0,0.3,1.5,5.5,1591.0,2,308.0,3653.0
+NCCMA_flow,407295,Pyramid Creek at Whole Creek,VIC,Loddon,LF1,,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2,308.0,3653.0
+NCCMA_flow,409207,Gunbower Forest,VIC,Victorian Murray,F1,,10.0,100,75,10.0,1.0,10.0,10.0,1.0,1.0,123.0,1230.0,2,0.0,3653.0
+NCCMA_flow,409207,Gunbower Forest,VIC,Victorian Murray,F2,,10.0,91,65,10.0,0.9090909090909091,10.0,11.0,0.9090909090909091,1.0,166.36363636363637,1830.0,3,0.0,3653.0
+NCCMA_flow,409207,Gunbower Forest,VIC,Victorian Murray,F3,,10.0,100,30,10.0,1.0,10.0,10.0,1.0,1.0,181.3,1813.0,5,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 1,VIC,Victorian Murray,F3,,11.0,100,0,11.0,1.0,11.0,11.0,1.0,1.0,93.63636363636364,1030.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 2,VIC,Victorian Murray,BF1,,9.0,82,100,9.0,0.8181818181818182,9.0,11.0,0.8181818181818182,1.0,84.54545454545455,930.0,1,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 2,VIC,Victorian Murray,LF1,,11.0,100,67,11.0,1.0,11.0,11.0,1.0,1.0,166.36363636363637,1830.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 2,VIC,Victorian Murray,SF1,,10.0,100,67,10.0,1.0,10.0,10.0,1.0,1.0,212.3,2123.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3a,VIC,Victorian Murray,BF1,,9.0,82,100,9.0,0.8181818181818182,9.0,11.0,0.8181818181818182,1.0,84.54545454545455,930.0,1,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3a,VIC,Victorian Murray,BF2,,10.0,100,100,10.0,1.0,10.0,10.0,1.0,1.0,158.0,1580.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3a,VIC,Victorian Murray,F1,,9.0,82,0,9.0,0.8181818181818182,9.0,11.0,0.8181818181818182,1.0,212.3,930.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3a,VIC,Victorian Murray,SF1,,10.0,100,67,10.0,1.0,10.0,10.0,1.0,1.0,212.3,2123.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3b,VIC,Victorian Murray,BF1,,9.0,82,100,9.0,0.8181818181818182,9.0,11.0,0.8181818181818182,1.0,84.54545454545455,930.0,1,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3b,VIC,Victorian Murray,BF2,,10.0,100,100,10.0,1.0,10.0,10.0,1.0,1.0,158.0,1580.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3b,VIC,Victorian Murray,F1,,9.0,82,0,9.0,0.8181818181818182,9.0,11.0,0.8181818181818182,1.0,212.3,930.0,0,0.0,3653.0
+NCCMA_flow,409207,Gunbower creek reach 3b,VIC,Victorian Murray,F2,,10.0,100,0,10.0,1.0,10.0,10.0,1.0,1.0,57.0,1580.0,0,0.0,3653.0
