@@ -372,6 +372,13 @@ def flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd
     # Check flow data against ewr requirements and then perform analysis on the results:
     E, D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, ewr, EWR_info, E, D, water_years)
+
+    print("PU_df")
+    print(PU_df)
+
+    print("tuple([E])")
+    print(tuple([E]))
+
     return PU_df, tuple([E])
 
 def consecutive_flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
@@ -390,17 +397,13 @@ def consecutive_flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFra
     
     '''
     pass
-    # # Get information about ewr:
-    # pull = data_inputs.get_EWR_components('flow')
-    # EWR_info = get_EWRs(pu, gauge, ewr, EWR_table, pull)
-    # # Mask dates
-    # masked_dates = mask_dates(EWR_info, df_F)
-    # # Extract a daily timeseries for water years
-    # water_years = wateryear_daily(df_F, EWR_info)
-    # # Check flow data against ewr requirements and then perform analysis on the results:
-    # E, D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
-    # PU_df = event_stats(df_F, PU_df, gauge, ewr, EWR_info, E, D, water_years)
-    # return PU_df, tuple([E])
+    PU_df, E = flow_handle(pu, gauge, ewr, EWR_table, df_F, PU_df)
+
+    ### INSERT CONSECUTIVE CHANGE HERE -> convert PU_df and tuple([E]) from flow_handle output 
+
+    ###
+
+    return PU_df, E
 
 def concurrent_flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
     ''' Placeholder function for flows that behave the same as flow handle, but you need both of them met in the same year to be a successful event.
@@ -418,17 +421,13 @@ def concurrent_flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFram
     
     '''
     pass
-    # # Get information about ewr:
-    # pull = data_inputs.get_EWR_components('flow')
-    # EWR_info = get_EWRs(pu, gauge, ewr, EWR_table, pull)
-    # # Mask dates
-    # masked_dates = mask_dates(EWR_info, df_F)
-    # # Extract a daily timeseries for water years
-    # water_years = wateryear_daily(df_F, EWR_info)
-    # # Check flow data against ewr requirements and then perform analysis on the results:
-    # E, D = flow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
-    # PU_df = event_stats(df_F, PU_df, gauge, ewr, EWR_info, E, D, water_years)
-    # return PU_df, tuple([E])
+    PU_df, E = flow_handle(pu, gauge, ewr, EWR_table, df_F, PU_df)
+
+    ### INSERT CONCURRENT CHANGE HERE -> convert PU_df and tuple([E]) from flow_handle output
+
+    ###
+
+    return PU_df, E
 
 def flow_handle_anytime(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
     '''For handling flow based flow EWRs (freshes, bankfulls, overbanks) to allow flows to continue to record
