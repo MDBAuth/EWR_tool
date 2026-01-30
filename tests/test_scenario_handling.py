@@ -530,7 +530,7 @@ def test_unpack_model_file():
 
 
 def test_scenario_handler_class(scenario_handler_expected_detail, scenario_handler_instance):
-   
+    print(scenario_handler_instance)
     detailed = scenario_handler_instance.pu_ewr_statistics
     
     detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index = detailed['Low_flow_EWRs_Bidgee_410007']['410007']['Upper Yanco Creek'].index.astype('int64')

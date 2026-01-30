@@ -193,7 +193,7 @@ def get_events_to_process(gauge_events: dict)-> List:
                         item['gauge'] = gauge
                         item["pu"] = pu
                         item["ewr"] = ewr
-                        item["ewr_events"],  = gauge_events[scenario][gauge][pu][ewr]
+                        item["ewr_events"] = gauge_events[scenario][gauge][pu][ewr]
                         items_to_process.append(item)
                     except Exception as e:
                         log.warning(f"no event for {scenario}-{pu}-{ewr}-{gauge} with error {e}")
