@@ -2964,7 +2964,7 @@ def flow_calc_check_ctf(EWR_info: dict, flows: np.array, water_years: np.array, 
     for i, _ in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
             flow_date = dates[i]
-            all_events, ctf_state = flow_check_ctf(EWR_info, i, flows, all_events, water_years, flow_date, ctf_state)
+            all_events, ctf_state = flow_check_ctf(EWR_info,i, flows, all_events, water_years, flow_date, ctf_state)
         if water_years[i] != water_years[i+1]:
             durations.append(EWR_info['duration'])
     # Check final iteration in the flow timeseries, saving any ongoing events/event gaps to their spots in the dictionaries:

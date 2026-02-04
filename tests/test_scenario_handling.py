@@ -359,7 +359,7 @@ def test_cleaner_NSW():
     # Set up input data and pass to test function:
     model_metadata = data_inputs.get_NSW_codes()
     dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
-    date_strings = dates.format(formatter=lambda x: x.strftime('%Y-%m-%d'))
+    date_strings = dates.strftime('%Y-%m-%d')
     data_df = {'Date': date_strings,
                 'Gauge: YCB_410134_BillabongCreek@Darlot: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10,
                 'Gauge: YCB_410016 Billabong Creek @ Jerilderie: Downstream Flow': [0]*1+[250]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[250]*345+[0]*1+[250]*17 + [0]*5+[250]*351+[250]*10

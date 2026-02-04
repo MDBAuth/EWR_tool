@@ -4019,11 +4019,11 @@ def test_flow_check_rise_fall(EWR_info, iteration, flows_data, event, all_events
 	dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))
 	flow_series = pd.Series(flows_data, index=dates)
 	flow_date = dates[iteration]
-	flow = flow_series[iteration]
+	flow = flow_series.iloc[iteration]
 	gap_track = 0
 	
 	event, all_events, _, _ = evaluate_EWRs.flow_check_rise_fall(EWR_info, iteration, flow, event, all_events, gap_track, 
-               water_years, total_event, flow_date, flow_series)
+               water_years, total_event, flow_date, flows_data)
 	
 	assert event == expected_event
 
@@ -4100,7 +4100,7 @@ def test_flow_calc_sa(EWR_info, flows_data, expected_all_events):
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	flow_series = pd.Series(flows_data, index=dates)
 
-	all_events, _ = evaluate_EWRs.flow_calc_sa(EWR_info, flow_series, water_years, dates, masked_dates)
+	all_events, _ = evaluate_EWRs.flow_calc_sa(EWR_info, flows_data, water_years, dates, masked_dates)
 	
 	for year in all_events:
 		assert len(all_events[year]) == len(expected_all_events[year])
@@ -4593,7 +4593,7 @@ def test_flow_calc_check_ctf(EWR_info,flows_data,expected_all_events):
 	masked_dates = pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d'))#.to_period()
 	flows = pd.Series(flows_data, index=dates)
 
-	all_events, _ = evaluate_EWRs.flow_calc_check_ctf(EWR_info, flows, water_years, dates, masked_dates)
+	all_events, _ = evaluate_EWRs.flow_calc_check_ctf(EWR_info, flows_data, water_years, dates, masked_dates)
 
 	for year in all_events:
 		print('EVENT')
@@ -5700,7 +5700,7 @@ def test_rate_rise_flow_check(EWR_info, iteration, event, all_events, total_even
 	flow_date = dates[iteration]
 	gap_track = 0
 
-	event, all_events, _, _ = evaluate_EWRs.rate_rise_flow_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, flow_series)
+	event, all_events, _, _ = evaluate_EWRs.rate_rise_flow_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, flows_data)
 
 	assert event == expected_event
 	assert all_events == expected_all_events
@@ -5838,7 +5838,7 @@ def test_rate_fall_flow_check(EWR_info, iteration, event, all_events, total_even
 	flow_date = dates[iteration]
 	gap_track = 0
 
-	event, all_events, _, _ = evaluate_EWRs.rate_fall_flow_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, flow_series)
+	event, all_events, _, _ = evaluate_EWRs.rate_fall_flow_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, flows_data)
 
 	assert event == expected_event
 	assert all_events == expected_all_events
@@ -6000,7 +6000,7 @@ def test_rate_rise_level_check(EWR_info, iteration, event, all_events, total_eve
 	flow_date = dates[iteration]
 	gap_track = 0
 
-	event, all_events, _, _ = evaluate_EWRs.rate_rise_level_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, level_series)
+	event, all_events, _, _ = evaluate_EWRs.rate_rise_level_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, levels_data)
 
 	assert event == expected_event
 	assert all_events == expected_all_events
@@ -6166,7 +6166,7 @@ def test_rate_fall_level_check(EWR_info, iteration, event, all_events, total_eve
 	flow_date = dates[iteration]
 	gap_track = 0
 
-	event, all_events, _, _ = evaluate_EWRs.rate_fall_level_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, level_series)
+	event, all_events, _, _ = evaluate_EWRs.rate_fall_level_check(EWR_info, iteration, event, all_events, gap_track, water_years, total_event, flow_date, levels_data)
 
 	assert event == expected_event
 	assert all_events == expected_all_events
