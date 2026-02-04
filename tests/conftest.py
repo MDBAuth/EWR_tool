@@ -25,7 +25,6 @@ def pu_df():
                 'CF1_a_totalPossibleDays': {2016: 365, 2017: 365}}
     return pd.DataFrame.from_dict(df_data)
 
-
 @pytest.fixture(scope="function")
 def detailed_results(pu_df):
     return {"observed": {"419001": {"Keepit to Boggabri": pu_df},
@@ -54,17 +53,17 @@ def items_to_process(pu_df):
 
 @pytest.fixture(scope="function")
 def gauge_events():
-    return  {'observed': {'419001': {'Keepit to Boggabri': {'CF1_a': ({2010: [],
+    return  {'observed': {'419001': {'Keepit to Boggabri': {'CF1_a': {2010: [],
                 2011: [],
                 2012: [],
                 2013: [],
-                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
+                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}}
                                 },
-                         '419002': {'Keepit to Boggabri': {'CF1_a': ({2010: [],
+                         '419002': {'Keepit to Boggabri': {'CF1_a': {2010: [],
                 2011: [],
                 2012: [],
                 2013: [],
-                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]},)}
+                2014: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}}
                                 }
                      },                
             }
