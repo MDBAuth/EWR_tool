@@ -433,7 +433,7 @@ def get_barrage_level_gauges()-> dict:
         dict: dictionary of level gauges associated with each barrage.
     """
 
-    level_barrage_gauges = {'A4260527': ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575' ],
+    level_barrage_gauges = {'A4260524': ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575' ],
                             'A4260633' : ['A4260633','A4261209', 'A4261165']}
     
     return level_barrage_gauges
@@ -466,7 +466,7 @@ def get_vic_level_gauges()-> list:
 
 
 def get_cllmm_gauges()->list:
-    return ["A4261002", "A4260527", "A4260633"]
+    return ["A4261002", "A4260524", "A4260633"]
 
 
 def get_gauges(category: str, ewr_table_path: str = None) -> set:
