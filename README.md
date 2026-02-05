@@ -3,16 +3,19 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.3.9 README**
+### **ewr tool version 2.4.0 README**
 
 ### **Notes on recent version updates**
+
+#### Documentation
+- Working version of the EWR User Guide has been added
 
 #### EWR handling and outputs
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
 - New EWRs: New Qld EWRs - SF_FD and BF_FD used to look into the FD EWRs in closer detail.
 - Adding state and Surface Water SDL (SWSDL) to py-ewr output tables
--  Including metadata report (this is still being ironed out and tested)
--  New handling capabilities for FIRM model formated files
+- Including metadata report (this is still being ironed out and tested)
+- New handling capabilities for FIRM model formated files
 
 #### Model metadata
 - Added new FIRM ID file mapping FIRM ID to gauge number.
@@ -26,6 +29,8 @@
 - Renamed MaxLevelRise to MaxLevelChange
 - Removed AnnualFlowSum and MinLevelRise column from parameter sheet
 - New format of objective mapping includes the adding of objective mapping back into the parameter sheet and one secondary dataframe (objective_reference.csv) in parameter metadata.
+- Removed ACT EWRs. These will be re-added once the ACT LTWP has been finalised
+- "EnvObj" has been changed to "EcoObj" for consistency purposes
 
 ### **Installation**
 
@@ -225,27 +230,22 @@ This tool has two purposes:
 2. Planning: Comparing ewr success between scenarios (i.e. model runs) - option 2 above.
 
 **Support**
-For issues relating to the script, a tutorial, or feedback please contact Martin Job at martin.job@mdba.gov.au, Sirous Safari Pour at sirous.safaripour@mdba.gov.au, Elisha Freedman at elisha.freedman@mdba.gov.au, Joel Bailey at joel.bailey@mdba.gov.au, or Lara Palmer at lara.palmer@mdba.gov.au.
-
+For issues relating to the script, a tutorial, or feedback please contact Martin Job at Martin.Job@mdba.gov.au, Sirous Safari Pour at Sirous.SafariPour@mdba.gov.au, Elisha Freedman at Elisha.Freedman@mdba.gov.au, Rory Hackett at Rory.Hackett@mdba.gov.au or Joel Bailey at Joel.Bailey@mdba.gov.au
 
 **Disclaimer**
-Every effort has been taken to ensure the ewr database represents the original EWRs from state Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) as best as possible, and that the code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the ewr parameter sheet and/or ewr tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
-
+Every effort has been taken to ensure the ewr database represents the original EWRs from state Long Term Water Plans (LTWPs), Environmental Water Management Plans (EWMPs), Flows studies, and those derived through expert elicitation processes as best as possible. The  code within this tool has been developed to interpret and analyse these EWRs in an accurate way. However, there may still be unresolved bugs in the ewr parameter sheet and/or ewr tool. Please report any bugs to the issues tab under the GitHub project so we can investigate further. 
 
 **Notes on development of the dataset of EWRs**
-The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state LTWPs and EWMPs to the machine readable format found in the parameter sheet within this tool. 
+The MDBA has worked with Basin state representatives to ensure scientific integrity of EWRs has been maintained when translating from raw EWRs in the Basin state LTWPs, EWMPs, Flows studies, and those derived through expert elicitation processes to the machine readable format found in the parameter sheet within this tool. 
 
-Environmental Water Requirements (EWRs) in the tool are subject to change when the relevant documents including Long Term Water Plans (LTWPs) and Environmental Water Management Plans (EWMPs) are updated or move from draft to final versions. LTWPs that are currently in draft form include the ACT and the upper Murrumbidgee section of the NSW Murrumbidgee LTWP.
+Environmental Water Requirements (EWRs) in the tool are subject to change when the relevant documents including Long Term Water Plans (LTWPs), Environmental Water Management Plans (EWMPs), Flows studies, and those derived through expert elicitation processes are updated or move from draft to final versions. LTWPs that are currently in draft form include the upper Murrumbidgee section of the NSW Murrumbidgee LTWP, and the SA LTWP.
 
 **Compatibility**
 
 - All Queensland catchments
 - All New South Wales catchments
 - All South Australian catchments
-- All EWRs from river based Environmental Water Management Plans (EWMPs) in Victoria*
-- All EWRs for ACT (draft version)
-
-*The wetland EWMPS and mixed wetland-river EWMPs in Victoria are in progress. The MDBA will work with our Victorian colleagues to ensure any updated EWRs in these plans are integrated into the tool where possible.
+- Where possible all EWRs from Environmental Water Management Plans (EWMPs) and Flows studies in Victoria
 
 **Input data**
 
@@ -253,14 +253,14 @@ Environmental Water Requirements (EWRs) in the tool are subject to change when t
 - Scenario data input by the user
 - Model metadata for location association between gauge ID's and model nodes
 #### optional
-- ewr parameter sheet
-- calc_config.json 
+- parameter sheet
+- ewr_calc_config.json 
 
 **Objective mapping**
 The objective mapping is located in the EWR tool package. This is intended to be used to link EWRs to the detailed objectives, theme level targets and specific goals. The objective reference file is located in the py_ewr/parameter_metadata folder:
 
-parameter_sheet.csv (EnvObj column)
-obj_reference.csv
+parameter_sheet.csv (EcoObj column)
+objective_reference.csv
 
-Contains the individual environmnetal objectives listed in the 'EnvObj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objectives) for each planning unit, long term water plan (LTWPShortName), and surface water sustainable diversion limit (SWSDLName).
-the function ```get_obj_mapping()``` is available to automatically merge the information from obj_reference.csv with the parameter sheet to link these objectives with their specific ewr_codes.
+Contains the individual ecological objectives listed in the 'EcoObj' column of the parameter sheet and their ecological targets (Target) and plain english description of objectives (Objective) for each planning unit, long term water plan (LTWPShortName), surface water sustainable diversion limit region (SWSDLName), and Basin State (State)
+the function ```get_obj_mapping()``` is available to automatically merge the information from objective_reference.csv with the parameter sheet to link these objectives with their specific ewr_codes.
