@@ -915,8 +915,8 @@ def test_barrage_flow_handle(data_for_df_F, ewr, main_gauge, expected_events, pu
 def test_barrage_level_handle(sa_parameter_sheet, expected_events, expected_PU_df_data):
     # Set up input data
     pu = 'PU_0000029'
-    gauge = 'A4260527'
-    barrage_gauges =  ['A4260527','A4261133', 'A4260524', 'A4260574', 'A4260575']
+    gauge = 'A4260524'
+    barrage_gauges =  ['A4260524','A4261133', 'A4260524', 'A4260574', 'A4260575']
     ewr = 'CLLMM1c_P'
     gauge_levels = (  [.55]*66 + [.8]*5 + [.6]*115 + [.55]*179 + 
                             [0]*365 + 
