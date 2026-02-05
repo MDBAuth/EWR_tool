@@ -1177,7 +1177,7 @@ class ScenarioHandler:
         """
         parameter_sheet = pd.read_csv(self.parameter_sheet)
 
-        self.logging_sheet = parameter_sheet.copy()[["PlanningUnitName", "Code", 'Gauge', "GaugeType", 'PlanningUnitID', 'FlowLevelVolume', "Multigauge", "WeirpoolGauge"]]
+        self.logging_sheet = parameter_sheet.copy()[["PlanningUnitName", "Code", 'Gauge', "GaugeType", 'PlanningUnitID', 'FlowLevelVolume', "Multigauge", "WeirpoolGauge", "SWSDLName"]]
 
         self.logging_sheet = self.create_multi_index(self.logging_sheet)
 
@@ -1188,7 +1188,7 @@ class ScenarioHandler:
         self.log_calc_config_info()
         self.log_siteID_info()
 
-        self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", 'Gauge', "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?"]]
+        self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", 'Gauge', "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?", "SWSDLName"]]
 
         return self.logging_sheet
     

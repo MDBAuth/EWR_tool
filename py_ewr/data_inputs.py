@@ -556,7 +556,7 @@ def get_obj_mapping(
         obj_ref_path (str) = file path to objective mapping csv. If Not, default objective_reference.csv inside EWR tool is selected
     '''
     param_sheet_cols = [
-        'PlanningUnitName', 'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EnvObj'
+        'PlanningUnitName', 'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EcoObj'
     ]
 
     if not objective_reference_path:
@@ -571,13 +571,13 @@ def get_obj_mapping(
     
     # Split 'EnvObj' by '+' and explode to long format
     longform_ewr = okay_EWRs_sub.assign(
-        EnvObj=okay_EWRs_sub['EnvObj'].str.split('+')
+        EnvObj=okay_EWRs_sub['EcoObj'].str.split('+')
     ).explode('EnvObj').drop_duplicates()
 
     merged_df = longform_ewr.merge(
         obj_ref,
-        left_on= ['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
-        right_on=['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EnvObj', 'SWSDLName', 'State'],
+        left_on= ['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EcoObj', 'SWSDLName', 'State'],
+        right_on=['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EcoObj', 'SWSDLName', 'State'],
         how='left'
     )
 
