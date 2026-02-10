@@ -306,6 +306,8 @@
         "F3_S-single-F",
         "F3_P-single-F",
         "BF1_a_PS-single-F",
+        "BF2_partB-single-F",
+        "BF2_partA-single-F",
         "F1_a_PS-single-F",
         "F1_c_PS-single-F",
         "F1_c_PS-single-F",
@@ -496,16 +498,17 @@
         "FP5_P-single-F"
     ],
     "barrage_flow_handle": [
-        "CLLMM1a_P-single-F",
+        "CLLMM1a_PS-single-F",
         "CLLMM1a_S-single-F",
         "CLLMM1b-single-F",
-        "CLLMM2a_P-single-F",
+        "CLLMM2a_PS-single-F",
         "CLLMM2a_S-single-F",
         "CLLMM2b-single-F",
-        "CLLMM3a_P-single-F",
+        "CLLMM3a_PS-single-F",
         "CLLMM3a_S-single-F",
-        "CLLMM4a_P-single-F",
+        "CLLMM4a_PS-single-F",
         "CLLMM4a_S-single-F"
+        
     ],
     "barrage_level_handle": [
         "CLLMM1d_P-single-L",
