@@ -72,7 +72,15 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
     return EWR_table
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path:str = None) -> dict:
+def get_EWR_table(file_path:str = None, columns_to_keep =['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'State', 'SWSDLName',
+                          'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
+                          'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                          'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelChange', 'AccumulationPeriod',
+                          'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualBarrageFlow',
+                          'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
+                          'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
+                          'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
+                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType']) -> dict:
     
     ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
@@ -89,18 +97,7 @@ def get_EWR_table(file_path:str = None) -> dict:
     else:
       my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
 
-    df = pd.read_csv(my_url,
-        usecols=['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'State', 'SWSDLName',
-                          'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
-                          'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                          'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelChange', 'AccumulationPeriod',
-                          'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualBarrageFlow',
-                          'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
-                          'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
-                          'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType'],
-                    dtype='str', encoding='cp1252'
-                    )
+    df = pd.read_csv(my_url,columns_to_keep,dtype='str', encoding='cp1252')
 
     df = df.replace('?','')
     df = df.fillna('')
