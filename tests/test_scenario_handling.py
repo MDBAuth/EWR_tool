@@ -631,5 +631,6 @@ def test_netcdf_processes():
     ewr_sh = scenario_handling.ScenarioHandler(scenarios, model_format)
     
     ewr_summary = ewr_sh.get_ewr_results()
+    print(ewr_summary)
 
     assert ewr_summary.shape == (202, 21)

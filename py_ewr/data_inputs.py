@@ -40,12 +40,20 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
     ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. i.e. datatype changing, splitting day/month data, handling %
     '''
 
-    int_components = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 'Duration', 'WithinEventGapTolerance', 'EventsPerYear', 'MinSpell', 'AccumulationPeriod', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'AnnualBarrageFlow', 'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell', 'LarvaeDaysSpell', 'StartDay', 'EndDay', 'StartMonth', 'EndMonth']
-    float_components = ['RateOfRiseMax1', 'RateOfRiseMax2', 'RateOfFallMin', 'RateOfRiseThreshold1', 'RateOfRiseThreshold2', 'RateOfRiseRiverLevel', 'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
+    all_int_params = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 'Duration', 'WithinEventGapTolerance', 'EventsPerYear', 'MinSpell', 'AccumulationPeriod', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'AnnualBarrageFlow', 'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell', 'LarvaeDaysSpell', 'StartDay', 'EndDay', 'StartMonth', 'EndMonth']
+    all_float_params = ['RateOfRiseMax1', 'RateOfRiseMax2', 'RateOfFallMin', 'RateOfRiseThreshold1', 'RateOfRiseThreshold2', 'RateOfRiseRiverLevel', 'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
+
+    float_params = [col for col in EWR_table.columns if col in all_float_params]
+    int_params = [col for col in EWR_table.columns if col in all_int_params]
+
+    essential_cols = ['StartMonth', 'EndMonth']
+    missing_cols = [col for col in essential_cols if col not in EWR_table.columns]
+    if missing_cols:
+        raise KeyError(f"Parameter sheet must contain these columns: {missing_cols}")
+    
 
     # Modify startmonth/endmonth
-    col_names = ['StartMonth', 'EndMonth']
-    for col_name in col_names:
+    for col_name in essential_cols:
       rows = EWR_table[col_name].copy().items()
       day_col_name = col_name[:-5]+"Day"
       for r_idx, val in rows:
@@ -60,27 +68,20 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
     # I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
 
     # Modify floats
-    for col_name in float_components:
+    for col_name in float_params:
       col = pd.to_numeric(EWR_table[col_name], errors='coerce')
       EWR_table[col_name] = pd.Series(col, dtype='Float64')
 
     # Modify integers
-    for col_name in int_components:
+    for col_name in int_params:
       col = pd.to_numeric(EWR_table[col_name], errors='coerce')
       EWR_table[col_name] = pd.Series(col, dtype='Int64')
 
     return EWR_table
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path:str = None, columns_to_keep =['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'State', 'SWSDLName',
-                          'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
-                          'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                          'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelChange', 'AccumulationPeriod',
-                          'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualBarrageFlow',
-                          'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
-                          'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
-                          'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType']) -> dict:
+
+def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
     
     ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
     ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
@@ -91,17 +92,28 @@ def get_EWR_table(file_path:str = None, columns_to_keep =['PlanningUnitID', 'Pla
     Returns:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
     '''
+    if columns_to_keep is None:
+        cols_keep = ['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'State', 'SWSDLName',
+                          'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
+                          'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                          'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelChange', 'AccumulationPeriod',
+                          'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek','AnnualBarrageFlow',
+                          'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
+                          'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
+                          'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
+                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType']
+        
+    else:
+        cols_keep = columns_to_keep
     
     if file_path:
       my_url = file_path
     else:
       my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
-
-    df = pd.read_csv(my_url,columns_to_keep,dtype='str', encoding='cp1252')
+    df = pd.read_csv(my_url, usecols = cols_keep, dtype='str', encoding='cp1252')
 
     df = df.replace('?','')
     df = df.fillna('')
-
     # removing the 'See notes'
     see_notes_idx = (df["StartMonth"] == 'See note') & (df["EndMonth"] == 'See note')
 
@@ -117,13 +129,11 @@ def get_EWR_table(file_path:str = None, columns_to_keep =['PlanningUnitID', 'Pla
 
     # Filtering DSF EWRs
     DSF_idx = df['Code'].str.startswith('DSF')
-
     # Combine the filters and get the okay and bad EWRs
     bad_EWRs_idx = see_notes_idx | no_thresh_idx | no_duration_idx | DSF_idx
     
     okay_EWRs = df[~bad_EWRs_idx].copy(deep=True)
     bad_EWRs = df[bad_EWRs_idx].copy(deep=True)
-
     # Here are all the prior assumptions of what to fill in to the parameter sheet if the value is missing.
     # The aim is to remove all of these and have the parameter sheet be correct, the tool should not run
     # the calculation of an ewr with missing (or extra?) values.
@@ -137,7 +147,7 @@ def get_EWR_table(file_path:str = None, columns_to_keep =['PlanningUnitID', 'Pla
     okay_EWRs.loc[:, 'CtfThreshold'] = (okay_EWRs['CtfThreshold'].replace('', '5'))
     okay_EWRs.loc[:, 'NonFlowSpell'] = (okay_EWRs['NonFlowSpell'].replace('', '0'))
     okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30', '0.03'))
-    okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30%', '0.03'))#just for test, change the PS in that test to reflect this
+    okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30%', '0.03'))#just for tes t, change the PS in that test to reflect this
     okay_EWRs.loc[:, 'DrawdownRate'] = (okay_EWRs['DrawdownRate'].replace('', '1000000'))
     okay_EWRs.loc[:, 'MaxSpell'] = (okay_EWRs['MaxSpell'].replace('', '1000000'))
     okay_EWRs.loc[:, 'MaxLevelChange'] = (okay_EWRs['MaxLevelChange'].replace('', '1000000'))
@@ -318,9 +328,9 @@ def get_EWR_components(category):
     elif category == 'cease to flow':
         pull = ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'cumulative':
-        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
+        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'cumulative_bbr':
-        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume','LevelThresholdMax','WeirpoolGauge']
+        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume','LevelThresholdMax','WeirpoolGauge']
     elif category == 'water_stability':
         pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume','LevelThresholdMax','WeirpoolGauge', 'EggsDaysSpell', 'LarvaeDaysSpell', 'MaxLevelChange', 'DrawdownRate']
     elif category == 'water_stability_level':
@@ -342,7 +352,7 @@ def get_EWR_components(category):
     elif category == 'multi-gauge-cease to flow':
         pull = ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'Multigauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-cumulative':
-        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax','Multigauge', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
+        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax','Multigauge', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'flood-plains':
         pull=['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'FlowThresholdMin', 'FlowThresholdMax', 'LevelThresholdMax', 'Duration', 'MinSpell',  'DrawdownRate', 'MaxLevelChange','EventsPerYear','WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'WithinEventGapTolerance']
     elif category == 'barrage-flow':

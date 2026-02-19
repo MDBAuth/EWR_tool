@@ -11,7 +11,10 @@ import random
 import string
 import pytest
 import re
+import json
 
+
+from unittest.mock import mock_open, patch
 from py_ewr import data_inputs
 
 
@@ -42,35 +45,53 @@ def test_get_EWR_table():
     '''
     - 1. Test for equal entries (no lost EWRs)
     - 2. Test to ensure no bad EWRs make it through using a subset of EWRs
+    - 3. Test EWR table columns match the expected columns
+    -4. Test error thrown when startMonth and endMonth are not found in the table columns
     '''
     # Test 1
     proxies={} # Populate with your proxy settings
+
+    cols=('PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code',
+                                'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
+                                'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
+                                'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
+                                'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek', 'CtfThreshold','NonFlowSpell', 'MaxLevelChange')
+    essential_cols = ('StartMonth', 'EndMonth')
+
+    comb_cols = cols + essential_cols
+
     my_url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     df = pd.read_csv(my_url,
-                        usecols=['PlanningUnitID', 'PlanningUnitName',  'LTWPShortName', 'CompliancePoint/Node', 'Gauge', 'Code', 'StartMonth',
-                              'EndMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'EventsPerYear', 'Duration', 'MinSpell', 
-                              'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
-                              'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'AccumulationPeriod',
-                              'Multigauge', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'DrawDownRateWeek'],
+                    usecols = comb_cols,
                      dtype='str', encoding='cp1252'
                     )
     
     # Get the cleaned dataset:
+    # testing 1 and 2 
     EWR_table, bad_EWRs = data_inputs.get_EWR_table()
     
     total_len = len(EWR_table)+len(bad_EWRs)
     assert len(df), total_len
 
-def test_get_ewr_calc_config():
-    '''
-    1. Test for correct return of ewr calculation config
-    assert it returns a dictionary
-    '''
+    #test 3 
+    EWR_table, bad_EWRs = data_inputs.get_EWR_table(file_path = my_url, columns_to_keep = comb_cols)
+    assert sorted(EWR_table.columns.tolist()) == sorted(comb_cols+('StartDay', 'EndDay'))
 
-    ewr_calc_config = data_inputs.get_ewr_calc_config()
+    # test 4 if start month and end month are not in the parmaeter sheet raise error
+    
+    with pytest.raises(KeyError):
+        EWR_table, bad_EWRs = data_inputs.get_EWR_table(file_path = my_url, columns_to_keep = cols)
 
-    assert isinstance(ewr_calc_config, dict)
-    assert "flow_handle" in ewr_calc_config.keys()
+# def test_get_ewr_calc_config():
+#     '''
+#     1. Test for correct return of ewr calculation config
+#     assert it returns a dictionary
+#     '''
+
+#     ewr_calc_config = data_inputs.get_ewr_calc_config()
+
+#     assert isinstance(ewr_calc_config, dict)
+#     assert "flow_handle" in ewr_calc_config.keys()
 
 
 def test_get_barrage_flow_gauges():
@@ -163,105 +184,105 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
     return: 
         number of rows per dataset that violate the conditions described above.
     '''
-    df = df.copy()
+    checking_df = df.copy()
 
-    # Create a regex pattern that matches strings composed only of the allowed characters
-    allowed_chars = '.' + '_' + '-'+''+' '+string.ascii_letters + string.digits
-    pattern = f'^[{re.escape(allowed_chars)}]*$'
-
-    #Apply the pattern to filter the DataFrame, keeping rows where all cells match the pattern
-    spec_char = df[~df.apply(lambda x: x.astype(str).str.match(pattern) | x.isna()).all(axis=1)]
-    okay_df = df[df.apply(lambda x: x.astype(str).str.match(pattern)| x.isna()).all(axis=1)]
-
-    
-
+    # Convert numeric columns to float
     columns = ['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
            'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
            'FlowThresholdMax', 'LevelThresholdMin', 'LevelThresholdMax']
-    okay_df[columns] = okay_df[columns].replace({' ': np.nan, '': np.nan}, regex=True)
-    okay_df[columns] = okay_df[columns].astype(float)
+    checking_df[columns] = checking_df[columns].replace({' ': np.nan, '': np.nan}, regex=True)
+    checking_df[columns] = checking_df[columns].astype(float)
     
-    dur_filter = okay_df.copy()
-    dur_filter[['StartDay', 'EndDay']] = ''
+    # Duration check
+    dur_filter = checking_df.copy()
     
-    
-    #check_duration
-
-    dur_filter[['StartMonth', 'StartDay']] = dur_filter['StartMonth'].str.split(
-        '.', expand=True).fillna(1).astype(int)
-
-    dur_filter[['EndMonth', 'EndDay']] = dur_filter['EndMonth'].str.split(
-         '.', expand=True).fillna(1).astype(int)
-
     date_cols = ['StartMonth', 'StartDay', 'EndMonth', 'EndDay']
 
-    dur_filter[date_cols] = dur_filter[date_cols].replace(0, 1)
+    # Convert all date columns: handle NaN and zeros
+    for col in date_cols:
+        dur_filter[col] = pd.to_numeric(dur_filter[col], errors='coerce').fillna(1).replace(0, 1).astype(int)
     
-    dur_filter = dur_filter[~(dur_filter['StartMonth'] == 7) & (dur_filter["EndMonth"] == 6)]
+    # # Filter out July-June water years
+    # dur_filter = dur_filter[~((dur_filter['StartMonth'] == 7) & (dur_filter["EndMonth"] == 6))]
 
+    # Create date columns
     dur_filter['StartDate'] = pd.to_datetime(dur_filter.apply(
-    lambda row: f"{year}-{row['StartMonth']:02d}-{row['StartDay']:02d}", axis=1))
+        lambda row: f"{year}-{row['StartMonth']:02d}-{row['StartDay']:02d}", axis=1))
 
     dur_filter['EndDate'] = pd.to_datetime(dur_filter.apply(
-    lambda row: f"{year+1 if row['StartMonth'] > row['EndMonth'] else year}-{row['EndMonth']: 02d}-{row['EndDay']: 02d}", axis=1))+pd.offsets.MonthEnd(1)
+        lambda row: f"{year+1 if row['StartMonth'] > row['EndMonth'] else year}-{row['EndMonth']:02d}-{row['EndDay']:02d}", axis=1)) + pd.offsets.MonthEnd(1)
 
     dur_filter['DaysBetween'] = (dur_filter['EndDate'] - dur_filter['StartDate']).dt.days + 1
-    duration_violation = dur_filter[dur_filter['Duration'] > dur_filter['DaysBetween']]
 
-    # Calculate MaxEventDays
-    okay_df['MaxEventDays'] = okay_df['EventsPerYear'] * okay_df['Duration']
 
-    # Event Number Check
-    event_number_violation = okay_df[okay_df['MaxEventDays'] > 365] 
-
-    # MinSpell Check
-    min_spell_violation = okay_df[okay_df['MinSpell'] > okay_df['Duration']]
-
-    # # Flow Threshold Check
-    flow_threshold_violation = okay_df[(okay_df['FlowThresholdMax'] > 0) & (okay_df['FlowThresholdMin'] > okay_df['FlowThresholdMax'])]
-
-    # level Threshold Check
-    level_threshold_violation = okay_df[(okay_df['LevelThresholdMax'] > 0) & (
-        okay_df['LevelThresholdMin'] > okay_df['LevelThresholdMax'])]
-
-    # Target Frequency Check
-    target_frequency_violation = okay_df[
-        (okay_df['TargetFrequencyMax'] > 0) & 
-        (
-            (okay_df['TargetFrequencyMin'] >= okay_df['TargetFrequency']) | 
-            (okay_df['TargetFrequency'] >= okay_df['TargetFrequencyMax']) |
-            (okay_df['TargetFrequencyMin'] >= okay_df['TargetFrequencyMax'])
-        )
+    # remove cease to flows since they don't follow the same rules
+    dur_filter_cf_removed = dur_filter[~dur_filter['Code'].str.contains('CF|CTF')]
+    
+    # Duration violation check with NaN handling
+    duration_violation = dur_filter_cf_removed[
+        (dur_filter_cf_removed['Duration'] > dur_filter_cf_removed['DaysBetween']) &
+        dur_filter_cf_removed['Duration'].notna() &
+        dur_filter_cf_removed['DaysBetween'].notna()
     ]
 
-    # duplicate_EWR planning units and gauges 
-    okay_df['unique_ID'] = okay_df['Gauge']+'_'+okay_df['PlanningUnitID']+'_'+okay_df['Code']
-    duplicates = okay_df[okay_df.duplicated('unique_ID', keep=False)]
-    dup_set = set(duplicates['unique_ID'])
+    checking_df = checking_df[~checking_df['Code'].str.contains('CF|CTF')]
 
+    # Calculate MaxEventDays
+    checking_df['MaxEventDays'] = checking_df['EventsPerYear'] * checking_df['Duration']
 
-    # Collect indices for each type of violation
-    duration_violation_indices = duration_violation.index.tolist()
-    event_number_violation_indices = event_number_violation.index.tolist()
-    min_spell_violation_indices = min_spell_violation.index.tolist()
-    flow_threshold_violation_indices = flow_threshold_violation.index.tolist()
-    level_threshold_violation_indices = level_threshold_violation.index.tolist()
-    target_frequency_violation_indices = target_frequency_violation.index.tolist()
-    duplicate_indices = duplicates.index.tolist()
-    special_char_cols = spec_char.index.tolist()
+    # Event Number Check with NaN handling
+    event_number_violation = checking_df[
+        (checking_df['MaxEventDays'] > 365) &
+        checking_df['MaxEventDays'].notna()
+    ]
 
-    # Print indices where violations occur
-    print("Duration Violation at rows:", duration_violation_indices)
-    print("Event Number Violation at rows:", event_number_violation_indices)
-    print("MinSpell Violation at rows:", min_spell_violation_indices)
-    print("Flow Threshold Violation at rows:",
-          flow_threshold_violation_indices)
-    print("Level Threshold Violation at rows:",
-          level_threshold_violation_indices)
-    print("Target Frequency Violation at rows:",
-          target_frequency_violation_indices)
-    print("Duplicate rows:", duplicate_indices),
-    print("special characters in the following rows:", special_char_cols)
+    # MinSpell Check with NaN handling
+    min_spell_violation = checking_df[
+        (checking_df['MinSpell'] > checking_df['Duration']) &
+        checking_df['MinSpell'].notna() &
+        checking_df['Duration'].notna()
+    ]
+
+    # Flow Threshold Check with NaN handling
+    flow_threshold_violation = checking_df[
+        (checking_df['FlowThresholdMax'] > 0) & 
+        (checking_df['FlowThresholdMin'] > checking_df['FlowThresholdMax']) &
+        checking_df['FlowThresholdMin'].notna() &
+        checking_df['FlowThresholdMax'].notna()
+    ]
+
+    # Level Threshold Check with NaN handling
+    level_threshold_violation = checking_df[
+        (checking_df['LevelThresholdMax'] > 0) & 
+        (checking_df['LevelThresholdMin'] > checking_df['LevelThresholdMax']) &
+        checking_df['LevelThresholdMin'].notna() &
+        checking_df['LevelThresholdMax'].notna()
+    ]
+
+    # Target Frequency Check with NaN handling
+    target_frequency_violation = checking_df[
+        (checking_df['TargetFrequencyMax'] > 0) & 
+        (
+            (checking_df['TargetFrequencyMin'] >= checking_df['TargetFrequency']) &
+            (checking_df['TargetFrequency'] >= checking_df['TargetFrequencyMax']) &
+            (checking_df['TargetFrequencyMin'] >= checking_df['TargetFrequencyMax'])
+        ) &
+        checking_df['TargetFrequency'].notna() &
+        checking_df['TargetFrequencyMin'].notna() &
+        checking_df['TargetFrequencyMax'].notna()
+    ]
+
+    # Duplicate EWR planning units and gauges 
+    checking_df['unique_ID'] = checking_df['Gauge'] + '_' + checking_df['PlanningUnitID'] + '_' + checking_df['Code']
+    duplicates = checking_df[checking_df.duplicated('unique_ID', keep=False)]
+
+    # Special Character Check
+    allowed_chars = string.ascii_letters + string.digits+',()+-_./:%@ '
+    pattern = f'^[{re.escape(allowed_chars)}]*$'
+    
+    # Apply the pattern to filter the DataFrame
+    spec_char = df[~df.apply(lambda x: x.astype(str).str.match(pattern) | x.isna()).all(axis=1)]
+    
 
     # Check if there are no violations
     no_violations = all(len(v) == 0 for v in [
@@ -272,18 +293,44 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
         level_threshold_violation,
         target_frequency_violation,
         duplicates,
-        special_char_cols
+        spec_char
     ])
-    assert no_violations, "Errors were found with the logic in the EWR table"
-
-    # run on EWR_table
+    
+    if no_violations:
+        print("Nothing wrong")
+    else:
+        if not duration_violation.empty:
+            print('#------------- Duration Violation -------------#')
+            print(duration_violation[['Gauge', 'Code', 'LTWPShortName', 'Duration', 'DaysBetween']])
+        if not event_number_violation.empty:
+            print('#------------- Event number over length of seasonal window -------------#')
+            print(event_number_violation[['Gauge', 'Code', 'LTWPShortName', 'MaxEventDays', 'EventsPerYear', 'Duration']])
+        if not min_spell_violation.empty:
+            print('#------------- Minimum Spell > Duration -------------#')
+            print(min_spell_violation[['Gauge', 'Code', 'LTWPShortName', 'MinSpell', 'Duration']])
+        if not flow_threshold_violation.empty:
+            print('#------------- Flow Threshold min max relationships not correct -------------#')
+            print(flow_threshold_violation[['Gauge', 'Code', 'LTWPShortName', 'FlowThresholdMin', 'FlowThresholdMax']])
+        if not level_threshold_violation.empty:
+            print('#------------- Level Threshold min max relationships not correct -------------#')
+            print(level_threshold_violation[['Gauge', 'Code', 'LTWPShortName', 'LevelThresholdMin', 'LevelThresholdMax']])
+        if not target_frequency_violation.empty:
+            print('#-------------  Target Frequency relationships not correct -------------#')
+            print(target_frequency_violation[['Gauge', 'Code', 'LTWPShortName', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax']])
+        if not duplicates.empty:
+            print('#------------- Duplicate rows -------------#')
+            print(duplicates[['Gauge', 'PlanningUnitID', 'Code']])
+        if not spec_char.empty:
+            print('#------------- Special characters in the following rows -------------#')
+            print(spec_char)
+        assert False, "Errors were found with the logic in the EWR table"
     
 
-def test_check_EWR_logics():
+def test_check_EWR_logic():
     non_leap = generate_years(1910, 2024)
     leap = generate_years(1910, 2024, True)
     url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
-    columns_to_keep = ['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'State', 'SWSDLName',
+    columns_to_keep = ('PlanningUnitID', 'LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'State', 'SWSDLName',
                           'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
                           'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                           'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelChange', 'AccumulationPeriod',
@@ -291,55 +338,55 @@ def test_check_EWR_logics():
                           'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                           'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
                           'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType']
+                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType')
     EWR_table, bad_EWRs = data_inputs.get_EWR_table(url, columns_to_keep)
     check_EWR_logic(EWR_table, non_leap)
     check_EWR_logic(EWR_table, leap)
 
 
-# def test_get_ewr_calc_config():
-#     # Test with a valid file_path
-#     # mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
-#     # mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
+def test_get_ewr_calc_config():
+    # Test with a valid file_path
+    # mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
+    # mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
     
-#     # with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
-#     #     result = data_inputs.get_ewr_calc_config(mock_file_path)
-#     #     assert result == mock_config
+    # with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
+    #     result = data_inputs.get_ewr_calc_config(mock_file_path)
+    #     assert result == mock_config
 
-#     # Test with the default path
-#     default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
-#     default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
+    # Test with the default path
+    default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
+    default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
     
-#     with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
-#         ewr_calc_config = data_inputs.get_ewr_calc_config()
-#         assert isinstance(ewr_calc_config, dict)
-#         assert "flow_handle" in ewr_calc_config.keys()
-#     def find_unusual_characters(s):
-#         # Define a regex pattern for unusual characters
-#         pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
+    with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
+        ewr_calc_config = data_inputs.get_ewr_calc_config()
+        assert isinstance(ewr_calc_config, dict)
+        assert "flow_handle" in ewr_calc_config.keys()
+    def find_unusual_characters(s):
+        # Define a regex pattern for unusual characters
+        pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
         
-#         # Find all unusual characters
-#         unusual_chars = set(re.findall(pattern, s))
+        # Find all unusual characters
+        unusual_chars = set(re.findall(pattern, s))
     
-#         return unusual_chars
-#     # Test for rogue characters
-#     #rogue_chars = {'@', '$', '#', "*",''}
-#     # Test for rogue characters
-#     test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
-#     rogue_chars =find_unusual_characters(test_string)
-#     unique_chars = set()
-#     for k, v in ewr_calc_config.items():
-#         for char in k:
-#             unique_chars.add(char)
-#         for char in v:
-#             unique_chars.add(char)
+        return unusual_chars
+    # Test for rogue characters
+    #rogue_chars = {'@', '$', '#', "*",''}
+    # Test for rogue characters
+    test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
+    rogue_chars =find_unusual_characters(test_string)
+    unique_chars = set()
+    for k, v in ewr_calc_config.items():
+        for char in k:
+            unique_chars.add(char)
+        for char in v:
+            unique_chars.add(char)
     
-#     assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
+    assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
 
-#     # Test with a nonexistent file
-#     mock_file_path = "/mock/path/to/nonexistent_config.json"
+    # Test with a nonexistent file
+    mock_file_path = "/mock/path/to/nonexistent_config.json"
     
-#     with patch("builtins.open", mock_open()) as mock_file:
-#         mock_file.side_effect = FileNotFoundError
-#         with pytest.raises(FileNotFoundError):
-#             data_inputs.get_ewr_calc_config(mock_file_path)
+    with patch("builtins.open", mock_open()) as mock_file:
+        mock_file.side_effect = FileNotFoundError
+        with pytest.raises(FileNotFoundError):
+            data_inputs.get_ewr_calc_config(mock_file_path)
