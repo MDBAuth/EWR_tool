@@ -331,7 +331,7 @@ def join_ewr_parameters(cols_to_add:List, left_table:pd.DataFrame, left_on:List,
                         selected_columns:List = None, renamed_columns:List = None,
                         parameter_sheet_path:str = None)-> pd.DataFrame:
     
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table(parameter_sheet_path)
+    EWR_table = data_inputs.get_EWR_table(parameter_sheet_path)
 
     EWR_table = fill_empty(EWR_table, ['TargetFrequency','MaxInter-event'])
 
@@ -583,7 +583,7 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
 
     all_events['ID'] = all_events['scenario']+s+all_events['Gauge']+s+all_events['PlanningUnit']+s+all_events['Code']
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
+    EWR_table = data_inputs.get_EWR_table(ewr_table_path)
     all_successfulEvents = pd.DataFrame(columns = ['scenario', 'Gauge', 'PlanningUnit', 'Code', 'waterYear', 'startDate', 'endDate', 'eventDuration', 'eventLength', 'multigauge' 'ID'])
     
     # Filter out unsuccesful events
@@ -626,7 +626,7 @@ def get_rolling_max_interEvents(df:pd.DataFrame, start_date: date, end_date: dat
     master_dict = dict()
     unique_years = list(range(min(yearly_df['Year']),max(yearly_df['Year'])+1,1))
     # Load in ewr table to variable to access start and end dates of the ewr
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
+    EWR_table = data_inputs.get_EWR_table(ewr_table_path)
     for unique_EWR in unique_ID:
         df_subset = df[df['ID'] == unique_EWR]
         yearly_df_subset = yearly_df[yearly_df['ID'] == unique_EWR]
@@ -731,7 +731,7 @@ def add_interevent_check_to_yearly_results(yearly_df: pd.DataFrame, ewr_table_pa
     yearly_df['rollingMaxInterEventAchieved'] = None
 
     # Load in ewr table to variable to access start and end dates of the ewr
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table(ewr_table_path)
+    EWR_table = data_inputs.get_EWR_table(ewr_table_path)
 
     # Get ewr characteristics for current ewr
     for i, row in yearly_df.iterrows():
