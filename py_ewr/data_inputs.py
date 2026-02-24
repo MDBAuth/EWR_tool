@@ -37,7 +37,8 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
 
 def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
   
-    ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. i.e. datatype changing, splitting day/month data, handling %
+    ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. 
+        i.e. datatype changing, splitting day/month data, handling %
     '''
 
     all_int_params = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 
@@ -76,12 +77,10 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
     int_params = [col for col in EWR_table.columns if col in all_int_params]
     # Modify floats
     for col_name in float_params:
-        print(col_name)
         EWR_table[col_name] = pd.to_numeric(EWR_table[col_name], errors='coerce').astype('Float64')
 
     # Modify integers
     for col_name in int_params:
-        print(col_name)
         EWR_table[col_name] = pd.to_numeric(EWR_table[col_name], errors='coerce').astype('Int64')
 
     return EWR_table

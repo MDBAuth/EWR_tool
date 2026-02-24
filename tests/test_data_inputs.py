@@ -20,7 +20,7 @@ from py_ewr import data_inputs
 
 BASE_PATH = Path(__file__).resolve().parents[1]   
 
-url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
+parameter_sheet_path = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     
 def test_get_multi_gauges():
     '''
@@ -62,7 +62,7 @@ def test_get_EWR_table():
 
     comb_cols = cols + essential_cols
 
-    df = pd.read_csv(url,
+    df = pd.read_csv(parameter_sheet_path,
                     usecols = comb_cols,
                      dtype='str', encoding='cp1252'
                     )
@@ -74,24 +74,24 @@ def test_get_EWR_table():
     assert len(df), len(EWR_table)
 
     #test 3 
-    EWR_table = data_inputs.get_EWR_table(file_path = url, columns_to_keep = comb_cols)
+    EWR_table = data_inputs.get_EWR_table(file_path = parameter_sheet_path, columns_to_keep = comb_cols)
     assert sorted(EWR_table.columns.tolist()) == sorted(comb_cols+('StartDay', 'EndDay'))
 
     # test 4 if start month and end month are not in the parmaeter sheet raise error
     
     with pytest.raises(KeyError):
-        EWR_table = data_inputs.get_EWR_table(file_path = url, columns_to_keep = cols)
+        EWR_table = data_inputs.get_EWR_table(file_path = parameter_sheet_path, columns_to_keep = cols)
 
-# def test_get_ewr_calc_config():
-#     '''
-#     1. Test for correct return of ewr calculation config
-#     assert it returns a dictionary
-#     '''
+def test_get_ewr_calc_config():
+    '''
+    1. Test for correct return of ewr calculation config
+    assert it returns a dictionary
+    '''
 
-#     ewr_calc_config = data_inputs.get_ewr_calc_config()
+    ewr_calc_config = data_inputs.get_ewr_calc_config()
 
-#     assert isinstance(ewr_calc_config, dict)
-#     assert "flow_handle" in ewr_calc_config.keys()
+    assert isinstance(ewr_calc_config, dict)
+    assert "flow_handle" in ewr_calc_config.keys()
 
 
 def test_get_barrage_flow_gauges():
@@ -371,7 +371,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
 def test_check_EWR_logic():
     non_leap = generate_years(1910, 2024)
     leap = generate_years(1910, 2024, True)
-    url = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
+    parameter_sheet_path = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
     columns_to_keep = ('PlanningUnitID', 'LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax', 'State', 'SWSDLName',
                           'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
                           'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
@@ -381,7 +381,7 @@ def test_check_EWR_logic():
                           'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
                           'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
                           'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType')
-    EWR_table = data_inputs.get_EWR_table(url, columns_to_keep)
+    EWR_table = data_inputs.get_EWR_table(parameter_sheet_path, columns_to_keep)
     check_EWR_logic(EWR_table, non_leap)
     check_EWR_logic(EWR_table, leap)
 
@@ -458,58 +458,109 @@ def test_modify_EWR_table(
         assert row['EndDay'] == expected_end_day, \
             f"EndDay mismatch for {test_id}: expected {expected_end_day}, got {row['EndDay']}"
 
-# def test_modify_EWR_table_datatypes():
-#     test_df = data_inputs.get_EWR_table(url)
-#     result = data_inputs.modify_EWR_table(test_df)
-
-
-
-
-def test_get_ewr_calc_config():
-    # Test with a valid file_path
-    # mock_config = {"Flow_type": ["EWR_code1", "EWR_code2"]}
-    # mock_file_path = "EWR_tool/unit_testing_files/mock_ewr_calc_config.json"
+def test_modify_EWR_table_datatypes():
+    # Get the EWR table
+    test_df = pd.read_csv(parameter_sheet_path, dtype = 'str')
     
-    # with patch("builtins.open", mock_open(read_data=json.dumps(mock_config))):
-    #     result = data_inputs.get_ewr_calc_config(mock_file_path)
-    #     assert result == mock_config
-
-    # Test with the default path
-    default_mock_config = {"flow_handle": ["EWR_code1", "EWR_code2"]}
-    default_path = os.path.join(BASE_PATH, "parameter_metadata/ewr_calc_config.json")
+    # Apply the modify function
+    result = data_inputs.modify_EWR_table(test_df)
     
-    with patch("builtins.open", mock_open(read_data=json.dumps(default_mock_config))):
-        ewr_calc_config = data_inputs.get_ewr_calc_config()
-        assert isinstance(ewr_calc_config, dict)
-        assert "flow_handle" in ewr_calc_config.keys()
-    def find_unusual_characters(s):
-        # Define a regex pattern for unusual characters
-        pattern = r'[^a-zA-Z0-9\s.,!?;:()\'"-]'
+    # expected_dtypes = {
+    #     # Integer columns
+    #     'FlowThresholdMin': 'Int64', 'FlowThresholdMax': 'Int64', 'VolumeThreshold': 'Int64',
+    #     'Duration': 'Int64', 'WithinEventGapTolerance': 'Int64', 'EventsPerYear': 'Int64',
+    #     'MinSpell': 'Int64', 'AccumulationPeriod': 'Int64', 'MaxSpell': 'Int64',
+    #     'TriggerDay': 'Int64', 'TriggerMonth': 'Int64', 'AnnualBarrageFlow': 'Int64',
+    #     'ThreeYearsBarrageFlow': 'Int64', 'HighReleaseWindowStart': 'Int64',
+    #     'HighReleaseWindowEnd': 'Int64', 'LowReleaseWindowStart': 'Int64',
+    #     'LowReleaseWindowEnd': 'Int64', 'PeakLevelWindowStart': 'Int64',
+    #     'PeakLevelWindowEnd': 'Int64', 'LowLevelWindowStart': 'Int64',
+    #     'LowLevelWindowEnd': 'Int64', 'NonFlowSpell': 'Int64', 'EggsDaysSpell': 'Int64',
+    #     'LarvaeDaysSpell': 'Int64', 'StartDay': 'Int64', 'EndDay': 'Int64',
+    #     'StartMonth': 'Int64', 'EndMonth': 'Int64',
         
-        # Find all unusual characters
-        unusual_chars = set(re.findall(pattern, s))
-    
-        return unusual_chars
-    # Test for rogue characters
-    #rogue_chars = {'@', '$', '#', "*",''}
-    # Test for rogue characters
-    test_string = "This is a test string with some unusual characters: @, $, #, *, ©, €, ™, ±"
-    rogue_chars =find_unusual_characters(test_string)
-    unique_chars = set()
-    for k, v in ewr_calc_config.items():
-        for char in k:
-            unique_chars.add(char)
-        for char in v:
-            unique_chars.add(char)
-    
-    assert not (unique_chars & rogue_chars), f"Rogue characters found: {unique_chars & rogue_chars}"
+    #     # Float columns
+    #     'RateOfRiseMax1': 'Float64', 'RateOfRiseMax2': 'Float64', 'RateOfFallMin': 'Float64',
+    #     'RateOfRiseThreshold1': 'Float64', 'RateOfRiseThreshold2': 'Float64',
+    #     'RateOfRiseRiverLevel': 'Float64', 'RateOfFallRiverLevel': 'Float64',
+    #     'CtfThreshold': 'Float64', 'MaxLevelChange': 'Float64', 'LevelThresholdMin': 'Float64',
+    #     'LevelThresholdMax': 'Float64', 'DrawDownRateWeek': 'Float64', 'MaxInter-event': 'Float64',
 
-    # Test with a nonexistent file
-    mock_file_path = "/mock/path/to/nonexistent_config.json"
+    # }
+
+    expected_dtypes = {
+        # Integer columns
+        'AccumulationPeriod': 'Int64',
+        'AnnualBarrageFlow': 'Int64',
+        'Duration': 'Int64',
+        'EggsDaysSpell': 'Int64',
+        'EndDay': 'Int64',
+        'EndMonth': 'Int64',
+        'EventsPerYear': 'Int64',
+        'FlowThresholdMax': 'Int64',
+        'FlowThresholdMin': 'Int64',
+        'HighReleaseWindowEnd': 'Int64',
+        'HighReleaseWindowStart': 'Int64',
+        'LarvaeDaysSpell': 'Int64',
+        'LowLevelWindowEnd': 'Int64',
+        'LowLevelWindowStart': 'Int64',
+        'LowReleaseWindowEnd': 'Int64',
+        'LowReleaseWindowStart': 'Int64',
+        'MaxSpell': 'Int64',
+        'MinSpell': 'Int64',
+        'NonFlowSpell': 'Int64',
+        'PeakLevelWindowEnd': 'Int64',
+        'PeakLevelWindowStart': 'Int64',
+        'StartDay': 'Int64',
+        'StartMonth': 'Int64',
+        'ThreeYearsBarrageFlow': 'Int64',
+        'TriggerDay': 'Int64',
+        'TriggerMonth': 'Int64',
+        'VolumeThreshold': 'Int64',
+        'WithinEventGapTolerance': 'Int64',
+        
+        # Float columns
+        'CtfThreshold': 'Float64',
+        'DrawDownRateWeek': 'Float64',
+        'LevelThresholdMax': 'Float64',
+        'LevelThresholdMin': 'Float64',
+        'MaxInter-event': 'Float64',
+        'MaxLevelChange': 'Float64',
+        'RateOfFallMin': 'Float64',
+        'RateOfFallRiverLevel': 'Float64',
+        'RateOfRiseMax1': 'Float64',
+        'RateOfRiseMax2': 'Float64',
+        'RateOfRiseRiverLevel': 'Float64',
+        'RateOfRiseThreshold1': 'Float64',
+        'RateOfRiseThreshold2': 'Float64',
+        
+        # String columns
+        'Catchment_BPRegion': 'str',
+        'Code': 'str',
+        'CompliancePoint/Node': 'str',
+        'DrawdownRate': 'str',
+        'EcoObj': 'str',
+        'FlowLevelVolume': 'str',
+        'Gauge': 'str',
+        'GaugeType': 'str',
+        'LTWPShortName': 'str',
+        'Latitude': 'str',
+        'Longitude': 'str',
+        'Multigauge': 'str',
+        'PlanningUnitID': 'str',
+        'PlanningUnitName': 'str',
+        'SWSDLName': 'str',
+        'State': 'str',
+        'TargetFrequency': 'str',
+        'TargetFrequencyMax': 'str',
+        'TargetFrequencyMin': 'str',
+        'WeirpoolGauge': 'str'
+    }
+
+    assert result.dtypes.astype(str).to_dict() == expected_dtypes, f"expected datatypes not matching output datatype"
     
-    with patch("builtins.open", mock_open()) as mock_file:
-        mock_file.side_effect = FileNotFoundError
-        with pytest.raises(FileNotFoundError):
-            data_inputs.get_ewr_calc_config(mock_file_path)
+
+
+
 
     
