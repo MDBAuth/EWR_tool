@@ -634,5 +634,4 @@ def test_netcdf_processes():
     print(ewr_summary)
 
     # assert ewr_summary.shape == (202, 21)
-    ewr_summary.to_csv('/home/azureuser/cloudfiles/code/Users/Elisha.Freedman/netCDF_test_ewr_tool_output.csv')
     assert ewr_summary.shape == (194, 21)
