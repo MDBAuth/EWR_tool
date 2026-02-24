@@ -101,7 +101,7 @@ def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
         columns_to_keep (None |List): list of columns to keep, if None, default list of columns selected. 
         --------------
         NOTE: For EWR tool runs, it is desierable to use the default 'columns_to_keep = None' to ensure correct calcualtion and prevent errors,
-        however this option is provided for other uses of the parameter sheet such as cleaning and testing. 
+        however this option is provided for other uses of the parameter sheet such as cleaning and testing with internal test functions, and general viewing. 
         --------------
     Returns:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
