@@ -37,8 +37,9 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
 
 def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
   
-    ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. 
-        i.e. datatype changing, splitting day/month data, handling %
+    ''' 
+        Splits StartMonth and EndMonth floats into 4 columns containing integers of StartMonth and StartDay, EndMonth and EndDay
+        Coerces columns that are members of the all_int_params list to Int64 and columns that are members of all_float_params to Float64 dtype.
     '''
 
     all_int_params = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 
@@ -71,8 +72,8 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
           month = val
           day = None
         EWR_table.loc[r_idx, col_name] = month
-        EWR_table.loc[r_idx, day_col_name] = day  # the datatype conversion all takes place in # Modify integers #
-    # I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
+        EWR_table.loc[r_idx, day_col_name] = day 
+    #NOTE: I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
     float_params = [col for col in EWR_table.columns if col in all_float_params]
     int_params = [col for col in EWR_table.columns if col in all_int_params]
     # Modify floats
@@ -89,12 +90,19 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
 
 def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
     
-    ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
-    ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
-    does some cleaning, including swapping out '?' in the frequency column with 0
+    ''' 
+        Loads internal parameter sheet or parameter sheet from a specified path with user defined or default desired columns.
+        Handles conversion of '' values to a maximum value for parameters that are required to have a maximum value,
+        that are otherwise not defined in their respective Long Term Water Plans
+        
     
     Args:
         file_path (str): Location of the ewr dataset
+        columns_to_keep (None |List): list of columns to keep, if None, default list of columns selected. 
+        --------------
+        NOTE: For EWR tool runs, it is desierable to use the default 'columns_to_keep = None' to ensure correct calcualtion and prevent errors,
+        however this option is provided for other uses of the parameter sheet such as cleaning and testing. 
+        --------------
     Returns:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
     '''
