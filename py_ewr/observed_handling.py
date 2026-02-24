@@ -26,7 +26,7 @@ def categorise_gauges(gauges: list, ewr_table_path:str = None) -> tuple:
     level_gauges = []
     flow_gauges = []
 
-    EWR_TABLE, _ = data_inputs.get_EWR_table(ewr_table_path)
+    EWR_TABLE = data_inputs.get_EWR_table(ewr_table_path)
     
     # if ewr_table_path:
     level_gauges_to_add = EWR_TABLE[EWR_TABLE['GaugeType']=='L']['Gauge'].to_list()
@@ -205,7 +205,7 @@ class ObservedHandler:
         gauge_events = {}
         detailed_events = {}
         all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
-        EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
+        EWR_table = data_inputs.get_EWR_table(self.parameter_sheet)
         calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
         for gauge in all_locations:
             gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge, EWR_table, calc_config)

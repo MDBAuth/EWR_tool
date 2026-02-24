@@ -37,15 +37,32 @@ def get_ewr_calc_config(file_path:str = None) -> dict:
 
 def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
   
-    ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. i.e. datatype changing, splitting day/month data, handling %
+    ''' 
+        Splits StartMonth and EndMonth floats into 4 columns containing integers of StartMonth and StartDay, EndMonth and EndDay
+        Coerces columns that are members of the all_int_params list to Int64 and columns that are members of all_float_params to Float64 dtype.
     '''
 
-    int_components = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 'Duration', 'WithinEventGapTolerance', 'EventsPerYear', 'MinSpell', 'AccumulationPeriod', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'AnnualBarrageFlow', 'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell', 'LarvaeDaysSpell', 'StartDay', 'EndDay', 'StartMonth', 'EndMonth']
-    float_components = ['RateOfRiseMax1', 'RateOfRiseMax2', 'RateOfFallMin', 'RateOfRiseThreshold1', 'RateOfRiseThreshold2', 'RateOfRiseRiverLevel', 'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
+    all_int_params = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 
+                    'Duration', 'WithinEventGapTolerance', 'EventsPerYear', 'MinSpell', 
+                    'AccumulationPeriod', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'AnnualBarrageFlow', 
+                    'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 
+                    'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 
+                    'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell', 'LarvaeDaysSpell', 
+                    'StartDay', 'EndDay', 'StartMonth', 'EndMonth']
+
+    all_float_params = ['RateOfRiseMax1', 'RateOfRiseMax2', 'RateOfFallMin', 
+                        'RateOfRiseThreshold1', 'RateOfRiseThreshold2', 'RateOfRiseRiverLevel', 
+                        'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 
+                        'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
+
+    essential_cols = ['StartMonth', 'EndMonth']
+    missing_cols = [col for col in essential_cols if col not in EWR_table.columns]
+    if missing_cols:
+        raise KeyError(f"Parameter sheet must contain these columns: {missing_cols}")
+    
 
     # Modify startmonth/endmonth
-    col_names = ['StartMonth', 'EndMonth']
-    for col_name in col_names:
+    for col_name in essential_cols:
       rows = EWR_table[col_name].copy().items()
       day_col_name = col_name[:-5]+"Day"
       for r_idx, val in rows:
@@ -55,42 +72,42 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
           month = val
           day = None
         EWR_table.loc[r_idx, col_name] = month
-        EWR_table.loc[r_idx, day_col_name] = day # the datatype conversion all takes place in # Modify integers #
-
-    # I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
-
+        EWR_table.loc[r_idx, day_col_name] = day 
+    #NOTE: I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
+    float_params = [col for col in EWR_table.columns if col in all_float_params]
+    int_params = [col for col in EWR_table.columns if col in all_int_params]
     # Modify floats
-    for col_name in float_components:
-      col = pd.to_numeric(EWR_table[col_name], errors='coerce')
-      EWR_table[col_name] = pd.Series(col, dtype='Float64')
+    for col_name in float_params:
+        EWR_table[col_name] = pd.to_numeric(EWR_table[col_name], errors='coerce').astype('Float64')
 
     # Modify integers
-    for col_name in int_components:
-      col = pd.to_numeric(EWR_table[col_name], errors='coerce')
-      EWR_table[col_name] = pd.Series(col, dtype='Int64')
+    for col_name in int_params:
+        EWR_table[col_name] = pd.to_numeric(EWR_table[col_name], errors='coerce').astype('Int64')
 
     return EWR_table
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
-def get_EWR_table(file_path:str = None) -> dict:
+
+def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
     
-    ''' Loads ewr table from blob storage, separates out the readable ewrs from the 
-    ewrs with 'see notes' exceptions, those with no threshold, and those with undefined names,
-    does some cleaning, including swapping out '?' in the frequency column with 0
+    ''' 
+        Loads internal parameter sheet or parameter sheet from a specified path with user defined or default desired columns.
+        Handles conversion of '' values to a maximum value for parameters that are required to have a maximum value,
+        that are otherwise not defined in their respective Long Term Water Plans
+        
     
     Args:
         file_path (str): Location of the ewr dataset
+        columns_to_keep (None |List): list of columns to keep, if None, default list of columns selected. 
+        --------------
+        NOTE: For EWR tool runs, it is desierable to use the default 'columns_to_keep = None' to ensure correct calcualtion and prevent errors,
+        however this option is provided for other uses of the parameter sheet such as cleaning and testing with internal test functions, other analyses, and general viewing. 
+        --------------
     Returns:
         tuple(pd.DataFrame, pd.DataFrame): EWRs that meet the minimum requirements; EWRs that dont meet the minimum requirements
     '''
-    
-    if file_path:
-      my_url = file_path
-    else:
-      my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
-
-    df = pd.read_csv(my_url,
-        usecols=['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'State', 'SWSDLName',
+    if columns_to_keep is None:
+        cols_keep = ['PlanningUnitID', 'PlanningUnitName', 'Gauge', 'Code', 'StartMonth', 'TargetFrequency', 'State', 'SWSDLName',
                           'EndMonth', 'EventsPerYear', 'Duration', 'MinSpell', 
                           'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event', 'WithinEventGapTolerance', 'WeirpoolGauge', 'FlowLevelVolume', 
                           'LevelThresholdMin', 'LevelThresholdMax', 'VolumeThreshold', 'DrawdownRate', 'MaxLevelChange', 'AccumulationPeriod',
@@ -98,56 +115,38 @@ def get_EWR_table(file_path:str = None) -> dict:
                           'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd',
                           'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
                           'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
-                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType'],
-                    dtype='str', encoding='cp1252'
-                    )
-
-    df = df.replace('?','')
-    df = df.fillna('')
-
-    # removing the 'See notes'
-    see_notes_idx = (df["StartMonth"] == 'See note') & (df["EndMonth"] == 'See note')
-
-    # Filtering those with no flow/level/volume thresholds
-    no_thresh_idx = (df["FlowThresholdMin"] == '') & \
-                    (df["FlowThresholdMax"] == '') &\
-                    (df["VolumeThreshold"] == '') &\
-                    (df["LevelThresholdMin"] == '') &\
-                    (df["LevelThresholdMax"] == '')
-
-    # Filtering those with no durations
-    no_duration_idx = (df["Duration"] == '')
-
-    # Filtering DSF EWRs
-    DSF_idx = df['Code'].str.startswith('DSF')
-
-    # Combine the filters and get the okay and bad EWRs
-    bad_EWRs_idx = see_notes_idx | no_thresh_idx | no_duration_idx | DSF_idx
+                          'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType']
+        
+    else:
+        cols_keep = columns_to_keep
     
-    okay_EWRs = df[~bad_EWRs_idx].copy(deep=True)
-    bad_EWRs = df[bad_EWRs_idx].copy(deep=True)
-
+    if file_path:
+      my_url = file_path
+    else:
+      my_url = os.path.join(BASE_PATH, "parameter_metadata/parameter_sheet.csv")
+    df = pd.read_csv(my_url, usecols = cols_keep, dtype='str', encoding='cp1252')
+    clean_df = df.copy(deep = True)
+    clean_df = df.fillna('')
     # Here are all the prior assumptions of what to fill in to the parameter sheet if the value is missing.
     # The aim is to remove all of these and have the parameter sheet be correct, the tool should not run
     # the calculation of an ewr with missing (or extra?) values.
-    okay_EWRs.loc[:, 'FlowThresholdMax'] = (okay_EWRs['FlowThresholdMax'].replace('', '1000000'))
-    okay_EWRs.loc[:, 'LevelThresholdMax'] = (okay_EWRs['LevelThresholdMax'].replace('', '1000000'))
-    okay_EWRs.loc[:, 'FlowThresholdMin'] = (okay_EWRs['FlowThresholdMin'].replace('', '0'))
-    okay_EWRs.loc[:, 'LevelThresholdMin'] = (okay_EWRs['LevelThresholdMin'].replace('', '0'))
-    okay_EWRs.loc[:, 'MaxInter-event'] = (okay_EWRs['MaxInter-event'].replace('', '0'))
-    okay_EWRs.loc[:, 'WithinEventGapTolerance'] = (okay_EWRs['WithinEventGapTolerance'].replace('', '0'))
+    clean_df.loc[:, 'FlowThresholdMax'] = (clean_df['FlowThresholdMax'].replace('', '1000000'))
+    clean_df.loc[:, 'LevelThresholdMax'] = (clean_df['LevelThresholdMax'].replace('', '1000000'))
+    clean_df.loc[:, 'FlowThresholdMin'] = (clean_df['FlowThresholdMin'].replace('', '0'))
+    clean_df.loc[:, 'LevelThresholdMin'] = (clean_df['LevelThresholdMin'].replace('', '0'))
+    clean_df.loc[:, 'MaxInter-event'] = (clean_df['MaxInter-event'].replace('', '0'))
+    clean_df.loc[:, 'WithinEventGapTolerance'] = (clean_df['WithinEventGapTolerance'].replace('', '0'))
 
-    okay_EWRs.loc[:, 'CtfThreshold'] = (okay_EWRs['CtfThreshold'].replace('', '5'))
-    okay_EWRs.loc[:, 'NonFlowSpell'] = (okay_EWRs['NonFlowSpell'].replace('', '0'))
-    okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30', '0.03'))
-    okay_EWRs.loc[:, 'DrawDownRateWeek'] = (okay_EWRs['DrawDownRateWeek'].replace('30%', '0.03'))#just for test, change the PS in that test to reflect this
-    okay_EWRs.loc[:, 'DrawdownRate'] = (okay_EWRs['DrawdownRate'].replace('', '1000000'))
-    okay_EWRs.loc[:, 'MaxSpell'] = (okay_EWRs['MaxSpell'].replace('', '1000000'))
-    okay_EWRs.loc[:, 'MaxLevelChange'] = (okay_EWRs['MaxLevelChange'].replace('', '1000000'))
+    clean_df.loc[:, 'CtfThreshold'] = (clean_df['CtfThreshold'].replace('', '5'))
+    clean_df.loc[:, 'NonFlowSpell'] = (clean_df['NonFlowSpell'].replace('', '0'))
+    clean_df.loc[:, 'DrawDownRateWeek'] = (clean_df['DrawDownRateWeek'].replace('30', '0.03'))
+    clean_df.loc[:, 'DrawDownRateWeek'] = (clean_df['DrawDownRateWeek'].replace('30%', '0.03'))#just for tes t, change the PS in that test to reflect this
+    clean_df.loc[:, 'DrawdownRate'] = (clean_df['DrawdownRate'].replace('', '1000000'))
+    clean_df.loc[:, 'MaxSpell'] = (clean_df['MaxSpell'].replace('', '1000000'))
+    clean_df.loc[:, 'MaxLevelChange'] = (clean_df['MaxLevelChange'].replace('', '1000000'))
 
-    okay_EWRs = modify_EWR_table(okay_EWRs)
-    
-    return okay_EWRs, bad_EWRs
+    mod_df = modify_EWR_table(clean_df)
+    return mod_df
 
 def get_components_map() -> dict:
     components_map = {
@@ -321,9 +320,9 @@ def get_EWR_components(category):
     elif category == 'cease to flow':
         pull = ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'cumulative':
-        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
+        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell','MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'cumulative_bbr':
-        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume','LevelThresholdMax','WeirpoolGauge']
+        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax','Duration', 'MinSpell', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume','LevelThresholdMax','WeirpoolGauge']
     elif category == 'water_stability':
         pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume','LevelThresholdMax','WeirpoolGauge', 'EggsDaysSpell', 'LarvaeDaysSpell', 'MaxLevelChange', 'DrawdownRate']
     elif category == 'water_stability_level':
@@ -345,7 +344,7 @@ def get_EWR_components(category):
     elif category == 'multi-gauge-cease to flow':
         pull = ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'FlowThresholdMin', 'FlowThresholdMax', 'Duration', 'MinSpell', 'EventsPerYear', 'Multigauge', 'MaxInter-event', 'FlowLevelVolume']
     elif category == 'multi-gauge-cumulative':
-        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'Duration', 'MinSpell', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax','Multigauge', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
+        pull =  ['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'VolumeThreshold', 'EventsPerYear', 'FlowThresholdMin', 'FlowThresholdMax','Duration', 'MinSpell','Multigauge', 'MaxInter-event','AccumulationPeriod','WithinEventGapTolerance', 'FlowLevelVolume']
     elif category == 'flood-plains':
         pull=['StartMonth', 'EndMonth', 'StartDay', 'EndDay', 'FlowThresholdMin', 'FlowThresholdMax', 'LevelThresholdMax', 'Duration', 'MinSpell',  'DrawdownRate', 'MaxLevelChange','EventsPerYear','WeirpoolGauge', 'MaxInter-event', 'FlowLevelVolume', 'WithinEventGapTolerance']
     elif category == 'barrage-flow':
@@ -388,7 +387,7 @@ def get_planning_unit_info() -> pd.DataFrame:
         pd.DataFrame: dataframe with planning units and their unique planning unit ID.
     
     '''
-    EWR_table, bad_EWRs = get_EWR_table()
+    EWR_table = get_EWR_table()
         
     planningUnits = EWR_table.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1) 
     
@@ -481,7 +480,7 @@ def get_gauges(category: str, ewr_table_path: str = None) -> set:
         list: list of gauges in selected category.
 
     '''
-    EWR_table, bad_EWRs = get_EWR_table(file_path=ewr_table_path)
+    EWR_table = get_EWR_table(file_path=ewr_table_path)
     menindee_gauges, wp_gauges = get_level_gauges()
     wp_gauges = list(wp_gauges.values())
     flow_barrage_gauges = [ val for sublist in get_barrage_flow_gauges().values() for val in sublist]
@@ -566,12 +565,12 @@ def get_obj_mapping(
     obj_ref = pd.read_csv(objective_reference_path)
     
 
-    okay_EWRs, _ = get_EWR_table(file_path=parameter_sheet_path)
-    okay_EWRs_sub = okay_EWRs[param_sheet_cols]
+    df = get_EWR_table(file_path=parameter_sheet_path)
+    df_sub = df[param_sheet_cols]
     
     # Split 'EnvObj' by '+' and explode to long format
-    longform_ewr = okay_EWRs_sub.assign(
-        EnvObj=okay_EWRs_sub['EcoObj'].str.split('+')
+    longform_ewr = df_sub.assign(
+        EnvObj=df_sub['EcoObj'].str.split('+')
     ).explode('EnvObj').drop_duplicates()
 
     merged_df = longform_ewr.merge(

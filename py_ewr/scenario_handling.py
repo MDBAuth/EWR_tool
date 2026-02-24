@@ -789,7 +789,7 @@ class ScenarioHandler:
             gauge_events = {}
 
             all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
-            EWR_table, bad_EWRs = data_inputs.get_EWR_table(self.parameter_sheet)
+            EWR_table = data_inputs.get_EWR_table(self.parameter_sheet)
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
@@ -1191,5 +1191,3 @@ class ScenarioHandler:
         self.logging_sheet = self.logging_sheet[["PlanningUnitName", "Code", "Primary Gauge", 'Gauge', "GaugeType", "is_in_calc_config?", "node_in_siteID?", "gauge_in_model_file?", "gaugeANDmeasurand_in_model_file? (Yes/No)", "matched_SITEID", "spare_SITEID", "Analysed?", "SWSDLName"]]
 
         return self.logging_sheet
-    
-    

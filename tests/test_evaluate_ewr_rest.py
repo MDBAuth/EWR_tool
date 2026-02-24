@@ -12,7 +12,7 @@ def test_component_pull():
 	'''
 	1. Test correct value is pulled from ewr dataset
 	'''
-	EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+	EWR_table = data_inputs.get_EWR_table()
 	gauge = '409025'
 	pu = 'PU_0000253'
 	ewr = 'SF1_P'
@@ -23,7 +23,7 @@ def test_get_EWRs():
 	'''
 	1. Ensure requested parts of ewr are returned
 	'''
-	EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+	EWR_table = data_inputs.get_EWR_table()
 	pu = 'PU_0000283'
 	gauge = '410007'
 	ewr = 'SF1_P'
@@ -2504,7 +2504,7 @@ def test_component_pull_nest(gauge, pu, ewr, component, expected_result):
 	1. Test pulling TriggerDay
 	2. Test pulling TriggerMonth
 	'''
-	EWR_table, bad_EWRs = data_inputs.get_EWR_table('./unit_testing_files/MURRAY_MDBA_update_nest.csv')
+	EWR_table = data_inputs.get_EWR_table('./unit_testing_files/MURRAY_MDBA_update_nest.csv')
 
 	assert  evaluate_EWRs.component_pull(EWR_table, gauge, pu, ewr, component) == expected_result
 
@@ -6161,17 +6161,19 @@ def test_rate_fall_level_check(EWR_info, iteration, event, all_events, total_eve
 	assert event == expected_event
 	assert all_events == expected_all_events
 
-@pytest.mark.parametrize("ewr_key, expected_result", [
+@pytest.mark.parametrize("test_id, ewr_key, expected_result", [
 	( 
-		'IC2_S-single-F', 'flow_handle'
-	),
+		'test case 1', 'IC2_S-single-F', 'flow_handle'
+	)
+	,
+	
 	( 
-		'XXXXXX-single-L', 'unknown'
-	),
+		'test case 2', 'XXXXXX-single-L', 'unknown'
+	)
 ])
-def test_find_function(ewr_key, expected_result, ewr_calc_config):
+def test_find_function(test_id, ewr_key, expected_result, ewr_calc_config):
 	result = evaluate_EWRs.find_function(ewr_key, ewr_calc_config)
-	assert result == expected_result
+	assert result == expected_result, f"{test_id} failed"
 
 
 @pytest.mark.parametrize("flows, iteration, ctf_state,expected_flows",[

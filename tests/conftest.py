@@ -226,7 +226,7 @@ def scenario_handler_instance():
 
 @pytest.fixture(scope="function")
 def parameter_sheet():
-    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/parameter_sheet.csv")
+    EWR_table = data_inputs.get_EWR_table("unit_testing_files/parameter_sheet.csv")
     return EWR_table
 
 
@@ -240,7 +240,7 @@ def wp_df_F_df_L():
 
 @pytest.fixture(scope="function")
 def sa_parameter_sheet():
-    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/sa_parameter_sheet.csv")
+    EWR_table = data_inputs.get_EWR_table("unit_testing_files/sa_parameter_sheet.csv")
     return EWR_table
 
 @pytest.fixture(scope="function")
@@ -345,13 +345,13 @@ def gauge_results_before_process():
 
 @pytest.fixture(scope="function")
 def qld_parameter_sheet():
-    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/qld_parameter_sheet.csv")
+    EWR_table = data_inputs.get_EWR_table("unit_testing_files/qld_parameter_sheet.csv")
     return EWR_table
 
 
 @pytest.fixture(scope="function")
 def vic_parameter_sheet():
-    EWR_table, _ = data_inputs.get_EWR_table("unit_testing_files/vic_parameter_sheet.csv")
+    EWR_table = data_inputs.get_EWR_table("unit_testing_files/vic_parameter_sheet.csv")
     return EWR_table
 
 def gg_pull_mock(*args, **kwargs):

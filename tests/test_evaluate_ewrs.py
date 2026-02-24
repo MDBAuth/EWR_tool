@@ -15,7 +15,7 @@ def test_ctf_handle():
     pu = 'PU_0000283'
     gauge = '410007'
     ewr = 'CF1'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[0]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*10+[0]*345+[0]*1+[0]*9 + [0]*5+[0]*351+[0]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
@@ -53,7 +53,7 @@ def test_lowflow_handle():
     pu = 'PU_0000283'
     gauge = '410007'
     ewr = 'BF1_a'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[249]*350+[0]*9+[0]*5 + [0]*360+[0]*5 + [0]*2+[249]*345+[0]*1+[249]*17 + [0]*5+[249]*351+[249]*10}
     df_F = pd.DataFrame(data = data_for_df_F)
@@ -91,7 +91,7 @@ def test_flow_handle():
     pu = 'PU_0000283'
     gauge = '410007'
     ewr = 'SF1_S'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[250]*350+[450]*10+[0]*4 + 
                                [0]*360+[450]*5 + 
@@ -147,7 +147,7 @@ def test_cumulative_handle():
                    [450]*5+[250]*345+[0]*1+[0]*13+[5000]*1 + 
                    [5000]*4+[450]*10+[0]*2+[450]*10+[250]*330+[450]*10)
     ewr = 'OB3_S'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                         gauge: gauge_flows}
     df_F = pd.DataFrame(data = data_for_df_F)
@@ -238,7 +238,7 @@ def test_level_handle():
     pu = 'PU_0000266'
     gauge = '425022'
     ewr = 'LLLF'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_L = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge: [0]*1+[0]*260+[56]*90+[0]*1+[0]*4+[0]*9 + 
                                [56]*45+[55.9]*1+[56]*45+[0]*269+[0]*3+[19000]*1+[1000]*1 + 
@@ -279,7 +279,7 @@ def test_nest_handle():
     pu = 'PU_0000253'
     gauge = '409025'
     ewr = 'NestS1'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     # input data up df_L:
     # flows declining at acceptable rate:
     acceptable_flows = [10000]*10
@@ -362,7 +362,7 @@ def test_flow_handle_multi():
     ewr = 'LF1'
     gauge1_flows = ([0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*77+[1250]*5+[0]*229+[0]*55)
     gauge2_flows = ([0]*76+[1250]*5+[0]*229+[0]*55 + [0]*76+[0]*55+[0]*231+[1250]*3 + [1250]*3+[0]*76+[0]*50+[1250]*5+[0]*231 + [0]*76+[1250]*5+[0]*230+[0]*55)
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: gauge1_flows,
                         gauge2: gauge2_flows
@@ -405,7 +405,7 @@ def test_lowflow_handle_multi():
     gauge1 = '421090'
     gauge2 = '421088'
     ewr = 'BF1_a'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: [40]*76+[1250]*5+[40]*229+[40]*15+[0]*40 + [40]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [40]*75+[0]*50+[40]*230+[40]*10 + [0]*77+[40]*5+[0]*229+[40]*55,
                         gauge2: [40]*76+[1250]*5+[40]*229+[0]*40+[40]*15 + [40]*3+[0]*76+[0]*50+[0]*5+[0]*231 + [40]*75+[0]*50+[40]*230+[40]*10 + [0]*76+[40]*5+[0]*230+[40]*55
@@ -446,7 +446,7 @@ def test_ctf_handle_multi():
     gauge1 = '421090'
     gauge2 = '421088'
     ewr = 'CF'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),#.to_period(),
                         gauge1: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10,
                         gauge2: [0]*1+[2]*350+[0]*9+[0]*5 + [2]*360+[0]*5 + [0]*10+[2]*345+[0]*1+[2]*9 + [0]*5+[0]*351+[0]*10
@@ -498,7 +498,7 @@ def test_cumulative_handle_multi():
                     [500]*40+[0]*310+[0]*1+[0]*13+[0]*1 + 
                     [5000]*4+[500]*90+[500]*90+[450]*10+[0]*2+ [450]*10+[250]*150+[450]*10)
     ewr = 'OB-WS1_S'
-    EWR_table, bad_EWRs = data_inputs.get_EWR_table()
+    EWR_table = data_inputs.get_EWR_table()
     data_for_df_F = {'Date': pd.date_range(start= datetime.strptime('2012-07-01', '%Y-%m-%d'), end = datetime.strptime('2016-06-30', '%Y-%m-%d')),
                         gauge1: gauge1_flows,
                         gauge2: gauge2_flows
