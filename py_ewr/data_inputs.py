@@ -85,43 +85,6 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
 
     return EWR_table
 
-
-# def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
-  
-#     ''' Does all miscellaneous changes to the ewr table to get in the right format for all the handling functions. i.e. datatype changing, splitting day/month data, handling %
-#     '''
-
-#     int_components = ['FlowThresholdMin', 'FlowThresholdMax', 'VolumeThreshold', 'Duration', 'WithinEventGapTolerance', 'EventsPerYear', 'MinSpell', 'AccumulationPeriod', 'MaxSpell', 'TriggerDay', 'TriggerMonth', 'AnnualBarrageFlow', 'ThreeYearsBarrageFlow', 'HighReleaseWindowStart', 'HighReleaseWindowEnd', 'LowReleaseWindowStart', 'LowReleaseWindowEnd', 'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell', 'EggsDaysSpell', 'LarvaeDaysSpell', 'StartDay', 'EndDay', 'StartMonth', 'EndMonth']
-#     float_components = ['RateOfRiseMax1', 'RateOfRiseMax2', 'RateOfFallMin', 'RateOfRiseThreshold1', 'RateOfRiseThreshold2', 'RateOfRiseRiverLevel', 'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
-
-#     # Modify startmonth/endmonth
-#     col_names = ['StartMonth', 'EndMonth']
-#     for col_name in col_names:
-#       rows = EWR_table[col_name].copy().items()
-#       day_col_name = col_name[:-5]+"Day"
-#       for r_idx, val in rows:
-#         if "." in val:
-#           month, day = val.split('.')
-#         else:
-#           month = val
-#           day = None
-#         EWR_table.loc[r_idx, col_name] = month
-#         EWR_table.loc[r_idx, day_col_name] = day # the datatype conversion all takes place in # Modify integers #
-
-#     # I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
-
-#     # Modify floats
-#     for col_name in float_components:
-#       col = pd.to_numeric(EWR_table[col_name], errors='coerce')
-#       EWR_table[col_name] = pd.Series(col, dtype='Float64')
-
-#     # Modify integers
-#     for col_name in int_components:
-#       col = pd.to_numeric(EWR_table[col_name], errors='coerce')
-#       EWR_table[col_name] = pd.Series(col, dtype='Int64')
-
-#     return EWR_table
-
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 
 def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
