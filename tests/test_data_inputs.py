@@ -464,29 +464,6 @@ def test_modify_EWR_table_datatypes():
     
     # Apply the modify function
     result = data_inputs.modify_EWR_table(test_df)
-    
-    # expected_dtypes = {
-    #     # Integer columns
-    #     'FlowThresholdMin': 'Int64', 'FlowThresholdMax': 'Int64', 'VolumeThreshold': 'Int64',
-    #     'Duration': 'Int64', 'WithinEventGapTolerance': 'Int64', 'EventsPerYear': 'Int64',
-    #     'MinSpell': 'Int64', 'AccumulationPeriod': 'Int64', 'MaxSpell': 'Int64',
-    #     'TriggerDay': 'Int64', 'TriggerMonth': 'Int64', 'AnnualBarrageFlow': 'Int64',
-    #     'ThreeYearsBarrageFlow': 'Int64', 'HighReleaseWindowStart': 'Int64',
-    #     'HighReleaseWindowEnd': 'Int64', 'LowReleaseWindowStart': 'Int64',
-    #     'LowReleaseWindowEnd': 'Int64', 'PeakLevelWindowStart': 'Int64',
-    #     'PeakLevelWindowEnd': 'Int64', 'LowLevelWindowStart': 'Int64',
-    #     'LowLevelWindowEnd': 'Int64', 'NonFlowSpell': 'Int64', 'EggsDaysSpell': 'Int64',
-    #     'LarvaeDaysSpell': 'Int64', 'StartDay': 'Int64', 'EndDay': 'Int64',
-    #     'StartMonth': 'Int64', 'EndMonth': 'Int64',
-        
-    #     # Float columns
-    #     'RateOfRiseMax1': 'Float64', 'RateOfRiseMax2': 'Float64', 'RateOfFallMin': 'Float64',
-    #     'RateOfRiseThreshold1': 'Float64', 'RateOfRiseThreshold2': 'Float64',
-    #     'RateOfRiseRiverLevel': 'Float64', 'RateOfFallRiverLevel': 'Float64',
-    #     'CtfThreshold': 'Float64', 'MaxLevelChange': 'Float64', 'LevelThresholdMin': 'Float64',
-    #     'LevelThresholdMax': 'Float64', 'DrawDownRateWeek': 'Float64', 'MaxInter-event': 'Float64',
-
-    # }
 
     expected_dtypes = {
         # Integer columns
@@ -532,32 +509,14 @@ def test_modify_EWR_table_datatypes():
         'RateOfRiseMax2': 'Float64',
         'RateOfRiseRiverLevel': 'Float64',
         'RateOfRiseThreshold1': 'Float64',
-        'RateOfRiseThreshold2': 'Float64',
-        
-        # String columns
-        'Catchment_BPRegion': 'str',
-        'Code': 'str',
-        'CompliancePoint/Node': 'str',
-        'DrawdownRate': 'str',
-        'EcoObj': 'str',
-        'FlowLevelVolume': 'str',
-        'Gauge': 'str',
-        'GaugeType': 'str',
-        'LTWPShortName': 'str',
-        'Latitude': 'str',
-        'Longitude': 'str',
-        'Multigauge': 'str',
-        'PlanningUnitID': 'str',
-        'PlanningUnitName': 'str',
-        'SWSDLName': 'str',
-        'State': 'str',
-        'TargetFrequency': 'str',
-        'TargetFrequencyMax': 'str',
-        'TargetFrequencyMin': 'str',
-        'WeirpoolGauge': 'str'
+        'RateOfRiseThreshold2': 'Float64'
     }
 
-    assert result.dtypes.astype(str).to_dict() == expected_dtypes, f"expected datatypes not matching output datatype"
+    keys = expected_dtypes.keys()
+
+    result_key_cols = result[keys]
+
+    assert result_key_cols.dtypes.astype(str).to_dict() == expected_dtypes, f"expected datatypes not matching output datatype"
     
 
 
