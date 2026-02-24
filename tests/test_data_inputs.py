@@ -13,8 +13,6 @@ import pytest
 import re
 import json
 
-
-from unittest.mock import mock_open, patch
 from py_ewr import data_inputs
 
 
@@ -169,16 +167,19 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
     4. FLOW THRESHOLD CHECK: 
         Checks: minimum flow threshold  =< maximum flow threshold
     5. TARGET FREQUENCY CHECK:
-        Checks minimum target frequenc =< target_frequency >= maximum target frequency
+        Checks minimum target frequency =< target_frequency >= maximum target frequency
     6. LEVEL THRESHOLD CHECK
         Check minimum level threshold =< maximum level threshold. 
     7. DUPLICATE ROW CHECK
-        Check unique combinations of planning unit, gauge occur only once in the dataset
+        Check unique combinations of planning unit, EWR,and gauge occur only once in the dataset
     8. SPECIAL CHARACTER CHECK
         Checks if the dataframe is free of special characters.
-    9. MISSING PARAMETER CHECK
-        Check that potential missing parameters are resolved
-    
+    9. NO THRESHOLD CHECK
+        Check that all EWRs contain at least one flow or volume threshold value either minimum or maximum
+    10. NO DURATION CHECK
+        Check that all EWRs contain a duration value
+    11. DSF EWRS
+        Check that EWRs str contains DSF are not present in the final dataframe
 
     args: df: an EWR table as a dataframe
          year: an integer year
@@ -459,6 +460,9 @@ def test_modify_EWR_table(
             f"EndDay mismatch for {test_id}: expected {expected_end_day}, got {row['EndDay']}"
 
 def test_modify_EWR_table_datatypes():
+    '''
+    1. Test that the dtypes of the dataframe are as expected after running through function
+    '''
     # Get the EWR table
     test_df = pd.read_csv(parameter_sheet_path, dtype = 'str')
     
