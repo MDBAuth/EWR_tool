@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.4.0 README**
+### **ewr tool version 2.4.1 README**
 
 ### **Notes on recent version updates**
 
@@ -21,6 +21,7 @@
 - Added new FIRM ID file mapping FIRM ID to gauge number.
 
 #### parameter metadata
+- Removed EWRs from the parameter sheet that are not evaluated by the tool 
 - Updated parameter sheet and objective mapping correcting some mismatched links between environmental objectives and EWRs
 - Fix SDL resource unit mapping in the parameter sheet
 - Adding lat and lon to the parameter sheet

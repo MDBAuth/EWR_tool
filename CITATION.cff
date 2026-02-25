@@ -1,9 +1,9 @@
-cff-version: 2.4.0
+cff-version: 2.4.1
 message: "If you use this software, please cite it as below."
 authors:
   - Murray-Darling Basin Authority 
 
 title: "EWR_tool"
-version: 2.4.0
+version: 2.4.1
 doi: 10.5281/zenodo.7435847
 date-released: 2026-02-05
