@@ -55,14 +55,10 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
                         'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 
                         'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
 
-    essential_cols = ['StartMonth', 'EndMonth']
-    missing_cols = [col for col in essential_cols if col not in EWR_table.columns]
-    if missing_cols:
-        raise KeyError(f"Parameter sheet must contain these columns: {missing_cols}")
-    
+    months = ['StartMonth', 'EndMonth']
 
     # Modify startmonth/endmonth
-    for col_name in essential_cols:
+    for col_name in months:
       rows = EWR_table[col_name].copy().items()
       day_col_name = col_name[:-5]+"Day"
       for r_idx, val in rows:
@@ -130,6 +126,15 @@ def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
     # Here are all the prior assumptions of what to fill in to the parameter sheet if the value is missing.
     # The aim is to remove all of these and have the parameter sheet be correct, the tool should not run
     # the calculation of an ewr with missing (or extra?) values.
+    essential_cols = ['StartMonth','EndMonth', 'FlowThresholdMax','LevelThresholdMax',
+                      'FlowThresholdMin', 'MaxInter-event', 'WithinEventGapTolerance',
+                      'CtfThreshold', 'NonFlowSpell', 'DrawdownRate', 'DrawDownRateWeek', 'MaxSpell', 'MaxLevelChange']
+    
+    missing_cols = [col for col in essential_cols if col not in df.columns]
+    if missing_cols:
+        raise KeyError(f"Parameter sheet must contain these columns: {missing_cols}")
+    
+
     clean_df.loc[:, 'FlowThresholdMax'] = (clean_df['FlowThresholdMax'].replace('', '1000000'))
     clean_df.loc[:, 'LevelThresholdMax'] = (clean_df['LevelThresholdMax'].replace('', '1000000'))
     clean_df.loc[:, 'FlowThresholdMin'] = (clean_df['FlowThresholdMin'].replace('', '0'))
