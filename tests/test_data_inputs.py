@@ -382,6 +382,7 @@ def test_check_EWR_logic():
                           'PeakLevelWindowStart', 'PeakLevelWindowEnd', 'LowLevelWindowStart', 'LowLevelWindowEnd', 'NonFlowSpell','EggsDaysSpell',
                           'LarvaeDaysSpell', 'RateOfRiseMax1','RateOfRiseMax2','RateOfFallMin','RateOfRiseThreshold1',
                           'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType')
+    
     EWR_table = data_inputs.get_EWR_table(parameter_sheet_path, columns_to_keep)
     check_EWR_logic(EWR_table, non_leap)
     check_EWR_logic(EWR_table, leap)
