@@ -2771,7 +2771,7 @@ def calc_nest_cut_date(EWR_info: dict, iteration: int, dates: list) -> date:
         date: cut date for the current iteration
     """
     d = date(dates[iteration].year, EWR_info['end_month'], calendar.monthrange(dates[0].year,EWR_info['end_month'])[1])
-    if EWR_info['end_day'] != None:
+	if isinstance(EWR_info['end_day'],int):
         d = d.replace(day = EWR_info['end_day'])
     return d
 
