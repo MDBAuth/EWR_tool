@@ -148,7 +148,7 @@ def mask_dates(EWR_info: dict, input_df: pd.DataFrame) -> set:
         set: A set of dates from the dataframe that fall within the required date range
     
     '''
-    if EWR_info['start_day'] == None or EWR_info['end_day'] == None:
+    if pd.isna(EWR_info['start_day']) or pd.isna(EWR_info['end_day']):
         # A month mask is required here as there are no day requirements:
         input_df_timeslice = get_month_mask(EWR_info['start_month'],
                                             EWR_info['end_month'],
@@ -514,7 +514,7 @@ def cumulative_handle_bbr(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame
     except KeyError:
         print(f'''Cannot evaluate this ewr for {gauge} {ewr}, due to missing data. Specifically this ewr 
         also needs data for level gauge {EWR_info.get('weirpool_gauge', 'gauge data')}''')
-        return PU_df, None
+        return PU_df, {}
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
     E = cumulative_calc_bbr(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
@@ -550,7 +550,7 @@ def water_stability_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFram
     except KeyError:
         print(f'''Cannot evaluate this ewr for {gauge} {ewr}, due to missing data. Specifically this ewr 
         also needs data for level gauge {EWR_info.get('weirpool_gauge', 'gauge data')}''')
-        return PU_df, None
+        return PU_df, {}
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
     E = water_stability_calc(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
@@ -585,7 +585,7 @@ def water_stability_level_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.Da
     except KeyError:
         print(f'''Cannot evaluate this ewr for {gauge} {ewr}, due to missing data. Specifically this ewr 
         also needs data for level gauge {EWR_info.get('weirpool_gauge', 'gauge data')}''')
-        return PU_df, None
+        return PU_df, {}
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_L, EWR_info)
     E = water_stability_level_calc(EWR_info, levels, water_years, df_L.index, masked_dates)
@@ -654,7 +654,7 @@ def weirpool_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F
     except KeyError:
         print(f'''Cannot evaluate this ewr for {gauge} {ewr}, due to missing data. Specifically this ewr 
         also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
-        return PU_df, None
+        return PU_df, {}
     # Check flow and level data against ewr requirements and then perform analysis on the results: 
     E = weirpool_calc(EWR_info, df_F[gauge].values, levels, water_years, weirpool_type, df_F.index, masked_dates)
     PU_df = event_stats(df_F, PU_df, gauge, ewr, EWR_info, E, water_years)
@@ -695,7 +695,7 @@ def nest_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd
         except ValueError:
             log.info(f"""Please pass a value to TriggerMonth between 1..12 and TriggerDay you passed 
             TriggerMonth:{EWR_info['trigger_month']} TriggerDay:{EWR_info['trigger_day']} """)
-            return PU_df, None
+            return PU_df, {}
         
     else:
         try:
@@ -704,14 +704,14 @@ def nest_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd
         except KeyError:
             print(f'''Cannot evaluate this ewr for {gauge} {ewr}, due to missing data. Specifically this ewr 
             also needs data for level gauge {EWR_info.get('weirpool_gauge', 'no wp gauge')}''')
-            return PU_df, None
+            return PU_df, {}
         # handle any error in missing values in parameter sheet
         try:
             E = nest_calc_weirpool(EWR_info, df_F[gauge].values, levels, water_years, df_F.index, masked_dates)
         except KeyError:
             log.info(f'''Cannot evaluate this ewr for {gauge} {ewr}, due to missing parameter data. Specifically this ewr 
             also needs data for level threshold min or level threshold max''')
-            return PU_df, None
+            return PU_df, {}
     PU_df = event_stats(df_F, PU_df, gauge, ewr, EWR_info, E, water_years)
     return PU_df, E
 
@@ -932,7 +932,7 @@ def barrage_flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, 
             return PU_df, E
     else:
         print(f'Missing data for barrage gauges {" ".join(all_required_gauges)}')
-        return PU_df, None
+        return PU_df, {}
 
 def barrage_level_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_L: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
     """handle function to calculate barrage level type EWRs
@@ -978,7 +978,7 @@ def barrage_level_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame,
 
     else:
         print(f'skipping calculation because gauge {" ".join(all_required_gauges)} is not the main barrage level gauge ') #TODO: improve error message
-        return PU_df, None
+        return PU_df, {}
 
 def rise_and_fall_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, df_L: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
     """For handling rise and fall EWRs of type FLOW and LEVEL.
@@ -2771,7 +2771,7 @@ def calc_nest_cut_date(EWR_info: dict, iteration: int, dates: list) -> date:
         date: cut date for the current iteration
     """
     d = date(dates[iteration].year, EWR_info['end_month'], calendar.monthrange(dates[0].year,EWR_info['end_month'])[1])
-    if EWR_info['end_day'] != None:
+    if isinstance(EWR_info['end_day'],int):
         d = d.replace(day = EWR_info['end_day'])
     return d
 
