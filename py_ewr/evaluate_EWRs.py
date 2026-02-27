@@ -148,7 +148,7 @@ def mask_dates(EWR_info: dict, input_df: pd.DataFrame) -> set:
         set: A set of dates from the dataframe that fall within the required date range
     
     '''
-    if EWR_info['start_day'] == None or EWR_info['end_day'] == None:
+    if pd.isna(EWR_info['start_day']) or pd.isna(EWR_info['end_day']):
         # A month mask is required here as there are no day requirements:
         input_df_timeslice = get_month_mask(EWR_info['start_month'],
                                             EWR_info['end_month'],

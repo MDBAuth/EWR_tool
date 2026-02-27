@@ -49,17 +49,17 @@ def test_mask_dates():
 
 	#----------------------------------------------------------------------------#
 	# Test 1
-	EWR_info = {'start_day': None, 'end_day': None, 'start_month': 7, 'end_month': 6}
+	EWR_info = {'start_day': pd.NA, 'end_day': pd.NA, 'start_month': 7, 'end_month': 6}
 	masked_7to6 = set(pd.date_range(start=datetime.strptime('2019-01-01', '%Y-%m-%d'), end=datetime.strptime('2019-12-31', '%Y-%m-%d')))
 	assert evaluate_EWRs.mask_dates(EWR_info, df) == masked_7to6
 	#-----------------------------------------------------------------------
 	# Test 2
-	EWR_info = {'start_day': None, 'end_day': None, 'start_month': 7, 'end_month': 9}
+	EWR_info = {'start_day': pd.NA, 'end_day': pd.NA, 'start_month': 7, 'end_month': 9}
 	masked_7to9 = set(pd.date_range(start=datetime.strptime('2019-07-01', '%Y-%m-%d'), end=datetime.strptime('2019-09-30', '%Y-%m-%d')))
 	assert evaluate_EWRs.mask_dates(EWR_info, df) == masked_7to9
 	#-----------------------------------------------------------------------
 	# Test 3
-	EWR_info = {'start_day': None, 'end_day': None, 'start_month': 6, 'end_month': 8}
+	EWR_info = {'start_day': pd.NA, 'end_day': pd.NA, 'start_month': 6, 'end_month': 8}
 	masked_6to8 = set(pd.date_range(start=datetime.strptime('2019-06-01', '%Y-%m-%d'), end= datetime.strptime('2019-08-31', '%Y-%m-%d')))
 	assert evaluate_EWRs.mask_dates(EWR_info, df) == masked_6to8
 	#-----------------------------------------------------------------------
