@@ -80,7 +80,6 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
     for col_name in int_params:
         EWR_table[col_name] = pd.to_numeric(EWR_table[col_name], errors='coerce').astype('Int64')
         
-    EWR_table = EWR_table.replace({np.nan: None})
     return EWR_table
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1800))
