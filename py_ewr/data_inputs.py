@@ -576,7 +576,7 @@ def get_obj_mapping(
     # Split 'EnvObj' by '+' and explode to long format
     longform_ewr = df_sub.assign(
         EcoObj=df_sub['EcoObj'].str.split('+')
-    ).explode('EnvObj').drop_duplicates()
+    ).explode('EcoObj').drop_duplicates()
 
     merged_df = longform_ewr.merge(
         obj_ref,
