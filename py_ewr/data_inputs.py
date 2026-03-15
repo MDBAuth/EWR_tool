@@ -580,8 +580,8 @@ def get_obj_mapping(
 
     merged_df = longform_ewr.merge(
         obj_ref,
-        left_on= ['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EcoObj', 'SWSDLName', 'State'],
-        right_on=['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EcoObj', 'SWSDLName', 'State'],
+        left_on= ['LTWPShortName','EcoObj','State'],
+        right_on=['LTWPShortName','EcoObj','State'],
         how='left'
     )
 
