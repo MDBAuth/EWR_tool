@@ -126,7 +126,7 @@ def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
     # Here are all the prior assumptions of what to fill in to the parameter sheet if the value is missing.
     # The aim is to remove all of these and have the parameter sheet be correct, the tool should not run
     # the calculation of an ewr with missing (or extra?) values.
-    essential_cols = ['StartMonth','EndMonth', 'FlowThresholdMax','LevelThresholdMax',
+    essential_cols = ['StartMonth','EndMonth', 'FlowThresholdMax','LevelThresholdMax', 'LevelThresholdMin',
                       'FlowThresholdMin', 'MaxInter-event', 'WithinEventGapTolerance',
                       'CtfThreshold', 'NonFlowSpell', 'DrawdownRate', 'DrawDownRateWeek', 'MaxSpell', 'MaxLevelChange']
     
@@ -559,29 +559,30 @@ def get_obj_mapping(
         param_sheet_path (str) = file path to parameter sheet. If None, default parameter_sheet.csv inside the tool is selected
         obj_ref_path (str) = file path to objective mapping csv. If Not, default objective_reference.csv inside EWR tool is selected
     '''
-    param_sheet_cols = [
-        'PlanningUnitName', 'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EcoObj'
-    ]
+    param_sheet_cols = ['PlanningUnitName', 'LTWPShortName',  'SWSDLName', 'State', 'Gauge', 'Code', 'EcoObj']
+
+    # we don't need any of these, but get_EWR_table fails if they aren't there.
+    required_cols = ['StartMonth', 'EndMonth', 'FlowThresholdMax', 'LevelThresholdMax', 'LevelThresholdMin', 'FlowThresholdMin', 'MaxInter-event', 'WithinEventGapTolerance', 'CtfThreshold', 'NonFlowSpell', 'DrawdownRate', 'DrawDownRateWeek', 'MaxSpell', 'MaxLevelChange']
 
     if not objective_reference_path:
-        objective_reference_path = os.path.join(BASE_PATH, "parameter_metadata/obj_reference.csv")
+        objective_reference_path = os.path.join(BASE_PATH, "parameter_metadata/objective_reference.csv")
     
 
     obj_ref = pd.read_csv(objective_reference_path)
-    
-
-    df = get_EWR_table(file_path=parameter_sheet_path)
-    df_sub = df[param_sheet_cols]
-    
+    # get_ewr_table requires tuples not lists, despite saying it wants lists. Seems to have to do with caching
+    df = get_EWR_table(file_path=parameter_sheet_path, columns_to_keep = tuple(required_cols) + tuple(param_sheet_cols))
+    # back to the cols we actually want
+    df = df[param_sheet_cols].drop_duplicates()
     # Split 'EnvObj' by '+' and explode to long format
-    longform_ewr = df_sub.assign(
-        EnvObj=df_sub['EcoObj'].str.split('+')
-    ).explode('EnvObj').drop_duplicates()
+    longform_ewr = df.assign(
+        EcoObj=df['EcoObj'].str.split('+')
+    ).explode('EcoObj').drop_duplicates()
 
+    # obj_ref no longer has PlanningUnitName or gauge or SWSDLName or Code
     merged_df = longform_ewr.merge(
         obj_ref,
-        left_on= ['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EcoObj', 'SWSDLName', 'State'],
-        right_on=['LTWPShortName', 'PlanningUnitName', 'Gauge', 'Code', 'EcoObj', 'SWSDLName', 'State'],
+        left_on= ['LTWPShortName', 'EcoObj', 'State'],
+        right_on=['LTWPShortName', 'EcoObj', 'State'],
         how='left'
     )
 

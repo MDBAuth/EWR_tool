@@ -41,6 +41,25 @@ def test_get_multi_gauges():
     multi_gauges = data_inputs.get_multi_gauges('gauges')
     assert expected_multi_gauges == multi_gauges    
 
+def test_get_obj_mapping():
+    '''
+    1. Test for returning the mapping dataframe
+    2. Test that columns match the expected keys
+    '''
+    # Type
+    obj_mapping = data_inputs.get_obj_mapping()
+    assert isinstance(obj_mapping, pd.DataFrame)
+
+    # Keys
+    expected_keys = {'PlanningUnitName', 'LTWPShortName', 'SWSDLName', 'State', 'Gauge',
+       'Code', 'EcoObj', 'Objective', 'Target'}
+    
+    assert set(obj_mapping.keys()) == expected_keys, f"Expected keys {expected_keys} do not match actual keys {set(obj_mapping.keys())}"
+
+    # TODO: test for NA/missing mappings. Some *are* missing currently, so this will have to wait.
+
+
+
 def test_get_EWR_table():
     '''
     - 1. Test for equal entries (no lost EWRs)
