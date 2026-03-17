@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.4.3 README**
+### **ewr tool version 2.4.4 README**
 
 ### **Notes on recent version updates**
 
