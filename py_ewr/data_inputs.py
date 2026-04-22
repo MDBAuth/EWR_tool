@@ -535,8 +535,8 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
     '''
     
     # Hard coded gauges for the CLLMM EWRs
-    hard_code_levels = ['A4260527', 'A4260524', 'A4260633', 'A4261209', 'A4261165']
-    hard_code_lake_levels = ['A4261133', 'A4260574', 'A4260575']
+    # not needed any more ? hard_code_levels = ['A4260527', 'A4260524', 'A4260633', 'A4261209', 'A4261165']
+    # hard_code_lake_levels = ['A4261133', 'A4260574', 'A4260575']
 
     flow_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'F']['Gauge']) + set(parameter_sheet['Multigauge'])
     level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'L']['Gauge']) + set(parameter_sheet['WeirpoolGauge']) + set(hard_code_levels)
