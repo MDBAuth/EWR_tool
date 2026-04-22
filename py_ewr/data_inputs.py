@@ -539,8 +539,8 @@ def gauge_groups(parameter_sheet: pd.DataFrame) -> dict:
     # hard_code_lake_levels = ['A4261133', 'A4260574', 'A4260575']
 
     flow_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'F']['Gauge']) + set(parameter_sheet['Multigauge'])
-    level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'L']['Gauge']) + set(parameter_sheet['WeirpoolGauge']) + set(hard_code_levels)
-    lake_level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'LL']['Gauge'])+set(hard_code_lake_levels)
+    level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'L']['Gauge']) + set(parameter_sheet['WeirpoolGauge']) # + set(hard_code_levels)
+    lake_level_gauges = set(parameter_sheet[parameter_sheet['GaugeType'] == 'LL']['Gauge']) # +set(hard_code_lake_levels)
 
     return flow_gauges, level_gauges, lake_level_gauges
 
