@@ -144,13 +144,8 @@ def observed_cleaner(input_df: pd.DataFrame, dates: dict) -> pd.DataFrame:
     bad_data_codes = data_inputs.get_bad_QA_codes()
     input_df = remove_data_with_bad_QC(input_df, bad_data_codes)
     
-    site_list = set(input_df['SITEID'])
+    gauge_data_df = input_df.pivot_table(index='Date', columns='gauge_id', values='value')
     
-    for gauge in site_list:
-        # Seperate out to one gauge per column and add this to the gauge_data_df made above:
-        single_gauge_df = one_gauge_per_column(input_df, gauge)
-        gauge_data_df = pd.merge(gauge_data_df, single_gauge_df, left_index=True, right_index=True, how="outer")
-
     # Drop the non unique values:
     gauge_data_df = gauge_data_df[~gauge_data_df.index.duplicated(keep='first')]
     return gauge_data_df
