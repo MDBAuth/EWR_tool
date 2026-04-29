@@ -69,7 +69,7 @@ def categorise_gauges(gauges: list, ewr_table_path:str = None) -> tuple:
     # add hard coded gauges only if it int he incoming list
     if any(gauge in gauges for gauge in sa_barrage_gauges):
         lake_level_gauges += sa_barrage_gauges
-        level_gauges += sa_barrage_gauges
+        #level_gauges += sa_barrage_gauges lake level not levels
 
     unique_flow_gauges = list(set(flow_gauges))
     unique_level_gauges = list(set(level_gauges))
