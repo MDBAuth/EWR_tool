@@ -81,7 +81,7 @@ ewr_oh = ObservedHandler(gauges=gauges, dates=dates)
 ewr_results = ewr_oh.get_ewr_results()
 
 # Table 2: Summarised ewr results, aggregated to water years:
-yearly_results = ewr_oh.get_yearly_results()
+yearly_results = ewr_oh.get_yearly_ewr_results()
 
 # Table 3: All events details regardless of duration 
 all_events = ewr_oh.get_all_events()
