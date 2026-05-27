@@ -148,7 +148,7 @@ def mask_dates(EWR_info: dict, input_df: pd.DataFrame) -> set:
         set: A set of dates from the dataframe that fall within the required date range
     
     '''
-    if pd.isna(EWR_info['start_day']) or pd.isna(EWR_info['end_day']):
+    if pd.isna(EWR_info['start_day']) or EWR_info['start_day'] in (None, 0) or pd.isna(EWR_info['end_day']) or EWR_info['end_day'] in (None, 0) :
         # A month mask is required here as there are no day requirements:
         input_df_timeslice = get_month_mask(EWR_info['start_month'],
                                             EWR_info['end_month'],
@@ -4191,7 +4191,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, ewr:str, EWR_inf
 
     
     '''
-    unique_water_years = set(water_years)
+    unique_water_years = sorted(set(water_years))
     # Years with events
     years_with_events = get_event_years(EWR_info, events, unique_water_years)
 
