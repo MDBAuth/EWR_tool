@@ -344,51 +344,51 @@ def cleaner_standard_timeseries(input_df: pd.DataFrame, ewr_table_path: str = No
             log.info('Could not identify gauge in column name:', gauge, ', skipping analysis of data in this column.')
     return df_flow, df_level, report
 
-def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path: str) -> pd.DataFrame:
+# def cleaner_netcdf_werp(input_df: pd.DataFrame, stations: dict,  ewr_table_path: str) -> pd.DataFrame:
 
-    '''Ingests dataframe, cleans up into a format matching IQQM csv
+#     '''Ingests dataframe, cleans up into a format matching IQQM csv
     
-    Args:
-        input_df (pd.DataFrame): raw xarray dataframe read-in
+#     Args:
+#         input_df (pd.DataFrame): raw xarray dataframe read-in
 
-        statios(dict):  dict mapping IQQM stations to gauge numbers 
+#         statios(dict):  dict mapping IQQM stations to gauge numbers 
 
-    Results:
-        tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
+#     Results:
+#         tuple[pd.DataFrame, pd.DataFrame]: Cleaned flow dataframe; cleaned water level dataframe
 
-    '''
+#     '''
 
-    # organise like the rest of the dataframes- make this look just like we've read it in from an IQQM csv
-    cleaned_df = input_df.reset_index(level = 'node')
-    cleaned_df['node'] = cleaned_df['node'].astype(str)
+#     # organise like the rest of the dataframes- make this look just like we've read it in from an IQQM csv
+#     cleaned_df = input_df.reset_index(level = 'node')
+#     cleaned_df['node'] = cleaned_df['node'].astype(str)
 
-    cleaned_df['Gauge'] = cleaned_df['node'].map(stations)
-    cleaned_df = cleaned_df.drop('node', axis = 1) 
+#     cleaned_df['Gauge'] = cleaned_df['node'].map(stations)
+#     cleaned_df = cleaned_df.drop('node', axis = 1) 
 
-    # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
-        # This should be deprecated with the new way of choosing nodes on read-in, but being careful
-    cleaned_df = cleaned_df.query('Gauge.notna()')
+#     # drop the values that don't map to a gauge (lots of nodes in iqqm don't)
+#         # This should be deprecated with the new way of choosing nodes on read-in, but being careful
+#     cleaned_df = cleaned_df.query('Gauge.notna()')
 
-    # give each gauge its own column- that's what the tool expects
-    cleaned_df = cleaned_df.pivot(columns = 'Gauge', values = 'Simulated flow')
-    cleaned_df.columns.name = None
+#     # give each gauge its own column- that's what the tool expects
+#     cleaned_df = cleaned_df.pivot(columns = 'Gauge', values = 'Simulated flow')
+#     cleaned_df.columns.name = None
 
-    # the csvs return an 'object' type, not a datetime in the index
-    # but it gets converted to datetime in cleaner_***, so leave it.
-    cleaned_df.index.names = ['Date']
+#     # the csvs return an 'object' type, not a datetime in the index
+#     # but it gets converted to datetime in cleaner_***, so leave it.
+#     cleaned_df.index.names = ['Date']
 
-    # Split gauges into flow and level, allocate to respective dataframe
-    flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
-    level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
-    df_flow = pd.DataFrame(index = cleaned_df.index)
-    df_level = pd.DataFrame(index = cleaned_df.index)
-    for gauge in cleaned_df.columns:
-        if gauge in flow_gauges:
-            df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
-        if gauge in level_gauges:
-            df_level[gauge] = cleaned_df[gauge].copy(deep=True)
+#     # Split gauges into flow and level, allocate to respective dataframe
+#     flow_gauges = data_inputs.get_gauges('flow gauges', ewr_table_path=ewr_table_path)
+#     level_gauges = data_inputs.get_gauges('level gauges', ewr_table_path=ewr_table_path)
+#     df_flow = pd.DataFrame(index = cleaned_df.index)
+#     df_level = pd.DataFrame(index = cleaned_df.index)
+#     for gauge in cleaned_df.columns:
+#         if gauge in flow_gauges:
+#             df_flow[gauge] = cleaned_df[gauge].copy(deep=True)
+#         if gauge in level_gauges:
+#             df_level[gauge] = cleaned_df[gauge].copy(deep=True)
 
-    return df_flow, df_level
+#     return df_flow, df_level
 
 
 def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None) -> pd.DataFrame:

@@ -203,9 +203,12 @@ def get_day_mask(startDay: int, endDay: int, startMonth: int, endMonth: int, inp
     '''
 
     if startMonth > endMonth:
-        month_mask = (((input_df.index.month >= startMonth) & (input_df.index.day >= startDay)) |\
-                      ((input_df.index.month <= endMonth) & (input_df.index.day <= endDay)))
+        month_mask = ((input_df.index.month > startMonth) |\
+            ((input_df.index.month == startMonth) & (input_df.index.day  >= startDay))) |\
+            ((input_df.index.month < endMonth) |\
+            ((input_df.index.month == endMonth) & (input_df.index.day <= endDay)))
         input_df_timeslice = input_df.loc[month_mask]
+ 
         
     elif startMonth < endMonth:
         #Filter the first and last month, and then get the entirety of the months in between

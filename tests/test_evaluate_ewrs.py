@@ -1516,3 +1516,50 @@ def test_rise_and_fall_handle(pu, gauge, ewr, gauge_data, expected_events, expec
         assert len(year_events) == len(expected_events[year]), f"Mismatch in number of events for year {year}"
         for i, event in enumerate(year_events):
             assert event == expected_events[year][i], f"Mismatch in event details for year {year}, event {i}"
+
+
+def test_get_day_mask():
+    date_rng = pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
+    sample_df = pd.DataFrame(date_rng, columns=['date'])
+    sample_df.set_index('date', inplace=True)
+    sample_df['value'] = range(len(sample_df))
+
+    # test where startMonth == endMonth
+    result = evaluate_EWRs.get_day_mask(10, 20, 5, 5, sample_df)
+    expected = set(sample_df.loc['2023-05-10':'2023-05-20'].index)
+    
+    assert result==expected
+
+    #test startMonth > endMonth
+    # result = evaluate_EWRs.get_day_mask(25, 5, 12, 1, sample_df)
+    # expected_dates = set(pd.date_range(start='2023-12-25', end='2023-12-31', freq='D').tolist()) |\
+    #                      set(pd.date_range(start='2023-01-01', end='2023-01-05', freq='D').tolist())
+    # assert result==expected_dates
+
+
+    # test startMonth < endMonth (within the same year)
+    result = evaluate_EWRs.get_day_mask(15, 10, 3, 7, sample_df)
+    expected_dates = set(pd.date_range(start='2023-03-15', end='2023-07-10', freq='D').tolist())
+    assert result==expected_dates
+
+    #test range is invalid
+    result = evaluate_EWRs.get_day_mask(20, 10, 8, 8, sample_df)
+    expected_dates = set()
+    assert result==expected_dates
+
+    # across water years
+
+    date_across_water_years = pd.date_range(start='2023-07-01', end='2024-07-01', freq='D')
+    sample_df_multi_year = pd.DataFrame(date_across_water_years, columns=['date'])
+    sample_df_multi_year.set_index('date', inplace=True)
+    sample_df_multi_year['value'] = range(len(sample_df_multi_year))
+    
+    
+    result = evaluate_EWRs.get_day_mask(15, 1, 9, 5, sample_df_multi_year)
+    expected_dates = set(pd.date_range(start='2023-09-15', end='2024-05-1', freq='D').tolist())
+    assert result==expected_dates
+    
+
+
+
+    # across water years with days
