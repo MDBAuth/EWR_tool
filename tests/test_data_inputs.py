@@ -195,8 +195,8 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
         Checks if the dataframe is free of special characters.
     9. NO THRESHOLD CHECK
         Check that all EWRs contain at least one flow or volume threshold value either minimum or maximum
-    10. NO DURATION CHECK
-        Check that all EWRs contain a duration value
+    10. NO DURATION ACCUMULATION CHECK
+        Check that all EWRs contain a duration value (if flow/level) or accumulation period value (if volume)
     11. DSF EWRS
         Check that EWRs str contains DSF are not present in the final dataframe
 
@@ -211,7 +211,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
     # Convert numeric columns to float
     columns = ['TargetFrequency', 'TargetFrequencyMin', 'TargetFrequencyMax',
            'EventsPerYear', 'Duration', 'MinSpell', 'FlowThresholdMin',
-           'FlowThresholdMax', 'LevelThresholdMin', 'LevelThresholdMax']
+           'FlowThresholdMax', 'LevelThresholdMin', 'LevelThresholdMax', 'AccumulationPeriod']
     checking_df[columns] = checking_df[columns].replace({' ': np.nan, '': np.nan}, regex=True)
     checking_df[columns] = checking_df[columns].astype(float)
     
@@ -310,8 +310,16 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
                     (checking_df["LevelThresholdMin"] == '') &\
                     (checking_df["LevelThresholdMax"] == '')]
 
-    # # Filtering those with no durations
-    no_duration = checking_df[checking_df["Duration"] == '']
+    # # Filtering those with no durations or accumulation period tests/test_data_inputs.py
+    no_duration_or_accumulation = checking_df[
+        (
+        (checking_df["Duration"] == '') & \
+        (checking_df["FlowLevelVolume"] != 'V')
+        ) | \
+        (
+        (checking_df["AccumulationPeriod"] == '') & \
+        (checking_df["FlowLevelVolume"] == 'V')
+        )]
 
     # # Filtering DSF EWRs
     DSF_EWRs = checking_df[checking_df['Code'].str.startswith('DSF')]
@@ -329,9 +337,9 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
     if not duration_violation.empty:
         print('#------------- Duration Violation -------------#')
         print(duration_violation[['Gauge', 'Code', 'LTWPShortName', 'Duration', 'DaysBetween']])
-    if not no_duration.empty:
-        print('#------------- Empty duration -------------#')
-        print(no_duration[['Gauge', 'Code', 'LTWPShortName', 'Duration']])
+    if not no_duration_or_accumulation.empty:
+        print('#------------- Empty duration or accumulation period -------------#')
+        print(no_duration_or_accumulation[['Gauge', 'Code', 'LTWPShortName', 'Duration', 'AccumulationPeriod']])
     if not event_number_violation.empty:
         print('#------------- Event number over length of seasonal window -------------#')
         print(event_number_violation[['Gauge', 'Code', 'LTWPShortName', 'MaxEventDays', 'EventsPerYear', 'Duration']])
@@ -373,7 +381,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
      # Check if there are no violations
     no_violations = all(len(v) == 0 for v in [
         duration_violation,
-        no_duration,
+        no_duration_or_accumulation,
         event_number_violation,
         min_spell_violation,
         flow_threshold_violation,
