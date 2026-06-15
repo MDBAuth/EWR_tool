@@ -597,11 +597,12 @@ def test_get_ewr_results(scenario_handler_instance):
        'MaxInterEventYears', 'NoDataDays', 'TotalDays']
     
 
-# def test_unpack_netcdf_as_dataframe():
-#     test_flowcdf = 'unit_testing_files/werp_ncdf.nc'
-#     result_flow = scenario_handling.unpack_netcdf_as_dataframe(test_flowcdf)
-#     expected_flow_shape = (16000, 1)
-#     assert result_flow.shape == expected_flow_shape
+def test_unpack_netcdf_as_dataframe():
+    test_flowcdf = 'unit_testing_files/werp_ncdf.nc'
+    result_flow = scenario_handling.unpack_netcdf_as_dataframe(test_flowcdf)
+    print(result_flow)
+    expected_flow_shape = (16000, 1)
+    assert result_flow.shape == expected_flow_shape
 
 
 def test_unpack_netcdf_as_dataframe_invalid_file():
