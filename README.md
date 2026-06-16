@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.4.6 README**
+### **ewr tool version 2.4.7 README**
 
 ### **Notes on recent version updates**
 
@@ -21,6 +21,7 @@
 - Added new FIRM ID file mapping FIRM ID to gauge number.
 
 #### parameter metadata
+- added and corrected some Border rivers EWRs in acordance to the long term water plan
 - Missing CLLMM ewrs added to calc-config
 - minor bug fix for get_objective_mapping 
 - Removed EWRs from the parameter sheet that are not evaluated by the tool 
