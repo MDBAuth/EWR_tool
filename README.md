@@ -21,6 +21,7 @@
 - Added new FIRM ID file mapping FIRM ID to gauge number.
 
 #### parameter metadata
+- added back volume based EWRs that were filtered out
 - updated NSW Border rivers EWRs in acordance to the long term water plan
 - Missing CLLMM ewrs added to calc-config
 - minor bug fix for get_objective_mapping 
