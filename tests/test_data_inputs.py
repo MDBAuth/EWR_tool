@@ -19,6 +19,7 @@ from py_ewr import data_inputs
 BASE_PATH = Path(__file__).resolve().parents[1]   
 
 parameter_sheet_path = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/parameter_sheet.csv")
+calc_config_path = os.path.join(BASE_PATH, "py_ewr/parameter_metadata/ewr_calc_config.json")
     
 def test_get_multi_gauges():
     '''
@@ -550,6 +551,53 @@ def test_modify_EWR_table_datatypes():
 
     assert result_key_cols.dtypes.astype(str).to_dict() == expected_dtypes, f"expected datatypes not matching output datatype"
     
+
+def test_calc_config_match_parameter_sheet():
+
+    param_sheet = pd.read_csv(parameter_sheet_path)
+    
+    with open(calc_config_path) as f:
+        data = json.load(f)
+
+
+    # grab all the codes from objective reference 
+    all_calc_config_keys = list(data.keys())
+    all_calc_config_codes = []
+    for key in all_calc_config_keys:
+        key_codes = data[key] 
+        all_calc_config_codes = all_calc_config_codes + key_codes
+
+
+
+    # find all the new border river codes that aren't in calc-config 
+    missing_codes = []
+
+    codes = param_sheet['Code']
+
+    for param_code in codes: 
+        code_found = False
+    for obj_ref_code in all_calc_config_codes: 
+        if param_code in obj_ref_code: 
+            code_found = True 
+    if code_found == False: 
+        missing_codes.append(param_code)
+
+    assert len(missing_codes) == 0, f"missing calc_config entries for the following EWRs: {missing_codes}"
+
+
+def get_gauge_pu_EWR_combination():
+    param_sheet = pd.read_csv(parameter_sheet_path)
+
+    try:
+        assert len(param_sheet) == 3184 # this is temporary there should be a better way to do this, 
+        #this is the benchmark length of the parameter sheet, we should have a master list of all the possible combinations that would be good to check with
+    except:
+        all_combinations = param_sheet[['PlanningUnitName', 'Gauge', 'Code']].drop_duplicates()
+        return all_combinations
+
+    
+
+
 
 
 
