@@ -176,7 +176,7 @@ def generate_years(start, end, leap = False):
         rand_year = random.choice(non_leaps)
     return rand_year
 
-def check_EWR_logic(df: pd.DataFrame, year: int):
+def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
     '''
     Checks the logic between columns that specify aspects of the flow regime related to timing
     1. DURATION CHECK: 
@@ -379,6 +379,35 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
         print('#------------- Special characters in the following rows -------------#')
         print(spec_char)
 
+    # check MRIP length relative to timing window and print that list 
+
+    dur_filter['MaxInter-event_days'] = dur_filter['MaxInter-event']*365
+    # MRIPS with permanent exceedance ranges
+    checking_MRIP = dur_filter[(dur_filter['StartMonth'] != 7) & (dur_filter['EndMonth'] != 6)]
+    
+    checking_MRIP['nDays_outside_event_window_per_year'] = (365-checking_MRIP['DaysBetween'])
+
+    checking_MRIP['MRIP_shorter_than_nDays_outside_event_window']= (checking_MRIP['MaxInter-event_days'] < checking_MRIP['nDays_outside_event_window_per_year']).astype(int)
+    print(checking_MRIP[['Gauge', 
+                        'Code', 
+                        'PlanningUnitName',
+                        'StartMonth', 
+                        'EndMonth', 
+                        'MaxInter-event_days', 
+                        'nDays_outside_event_window_per_year',
+                        'MRIP_shorter_than_nDays_outside_event_window'
+        ]])
+    if save_MRIP_checks:
+        checking_MRIP[['Gauge', 
+                            'Code', 
+                            'PlanningUnitName',
+                            'StartMonth', 
+                            'EndMonth', 
+                            'MaxInter-event_days', 
+                            'nDays_outside_event_window_per_year',
+                            'MRIP_shorter_than_nDays_outside_event_window'
+            ]].to_csv('MRIP_checks.csv')
+
      # Check if there are no violations
     no_violations = all(len(v) == 0 for v in [
         duration_violation,
@@ -395,7 +424,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int):
         spec_char
     ])
     assert no_violations, "Errors were found with the logic in the EWR table"
-    
+
 
 def test_check_EWR_logic():
     non_leap = generate_years(1910, 2024)
@@ -412,8 +441,8 @@ def test_check_EWR_logic():
                           'RateOfRiseThreshold2','RateOfRiseRiverLevel','RateOfFallRiverLevel', 'CtfThreshold', 'GaugeType')
     
     EWR_table = data_inputs.get_EWR_table(parameter_sheet_path, columns_to_keep)
-    check_EWR_logic(EWR_table, non_leap)
-    check_EWR_logic(EWR_table, leap)
+    check_EWR_logic(EWR_table, non_leap, False)
+    check_EWR_logic(EWR_table, leap, False)
 
 @pytest.mark.parametrize('test_id,  test_data, expected_start_month, expected_start_day, expected_end_month,expected_end_day', 
     [ 
@@ -594,8 +623,6 @@ def get_gauge_pu_EWR_combination():
     except:
         all_combinations = param_sheet[['PlanningUnitName', 'Gauge', 'Code']].drop_duplicates()
         return all_combinations
-
-    
 
 
 
