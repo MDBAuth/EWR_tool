@@ -226,7 +226,6 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
         dur_filter[col] = pd.to_numeric(dur_filter[col], errors='coerce').fillna(1).replace(0, 1).astype(int)
     
     # # Filter out July-June water years
-    # dur_filter = dur_filter[~((dur_filter['StartMonth'] == 7) & (dur_filter["EndMonth"] == 6))]
 
     # Create date columns
     dur_filter['StartDate'] = pd.to_datetime(dur_filter.apply(
@@ -382,6 +381,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
     # check MRIP length relative to timing window and print that list 
 
     dur_filter['MaxInter-event_days'] = dur_filter['MaxInter-event']*365
+    dur_filter = dur_filter[~((dur_filter['StartMonth'] == 7) & (dur_filter["EndMonth"] == 6))]
     # MRIPS with permanent exceedance ranges
     checking_MRIP = dur_filter[(dur_filter['StartMonth'] != 7) & (dur_filter['EndMonth'] != 6)]
     
