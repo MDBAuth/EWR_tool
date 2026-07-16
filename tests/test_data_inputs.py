@@ -454,7 +454,7 @@ def test_check_EWR_logic():
     
     EWR_table = data_inputs.get_EWR_table(parameter_sheet_path, columns_to_keep)
     check_EWR_logic(EWR_table, non_leap, False)
-    check_EWR_logic(EWR_table, leap, True)
+    check_EWR_logic(EWR_table, leap, False)
 
 @pytest.mark.parametrize('test_id,  test_data, expected_start_month, expected_start_day, expected_end_month,expected_end_day', 
     [ 
