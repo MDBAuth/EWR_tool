@@ -386,7 +386,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
         (dur_filter['StartMonth'] == 7) &
         (dur_filter['StartDay'] == 1) &
         (dur_filter['EndMonth'] == 6) &
-        (dur_filter['EndDay'] == 1)
+        (dur_filter['EndDay'] == 30)
     )
 ]
     # MRIPS with permanent exceedance ranges
