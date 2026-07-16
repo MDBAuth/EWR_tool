@@ -381,9 +381,15 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
     # check MRIP length relative to timing window and print that list 
 
     dur_filter['MaxInter-event_days'] = dur_filter['MaxInter-event']*365
-    dur_filter = dur_filter[~((dur_filter['StartMonth'] == 7) & (dur_filter["EndMonth"] == 6))]
+    checking_MRIP = dur_filter[
+    ~(
+        (dur_filter['StartMonth'] == 7) &
+        (dur_filter['StartDay'] == 1) &
+        (dur_filter['EndMonth'] == 6) &
+        (dur_filter['EndDay'] == 1)
+    )
+]
     # MRIPS with permanent exceedance ranges
-    checking_MRIP = dur_filter[(dur_filter['StartMonth'] != 7) & (dur_filter['EndMonth'] != 6)]
     
     checking_MRIP['nDays_outside_event_window_per_year'] = (365-checking_MRIP['DaysBetween'])
 
@@ -391,8 +397,11 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
     print(checking_MRIP[['Gauge', 
                         'Code', 
                         'PlanningUnitName',
+                        'SWSDLName',
                         'StartMonth', 
+                        'StartDay', 
                         'EndMonth', 
+                        'EndDay',
                         'MaxInter-event_days', 
                         'nDays_outside_event_window_per_year',
                         'MRIP_shorter_than_nDays_outside_event_window'
@@ -401,8 +410,11 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
         checking_MRIP[['Gauge', 
                             'Code', 
                             'PlanningUnitName',
+                            'SWSDLName',
                             'StartMonth', 
+                            'StartDay', 
                             'EndMonth', 
+                            'EndDay',
                             'MaxInter-event_days', 
                             'nDays_outside_event_window_per_year',
                             'MRIP_shorter_than_nDays_outside_event_window'
@@ -442,7 +454,7 @@ def test_check_EWR_logic():
     
     EWR_table = data_inputs.get_EWR_table(parameter_sheet_path, columns_to_keep)
     check_EWR_logic(EWR_table, non_leap, False)
-    check_EWR_logic(EWR_table, leap, False)
+    check_EWR_logic(EWR_table, leap, True)
 
 @pytest.mark.parametrize('test_id,  test_data, expected_start_month, expected_start_day, expected_end_month,expected_end_day', 
     [ 
