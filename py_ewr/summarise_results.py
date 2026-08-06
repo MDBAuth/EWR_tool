@@ -40,7 +40,7 @@ def get_ewr_columns(ewr:str, cols:List) -> List:
     Returns:
         List: List of columns that matches the ewr code
     """
-    return [c for c in cols if ewr in c]
+    return [c for c in cols if c.rsplit("_", 1)[0] == ewr]
 
 
 def get_columns_attributes(cols: List)-> List:
