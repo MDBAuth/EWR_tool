@@ -26,9 +26,20 @@ def test_get_frequency():
     assert f == expected_f
 
 @pytest.mark.parametrize("Code,cols,expected",
-        [("CF1", ["CF1_foo","CF1_bar","CF2_foo","CF2_bar"],["CF1_foo","CF1_bar"]),
-        ("CF3", ["CF1_foo","CF1_bar","CF2_foo","CF2_bar"],[])],
+        [(
+            # match with CF1 
+            "CF1", ["CF1_foo","CF1_bar","CF2_foo","CF2_bar"],["CF1_foo","CF1_bar"] 
+        ),
+        ( # no matches as no string matches in the list
+            "CF3", ["CF1_foo","CF1_bar","CF2_foo","CF2_bar"],[]
+        ),
+         # string match present in all ewrs, but only the "F1" exclusive EWR is selected
+        (
+            "F1", ["CF1_foo","CF1_bar","F1_foo","F1_bar"],["F1_foo","F1_bar"]
+        )
+    ]
 )
+
 def test_get_ewr_columns(Code, cols, expected):
     result = summarise_results.get_ewr_columns(Code, cols)
     assert result == expected
@@ -44,8 +55,10 @@ def test_get_columns_attributes(cols, expected):
 
 
 def test_get_ewrs(pu_df):
+
     result = summarise_results.get_ewrs(pu_df)
     assert result == ["CF1_a"]
+
 
 
 def test_pu_dfs_to_process(detailed_results, pu_df):
