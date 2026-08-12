@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.4.8 README**
+### **ewr tool version 2.4.9 README**
 
 ### **Notes on recent version updates**
 
@@ -11,6 +11,7 @@
 - Working version of the EWR User Guide has been added
 
 #### EWR handling and outputs
+- minor bug fix in the compilation of yearly_results
 - Adding handling for cases where there are single MDBA bigmod site IDs mapping to multiple different gauges
 - New EWRs: New Qld EWRs - SF_FD and BF_FD used to look into the FD EWRs in closer detail.
 - Adding state and Surface Water SDL (SWSDL) to py-ewr output tables
