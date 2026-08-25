@@ -461,22 +461,14 @@ def test_cleaner_ten_thousand_year():
     4. Test no compatible gauges
     '''
 
-    date_start = '0105-07-01'
+    date_start = '0001-07-01'
     date_end = '9999-06-30'
     date_range = pd.period_range(date_start, date_end, freq = 'D')
-    data_for_input_df = {'Date': date_range, '409025_flow': [50]*3613709}
+    data_for_input_df = {'Date': date_range, '409025_flow': 50}
     input_df = pd.DataFrame(data_for_input_df)
-    str_df = input_df.copy(deep=True)
-    str_df['Date'] = str_df['Date'].astype('str')
-    def add_0 (row):
-        j = row.split('-')
-        if len(j[0]) < 4:
-            new_row = '0'+ row
-        else:
-            new_row = row
-        return new_row
-    str_df['Date'] = str_df['Date'].apply(add_0)
-    str_df = str_df.set_index('Date')
+    
+    str_df = input_df.assign(Date=input_df['Date'].astype(str).str.zfill(10)).set_index('Date')
+
     df_f, df_l = scenario_handling.cleaner_ten_thousand_year(str_df)
     
     # Set up expected data and test:

@@ -415,9 +415,12 @@ def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None
         except ValueError:
             raise ValueError('New date format detected. Cannot read in data')
         log.info('successfully read in data with yyyy-mm-dd formatting')
-    date_range = pd.period_range(date_start, date_end, freq = 'D')
-    cleaned_df['Date'] = date_range
-    cleaned_df = cleaned_df.set_index('Date')
+    cleaned_df.index = pd.period_range(
+        date_start,
+        date_end,
+        freq='D',
+        name='Date'
+    )
 
     df_flow = pd.DataFrame(index = cleaned_df.index)
     df_level = pd.DataFrame(index = cleaned_df.index)

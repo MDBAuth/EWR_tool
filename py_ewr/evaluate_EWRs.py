@@ -282,6 +282,10 @@ def get_index_date(date_index:Any)-> datetime.date:
         if len(date_index_str.split('-')[0]) < 4:
             if ((int(date_index_str.split('-')[0]) >= 100) and (int(date_index_str.split('-')[0]) < 1000)):
                 date_index_str = '0' + date_index_str
+            elif ((int(date_index_str.split('-')[0]) >= 10) and (int(date_index_str.split('-')[0]) < 100)):
+                date_index_str = '00' + date_index_str
+            elif ((int(date_index_str.split('-')[0]) >= 1) and (int(date_index_str.split('-')[0]) < 10)):
+                date_index_str = '000' + date_index_str
         n = datetime.datetime.strptime(date_index_str, '%Y-%m-%d').date()
         return n
     if type(date_index) == str:
