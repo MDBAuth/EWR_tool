@@ -476,9 +476,14 @@ def test_cleaner_ten_thousand_year():
     expected_df_flow = expected_df_flow.set_index('Date')
     expected_df_flow.columns = ['409025']
     expected_df_level = pd.DataFrame(index = expected_df_flow.index)
-    
-    assert_frame_equal(expected_df_level, df_l)
-    assert_frame_equal(expected_df_flow, df_f)
+
+    assert expected_df_level.shape == df_l.shape
+    assert (expected_df_level.to_numpy() == df_l.to_numpy()).all()
+    assert np.array_equal(expected_df_level.to_numpy(), df_l.to_numpy())
+
+    assert expected_df_flow.shape == df_f.shape
+    assert (expected_df_flow.to_numpy() == df_f.to_numpy()).all()
+    assert np.array_equal(expected_df_flow.to_numpy(), df_f.to_numpy())
 
 def test_unpack_model_file():
     '''
