@@ -5,14 +5,14 @@ from pathlib import Path
 import os
 import logging
 
-from cachetools import cached, TTLCache
+# from cachetools import cached, TTLCache
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 BASE_PATH = Path(__file__).resolve().parent
 
-@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+# @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_ewr_calc_config(file_path:str = None) -> dict:
     '''Loads the ewr calculation configuration file from repository or local file
     system
@@ -55,20 +55,26 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
                         'RateOfFallRiverLevel', 'CtfThreshold', 'MaxLevelChange', 'LevelThresholdMin', 
                         'LevelThresholdMax', 'DrawDownRateWeek', 'MaxInter-event']
 
-    months = ['StartMonth', 'EndMonth']
+    # months = ['StartMonth', 'EndMonth']
+    # # Modify startmonth/endmonth
+    # for col_name in months:
+    #   rows = EWR_table[col_name].copy().items()
+    #   day_col_name = col_name[:-5]+"Day"
+    #   for r_idx, val in rows:
+    #     if "." in val:
+    #       month, day = val.split('.')
+    #     else:
+    #       month = val
+    #       day = None
+    #     EWR_table.loc[r_idx, col_name] = month
+    #     EWR_table.loc[r_idx, day_col_name] = day 
 
-    # Modify startmonth/endmonth
-    for col_name in months:
-      rows = EWR_table[col_name].copy().items()
-      day_col_name = col_name[:-5]+"Day"
-      for r_idx, val in rows:
-        if "." in val:
-          month, day = val.split('.')
-        else:
-          month = val
-          day = None
-        EWR_table.loc[r_idx, col_name] = month
-        EWR_table.loc[r_idx, day_col_name] = day 
+    for col in ['StartMonth', 'EndMonth']:
+        EWR_table[[col, col[:-5] + 'Day']] = (
+            EWR_table[col]
+            .str.split('.', n=1, expand=True)
+        )
+
     #NOTE: I actually think the drawdown rate modifications were doing nothing and the handling of percentage / float values is done in all functions that use drawdown_rate.
     float_params = [col for col in EWR_table.columns if col in all_float_params]
     int_params = [col for col in EWR_table.columns if col in all_int_params]
@@ -82,7 +88,7 @@ def modify_EWR_table(EWR_table:pd.DataFrame) -> pd.DataFrame:
         
     return EWR_table
 
-@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+# @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 
 def get_EWR_table(file_path:str = None, columns_to_keep = None) -> dict:
     
@@ -384,7 +390,7 @@ def weirpool_type(ewr: str) -> str:
 
     return 'raising' if ewr == 'WP2' else 'falling'
 
-@cached(cache=TTLCache(maxsize=1024, ttl=1800))
+# @cached(cache=TTLCache(maxsize=1024, ttl=1800))
 def get_planning_unit_info() -> pd.DataFrame:
     '''Run this function to get the planning unit MDBA ID and equivilent planning unit name as specified in the LTWP.
     

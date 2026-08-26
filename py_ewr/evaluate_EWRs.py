@@ -343,15 +343,39 @@ def lowflow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F:
     
     '''
     # Get information about ewr:
+
     pull = data_inputs.get_EWR_components('low flow')
     EWR_info = get_EWRs(pu, gauge, ewr, EWR_table, pull)
+
+    # import time
+    # start_time = time.perf_counter()             
     # Mask dates
     masked_dates = mask_dates(EWR_info, df_F)
+
+    # print('mask_dates')
+    # print(time.perf_counter() - start_time)
+    # start_time = time.perf_counter()   
+
     # Extract a daily timeseries for water years
     water_years = wateryear_daily(df_F, EWR_info)
+
+    # print('water year daily')
+    # print(time.perf_counter() - start_time)
+    # start_time = time.perf_counter()   
+
     # Check flow data against ewr requirements and then perform analysis on the results:
     E = lowflow_calc(EWR_info, df_F[gauge].values, water_years, df_F.index, masked_dates)
+
+    # print('lowflow calc')
+    # print(time.perf_counter() - start_time)
+    # start_time = time.perf_counter()   
+    
     PU_df = event_stats(df_F, PU_df, gauge, ewr, EWR_info, E, water_years)
+    
+    # print('event stats')
+    # print(time.perf_counter() - start_time)
+    # start_time = time.perf_counter()   
+
     return PU_df, E
 
 def flow_handle(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, df_F: pd.DataFrame, PU_df: pd.DataFrame) -> tuple:
@@ -2800,7 +2824,17 @@ def lowflow_calc(EWR_info: dict, flows: np.array, water_years: np.array, dates: 
     '''
     # Declare variables:
     event = []
+
+
+    import time
+    start_time = time.perf_counter()            
+
     all_events = construct_event_dict(water_years)
+
+    print('construct_event_dict')
+    print(time.perf_counter() - start_time)
+    start_time = time.perf_counter()   
+
     # Iterate over daily flow, sending to the lowflow_check function for each iteration 
     for i, flow in enumerate(flows[:-1]):
         if dates[i] in masked_dates:
@@ -2812,12 +2846,20 @@ def lowflow_calc(EWR_info: dict, flows: np.array, water_years: np.array, dates: 
                 all_events[water_years[i]].append(event)
             event = [] # Reset at the end of the water year
         
+    print('iterate daily flow')
+    print(time.perf_counter() - start_time)
+    start_time = time.perf_counter()   
+
     # Check the final iteration, saving any ongoing events/event gaps to their spots in the dictionaries
     if dates[-1] in masked_dates:
         flow_date = dates[-1]
         event, all_events = lowflow_check(EWR_info, -1, flows[-1], event, all_events, water_years, flow_date)
     if len(event) > 0:
         all_events[water_years[-1]].append(event)
+
+    print('final iter and save')
+    print(time.perf_counter() - start_time)
+
     return all_events
 
 def ctf_calc_anytime(EWR_info: dict, flows: np.array, water_years: np.array, dates: np.array) -> tuple:
@@ -4498,8 +4540,14 @@ def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, EWR_table:pd.Da
                 log.warning(f"add {ewr_key} to the configuration file in the appropriate handle function")
                 continue
             kwargs = build_args(all_args, handle_function)
-        
-            PU_df, events = handle_function(**kwargs)
+
+            if function_name == 'lowflow_handle':
+                import time
+                start_time = time.perf_counter()
+                PU_df, events = handle_function(**kwargs)
+                print(function_name)        
+                print(time.perf_counter() - start_time)
+
             if events != {}:
                 PU_events[str(ewr)]=events
 

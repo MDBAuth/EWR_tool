@@ -7,8 +7,8 @@ from datetime import datetime, date
 import logging
 import numpy as np
 import pandas as pd
-import xarray as xr
-import netCDF4
+# import xarray as xr
+# import netCDF4
  
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -410,6 +410,8 @@ def cleaner_ten_thousand_year(input_df: pd.DataFrame, ewr_table_path: str = None
     except ValueError:    
         log.info('Attempted and failed to read in dates in format: dd/mm/yyyy, attempting to look for dates in format: yyyy-mm-dd')
         try:
+            print(cleaned_df.index[0])
+            print(cleaned_df.index[-1])
             date_start = datetime.strptime(cleaned_df.index[0], '%Y-%m-%d')
             date_end = datetime.strptime(cleaned_df.index[-1], '%Y-%m-%d')
         except ValueError:
@@ -731,6 +733,10 @@ class ScenarioHandler:
         detailed_results = {}
         detailed_events = {}
         for scenario in scenarios:
+
+            import time
+
+
             if self.model_format == 'Bigmod - MDBA':
                 
                 data, header = unpack_model_file(scenarios[scenario], 'Dy', 'Field')
@@ -787,17 +793,24 @@ class ScenarioHandler:
                 df_clean = cleaner_MDBA(merged_data)
                 self.df_clean = df_clean
                 df_F, df_L, self.report = match_MDBA_nodes(df_clean, data_inputs.get_MDBA_codes('FIRM - MDBA'), self.parameter_sheet)
-                         
+                                                 
             gauge_results = {}
             gauge_events = {}
 
             all_locations = set(df_F.columns.to_list() + df_L.columns.to_list())
+
+            # start_time = time.perf_counter()
             EWR_table = data_inputs.get_EWR_table(self.parameter_sheet)
+            # print(time.perf_counter() - start_time)
+
             calc_config = data_inputs.get_ewr_calc_config(self.calc_config_path)
+            
+            # start_time = time.perf_counter()
             for gauge in all_locations:
                 gauge_results[gauge], gauge_events[gauge] = evaluate_EWRs.calc_sorter(df_F, df_L, gauge,
-                                                                                        EWR_table, calc_config) 
-                
+                                                                                        EWR_table, calc_config)    
+            # print(time.perf_counter() - start_time)
+
             if self.model_format == 'All Bigmod':
                 scenario = scenario_file[-10:-4]
 
@@ -808,6 +821,7 @@ class ScenarioHandler:
             
             self.flow_data = df_F
             self.level_data = df_L
+
 
     def get_all_events(self)-> pd.DataFrame:
 
@@ -826,7 +840,7 @@ class ScenarioHandler:
                         parameter_sheet_path=self.parameter_sheet)
 
         all_events = summarise_results.filter_duplicate_start_dates(all_events)
-
+            
         return all_events
 
     def get_all_interEvents(self)-> pd.DataFrame:
@@ -972,7 +986,13 @@ class ScenarioHandler:
         if not self.pu_ewr_statistics:
             self.process_scenarios()
 
+        # import time
+        # start_time = time.perf_counter()
+
         self.ewr_results = summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)
+
+        # print(time.perf_counter() - start_time)
+
         
         return self.ewr_results
 
