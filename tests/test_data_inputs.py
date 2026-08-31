@@ -407,19 +407,19 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False, test_m
                             'nDays_outside_event_window_per_year',
                             'MRIP_shorter_than_nDays_outside_event_window'
             ]])
-            if save_MRIP_checks:
-                checking_MRIP[['Gauge', 
-                                    'Code', 
-                                    'PlanningUnitName',
-                                    'SWSDLName',
-                                    'StartMonth', 
-                                    'StartDay', 
-                                    'EndMonth', 
-                                    'EndDay',
-                                    'MaxInter-event_days', 
-                                    'nDays_outside_event_window_per_year',
-                                    'MRIP_shorter_than_nDays_outside_event_window'
-                    ]].to_csv('MRIP_checks.csv')
+        if save_MRIP_checks:
+            checking_MRIP[['Gauge', 
+                                'Code', 
+                                'PlanningUnitName',
+                                'SWSDLName',
+                                'StartMonth', 
+                                'StartDay', 
+                                'EndMonth', 
+                                'EndDay',
+                                'MaxInter-event_days', 
+                                'nDays_outside_event_window_per_year',
+                                'MRIP_shorter_than_nDays_outside_event_window'
+                ]].to_csv('MRIP_checks.csv')
 
      # Check if there are no violations
     no_violations = all(len(v) == 0 for v in [
