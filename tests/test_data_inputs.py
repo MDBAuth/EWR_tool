@@ -380,7 +380,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False, test_m
         print(spec_char)
 
     # check MRIP length relative to timing window and print that list 
-    if test_maxInter_event_n_daysif test_check:
+    if test_maxInter_event_n_days:
         dur_filter['MaxInter-event_days'] = dur_filter['MaxInter-event']*365
         checking_MRIP = dur_filter[
         ~(
