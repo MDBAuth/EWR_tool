@@ -536,9 +536,9 @@ def test_modify_EWR_table_datatypes():
     '''
     # Get the EWR table
     test_df = pd.read_csv(parameter_sheet_path, dtype = 'str')
-    
     # Apply the modify function
     result = data_inputs.modify_EWR_table(test_df)
+    
 
     expected_dtypes = {
         # Integer columns
