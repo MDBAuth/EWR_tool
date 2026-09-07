@@ -3058,6 +3058,7 @@ PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239
 PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,BF2_c,6,11,100,,,1,180,1,10,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-M1.1+V-F1.1+V-P1.1
 PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,BF2_b,6,11,70,,,1,180,1,15,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-M1.1+V-F1.1+V-P1.1
 PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,BF2_a,6,11,30,,,1,180,1,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-M1.1+V-F1.1+V-P1.1
+PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,BK1,6,11,15,10,20,1,1,1,200,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-G1.1+V-G1.2
 PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,F1_b,12,5,70,,,1,7,7,20,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-W1.1+V-P1.2
 PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,F1_a,12,5,30,,,1,7,7,50,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-W1.1+V-P1.2
 PU_SS0505,Upper Broken Creek Reach 1,Upper Broken Creek Flows study 2017,,404239,F2_c,6,11,100,,,1,14,14,15,,1,,,F,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,F,VIC,,Broken,,,V-F1.2+V-P1.2+V-V1.2+V-V1.3+V-V1.4
