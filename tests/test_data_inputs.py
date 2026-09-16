@@ -176,7 +176,7 @@ def generate_years(start, end, leap = False):
         rand_year = random.choice(non_leaps)
     return rand_year
 
-def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
+def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False, test_maxInter_event_n_days = False):
     '''
     Checks the logic between columns that specify aspects of the flow regime related to timing
     1. DURATION CHECK: 
@@ -203,6 +203,7 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
 
     args: df: an EWR table as a dataframe
          year: an integer year
+         NOTE: Maxininter_event_n_days test not critical for EWR tool performance but used for record keeping and double checking. set 'test_maxInter_event_n_days' to True to trigger check
     
     return: 
         number of rows per dataset that violate the conditions described above.
@@ -379,35 +380,22 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
         print(spec_char)
 
     # check MRIP length relative to timing window and print that list 
-
-    dur_filter['MaxInter-event_days'] = dur_filter['MaxInter-event']*365
-    checking_MRIP = dur_filter[
-    ~(
-        (dur_filter['StartMonth'] == 7) &
-        (dur_filter['StartDay'] == 1) &
-        (dur_filter['EndMonth'] == 6) &
-        (dur_filter['EndDay'] == 30)
-    )
-]
-    # MRIPS with permanent exceedance ranges
+    if test_maxInter_event_n_days:
+        dur_filter['MaxInter-event_days'] = dur_filter['MaxInter-event']*365
+        checking_MRIP = dur_filter[
+        ~(
+            (dur_filter['StartMonth'] == 7) &
+            (dur_filter['StartDay'] == 1) &
+            (dur_filter['EndMonth'] == 6) &
+            (dur_filter['EndDay'] == 30)
+            )
+        ]
+        # MRIPS with permanent exceedance ranges
+        
+        checking_MRIP['nDays_outside_event_window_per_year'] = (365-checking_MRIP['DaysBetween'])
     
-    checking_MRIP['nDays_outside_event_window_per_year'] = (365-checking_MRIP['DaysBetween'])
-
-    checking_MRIP['MRIP_shorter_than_nDays_outside_event_window']= (checking_MRIP['MaxInter-event_days'] < checking_MRIP['nDays_outside_event_window_per_year']).astype(int)
-    print(checking_MRIP[['Gauge', 
-                        'Code', 
-                        'PlanningUnitName',
-                        'SWSDLName',
-                        'StartMonth', 
-                        'StartDay', 
-                        'EndMonth', 
-                        'EndDay',
-                        'MaxInter-event_days', 
-                        'nDays_outside_event_window_per_year',
-                        'MRIP_shorter_than_nDays_outside_event_window'
-        ]])
-    if save_MRIP_checks:
-        checking_MRIP[['Gauge', 
+        checking_MRIP['MRIP_shorter_than_nDays_outside_event_window']= (checking_MRIP['MaxInter-event_days'] < checking_MRIP['nDays_outside_event_window_per_year']).astype(int)
+        print(checking_MRIP[['Gauge', 
                             'Code', 
                             'PlanningUnitName',
                             'SWSDLName',
@@ -418,7 +406,20 @@ def check_EWR_logic(df: pd.DataFrame, year: int, save_MRIP_checks: False):
                             'MaxInter-event_days', 
                             'nDays_outside_event_window_per_year',
                             'MRIP_shorter_than_nDays_outside_event_window'
-            ]].to_csv('MRIP_checks.csv')
+            ]])
+        if save_MRIP_checks:
+            checking_MRIP[['Gauge', 
+                                'Code', 
+                                'PlanningUnitName',
+                                'SWSDLName',
+                                'StartMonth', 
+                                'StartDay', 
+                                'EndMonth', 
+                                'EndDay',
+                                'MaxInter-event_days', 
+                                'nDays_outside_event_window_per_year',
+                                'MRIP_shorter_than_nDays_outside_event_window'
+                ]].to_csv('MRIP_checks.csv')
 
      # Check if there are no violations
     no_violations = all(len(v) == 0 for v in [
@@ -535,9 +536,9 @@ def test_modify_EWR_table_datatypes():
     '''
     # Get the EWR table
     test_df = pd.read_csv(parameter_sheet_path, dtype = 'str')
-    
     # Apply the modify function
     result = data_inputs.modify_EWR_table(test_df)
+    
 
     expected_dtypes = {
         # Integer columns
