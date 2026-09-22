@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-ewr)](https://pypi.org/project/py-ewr/)
 [![DOI](https://zenodo.org/badge/342122359.svg)](https://zenodo.org/badge/latestdoi/342122359)
 
-### **ewr tool version 2.4.10 README**
+### **ewr tool version 2.4.11 README**
 
 ### **Notes on recent version updates**
 
@@ -22,6 +22,8 @@
 - Added new FIRM ID file mapping FIRM ID to gauge number.
 
 #### parameter metadata
+- removed MaxInter-event = 0 , replaced with None
+- Updated EWRs in the broken and Goulburn
 - added back volume based EWRs that were filtered out
 - updated NSW Border rivers EWRs in acordance to the long term water plan
 - Missing CLLMM ewrs added to calc-config
