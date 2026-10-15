@@ -346,10 +346,11 @@ class ObservedHandler:
         to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
         yearly_ewr_results = summarise_results.process_df_results(to_process)
 
-        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
+        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=[
+            'Multigauge', 'State', 'SWSDLName', 'StartMonth', 'EndMonth'],
                                 left_table=yearly_ewr_results,
                                 left_on=['Gauge','PlanningUnit','Code'],
-                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', 
+                                selected_columns= ['Year','StartMonth', 'EndMonth', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll', 
                                             'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'Code',
@@ -389,6 +390,16 @@ class ObservedHandler:
 
         yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)
 
+        yearly_ewr_results = yearly_ewr_results.rename(columns = {'Year': 'WaterYearStart'})
+                
+        yearly_ewr_results.insert(
+            1,  # position (0-based, so 1 = second column)
+            'WaterYearEnd',
+            yearly_ewr_results['WaterYearStart'] + 1
+        )
+                
+        
+        
         return yearly_ewr_results
 
     def get_ewr_results(self) -> pd.DataFrame:
