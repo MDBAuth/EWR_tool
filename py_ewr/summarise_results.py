@@ -91,7 +91,7 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
     Returns:
         List[Dict]: list of dict with the items to be processed
     """
-    # print(list(detailed_results.keys())) # len = 2 #NOTE: len = 2 when processing summary results
+    print(list(detailed_results.keys())) 
     items_to_process = []
     for scenario in detailed_results:
         for gauge in detailed_results[scenario]:
@@ -103,8 +103,6 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
                 item["pu_df"] = detailed_results[scenario][gauge][pu]
                 items_to_process.append(item)
 
-    # print(items_to_process)
-    # print(len(items_to_process))
     return items_to_process
 
 
@@ -134,12 +132,10 @@ def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
         ewr_df["PlanningUnit"] = pu
         ewr_df = ewr_df.loc[:,~ewr_df.columns.duplicated()]
         returned_dfs.append(ewr_df)
-        # print(ewr_df[['Year','Code', 'Gauge', 'eventYears']])
 
     result = pd.concat(returned_dfs, ignore_index=True)
     result_filtered = result[~result['eventYears'].isna()]
 
-    # print(result_filtered[['Year','Code', 'Gauge', 'eventYears']])
 
     return result_filtered
 
