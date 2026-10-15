@@ -91,7 +91,7 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
     Returns:
         List[Dict]: list of dict with the items to be processed
     """
-    print(list(detailed_results.keys())) # len = 2
+    # print(list(detailed_results.keys())) # len = 2 #NOTE: len = 2 when processing summary results
     items_to_process = []
     for scenario in detailed_results:
         for gauge in detailed_results[scenario]:
@@ -393,7 +393,6 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     Returns:
         pd.DataFrame: Summary statistics for all ewr calculation for the whole period of the run
     """
-    print(list(input_dict.keys())) # len = 1
     to_process = pu_dfs_to_process(input_dict)
     yearly_ewr_results = process_df_results(to_process)
     
