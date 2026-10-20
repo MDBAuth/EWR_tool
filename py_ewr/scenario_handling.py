@@ -923,22 +923,24 @@ class ScenarioHandler:
         # Setting up the yearly results
         to_process = summarise_results.pu_dfs_to_process(self.pu_ewr_statistics)
         yearly_ewr_results = summarise_results.process_df_results(to_process)
-                                
-        yearly_ewr_results = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
+                                    
+        yearly_ewr_results = summarise_results.join_ewr_parameters(
+            cols_to_add=['Multigauge', 'State', 'SWSDLName', 'StartMonth', 'EndMonth'],
                                 left_table=yearly_ewr_results,
                                 left_on=['Gauge','PlanningUnit','Code'],
-                                selected_columns= ['Year', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
+                                selected_columns= ['Year','StartMonth', 'EndMonth', 'eventYears', 'numAchieved', 'numEvents', 'numEventsAll',
                                              'eventLength', 'eventLengthAchieved', 'totalEventDays', 'totalEventDaysAchieved',
                                             'maxEventDays', 'maxRollingEvents', 'maxRollingAchievement',
                                             'missingDays', 'totalPossibleDays', 'Code',
                                             'scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Multigauge'],
                                 parameter_sheet_path=self.parameter_sheet)
-
+        
         # Setting up the dictionary of yearly rolling maximum interevent periods:
         events_to_process = summarise_results.get_events_to_process(self.yearly_events)
         all_events_temp = summarise_results.process_all_events_results(events_to_process)
 
-        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
+        all_events_temp = summarise_results.join_ewr_parameters(
+            cols_to_add=['Multigauge', 'State', 'SWSDLName'],
                         left_table=all_events_temp,
                         left_on=['Gauge','PlanningUnit','Code'],
                         selected_columns= ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
@@ -960,8 +962,17 @@ class ScenarioHandler:
         yearly_ewr_results = summarise_results.add_interevent_to_yearly_results(yearly_ewr_results, rolling_max_interevents_dict)
         
         # Calculate the rolling achievement of the interevent, append this to a new column
-        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)
+        yearly_ewr_results = summarise_results.add_interevent_check_to_yearly_results(yearly_ewr_results, self.parameter_sheet)       
 
+        yearly_ewr_results = yearly_ewr_results.rename(columns = {'Year': 'WaterYearStart'})
+        
+        yearly_ewr_results.insert(
+            1,  # position (0-based, so 1 = second column)
+            'WaterYearEnd',
+            yearly_ewr_results['WaterYearStart'] + 1
+        )
+                
+        
         return yearly_ewr_results
 
 
