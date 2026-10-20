@@ -91,7 +91,6 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
     Returns:
         List[Dict]: list of dict with the items to be processed
     """
-    print(list(detailed_results.keys())) 
     items_to_process = []
     for scenario in detailed_results:
         for gauge in detailed_results[scenario]:
