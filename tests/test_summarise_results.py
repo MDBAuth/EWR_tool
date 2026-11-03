@@ -7,23 +7,26 @@ import pytest
 from py_ewr import data_inputs, summarise_results
 
 
-def test_get_frequency():
-    '''
-    Series input to get_frequency function will only be made up of combination of 1's or 0's.
-    1. Test to see if function is returning frequency of 1 occurrence out of all years. 
-    2. Test to see if function handles no occurrence of 1's
-    '''
-    # Test 1
-    input_series = pd.Series(index=[1895, 1896, 1897, 1898, 1899], data=[0,1,1,1,0])
-    f = summarise_results.get_frequency(input_series)
-    expected_f = 60
-    assert f == expected_f
-    # ----------------------------
-    # Test 2
-    input_series = pd.Series(index=[1895, 1896, 1897, 1898, 1899], data=[0,0,0,0,0])
-    f = summarise_results.get_frequency(input_series)
-    expected_f = 0
-    assert f == expected_f
+
+@pytest.mark.parametrize(
+    "event_years,total_days,expected",
+    [
+        (3, 365 * 4 + 366, 60),  # 3 event years in 5 years
+        (0, 365 * 4 + 366, 0),   # no event years
+        (2, 365 * 3, 67),        # 2 event years in 3 non-leap years
+        (1, 366, 100),           # 1 leap year
+        (1, 365, 100),           # 1 non-leap year
+    ],
+)
+def test_get_frequency(event_years, total_days, expected):
+
+    frequency = summarise_results.get_frequency(
+        pd.Series([event_years]),
+        pd.Series([total_days]),
+    )
+
+    assert frequency.iloc[0] == expected
+
 
 @pytest.mark.parametrize("Code,cols,expected",
         [(
@@ -145,6 +148,7 @@ def test_process_ewr_events_stats(event_items_to_process):
 def test_summarise(detailed_results, gauge_events):
     result = summarise_results.summarise(input_dict=detailed_results, events=gauge_events)
     assert type(result) == pd.DataFrame
+
 
    
 def test_process_all_yearly_events(event_item_to_process):

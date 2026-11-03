@@ -13,7 +13,10 @@ from . import data_inputs, evaluate_EWRs
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
-def get_frequency(events: list) -> int:
+def get_years(totalPossibleDays):
+    return totalPossibleDays / 365.25
+
+def get_frequency(eventYears:pd.Series, totalPossibleDays:pd.Series)-> int:
     '''Returns the frequency of years they occur in.
     
     Args:
@@ -22,11 +25,8 @@ def get_frequency(events: list) -> int:
         int: Frequency of years with events
     
     '''
-    if events.count() == 0:
-        result = 0
-    else:
-        result = (int(events.sum())/int(events.count()))*100
-    return int(round(result, 0))
+    years = get_years(totalPossibleDays)
+    return (eventYears / years * 100).round(0).astype(int)
 
 
 def get_ewr_columns(ewr:str, cols:List) -> List:
@@ -101,6 +101,7 @@ def pu_dfs_to_process(detailed_results: Dict)-> List[Dict]:
                 item["pu"] = pu
                 item["pu_df"] = detailed_results[scenario][gauge][pu]
                 items_to_process.append(item)
+
     return items_to_process
 
 
@@ -130,7 +131,12 @@ def process_df(scenario:str, gauge:str, pu:str, pu_df: pd.DataFrame)-> pd.DataFr
         ewr_df["PlanningUnit"] = pu
         ewr_df = ewr_df.loc[:,~ewr_df.columns.duplicated()]
         returned_dfs.append(ewr_df)
-    return pd.concat(returned_dfs, ignore_index=True)
+
+    result = pd.concat(returned_dfs, ignore_index=True)
+    result_filtered = result[~result['eventYears'].isna()]
+
+
+    return result_filtered
 
 
 def process_df_results(results_to_process: List[Dict])-> pd.DataFrame:
@@ -298,7 +304,9 @@ def process_all_yearly_events(scenario:str, gauge:str, pu:str, ewr:str, ewr_even
             df_data["startDate"].append(start_date )
             df_data["endDate"].append(end_date)
             df_data["eventDuration"].append((end_date - start_date).days + 1)
-            df_data["eventLength"].append(len(ev))          
+            df_data["eventLength"].append(len(ev)) 
+
+        
     
     return pd.DataFrame(df_data)
 
@@ -333,7 +341,7 @@ def join_ewr_parameters(cols_to_add:List, left_table:pd.DataFrame, left_on:List,
     
     EWR_table = data_inputs.get_EWR_table(parameter_sheet_path)
 
-    EWR_table = fill_empty(EWR_table, ['TargetFrequency','MaxInter-event'])
+    # EWR_table = fill_empty(EWR_table, ['TargetFrequency','MaxInter-event'])
 
     columns_right_table = ['Gauge','PlanningUnitName','Code']
 
@@ -360,7 +368,7 @@ def sum_0(series:pd.Series) -> int:
     
     Args:
         series (pd.Series): pandas series of 0s and 1s
-
+ewr_event_statprocess
     Results:
         int: sum of 0s
     '''
@@ -387,7 +395,7 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
     final_summary_output = (yearly_ewr_results
     .groupby(["scenario",'Gauge',"PlanningUnit","Code"])
     .agg( EventYears = ("eventYears", 'sum'),
-          Frequency = ("eventYears", get_frequency),
+        #   Frequency = ("eventYears", lambda x: get_frequency(x, "totalPossibleDays")),
           AchievementCount = ("numAchieved", 'sum'),
           AchievementPerYear = ("numAchieved", 'mean'),
           EventCount = ("numEvents",'sum'),
@@ -399,6 +407,11 @@ def summarise(input_dict:Dict , events:Dict, parameter_sheet_path:str = None)-> 
           NoDataDays =  ("missingDays" , 'sum'),
           TotalDays = ("totalPossibleDays" , 'sum'),
           )
+    )
+
+    final_summary_output["Frequency"] = get_frequency(
+        final_summary_output["EventYears"],
+        final_summary_output["TotalDays"]
     )
     # summarize gauge events
     
@@ -543,8 +556,6 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
             #------
             df_subset['interEventLength'] = None
             for index, row in df_subset.iterrows():
-                # print(row['endDate'])
-                # print(type(row['endDate']))
 
                 # end = evaluate_EWRs.get_index_date(row['endDate'])
                 # start = evaluate_EWRs.get_index_date(row['startDate'])
