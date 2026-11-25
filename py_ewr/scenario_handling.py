@@ -697,13 +697,17 @@ class ScenarioHandler:
                 calc_config_path:str = None):
         self.scenario_file = scenario_file
         self.model_format = model_format
-        self.yearly_events = None
+        self.yearly_events = None      
         self.pu_ewr_statistics = None
         self.summary_results = None
+        self.all_events = None
+        self.all_interEvents = None
+        self.all_successful_events = None          
         self.parameter_sheet = parameter_sheet
         self.calc_config_path = calc_config_path
         self.flow_data = None
         self.level_data = None
+
 
     def _get_file_names(self, loaded_files):
 
@@ -809,112 +813,6 @@ class ScenarioHandler:
             self.flow_data = df_F
             self.level_data = df_L
 
-    def get_all_events(self)-> pd.DataFrame:
-
-        if not self.yearly_events:
-            self.process_scenarios()
-        
-        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
-        all_events = summarise_results.process_all_events_results(events_to_process)
-
-        all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
-                        left_table=all_events,
-                        left_on=['Gauge','PlanningUnit','Code'],
-                        selected_columns= ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
-                                'eventDuration', 'eventLength', 
-                                'Multigauge'],
-                        parameter_sheet_path=self.parameter_sheet)
-
-        all_events = summarise_results.filter_duplicate_start_dates(all_events)
-
-        return all_events
-
-    def get_all_interEvents(self)-> pd.DataFrame:
-        
-        if not self.yearly_events:
-            self.process_scenarios()
-        
-        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
-        all_events_temp = summarise_results.process_all_events_results(events_to_process)
-
-        all_events_temp = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
-                        left_table=all_events_temp,
-                        left_on=['Gauge','PlanningUnit','Code'],
-                        selected_columns= ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
-                                'eventDuration', 'eventLength', 
-                                'Multigauge'],
-                        parameter_sheet_path=self.parameter_sheet)
-
-        all_events_temp = summarise_results.filter_duplicate_start_dates(all_events_temp)
-
-        # Get start and end date of the timeseries.
-        date0 = self.flow_data.index[0]
-        date1 = self.flow_data.index[-1]
-        start_date = date(date0.year, date0.month, date0.day)
-        end_date = date(date1.year, date1.month, date1.day)
-        
-        all_interEvents = summarise_results.events_to_interevents(start_date, end_date, all_events_temp)
-
-        return all_interEvents        
-
-    def get_all_successful_events(self)-> pd.DataFrame:
-
-        if not self.yearly_events:
-            self.process_scenarios()
-        
-        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
-        all_events_temp1 = summarise_results.process_all_events_results(events_to_process)
-
-        all_events_temp1 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
-                        left_table=all_events_temp1,
-                        left_on=['Gauge','PlanningUnit','Code'],
-                        selected_columns= ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
-                                'eventDuration', 'eventLength', 
-                                'Multigauge'],
-                        parameter_sheet_path=self.parameter_sheet)
-
-        all_events_temp1 = summarise_results.filter_duplicate_start_dates(all_events_temp1)
-
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp1, self.parameter_sheet) 
-
-        return all_successfulEvents
-
-    def get_all_successful_interEvents(self)-> pd.DataFrame:
-
-        if not self.yearly_events:
-            self.process_scenarios()
-        
-        events_to_process = summarise_results.get_events_to_process(self.yearly_events)
-        all_events_temp2 = summarise_results.process_all_events_results(events_to_process)
-
-        all_events_temp2 = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
-                        left_table=all_events_temp2,
-                        left_on=['Gauge','PlanningUnit','Code'],
-                        selected_columns= ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
-                                'eventDuration', 'eventLength', 
-                                'Multigauge'],
-                        parameter_sheet_path=self.parameter_sheet)
-
-        all_events_temp2 = summarise_results.filter_duplicate_start_dates(all_events_temp2)
-
-
-        # Part 1 - Get only the successful events:
-        all_successfulEvents = summarise_results.filter_successful_events(all_events_temp2, self.parameter_sheet) 
-
-        # Part 2 - Now we have a dataframe of only successful events, pull down the interevent periods
-        # Get start and end date of the timeseries.
-        date0 = self.flow_data.index[0]
-        date1 = self.flow_data.index[-1]
-
-        start_date = date(date0.year, date0.month, date0.day)
-        end_date = date(date1.year, date1.month, date1.day)
-
-        all_successful_interEvents = summarise_results.events_to_interevents(start_date, end_date, all_successfulEvents)
-
-        return all_successful_interEvents
-
-
-
     def get_yearly_ewr_results(self)-> pd.DataFrame:
 
         if not self.pu_ewr_statistics:
@@ -970,13 +868,10 @@ class ScenarioHandler:
             1,  # position (0-based, so 1 = second column)
             'WaterYearEnd',
             yearly_ewr_results['WaterYearStart'] + 1
-        )
-                
+        )    
         
         return yearly_ewr_results
-
-
-
+    
 
     def get_ewr_results(self) -> pd.DataFrame:
         
@@ -986,6 +881,80 @@ class ScenarioHandler:
         self.ewr_results = summarise_results.summarise(self.pu_ewr_statistics , self.yearly_events, parameter_sheet_path=self.parameter_sheet)
         
         return self.ewr_results
+    
+
+    def get_all_events(self)-> pd.DataFrame:
+
+        if not self.yearly_events:
+            self.process_scenarios()
+
+        if not self.all_events: #self.all_events, self.all_interEvents, self.all_successful_events
+
+            events_to_process = summarise_results.get_events_to_process(self.yearly_events)
+            all_events = summarise_results.process_all_events_results(events_to_process)
+
+            all_events = summarise_results.join_ewr_parameters(cols_to_add=['Multigauge', 'State', 'SWSDLName'],
+                            left_table=all_events,
+                            left_on=['Gauge','PlanningUnit','Code'],
+                            selected_columns= ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'waterYear', 'startDate', 'endDate',
+                                    'eventDuration', 'eventLength', 
+                                    'Multigauge'],
+                            parameter_sheet_path=self.parameter_sheet)
+
+            all_events = summarise_results.filter_duplicate_start_dates(all_events)
+            
+            self.all_events = all_events
+
+        return self.all_events
+
+    def get_all_interEvents(self)-> pd.DataFrame:
+
+        if not self.all_events:
+            self.get_all_events()
+        
+        if not self.all_interEvents:
+                
+            # Get start and end date of the timeseries.
+            date0 = self.flow_data.index[0]
+            date1 = self.flow_data.index[-1]
+            start_date = date(date0.year, date0.month, date0.day)
+            end_date = date(date1.year, date1.month, date1.day)
+            
+            all_interEvents = summarise_results.events_to_interevents(start_date, end_date, self.all_events)
+
+            self.all_interEvents = all_interEvents
+
+        return self.all_interEvents        
+
+    def get_all_successful_events(self)-> pd.DataFrame:
+        
+        if not self.all_events:
+            self.get_all_events()
+
+        if not self.all_successful_events:
+            self.all_successful_events = summarise_results.filter_successful_events(self.all_events, self.parameter_sheet) 
+
+        return self.all_successful_events
+
+    def get_all_successful_interEvents(self)-> pd.DataFrame:
+
+        if not self.all_successful_events:
+            self.get_all_successful_events()
+
+        # Now we have a dataframe of only successful events, pull down the interevent periods
+        # Get start and end date of the timeseries.
+        date0 = self.flow_data.index[0]
+        date1 = self.flow_data.index[-1]
+
+        start_date = date(date0.year, date0.month, date0.day)
+        end_date = date(date1.year, date1.month, date1.day)
+
+        all_successful_interEvents = summarise_results.events_to_interevents(start_date, end_date, self.all_successful_events)
+
+        return all_successful_interEvents
+
+
+
 
 
     def log_analysed_results(self):
