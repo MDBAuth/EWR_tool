@@ -4215,7 +4215,7 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, ewr:str, EWR_inf
         years_with_events = get_event_years_volume_achieved(events, unique_water_years)
 
     YWE = pd.Series(name = str(ewr + '_eventYears'), data = years_with_events, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, YWE], axis = 1)
+
     # Number of event achievements:
     num_event_achievements = get_achievements(EWR_info, events, unique_water_years)
 
@@ -4223,64 +4223,62 @@ def event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, ewr:str, EWR_inf
         num_event_achievements = get_achievements_connecting_events(events, unique_water_years)
 
     NEA = pd.Series(name = str(ewr + '_numAchieved'), data= num_event_achievements, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, NEA], axis = 1)
+
     # Total number of events THIS ONE IS ONLY ACHIEVED due to Filter Applied
     num_events = get_number_events(EWR_info, events, unique_water_years)
     NE = pd.Series(name = str(ewr + '_numEvents'), data= num_events, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, NE], axis = 1)
+
     # Total number of events THIS ONE IS ALL EVENTS
     num_events_all = get_all_events(events)
     NEALL = pd.Series(name = str(ewr + '_numEventsAll'), data= num_events_all, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, NEALL], axis = 1)
+
     # Max inter event period
     max_inter_period = get_max_inter_event_days(no_events, unique_water_years)
     MIP = pd.Series(name = str(ewr + '_maxInterEventDays'), data= max_inter_period, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, MIP], axis = 1)
+
     # Max inter event period achieved
     max_inter_period_achieved = get_event_max_inter_event_achieved(EWR_info, no_events, unique_water_years)
     MIPA = pd.Series(name = str(ewr + '_maxInterEventDaysAchieved'), data= max_inter_period_achieved, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, MIPA], axis = 1)
+
     # Average length of events
     av_length = get_average_event_length(events, unique_water_years)
     AL = pd.Series(name = str(ewr + '_eventLength'), data = av_length, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, AL], axis = 1)
+
     # Average length of events ONLY the ACHIEVED
     av_length_achieved = get_average_event_length_achieved(EWR_info, events)
     ALA = pd.Series(name = str(ewr + '_eventLengthAchieved' ), data = av_length_achieved, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, ALA], axis = 1)
+
     # Total event days
     total_days = get_total_days(events, unique_water_years)
     TD_A = pd.Series(name = str(ewr + '_totalEventDays'), data = total_days, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, TD], axis = 1)
+
     # Total event days ACHIEVED
     total_days_achieved = get_achieved_event_days(EWR_info, events)
     TDA = pd.Series(name = str(ewr + '_totalEventDaysAchieved'), data = total_days_achieved, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, TDA], axis = 1)
+
     # Max event days
     max_days = get_max_event_days(events, unique_water_years)
     MD = pd.Series(name = str(ewr + '_maxEventDays'), data = max_days, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, MD], axis = 1)
+
     # Max rolling consecutive event days
     try:
         max_consecutive_days = get_max_consecutive_event_days(events, unique_water_years)
         MR = pd.Series(name = str(ewr + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
-        # PU_df = pd.concat([PU_df, MR], axis = 1)
     except Exception as e:
         max_consecutive_days = [0]*len(unique_water_years)
         MR = pd.Series(name = str(ewr + '_maxRollingEvents'), data = max_consecutive_days, index = unique_water_years)
-        # PU_df = pd.concat([PU_df, MR], axis = 1)
         log.error(e)
+
     # Max rolling duration achieved
     achieved_max_rolling_duration = get_max_rolling_duration_achievement(EWR_info, max_consecutive_days)
     MRA = pd.Series(name = str(ewr + '_maxRollingAchievement'), data = achieved_max_rolling_duration, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, MRA], axis = 1)
+
     # Append information around available and missing data:
     yearly_gap = get_data_gap(df, water_years, gauge)
     total_days = get_total_series_days(water_years)
     YG = pd.Series(name = str(ewr + '_missingDays'), data = yearly_gap, index = unique_water_years)
     TD_B = pd.Series(name = str(ewr + '_totalPossibleDays'), data = total_days, index = unique_water_years)
-    # PU_df = pd.concat([PU_df, YG], axis = 1)
-    # PU_df = pd.concat([PU_df, TD], axis = 1)
+
     PU_df = pd.concat(
         [PU_df,
          YWE,
@@ -4443,73 +4441,394 @@ def find_function(ewr_key:str, new_config_file:dict) -> str:
 
 #---------------------------- Sorting and distributing to handling functions ---------------------#
 
-def calc_sorter(df_F:pd.DataFrame, df_L:pd.DataFrame, gauge:str, EWR_table:pd.DataFrame, calc_config: dict) -> tuple:
-    '''Sends to handling functions to get calculated depending on the type of ewr
-    
-    Args:
-        df_F (pd.DataFrame): Dataframe with the daily flows
-        df_L (pd.DataFrame): Dataframe with the daily levels
-        gauge (str): gauge string of current iteration
-        EWR_table (pd.DataFrame): Dataframe of ewr parameters
+def calc_sorter(
+    df_F: pd.DataFrame,
+    df_L: pd.DataFrame,
+    gauge: str,
+    EWR_table: pd.DataFrame,
+    calc_config: dict,
+) -> tuple:
+    """
+    Sends to handling functions to get calculated depending on the type of EWR.
 
-    Results:
+    Returns:
         tuple[dict, dict]: annual results summary and detailed event information
-    
-    ''' 
-    # Get ewr tables:
-    PU_items = EWR_table.groupby(['PlanningUnitID', 'PlanningUnitName']).size().reset_index().drop([0], axis=1)
-    # Extract relevant sections of the ewr table:
-    gauge_table = EWR_table[EWR_table['Gauge'] == gauge]
-    # save the planning unit dataframes to this dictionary:
+    """
+
+    PU_items = (
+        EWR_table.groupby(["PlanningUnitID", "PlanningUnitName"])
+        .size()
+        .reset_index()
+        .drop([0], axis=1)
+    )
+
+    gauge_table = EWR_table[EWR_table["Gauge"] == gauge]
+
     location_results = {}
     location_events = {}
-    for pu in set(gauge_table['PlanningUnitID']):
-        PU_table = gauge_table[gauge_table['PlanningUnitID'] == pu]
-        EWR_categories = PU_table['FlowLevelVolume'].values
-        EWR_codes = PU_table['Code']
+
+    for pu in set(gauge_table["PlanningUnitID"]):
+
+        PU_table = gauge_table[gauge_table["PlanningUnitID"] == pu]
+
+        EWR_categories = PU_table["FlowLevelVolume"].values
+        EWR_codes = PU_table["Code"]
+
         PU_df = pd.DataFrame()
         PU_events = {}
 
+        fast_requests = {
+            "flow_handle": [],
+            "lowflow_handle": [],
+        }
+
         for i, ewr in enumerate(EWR_codes):
-            events = {}
 
             MULTIGAUGE = is_multigauge(EWR_table, gauge, ewr, pu)
 
-            # Save dict with function arguments value
-            all_args = {"pu": pu, 
-            "gauge": gauge, 
-            "ewr": ewr, 
-            "EWR_table": EWR_table, 
-            "df_F": df_F, 
-            "df_L": df_L,
-            "PU_df": PU_df,
+            all_args = {
+                "pu": pu,
+                "gauge": gauge,
+                "ewr": ewr,
+                "EWR_table": EWR_table,
+                "df_F": df_F,
+                "df_L": df_L,
+                "PU_df": PU_df,
             }
 
             cat = EWR_categories[i]
+
             gauge_calc_type = get_gauge_calc_type(MULTIGAUGE)
-            ewr_key = f'{ewr}-{gauge_calc_type}-{cat}'
+            ewr_key = f"{ewr}-{gauge_calc_type}-{cat}"
+
             function_name = find_function(ewr_key, calc_config)
-            if function_name == 'unknown':
-                log.warning(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
+
+            if function_name == "unknown":
+                log.warning(
+                    f"skipping calculation due to ewr key {ewr_key} not in the configuration files"
+                )
                 continue
+
+            # -----------------------------------------------------------------
+            # Fast-ewr handlers
+            # -----------------------------------------------------------------
+            if function_name in ("flow_handle", "lowflow_handle"):
+                fast_requests[function_name].append(
+                    {
+                        "ewr": ewr,
+                        "cat": cat,
+                        "MULTIGAUGE": MULTIGAUGE,
+                        "ewr_key": ewr_key,
+                    }
+                )
+                continue
+
+            # -----------------------------------------------------------------
+            # Existing per-EWR processing
+            # -----------------------------------------------------------------
             handle_function = get_handle_function(function_name)
+
             if not handle_function:
-                log.warning(f"skipping calculation due to ewr key {ewr_key} not in the configuration configuration files")
+                log.warning(f"skipping calculation due to ewr key {ewr_key} not in the configuration files")
                 log.warning(f"add {ewr_key} to the configuration file in the appropriate handle function")
                 continue
-            kwargs = build_args(all_args, handle_function)
-        
-            PU_df, events = handle_function(**kwargs)
-            if events != {}:
-                PU_events[str(ewr)]=events
 
-        # wp_freshes = [ewr for ewr in EWR_codes.to_list() if ewr in ["SF-WP","LF2-WP"]]
-        # if wp_freshes:
-        #     PU_df = merge_weirpool_with_freshes(wp_freshes, PU_df)
-            
-        PU_name = PU_items['PlanningUnitName'].loc[PU_items[PU_items['PlanningUnitID'] == pu].index[0]]
-        
+            kwargs = build_args(all_args, handle_function)
+
+            PU_df, events = handle_function(**kwargs)
+
+            if events:
+                PU_events[str(ewr)] = events
+
+        # ---------------------------------------------------------------------
+        # Fast-ewr processing phase
+        # ---------------------------------------------------------------------
+        for function_name, requests in fast_requests.items():
+
+            if not requests:
+                continue
+
+            PU_df, fast_events = run_fast_calculation(
+                function_name=function_name,
+                requests=requests,
+                pu=pu,
+                gauge=gauge,
+                PU_df=PU_df,
+                df_F=df_F,
+                df_L=df_L,
+                EWR_table=EWR_table,
+            )
+
+            PU_events.update(fast_events)
+
+        PU_name = PU_items["PlanningUnitName"].loc[
+            PU_items[PU_items["PlanningUnitID"] == pu].index[0]
+        ]
+
         location_results[PU_name] = PU_df
         location_events[PU_name] = PU_events
 
     return location_results, location_events
+
+
+
+###################################################
+
+
+def calc_achievement_frequencies(flow_df, xlim, timing_windows, duration_values, function_name):
+    '''
+    Parameters:
+    flow_df (pd.DataFrame): Flow values for one given gauge, with columns for each scenario and datetime index for dates.
+    xlim (int): maximum threshold value to consider. we will calculate thresholds of 0,1,2,3,...,xlim.
+    timing_windows (list of tuples): each tuple is a pair of integers representing the start and end months of the timing_window.
+    duration_values (np.array): array of durations.
+
+    Returns:
+    achievement_frequencies (np.ndarray): array of dimensions (num_scenarios, num_thresholds, num_timing_windows, num_durations)
+                                          with each entry represents the frequency of achievement for the given EWR.                               
+    '''
+    
+    # Preprocess dates
+    months = flow_df.index.month.to_numpy()
+    calendar_years = flow_df.index.year.to_numpy()
+
+    wy = np.where(months >= 7, calendar_years + 1, calendar_years)
+    year_lookup = np.unique(wy, return_inverse=True)[1] # water year indexed for each day in time series
+
+    # Define thresholds and achievement_frequency shape
+    thresholds = np.arange(0, xlim + 1)
+
+    n_scenarios = flow_df.shape[1]
+    achievement_frequencies = np.zeros((n_scenarios, len(thresholds), len(timing_windows), len(duration_values)), dtype=np.float32)
+
+    # Convert flows to numpy
+    flows = flow_df.to_numpy()
+
+    ## Generate event cache
+    for window_index, (sm, em) in enumerate(timing_windows):
+        if sm <= em:
+            timing_mask = ((months >= sm) & (months <= em))
+        else:
+            timing_mask = ((months >= sm) | (months <= em))
+
+        # Filter flows for timing window
+        flows_in_timing_window = np.where(timing_mask[:, None], flows, -np.inf) # replace flow values outside timing window with -inf
+        timing_window_length = int(np.ceil(timing_mask.sum() / (year_lookup.max() + 1)))
+
+        calc_frequencies(flows_in_timing_window, year_lookup, thresholds, duration_values, achievement_frequencies, window_index, timing_window_length, function_name)
+
+    return achievement_frequencies
+
+@njit
+def get_year_boundaries(year_lookup, n_years):
+    year_starts = np.empty(n_years, dtype=np.int32)
+    year_ends = np.empty(n_years, dtype=np.int32)
+
+    year_starts[:] = -1
+    year_ends[:] = -1
+
+    for day_index in range(len(year_lookup)):
+        year = year_lookup[day_index]
+
+        if year_starts[year] == -1:
+            year_starts[year] = day_index
+
+        year_ends[year] = day_index + 1
+
+    return year_starts, year_ends
+
+@njit
+def calc_annual_max_threshold_consecutive(flow_values, start_index, end_index, scen_index, duration):
+    '''
+    For every consecutive window of length `duration`, find the minimum threshold in that window,
+    and then find the largest of those minimum thresholds. i.e. what is the maximum threshold in this year that the flows exceed for this given duration.
+
+    values: np.array of flow values. This is filtered for a specific water year, scenario, and window already.
+    duration: int
+    '''
+    
+    if duration > (end_index - start_index):
+        return -np.inf
+
+    annual_max_threshold = -np.inf
+
+    for window_start in range(start_index, end_index - duration + 1):
+        window_min_thresh = np.min(flow_values[window_start:window_start + duration, scen_index] )
+
+        if window_min_thresh > annual_max_threshold:
+            annual_max_threshold = window_min_thresh
+
+    return annual_max_threshold
+
+@njit
+def calc_annual_max_threshold_nonconsecutive(flow_values, start_index, end_index, scen_index, duration):
+    n_days = end_index - start_index
+
+    if duration > n_days:
+        return -np.inf
+
+    year_flows = np.sort(flow_values[start_index:end_index, scen_index])
+
+    return year_flows[-duration]
+
+@njit
+def calc_frequencies(flows, year_lookup, thresholds, duration_values, achievement_frequencies, window_index, timing_window_length, function_name):
+
+    n_days, n_scenarios = flows.shape
+    n_years = year_lookup.max() + 1
+    n_durations = len(duration_values)
+
+    # Locate the start and end of each water year.
+    year_starts, year_ends = get_year_boundaries(year_lookup, n_years)
+
+    # Calculate the maximum achieved thresholds for each scenario, duration, year. 
+    # i.e. for each individual year what is the maximum threshold flows exceed for a given duration
+    annual_maximum_thresholds = np.empty((n_scenarios, n_durations, n_years), dtype=flows.dtype)
+    
+    for scen_index in range(n_scenarios):  
+        for year_index, (year_start, year_end) in enumerate(zip(year_starts, year_ends)):
+            for dur_index in range(n_durations):
+                duration = duration_values[dur_index]
+
+                if duration > timing_window_length:
+                    annual_maximum_thresholds[scen_index, dur_index, year_index] = -np.inf
+                else:
+                    if function_name == 'flow_handle':
+                        handle_function = calc_annual_max_threshold_consecutive
+                        annual_maximum_thresholds[scen_index, dur_index, year_index] = calc_annual_max_threshold_consecutive(flows, year_start, year_end, scen_index, duration)
+                    elif function_name == 'lowflow_handle':
+                        annual_maximum_thresholds[scen_index, dur_index, year_index] = calc_annual_max_threshold_nonconsecutive(flows, year_start, year_end, scen_index, duration)
+                    
+
+    # Convert annual maximum thresholds to achievement frequencies.
+    for dur_index in range(n_durations):
+        for scen_index in range(n_scenarios):
+            sorted_annual_max_thresholds = np.sort(annual_maximum_thresholds[scen_index, dur_index, :])
+            n_unsuccessful_years = np.searchsorted(sorted_annual_max_thresholds, thresholds) # for each threshold, get the number of years which DONT achieve this for the required duration
+            achievement_frequencies[scen_index, :, window_index, dur_index] = (n_years - n_unsuccessful_years) * 100.0 / n_years
+
+            # note, it is necessary to get the years which are less than the threshold, and then subtract this from the total number of years, because the searchsorted function
+            # is only compatible with 'numba' under 'left' searching
+
+
+def run_fast_calculation(
+    function_name,
+    requests,
+    pu,
+    gauge,
+    PU_df,
+    df_F,
+    df_L,
+    EWR_table,
+):
+    """
+    Batch-process all flow_handle or lowflow_handle EWRs for a PU/gauge
+    using a single achievement-frequency calculation.
+    """
+
+    # ----------------------------------------------------------
+    # Extract EWR metadata
+    # ----------------------------------------------------------
+
+    ewr_lookup = {}
+
+    timing_windows = set()
+    durations = set()
+    max_threshold = 0
+
+    for request in requests:
+
+        ewr = request["ewr"]
+
+        ewr_row = get_EWRs(
+            PU=pu,
+            gauge=gauge,
+            EWR=ewr,
+            EWR_table=EWR_table,
+        )
+
+        timing_window = (
+            ewr_row["StartMonth"],
+            ewr_row["EndMonth"],
+        )
+
+        duration = int(ewr_row["Duration"])
+        threshold = int(np.ceil(ewr_row["FlowThreshold"]))
+
+        timing_windows.add(timing_window)
+        durations.add(duration)
+
+        max_threshold = max(max_threshold, threshold)
+
+        ewr_lookup[ewr] = {
+            "timing_window": timing_window,
+            "duration": duration,
+            "threshold": threshold,
+        }
+
+    timing_windows = sorted(timing_windows)
+    duration_values = np.array(sorted(durations))
+
+    # ----------------------------------------------------------
+    # Run bulk frequency calculation
+    # ----------------------------------------------------------
+
+    achievement_frequencies = calc_achievement_frequencies(
+        flow_df=df_F,
+        xlim=max_threshold,
+        timing_windows=timing_windows,
+        duration_values=duration_values,
+        function_name=function_name,
+    )
+
+    # ----------------------------------------------------------
+    # Build lookup tables
+    # ----------------------------------------------------------
+
+    timing_window_lookup = {tw: i for i, tw in enumerate(timing_windows)}
+    duration_lookup = {d: i for i, d in enumerate(duration_values)}
+
+    # ----------------------------------------------------------
+    # Populate PU_df
+    # ----------------------------------------------------------
+
+    events = {}
+
+    for ewr, metadata in ewr_lookup.items():
+
+        threshold = metadata["threshold"]
+        window_index = timing_window_lookup[metadata["timing_window"]]
+        duration_index = duration_lookup[metadata["duration"]]
+
+        frequency_values = achievement_frequencies[:, threshold, window_index, duration_index]
+
+        PU_df = append_frequency_results(PU_df=PU_df, ewr=ewr, frequencies=frequency_values)
+
+    return PU_df, events
+
+
+def append_frequency_results(PU_df, ewr, frequencies):
+    '''
+    This needs to do event_stats for all thresholds, windows, durations.
+    '''
+    pass
+
+
+PU_df = event_stats(df:pd.DataFrame, PU_df:pd.DataFrame, gauge:str, ewr:str, EWR_info:Dict, events:Dict, water_years:List):
+    ''' Produces statistics based on the event dictionaries and event gap dictionaries.
+    
+    Args:
+        df (pd.DataFrame): Raw flow/level dataframe
+        PU_df (pd.DataFrame): Dataframe with the results from the EWRs in the current planning unit
+        gauge (str): current iteration gauge string
+        ewr (str): current iteration ewr string
+        EWR_info (Dict): Parameter information for current ewr
+        events (Dict): Detailed event information events
+        durations (List): List of annual required durations
+        water_years (List): Daily water year values
+
+    Results:
+        pd.DataFrame: Updated results dataframe for this current planning unit
+
+    '''
+
