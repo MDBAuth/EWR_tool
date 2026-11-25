@@ -841,7 +841,7 @@ class ScenarioHandler:
         if not self.yearly_events:
             self.process_scenarios()
 
-        if not self.all_events: #self.all_events, self.all_interEvents, self.all_successful_events
+        if self.all_events is None:
 
             events_to_process = summarise_results.get_events_to_process(self.yearly_events)
             all_events = summarise_results.process_all_events_results(events_to_process)
@@ -865,7 +865,7 @@ class ScenarioHandler:
         if not self.all_events:
             self.get_all_events()
         
-        if not self.all_interEvents:
+        if self.all_interEvents is None:
                 
             # Get start and end date of the timeseries.
             date0 = self.flow_data.index[0]
@@ -881,17 +881,17 @@ class ScenarioHandler:
 
     def get_all_successful_events(self)-> pd.DataFrame:
         
-        if not self.all_events:
+        if self.all_events is None:
             self.get_all_events()
 
-        if not self.all_successful_events:
+        if self.all_successful_events is None:
             self.all_successful_events = summarise_results.filter_successful_events(self.all_events, self.parameter_sheet) 
 
         return self.all_successful_events
 
     def get_all_successful_interEvents(self)-> pd.DataFrame:
 
-        if not self.all_successful_events:
+        if self.all_successful_events is None:
             self.get_all_successful_events()
 
         # Now we have a dataframe of only successful events, pull down the interevent periods
