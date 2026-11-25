@@ -862,7 +862,7 @@ class ScenarioHandler:
 
     def get_all_interEvents(self)-> pd.DataFrame:
 
-        if not self.all_events:
+        if self.all_events is None:
             self.get_all_events()
         
         if self.all_interEvents is None:
