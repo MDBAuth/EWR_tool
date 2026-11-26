@@ -1,4 +1,5 @@
 from collections import defaultdict
+from numba import njit
 from copy import deepcopy
 import inspect
 from typing import Any, List, Dict
@@ -19,6 +20,50 @@ import warnings
 warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 
 #----------------------------------- Getting EWRs from the database ------------------------------#
+# ---------------------------------------------------------------------------
+# Fast parameter-sheet lookups.
+# The EWR table is turned into dictionaries ONCE per table object, so each lookup
+# is a dict read instead of a boolean-mask filter over the whole table.
+# ---------------------------------------------------------------------------
+_LOOKUP_CACHE = {}
+
+def _get_ewr_lookups(EWR_table: pd.DataFrame) -> dict:
+    '''Returns {'by_id':   {(gauge, code, planning unit ID): row dict},
+                'by_name': {(gauge, code, planning unit name): row dict}}
+    The first matching row wins, same as the old filter + [0] behaviour.
+    The result is cached per table object (the table is held in the cache so its id cannot be reused).
+    '''
+    key = id(EWR_table)
+    cached_entry = _LOOKUP_CACHE.get(key)
+    if cached_entry is not None and cached_entry[0] is EWR_table and cached_entry[1] == EWR_table.shape:
+        return cached_entry[2]
+
+    by_id, by_name = {}, {}
+    for row in EWR_table.to_dict(orient='records'):
+        by_id.setdefault((row['Gauge'], row['Code'], row['PlanningUnitID']), row)
+        if 'PlanningUnitName' in row:
+            by_name.setdefault((row['Gauge'], row['Code'], row['PlanningUnitName']), row)
+    lookups = {'by_id': by_id, 'by_name': by_name}
+
+    if len(_LOOKUP_CACHE) >= 4:  # keep memory bounded
+        _LOOKUP_CACHE.clear()
+    _LOOKUP_CACHE[key] = (EWR_table, EWR_table.shape, lookups)
+    return lookups
+
+def _get_ewr_row(EWR_table: pd.DataFrame, gauge: str, ewr: str, pu: str, pu_ID: bool = True) -> dict:
+    lookups = _get_ewr_lookups(EWR_table)
+    table = lookups['by_id'] if pu_ID else lookups['by_name']
+    try:
+        return table[(gauge, ewr, pu)]
+    except KeyError:
+        raise IndexError(f"ewr: gauge={gauge}, code={ewr}, pu={pu} is not in the parameter sheet")
+
+_COMPONENTS_MAP = None
+def _get_components_map() -> dict:
+    global _COMPONENTS_MAP
+    if _COMPONENTS_MAP is None:
+        _COMPONENTS_MAP = data_inputs.get_components_map()
+    return _COMPONENTS_MAP
 
 def component_pull(EWR_table: pd.DataFrame, gauge: str, pu: str, ewr: str, component: str, pu_ID: bool = True) -> str:
     '''Pass ewr details (planning unit, gauge, ewr, and ewr component) and the ewr table, 
@@ -33,18 +78,8 @@ def component_pull(EWR_table: pd.DataFrame, gauge: str, pu: str, ewr: str, compo
 
     Results:
         str: value of requested parameter from the ewr table
-
     '''
-    if pu_ID:
-        pu_idx = EWR_table['PlanningUnitID'] == pu
-    else:
-        pu_idx = EWR_table['PlanningUnitName'] == pu
-        
-    gauge_idx = EWR_table['Gauge'] == gauge
-    ewr_idx = EWR_table['Code'] == ewr
-
-    value = EWR_table[(gauge_idx & ewr_idx & pu_idx)].loc[:, component].values[0]
-    return value
+    return _get_ewr_row(EWR_table, gauge, ewr, pu, pu_ID)[component]
 
 def get_EWRs(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, components: list) -> dict:
     '''Pulls the relevant ewr componenets for each ewr
@@ -58,18 +93,11 @@ def get_EWRs(pu: str, gauge: str, ewr: str, EWR_table: pd.DataFrame, components:
    
     Results:
         dict: The ewr components and their values
-        
     '''
-
-    components_map = data_inputs.get_components_map()
-
+    components_map = _get_components_map()
+    row = _get_ewr_row(EWR_table, gauge, ewr, pu)
     col_idx = ['PlanningUnitID'] + ['Gauge'] + ['Code'] + components
-    row_idx = (EWR_table['PlanningUnitID'] == pu) & (EWR_table['Gauge'] == gauge) & (EWR_table['Code'] == ewr)
-
-    ewr_dict = EWR_table.loc[row_idx, col_idx].to_dict(orient='records')[0] # convert the required part of the ewr table to a dictionary
-    ewr_dict = {components_map[key]: ewr_dict[key] for key in ewr_dict.keys()} # Rename dictionary to names required for the function calls
-
-    return ewr_dict
+    return {components_map[key]: row[key] for key in col_idx}
 
 def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
     """check in the parameter sheet if currently iterated ewr is a multigauge
@@ -83,12 +111,7 @@ def is_multigauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -
     Returns:
         bool: returns True if it is a multigauge and False if not
     """
-    item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    try:
-        mg = item['Multigauge'].values[0]
-        return bool(mg) 
-    except IndexError:
-        raise IndexError(f"ewr: gauge={gauge}, code={ewr}, pu={pu} is not in the parameter sheet")
+    return bool(_get_ewr_row(parameter_sheet, gauge, ewr, pu)['Multigauge'])
 
 def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:str) -> bool:
     """check in the parameter sheet if currently iterated ewr is a weirpool gauge
@@ -102,12 +125,8 @@ def is_weirpool_gauge(parameter_sheet: pd.DataFrame, gauge:float, ewr:str, pu:st
     Returns:
         bool: returns True if it is a weirpool gauge and False if not
     """
-    item = parameter_sheet[(parameter_sheet['Gauge']==gauge) & (parameter_sheet['Code']==ewr) & (parameter_sheet['PlanningUnitID']==pu)]
-    try:
-        wp = item['WeirpoolGauge'].values[0]
-        return bool(wp)
-    except IndexError:
-        raise IndexError(f"ewr: gauge={gauge}, code={ewr}, pu={pu} is not in the parameter sheet")
+    return bool(_get_ewr_row(parameter_sheet, gauge, ewr, pu)['WeirpoolGauge'])
+
 
 def calculate_n_day_moving_average(df: pd.DataFrame, days: int) -> pd.DataFrame:
     '''Calculates the n day moving average for a given gauges
