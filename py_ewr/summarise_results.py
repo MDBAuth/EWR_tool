@@ -517,6 +517,7 @@ def events_to_interevents(start_date: date, end_date: date, df_events: pd.DataFr
     
     '''
     # Create the unique ID field
+    df_events = df_events.copy()
     df_events['ID'] = df_events['scenario']+df_events['Gauge']+df_events['PlanningUnit']+df_events['Code']
     unique_ID = df_events['ID'].unique()
     all_interEvents = pd.DataFrame(columns = ['scenario', 'Gauge', 'PlanningUnit', 'State', 'SWSDLName', 'Code', 'ID', 
@@ -592,6 +593,7 @@ def filter_successful_events(all_events: pd.DataFrame, ewr_table_path: str = Non
 
     s = 'TEMPORARY_ID_SPLIT'
 
+    all_events = all_events.copy()
     all_events['ID'] = all_events['scenario']+s+all_events['Gauge']+s+all_events['PlanningUnit']+s+all_events['Code']
     unique_ID = list(OrderedDict.fromkeys(all_events['ID']))
     EWR_table = data_inputs.get_EWR_table(ewr_table_path)
